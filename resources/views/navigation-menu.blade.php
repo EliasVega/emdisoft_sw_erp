@@ -16,6 +16,17 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    @if ($userito = Auth::user()->roles[0]->name == 'superAdmin' || $userito = Auth::user()->roles[0]->name == 'admin')
+                    <x-nav-link href="{{ route('company.index') }}" :active="request()->routeIs('Emdisoft')">
+                        {{ __('Emdisoft_erp') }}
+                    </x-nav-link>
+                    @else
+                    <x-nav-link href="{{ route('branch.index') }}" :active="request()->routeIs('Emdisoft')">
+                        {{ __('Emdisoft_erp') }}
+                    </x-nav-link>
+                    @endif
+                </div>
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
@@ -142,6 +153,15 @@
             <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @if (Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
+            <x-responsive-nav-link href="{{ route('company.index') }}" :active="request()->routeIs('Emdisoft:erp')">
+                {{ __('Emdisoft:erp') }}
+            </x-responsive-nav-link>
+            @else
+                <x-responsive-nav-link href="{{ route('branch.index') }}" :active="request()->routeIs('Emdisoft:erp')">
+                    {{ __('Emdisoft:erp') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

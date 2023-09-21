@@ -1,0 +1,145 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Kardex;
+use App\Http\Requests\StoreKardexRequest;
+use App\Http\Requests\UpdateKardexRequest;
+use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
+
+class KardexController extends Controller
+{
+    function __construct()
+    {
+        $this->middleware('permission:kardex.index', ['only'=>['index']]);
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        if ($request->ajax()) {
+            if (!empty($request->end)) {
+                $kardexes = Kardex::whereBetween('created_at', [$request->start, $request->end])->get();
+            } else {
+                $kardexes = Kardex::get();
+            }
+            return DataTables::of($kardexes)
+            ->addIndexColumn()
+            ->addColumn('productId', function (Kardex $kardex) {
+                return $kardex->product->id;
+            })
+            ->addColumn('branch', function (Kardex $kardex) {
+                return $kardex->branch->name;
+            })
+            ->addColumn('product', function (Kardex $kardex) {
+                return $kardex->product->name;
+            })
+            ->editColumn('created_at', function(Kardex $kardex){
+                return $kardex->created_at->format('yy-m-d: h:m');
+            })
+            ->addColumn('edit', 'admin/kardex/actions')
+            ->rawcolumns(['edit'])
+            ->toJson();
+        }
+        return view('admin.kardex.index');
+    }
+
+    public function kardexProduct(Request $request, $id)
+    {
+        if ($request->ajax()) {
+            if (!empty($request->end)) {
+                $kardexes = Kardex::where('product_id', $id)->whereBetween('created_at', [$request->start, $request->end])->get();
+            } else {
+                $kardexes = Kardex::where('product_id', $id)->get();
+            }
+            return DataTables::of($kardexes)
+            ->addIndexColumn()
+            ->addColumn('productId', function (Kardex $kardex) {
+                return $kardex->product->id;
+            })
+            ->addColumn('branch', function (Kardex $kardex) {
+                return $kardex->branch->name;
+            })
+            ->addColumn('product', function (Kardex $kardex) {
+                return $kardex->product->name;
+            })
+            ->editColumn('created_at', function(Kardex $kardex){
+                return $kardex->created_at->format('yy-m-d: h:m');
+            })
+            ->addColumn('edit', 'admin/kardex/actions')
+            ->rawcolumns(['edit'])
+            ->toJson();
+        }
+        return view('admin.kardex.kardexProduct');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\StoreKardexRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(StoreKardexRequest $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Kardex  $kardex
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Kardex $kardex)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Kardex  $kardex
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Kardex $kardex)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\UpdateKardexRequest  $request
+     * @param  \App\Models\Kardex  $kardex
+     * @return \Illuminate\Http\Response
+     */
+    public function update(UpdateKardexRequest $request, Kardex $kardex)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Kardex  $kardex
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Kardex $kardex)
+    {
+        //
+    }
+}

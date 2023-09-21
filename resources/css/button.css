@@ -1,0 +1,202 @@
+/*
+*============================================STYLES BUTTONS====================================================
+*/
+
+/*
+*============================================BUTTONS NORMAL====================================================
+*/
+
+/*
+.btn-codes {
+    color: #fff !important;
+    background-color: #1b1d18 !important;
+}
+
+.btn-grisb {
+    background-color: #f3f3f3 !important;
+    border-radius: 10px !important;
+}*/
+
+.btn-lila {
+    color: #fff !important;
+    background-color: #9054c9 !important;
+}
+
+.btn-limon {
+    color: #fff !important;
+    background-color: #77b859 !important;
+}/*
+
+.btn-pdf {
+    color: #ffffff !important;
+    background-color: #ff0000 !important;
+}*/
+
+.btn-ver {
+    color: #fff !important;
+    background-color: #3c4720 !important;
+}
+
+.btn-verde {
+    color: #fff !important;
+    background-color: #10382f !important;
+}
+
+/*
+*============================================BUTTONS RADIUS 30====================================================
+*/
+/*
+.btn-celeste {
+    color: #000 !important;
+    background-color: #e0ecff !important;
+    border-radius: 30px !important;
+}
+
+.btn-fucsion {
+    color: #000 !important;
+    background-color: #f5b3b3 !important;
+    border-radius: 30px !important;
+}
+
+.btn-logfucsia {
+    color: #fff !important;
+    background-color: #d9534f !important;
+    border-radius: 30px !important;
+}
+
+.btn-loglila {
+    color: #fff !important;
+    background-color: #9054c9 !important;
+    border-radius: 30px !important;
+}
+
+.btn-lilaR {
+    color: #fff !important;
+    background-color: #9054c9 !important;
+    border-radius: 30px !important;
+}
+
+.btn-loglimon {
+    color: #fff !important;
+    background-color: #77b859 !important;
+    border-radius: 30px !important;
+}
+
+.btn-redeco {
+    color: #000 !important;
+    background-color: #907878 !important;
+    border-radius: 30px !important;
+}*/
+
+/*
+*============================================BUTTONS RADIUS 50====================================================
+*/
+/*
+.btn-codesR {
+    color: #fff !important;
+    background-color: #000000 !important;
+    border-radius: 50px !important;
+}*/
+
+.btn-gris {
+    background-color: #c2bebe !important;
+    border-radius: 50px !important;
+}/*
+
+.btn-limonR {
+    color: #fff !important;
+    background-color: #77b859 !important;
+    border-radius: 50px !important;
+}
+
+.btn-pay {
+    color: #ffffff !important;
+    background-color: #3d3345 !important;
+    border-radius: 50px !important;
+}
+
+.btn-verR {
+    color: #fff !important;
+    background-color: #3c4720 !important;
+    border-radius: 50px !important;
+}
+
+.btn-verdeR {
+    color: #fff !important;
+    background-color: #063b0f !important;
+    border-radius: 50px !important;
+}*/
+
+/*
+*============================================BUTTONS GRADIENTS====================================================
+*/
+
+.btn-blueGrad {
+    color: #fff !important;
+    background: linear-gradient(45deg, #a1c8ff, #083080) !important;
+    border-radius: 30px !important;
+}
+
+.bg-c-blueGrad {
+    color: #fff !important;
+    background: linear-gradient(45deg, #bedbed, #010149) !important;
+    border-radius: 30px !important;
+}
+
+.btn-darkBlueGrad {
+    color: #fff !important;
+    background: linear-gradient(45deg, #87aaeb, #010149) !important;
+    border-radius: 30px !important;
+}
+
+.bg-c-grayGrad {
+    color: #fff !important;
+    background: linear-gradient(45deg, #b8b8b8, #807c7c) !important;
+    border-radius: 30px !important;
+}
+
+.btn-greenGrad {
+    color: #000 !important;
+    background: linear-gradient(45deg, #dff7e7, #28a745) !important;
+    border-radius: 30px !important;
+}
+
+.btn-lemonGrad {
+    color: #fff !important;
+    background: linear-gradient(45deg, #c4f3b4, #3c5534) !important;
+    border-radius: 30px !important;
+}
+
+.btn-lightBlueGrad {
+    color: #000 !important;
+    background: linear-gradient(45deg, #d4f0ff, #bed4ff) !important;
+    border-radius: 30px !important;
+}
+
+.bg-c-orangegrad {
+    color: #fff !important;
+    background: linear-gradient(45deg, #f5be91, #c16645) !important;
+    border-radius: 30px !important;
+}
+
+/*
+*============================================END====================================================
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
