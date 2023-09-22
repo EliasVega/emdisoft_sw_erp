@@ -11,10 +11,10 @@
                     <a href="provider/create" class="btn btn-greenGrad btn-sm"><i class="fa fa-plus"></i> Agregar Proveedor</a>
                 @endcan
                 @can('branch.index')
-                    <a href="{{ route('branch.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
+                    <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
                 @endcan
                 @can('purchase.index')
-                    <a href="{{ route('purchase.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Compras</a>
+                    <a href="{{ route('purchase.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Compras</a>
                 @endcan
             </h5>
         </div>
@@ -24,7 +24,7 @@
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-condensed table-hover" id="providers">
                     <thead>
-                        <tr>
+                        <tr class="trdatacolor">
                             <th>Id</th>
                             <th>Nombre</th>
                             <th>Tipo ID</th>

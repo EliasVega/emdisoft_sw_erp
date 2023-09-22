@@ -54,7 +54,6 @@
             });
         });
     });
-    var dime = 123456789;
     var cont = 0;
     var total = 0;
     var subtotal = [];
@@ -74,6 +73,7 @@
     $("#startd").hide();
     $("#resolution").hide();
     $("#invoiceCode").hide();
+    //$("#noteDocument").hide();
 
     //$("#percentage").val(0);
 
@@ -88,17 +88,22 @@
                 $("#startd").show();
                 $("#invoiceCode").hide();
                 $("#invoice_code").val(1);
+                //$("#noteDocument").show();
             }else if(documentType == 25){
                 $("#resolution").hide();
                 $("#generat").hide();
                 $("#startd").hide();
                 $("#invoiceCode").show();
                 $("#resolution_id").val(1);
+                //$("#noteDocument").show();
+                $("#resolution_id").val(1);
             } else {
                 $("#resolution").hide();
                 $("#generat").hide();
                 $("#startd").hide();
                 $("#invoiceCode").hide();
+                //$("#noteDocument").hide();
+                $("#resolution_id").val(1);
             }
         });
     });
@@ -125,7 +130,7 @@
         dataProduct = document.getElementById('product_id').value.split('_');
         product_id= dataProduct[0];
         product= $("#product_id option:selected").text();
-        quantity= $("#quantity").val();
+        quantity= $("#quantityadd").val();
         price= $("#price").val();
         stock= $("#stock").val();
         tax_rate= $("#tax_rate").val();
@@ -159,7 +164,7 @@
 
     function clean(){
         $("#product_id").val("");
-        $("#quantity").val("");
+        $("#quantityadd").val("");
         $("#price").val("");
     }
     function totals(){
@@ -233,12 +238,13 @@
             // Buscar datos en la row y asignar a campos del formulario:
             // Primera columna (0) tiene ID, segunda (1) tiene nombre, tercera (2) capacidad
             $("#contModal").val(index);
-            $("#product_idModal").val(row.find("td:eq(3)").text());
-            $("#productModal").val(row.find("td:eq(4)").text());
-            $("#quantityModal").val(row.find("td:eq(5)").text());
-            $("#priceModal").val(row.find("td:eq(6)").text());
-            $("#taxModal").val(row.find("td:eq(7)").text());
-            $("#subtotalModal").val(row.find("td:eq(8)").text());
+            $("#idModal").val(row.find("td:eq(2)").text());
+            $("#product_idModal").val(row.find("td:eq(2)").text());
+            $("#productModal").val(row.find("td:eq(3)").text());
+            $("#quantityModal").val(row.find("td:eq(4)").text());
+            $("#priceModal").val(row.find("td:eq(5)").text());
+            $("#taxModal").val(row.find("td:eq(6)").text());
+            $("#subtotalModal").val(row.find("td:eq(7)").text());
 
             // Mostrar modal
             $('#editModal').modal('show');
@@ -260,7 +266,7 @@
     quantity = $("#quantityModal").val();
     price = $("#priceModal").val();
     tax_rate = $("#taxModal").val();
-    $('#priceModal').prop("readonly", false)
+    $('#priceModal').prop("readonly", true);
 
         if(product_id !="" && quantity!="" && quantity>0 && price!="" && price>0){
             subtotal[cont]= parseFloat(quantity) * parseFloat(price);

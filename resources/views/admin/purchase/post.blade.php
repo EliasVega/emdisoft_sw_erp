@@ -109,11 +109,13 @@
                         <th colspan="3" class="footRight">TOTAL PAGAR:</th>
                         <td colspan="3" class="footRight"><strong>${{number_format($purchase->total_pay,2)}}</strong></td>
                     </tr>
-                    @if ($retention > 0)
-                        <tr>
-                            <th colspan="3" class="footRight">RETERENTA:</th>
-                            <td colspan="3" class="footRight"><strong>$ -{{number_format($retention->retention,2)}}</strong> </td>
-                        </tr>
+                    @if ($retentionsum > 0)
+                        @foreach ($retentions as $retention)
+                            <tr>
+                                <th colspan="3" class="footRight">{{ $retention->name }}:</th>
+                                <td colspan="3" class="footRight"><strong>$ -{{number_format($retention->tax_value,2)}}</strong> </td>
+                            </tr>
+                        @endforeach
                     @endif
                     @if ($purchase->pay > 0)
                         <tr>
@@ -147,7 +149,7 @@
                      @endif
                     <tr>
                         <th colspan="3" class="footRight">SALDO A PAGAR:</th>
-                        <td colspan="3" class="footRight"><strong>$ {{number_format($purchase->total_pay -  $purchase->pay - $debitNote - $retention + $creditNote + $retentionnd - $retentionnc,2)}}</strong></td>
+                        <td colspan="3" class="footRight"><strong>$ {{number_format($purchase->total_pay -  $purchase->pay - $debitNote - $retentionsum + $creditNote + $retentionnd - $retentionnc,2)}}</strong></td>
                     </tr>
                 </tfoot>
             </table>

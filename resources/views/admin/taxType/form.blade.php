@@ -1,8 +1,8 @@
 <div class="box-body row">
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-3" >
-        <label for="type">Tipo de Impuesto:</label>
-        <select name="type" id="type" class="form-select" aria-label="Default select example">
-            <option {{ old('type', $taxType->type ?? '') == '' ? "selected" : "" }} disabled>Seleccionar tipo</option>
+        <label for="type_tax">Tipo de Impuesto:</label>
+        <select name="type_tax" id="type_tax" class="form-select" aria-label="Default select example">
+            <option {{ old('type_tax', $taxType->type_tax ?? '') == '' ? "selected" : "" }} disabled>Seleccionar tipo</option>
             <option value="1">Impuesto a linea</option>
             <option value="2">Retencion</option>
             <option value="3">Impuesto al total</option>

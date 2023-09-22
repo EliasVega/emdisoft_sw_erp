@@ -29,7 +29,13 @@
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="name">Compañia</label>
-            <input type="text" name="name" value="{{ old('dv', $company->name ?? '') }}" class="form-control" placeholder="Nombre" required>
+            <input type="text" name="name" value="{{ old('name', $company->name ?? '') }}" class="form-control" placeholder="Nombre" required>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="form-group">
+            <label for="api_token">Api Token</label>
+            <input type="text" name="api_token" value="{{ old('api_token', $company->api_token ?? '') }}" class="form-control" placeholder="Api_token" required>
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">

@@ -6,6 +6,12 @@
             <input type="text" name="idModal" id="idModal"class="form-control" placeholder="id " readonly>
         </div>
     </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="taxTypeModal">
+        <div class="form-group">
+            <label for="tax_typeModal">id tax</label>
+            <input type="number" name="tax_typeModal" id="tax_typeModal"class="form-control" placeholder="Tipo de impuesto " readonly>
+        </div>
+    </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="productIdModal">
         <div class="form-group">
             <label for="product_idModal">id</label>

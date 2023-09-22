@@ -9,10 +9,10 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h5>Productos
                 @can('product.create')
-                    <a href="product/create" class="btn btn-celeste"><i class="fa fa-plus"></i> Agregar Producto</a>
+                    <a href="product/create" class="btn btn-celeste btn-sm"><i class="fa fa-plus"></i> Agregar Producto</a>
                 @endcan
                 @can('branch.index')
-                    <a href="{{ route('branch.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
+                    <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
                 @endcan
             </h5>
         </div>
@@ -22,7 +22,7 @@
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-condensed table-hover" id="products">
                     <thead>
-                        <tr>
+                        <tr class="trdatacolor">
                             <th>Id</th>
                             <th>Tipo</th>
                             <th>Categoria</th>
@@ -61,7 +61,7 @@ $(document).ready(function ()
             columns:
             [
                 { data: 'id'},
-                { data: 'type'},
+                { data: 'type_product'},
                 { data: 'category'},
                 { data: 'code'},
                 { data: 'name'},

@@ -38,7 +38,7 @@ class ProductController extends Controller
                 return $product->category->name;
             })
             ->addColumn('tax_rate', function (Product $product) {
-                return $product->category->tax_rate;
+                return $product->category->companyTax->percentage->percentage;
             })
             ->addColumn('edit', 'admin/product/actions')
             ->rawcolumns(['edit'])

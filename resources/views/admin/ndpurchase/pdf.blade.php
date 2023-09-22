@@ -12,7 +12,7 @@
         <!-- LOGGO -->
         <div class="center">
             <div id="logo">
-                <img src="{{ public_path('images/logos/'.$company->logo) }}" alt="{{ $company->name }}" width="150px" height="50px" class="app-logo">
+                <img src="{{ asset($company->logo) }}" alt="{{ $company->name }}" width="150px" height="50px" class="app-logo">
             </div>
         <!--DATOS company -->
             <div class="company">
@@ -103,22 +103,24 @@
                              </tr>
 
                              <tr>
-                                 <th colspan="3" class="footder">TOTAL IVA:</th>
-                                 <td class="footder"><strong>${{number_format($ndpurchase->total_iva,2)}}</strong> </td>
+                                 <th colspan="3" class="footder">IMPUESTOS:</th>
+                                 <td class="footder"><strong>${{number_format($ndpurchase->total_tax,2)}}</strong> </td>
                              </tr>
-                             @if ($retention != null)
-                                 <tr>
-                                     <th colspan="3" class="footder">RETERENTA:</th>
-                                     <td class="footder"><strong>${{number_format($retention->retention,2)}}</strong> </td>
-                                 </tr>
-                                 <tr>
-                                     <th colspan="3" class="footder">TOTAL - DESC:</th>
-                                     <td class="footder"><strong>${{number_format($ndpurchase->total_pay - $retention->retention,2)}}</strong> </td>
-                                 </tr>
-                             @endif
                              <tr>
-                                 <th  colspan="3" class="footder">TOTAL PAGAR:</th>
-                                 <td class="footder"><strong id="total">${{number_format($ndpurchase->total_pay,2)}}</strong></td>
+                                <th  colspan="3" class="footder">TOTAL PAGAR:</th>
+                                <td class="footder"><strong id="total">${{number_format($ndpurchase->total_pay,2)}} </strong></td>
+                            </tr>
+                             @if ($retentionsum > 0)
+                                @foreach ($retentions as $retention)
+                                    <tr>
+                                        <th colspan="3" class="footder">{{ $retention->name }}:</th>
+                                        <td class="footder"><strong>$ -{{number_format($retention->tax_value,2)}}</strong> </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                             <tr>
+                                 <th  colspan="3" class="footder">SALDO PAGAR:</th>
+                                 <td class="footder"><strong id="total">${{number_format($ndpurchase->total_pay - $retentionsum,2)}} </strong></td>
                              </tr>
                         </tfoot>
                     </table>

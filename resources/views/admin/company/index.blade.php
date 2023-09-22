@@ -17,7 +17,7 @@
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-condensed table-hover">
                 <thead>
-                    <tr class="bg-primary">
+                    <tr class="trdatacolor">
                         <th>Id</th>
                         <th>Departamento</th>
                         <th>Municipio</th>
@@ -31,37 +31,37 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($companies as $com)
+                    @foreach($companies as $company)
                         <tr>
-                            <td>{{ $com->id }}</td>
-                            <td>{{ $com->department->name }}</td>
-                            <td>{{ $com->municipality->name }}</td>
-                            <td>{{ $com->name }}</td>
-                            <td>{{ $com->nit }}</td>
-                            <td>{{ $com->dv }}</td>
+                            <td>{{ $company->id }}</td>
+                            <td>{{ $company->department->name }}</td>
+                            <td>{{ $company->municipality->name }}</td>
+                            <td>{{ $company->name }}</td>
+                            <td>{{ $company->nit }}</td>
+                            <td>{{ $company->dv }}</td>
                             <td>
-                                <img src="{{ $com->logo }}" alt="{{ $com->name }}" style="height:60px; width:80px;" class="img-thumbnail">
+                                <img src="{{ asset($company->logo) }}" alt="{{ $company->name }}" style="height:60px; width:80px;" class="img-thumbnail">
                             </td>
                             <td>
                                 @can('branch.index')
-                                    <a href="{{ route('company.show', $com->id) }}" class="btn btn-primary" data-toggle="tooltip"
+                                    <a href="{{ route('company.show', $company->id) }}" class="btn btn-primary" data-toggle="tooltip"
                                         data-placement="top" title="Ingresar"><i class="fas fa-indent"></i></a>
                                 @endcan
                             </td>
                             <td>
                                 @can('company.edit')
-                                    <a href="{{ route('company.edit', $com->id) }}" class="btn btn-warning" data-toggle="tooltip"
+                                    <a href="{{ route('company.edit', $company->id) }}" class="btn btn-warning" data-toggle="tooltip"
                                         data-placement="top" title="Editar"><i class="far fa-edit"></i></a>
                                 @endcan
                             </td>
 
                             <td>
                                 @can('company.companyStatus')
-                                    @if ($com->status == 'active')
-                                        <a href="{{ route('companyStatus', $com->id) }}" class="btn btn-success"
+                                    @if ($company->status == 'active')
+                                        <a href="{{ route('companyStatus', $company->id) }}" class="btn btn-success btn-sm"
                                             data-toggle="tooltip" data-placement="top" title="Desactivar"><i class="fas fa-user"></i></a>
                                     @else
-                                        <a href="{{ route('companyStatus', $com->id) }}" class="btn btn-danger"
+                                        <a href="{{ route('companyStatus', $company->id) }}" class="btn btn-danger btn-sm"
                                             data-toggle="tooltip" data-placement="top" title="Activar"><i class="fas fa-user"></i></a>
                                     @endif
                                 @endcan

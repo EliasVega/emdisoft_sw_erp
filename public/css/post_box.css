@@ -1,0 +1,104 @@
+@page {
+    margin-left: 0.5cm;
+    margin-right: 0.5cm;
+}
+body {
+    text-align: center;
+    display: flex;
+    margin: 0px auto;
+    font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-weight: normal;
+    line-height: 1.5;
+    color: #151b1e;
+    min-width: 100%;
+    padding: 0%;
+}
+
+.clearfix {
+    clear: both;
+    float: none;
+}
+
+#logo {
+    margin: auto;
+}
+
+#logo img {
+    display: block;
+    width: 220px;
+    height: 80px;
+    margin-top: 5px;
+}
+
+.content {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.content p {
+    font-size: 10px;
+}
+
+header {
+    width: 100%;
+    border-top: 2px solid #c6cccf;
+    border-bottom: 2px solid #c6cccf;
+}
+
+.customer {
+    margin-top: 0px;
+    width: 100%;
+    font-size: 0.6em;
+    text-align: left;
+}
+
+table {
+    width: 100%;
+}
+
+thead {
+    width: 100%;
+    margin: 0%;
+    padding: 0%;
+    border-bottom: 1px solid #7a7d7e;
+}
+
+tbody {
+    width: 100%;
+    margin: 0%;
+    padding: 0%;
+    border-bottom: 1px solid #7a7d7e;
+}
+
+th{
+    font-size: 1.5rem;
+}
+
+td {
+    font-size: 1.5rem;
+}
+
+#tdizq {
+    text-align: right;
+    font-size: 0.6rem;
+}
+#tdiz {
+    text-align: right;
+    font-size: 0.6rem;
+}
+
+#tdi {
+    text-align: right;
+    font-size: 0.6rem;
+}
+
+.tfd {
+    margin: 0%;
+    padding: 0%;
+}
+
+.gpsc {
+    position: fixed;
+    text-align: center;
+}

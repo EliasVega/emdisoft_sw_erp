@@ -20,6 +20,13 @@
                 class="form-control" placeholder="" readonly>
         </div>
     </div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" id="documentType">
+        <div class="form-group">
+            <label for="document_type_id">Tipo de Documento #</label>
+            <input type="text" name="document_type_id" id="document_type_id" value="{{ $purchase->document_type_id }}"
+                class="form-control" placeholder="" readonly>
+        </div>
+    </div>
     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
         <div class="form-group">
             <label for="">Proveedor</label>
@@ -29,22 +36,29 @@
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="discrepancy">
         <div class="form-group">
-            <label class="form-control-label" for="discrepancy_id">Motivo Nota Debito</label>
+            <label class="form-control-label" for="discrepancy_id">Motivo Nota Ajuste (Debito)</label>
                 <select name="discrepancy_id" class="form-control selectpicker" id="discrepancy_id" data-live-search="true">
-                    <option value="0" disabled selected>Seleccionar...</option>
+                    <option value="" disabled selected>Seleccionar...</option>
                     @foreach($discrepancies as $discrepancy)
                         <option value="{{ $discrepancy->id }}">{{ $discrepancy->description }}</option>
                     @endforeach
                 </select>
         </div>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    <div class="clearfix"></div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="noteDocument">
+        <div class="form-group">
+            <label class="form-control-label" for="note">Observaciones</label>
+            <input type="text" id="note" name="note" value="{{ old('note') }}" class="form-control" placeholder="Observaciones">
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="addResolution">
         <div class="form-group">
             <label class="form-control-label" for="resolution_id">Resolucion</label>
                 <select name="resolution_id" class="form-control selectpicker" id="resolution_id" data-live-search="true">
-                    <option value="0" disabled selected>Seleccionar...</option>
+                    <option value="1" disabled selected>Seleccionar...</option>
                     @foreach($resolutions as $resolution)
-                        <option value="{{ $resolution->id }}">{{ $resolution->prefix }}</option>
+                        <option value="{{ $resolution->id }}">{{ $resolution->prefix }} {{ $resolution->resolution }}</option>
                     @endforeach
                 </select>
         </div>
@@ -57,7 +71,7 @@
             </label>
             </div>
             <div class="form-check">
-            <input class="form-check-input" type="radio" name="reverse" value="0" id="reverse_off" checked>
+            <input class="form-check-input" type="radio" name="reverse" value="2" id="reverse_off" checked>
             <label class="form-check-label" for="reverse">
                 Dejar valor como anticipo
             </label>
@@ -78,14 +92,13 @@
                 disabled pattern="[0-9]{0,15}">
         </div>
     </div>
-
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="addproduct">
+    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12" id="addproduct">
         <div class="form-group row">
             <label class="form-control-label" for="product_id">Producto</label>
                 <select name="product_id" class="form-control selectpicker" id="product_id" data-live-search="true">
-                    <option value="0" disabled selected>Seleccionar el Producto</option>
+                    <option value="" disabled selected>Seleccionar</option>
                     @foreach($products as $product)
-                        <option value="{{ $product->id }}_{{ $product->stock }}_{{ $product->price }}_{{ $product->category->tax_rate }}">{{ $product->name }}</option>
+                        <option value="{{ $product->id }}_{{ $product->stock }}_{{ $product->price }}_{{ $product->category->companyTax->percentage->percentage }}_{{ $product->category->companyTax->taxType->id }}">{{ $product->name }}</option>
                     @endforeach
                 </select>
         </div>
@@ -126,6 +139,7 @@
 
                             <th>Eliminar</th>
                             <th>Editar</th>
+                            <th>Id Imp</th>
                             <th>ID</th>
                             <th>Producto</th>
                             <th>Cantidad</th>
@@ -136,19 +150,19 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th  colspan="7"><p align="right">TOTAL:</p></th>
+                            <th  colspan="8"><p align="right">TOTAL:</p></th>
                             <th><p align="right"><span id="total_html">$ 0.00</span>
                                 <input type="hidden" name="total" id="total"> </p></th>
                         </tr>
 
                         <tr>
-                            <th colspan="7"><p align="right">TOTAL IVA:</p></th>
-                            <th><p align="right"><span id="total_iva_html">$ 0.00</span>
-                                <input type="hidden" name="total_iva" id="total_iva"></p></th>
+                            <th colspan="8"><p align="right">IMPUESTO:</p></th>
+                            <th><p align="right"><span id="total_tax_html">$ 0.00</span>
+                                <input type="hidden" name="total_tax" id="total_tax"></p></th>
                         </tr>
 
                         <tr>
-                            <th  colspan="7"><p align="right">TOTAL PAGAR:</p></th>
+                            <th  colspan="8"><p align="right">TOTAL PAGAR:</p></th>
                             <th><p align="right"><span align="right" id="total_pay_html">$ 0.00</span>
                                 <input type="hidden" name="total_pay" id="total_pay"></p></th>
                         </tr>

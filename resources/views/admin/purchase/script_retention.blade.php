@@ -47,6 +47,7 @@
 
         ttid = $("#taxTypeId").val();
         iva = $("#tax_iva").val();
+        balance = $("#balance").val();
 
         if(company_tax_id !="" && companyTax!="" && percentage!=""  && percentage>0 ){
             if (ttid == 5) {
@@ -55,9 +56,12 @@
                 totalRetention[contRetention] = total_purchase * percentage/100;
             }
             total_retention = total_retention+totalRetention[contRetention];
-            var row= '<tr class="selected" id="row'+contRetention+'"><td><button type="button" class="btn btn-danger btn-sm" onclick="deleterow('+contRetention+');"><i class="fa fa-times"></i></button></td><td><input type="hidden" name="company_tax_id[]" value="'+company_tax_id+'">'+companyTax+'</td><td>$'+totalRetention[contRetention]+' </td></tr>';
+            balance -= totalRetention[contRetention];
+            var row= '<tr class="selected" id="row'+contRetention+'"><td><button type="button" class="btn btn-danger btn-sm" onclick="deleteRetention('+contRetention+');"><i class="fa fa-times"></i></button></td><td><input type="hidden" name="company_tax_id[]" value="'+company_tax_id+'">'+companyTax+'</td><td> $'+parseFloat(totalRetention[contRetention]).toFixed(2)+'</td></tr>';
             contRetention++;
 
+            $("#balance").val(balance);
+            $("#pendient").val(balance);
             retentionTotals();
             $('#retentions').append(row);
             $('#company_tax_id option:selected').remove();
@@ -79,7 +83,7 @@
         $("#total_retention_html").html("$ " + total_retention.toFixed(2));
         $("#total_retention").val(total_retention.toFixed(2));
     }
-    function deleterow(index){
+    function deleteRetention(index){
 
     total_retention = total_retention-totalRetention[index];
 

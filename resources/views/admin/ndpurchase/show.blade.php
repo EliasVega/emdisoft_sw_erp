@@ -30,7 +30,7 @@
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
             <div class="form-group">
                 <label class="form-control-label" for="nombre">PROVEEDOR</label>
-                <h4>{{ $ndpurchase->provider->name }}</h4>
+                <h4>{{ $ndpurchase->third->name }}</h4>
             </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">

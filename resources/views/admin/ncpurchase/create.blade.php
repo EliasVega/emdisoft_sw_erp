@@ -1,6 +1,6 @@
 @extends("layouts.admin")
 @section('titulo')
-{{ config('app.name', 'Ecounts') }}
+{{ config('app.name', 'Emdisoft_erp') }}
 @endsection
 @section('content')
 <div class="row">
@@ -28,8 +28,11 @@
             {!!Form::open(array('url'=>'ncpurchase', 'method'=>'POST', 'autocomplete'=>'off'))!!}
             {!!Form::token()!!}
             <div class="row m-1">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
                     @include('admin/ncpurchase.form_ncpurchase')
+                </div>
+                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                    @include('admin/ncpurchase.form_retention')
                 </div>
             </div>
             {!!Form::close()!!}
@@ -42,5 +45,6 @@
 @endsection
 @section('scripts')
     @include('admin/ncpurchase.script')
+    @include('admin/ncpurchase.script_retention')
 @endsection
 

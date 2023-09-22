@@ -24,13 +24,13 @@
     var cont=0;
     totalpay=0;
     //form pay
-    $("#cash").hide();
-    $("#transfer").hide();
-    $("#nequi").hide();
-    $("#card1").hide();
-    $("#card2").hide();
-    $("#noDefined").hide();
-    $("#advance").hide();
+    $("#payCash").hide();
+    $("#payTransfer").hide();
+    $("#payNequi").hide();
+    $("#payCard1").hide();
+    $("#payCard2").hide();
+    $("#payUndefined").hide();
+    $("#payAdvance").hide();
     $("#paypPyment").hide();
 
     $("#valuePay").hide();
@@ -50,23 +50,23 @@
         $("#payment_form_id").change(function(){
         form = $("#payment_form_id").val();
         if(form == 1){
-            $("#noDefined").show();
-            $("#cash").show();
-            $("#advance").show();
-            $("#transfer").show();
-            $("#nequi").show();
-            $("#card1").show();
-            $("#card2").show();
+            $("#payUndefined").show();
+            $("#payCash").show();
+            $("#payAdvance").show();
+            $("#payTransfer").show();
+            $("#payNequi").show();
+            $("#payCard1").show();
+            $("#payCard2").show();
             $("#payPayment").hide();
         }else{
             $("#payPayment").show();
-            $("#noDefined").hide();
-            $("#cash").hide();
-            $("#advance").hide();
-            $("#transfer").hide();
-            $("#nequi").hide();
-            $("#card1").hide();
-            $("#card2").hide();
+            $("#payUndefined").hide();
+            $("#payCash").hide();
+            $("#payAdvance").hide();
+            $("#payTransfer").hide();
+            $("#payNequi").hide();
+            $("#payCard1").hide();
+            $("#payCard2").hide();
             $("#payment_method_id").val(1);
             $("#totalpay").val(0);
         }
@@ -79,13 +79,13 @@
         });
     });
     function see(){
-        $("#noDefined").show();
-        $("#cash").show();
-        $("#advance").show();
-        $("#transfer").show();
-        $("#nequi").show();
-        $("#card1").show();
-        $("#card2").show();
+        $("#payUndefined").show();
+        $("#payCash").show();
+        $("#payAdvance").show();
+        $("#payTransfer").show();
+        $("#payNequi").show();
+        $("#payCard1").show();
+        $("#payCard2").show();
         $("#methodPay").hide();
         $("#payPayment").hide();
 

@@ -307,65 +307,351 @@ return [
             'text' => 'search',
         ],
         [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
-        ],
-        [
-            'text'        => 'pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'far fa-fw fa-file',
-            'label'       => 4,
-            'label_color' => 'success',
-        ],
-        ['header' => 'account_settings'],
-        [
-            'text' => 'profile',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
-        [
-            'text'    => 'multilevel',
-            'icon'    => 'fas fa-fw fa-share',
+            'text'    => 'SETTINGS',
+            'icon'    => 'fas fa-fw fa-cogs',
             'submenu' => [
                 [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
-                [
-                    'text'    => 'level_one',
-                    'url'     => '#',
+                    'text' => 'Configuracion',
+                    'icon'    => 'fas fa-fw fa-cog',
                     'submenu' => [
                         [
-                            'text' => 'level_two',
-                            'url'  => '#',
+                            'text' => 'Indicadores',
+                            'url' => 'indicator',
+                            'can'  => 'indicator.index',
+                        ]
+
+                    ]
+
+                ],
+                [
+                    'text' => 'Localidades',
+                    'icon'    => 'fas fa-fw fa-globe-americas',
+                    'submenu' => [
+                        [
+                            'text' => 'Departamentos',
+                            'url' => 'department',
+                            'can'  => 'department.index',
                         ],
                         [
-                            'text'    => 'level_two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                            ],
+                            'text' => 'Municipios',
+                            'url' => 'municipality',
+                            'can'  => 'municipality.index',
                         ],
                     ],
                 ],
                 [
-                    'text' => 'level_one',
-                    'url'  => '#',
+                    'text' => 'Entidades',
+                    'icon'    => 'fas fa-fw fa-university',
+                    'submenu' => [
+                        [
+                            'text' => 'Bancos',
+                            'url' => 'bank',
+                            'can'  => 'bank.index',
+                        ],
+                        [
+                            'text' => 'Tarjetas',
+                            'url' => 'card',
+                            'can'  => 'card.index',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Dian',
+                    'icon'    => 'fas fa-fw fa-landmark',
+                    'submenu' => [
+                        [
+                            'text' => 'Responsabilidades',
+                            'url' => 'liability',
+                            'can'  => 'liability.index',
+                        ],
+                        [
+                            'text' => 'Tipo Persona',
+                            'url' => 'organization',
+                            'can'  => 'organization.index',
+                        ],
+                        [
+                            'text' => 'Regimen',
+                            'url' => 'regime',
+                            'can'  => 'regime.index',
+                        ],
+                        [
+                            'text' => 'Forma de Envio',
+                            'url' => 'environment',
+                            'can'  => 'environment.index',
+                        ],
+                        [
+                            'text' => 'Discrepancias',
+                            'url' => 'discrepancy',
+                            'can'  => 'discrepancy.index',
+                        ],
+                        [
+                            'text' => 'Impuestos',
+                            'url' => 'taxType',
+                            'can'  => 'taxType.index',
+                        ],
+                        [
+                            'text' => 'Resoluciones',
+                            'url' => 'resolution',
+                            'can'  => 'resolution.index',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Tipos',
+                    'icon'    => 'fas fa-fw fa-landmark',
+                    'submenu' => [
+                        [
+                            'text' => 'Identificacion',
+                            'url' => 'identificationType',
+                            'can'  => 'identificationType.index',
+                        ],
+                        [
+                            'text' => 'Documentos',
+                            'url' => 'documentType',
+                            'can'  => 'documentType.index',
+                        ],
+                        [
+                            'text' => 'Generacion',
+                            'url' => 'generationType',
+                            'can'  => 'generationType.index',
+                        ],
+                        [
+                            'text' => 'Unidades de Medida',
+                            'url' => 'measureUnit',
+                            'can'  => 'measureUnit.index',
+                        ],
+                        [
+                            'text' => 'Formas de Pago',
+                            'url' => 'paymentForm',
+                            'can'  => 'paymentForm.index',
+                        ],
+                        [
+                            'text' => 'Metodos de pago',
+                            'url' => 'paymentMethod',
+                            'can'  => 'paymentMethod.index',
+                        ],
+                    ],
                 ],
             ],
+
+        ],
+        [
+            'text'    => 'ADMINISTRACION',
+            'icon'    => 'fas fa-fw fa-building',
+            'submenu' => [
+                [
+                    'text' => 'Empresa',
+                    'icon'    => 'fas fa-fw fa-industry',
+                    'submenu' => [
+                        [
+                            'text' => 'Empresa',
+                            'url' => 'company',
+                            'can'  => 'company.index',
+                        ],
+                        [
+                            'text' => 'Sucursales',
+                            'url' => 'branch',
+                            'can'  => 'branch.index',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Usuarios',
+                    'icon'    => 'fas fa-fw fa-users',
+                    'submenu' => [
+                        [
+                            'text' => 'Usuarios',
+                            'url' => 'user',
+                            'can'  => 'user.index',
+                        ],
+                        [
+                            'text' => 'Roles',
+                            'url' => 'roles',
+                            'can'  => 'roles.index',
+                        ],
+                        [
+                            'text' => 'Permisos',
+                            'url' => 'permission',
+                            'can'  => 'permission.index',
+                        ],
+                        [
+                            'text' => 'Autorizaciones',
+                            'url' => 'verificationCode',
+                            'can'  => 'verificationCode.index',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Terceros',
+                    'icon'    => 'fas fa-fw fa-users-cog',
+                    'submenu' => [
+                        [
+                            'text' => 'Proveedores',
+                            'url' => 'provider',
+                            'can'  => 'provider.index',
+                        ],
+                        [
+                            'text' => 'Clientes',
+                            'url' => 'customer',
+                            'can'  => 'customer.index',
+                        ],
+                        [
+                            'text' => 'Empleados',
+                            'url' => 'employee',
+                            'can'  => 'employee.index',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Cofiguraciones',
+                    'icon'    => 'fas fa-fw fa-cogs',
+                    'submenu' => [
+                        [
+                            'text' => 'Tipos de Comprobantes',
+                            'url' => 'voucherType',
+                            'can'  => 'voucherType.index',
+                        ],
+                        [
+                            'text' => 'Porcentages',
+                            'url' => 'percebtage',
+                            'can'  => 'percebtage.index',
+                        ],
+                        [
+                            'text' => 'Impuestos',
+                            'url' => 'companyTax',
+                            'can'  => 'companyTax.index',
+                        ],
+
+                    ],
+                ],
+                [
+                    'text' => 'Reportes',
+                    'icon'    => 'fas fa-fw fa-receipt',
+                    'submenu' => [
+                        [
+                            'text' => 'Impuestos',
+                            'url' => 'tax',
+                            'can'  => 'tax.index',
+                        ],
+
+                    ],
+                ],
+            ],
+
+        ],
+        [
+            'text'    => 'OPERACIONES',
+            'icon'    => 'fas fa-fw fa-cash-register',
+            'submenu' => [
+                [
+                    'text' => 'Movimientos Capital',
+                    'icon'    => 'fas fa-fw fa-hand-holding-usd',
+                    'submenu' => [
+                        [
+                            'text' => 'Anticipos',
+                            'url' => 'advsance',
+                            'can'  => 'advsance.index',
+                        ],
+                        [
+                            'text' => 'Pagos',
+                            'url' => 'pay',
+                            'can'  => 'pay.index',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Compras',
+                    'icon'    => 'fas fa-fw fa-shopping-cart',
+                    'submenu' => [
+                        [
+                            'text' => 'Compras',
+                            'url' => 'purchase',
+                            'can'  => 'purchase.index',
+                        ],
+                        [
+                            'text' => 'Notas Credito',
+                            'url' => 'ncpurchase',
+                            'can'  => 'ncpurchase.index',
+                        ],
+                        [
+                            'text' => 'Notas Debito',
+                            'url' => 'ndpurchase',
+                            'can'  => 'ndpurchase.index',
+                        ],
+                        [
+                            'text' => 'Pre compras',
+                            'url' => 'prepurchase',
+                            'can'  => 'prepurchase.index',
+                        ],
+                        [
+                            'text' => 'Proveedores',
+                            'url' => 'provider',
+                            'can'  => 'provider.index',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Ventas',
+                    'icon'    => 'fas fa-fw fa-file-invoice-dollar',
+                    'submenu' => [
+                        [
+                            'text' => 'Ventas',
+                            'url' => '#',
+                            'can'  => '#',
+                        ],
+                        [
+                            'text' => 'Clientes',
+                            'url' => 'customer',
+                            'can'  => 'customer.index',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Inventarios',
+                    'icon'    => 'fas fa-fw fa-warehouse',
+                    'submenu' => [
+                        [
+                            'text' => 'Categorias',
+                            'url' => 'category',
+                            'can'  => 'category.index',
+                        ],
+                        [
+                            'text' => 'Productos',
+                            'url' => 'product',
+                            'can'  => 'product.index',
+                        ],
+                        [
+                            'text' => 'Kardex',
+                            'url' => 'kardex',
+                            'can'  => 'kardex.index',
+                        ],
+                        [
+                            'text' => 'Traslados',
+                            'url' => 'transfer',
+                            'can'  => 'transfer.index',
+                        ],
+                    ],
+                ],
+            ],
+
+        ],
+        [
+            'text'    => 'NOMINA',
+            'icon'    => 'fas fa-fw fa-people-carry',
+            'submenu' => [
+                [
+                    'text' => 'Empleados',
+                    'icon'    => 'fas fa-fw fa-people-arrows',
+                    'submenu' => [
+                        [
+                            'text' => 'Empleados',
+                            'url' => 'employee',
+                            'can'  => 'employee.index',
+                        ],
+                    ],
+                ],
+            ],
+
         ],
         ['header' => 'labels'],
         [
@@ -421,7 +707,7 @@ return [
 
     'plugins' => [
         'Datatables' => [
-            'active' => true,
+            'active' => false,
             'files' => [
                 [
                     'type' => 'js',
@@ -441,11 +727,11 @@ return [
             ],
         ],
         'Select2' => [
-            'active' => true,
+            'active' => false,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => true,
+                    'asset' => false,
                     'location' => 'vendor/select2/js/select2.full.min.js',
                     //'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
                 ],
@@ -467,11 +753,11 @@ return [
             ],
         ],
         'Sweetalert2' => [
-            'active' => true,
+            'active' => false,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => true,
+                    'asset' => false,
                     'location' => 'vendor/sweetalert2/sweetalert2.all.min.js',
                     //'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
                 ],

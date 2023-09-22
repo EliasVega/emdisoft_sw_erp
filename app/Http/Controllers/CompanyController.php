@@ -84,7 +84,6 @@ class CompanyController extends Controller
     public function store(StoreCompanyRequest $request)
     {
         $logo = $request->logo;
-        dd($logo);
         $company = new company();
         $company->department_id = $request->department_id;
         $company->municipality_id = $request->municipality_id;
@@ -100,15 +99,25 @@ class CompanyController extends Controller
         $company->emailfe = $request->emailfe;
         //Handle File Upload
         if($request->hasFile('logo')){
+            //Get filename with the extension
+            $filenamewithExt = $request->file('logo')->getClientOriginalName();
+            //Get just filename
+            $filename = pathinfo($filenamewithExt,PATHINFO_FILENAME);
+            //Get just ext
+            $extension = $request->file('logo')->guessClientExtension();
+            //FileName to store
+            $fileNameToStore = time().'.'.$extension;
+            //Upload Image
             $path = $request->file('logo')->store('public/images/logos');
+            //$path = $request->file('image')->move('images/menus',$fileNameToStore);
             $fileNameToStore = Storage::url($path);
         } else{
-            $fileNameToStore="/storage/images/logos/WfhqlDRtZi4xOqYprPnrLmb27vgEzV87lueju0ol.jpg";
+            $fileNameToStore="/storage/images/logos/B35ghph7gaOPEqAH8nemrH0G5lM08R0OWIy7aLtz.jpg";
         }
         $company->logo=$fileNameToStore;
         $company->save();
 
-        Alert::success('Compañia','Creada Satisfactoriamente.');
+        //Alert::success('Compañia','Creada Satisfactoriamente.');
         return redirect('company');
 
         if ($logo = Company::setLogo($request->logo)) {

@@ -2,8 +2,20 @@
 
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="idMod">
         <div class="form-group">
+            <label for="idModal">id</label>
+            <input type="text" name="idModal" id="idModal"class="form-control" placeholder="id " readonly>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="taxTypeModal">
+        <div class="form-group">
+            <label for="tax_typeModal">id tax</label>
+            <input type="number" name="tax_typeModal" id="tax_typeModal"class="form-control" placeholder="Tipo de impuesto " readonly>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="productIdModal">
+        <div class="form-group">
             <label for="product_idModal">id</label>
-            <input type="text" name="product_idModal" id="product_idModal"class="form-control" placeholder="id " readonly>
+            <input type="number" name="product_idModal" id="product_idModal"class="form-control" placeholder="product_id " readonly>
         </div>
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -21,7 +33,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="quantityModal">Cantidad</label>
-            <input type="number" name="quantityModal" id="quantityModal" class="form-control" placeholder="Cantidad" readonly>
+            <input type="number" name="quantityModal" id="quantityModal" class="form-control" placeholder="Cantidad">
         </div>
     </div>
 

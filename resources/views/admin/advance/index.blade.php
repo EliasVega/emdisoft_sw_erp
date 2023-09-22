@@ -20,7 +20,7 @@
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-condensed table-hover" id="advances">
                     <thead>
-                        <tr>
+                        <tr class="bg-info">
                             <th>ID</th>
                             <th>Tercero</th>
                             <th>Tipo tercero</th>

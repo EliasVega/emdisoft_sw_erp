@@ -26,7 +26,7 @@
     $("#card2").hide();
     $("#noDefined").hide();
     $("#advance").hide();
-    $("#payPayment").hide();
+    $("#editPayPayment").hide();
 
     //$("#payPurchase").hide();
 
@@ -50,9 +50,9 @@
                 $("#card1").show();
                 $("#card2").show();
                 $("#mpay").hide();
-                $("#payPayment").hide();
+                $("#editPayPayment").hide();
             }else{
-                $("#payPayment").show();
+                $("#editPayPayment").show();
                 $("#noDefined").hide();
                 $("#cash").hide();
                 $("#advance").hide();
@@ -99,7 +99,7 @@
         $("#card1").show();
         $("#card2").show();
         $("#mpay").hide();
-        $("#payPayment").hide();
+        $("#editPayPayment").hide();
     }
     $(document).ready(function(){
         $("#cash").click(function(){

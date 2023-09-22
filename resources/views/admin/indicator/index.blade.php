@@ -26,6 +26,7 @@
                             <th>Salario Minimo</th>
                             <th>Auxilio de trasporte</th>
                             <th>Editar</th>
+                            <th>Dian</th>
                             <th>Post</th>
                             <th>Nomina</th>
                             <th>Contabilidad</th>
@@ -60,6 +61,7 @@ $(document).ready(function ()
                 {data: 'smlv', className: 'dt-body-right', render: $.fn.dataTable.render.number( '.', ',', 2, '$')},
                 {data: 'transport_assistance', className: 'dt-body-right', render: $.fn.dataTable.render.number( '.', ',', 2, '$')},
                 {data: 'edit'},
+                {data: 'dian'},
                 {data: 'post'},
                 {data: 'payroll'},
                 {data: 'accounting'},

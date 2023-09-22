@@ -25,12 +25,12 @@
 .btn-limon {
     color: #fff !important;
     background-color: #77b859 !important;
-}/*
+}
 
 .btn-pdf {
     color: #ffffff !important;
     background-color: #ff0000 !important;
-}*/
+}
 
 .btn-ver {
     color: #fff !important;
@@ -45,13 +45,13 @@
 /*
 *============================================BUTTONS RADIUS 30====================================================
 */
-/*
+
 .btn-celeste {
     color: #000 !important;
     background-color: #e0ecff !important;
     border-radius: 30px !important;
 }
-
+/*
 .btn-fucsion {
     color: #000 !important;
     background-color: #f5b3b3 !important;
@@ -62,8 +62,13 @@
     color: #fff !important;
     background-color: #d9534f !important;
     border-radius: 30px !important;
-}
+}*/
 
+.btn-gris {
+    background-color: #c2bebe !important;
+    border-radius: 50px !important;
+}
+/*
 .btn-loglila {
     color: #fff !important;
     background-color: #9054c9 !important;
@@ -98,10 +103,7 @@
     border-radius: 50px !important;
 }*/
 
-.btn-gris {
-    background-color: #c2bebe !important;
-    border-radius: 50px !important;
-}/*
+/*
 
 .btn-limonR {
     color: #fff !important;

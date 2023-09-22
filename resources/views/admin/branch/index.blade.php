@@ -24,7 +24,7 @@
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-condensed table-hover" id="branches">
                     <thead>
-                        <tr>
+                        <tr class="bg-info">
                             <!--<th>O.P</th>
                             <th>F.V</th>-->
                             <th>BOX</th>

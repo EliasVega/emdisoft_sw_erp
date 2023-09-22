@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet" href="{{ 'css/pdfs.css' }}">
+        <link rel="stylesheet" href="{{ asset('css/pdfs.css') }}">
         <title>Factura de Compra</title>
 
     </head>
@@ -23,7 +23,12 @@
             </div>
             <!--DATOS FACTURA -->
             <div id="document">
-                <p> <h4>COMPRA <br> <strong id="documentNumber">N°.{{ $purchase->id }}</strong>  </h4>
+                @if ($purchase->document_type_id == 25)
+                    <p> <h4>COMPRA <br> <strong id="documentNumber">N°.{{ $purchase->id }}</strong>  </h4>
+                @else
+                    <p> <h4>DOCUMENTO SOPORTE <br> <strong id="documentNumber">N°.{{ $purchase->document }}</strong>  </h4>
+                @endif
+
 
                 </p>
                 <p> <h4>FECHA DE EMISION <br> <strong id="documentData">{{ date('d-m-Y', strtotime($purchase->created_at)) }}</strong>  </h4>
@@ -133,11 +138,13 @@
                                 <th  colspan="3" class="footder">TOTAL PAGAR:</th>
                                 <td class="footder"><strong id="total">${{number_format($purchase->total_pay,2)}}</strong></td>
                             </tr>
-                            @if ($retention > 0)
-                                <tr>
-                                    <th colspan="3" class="footder">RETERENTA:</th>
-                                    <td class="footder"><strong>$ -{{number_format($retention,2)}}</strong> </td>
-                                </tr>
+                            @if ($retentionsum > 0)
+                                @foreach ($retentions as $retention)
+                                    <tr>
+                                        <th colspan="3" class="footder">{{ $retention->name }}:</th>
+                                        <td class="footder"><strong>$ -{{number_format($retention->tax_value,2)}}</strong> </td>
+                                    </tr>
+                                @endforeach
                             @endif
                             @if ($purchase->pay > 0)
                                 <tr>
@@ -154,7 +161,7 @@
                             @if ($retentionnd > 0)
                                 <tr>
                                     <th  colspan="3" class="footder">RET ND:</th>
-                                    <td class="footder"><strong id="total">$ -{{number_format($retentionnd,2)}}</strong></td>
+                                    <td class="footder"><strong id="total">$ {{number_format($retentionnd,2)}}</strong></td>
                                 </tr>
                             @endif
                             @if ($creditNote > 0)
@@ -171,7 +178,7 @@
                             @endif
                             <tr>
                                 <th  colspan="3" class="footder">SALDO A PAGAR:</th>
-                                <td class="footder"><strong id="total">$ {{number_format($purchase->total_pay -  $purchase->pay - $debitNote - $retention + $creditNote + $retentionnd - $retentionnc,2)}}</strong></td>
+                                <td class="footder"><strong id="total">$ {{number_format($purchase->total_pay -  $purchase->pay - $debitNote - $retentionsum + $creditNote + $retentionnd - $retentionnc,2)}}</strong></td>
                             </tr>
                         </tfoot>
                     </table>

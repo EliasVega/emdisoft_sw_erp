@@ -41,7 +41,7 @@
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-condensed table-hover" id="purchases">
                     <thead>
-                        <tr>
+                        <tr class="trdatacolor">
                             <th>Id</th>
                             <th>Proveedor</th>
                             <th>#Fac_Compra</th>
@@ -63,7 +63,7 @@
         <script type="text/javascript">
             $(document).ready(function ()
             {
-                window.onload = function() {
+                function print(){
                     var purchase = "{{ $purchase ?? '' }}";
                     if (purchase != '') {
                         var imprimir = "{{ route('pdfPurchase', ['purchase' => ':purchase']) }}";
@@ -71,6 +71,7 @@
                         window.open(imprimir, "_blank");
                     }
                 }
+                print();
                 $('#purchases').DataTable(
                 {
                     info: true,

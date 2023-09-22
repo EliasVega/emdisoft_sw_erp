@@ -100,7 +100,7 @@
 
                             <tr>
                                 <th colspan="3" class="footder">TOTAL IVA:</th>
-                                <td class="footder"><strong>${{number_format($ncpurchase->total_iva,2)}}</strong> </td>
+                                <td class="footder"><strong>${{number_format($ncpurchase->total_tax,2)}}</strong> </td>
                             </tr>
 
                             <tr>

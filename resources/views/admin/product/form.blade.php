@@ -55,10 +55,10 @@
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-        <label for="type">Typo de producto</label>
+        <label for="type_product">Typo de producto</label>
         <div class="select">
-            <select id="type" name="type" class="form-control selectpicker" data-live-search="true" required>
-                <option {{ ($product->type ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Tipo</option>
+            <select id="type_product" name="type_product" class="form-control selectpicker" data-live-search="true" required>
+                <option {{ ($product->type_product ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Tipo</option>
                     <option value="product">PRODUCTO</option>
                     <option value="service">SERVICIO</option>
             </select>
