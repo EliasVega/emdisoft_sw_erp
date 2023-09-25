@@ -43,7 +43,7 @@ trait Inventory {
                     $branchProduct = new BranchProduct();
                     $branchProduct->branch_id = $branch;
                     $branchProduct->product_id = $product->id;
-                    $branchProduct->stock = $quantity;
+                    $branchProduct->stock += $quantity;
                     $branchProduct->order_product = 0;
                     $branchProduct->save();
                 }
@@ -66,7 +66,7 @@ trait Inventory {
                     $branchProduct = new BranchProduct();
                     $branchProduct->branch_id = $branch;
                     $branchProduct->product_id = $product->id;
-                    $branchProduct->stock = $quantity;
+                    $branchProduct->stock += $quantity;
                     $branchProduct->order_product = 0;
                     $branchProduct->save();
                 }

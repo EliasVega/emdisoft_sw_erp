@@ -206,6 +206,7 @@ class PurchaseController extends Controller
         $company = Company::findOrFail(current_user()->company_id);
         $environment = Environment::where('code', 'SD')->first();
         $indicator = Indicator::findOrFail(1);
+        $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
         $typeDocument = 'purchase';
         $voucherType = 7;
 
@@ -290,7 +291,6 @@ class PurchaseController extends Controller
 
             if ($indicator->post == 'on') {
                 //actualizar la caja
-                    $cashRegister = CashRegister::where('user_id', '=', $purchase->user_id)->where('status', '=', 'open')->first();
                     $cashRegister->purchase += $total_pay;
                     $cashRegister->out_total += $totalpay;
                     $cashRegister->update();
@@ -331,7 +331,6 @@ class PurchaseController extends Controller
 
 
             if ($totalpay > 0) {
-                $document = $purchase;
                 Pays($request, $document, $typeDocument);
             }
             if ($documentType == 11 && $indicator->dian == 'on') {

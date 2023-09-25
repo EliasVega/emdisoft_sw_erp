@@ -31,14 +31,14 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
-
-use function PHPUnit\Framework\isNull;
+use App\Traits\Inventory;
+use App\Traits\KardexCreate;
 
 class ExpenseController extends Controller
 {
+    use Inventory, KardexCreate;
     function __construct()
     {
         $this->middleware('permission:expense.index|expense.create|expense.show|expense.edit', ['only'=>['index']]);
@@ -116,7 +116,7 @@ class ExpenseController extends Controller
         $cards = Card::get();
         $branchs = Branch::get();
         $advances = Advance::get();
-        $products = Product::where('status', 'active')->where('type', 'service')->get();
+        $products = Product::where('status', 'active')->where('type_product', 'service')->get();
 
         return view('admin.expense.create',
         compact(
@@ -146,17 +146,23 @@ class ExpenseController extends Controller
 
     public function store(StoreExpenseRequest $request)
     {
+        //dd($request->all());
+        $company = Company::findOrFail(current_user()->company_id);
         $indicator = Indicator::findOrFail(1);
-        $user = Auth::user();
+        $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
+        $voucherTypes = VoucherType::findOrFail(20);
+        $typeDocument = 'expense';
+        //$voucherType = 20;
 
         //Variables del request
         $product_id = $request->id;
         $quantity = $request->quantity;
         $price = $request->price;
-        $tax_rate = $request->tax_rate;
-        $branch = $user->branch_id;//variable de la sucursal de destino
-        $total_pay = $request->total_pay;
+        //$tax_rate = $request->tax_rate;
+        $branch = current_user()->branch_id;//variable de la sucursal de destino
+        //$total_pay = $request->total_pay;
         $totalpay = $request->totalpay;
+        $total = $request->total;
         //variables del request
         $paymentMethod = $request->payment_method_id;
         $bank = $request->bank_id;
@@ -168,39 +174,38 @@ class ExpenseController extends Controller
 
         //Crea un registro de compras
         $expense = new Expense();
-        $expense->user_id = $user->id;
-        $expense->branch_id = $user->branch_id;
+        $expense->user_id = current_user()->id;
+        $expense->branch_id = $branch;
         $expense->provider_id = $request->provider_id;
         $expense->payment_form_id = $request->payment_form_id;
         $expense->payment_method_id = $request->payment_method_id[0];
-        $voucherTypes = VoucherType::findOrFail(20);
         $expense->document = $voucherTypes->code . '-' . $voucherTypes->consecutive;
-        $expense->voucher_type_id = 20;
-        $voucherTypes->consecutive += 1;
-        $voucherTypes->update();
+        $expense->voucher_type_id = $voucherTypes->id;
         $expense->generation_date = $request->generation_date;
-        $expense->total = $request->total;
-        $expense->total_tax = $request->total_tax;
-        $expense->total_pay = $total_pay;
+        $expense->total = $total;
+        $expense->total_tax = 0;
+        $expense->total_pay = $total;
         if ($totalpay > 0) {
             $expense->pay = $totalpay;
         } else {
             $expense->pay = 0;
         }
-        $expense->balance = $total_pay - $totalpay;
-        $expense->grand_total = $total_pay;
+        $expense->balance = $total - $totalpay;
+        $expense->grand_total = $total;
         $expense->save();
+
+        $voucherTypes->consecutive += 1;
+        $voucherTypes->update();
 
         if ($indicator->post == 'on') {
             //actualizar la caja
-            $cashRegister = CashRegister::where('user_id', '=', $expense->user_id)->where('status', '=', 'open')->first();
-            $cashRegister->expense += $expense->total_pay;
+            $cashRegister->expense += $expense->total;
             $cashRegister->out_total += $totalpay;
             $cashRegister->update();
         }
         //Toma el Request del array
         //Ingresa los productos que vienen en el array
-
+        $document = $expense;
         for ($i=0; $i < count($product_id); $i++) {
             $id = $product_id[$i];
             //Metodo para registrar la relacion entre producto y compra
@@ -209,129 +214,28 @@ class ExpenseController extends Controller
             $expenseProduct->product_id = $id;
             $expenseProduct->quantity = $quantity[$i];
             $expenseProduct->price = $price[$i];
-            $expenseProduct->tax_rate = $tax_rate[$i];
+            $expenseProduct->tax_rate = 0;
             $expenseProduct->subtotal = $quantity[$i] * $price[$i];
-            $expenseProduct->tax_subtotal =($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
+            $expenseProduct->tax_subtotal =0;
             $expenseProduct->save();
             //selecciona el producto que viene del array
-            $product = Product::where('id', $id)->first();
+            $product = Product::findOrFail($id);
 
             //selecciona el producto de la sucursal que sea el mismo del array
             $branchProducts = BranchProduct::where('product_id', '=', $id)
             ->where('branch_id', '=', $branch)
             ->first();
-            if ($product->type == 'product') {
-                if ($indicator->inventory == 'on') {
-                    //Actualizar stock y precio del producto
-                    $product->stock += $quantity[$i]; //reempazando triguer
-                    $product->price = $price[$i];
-                    $product->sale_price = $price[$i];
-                    $product->update();
 
-
-                    //Actualizando o creando productos en determinada sucursal
-                    if (isset($branchProducts)) {
-                        //metodo para actualizar el producto en la sucursal stock
-                        $branchProducts->stock += $quantity[$i];
-                        $branchProducts->update();
-                    } else {
-                        //metodo para crear el producto en la sucursal y asignar stock
-                        $branchProduct = new BranchProduct();
-                        $branchProduct->branch_id = $branch;
-                        $branchProduct->product_id = $product_id[$i];
-                        $branchProduct->stock = $quantity[$i];
-                        $branchProduct->order_product = 0;
-                        $branchProduct->save();
-                    }
-                }
-            } else {
-                //Actualizar stock y precio del producto
-                $product->price = $price[$i];
-                $product->sale_price = $price[$i];
-                $product->update();
-
-                //Actualizando o creando productos en determinada sucursal
-                if (isset($branchProducts)) {
-                    //metodo para actualizar el producto en la sucursal stock
-                    $branchProducts->stock += $quantity[$i];
-                    $branchProducts->update();
-                } else {
-                    //metodo para crear el producto en la sucursal y asignar stock
-                    $branchProduct = new BranchProduct();
-                    $branchProduct->branch_id = $branch;
-                    $branchProduct->product_id = $product_id[$i];
-                    $branchProduct->stock = $quantity[$i];
-                    $branchProduct->order_product = 0;
-                    $branchProduct->save();
-                }
-
-            }
+            $quantityLocal = $quantity[$i];
+            $priceLocal = $price[$i];
+            $voucherType = 20;
+            $this->inventory($product, $branchProducts, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
+            $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
         }
         //variables necesarias
 
         if ($totalpay > 0) {
-            //Metodo para crear un nuevo pago y su realcion polimorfica dependiendo del tipo de documento
-            $pay = new pay();
-            $pay->user_id = $user->id;
-            $pay->branch_id = $user->branch_id;
-            $pay->pay = $totalpay;
-            $pay->balance = $expense->balance;
-            $pay->type = 'expense';
-            $expense->pays()->save($pay);
-
-
-            for ($i=0; $i < count($payment); $i++) {
-
-                //Metodo que descuenta el valor del pago de un anticipo
-                if ($payAdvance != 0) {
-
-                    $advance = Advance::findOrFail( $request->advance_id);
-                        //si el pago es utilizado en su totalidad agregar el destino aplicado
-                        if ($advance->pay > $advance->balance) {
-                            $advance->destination = $advance->destination . '<->' . $expense->document;
-                        } else {
-                            $advance->destination = $expense->document;
-                        }
-                        //variable si hay saldo en el pago anticipado
-                        $payAdvance_total = $advance->balance - $payAdvance;
-                        //cambiar el status del pago anticipado
-                        if ($payAdvance_total == 0) {
-                            $advance->status      = 'applied';
-                        } else {
-                            $advance->status      = 'partial';
-                        }
-                        //actualizar el saldo del pago anticipado
-                        $advance->balance = $payAdvance_total;
-                        $advance->update();
-                }
-
-                //Metodo para registrar la relacion entre pago y metodo de pago
-                $pay_paymentMethod = new PayPaymentMethod();
-                $pay_paymentMethod->pay_id = $pay->id;
-                $pay_paymentMethod->payment_method_id = $paymentMethod[$i];
-                $pay_paymentMethod->bank_id = $bank[$i];
-                $pay_paymentMethod->card_id = $card[$i];
-                if (isset($advance_id[$i])){
-                    $pay_paymentMethod->advance_id = $advance_id[$i];
-                }
-                $pay_paymentMethod->pay = $payment[$i];
-                $pay_paymentMethod->transaction = $transaction[$i];
-                $pay_paymentMethod->save();
-
-                $mp = $paymentMethod[$i];
-                if ($indicator->post == 'on') {
-                    //metodo para actualizar la caja
-
-                    $cashRegister = CashRegister::where('user_id', '=', $expense->user_id)->where('status', '=', 'open')->first();
-                    if($mp == 10){
-                        $cashRegister->out_expense_cash += $payment[$i];
-                        $cashRegister->cash_out_total += $payment[$i];
-                    }
-                    $cashRegister->out_expense += $payment[$i];
-                    $cashRegister->update();
-                }
-
-            }
+            Pays($request, $document, $typeDocument);
         }
 
         session(['expense' => $expense->id]);
@@ -339,6 +243,174 @@ class ExpenseController extends Controller
         //Alert::success('Compra','Creada Satisfactoriamente.');
         toast('Gasto Registrado satisfactoriamente.','success');
         return redirect('expense');
+
+
+
+        //dd($request->all());
+
+
+        //Variables del request
+        $product_id = $request->id;
+        $quantity = $request->quantity;
+        $price = $request->price;
+        $tax_rate = $request->tax_rate;
+        $branch = $request->branch_id[0];//variable de la sucursal de destino
+        $total_pay = $request->total_pay;
+        $totalpay = $request->totalpay;
+        $retention = 0;
+        //variables del request
+        $quantityBag = 0;
+        if ($request->total_retention != null) {
+            $retention = $request->total_retention;
+        }
+
+
+        $documentType = $request->document_type_id;
+        $store = false;
+        if ($documentType == 11 && $indicator->dian == 'on') {
+            $data = SupportDocumentSend($request);
+            $requestResponse = SendDocuments($company, $environment, $data);
+            $store = $requestResponse['store'];
+            $service = $requestResponse['response'];
+            $errorMessages = $requestResponse['errorMessages'];
+        } else {
+            $store = true;
+        }
+        //Crea un registro de compras
+
+        if ($store == true) {
+
+            $purchase = new Purchase();
+            $purchase->user_id = current_user()->id;
+            $purchase->branch_id = current_user()->branch_id;
+            $purchase->provider_id = $request->provider_id;
+            $purchase->payment_form_id = $request->payment_form_id;
+            $purchase->payment_method_id = $request->payment_method_id[0];
+            $purchase->resolution_id = $request->resolution_id;
+            $purchase->generation_type_id = $request->generation_type_id;
+            $purchase->document_type_id = $documentType;
+            if ($documentType == 11) {
+                $resolutions = Resolution::findOrFail($request->resolution_id);
+                $voucherTypes = VoucherType::findOrFail(12);
+                $purchase->document = $resolutions->prefix . '-' . $resolutions->consecutive;
+                $purchase->invoice_code = $voucherTypes->code . '-' . $voucherTypes->consecutive;
+                $purchase->voucher_type_id = 12;
+                $purchase->status = 'support_document';
+                $voucherTypes->consecutive += 1;
+                $voucherTypes->update();
+            } else {
+                $voucherTypes = VoucherType::findOrFail(7);
+                $purchase->document = $voucherTypes->code . '-' . $voucherTypes->consecutive;
+                $purchase->invoice_code = $request->invoice_code;
+                $purchase->voucher_type_id = 7;
+                $purchase->status = 'purchase';
+                $voucherTypes->consecutive += 1;
+                $voucherTypes->update();
+            }
+            $purchase->generation_date = $request->generation_date;
+            $purchase->due_date = $request->due_date;
+            $purchase->retention = $retention;
+            $purchase->total = $request->total;
+            $purchase->total_tax = $request->total_tax;
+            $purchase->total_pay = $total_pay;
+
+            if ($totalpay > 0) {
+                $purchase->pay = $totalpay;
+            } else {
+                $purchase->pay = 0;
+            }
+            $purchase->balance = $total_pay - $totalpay - $retention;
+            $purchase->grand_total = $total_pay - $retention;
+            $purchase->start_date = $request->start_date;
+            $purchase->save();
+
+            $voucher = VoucherType::findOrFail(19);
+            $voucher->consecutive = $purchase->id;
+            $voucher->update();
+
+            if ($indicator->post == 'on') {
+                //actualizar la caja
+                    $cashRegister->purchase += $total_pay;
+                    $cashRegister->out_total += $totalpay;
+                    $cashRegister->update();
+            }
+            $document = $purchase;
+            //Ingresa los productos que vienen en el array
+            for ($i=0; $i < count($product_id); $i++) {
+                $id = $product_id[$i];
+                //Metodo para registrar la relacion entre producto y compra
+                $productPurchase = new ProductPurchase();
+                $productPurchase->purchase_id = $purchase->id;
+                $productPurchase->product_id = $id;
+                $productPurchase->quantity = $quantity[$i];
+                $productPurchase->price = $price[$i];
+                $productPurchase->tax_rate = $tax_rate[$i];
+                $productPurchase->subtotal = $quantity[$i] * $price[$i];
+                $productPurchase->tax_subtotal =($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
+                $productPurchase->save();
+
+                //selecciona el producto que viene del array
+                $product = Product::findOrFail($id);
+                //selecciona el producto de la sucursal que sea el mismo del array
+                $branchProducts = BranchProduct::where('product_id', '=', $id)
+                ->where('branch_id', '=', $branch)
+                ->first();
+
+                $quantityLocal = $quantity[$i];
+                $priceLocal = $price[$i];
+                $this->inventory($product, $branchProducts, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
+                $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
+
+            }
+
+            $taxes = $this->getTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC
+            TaxesGlobals($document, $quantityBag, $typeDocument);
+            TaxesLines($document, $taxes, $typeDocument);
+            Retentions($request, $document, $typeDocument);
+
+
+            if ($totalpay > 0) {
+                $document = $purchase;
+                Pays($request, $document, $typeDocument);
+            }
+            if ($documentType == 11 && $indicator->dian == 'on') {
+                $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
+                    ['SendBillSyncResult']['IsValid'];
+                $code = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
+                    ['SendBillSyncResult']['StatusCode'];
+                $description = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
+                    ['SendBillSyncResult']['StatusDescription'];
+                $statusMessage = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
+                    ['SendBillSyncResult']['StatusMessage'];
+
+                $supportDocumentResponse = new SupportDocumentResponse();
+                $supportDocumentResponse->document = $purchase->document;
+                $supportDocumentResponse->message = $service['message'];
+                $supportDocumentResponse->valid = $valid;
+                $supportDocumentResponse->code = $code;
+                $supportDocumentResponse->description = $description;
+                $supportDocumentResponse->status_message = $statusMessage;
+                $supportDocumentResponse->cuds = $service['cuds'];
+                $supportDocumentResponse->purchase_id = $purchase->id;
+                $supportDocumentResponse->save();
+
+                $environmentPdf = Environment::where('code', 'PDF')->first();
+
+                $pdf = file_get_contents($environmentPdf->url . $company->nit ."/DSS-" . $resolutions->prefix .
+                $resolutions->consecutive .".pdf");
+                Storage::disk('public')->put('files/graphical_representations/support_documents/' .
+                $resolutions->prefix . $resolutions->consecutive . '.pdf', $pdf);
+
+                $resolutions->consecutive += 1;
+                $resolutions->update();
+            }
+
+            session()->forget('purchase');
+            session(['purchase' => $purchase->id]);
+            toast('Compra Registrada satisfactoriamente.','success');
+            return redirect('purchase');
+        }
+        return redirect('purchases')->with('error_message', $errorMessages);
     }
 
     /**

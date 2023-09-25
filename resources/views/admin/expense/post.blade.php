@@ -87,15 +87,6 @@
                         <th colspan="3" class="footRight">TOTAL:</th>
                         <td class="footRight"><strong>${{number_format($expense->total)}}</strong></td>
                     </tr>
-
-                    <tr>
-                        <th colspan="3" class="footRight">TOTAL IVA:</th>
-                        <td class="footRight"><strong>${{number_format($expense->total_tax)}}</strong> </td>
-                    </tr>
-                    <tr>
-                        <th colspan="3" class="footRight">TOTAL PAGAR:</th>
-                        <td class="footRight"><strong>${{number_format($expense->total_pay)}}</strong></td>
-                    </tr>
                     @if ($expense->pay > 0)
                         <tr>
                             <th  colspan="3" class="footRight">ABONOS:</th>
@@ -104,7 +95,7 @@
                     @endif
                     <tr>
                         <th  colspan="3" class="footRight">SALDO A PAGAR:</th>
-                        <td class="footRight"><strong id="total">$ {{number_format($expense->total_pay -  $expense->pay)}}</strong></td>
+                        <td class="footRight"><strong id="total">$ {{number_format($expense->total -  $expense->pay)}}</strong></td>
                     </tr>
                 </tfoot>
             </table>

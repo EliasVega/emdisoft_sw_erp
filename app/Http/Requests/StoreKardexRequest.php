@@ -30,7 +30,7 @@ class StoreKardexRequest extends FormRequest
             'document' => 'required|string|max:20',
             'quantity' => 'required|numeric',
             'stock' => 'required|numeric',
-            'movement' => 'required|string|max:30'
+            'status' => 'in:purchase,expense,invoice,ncpurchase,ndpurchase,ncinvoice,ndinvoice',
         ];
     }
 }

@@ -28,10 +28,10 @@
             {!!Form::open(array('url'=>'expense', 'method'=>'POST', 'autocomplete'=>'off'))!!}
             {!!Form::token()!!}
             <div class="row m-1">
-                <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     @include('admin/expense.form_expense')
                 </div>
-                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     @include('admin/expense.form_pay')
                 </div>
             </div>

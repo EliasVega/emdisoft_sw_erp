@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('document', 20);
             $table->decimal('quantity',10,2);
             $table->decimal('stock',10,2);
-            $table->enum('movement', ['purchase', 'invoice', 'ncpurchase', 'ndpurchase', 'ncinvoice', 'ndinvoice'])->default('purchase');
+            $table->enum('movement', ['purchase', 'expense', 'invoice', 'ncpurchase', 'ndpurchase', 'ncinvoice', 'ndinvoice'])->default('purchase');
 
             $table->foreignId('product_id')->constrained()->onUpdate('cascade');
             $table->foreignId('branch_id')->constrained()->onUpdate('cascade');

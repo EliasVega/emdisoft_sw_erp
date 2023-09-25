@@ -42,7 +42,7 @@
     var total = 0;
     var subtotal = [];
     var total_tax = 0;
-    var total_pay = 0;
+    //var total_pay = 0;
     //form expense
     $("#idPro").hide();
     $("#addTaxRate").hide();
@@ -110,19 +110,19 @@
         $("#price").val("");
     }
     function totals(){
-        var total_pay = total + total_tax;
+        //var total_pay = total + total_tax;
 
         $("#total_html").html("$ " + total.toFixed(2));
         $("#total").val(total.toFixed(2));
-
+        /*
         $("#total_tax_html").html("$ " + total_tax.toFixed(2));
         $("#total_tax").val(total_tax.toFixed(2));
 
         $("#total_pay_html").html("$ " + total_pay.toFixed(2));
-        $("#total_pay").val(total_pay.toFixed(2));
+        $("#total_pay").val(total_pay.toFixed(2));*/
 
-        $("#balance").val(total_pay.toFixed(2));
-        $("#pendient").val(total_pay.toFixed(2));
+        $("#balance").val(total.toFixed(2));
+        $("#pendient").val(total.toFixed(2));
     }
     function assess(){
 
@@ -135,18 +135,18 @@
     }
     function deleterow(index){
         total = total - subtotal[index];
-        total_tax = total*tax_rate/100;
-        total_pay = total + total_tax;
+        //total_tax = total*tax_rate/100;
+        //total_pay = total + total_tax;
 
         $("#total_html").html("$ " + total.toFixed(2));
         $("#total").val(total.toFixed(2));
-
+        /*
         total_pay=total+total_tax;
         $("#total_tax_html").html("$ " + total_tax.toFixed(2));
         $("#total_tax").val(total_tax.toFixed(2));
 
         $("#total_pay_html").html("$ " + total_pay.toFixed(2));
-        $("#total_pay").val(total_pay.toFixed(2));
+        $("#total_pay").val(total_pay.toFixed(2));*/
 
         $("#row" + index).remove();
         assess();

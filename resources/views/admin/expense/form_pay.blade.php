@@ -1,4 +1,11 @@
 <div class="box-body row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="box-danger">
+            <label class="form-control-label">
+                <strong>Agregar Abono</strong>
+            </label>
+        </div>
+    </div>
     <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12" id="fpay">
         <div class="form-group">
             <label for="payment_form_id">F/Pago</label>
@@ -23,6 +30,8 @@
             </select>
         </div>
     </div>
+</div>
+<div class="box-body row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="payPayment">
         <div class="form-group">
             <button class="btn btn-celeste btn-sm" type="button" id="addpay" data-toggle="tooltip"
@@ -30,68 +39,64 @@
         </div>
     </div>
     <div class="clearfix"></div>
-    <div class="col-lg-4 col-md-3 col-sm-3 col-xs-12">
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="payUndefined">
         <div class="form-group">
             <button class="btn btn-celeste btn-sm" type="button" id="noDefined" data-toggle="tooltip"
             data-placement="top" title="Metodo no definido">Indefinido </button>
         </div>
     </div>
-    <div class="col-lg-4 col-md-3 col-sm-3 col-xs-12">
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="payCash">
         <div class="form-group">
             <button class="btn btn-celeste btn-sm" type="button" id="cash" data-toggle="tooltip"
             data-placement="top" title="Efectivo">Efectivo</button>
         </div>
     </div>
-    <div class="col-lg-4 col-md-3 col-sm-3 col-xs-12">
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="payAdvance">
         <div class="form-group">
             <button class="btn btn-celeste btn-sm" type="button" id="advance" data-toggle="tooltip"
             data-placement="top" title="Anticipo">P/Anticipado</button>
         </div>
     </div>
-    <div class="col-lg-4 col-md-3 col-sm-3 col-xs-12">
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="payTransfer">
         <div class="form-group">
             <button class="btn btn-celeste btn-sm" type="button" id="transfer" data-toggle="tooltip"
             data-placement="top" title="Transferencia">Transferencia</button>
         </div>
     </div>
-    <div class="col-lg-4 col-md-3 col-sm-3 col-xs-12">
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="payNequi">
         <div class="form-group">
             <button class="btn btn-celeste btn-sm" type="button" id="nequi" data-toggle="tooltip"
             data-placement="top" title="Nequi">Nequi</button>
         </div>
     </div>
-    <div class="col-lg-4 col-md-3 col-sm-3 col-xs-12">
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="payCard1">
         <div class="form-group">
             <button class="btn btn-celeste btn-sm" type="button" id="card1" data-toggle="tooltip"
             data-placement="top" title="Tarjetas">T/Credito</button>
         </div>
     </div>
-    <div class="col-lg-4 col-md-3 col-sm-3 col-xs-12">
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="payCard2">
         <div class="form-group">
             <button class="btn btn-celeste btn-sm" type="button" id="card2" data-toggle="tooltip"
             data-placement="top" title="Tarjetas">T/Debito</button>
         </div>
     </div>
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="box-danger">
-            <label class="form-control-label">
-                <strong>Agregar Abono</strong>
-            </label>
-        </div>
-    </div>
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+</div>
+    <div class="clearfix"></div>
+<div class="box-body row">
+    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="balance">Total Gasto</label>
-            <input type="number" id="balance" name="balance" value="0" class="form-control" disabled pattern="[0-9]{0,15}">
+            <input type="number" id="balance" name="balance" value="0" class="form-control gris" disabled pattern="[0-9]{0,15}">
         </div>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
             <label class="form-control-label">Pendiente</label>
             <input type="number" id="pendient" value="0" class="form-control" disabled pattern="[0-9]{0,15}">
         </div>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="returnedBalance">
+    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" id="returnedBalance">
         <div class="form-group">
             <label class="form-control-label" for="returned">Saldo</label>
             <input type="number" id="returned" name="returned" value="0"

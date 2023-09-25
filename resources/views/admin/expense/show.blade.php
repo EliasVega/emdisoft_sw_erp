@@ -15,6 +15,8 @@
                 @endcan
             </h5>
         </div>
+    </div>
+    <div class="row">
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
             <div class="form-group">
                 <label class="form-control-label" for="id">Gasto #</label>
@@ -79,28 +81,18 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th colspan="3" class="footder">TOTAL:</th>
-                            <td class="footder"><strong>${{number_format($expense->total,2)}}</strong></td>
-                         </tr>
-
-                         <tr>
-                             <th colspan="3" class="footder">TOTAL IVA:</th>
-                             <td class="footder"><strong>${{number_format($expense->total_tax,2)}}</strong> </td>
-                         </tr>
-
-                         <tr>
-                             <th  colspan="3" class="footder">TOTAL PAGAR:</th>
-                             <td class="footder"><strong id="total">${{number_format($expense->total_pay,2)}}</strong></td>
+                            <th colspan="3" class="rightfoot">TOTAL:</th>
+                            <td class="rightfoot"><strong>${{number_format($expense->total,2)}}</strong></td>
                          </tr>
                          @if ($expense->pay > 0)
                              <tr>
-                                 <th  colspan="3" class="footder">ABONOS</th>
-                                 <td  class="footder"><strong>$ -{{number_format($expense->pay,2)}}</strong></td>
+                                 <th  colspan="3" class="rightfoot">ABONOS</th>
+                                 <td  class="rightfoot"><strong>$ -{{number_format($expense->pay,2)}}</strong></td>
                              </tr>
                          @endif
                          <tr>
-                             <th  colspan="3" class="footder">SALDO A PAGAR:</th>
-                             <td class="footder"><strong id="total">$ {{number_format($expense->total_pay -  $expense->pay,2)}}</strong></td>
+                             <th  colspan="3" class="rightfoot">SALDO A PAGAR:</th>
+                             <td class="rightfoot"><strong id="total">$ {{number_format($expense->total -  $expense->pay,2)}}</strong></td>
                          </tr>
 
                     </tfoot>
@@ -108,9 +100,9 @@
                         @foreach($expenseProducts as $expenseProduct)
                             <tr>
                                 <td>{{ $expenseProduct->product->name }}</td>
-                                <td>${{ $expenseProduct->price }}</td>
-                                <td>{{ $expenseProduct->quantity }}</td>
-                                <td class="tdder">{{ $expenseProduct->subtotal }}</td>
+                                <td class="rightfoot">{{ $expenseProduct->quantity }}</td>
+                                <td class="rightfoot">${{ $expenseProduct->price }}</td>
+                                <td class="rightfoot">{{ $expenseProduct->subtotal }}</td>
                             </tr>
                         @endforeach
                     </tbody>

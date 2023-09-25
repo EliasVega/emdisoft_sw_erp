@@ -10,6 +10,7 @@ if (! function_exists('Pays')) {
     function Pays($request, $document, $typeDocument)
     {
         $indicator = Indicator::findOrFail(1);
+        $cashRegister = CashRegister::where('user_id', '=', $document->user_id)->where('status', '=', 'open')->first();
         //Variables del request
         $totalpay = $request->totalpay;
         //variables del request
@@ -33,6 +34,10 @@ if (! function_exists('Pays')) {
             case 'purchase':
                 $purchase = $document;
                 $purchase->pays()->save($pay);
+            break;
+            case 'expense':
+                $expense = $document;
+                $expense->pays()->save($pay);
             break;
             default:
                 $msg = 'No has seleccionado voucher.';
@@ -82,13 +87,22 @@ if (! function_exists('Pays')) {
                 case 'purchase':
                     if ($indicator->post == 'on') {
                         //metodo para actualizar la caja
-
-                        $cashRegister = CashRegister::where('user_id', '=', $document->user_id)->where('status', '=', 'open')->first();
                         if($mp == 10){
                             $cashRegister->out_purchase_cash += $payment[$i];
                             $cashRegister->cash_out_total += $payment[$i];
                         }
                         $cashRegister->out_purchase += $payment[$i];
+                        $cashRegister->update();
+                    }
+                break;
+                case 'expense':
+                    if ($indicator->post == 'on') {
+                        //metodo para actualizar la caja
+                        if($mp == 10){
+                            $cashRegister->out_expense_cash += $payment[$i];
+                            $cashRegister->cash_out_total += $payment[$i];
+                        }
+                        $cashRegister->out_expense += $payment[$i];
                         $cashRegister->update();
                     }
                 break;
