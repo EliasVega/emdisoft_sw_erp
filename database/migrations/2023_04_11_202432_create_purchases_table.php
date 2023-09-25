@@ -28,7 +28,7 @@ return new class extends Migration
             $table->decimal('retention', 12,2);//valor total de retenciones
             $table->decimal('grand_total', 12,2); //Total de factura mas notas credito y menos notas debito +- retenciones
             $table->date('start_date')->nullable();//inicio de ds para tipo de generacion
-            $table->enum('status',['purchase', 'debit_note', 'credit_note', 'adjustment_note', 'complete'])->default('purchase');
+            $table->enum('status',['purchase', 'support_document', 'debit_note', 'credit_note', 'adjustment_note', 'complete'])->default('purchase');
             $table->string('note', 255)->nullable();//nota abierta
 
             $table->foreignId('user_id')->constrained();

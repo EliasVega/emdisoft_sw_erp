@@ -104,6 +104,7 @@ class CashOutflowController extends Controller
             $cashRegister->out_cash += $cash;
             $cashRegister->out_total += $cash;
             $cashRegister->cash_out_total += $cash;
+            $cashRegister->cash -= $cash;
             $cashRegister->update();
         }
         toast('Entrega de efectivo de la Caja realizado con exito.','success');

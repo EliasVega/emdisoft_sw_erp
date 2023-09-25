@@ -47,9 +47,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
+use App\Traits\Inventory;
+use App\Traits\KardexCreate;
+use App\Traits\Taxes;
 
 class PurchaseController extends Controller
 {
+    use Inventory, KardexCreate, Taxes;
     function __construct()
     {
         $this->middleware('permission:purchase.index|purchase.create|purchase.show|purchase.edit', ['only'=>['index']]);
@@ -99,7 +103,9 @@ class PurchaseController extends Controller
             ->addColumn('status', function (Purchase $purchase) {
                 if ($purchase->status == 'purchase') {
                     return $purchase->status == 'purchase' ? 'F. Compra' : 'Compra';
-                } elseif ($purchase->status == 'debit_note') {
+                } elseif ($purchase->status == 'support_document') {
+                    return $purchase->status == 'support_document' ? 'Documento Soporte' : 'Documento Soporte';
+                }elseif ($purchase->status == 'debit_note') {
                     return $purchase->status == 'debit_note' ? 'Nota Debito' : 'Nota Debito';
                 } elseif ($purchase->status == 'credit_note'){
                     return $purchase->status == 'credit_note' ? 'Nota Credito' : 'Nota Credito';
@@ -161,7 +167,7 @@ class PurchaseController extends Controller
         $companyTaxes = CompanyTax::from('company_taxes', 'ct')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
         ->join('percentages as per', 'ct.percentage_id', 'per.id')
-        ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage')
+        ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
         ->where('tt.type_tax', 'retention')->get();
         return view('admin.purchase.create',
         compact(
@@ -196,12 +202,12 @@ class PurchaseController extends Controller
      */
     public function store(StorePurchaseRequest $request)
     {
-        //$resolut = $request->resolution_id;
         //dd($request->all());
         $company = Company::findOrFail(current_user()->company_id);
         $environment = Environment::where('code', 'SD')->first();
         $indicator = Indicator::findOrFail(1);
         $typeDocument = 'purchase';
+        $voucherType = 7;
 
         //Variables del request
         $product_id = $request->id;
@@ -211,9 +217,13 @@ class PurchaseController extends Controller
         $branch = $request->branch_id[0];//variable de la sucursal de destino
         $total_pay = $request->total_pay;
         $totalpay = $request->totalpay;
-        $retention = $request->total_retention;
+        $retention = 0;
         //variables del request
         $quantityBag = 0;
+        if ($request->total_retention != null) {
+            $retention = $request->total_retention;
+        }
+
 
         $documentType = $request->document_type_id;
         $store = false;
@@ -245,6 +255,7 @@ class PurchaseController extends Controller
                 $purchase->document = $resolutions->prefix . '-' . $resolutions->consecutive;
                 $purchase->invoice_code = $voucherTypes->code . '-' . $voucherTypes->consecutive;
                 $purchase->voucher_type_id = 12;
+                $purchase->status = 'support_document';
                 $voucherTypes->consecutive += 1;
                 $voucherTypes->update();
             } else {
@@ -252,6 +263,7 @@ class PurchaseController extends Controller
                 $purchase->document = $voucherTypes->code . '-' . $voucherTypes->consecutive;
                 $purchase->invoice_code = $request->invoice_code;
                 $purchase->voucher_type_id = 7;
+                $purchase->status = 'purchase';
                 $voucherTypes->consecutive += 1;
                 $voucherTypes->update();
             }
@@ -270,7 +282,6 @@ class PurchaseController extends Controller
             $purchase->balance = $total_pay - $totalpay - $retention;
             $purchase->grand_total = $total_pay - $retention;
             $purchase->start_date = $request->start_date;
-            $purchase->status = $typeDocument;
             $purchase->save();
 
             $voucher = VoucherType::findOrFail(19);
@@ -284,10 +295,7 @@ class PurchaseController extends Controller
                     $cashRegister->out_total += $totalpay;
                     $cashRegister->update();
             }
-            //Toma el Request del array
-            $taxes[] = [];
-            $contax = 0;
-
+            $document = $purchase;
             //Ingresa los productos que vienen en el array
             for ($i=0; $i < count($product_id); $i++) {
                 $id = $product_id[$i];
@@ -309,125 +317,22 @@ class PurchaseController extends Controller
                 ->where('branch_id', '=', $branch)
                 ->first();
 
-                //selecciona el impuesto que tiene la categoria IVA o INC
-                $companyTaxProduct = $product->category->company_tax_id;
-                $companyTax = CompanyTax::findOrFail($companyTaxProduct);
-                $taxAmount = $productPurchase->tax_subtotal;
-                $amount = $productPurchase->subtotal;
-                $taxRate = $productPurchase->tax_rate;
+                $quantityLocal = $quantity[$i];
+                $priceLocal = $price[$i];
+                $this->inventory($product, $branchProducts, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
+                $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
 
-                if ($productPurchase->tax_subtotal > 0) {
-                    if ($taxes[0] != []) { //contax > 0
-                        $contsi = 0;
-                        foreach ($taxes as $key => $tax) {
-
-                            if ($tax[0] == $companyTaxProduct) {
-                                //$taxes[$key][2] += $productPurchase->tax_subtotal;
-                                $tax[2] += $taxAmount;
-                                $tax[3] += $amount;
-                                $contsi++;
-                            }
-                        }
-                        if ($contsi == 0) {
-                            $taxes[$contax] = [$companyTax->id, $companyTax->tax_type_id, $taxAmount, $amount, $taxRate[$i]];
-                                $contax++;
-                        }
-                    } else {
-                        //$taxes[$contax] = [$companyTaxProduct, $productPurchase->tax_rate, $productPurchase->tax_subtotal];
-                        $taxes[$contax] = [$companyTax->id, $companyTax->tax_type_id, $taxAmount, $amount, $taxRate[$i]];
-                        $contax++;
-                    }
-                }
-                if ($product->type_product == 'product') {
-                    if ($indicator->inventory == 'on') {
-
-                        if ($indicator->product_price == 'automatic') {
-                            //Actualizar stock y precio del producto
-                            $utility = $product->category->utility_rate;//valor registrado de utilidad
-                            $priceOld = $product->price; //precio actual del producto
-                            $stockardex = $product->stock; //stock actual del producto
-                            //Actualizando el valor de venta del producto
-                            $priceNew = (($stockardex * $priceOld) + ($quantity[$i] * $price[$i])) / ($stockardex + $quantity[$i]);
-                            $priceSale = $priceNew + ($priceNew * $utility / 100); //Actualizando el valor
-                            //Actualizando los valores en los registros de la BD
-                            $product->stock += $quantity[$i]; //reempazando triguer
-                            $product->price = $priceNew;
-                            $product->sale_price = $priceSale;
-                            $product->update();
-
-                        } else {
-                            //Actualizar stock y precio del producto
-                            $product->stock += $quantity[$i]; //reempazando triguer
-                            $product->price = $price[$i];
-                            $product->sale_price = $price[$i];
-                            $product->update();
-                        }
-
-
-                        //Actualizando o creando productos en determinada sucursal
-                        if (isset($branchProducts)) {
-                            //metodo para actualizar el producto en la sucursal stock
-                            $branchProducts->stock += $quantity[$i];
-                            $branchProducts->update();
-                        } else {
-                            //metodo para crear el producto en la sucursal y asignar stock
-                            $branchProduct = new BranchProduct();
-                            $branchProduct->branch_id = $branch;
-                            $branchProduct->product_id = $product_id[$i];
-                            $branchProduct->stock = $quantity[$i];
-                            $branchProduct->order_product = 0;
-                            $branchProduct->save();
-                        }
-                    }
-                } else {
-                    if ($indicator->inventory == 'on') {
-                        //Actualizar stock y precio del producto
-                        $product->stock += $quantity[$i];
-                        $product->price = $price[$i];
-                        $product->sale_price = $price[$i];
-                        $product->update();
-
-                        //Actualizando o creando productos en determinada sucursal
-                        if (isset($branchProducts)) {
-                            //metodo para actualizar el producto en la sucursal stock
-                            $branchProducts->stock += $quantity[$i];
-                            $branchProducts->update();
-                        } else {
-                            //metodo para crear el producto en la sucursal y asignar stock
-                            $branchProduct = new BranchProduct();
-                            $branchProduct->branch_id = $branch;
-                            $branchProduct->product_id = $product_id[$i];
-                            $branchProduct->stock = $quantity[$i];
-                            $branchProduct->order_product = 0;
-                            $branchProduct->save();
-                        }
-                    }
-                }
-                //Actualiza la tabla del Kardex
-                $kardex = new Kardex();
-                $kardex->product_id = $product_id[$i];
-                $kardex->branch_id = $branch;
-                if ($documentType == 11) {
-                    $kardex->voucher_type_id = 12;
-                } else {
-                    $kardex->voucher_type_id = 7;
-                }
-                $kardex->document = $purchase->document;
-                $kardex->quantity = $quantity[$i];
-                $kardex->stock = $product->stock;
-                $kardex->movement = $typeDocument;
-                $kardex->save();
             }
 
-            //dd($data);
-            $document = $purchase;
+            $taxes = $this->getTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC
             TaxesGlobals($document, $quantityBag, $typeDocument);
             TaxesLines($document, $taxes, $typeDocument);
             Retentions($request, $document, $typeDocument);
 
 
             if ($totalpay > 0) {
-                Pays($request, $purchase, $typeDocument);
+                $document = $purchase;
+                Pays($request, $document, $typeDocument);
             }
             if ($documentType == 11 && $indicator->dian == 'on') {
                 $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
@@ -453,9 +358,9 @@ class PurchaseController extends Controller
                 $environmentPdf = Environment::where('code', 'PDF')->first();
 
                 $pdf = file_get_contents($environmentPdf->url . $company->nit ."/DSS-" . $resolutions->prefix .
-                    $resolutions->consecutive .".pdf");
+                $resolutions->consecutive .".pdf");
                 Storage::disk('public')->put('files/graphical_representations/support_documents/' .
-                    $resolutions->prefix . $resolutions->consecutive . '.pdf', $pdf);
+                $resolutions->prefix . $resolutions->consecutive . '.pdf', $pdf);
 
                 $resolutions->consecutive += 1;
                 $resolutions->update();
@@ -478,33 +383,59 @@ class PurchaseController extends Controller
     public function show(Purchase $purchase)
     {
         $voucher = VoucherType::findOrFail(19);
-        $retentions = Retention::where('type', 'purchase')->where('retentionable_id', $purchase->id)->first();
         $debitNotes = Ndpurchase::where('purchase_id', $purchase->id)->first();
         $creditNotes = Ncpurchase::where('purchase_id', $purchase->id)->first();
+        $retentions = Tax::from('taxes as tax')
+        ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->select('tax.tax_value', 'ct.name')
+        ->where('tax.type', 'purchase')
+        ->where('tax.taxable_id', $purchase->id)
+        ->where('tt.type_tax', 'retention')->get();
+        $retentionsum = Tax::from('taxes as tax')
+        ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->select('tax.tax_value', 'ct.name')
+        ->where('tax.type', 'purchase')
+        ->where('tax.taxable_id', $purchase->id)
+        ->where('tt.type_tax', 'retention')->sum('tax_value');
 
-        $retention = 0;
+        //$retention = 0;
         $debitNote = 0;
         $creditNote = 0;
         $retentionnd = 0;
         $retentionnc = 0;
-        if ($retentions != null) {
-            $retention = $retentions->retention;
-        }
         if ($debitNotes != null) {
             $debitNote = $debitNotes->total_pay;
-            $retnd = Retention::where('type', 'ndpurchase')->where('retentionable_id', $debitNotes->id)->first();
+            $retnd = Tax::from('taxes as tax')
+            ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('tax.tax_value', 'ct.name')
+            ->where('tax.type', 'ndpurchase')
+            ->where('tax.taxable_id', $debitNotes->id)
+            ->where('tt.type_tax', 'retention')
+            ->sum('tax_value');
+            //$retnd = Retention::where('type', 'ndpurchase')->where('retentionable_id', $debitNotes->id)->first();
             if ($retnd) {
-                $retentionnd = $retnd->retention;
+                $retentionnd = $retnd;
             } else {
                 $retentionnd = 0;
             }
         }
         if ($creditNotes != null) {
             $creditNote = $creditNotes->total_pay;
-            $retnc = Retention::where('type', 'ncpurchase')->where('retentionable_id', $creditNotes->id)->first();
+            //$retnc = Retention::where('type', 'ncpurchase')->where('retentionable_id', $creditNotes->id)->first();
+            $retnc = Tax::from('taxes as tax')
+            ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('tax.tax_value', 'ct.name')
+            ->where('tax.type', 'ncpurchase')
+            ->where('tax.taxable_id', $creditNotes->id)
+            ->where('tt.type_tax', 'retention')
+            ->sum('tax_value');
 
             if ($retnc) {
-                $retentionnc = $retnc->retention;
+                $retentionnc = $retnc;
             } else {
                 $retentionnc = 0;
             }
@@ -514,15 +445,15 @@ class PurchaseController extends Controller
         $productPurchases = ProductPurchase::where('purchase_id', $purchase->id)->where('quantity', '>', 0)->get();
         return view('admin.purchase.show', compact(
             'purchase',
-            'retentions',
-            'productPurchases',
             'debitNotes',
             'creditNotes',
-            'retention',
             'debitNote',
             'creditNote',
             'retentionnd',
-            'retentionnc'
+            'retentionnc',
+            'retentions',
+            'retentionsum',
+            'productPurchases',
         ));
     }
 
@@ -947,7 +878,7 @@ class PurchaseController extends Controller
         ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
         ->join('percentages as per', 'ct.percentage_id', 'per.id')
-        ->select('ct.id', 'ct.name', 'ct.tax_type_id', 'tax.tax_value', 'per.percentage')
+        ->select('ct.id', 'ct.name', 'ct.tax_type_id', 'tax.tax_value', 'per.percentage', 'per.base')
         ->where('tax.type', 'purchase')
         ->where('tt.type_tax', 'retention')
         ->where('tax.taxable_id', $id)
@@ -983,19 +914,21 @@ class PurchaseController extends Controller
         } else {
             $products = Product::where('status', 'active')->get();
         }
-
-        $discrepancies = Discrepancy::where('id', '<', 5)->where('description', '!=', 'Otros')->get();
+        if ($purchase->document_type_id == 11) {
+            $discrepancies = Discrepancy::where('id', 2)->get();
+        } else {
+            $discrepancies = Discrepancy::where('id', '<', 5)->where('description', '!=', 'Otros')->get();
+        }
         $resolutions = Resolution::where('document_type_id', 13)->where('status', 'active')->where('company_id', Auth::user()->company_id)->get();
         $taxes = Tax::from('taxes as tax')
         ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
         ->join('percentages as per', 'ct.percentage_id', 'per.id')
-        ->select('ct.id', 'ct.name', 'ct.tax_type_id', 'tax.tax_value', 'per.percentage')
+        ->select('ct.id', 'ct.name', 'ct.tax_type_id', 'tax.tax_value', 'per.percentage', 'per.base')
         ->where('tax.type', 'purchase')
         ->where('tt.type_tax', 'retention')
         ->where('tax.taxable_id', $id)
         ->get();
-        //dd($taxes);
         $productPurchases = ProductPurchase::from('product_purchases as pp')
          ->join('products as pro', 'pp.product_id', 'pro.id')
          ->join('categories as cat', 'pro.category_id', 'cat.id')
@@ -1174,7 +1107,6 @@ class PurchaseController extends Controller
         }
         $view = \view('admin.purchase.pdf', compact(
             'purchase',
-            'retentions',
             'days',
             'productPurchases',
             'company',

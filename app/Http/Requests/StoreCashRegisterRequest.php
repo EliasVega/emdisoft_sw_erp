@@ -29,7 +29,7 @@ class StoreCashRegisterRequest extends FormRequest
             'out_cash' => '',
             'in_total' => '',
             'out_total' => '',
-            'cash' => '',
+            'cash_in_total' => '',
             'cash_out_total' => '',
             'in_order_cash' => '',
             'in_order' => '',

@@ -25,6 +25,10 @@
     <a href="{{ route('debitNotePurchase', $id) }}" class="btn btn-lila btn-sm" data-toggle="tooltip"
     data-placement="top" title="Nota debito" ><i class="fas fa-notes-medical"></i></a>
 @endif
+@if ($status == 'support_document')
+    <a href="{{ route('debitNotePurchase', $id) }}" class="btn btn-lila btn-sm" data-toggle="tooltip"
+    data-placement="top" title="Nota de ajusteo" ><i class="fas fa-notes-medical"></i></a>
+@endif
 @if ($status == 'credit_note')
     <a href="{{ route('debitNotePurchase', $id) }}" class="btn btn-lila btn-sm" data-toggle="tooltip"
     data-placement="top" title="Nota debito" ><i class="fas fa-notes-medical"></i></a>

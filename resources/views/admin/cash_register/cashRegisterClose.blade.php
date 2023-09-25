@@ -14,9 +14,12 @@
             @endcan
 
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    </div>
+    <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
             <div class="form-group">
-                <p> <Strong>Responsable:</Strong>  {{ $cashRegister->user->name }}</p>
+                <label class="form-control-label" for="nombre">Responsable</label>
+                <p>{{ $cashRegister->user->name }}</p>
             </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
@@ -33,12 +36,7 @@
                 </div>
             </div>
         @endif
-        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <div class="form-group">
-                <label class="form-control-label" for="open">Abierta</label>
-                <p>{{ $cashRegister->created_at }}</p>
-            </div>
-        </div>
+
         @if ($cashRegister->status == 'close')
             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                 <div class="form-group">
@@ -49,7 +47,8 @@
         @else
             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                 <div class="form-group">
-                    <label class="form-control-label" for="close"><strong>Caja Activa</strong></label>
+                    <label class="form-control-label" for="open">Abierta</label>
+                    <p>{{ $cashRegister->created_at }}</p>
                 </div>
             </div>
         @endif
@@ -142,11 +141,11 @@
             </div>
         @endif
 
-        @if ($cashRegister->cash > 0)
+        @if ($cashRegister->cash_in_total > 0)
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
-                    <label class="form-control-label" for="in_pay_cash">INGRESOS EFECTIVO</label>
-                    <p>${{ number_format($cashRegister->cash,2) }}</p>
+                    <label class="form-control-label" for="cash_in_total">INGRESOS EFECTIVO</label>
+                    <p>${{ number_format($cashRegister->cash_in_total,2) }}</p>
                 </div>
             </div>
         @endif
@@ -158,11 +157,11 @@
                 </div>
             </div>
         @endif
-        @if ($cashRegister->cash - $cashRegister->cash_out_total != 0)
+        @if ($cashRegister->cash_in_total - $cashRegister->cash_out_total != 0)
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label class="form-control-label" for="balance">EFECTIVO EN CAJA</label>
-                    <p>${{ number_format($cashRegister->cash - $cashRegister->cash_out_total,2) }}</p>
+                    <p>${{ number_format($cashRegister->cash_in_total - $cashRegister->cash_out_total,2) }}</p>
                 </div>
             </div>
         @endif
@@ -177,418 +176,398 @@
     </div>
     <div class="box-body row">
         @if ($cashRegister->purchase > 0)
-            <div class="box-body row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <strong class="tpdf">Articulos Comprados</strong>
-                    </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <strong class="tpdf">Articulos Comprados</strong>
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-condensed table-hover">
-                            <thead>
-                                <tr class="bg-info">
-                                    <th>id</th>
-                                    <th>Producto</th>
-                                    <th>cantidad</th>
-                                    <th>iva</th>
-                                    <th>subtotal</th>
-                                    <th>Total</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div>
+                    <table class="table table-striped table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr class="bg-info">
+                                <th>id</th>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Imp</th>
+                                <th>subtotal</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th  colspan="3"><p align="right">TOTALES:</p></th>
+                                <th><p align="right">${{ number_format($purchaseTotalTaxs,2) }}</p></th>
+                                <th><p align="right">${{ number_format($purchaseTotals,2) }}</p></th>
+                                <th><p align="right">${{ number_format($purchaseTotalTaxs + $purchaseTotals,2) }}</p></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach($productPurchases as $produtPurchase)
                                 <tr>
-                                    <th  colspan="3"><p align="right">TOTALES:</p></th>
-                                    <th><p align="right">${{ number_format($purchaseTotalIvas,2) }}</p></th>
-                                    <th><p align="right">${{ number_format($purchaseTotals,2) }}</p></th>
-                                    <th><p align="right">${{ number_format($purchaseTotalIvas + $purchaseTotals,2) }}</p></th>
+                                    <td>{{ $produtPurchase->id }}</td>
+                                    <td>{{ $produtPurchase->name }}</td>
+                                    <td class="rightfoot">{{ $produtPurchase->quantity }}</td>
+                                    <td class="rightfoot">$ {{ number_format($produtPurchase->tax_subtotal,2) }}</td>
+                                    <td class="rightfoot">$ {{ number_format($produtPurchase->subtotal,2) }}</td>
+                                    <td class="rightfoot">$ {{ number_format($produtPurchase->subtotal + $produtPurchase->tax_subtotal,2) }}</td>
                                 </tr>
-                            </tfoot>
-                            <tbody>
-                                @foreach($productPurchases as $produtPurchase)
-                                    <tr>
-                                        <td>{{ $produtPurchase->id }}</td>
-                                        <td>{{ $produtPurchase->name }}</td>
-                                        <td>{{ $produtPurchase->quantity }}</td>
-                                        <td class="tdder">$ {{ number_format($produtPurchase->iva_subtotal,2) }}</td>
-                                        <td class="tdder">$ {{ number_format($produtPurchase->subtotal,2) }}</td>
-                                        <td class="tdder">$ {{ number_format($produtPurchase->subtotal + $produtPurchase->iva_subtotal,2) }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         @endif
         @if ($cashRegister->ndpurchase > 0)
-            <div class="box-body row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <strong class="tpdf">Articulos Devueltos nota Debito</strong>
-                    </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <strong class="tpdf">Articulos Devueltos nota Debito</strong>
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-condensed table-hover">
-                            <thead>
-                                <tr class="bg-info">
-                                    <th>id</th>
-                                    <th>Producto</th>
-                                    <th>cantidad</th>
-                                    <th>iva</th>
-                                    <th>subtotal</th>
-                                    <th>Total</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr class="bg-info">
+                                <th>id</th>
+                                <th>Producto</th>
+                                <th>cantidad</th>
+                                <th>Imp</th>
+                                <th>subtotal</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th  colspan="3"><p align="right">TOTALES:</p></th>
+                                <th><p align="right">${{ number_format($ndpurchaseTotalTaxs,2) }}</p></th>
+                                <th><p align="right">${{ number_format($ndpurchaseTotals,2) }}</p></th>
+                                <th><p align="right">${{ number_format($ndpurchaseTotalTaxs + $ndpurchaseTotals,2) }}</p></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach($ndpurchaseProducts as $ndpurchaseProduct)
                                 <tr>
-                                    <th  colspan="3"><p align="right">TOTALES:</p></th>
-                                    <th><p align="right">${{ number_format($ndpurchaseTotalIvas,2) }}</p></th>
-                                    <th><p align="right">${{ number_format($ndpurchaseTotals,2) }}</p></th>
-                                    <th><p align="right">${{ number_format($ndpurchaseTotalIvas + $ndpurchaseTotals,2) }}</p></th>
+                                    <td>{{ $ndpurchaseProduct->id }}</td>
+                                    <td>{{ $ndpurchaseProduct->name }}</td>
+                                    <td class="rightfoot">{{ $ndpurchaseProduct->quantity }}</td>
+                                    <td class="rightfoot">$ {{ number_format($ndpurchaseProduct->tax_subtotal,2) }}</td>
+                                    <td class="rightfoot">$ {{ number_format($ndpurchaseProduct->subtotal,2) }}</td>
+                                    <td class="rightfoot">$ {{ number_format($ndpurchaseProduct->subtotal + $ndpurchaseProduct->tax_subtotal,2) }}</td>
                                 </tr>
-                            </tfoot>
-                            <tbody>
-                                @foreach($ndpurchaseProducts as $ndpurchaseProduct)
-                                    <tr>
-                                        <td>{{ $ndpurchaseProduct->id }}</td>
-                                        <td>{{ $ndpurchaseProduct->name }}</td>
-                                        <td>{{ $ndpurchaseProduct->quantity }}</td>
-                                        <td class="tdder">$ {{ number_format($ndpurchaseProduct->iva_subtotal,2) }}</td>
-                                        <td class="tdder">$ {{ number_format($ndpurchaseProduct->subtotal,2) }}</td>
-                                        <td class="tdder">$ {{ number_format($ndpurchaseProduct->subtotal + $ndpurchaseProduct->iva_subtotal,2) }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         @endif
         @if ($cashRegister->purchase > 0)
-            <div class="box-body row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <strong class="tpdf">Detalle de Compras</strong>
-                    </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <strong class="tpdf">Detalle de Compras</strong>
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-condensed table-hover">
-                            <thead>
-                                <tr class="bg-info">
-                                    <th>Fecha</th>
-                                    <th>N°.F</th>
-                                    <th>Proveedor</th>
-                                    <th>Estado</th>
-                                    <th>Abonos</th>
-                                    <th>Saldo</th>
-                                    <th>Compras</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr class="bg-info">
+                                <th>Fecha</th>
+                                <th>N°.F</th>
+                                <th>Proveedor</th>
+                                <th>Estado</th>
+                                <th>Abonos</th>
+                                <th>Saldo</th>
+                                <th>Compras</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th  colspan="4"><p align="right">TOTAL:</p></th>
+                                <th><p align="right">${{ number_format($purchaseSumPays,2) }}</p></th>
+                                <th><p align="right">${{ number_format($purchaseBalances,2) }}</p></th>
+                                <th><p align="right">${{ number_format($purchaseTotalPays,2) }}</p></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach($purchases as $purchase)
                                 <tr>
-                                    <th  colspan="4"><p align="right">TOTAL:</p></th>
-                                    <th><p align="right">${{ number_format($purchaseSumPays,2) }}</p></th>
-                                    <th><p align="right">${{ number_format($purchaseBalances,2) }}</p></th>
-                                    <th><p align="right">${{ number_format($purchaseTotalPays,2) }}</p></th>
+                                    <td>{{ $purchase->created_at }}</td>
+                                    <td>{{ $purchase->document }}</td>
+                                    <td>{{ $purchase->third->name }}</td>
+                                    <td >{{ $purchase->status }}</td>
+                                    <td class="rightfoot">$ {{ number_format($purchase->pay,2) }}</td>
+                                    <td class="rightfoot">$ {{ number_format($purchase->balance,2) }}</td>
+                                    <td class="rightfoot">$ {{ number_format($purchase->total_pay,2) }}</td>
                                 </tr>
-                            </tfoot>
-                            <tbody>
-                                @foreach($purchases as $purchase)
-                                    <tr>
-                                        <td>{{ $purchase->created_at }}</td>
-                                        <td>{{ $purchase->document }}</td>
-                                        <td>{{ $purchase->provider->name }}</td>
-                                        <td>{{ $purchase->status }}</td>
-                                        <td class="tdder">$ {{ number_format($purchase->pay,2) }}</td>
-                                        <td class="tdder">$ {{ number_format($purchase->balance,2) }}</td>
-                                        <td class="tdder">$ {{ number_format($purchase->total_pay,2) }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         @endif
         @if ($cashRegister->ndpurchase > 0)
-            <div class="box-body row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <strong class="tpdf">Detalle Notas Debito Compras</strong>
-                    </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <strong class="tpdf">Detalle Notas Debito Compras</strong>
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-condensed table-hover">
-                            <thead>
-                                <tr class="bg-info">
-                                    <th>Fecha</th>
-                                    <th>N°. ND</th>
-                                    <th>N°. Compra</th>
-                                    <th>Proveedor</th>
-                                    <th>Valor</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr class="bg-info">
+                                <th>Fecha</th>
+                                <th>N°. ND</th>
+                                <th>N°. Compra</th>
+                                <th>Proveedor</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th  colspan="4"><p align="right">TOTAL:</p></th>
+                                <th><p align="right">${{ number_format($sumNdpurchases,2) }}</p></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach($ndpurchases as $ndpurchase)
                                 <tr>
-                                    <th  colspan="4"><p align="right">TOTAL:</p></th>
-                                    <th><p align="right">${{ number_format($sumNdpurchases,2) }}</p></th>
+                                    <td>{{ $ndpurchase->created_at }}</td>
+                                    <td>{{ $ndpurchase->id }}</td>
+                                    <td>{{ $ndpurchase->document }}</td>
+                                    <td>{{ $ndpurchase->third->name }}</td>
+                                    <td class="rightfoot">$ {{ number_format($ndpurchase->total_pay,2) }}</td>
                                 </tr>
-                            </tfoot>
-                            <tbody>
-                                @foreach($ndpurchases as $ndpurchase)
-                                    <tr>
-                                        <td>{{ $ndpurchase->created_at }}</td>
-                                        <td>{{ $ndpurchase->id }}</td>
-                                        <td>{{ $ndpurchase->purchase_id }}</td>
-                                        <td>{{ $ndpurchase->provider->name }}</td>
-                                        <td class="tdder">$ {{ number_format($ndpurchase->total_pay,2) }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         @endif
         @if ($cashRegister->ncpurchase > 0)
-            <div class="box-body row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <strong class="tpdf">Detalle Notas Credito Compras</strong>
-                    </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <strong class="tpdf">Detalle Notas Credito Compras</strong>
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-condensed table-hover">
-                            <thead>
-                                <tr class="bg-info">
-                                    <th>Fecha</th>
-                                    <th>N°.NC</th>
-                                    <th>N° Compra</th>
-                                    <th>Proveedor</th>
-                                    <th>Valor</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr class="bg-info">
+                                <th>Fecha</th>
+                                <th>N°.NC</th>
+                                <th>N° Compra</th>
+                                <th>Proveedor</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th  colspan="4"><p align="right">TOTAL:</p></th>
+                                <th><p align="right">${{ number_format($sumNcpurchases,2) }}</p></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach($ncpurchases as $ncpurchase)
                                 <tr>
-                                    <th  colspan="4"><p align="right">TOTAL:</p></th>
-                                    <th><p align="right">${{ number_format($sumNcpurchases,2) }}</p></th>
+                                    <td>{{ $ncpurchase->created_at }}</td>
+                                    <td>{{ $ncpurchase->id }}</td>
+                                    <td>{{ $ncpurchase->document }}</td>
+                                    <td>{{ $ncpurchase->third->name }}</td>
+                                    <td class="rightfoot">$ {{ number_format($ncpurchase->total_pay,2) }}</td>
                                 </tr>
-                            </tfoot>
-                            <tbody>
-                                @foreach($ncpurchases as $ncpurchase)
-                                    <tr>
-                                        <td>{{ $ncpurchase->created_at }}</td>
-                                        <td>{{ $ncpurchase->id }}</td>
-                                        <td>{{ $ncpurchase->purchase_id }}</td>
-                                        <td>{{ $ncpurchase->provider->name }}</td>
-                                        <td class="tdder">$ {{ number_format($ncpurchase->total_pay,2) }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         @endif
         @if ($cashRegister->out_purchase > 0)
-            <div class="box-body row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <strong class="tpdf">Detalle Pagos por Compras</strong>
-                    </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <strong class="tpdf">Detalle Pagos por Compras</strong>
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-condensed table-hover">
-                            <thead>
-                                <tr class="bg-info">
-                                    <th>Fecha</th>
-                                    <th>ID</th>
-                                    <th>N° Factura</th>
-                                    <th>Proveedor</th>
-                                    <th>Valor</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr class="bg-info">
+                                <th>Fecha</th>
+                                <th>ID</th>
+                                <th>N° Factura</th>
+                                <th>Proveedor</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th  colspan="4"><p align="right">TOTAL:</p></th>
+                                <th><p align="right">${{ number_format($purchaseSumPays,2) }}</p></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach($purchasePays as $purchasePay)
                                 <tr>
-                                    <th  colspan="4"><p align="right">TOTAL:</p></th>
-                                    <th><p align="right">${{ number_format($purchaseSumPays,2) }}</p></th>
+                                    <td>{{ $purchasePay->created_at }}</td>
+                                    <td>{{ $purchasePay->id }}</td>
+                                    <td>{{ $purchasePay->payable->document }}</td>
+                                    <td>{{ $purchasePay->payable->third->name }}</td>
+                                    <td class="rightfoot">$ {{ number_format($purchasePay->pay,2) }}</td>
                                 </tr>
-                            </tfoot>
-                            <tbody>
-                                @foreach($purchasePays as $purchasePay)
-                                    <tr>
-                                        <td>{{ $purchasePay->created_at }}</td>
-                                        <td>{{ $purchasePay->id }}</td>
-                                        <td>{{ $purchasePay->payable->document }}</td>
-                                        <td>{{ $purchasePay->payable->provider->name }}</td>
-                                        <td class="tdder">$ {{ number_format($purchasePay->pay,2) }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         @endif
         @if ($sumAdvanceProviders > 0)
-            <div class="box-body row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <strong class="tpdf">Detalle Anticipos a proveedores</strong>
-                    </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <strong class="tpdf">Detalle Anticipos a proveedores</strong>
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-condensed table-hover">
-                            <thead>
-                                <tr class="bg-info">
-                                    <th>Fecha</th>
-                                    <th>ID</th>
-                                    <th>Proveedor</th>
-                                    <th>Valor</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr class="bg-info">
+                                <th>Fecha</th>
+                                <th>ID</th>
+                                <th>Proveedor</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th  colspan="3"><p align="right">TOTAL:</p></th>
+                                <th><p align="right">${{ number_format($sumAdvanceProviders,2) }}</p></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach($advanceProviders as $advanceProvider)
                                 <tr>
-                                    <th  colspan="3"><p align="right">TOTAL:</p></th>
-                                    <th><p align="right">${{ number_format($sumAdvanceProviders,2) }}</p></th>
+                                    <td>{{ $advanceProvider->created_at }}</td>
+                                    <td>{{ $advanceProvider->id }}</td>
+                                    <td>{{ $advanceProvider->advanceable->name }}</td>
+                                    <td class="rightfoot">$ {{ number_format($advanceProvider->pay,2) }}</td>
                                 </tr>
-                            </tfoot>
-                            <tbody>
-                                @foreach($advanceProviders as $advanceProvider)
-                                    <tr>
-                                        <td>{{ $advanceProvider->created_at }}</td>
-                                        <td>{{ $advanceProvider->id }}</td>
-                                        <td>{{ $advanceProvider->advanceable->name }}</td>
-                                        <td class="tdder">$ {{ number_format($advanceProvider->pay,2) }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         @endif
         @if ($sumAdvanceCustomers > 0)
-            <div class="box-body row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <strong class="tpdf">Detalle Anticipos de Clientes</strong>
-                    </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <strong class="tpdf">Detalle Anticipos de Clientes</strong>
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-condensed table-hover">
-                            <thead>
-                                <tr class="bg-info">
-                                    <th>Fecha</th>
-                                    <th>ID</th>
-                                    <th>Cliente</th>
-                                    <th>Valor</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr class="bg-info">
+                                <th>Fecha</th>
+                                <th>ID</th>
+                                <th>Cliente</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th  colspan="3"><p align="right">TOTAL:</p></th>
+                                <th><p align="right">${{ number_format($sumAdvanceCustomers,2) }}</p></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach($advanceCustomers as $advanceCustomer)
                                 <tr>
-                                    <th  colspan="3"><p align="right">TOTAL:</p></th>
-                                    <th><p align="right">${{ number_format($sumAdvanceCustomers,2) }}</p></th>
+                                    <td>{{ $advanceCustomer->created_at }}</td>
+                                    <td>{{ $advanceCustomer->id }}</td>
+                                    <td>{{ $advanceCustomer->customer->name }}</td>
+                                    <td class="rightfoot">$ {{ number_format($advanceCustomer->pay,2) }}</td>
                                 </tr>
-                            </tfoot>
-                            <tbody>
-                                @foreach($advanceCustomers as $advanceCustomer)
-                                    <tr>
-                                        <td>{{ $advanceCustomer->created_at }}</td>
-                                        <td>{{ $advanceCustomer->id }}</td>
-                                        <td>{{ $advanceCustomer->customer->name }}</td>
-                                        <td class="tdder">$ {{ number_format($advanceCustomer->pay,2) }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         @endif
         @if ($cashRegister->in_cash > 0)
-            <div class="box-body row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <strong class="tpdf">Detalle Entradas de efectivo</strong>
-                    </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <strong class="tpdf">Detalle Entradas de efectivo</strong>
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-condensed table-hover">
-                            <thead>
-                                <tr class="bg-info">
-                                    <th>Fecha</th>
-                                    <th>ID</th>
-                                    <th>Recibe Administrador</th>
-                                    <th>Valor</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr class="bg-info">
+                                <th>Fecha</th>
+                                <th>ID</th>
+                                <th>Recibe Administrador</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th  colspan="3"><p align="right">TOTAL:</p></th>
+                                <th><p align="right">${{ $sumCashInflows }}</p></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach($cashInflows as $cashInflow)
                                 <tr>
-                                    <th  colspan="3"><p align="right">TOTAL:</p></th>
-                                    <th><p align="right">${{ $sumCashInflows }}</p></th>
+                                    <td>{{ $cashInflow->created_at }}</td>
+                                    <td>{{ $cashInflow->id }}</td>
+                                    <td>{{ $cashInflow->admin->name }}</td>
+                                    <td class="rightfoot">$ {{ $cashInflow->cash }}</td>
                                 </tr>
-                            </tfoot>
-                            <tbody>
-                                @foreach($cashInflows as $cashInflow)
-                                    <tr>
-                                        <td>{{ $cashInflow->created_at }}</td>
-                                        <td>{{ $cashInflow->id }}</td>
-                                        <td>{{ $cashInflow->name }}</td>
-                                        <td class="tdder">$ {{ $cashInflow->payment }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         @endif
         @if ($cashRegister->out_cash > 0)
-            <div class="box-body row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <strong class="tpdf">Detalle Entregas de efectivo</strong>
-                    </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <strong class="tpdf">Detalle Entregas de efectivo</strong>
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-condensed table-hover">
-                            <thead>
-                                <tr class="bg-info">
-                                    <th>Fecha</th>
-                                    <th>ID</th>
-                                    <th>Recibe Administrador</th>
-                                    <th>Valor</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr class="bg-info">
+                                <th>Fecha</th>
+                                <th>ID</th>
+                                <th>Recibe Administrador</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th  colspan="3"><p align="right">TOTAL:</p></th>
+                                <th><p align="right">${{ $sumCashOutflows }}</p></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach($cashOutflows as $cashOutflow)
                                 <tr>
-                                    <th  colspan="3"><p align="right">TOTAL:</p></th>
-                                    <th><p align="right">${{ $sumCashOutflows }}</p></th>
+                                    <td>{{ $cashOutflow->created_at }}</td>
+                                    <td>{{ $cashOutflow->id }}</td>
+                                    <td>{{ $cashOutflow->admin->name }}</td>
+                                    <td class="rightfoot">$ {{ $cashOutflow->cash }}</td>
                                 </tr>
-                            </tfoot>
-                            <tbody>
-                                @foreach($cashOutflows as $cashOutflow)
-                                    <tr>
-                                        <td>{{ $cashOutflow->created_at }}</td>
-                                        <td>{{ $cashOutflow->id }}</td>
-                                        <td>{{ $cashOutflow->name }}</td>
-                                        <td class="tdder">$ {{ $cashOutflow->payment }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         @endif

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('out_cash',20,2);//total salidas de efectivo entregas de caja
             $table->decimal('in_total',20,2);//total ingresos pagos en general
             $table->decimal('out_total',20,2);//total de egresos pagos en general
-            $table->decimal('cash',20,2);//total entradas efectivo
+            $table->decimal('cash_in_total',20,2);//total entradas efectivo
             $table->decimal('cash_out_total',20,2);//total salidas efectivo
 
             $table->decimal('in_order_cash',20,2);//ingreso de efectivo por pedidos

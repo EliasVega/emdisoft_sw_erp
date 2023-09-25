@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('api_token', 100);
             $table->string('email', 50)->unique();
             $table->string('emailfe', 50)->unique();
+            $table->string('imageName', 20);
             $table->string('logo', 255)->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
             //$table->enum('cash_register', ['active', 'inactive'])->default('active');

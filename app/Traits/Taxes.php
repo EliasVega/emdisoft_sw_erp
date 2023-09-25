@@ -1,25 +1,53 @@
 <?php
 namespace App\Traits;
 
-use App\Models\Advance;
-use App\Models\Provider;
+use App\Models\CompanyTax;
+use App\Models\Product;
 
 trait Taxes {
-    public function getTaxesLine($voucherTypes, $purchase, $reversePay, $payCash){
+    public function getTaxesLine($request,){
 
-        $advance = new Advance();
-        $advance->user_id = current_user()->id;
-        $advance->branch_id = current_user()->branch_id;
-        $advance->voucher_type_id = 18;
-        $advance->document = $voucherTypes->code . '-' . $voucherTypes->consecutive;
-        $advance->origin = 'Factura de Compra' . '-' . $purchase->id;
-        $advance->destination = null;
-        $advance->pay = $reversePay;
-        $advance->balance = $reversePay;
-        $advance->note = 'por eliminacion de compra' . '-' . $purchase->id . ' Ingresado a caja ' . $payCash ;
-        $advance->status = 'pending';
-        $provider = Provider::findOrFail($purchase->provider_id);
-        $advance->type = 'provider';
-        $provider->advances()->save($advance);
+        $quantity = $request->quantity;
+        $price = $request->price;
+        $product_id = $request->id;
+        $tax_rate = $request->tax_rate;
+
+        $taxes[] = [];
+        $contax = 0;
+        for ($i=0; $i < count($product_id); $i++) {
+            $id = $product_id[$i];
+            $product = Product::findOrFail($id);
+
+            $companyTaxProduct = $product->category->company_tax_id;
+            $companyTax = CompanyTax::findOrFail($companyTaxProduct);
+            $taxAmount = ($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
+            $amount = $quantity[$i] * $price[$i];
+            $taxRate = $tax_rate[$i];
+
+            if ($taxAmount > 0) {
+
+                if ($taxes[0] != []) { //contax > 0
+                    $contsi = 0;
+                    foreach ($taxes as $key => $tax) {
+
+                        if ($tax[0] == $companyTaxProduct) {
+                            //$taxes[$key][2] += $productPurchase->tax_subtotal;
+                            $tax[2] += $taxAmount;
+                            $tax[3] += $amount;
+                            $contsi++;
+                        }
+                    }
+                    if ($contsi == 0) {
+                        $taxes[$contax] = [$companyTax->id, $companyTax->tax_type_id, $taxAmount, $amount, $taxRate];
+                            $contax++;
+                    }
+                } else {
+                    //$taxes[$contax] = [$companyTaxProduct, $productPurchase->tax_rate, $productPurchase->tax_subtotal];
+                    $taxes[$contax] = [$companyTax->id, $companyTax->tax_type_id, $taxAmount, $amount, $taxRate];
+                    $contax++;
+                }
+            }
+        }
+        return $taxes;
     }
 }

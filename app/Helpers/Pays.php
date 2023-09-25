@@ -7,7 +7,7 @@ use App\Models\Pay;
 use App\Models\PayPaymentMethod;
 
 if (! function_exists('Pays')) {
-    function Pays($request, $purchase, $typeDocument)
+    function Pays($request, $document, $typeDocument)
     {
         $indicator = Indicator::findOrFail(1);
         //Variables del request
@@ -27,9 +27,16 @@ if (! function_exists('Pays')) {
         $pay->user_id = current_user()->id;
         $pay->branch_id = current_user()->branch_id;
         $pay->pay = $totalpay;
-        $pay->balance = $purchase->balance;
+        $pay->balance = $document->balance - $totalpay;
         $pay->type = $typeDocument;
-        $purchase->pays()->save($pay);
+        switch($typeDocument) {
+            case 'purchase':
+                $purchase = $document;
+                $purchase->pays()->save($pay);
+            break;
+            default:
+                $msg = 'No has seleccionado voucher.';
+        }
 
 
         for ($i=0; $i < count($payment); $i++) {
@@ -40,9 +47,9 @@ if (! function_exists('Pays')) {
                 $advance = Advance::findOrFail( $request->advance_id);
                     //si el pago es utilizado en su totalidad agregar el destino aplicado
                     if ($advance->pay > $advance->balance) {
-                        $advance->destination = $advance->destination . '<->' . $purchase->document;
+                        $advance->destination = $advance->destination . '<->' . $document->document;
                     } else {
-                        $advance->destination = $purchase->document;
+                        $advance->destination = $document->document;
                     }
                     //variable si hay saldo en el pago anticipado
                     $payAdvance_total = $advance->balance - $payAdvance;
@@ -71,16 +78,22 @@ if (! function_exists('Pays')) {
             $pay_paymentMethod->save();
 
             $mp = $paymentMethod[$i];
-            if ($indicator->post == 'on') {
-                //metodo para actualizar la caja
+            switch($typeDocument) {
+                case 'purchase':
+                    if ($indicator->post == 'on') {
+                        //metodo para actualizar la caja
 
-                $cashRegister = CashRegister::where('user_id', '=', $purchase->user_id)->where('status', '=', 'open')->first();
-                if($mp == 10){
-                    $cashRegister->out_purchase_cash += $payment[$i];
-                    $cashRegister->cash_out_total += $payment[$i];
-                }
-                $cashRegister->out_purchase += $payment[$i];
-                $cashRegister->update();
+                        $cashRegister = CashRegister::where('user_id', '=', $document->user_id)->where('status', '=', 'open')->first();
+                        if($mp == 10){
+                            $cashRegister->out_purchase_cash += $payment[$i];
+                            $cashRegister->cash_out_total += $payment[$i];
+                        }
+                        $cashRegister->out_purchase += $payment[$i];
+                        $cashRegister->update();
+                    }
+                break;
+                default:
+                    $msg = 'No has seleccionado voucher.';
             }
 
         }

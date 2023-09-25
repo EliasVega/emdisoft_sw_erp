@@ -23,6 +23,7 @@ class Company extends Model
         'api_token',
         'email',
         'emailfe',
+        'imageName',
         'logo',
         'status',
         'department_id',

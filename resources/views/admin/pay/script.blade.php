@@ -83,29 +83,26 @@
         }
     }
     function clean(){
-            $("#payment_method_id").val("");
-            $("#bank_id").val("");
-            $("#card_id").val("");
-            $("#pay").val("");
-            $("#transaction").val("");
-            $("#payi").hide();
-            $("#returny").hide();
-            $("#balancy").hide();
-        }
-        function totals(){
+        $("#payment_method_id").val("");
+        $("#bank_id").val("");
+        $("#card_id").val("");
+        $("#pay").val("");
+        $("#transaction").val("");
+        $("#payi").hide();
+        $("#returny").hide();
+        $("#balancy").hide();
+    }
+    function totals(){
 
-            $("#total_html").html("$ " + total.toFixed(2));
-            $("#total").val(total.toFixed(2));
-            $("#pendient").val(rbalance);
-        }
-        function assess(){
+        $("#totalpay_html").html("$ " + total.toFixed(2));
+        $("#totalpay").val(total.toFixed(2));
 
-            if(total>0){
-
+        $("#balance").val(rbalance);
+    }
+    function assess(){
+        if(total>0){
             $("#save").show();
-
         } else{
-
             $("#save").hide();
         }
     }
@@ -113,8 +110,8 @@
 
         total = total-pay[index];
 
-        $("#total_html").html("$ " + total.toFixed(2));
-        $("#total").val(total.toFixed(2));
+        $("#totalpay_html").html("$ " + total.toFixed(2));
+        $("#totalpay").val(total.toFixed(2));
 
         $("#fila" + index).remove();
         assess();
@@ -302,19 +299,14 @@
         if (ttp >= abn) {
             $("#returned").val(balancey);
         } else {
-            if (abnnew > 0) {
-                //alert("Rellene todos los campos del detalle de la venta");
-                Swal.fire({
-                type: 'error',
-                //title: 'Oops...',
-                text: 'El abono supera el valor de la compra',
-                })
-                $("#pay").val(0)
-                payment();
-            } else {
-                $("#pay").val(0)
-                payment();
-            }
+            Swal.fire(
+                'Error!',
+                'Cantidad supera el saldo a pagar!',
+                'danger'
+            )
+            $("#pay").val(ttp);
+            $("#returned").val(0);
+            payment();
         }
     }
     /*

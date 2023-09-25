@@ -18,14 +18,14 @@
             <div class="clearfix"></div>
         </header>
         <section>
-            <div class="content">
-                <div class="customer">
+            <div class="content_postbox">
+                <div class="user_postbox">
                     <p>
                         Nombre: {{ $cashRegister->user->name }}:</p>
                 </div>
             </div>
             @if ($cashRegister->purchase > 0)
-                <div class="content">
+                <div class="content_postbox">
                     <p>REPORTE DE ARTICULOS COMPRAS</p>
                     <table>
                         <thead>
@@ -33,7 +33,7 @@
                                 <th>id</th>
                                 <th>Articulo</th>
                                 <th>Cant</th>
-                                <th>Iva</th>
+                                <th>Impuesto</th>
                                 <th>Subtotal</th>
                             </tr>
                         </thead>
@@ -43,8 +43,8 @@
                                 <td>{{ $produtPurchase->id }}</td>
                                 <td>{{ $produtPurchase->name }}</td>
                                 <td>{{ number_format($produtPurchase->quantity) }}</td>
-                                <td align="right">${{ number_format($produtPurchase->iva_subtotal) }}</td>
-                                <td align="right">${{ number_format($produtPurchase->subtotal + $produtPurchase->iva_subtotal) }}</td>
+                                <td align="right">${{ number_format($produtPurchase->tax_subtotal) }}</td>
+                                <td align="right">${{ number_format($produtPurchase->subtotal + $produtPurchase->tax_subtotal) }}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -58,7 +58,7 @@
                 </div>
             @endif
             @if ($cashRegister->invoice > 0)
-                <div class="content">
+                <div class="content_postbox">
                     <p>REPORTE DE ARTICULOS VENTAS</p>
                     <table>
                         <thead>
@@ -92,7 +92,7 @@
                 </div>
             @endif
             @if ($cashRegister->purchase > 0)
-                <div class="content">
+                <div class="content_postbox">
                     <p>REPORTE DE COMPRAS</p>
                     <table>
                         <thead>
@@ -103,11 +103,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($purchases as $pur)
+                            @foreach ($purchases as $purchase)
                             <tr>
-                                <td>{{ $pur->document }}</td>
-                                <td>{{ $pur->provider->name }}</td>
-                                <td align="right">$ {{ number_format($pur->total_pay) }}</td>
+                                <td>{{ $purchase->document }}</td>
+                                <td>{{ $purchase->third->name }}</td>
+                                <td align="right">$ {{ number_format($purchase->total_pay) }}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -121,7 +121,7 @@
                 </div>
             @endif
             @if ($cashRegister->invoice > 0)
-                <div class="content">
+                <div class="content_postbox">
                     <p>REPORTE DE FACTURAS DE VENTA</p>
                     <table>
                         <thead>
@@ -151,7 +151,7 @@
             @endif
 
             @if ($cashRegister->expense > 0)
-                <div class="content">
+                <div class="content_postbox">
                     <p>REPORTE DE GASTOS</p>
                     <table>
                         <thead>
@@ -180,7 +180,7 @@
                 </div>
             @endif
             @if ($cashRegister->order > 0)
-                <div class="content">
+                <div class="content_postbox">
                     <p>REPORTE DE PEDIDOS</p>
                     <table>
                         <thead>
@@ -209,7 +209,7 @@
                 </div>
             @endif
             @if ($cashRegister->ncinvoice > 0)
-                <div class="content">
+                <div class="content_postbox">
                     <p>REPORTE DE NOTAS CREDITO VENTAS</p>
                     <table>
                         <thead>
@@ -238,7 +238,7 @@
                 </div>
             @endif
             @if ($cashRegister->ndinvoice > 0)
-                <div class="content">
+                <div class="content_postbox">
                     <p>REPORTE DE NOTAS DEBITO VENTAS</p>
                     <table>
                         <thead>
@@ -267,7 +267,7 @@
                 </div>
             @endif
             @if ($cashRegister->ncpurchase > 0)
-                <div class="content">
+                <div class="content_postbox">
                     <p>REPORTE DE NOTAS CREDITO COMPRAS</p>
                     <table>
                         <thead>
@@ -296,7 +296,7 @@
                 </div>
             @endif
             @if ($cashRegister->ndpurchase > 0)
-                <div class="content">
+                <div class="content_postbox">
                     <p>REPORTE DE NOTAS DEBITO COMPRAS</p>
                     <table>
                         <thead>
@@ -325,7 +325,7 @@
                 </div>
             @endif
             @if ($cashRegister->sum_pay_orders > 0)
-                <div class="content">
+                <div class="content_postbox">
                     <p>REPORTE DE ABONOS A PEDIDOS</p>
                     <table>
                         <thead>
@@ -354,7 +354,7 @@
                 </div>
             @endif
             @if ($cashRegister->sum_pay_invoices > 0)
-                <div class="content">
+                <div class="content_postbox">
                     <p>REPORTE DE ABONOS A FACTURAS</p>
                     <table>
                         <thead>
@@ -383,7 +383,7 @@
                 </div>
             @endif
             @if ($cashRegister->sum_pay_purchases > 0)
-                <div class="content">
+                <div class="content_postbox">
                     <p>REPORTE DE PAGOS A COMPRAS</p>
                     <table>
                         <thead>
@@ -394,11 +394,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($pay_purchases as $pp)
+                            @foreach ($pay_purchases as $pay_purchase)
                             <tr>
-                                <td>{{ $pp->purchase->id }}</td>
-                                <td>{{ $pp->purchase->provider->name }}</td>
-                                <td align="right">$ {{ $pp->pay }}</td>
+                                <td>{{ $pay_purchase->purchase->id }}</td>
+                                <td>{{ $pay_purchase->purchase->provider->name }}</td>
+                                <td align="right">$ {{ $pay_purchase->pay }}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -412,7 +412,7 @@
                 </div>
             @endif
             @if ($cashRegister->sum_pay_expenses > 0)
-                <div class="content">
+                <div class="content_postbox">
                     <p>REPORTE DE PAGOS Y GASTOS</p>
                     <table>
                         <thead>
@@ -441,7 +441,7 @@
                 </div>
             @endif
             @if ($cashRegister->sum_cash_ins > 0)
-                <div class="content">
+                <div class="content_postbox">
                     <p>REPORTE DE ENTRADAS EFECTIVO</p>
                     <table>
                         <thead>
@@ -468,7 +468,7 @@
                 </div>
             @endif
             @if ($cashRegister->sum_cash_outs > 0)
-                <div class="content">
+                <div class="content_postbox">
                     <p>REPORTE DE SALIDAS EFECTIVO</p>
                     <table>
                         <thead>
@@ -494,7 +494,7 @@
                     </table>
                 </div>
             @endif
-            <div class="content">
+            <div class="content_postbox">
                 <p>REPORTE DE TOTALES</p>
                 <table>
                     <tbody>
@@ -582,10 +582,10 @@
                                 <td align="right"><h2>${{number_format($cashRegister->in_total,2)}}</h2></td>
                             </tr>
                         @endif
-                        @if ($cashRegister->cash_box > 0)
+                        @if ($cashRegister->cash_initial > 0)
                         <tr>
                             <th colspan="4" ><p align="left" >EFECTIVO INICIAL:</p></th>
-                            <td align="right"><h2>${{number_format($cashRegister->cash_box,2)}}</h2></td>
+                            <td align="right"><h2>${{number_format($cashRegister->cash_initial,2)}}</h2></td>
                         </tr>
                         @endif
                         @if ($cashRegister->out_purchase_cash > 0)
@@ -613,10 +613,10 @@
                         </tr>
                         @endif
 
-                        @if ($cashRegister->cash > 0)
+                        @if ($cashRegister->cash_in_total > 0)
                             <tr>
                                 <th colspan="4" ><p align="left" >TOTAL EFECTIVO:</p></th>
-                                <td align="right"><h2>${{number_format($cashRegister->cash,2)}}</h2></td>
+                                <td align="right"><h2>${{number_format($cashRegister->cash_in_total,2)}}</h2></td>
                             </tr>
                         @endif
                         @if ($cashRegister->cash_out_total > 0)
@@ -627,7 +627,7 @@
                         @endif
                         <tr>
                             <th colspan="4" ><p align="left" >SALDO EN CAJA:</p></th>
-                            <td align="right"><h2>${{number_format($cashRegister->cash - $cashRegister->cash_out_total ,2)}}</h2></td>
+                            <td align="right"><h2>${{number_format($cashRegister->cash_in_total - $cashRegister->cash_out_total ,2)}}</h2></td>
                         </tr>
                     </tbody>
                     <tfoot>

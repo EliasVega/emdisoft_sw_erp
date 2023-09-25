@@ -17,6 +17,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\File;
+use Intervention\Image\Facades\Image;
 
 class CompanyController extends Controller
 {
@@ -105,19 +106,25 @@ class CompanyController extends Controller
             $filename = pathinfo($filenamewithExt,PATHINFO_FILENAME);
             //Get just ext
             $extension = $request->file('logo')->guessClientExtension();
+
+            $image = Image::make($request->file('logo'))->encode('jpg', 75);
+            $image->resize(512,448,function($constraint) {
+                $constraint->upsize();
+            });
             //FileName to store
-            $fileNameToStore = time().'.'.$extension;
+            $fileNameToStore = time() . '.jpg';
+            $company->imageName = $fileNameToStore;
             //Upload Image
-            $path = $request->file('logo')->store('public/images/logos');
-            //$path = $request->file('image')->move('images/menus',$fileNameToStore);
-            $fileNameToStore = Storage::url($path);
+            Storage::disk('public')->put("images/logos/$fileNameToStore", $image->stream());
+            $fileNameToStore = Storage::url("images/logos/$fileNameToStore");
         } else{
-            $fileNameToStore="/storage/images/logos/B35ghph7gaOPEqAH8nemrH0G5lM08R0OWIy7aLtz.jpg";
+            $company->imageName = 'noimage.jpg';
+            $fileNameToStore="/storage/images/logos/noimage.jpg";
         }
         $company->logo=$fileNameToStore;
         $company->save();
 
-        //Alert::success('Compañia','Creada Satisfactoriamente.');
+        Alert::success('Compañia','Creada Satisfactoriamente.');
         return redirect('company');
 
         if ($logo = Company::setLogo($request->logo)) {
@@ -187,12 +194,33 @@ class CompanyController extends Controller
         $company->api_token = $request->api_token;
         $company->email = $request->email;
         $company->emailfe = $request->emailfe;
+
+        $currentImage = $company->imageName;
         //Handle File Upload
         if($request->hasFile('logo')){
-            $path = $request->file('logo')->store('public/images/logos');
-            $fileNameToStore = Storage::url($path);
+            if ($currentImage != 'noimage.jpg') {
+                Storage::disk('public')->delete("images/logos/$currentImage");
+            }
+            //Get filename with the extension
+            $filenamewithExt = $request->file('logo')->getClientOriginalName();
+            //Get just filename
+            $filename = pathinfo($filenamewithExt,PATHINFO_FILENAME);
+            //Get just ext
+            $extension = $request->file('logo')->guessClientExtension();
+
+            $image = Image::make($request->file('logo'))->encode('jpg', 75);
+            $image->resize(512,448,function($constraint) {
+                $constraint->upsize();
+            });
+            //FileName to store
+            $fileNameToStore = time() . '.jpg';
+            $company->imageName = $fileNameToStore;
+            //Upload Image
+            Storage::disk('public')->put("images/logos/$fileNameToStore", $image->stream());
+            $fileNameToStore = Storage::url("images/logos/$fileNameToStore");
         } else{
-            $fileNameToStore="/storage/images/logos/WfhqlDRtZi4xOqYprPnrLmb27vgEzV87lueju0ol.jpg";
+            $company->imageName = 'noimage.jpg';
+            $fileNameToStore="/storage/images/logos/noimage.jpg";
         }
         $company->logo=$fileNameToStore;
         $company->update();

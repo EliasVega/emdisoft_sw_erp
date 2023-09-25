@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="stylesheet" href="{{ 'css/pdfs.css' }}">
-        <title>Nota creditoa</title>
+        <title>Nota credito</title>
 
     </head>
     <header id="header">
@@ -99,13 +99,25 @@
                             </tr>
 
                             <tr>
-                                <th colspan="3" class="footder">TOTAL IVA:</th>
+                                <th colspan="3" class="footder">IMPUESTOS:</th>
                                 <td class="footder"><strong>${{number_format($ncpurchase->total_tax,2)}}</strong> </td>
                             </tr>
 
                             <tr>
                                 <th  colspan="3" class="footder">TOTAL PAGAR:</th>
                                 <td class="footder"><strong id="total">${{number_format($ncpurchase->total_pay,2)}}</strong></td>
+                            </tr>
+                            @if ($retentionsum > 0)
+                                @foreach ($retentions as $retention)
+                                    <tr>
+                                        <th colspan="3" class="footder">{{ $retention->name }}:</th>
+                                        <td class="footder"><strong>$ -{{number_format($retention->tax_value,2)}}</strong> </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                            <tr>
+                                <th  colspan="3" class="footder">SALDO PAGAR:</th>
+                                <td class="footder"><strong id="total">${{number_format($ncpurchase->total_pay - $retentionsum,2)}} </strong></td>
                             </tr>
                         </tfoot>
                     </table>

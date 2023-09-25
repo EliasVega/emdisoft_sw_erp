@@ -19,16 +19,16 @@
             <div class="form-group">
                 <label class="form-control-label" for="name">CLIENTE</label>
                 <p>@if ($pay->type == 'purchase')
-                    <p>{{ $pay->payable->provider->name }}</p>
+                    <p>{{ $pay->payable->third->name }}</p>
                 @elseif ($pay->type == 'invoice')
-                    <p>{{ $pay->payable->customer->name }}</p>
+                    <p>{{ $pay->payable->third->name }}</p>
                 @elseif ($pay->type == 'advance')
                     @if ($pay->payable->type == 'customer')
                         <p>{{ $pay->payable->advanceable->customer->name }}</p>
                     @elseif ($pay->payable->type == 'provider')
-                        <p>{{ $pay->payable->advanceable->provider->name }}</p>
+                        <p>{{ $pay->payable->advanceable->third->name }}</p>
                     @elseif ($pay->payable->type == 'employee')
-                        <p>{{ $pay->payable->advanceable->employee->name }}</p>
+                        <p>{{ $pay->payable->advanceable->third->name }}</p>
 
                     @endif
                 @endif

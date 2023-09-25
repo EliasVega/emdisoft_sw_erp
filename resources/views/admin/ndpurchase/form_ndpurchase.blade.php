@@ -34,7 +34,7 @@
                 class="form-control" placeholder="" readonly>
         </div>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="discrepancy">
+    <div class="col-lg-12 col-md-6 col-sm-12 col-xs-12" id="discrepancy">
         <div class="form-group">
             <label class="form-control-label" for="discrepancy_id">Motivo Nota Ajuste (Debito)</label>
                 <select name="discrepancy_id" class="form-control selectpicker" id="discrepancy_id" data-live-search="true">

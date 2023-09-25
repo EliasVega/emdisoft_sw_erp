@@ -24,20 +24,19 @@ class StoreCompanyRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'            => 'required|max:45',
-            'nit'             => 'required|max:20',
-            'dv'              => 'required|max:1',
-            'email'           => 'required',
-            'emailfe'         => 'required',
-            'logo'            => '',
+            'name' => 'required|max:45',
+            'nit' => 'required|max:20',
+            'dv' => 'required|max:1',
+            'email' => 'required',
+            'emailfe' => 'required',
+            'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'in:activo,inactivo',
-            //'cash_register' => 'required|in:activo,inactivo',
-            'department_id'   => 'required',
+            'department_id' => 'required',
             'municipality_id' => 'required',
             'identification_type_id' => 'required',
-            'liability_id'    => 'required',
+            'liability_id' => 'required',
             'organization_id' => 'required',
-            'regime_id'       => 'required',
+            'regime_id' => 'required',
         ];
     }
 }

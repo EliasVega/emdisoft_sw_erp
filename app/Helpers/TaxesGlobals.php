@@ -33,6 +33,10 @@ if (! function_exists('TaxesGlobals')) {
                                 $ndpurchase = $document;
                                 $ndpurchase->taxes()->save($tax);
                                 break;
+                            case 'ncpurchase':
+                                $ncpurchase = $document;
+                                $ncpurchase->taxes()->save($tax);
+                                break;
                         }
                     }
                 break;
@@ -50,6 +54,10 @@ if (! function_exists('TaxesGlobals')) {
                             case 'ndpurchase':
                                 $ndpurchase = $document;
                                 $ndpurchase->taxes()->save($tax);
+                                break;
+                            case 'ncpurchase':
+                                $ncpurchase = $document;
+                                $ncpurchase->taxes()->save($tax);
                                 break;
                         }
                     }
@@ -69,6 +77,10 @@ if (! function_exists('TaxesGlobals')) {
                                 $ndpurchase = $document;
                                 $ndpurchase->taxes()->save($tax);
                                 break;
+                            case 'ncpurchase':
+                                $ncpurchase = $document;
+                                $ncpurchase->taxes()->save($tax);
+                                break;
                         }
                     }
                 break;
@@ -86,6 +98,10 @@ if (! function_exists('TaxesGlobals')) {
                             case 'ndpurchase':
                                 $ndpurchase = $document;
                                 $ndpurchase->taxes()->save($tax);
+                                break;
+                            case 'ncpurchase':
+                                $ncpurchase = $document;
+                                $ncpurchase->taxes()->save($tax);
                                 break;
                         }
                     }
@@ -105,6 +121,10 @@ if (! function_exists('TaxesGlobals')) {
                                 $ndpurchase = $document;
                                 $ndpurchase->taxes()->save($tax);
                                 break;
+                            case 'ncpurchase':
+                                $ncpurchase = $document;
+                                $ncpurchase->taxes()->save($tax);
+                                break;
                         }
                     }
                 break;
@@ -122,6 +142,10 @@ if (! function_exists('TaxesGlobals')) {
                             case 'ndpurchase':
                                 $ndpurchase = $document;
                                 $ndpurchase->taxes()->save($tax);
+                                break;
+                            case 'ncpurchase':
+                                $ncpurchase = $document;
+                                $ncpurchase->taxes()->save($tax);
                                 break;
                         }
                     }
@@ -141,6 +165,10 @@ if (! function_exists('TaxesGlobals')) {
                                 $ndpurchase = $document;
                                 $ndpurchase->taxes()->save($tax);
                                 break;
+                            case 'ncpurchase':
+                                $ncpurchase = $document;
+                                $ncpurchase->taxes()->save($tax);
+                                break;
                         }
                     }
                 break;
@@ -150,7 +178,20 @@ if (! function_exists('TaxesGlobals')) {
                         $tax->tax_value = ($total * $percentageTax)/100;//valor del impuesto
                         $tax->type = $typeDocument;
                         $tax->company_tax_id = $companyTax->id;
-                        $purchase->taxes()->save($tax);
+                        switch ($typeDocument) {
+                            case 'purchase':
+                                $purchase = $document;
+                                $purchase->taxes()->save($tax);
+                                break;
+                            case 'ndpurchase':
+                                $ndpurchase = $document;
+                                $ndpurchase->taxes()->save($tax);
+                                break;
+                            case 'ncpurchase':
+                                $ncpurchase = $document;
+                                $ncpurchase->taxes()->save($tax);
+                                break;
+                        }
                     }
                 break;
                 case(14):
@@ -167,6 +208,10 @@ if (! function_exists('TaxesGlobals')) {
                             case 'ndpurchase':
                                 $ndpurchase = $document;
                                 $ndpurchase->taxes()->save($tax);
+                                break;
+                            case 'ncpurchase':
+                                $ncpurchase = $document;
+                                $ncpurchase->taxes()->save($tax);
                                 break;
                         }
                     }
@@ -186,6 +231,10 @@ if (! function_exists('TaxesGlobals')) {
                                 $ndpurchase = $document;
                                 $ndpurchase->taxes()->save($tax);
                                 break;
+                            case 'ncpurchase':
+                                $ncpurchase = $document;
+                                $ncpurchase->taxes()->save($tax);
+                                break;
                         }
                     }
                 break;
@@ -204,6 +253,10 @@ if (! function_exists('TaxesGlobals')) {
                                 $ndpurchase = $document;
                                 $ndpurchase->taxes()->save($tax);
                                 break;
+                            case 'ncpurchase':
+                                $ncpurchase = $document;
+                                $ncpurchase->taxes()->save($tax);
+                                break;
                         }
                     }
                 break;
@@ -220,6 +273,10 @@ if (! function_exists('TaxesGlobals')) {
                         case 'ndpurchase':
                             $ndpurchase = $document;
                             $ndpurchase->taxes()->save($tax);
+                            break;
+                        case 'ncpurchase':
+                            $ncpurchase = $document;
+                            $ncpurchase->taxes()->save($tax);
                             break;
                     }
                 break;

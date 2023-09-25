@@ -15,16 +15,19 @@ use App\Models\NcpurchaseProduct;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Resolution;
-use App\Models\Retention;
 use App\Models\Tax;
 use App\Models\VoucherType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
+use App\Traits\Inventory;
+use App\Traits\KardexCreate;
+use App\Traits\Taxes;
 
 class NcpurchaseController extends Controller
 {
+    use Inventory, KardexCreate, Taxes;
     function __construct()
     {
         $this->middleware('permission:ncpurchase.index|ncpurchase.store|ncpurchase.show', ['only'=>['index']]);
@@ -95,41 +98,31 @@ class NcpurchaseController extends Controller
     {
         //dd($request->all());
         $typeDocument = 'ncpurchase';
+        $voucherType = 10;
         $quantity = $request->quantity;
         $price = $request->price;
         $total_pay = $request->total_pay;
         $product_id = $request->product_id;
         $discrepancy = $request->discrepancy_id;
         $tax_rate = $request->tax_rate;
-        $retention = $request->total_retention;
-        $taxNcpurchase = $request->tax_iva;
+        $retention = 0;
+        //variables del request
+        if ($request->total_retention != null) {
+            $retention = $request->total_retention;
+        }
 
         $resolution = Resolution::findOrFail(2);
         $purchase = Purchase::findOrFail($request->purchase_id);
-        //$pay = Pay::where('type', 'purchase')->where('payable_id', $purchase->id)->get();
         $indicator = Indicator::findOrFail(1);
-        //$voucherTypes = VoucherType::findOrFail(18);
         $cashRegister = CashRegister::where('user_id', '=', $purchase->user_id)->where('status', '=', 'open')->first();
-        //$retentions = Retention::where('type', 'purchase')->where('retentionable_id', $purchase->id)->first();
-        //$taxPurchase = Tax::where('type', 'purchase')->where('taxable_id', $purchase->id)->get();
-        $taxPurchase = Tax::from('taxes as tax')
-        ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
-        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-        ->join('percentages as per', 'ct.percentage_id', 'per.id')
-        ->where('tax.type', 'purchase')
-        ->where('tax.taxable_id', $purchase->id)
-        ->where('tt.id', 1)
-        ->sum('tax.tax_value');
+
+        //gran total de la compra
+        $grandTotalold = $purchase->grand_total;
+        $grandTotalNd = $total_pay - $retention;
+        $newGrandTotal = $grandTotalold + $grandTotalNd;
+        $newBalance = $newGrandTotal - $purchase->pay;
 
         $branch = $purchase->branch_id;
-        $total_payOld = $purchase->total_pay;
-
-        //variables para manejo segun discrepancia
-        $newTotal_pay = $total_payOld + $total_pay;
-        $newRetention = 0;
-        $retentionPurchase = 0;
-        $retentionnc = 0;
-
 
         //Registrar tabla Nota Credito
         $ncpurchase = new Ncpurchase();
@@ -147,49 +140,30 @@ class NcpurchaseController extends Controller
         $ncpurchase->total_pay = $request->total_pay;
         $ncpurchase->save();
 
-
-
         if ($indicator->post == 'on') {
             //actualizar la caja
             $cashRegister = CashRegister::where('user_id', '=', $purchase->user_id)->where('status', '=', 'open')->first();
-            $cashRegister->ncpurchase += $ncpurchase->total_pay;
+            $cashRegister->ncpurchase += $total_pay;
+            $cashRegister->purchase += $total_pay;
             $cashRegister->update();
         }
-        /*
-        if ($retentions) {
-            $percentage = $retentions->percentage->percentage;
-
-            $retention = new Retention();
-            $retention->retention = ($total * $percentage)/100;
-            $retention->type = 'ncpurchase';
-            $retention->percentage_id = $retentions->percentage_id;
-            $ncpurchase->retention()->save($retention);
-
-            $retentionnc = $retention->retention;
-            $retentionPurchase = $retentions->retention;
-            $newRetention = $retentionPurchase + $retentionnc;
-        }*/
-
-        /*
-        $purchase->balance += ($total_pay - $retentionnc);
-        $purchase->grand_total += ($total_pay - $retentionnc);
-        $purchase->update();*/
 
         //Seleccionar los productos de la compra
-
-        //Toma el Request del array
-        $taxes[] = [];
-        $contax = 0;
         switch($discrepancy) {
             case(7):
                 if ($total_pay <= 0) {
                     toast(' Nota credito no debe ser menor o igual a 0.','warning');
                     return redirect("purchase");
                 }
-                for ($i=0; $i < count($quantity); $i++) {
+                for ($i=0; $i < count($product_id); $i++) {
                     $id = $product_id[$i];
                     //selecciona el producto que viene del array
                     $product = Product::findOrFail($id);
+
+                    $branchProducts = BranchProduct::where('product_id', '=', $id)
+                    ->where('branch_id', '=', $branch)
+                    ->first();
+
                     //registrando nota debito productos
                     $ncpurchaseProduct = new NcpurchaseProduct();
                     $ncpurchaseProduct->ncpurchase_id = $ncpurchase->id;
@@ -201,117 +175,10 @@ class NcpurchaseController extends Controller
                     $ncpurchaseProduct->tax_subtotal = ($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
                     $ncpurchaseProduct->save();
 
-                    $product->stock += $quantity[$i];
-                    $product->update();
+                    $quantityLocal = $quantity[$i];
+                    $priceLocal = $price[$i];
 
-                    $branchProducts = BranchProduct::where('product_id', '=', $id)
-                    ->where('branch_id', '=', $branch)
-                    ->first();
-
-                    //selecciona el impuesto que tiene la categoria IVA o INC
-                    $companyTaxProduct = $product->category->company_tax_id;
-                    $companyTax = CompanyTax::findOrFail($companyTaxProduct);
-                    $taxAmount = $ncpurchaseProduct->tax_subtotal;
-                    $amount = $ncpurchaseProduct->subtotal;
-                    $taxRate = $ncpurchaseProduct->tax_rate;
-
-                    if ($ncpurchaseProduct->tax_subtotal > 0) {
-                        if ($taxes[0] != []) { //contax > 0
-                            $contsi = 0;
-                            foreach ($taxes as $key => $tax) {
-
-                                if ($tax[0] == $companyTaxProduct) {
-                                    $tax[2] += $taxAmount;
-                                    $tax[3] += $amount;
-                                    $contsi++;
-                                }
-                            }
-                            if ($contsi == 0) {
-                                $taxes[$contax] = [$companyTax->id, $companyTax->tax_type_id, $taxAmount, $amount, $taxRate[$i]];
-                                    $contax++;
-                            }
-                        } else {
-                            $taxes[$contax] = [$companyTax->id, $companyTax->tax_type_id, $taxAmount, $amount, $taxRate[$i]];
-                            $contax++;
-                        }
-                    }
-
-                    if ($product->type_product == 'product') {
-                        if ($indicator->inventory == 'on') {
-
-                            if ($indicator->product_price == 'automatic') {
-                                //Actualizar stock y precio del producto
-                                $utility = $product->category->utility_rate;//valor registrado de utilidad
-                                $priceOld = $product->price; //precio actual del producto
-                                $stockardex = $product->stock; //stock actual del producto
-                                //Actualizando el valor de venta del producto
-                                $priceNew = (($stockardex * $priceOld) + ($quantity[$i] * $price[$i])) / ($stockardex + $quantity[$i]);
-                                $priceSale = $priceNew + ($priceNew * $utility / 100); //Actualizando el valor
-                                //Actualizando los valores en los registros de la BD
-                                $product->stock += $quantity[$i]; //reempazando triguer
-                                $product->price = $priceNew;
-                                $product->sale_price = $priceSale;
-                                $product->update();
-
-                            } else {
-                                //Actualizar stock y precio del producto
-                                $product->stock += $quantity[$i]; //reempazando triguer
-                                $product->price = $price[$i];
-                                $product->sale_price = $price[$i];
-                                $product->update();
-                            }
-
-
-                            //Actualizando o creando productos en determinada sucursal
-                            if (isset($branchProducts)) {
-                                //metodo para actualizar el producto en la sucursal stock
-                                $branchProducts->stock += $quantity[$i];
-                                $branchProducts->update();
-                            } else {
-                                //metodo para crear el producto en la sucursal y asignar stock
-                                $branchProduct = new BranchProduct();
-                                $branchProduct->branch_id = $branch;
-                                $branchProduct->product_id = $product_id[$i];
-                                $branchProduct->stock = $quantity[$i];
-                                $branchProduct->order_product = 0;
-                                $branchProduct->save();
-                            }
-                        }
-                    } else {
-                        if ($indicator->inventory == 'on') {
-                            //Actualizar stock y precio del producto
-                            $product->stock += $quantity[$i];
-                            $product->price = $price[$i];
-                            $product->sale_price = $price[$i];
-                            $product->update();
-
-                            //Actualizando o creando productos en determinada sucursal
-                            if (isset($branchProducts)) {
-                                //metodo para actualizar el producto en la sucursal stock
-                                $branchProducts->stock += $quantity[$i];
-                                $branchProducts->update();
-                            } else {
-                                //metodo para crear el producto en la sucursal y asignar stock
-                                $branchProduct = new BranchProduct();
-                                $branchProduct->branch_id = $branch;
-                                $branchProduct->product_id = $product_id[$i];
-                                $branchProduct->stock = $quantity[$i];
-                                $branchProduct->order_product = 0;
-                                $branchProduct->save();
-                            }
-                        }
-                    }
-                    //Actualiza la tabla del Kardex
-                    $kardex = new Kardex();
-                    $kardex->product_id = $product_id[$i];
-                    $kardex->branch_id = $branch;
-                    $kardex->voucher_type_id = 10;
-                    $kardex->document = $purchase->document;
-                    $kardex->quantity = $quantity[$i];
-                    $kardex->stock = $product->stock;
-                    $kardex->movement = $typeDocument;
-                    $kardex->save();
-
+                    $this->inventory($product, $branchProducts, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
                 }
                 break;
             case(8):
@@ -320,7 +187,7 @@ class NcpurchaseController extends Controller
                     toast(' Nota credito no debe ser menor o igual a 0 en ningun item.','warning');
                     return redirect("purchase");
                 }
-                for ($i=0; $i < count($quantity); $i++) {
+                for ($i=0; $i < count($product_id); $i++) {
                     $id = $product_id[$i];
 
                     $product = Product::findOrFail($id);
@@ -336,39 +203,14 @@ class NcpurchaseController extends Controller
                     $ncpurchaseProduct->save();
 
                     //selecciona el impuesto que tiene la categoria IVA o INC
-                    $companyTaxProduct = $product->category->company_tax_id;
-                    $companyTax = CompanyTax::findOrFail($companyTaxProduct);
-                    $taxAmount = $ncpurchaseProduct->tax_subtotal;
-                    $amount = $ncpurchaseProduct->subtotal;
-                    $taxRate = $ncpurchaseProduct->tax_rate;
-
-                    if ($ncpurchaseProduct->tax_subtotal > 0) {
-                        if ($taxes[0] != []) { //contax > 0
-                            $contsi = 0;
-                            foreach ($taxes as $key => $tax) {
-
-                                if ($tax[0] == $companyTaxProduct) {
-                                    $tax[2] += $taxAmount;
-                                    $tax[3] += $amount;
-                                    $contsi++;
-                                }
-                            }
-                            if ($contsi == 0) {
-                                $taxes[$contax] = [$companyTax->id, $companyTax->tax_type_id, $taxAmount, $amount, $taxRate[$i]];
-                                    $contax++;
-                            }
-                        } else {
-                            $taxes[$contax] = [$companyTax->id, $companyTax->tax_type_id, $taxAmount, $amount, $taxRate[$i]];
-                            $contax++;
-                        }
-                    }
                 }
                 break;
         }
 
         $document = $ncpurchase;
-        TaxesLines($document, $taxes, $typeDocument);
-        Retentions($request, $document, $typeDocument);
+        $taxes = $this->getTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC
+        TaxesLines($document, $taxes, $typeDocument);//Helper para impuestos de linea
+        Retentions($request, $document, $typeDocument);//Helper para retenciones
 
         $voucherTypes = VoucherType::findOrFail(10);
         $voucherTypes->consecutive += 1;
@@ -377,7 +219,8 @@ class NcpurchaseController extends Controller
         $resolution->consecutive += 1;
         $resolution->update();
 
-        $purchase->grand_total = $newTotal_pay;
+        $purchase->grand_total = $newGrandTotal;
+        $purchase->balance = $newBalance;
         if ($purchase->status == 'purchase') {
             $purchase->status = 'credit_note';
         } elseif ($purchase->status == 'debit_note') {
@@ -400,7 +243,28 @@ class NcpurchaseController extends Controller
     public function show(Ncpurchase $ncpurchase)
     {
         $ncpurchaseProducts = NcpurchaseProduct::where('ncpurchase_id', $ncpurchase->id)->where('quantity', '>', 0)->get();
-        return view('admin.ncpurchase.show', compact('ncpurchase', 'ncpurchaseProducts'));
+        $retentions = Tax::from('taxes as tax')
+        ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->select('tax.tax_value', 'ct.name')
+        ->where('tax.type', 'ncpurchase')
+        ->where('tax.taxable_id', $ncpurchase->id)
+        ->where('tt.type_tax', 'retention')->get();
+
+       $retentionsum = Tax::from('taxes as tax')
+        ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->select('tax.tax_value', 'ct.name')
+        ->where('tax.type', 'ncpurchase')
+        ->where('tax.taxable_id', $ncpurchase->id)
+        ->where('tt.type_tax', 'retention')->sum('tax_value');
+
+        return view('admin.ncpurchase.show', compact(
+            'ncpurchase',
+            'ncpurchaseProducts',
+            'retentions',
+            'retentionsum'
+        ));
     }
 
     /**
@@ -443,9 +307,31 @@ class NcpurchaseController extends Controller
        $ncpurchaseProducts = NcpurchaseProduct::where('ncpurchase_id', $id)->where('quantity', '>', 0)->get();
        $company = Company::findOrFail(1);
 
+       $retentions = Tax::from('taxes as tax')
+        ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->select('tax.tax_value', 'ct.name')
+        ->where('tax.type', 'ncpurchase')
+        ->where('tax.taxable_id', $ncpurchase->id)
+        ->where('tt.type_tax', 'retention')->get();
+       $retentionsum = Tax::from('taxes as tax')
+        ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->select('tax.tax_value', 'ct.name')
+        ->where('tax.type', 'ncpurchase')
+        ->where('tax.taxable_id', $ncpurchase->id)
+        ->where('tt.type_tax', 'retention')->sum('tax_value');
+
        $ncpurchasepdf = "COMP-". $ncpurchase->document;
        $logo = './imagenes/logos'.$company->logo;
-       $view = \view('admin.ncpurchase.pdf', compact('ncpurchase', 'ncpurchaseProducts', 'company', 'logo'));
+       $view = \view('admin.ncpurchase.pdf', compact(
+            'ncpurchase',
+            'ncpurchaseProducts',
+            'company',
+            'logo',
+            'retentions',
+            'retentionsum'
+        ));
        $pdf = App::make('dompdf.wrapper');
        $pdf->loadHTML($view);
        //$pdf->setPaper ( 'A7' , 'landscape' );

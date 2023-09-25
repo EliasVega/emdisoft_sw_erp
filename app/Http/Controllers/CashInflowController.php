@@ -88,7 +88,7 @@ class CashInflowController extends Controller
         $cashInflow->admin_id = $request->admin_id;
         $cashInflow->save();
 
-        $cashRegister->cash += $cash;
+        $cashRegister->cash_in_total += $cash;
         $cashRegister->in_cash += $cash;
         $cashRegister->in_total += $cash;
         $cashRegister->update();

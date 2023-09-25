@@ -167,8 +167,8 @@
                             <p align="right">TOTAL:</p>
                         </th>
                         <th>
-                            <p align="right"><span id="total_html">$ 0.00</span>
-                                <input type="hidden" name="total" id="total"> </p>
+                            <p align="right"><span id="totalpay_html">$ 0.00</span>
+                                <input type="hidden" name="totalpay" id="totalpay"> </p>
                         </th>
                     </tr>
                 </tfoot>

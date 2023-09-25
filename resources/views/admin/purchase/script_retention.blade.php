@@ -17,6 +17,7 @@
     $("#purchase").hide();
     $("#infoIva").hide();
     $("#infoType").hide();
+    $("#infoBase").hide();
 
     var cont=0;
     var totalRetention=[];
@@ -31,6 +32,7 @@
         dataTax = document.getElementById('company_tax_id').value.split('_');
         $("#percentage").val(dataTax[1]);
         $("#taxTypeId").val(dataTax[2]);
+        $("#base").val(dataTax[3]);
     }
     $(document).ready(function(){
         $("#withhold").click(function(){
@@ -48,12 +50,21 @@
         ttid = $("#taxTypeId").val();
         iva = $("#tax_iva").val();
         balance = $("#balance").val();
-
+        base = parseFloat($("#base").val());
         if(company_tax_id !="" && companyTax!="" && percentage!=""  && percentage>0 ){
             if (ttid == 5) {
-                totalRetention[contRetention] = iva * percentage/100;
+                if (iva > base) {
+
+                    totalRetention[contRetention] = iva * percentage/100;
+                } else {
+                    totalRetention[contRetention] = 0;
+                }
             } else {
-                totalRetention[contRetention] = total_purchase * percentage/100;
+                if (base < total_purchase) {
+                    totalRetention[contRetention] = total_purchase * percentage/100;
+                } else {
+                    totalRetention[contRetention] = 0;
+                }
             }
             total_retention = total_retention+totalRetention[contRetention];
             balance -= totalRetention[contRetention];

@@ -30,13 +30,13 @@ body {
     margin-top: 5px;
 }
 
-.content {
+.content_postbox {
     width: 100%;
     display: flex;
     align-items: center;
 }
 
-.content p {
+.content_postbox p {
     font-size: 10px;
 }
 
@@ -46,7 +46,7 @@ header {
     border-bottom: 2px solid #c6cccf;
 }
 
-.customer {
+.user_postbox {
     margin-top: 0px;
     width: 100%;
     font-size: 0.6em;
@@ -72,11 +72,11 @@ tbody {
 }
 
 th{
-    font-size: 1.5rem;
+    font-size: 0.6rem;
 }
 
 td {
-    font-size: 1.5rem;
+    font-size: 0.6rem;
 }
 
 #tdizq {

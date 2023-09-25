@@ -113,129 +113,27 @@ class PayController extends Controller
      */
     public function store(StorepayRequest $request)
     {
-        try{
-            DB::beginTransaction();
-            //variables necesarias
-            $purchase = '';
-            $balance = '';
-            $totalPay = $request->total;
-            $document_id = $request->document_id;
-
-            //Metodo para crear un nuevo pago y su realcion polimorfica dependiendo del tipo de documento
-            $pay = new pay();
-            $pay->user_id    = Auth::user()->id;
-            $pay->branch_id  = Auth::user()->branch_id;
-            $pay->pay        = $totalPay;
-            switch($request->voucher) {
-                case(7):
-                    $purchase = Purchase::findOrFail($document_id);
-                    $balance = $purchase->balance;
-                    $pay->balance = $balance - $totalPay;
-                    $pay->type = 'purchase';
-                    $purchase->pays()->save($pay);
-
-                    $purchase->pay += $totalPay;
-                    $purchase->balance -= $totalPay;
-                    $purchase->grand_total -= $totalPay;
-                    $purchase->update();
-                break;
-                case(20):
-                    $expense = Expense::findOrFail($document_id);
-                    $balance = $expense->balance;
-                    $pay->balance = $balance - $totalPay;
-                    $pay->type = 'expense';
-                    $expense->pays()->save($pay);
-
-                    $expense->pay += $totalPay;
-                    $expense->balance -= $totalPay;
-                    $expense->update();
-                break;
-                default:
-                    $msg = 'No has seleccionado voucher.';
-            }
-
-            $cont = 0;
-            //variables del request
-            $paymentMethod = $request->payment_method_id;
-            $bank = $request->bank_id;
-            $card = $request->card_id;
-            $advance_id = $request->advance_id;
-            $payment = $request->pay;
-            $transaction = $request->transaction;
-            $payAdvance = $request->payment;
-
-
-
-            //Metodo que descuenta el valor del pago de un anticipo
-            if ($payAdvance != 0) {
-
-                $advance = Advance::findOrFail( $request->advance_id);
-                    //si el pago es utilizado en su totalidad agregar el destino aplicado
-                    if ($advance->pay > $advance->balance) {
-                        $advance->destination = $advance->destination . '<->' . $purchase->document;
-                    } else {
-                        $advance->destination = $purchase->document;
-                    }
-                    //variable si hay saldo en el pago anticipado
-                    $payAdvance_total = $advance->balance - $payAdvance;
-                    //cambiar el status del pago anticipado
-                    if ($payAdvance_total == 0) {
-                        $advance->status      = 'applied';
-                    } else {
-                        $advance->status      = 'partial';
-                    }
-                    //actualizar el saldo del pago anticipado
-                    $advance->balance = $payAdvance_total;
-                    $advance->update();
-                /*
-                $sale_box = Sale_box::where('user_id', '=', $pay_expense->user_id)->where('status', '=', 'open')->first();
-                $sale_box->out_payment += $payu;
-                $sale_box->update();*/
-            }
-
-            //Metodo de control para la iteracion con las formas de pago
-            while($cont < count($paymentMethod)){
-                $paymentLine = $request->pay[$cont];
-
-                //Metodo para registrar la relacion entre pago y metodo de pago
-                $pay_paymentMethod = new PayPaymentMethod();
-                $pay_paymentMethod->pay_id = $pay->id;
-                $pay_paymentMethod->payment_method_id = $paymentMethod[$cont];
-                $pay_paymentMethod->bank_id = $bank[$cont];
-                $pay_paymentMethod->card_id = $card[$cont];
-                if (isset($advance_id[$cont])){
-                    $pay_paymentMethod->advance_id = $advance_id[$cont];
-                }
-                $pay_paymentMethod->pay = $payment[$cont];
-                $pay_paymentMethod->transaction = $transaction[$cont];
-                $pay_paymentMethod->save();
-
-                $mp = $paymentMethod[$cont];
-
-                $cashRegister = CashRegister::where('user_id', $pay->user_id)
-                ->where('status', '=', 'open')
-                ->first();
-                if (isset($cashRegister)) {
-                    if($mp == 10){
-                        $cashRegister->out_purchase_cash += $paymentLine;
-                        $cashRegister->cash_out_total += $paymentLine;
-                    }
-                    if ($pay->type == 'purchase') {
-                        $cashRegister->out_purchase += $paymentLine;
-                    } elseif ($pay->type == 'expense') {
-                        $cashRegister->out_expense += $paymentLine;
-                    }
-                    $cashRegister->out_total += $paymentLine;
-                    $cashRegister->update();
-                }
-                $cont++;
-            }
-
-            DB::commit();
+        $document_id = $request->document_id;
+        $purchase = Purchase::findOrFail($document_id);
+        $totalpay = $request->totalpay;
+        $document = '';
+        switch($request->voucher) {
+            case(7):
+                $typeDocument = 'purchase';
+                $document = $purchase;
+            break;
+            case(12):
+                $typeDocument = 'purchase';
+                $document = $purchase;
+            break;
+            default:
+                $msg = 'No has seleccionado voucher.';
         }
-        catch(Exception $e){
-            DB::rollback();
-        }
+
+        Pays($request, $document, $typeDocument);
+        $purchase->balance -= $totalpay;
+        $purchase->pay += $totalpay;
+        $purchase->update();
         Alert::success('Pago','Realizado Satisfactoriamente.');
         return redirect('pay');
     }

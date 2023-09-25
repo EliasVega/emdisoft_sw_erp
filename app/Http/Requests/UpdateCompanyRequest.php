@@ -31,6 +31,7 @@ class UpdateCompanyRequest extends FormRequest
             'email' => 'required',
             'emailfe' => 'required',
             'logo' => '',
+            'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'in:activo,inactivo',
             //'cash_register' => 'required|in:activo,inactivo',
             'department_id' => 'required',

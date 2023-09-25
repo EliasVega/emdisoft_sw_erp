@@ -11,6 +11,9 @@
                    @can('branch.index')
                     <a href="{{ route('branch.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
                    @endcan
+                   @can('purchase.index')
+                    <a href="{{ route('purchase.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Compras</a>
+                   @endcan
                 </h5>
             </div>
         </div>

@@ -15,6 +15,8 @@
                 @endcan
             </h5>
         </div>
+    </div>
+    <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
             <div class="form-group">
                 <label class="form-control-label" for="company">RESPONSABLE</label>
@@ -30,7 +32,7 @@
         <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
             <div class="form-group">
                 <label class="form-control-label" for="nombre">PROVEEDOR</label>
-                <h4>{{ $ncpurchase->provider->name }}</h4>
+                <h4>{{ $ncpurchase->third->name }}</h4>
             </div>
         </div>
         <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
@@ -74,22 +76,33 @@
                             </tr>
 
                             <tr>
-                                <th colspan="3"><p align="right">TOTAL IVA:</p></th>
+                                <th colspan="3"><p align="right">IMPUESTOS:</p></th>
                                 <th><p align="right">${{ number_format($ncpurchase->total_tax, 2) }}</p></th>
                             </tr>
                             <tr>
                                 <th  colspan="3"><p align="right">TOTAL PAGAR:</p></th>
                                 <th><p align="right">${{ number_format($ncpurchase->total_pay, 2) }}</p></th>
                             </tr>
-
+                            @if ($retentionsum > 0)
+                                @foreach ($retentions as $retention)
+                                    <tr>
+                                        <th colspan="3" class="rightfoot">{{ $retention->name }}:</th>
+                                        <td class="rightfoot"><strong>$ -{{number_format($retention->tax_value,2)}}</strong> </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                            <tr>
+                                <th  colspan="3" class="rightfoot">SALDO PAGAR:</th>
+                                <td class="rightfoot"><strong id="total">${{number_format($ncpurchase->total_pay - $retentionsum,2)}} </strong></td>
+                            </tr>
                         </tfoot>
                         <tbody>
                             @foreach($ncpurchaseProducts as $ncpurchaseProduct)
                                 <tr>
                                     <td>{{ $ncpurchaseProduct->product->name }}</td>
                                     <td>{{ $ncpurchaseProduct->quantity }}</td>
-                                    <td class="tdder">${{ $ncpurchaseProduct->price }}</td>
-                                    <td class="tdder">${{ number_format($ncpurchaseProduct->quantity*$ncpurchaseProduct->price,2) }}</td>
+                                    <td class="rightfoot">${{ $ncpurchaseProduct->price }}</td>
+                                    <td class="rightfoot">${{ number_format($ncpurchaseProduct->quantity*$ncpurchaseProduct->price,2) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

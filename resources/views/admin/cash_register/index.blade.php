@@ -63,7 +63,7 @@ $(document).ready(function ()
                 {data: 'user'},
                 {data: 'branch'},
                 {data: 'cash_initial'},
-                {data: 'cash'},
+                {data: 'cash_in_total'},
                 {data: 'cash_out_total'},
                 {data: 'total'},
                 {data: 'status'},

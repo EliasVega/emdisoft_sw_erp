@@ -18,6 +18,14 @@ body {
     clear:both;
     float:none;
 }
+
+.rightfoot {
+    text-align: right;
+    padding: 3px;
+}
+table {
+    width: 100%;
+}
 /*
 *============================================VENTANA MODAL====================================================
 */

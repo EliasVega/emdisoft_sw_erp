@@ -5,6 +5,13 @@
             pattern="[0-9]{0,15}">
     </div>
 </div>
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="infoBase">
+    <div class="form-group">
+        <label class="form-control-label" for="base">Base</label>
+        <input type="number" id="base" name="base" class="form-control" value="0"
+            pattern="[0-9]{0,15}">
+    </div>
+</div>
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="infoType">
     <div class="form-group">
         <label class="form-control-label" for="taxTypeId">Iva</label>
@@ -28,7 +35,7 @@
                 <option value="" disabled selected>Seleccionar.</option>
                 @foreach($companyTaxes as $companyTax)
                 <option
-                    value="{{ $companyTax->id }}_{{ $companyTax->percentage }}_{{ $companyTax->ttId }}">{{ $companyTax->name }}</option>
+                    value="{{ $companyTax->id }}_{{ $companyTax->percentage }}_{{ $companyTax->ttId }}_{{ $companyTax->base }}">{{ $companyTax->name }}</option>
                 @endforeach
             </select>
         </div>

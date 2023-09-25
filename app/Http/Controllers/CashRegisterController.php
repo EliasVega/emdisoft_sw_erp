@@ -62,7 +62,7 @@ class CashRegisterController extends Controller
                 return $cashRegister->branch->name;
             })
             ->addColumn('total', function (CashRegister $cashRegister) {
-                return $cashRegister->cash - $cashRegister->cash_out_total;
+                return $cashRegister->cash_in_total - $cashRegister->cash_out_total;
             })
             ->addColumn('status', function (CashRegister $cashRegister) {
                 return $cashRegister->status == 'open' ? 'Abierta' : 'Cerrada';
@@ -123,7 +123,7 @@ class CashRegisterController extends Controller
             $cashRegister->out_cash = 0;
             $cashRegister->in_total = 0;
             $cashRegister->out_total = 0;
-            $cashRegister->cash = $request->cash_initial;
+            $cashRegister->cash_in_total = $request->cash_initial;
             $cashRegister->cash_out_total = 0;
             $cashRegister->in_order_cash = 0;
             $cashRegister->in_order = 0;
@@ -292,7 +292,7 @@ class CashRegisterController extends Controller
             ->get();*/
 
             $cashInflows = CashInflow::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->get();
-            $sumCashInflow = CashInflow::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('cash');
+            $sumCashInflow = CashInflow::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('cash_in_total');
             /*
             $cashInflow = CashInflow::from('cash_ins AS cas')
             ->join('cashregisteres AS sal', 'cas.cashregister_id', 'sal.id')
@@ -334,7 +334,7 @@ class CashRegisterController extends Controller
                 }
             }*/
 
-            $productpurchase = [];
+            $productPurchase = [];
             $cont = 0;
             foreach ($products as $key => $product ) {
                 $productPurchases = ProductPurchase::from('product_purchases as pp')
@@ -345,18 +345,18 @@ class CashRegisterController extends Controller
                 ->where('pp.product_id', $product->id)
                 ->sum('quantity');
 
-                $iva_subtotal = ProductPurchase::from('product_purchases as pp')
+                $tax_subtotal = ProductPurchase::from('product_purchases as pp')
                 ->join('purchases as pur', 'pp.purchase_id', 'pur.id')
                 ->join('products as pro', 'pp.product_id', 'pro.id')
                 ->whereBetween('pp.created_at', [$from, $to])
                 ->where('pur.user_id', $cashRegister->user_id)
                 ->where('pp.product_id', $product->id)
-                ->sum('iva_subtotal');
+                ->sum('tax_subtotal');
 
                 if ($productPurchases) {
                     $productPurchase[$cont] = Product::findOrFail($product->id);
                     $productPurchase[$cont]->stock = $productPurchases;
-                    $productPurchase[$cont]->price = $iva_subtotal;
+                    $productPurchase[$cont]->price = $tax_subtotal;
                     $cont++;
                 }
             }
@@ -384,10 +384,10 @@ class CashRegisterController extends Controller
             $ndipay = Ndinvoice::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
             */
             $ncpurchases = Ncpurchase::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->get();
-            //$ncppay =  Ncinvoice::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
+            $nctotal =  Ncpurchase::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
 
             $ndpurchases = Ndpurchase::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->get();
-            //$ndppay = Ndinvoice::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
+            $ndtotal = Ndpurchase::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
             /*
             $pay_orders = Pay_order::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->get();
             $sum_pay_orders = Pay_order::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->sum('pay');
@@ -442,7 +442,9 @@ class CashRegisterController extends Controller
             'purchaseBalance',
             'purchasePays',
             'ncpurchases',
+            'nctotal',
             'ndpurchases',
+            'ndtotal',
             'payPurchases',
             'sumPayPurchases',
             'advanceProviders',
@@ -600,13 +602,13 @@ class CashRegisterController extends Controller
             ->where('pp.product_id', $product->id)
             ->sum('quantity');
 
-            $iva_subtotal = ProductPurchase::from('product_purchases as pp')
+            $tax_subtotal = ProductPurchase::from('product_purchases as pp')
             ->join('purchases as pur', 'pp.purchase_id', 'pur.id')
             ->join('products as pro', 'pp.product_id', 'pro.id')
             ->whereBetween('pp.created_at', [$from, $to])
             ->where('pur.user_id', $cashRegister->user_id)
             ->where('pp.product_id', $product->id)
-            ->sum('iva_subtotal');
+            ->sum('tax_subtotal');
 
             $subtotal = ProductPurchase::from('product_purchases as pp')
             ->join('purchases as pur', 'pp.purchase_id', 'pur.id')
@@ -619,7 +621,7 @@ class CashRegisterController extends Controller
             if ($quantity) {
                 $productPurchases[$cont] = Product::findOrFail($product->id);
                 $productPurchases[$cont]->quantity = $quantity;
-                $productPurchases[$cont]->iva_subtotal = $iva_subtotal;
+                $productPurchases[$cont]->tax_subtotal = $tax_subtotal;
                 $productPurchases[$cont]->subtotal = $subtotal;
                 $cont++;
             }
@@ -635,13 +637,13 @@ class CashRegisterController extends Controller
             ->where('np.product_id', $product->id)
             ->sum('quantity');
 
-            $iva_subtotal = NdpurchaseProduct::from('ndpurchase_products as np')
+            $tax_subtotal = NdpurchaseProduct::from('ndpurchase_products as np')
             ->join('ndpurchases as nd', 'np.ndpurchase_id', 'nd.id')
             ->join('products as pro', 'np.product_id', 'pro.id')
             ->whereBetween('np.created_at', [$from, $to])
             ->where('nd.user_id', $cashRegister->user_id)
             ->where('np.product_id', $product->id)
-            ->sum('iva_subtotal');
+            ->sum('tax_subtotal');
 
             $subtotal = NdpurchaseProduct::from('ndpurchase_products as np')
             ->join('ndpurchases as nd', 'np.ndpurchase_id', 'nd.id')
@@ -654,7 +656,7 @@ class CashRegisterController extends Controller
             if ($quantity) {
                 $ndpurchaseProducts[$cont] = Product::findOrFail($product->id);
                 $ndpurchaseProducts[$cont]->quantity = $quantity;
-                $ndpurchaseProducts[$cont]->iva_subtotal = $iva_subtotal;
+                $ndpurchaseProducts[$cont]->tax_subtotal = $tax_subtotal;
                 $ndpurchaseProducts[$cont]->subtotal = $subtotal;
                 $cont++;
             }
@@ -688,7 +690,7 @@ class CashRegisterController extends Controller
 
         $purchases = Purchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->get();
         $purchaseBalances = Purchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('balance');
-        $purchaseTotalIvas = Purchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('total_iva');
+        $purchaseTotalTaxs = Purchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('total_tax');
         $purchaseTotals = Purchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('total');
         $purchaseTotalPays = Purchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
 
@@ -706,7 +708,7 @@ class CashRegisterController extends Controller
 
         $ndpurchases = Ndpurchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->get();
         $sumNdpurchases = Ndpurchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
-        $ndpurchaseTotalIvas = Ndpurchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('total_iva');
+        $ndpurchaseTotalTaxs = Ndpurchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('total_tax');
         $ndpurchaseTotals = Ndpurchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('total');
 
         $cashInflows = CashInflow::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->get();
@@ -732,7 +734,7 @@ class CashRegisterController extends Controller
             'ndpurchaseProducts',
             'purchases',
             'purchaseBalances',
-            'purchaseTotalIvas',
+            'purchaseTotalTaxs',
             'purchaseTotals',
             'purchaseTotalPays',
             'purchasePays',
@@ -741,7 +743,7 @@ class CashRegisterController extends Controller
             'sumNcpurchases',
             'ndpurchases',
             'sumNdpurchases',
-            'ndpurchaseTotalIvas',
+            'ndpurchaseTotalTaxs',
             'ndpurchaseTotals',
             'cashInflows',
             'sumCashInflows',
@@ -809,13 +811,13 @@ class CashRegisterController extends Controller
             ->where('pp.product_id', $product->id)
             ->sum('quantity');
 
-            $iva_subtotal = ProductPurchase::from('product_purchases as pp')
+            $tax_subtotal = ProductPurchase::from('product_purchases as pp')
             ->join('purchases as pur', 'pp.purchase_id', 'pur.id')
             ->join('products as pro', 'pp.product_id', 'pro.id')
             ->whereBetween('pp.created_at', [$from, $to])
             ->where('pur.user_id', $cashRegister->user_id)
             ->where('pp.product_id', $product->id)
-            ->sum('iva_subtotal');
+            ->sum('tax_subtotal');
 
             $subtotal = ProductPurchase::from('product_purchases as pp')
             ->join('purchases as pur', 'pp.purchase_id', 'pur.id')
@@ -828,7 +830,7 @@ class CashRegisterController extends Controller
             if ($quantity) {
                 $productPurchases[$cont] = Product::findOrFail($product->id);
                 $productPurchases[$cont]->quantity = $quantity;
-                $productPurchases[$cont]->iva_subtotal = $iva_subtotal;
+                $productPurchases[$cont]->tax_subtotal = $tax_subtotal;
                 $productPurchases[$cont]->subtotal = $subtotal;
                 $cont++;
             }
@@ -862,7 +864,7 @@ class CashRegisterController extends Controller
 
         $purchases = Purchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->get();
         $purchaseBalances = Purchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('balance');
-        $purchaseTotalIvas = purchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('total_iva');
+        $purchaseTotalTaxs = purchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('total_tax');
         $purchaseTotals = purchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('total');
 
         $purchasePays = Pay::where('user_id', $cashRegister->user_id)->where('type', 'purchase')->whereBetween('created_at', [$from, $to])->get();
@@ -901,7 +903,7 @@ class CashRegisterController extends Controller
             'productPurchases',
             'purchases',
             'purchaseBalances',
-            'purchaseTotalIvas',
+            'purchaseTotalTaxs',
             'purchaseTotals',
             'purchasePays',
             'purchaseSumPays',

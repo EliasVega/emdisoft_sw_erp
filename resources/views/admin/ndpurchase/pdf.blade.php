@@ -110,7 +110,7 @@
                                 <th  colspan="3" class="footder">TOTAL PAGAR:</th>
                                 <td class="footder"><strong id="total">${{number_format($ndpurchase->total_pay,2)}} </strong></td>
                             </tr>
-                             @if ($retentionsum > 0)
+                            @if ($retentionsum > 0)
                                 @foreach ($retentions as $retention)
                                     <tr>
                                         <th colspan="3" class="footder">{{ $retention->name }}:</th>
@@ -118,10 +118,10 @@
                                     </tr>
                                 @endforeach
                             @endif
-                             <tr>
-                                 <th  colspan="3" class="footder">SALDO PAGAR:</th>
-                                 <td class="footder"><strong id="total">${{number_format($ndpurchase->total_pay - $retentionsum,2)}} </strong></td>
-                             </tr>
+                            <tr>
+                                <th  colspan="3" class="footder">SALDO PAGAR:</th>
+                                <td class="footder"><strong id="total">${{number_format($ndpurchase->total_pay - $retentionsum,2)}} </strong></td>
+                            </tr>
                         </tfoot>
                     </table>
                 </div>
