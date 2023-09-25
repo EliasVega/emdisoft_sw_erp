@@ -9,13 +9,13 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h5>Productos
                 @can('prePurchase.create')
-                    <a href="prePurchase/create" class="btn btn-greenGrad"><i class="fa fa-plus"></i> Agregar Pre compra</a>
+                    <a href="prePurchase/create" class="btn btn-greenGrad btn-sm"><i class="fa fa-plus"></i> Agregar Pre compra</a>
                 @endcan
                 @can('purchase.index')
-                    <a href="{{ route('purchase.index') }}" class="btn btn-gris"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
+                    <a href="{{ route('purchase.index') }}" class="btn btn-gris btn-sm"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
                 @endcan
                 @can('branch.index')
-                    <a href="{{ route('branch.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
+                    <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
                 @endcan
             </h5>
         </div>
@@ -43,14 +43,15 @@
 <script type="text/javascript">
 $(document).ready(function ()
     {
-        window.onload = function() {
+        function print(){
             var prePurchase = "{{ $prePurchase ?? '' }}";
             if (prePurchase != '') {
-                var imprimir = "{{ route('postPrePurchase', ['prePurchase' => ':prePurchase']) }}";
+                var imprimir = "{{ route('pdfPrePurchase', ['prePurchase' => ':prePurchase']) }}";
                 imprimir = imprimir.replace(':prePurchase', prePurchase);
                 window.open(imprimir, "_blank");
             }
         }
+        print();
         $('#prePurchases').DataTable(
         {
             info: true,

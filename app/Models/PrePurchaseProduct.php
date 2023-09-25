@@ -20,7 +20,7 @@ class PrePurchaseProduct extends Model
         'price',
         'tax_rate',
         'subtotal',
-        'iva_subtotal',
+        'tax_subtotal',
 
         'pre_purchase_id',
         'product_id'

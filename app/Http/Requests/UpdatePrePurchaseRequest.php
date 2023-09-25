@@ -25,7 +25,7 @@ class UpdatePrePurchaseRequest extends FormRequest
     {
         return [
             'total' => 'required|numeric',
-            'total_iva' => 'required|numeric',
+            'total_tax' => 'required|numeric',
             'total_pay' => 'required|numeric',
             'balance' => 'numeric',
             'status' => 'in:active,debit_note,credit_note,adjustment_note',

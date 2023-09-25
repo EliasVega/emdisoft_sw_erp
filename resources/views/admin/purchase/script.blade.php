@@ -168,22 +168,13 @@
         $("#price").val("");
     }
     function totals(){
-        //var rte = parseFloat($("#percentage").val());
-        //var vrte = total * rte / 100;
         var total_pay = total + total_tax;
-        var total_desc = total_pay - vrte;
 
         $("#total_html").html("$ " + total.toFixed(2));
         $("#total").val(total.toFixed(2));
 
         $("#total_tax_html").html("$ " + total_tax.toFixed(2));
         $("#total_tax").val(total_tax.toFixed(2));
-        /*
-        $("#retention_html").html("$ " + vrte.toFixed(2));
-        $("#retention").val(vrte.toFixed(2));
-
-        $("#total_desc_html").html("$ " + total_desc.toFixed(2));
-        $("#total_desc").val(total_desc.toFixed(2));*/
 
         $("#total_pay_html").html("$ " + total_pay.toFixed(2));
         $("#total_pay").val(total_pay.toFixed(2));
@@ -198,9 +189,6 @@
         if(total>0){
 
         $("#save").show();
-        //$("#percentagey").hide();
-        $("#rtfon").attr('disabled','disabled');
-        $("#rtfoff").attr('disabled','disabled');
         } else{
             $("#save").hide();
         }

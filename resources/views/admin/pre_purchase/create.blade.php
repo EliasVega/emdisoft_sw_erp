@@ -28,7 +28,7 @@
             {!!Form::open(array('url'=>'prePurchase', 'method'=>'POST', 'autocomplete'=>'off'))!!}
             {!!Form::token()!!}
             <div class="row m-1">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 colorbody">
                     @include('admin/pre_purchase.form_prePurchase')
                 </div>
             </div>

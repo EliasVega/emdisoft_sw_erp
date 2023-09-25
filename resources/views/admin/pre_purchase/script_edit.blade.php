@@ -29,9 +29,10 @@
         $("#stock").val(dataProduct[1]);
         $("#vprice").val(dataProduct[2]);
         $("#tax_rate").val(dataProduct[3]);
-        //$("#idP").val(dataProduct[4]);
+        $("#tax_type").val(dataProduct[4]);
         $("#price").val(dataProduct[2]);
     }
+
     $(document).ready(function(){
         $("#add").click(function(){
             add();
@@ -46,6 +47,7 @@
         price= $("#price").val();
         stock= $("#stock").val();
         tax_rate= $("#tax_rate").val();
+        tax_type = $("#tax_type").val();
 
         if(product_id !="" && quantity!="" && quantity>0  && price!=""){
             subtotal[cont]= parseFloat(quantity) * parseFloat(price);

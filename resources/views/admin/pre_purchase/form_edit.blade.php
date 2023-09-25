@@ -39,8 +39,8 @@
     </div>
     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <div class="form-group">
-            <label class="form-control-label" for="tax_rate">Iva</label>
-            <input type="number" id="tax_rate" name="tax_rate" class="form-control" placeholder="Iva" disabled
+            <label class="form-control-label" for="tax_rate">Imp%</label>
+            <input type="number" id="tax_rate" name="tax_rate" class="form-control" placeholder="% Impuesto" disabled
                 pattern="[0-9]{0,15}">
         </div>
     </div>
@@ -50,15 +50,13 @@
             <input type="number" name="vprice" id="vprice"  class="form-control" readonly>
         </div>
     </div>
-    <div class="clearfix"></div>
-
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group row">
             <label class="form-control-label" for="product_id">Producto</label>
                 <select name="product_id" class="form-control selectpicker" id="product_id" data-live-search="true">
-                    <option value="0" disabled selected>Seleccionar el Producto</option>
+                    <option value="0" disabled selected>Seleccionar</option>
                     @foreach($products as $product)
-                        <option value="{{ $product->id }}_{{ $product->stock }}_{{ $product->price }}_{{ $product->category->tax_rate }}">{{ $product->name }}</option>
+                        <option value="{{ $product->id }}_{{ $product->stock }}_{{ $product->price }}_{{ $product->category->companyTax->percentage->percentage }}_{{ $product->category->companyTax->taxType->id }}">{{ $product->name }}</option>
                     @endforeach
                 </select>
         </div>
@@ -107,19 +105,19 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <th colspan="7" class="footder">TOTAL:</th>
-                        <td class="footder"><strong id="total_html">$ 0.00</strong>
+                        <th colspan="7" class="rightfoot">TOTAL:</th>
+                        <td class="rightfoot"><strong id="total_html">$ 0.00</strong>
                             <input type="hidden" name="total" id="total"></td>
                     </tr>
                     <tr>
-                        <th colspan="7" class="footder">TOTAL IVA:</th>
-                        <td class="footder"><strong id="total_tax_html">$ 0.00</strong>
+                        <th colspan="7" class="rightfoot">IMPUESTOS:</th>
+                        <td class="rightfoot"><strong id="total_tax_html">$ 0.00</strong>
                             <input type="hidden" name="total_tax" id="total_tax">
                         </td>
                     </tr>
                     <tr>
-                        <th colspan="7" class="footder">TOTAL PAGAR:</th>
-                        <td class="footder"><strong id="total_pay_html">$ 0.00</strong>
+                        <th colspan="7" class="rightfoot">TOTAL PAGAR:</th>
+                        <td class="rightfoot"><strong id="total_pay_html">$ 0.00</strong>
                             <input type="hidden" name="total_pay" id="total_pay"></td>
                     </tr>
                 </tfoot>

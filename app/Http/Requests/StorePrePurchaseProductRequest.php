@@ -29,7 +29,7 @@ class StorePrePurchaseProductRequest extends FormRequest
             'generation_date'=> 'required|date',
             'due_date' => 'required|date',
             'total' => 'required|numeric',
-            'total_iva' => 'required|numeric',
+            'total_tax' => 'required|numeric',
             'total_pay' => 'required|numeric',
             'pay' => '',
             'balance' => 'numeric',

@@ -32,6 +32,14 @@
     });
     jQuery(document).ready(function($){
         $(document).ready(function() {
+            $('#document_type_id').select2({
+                theme: "classic",
+                width: "100%",
+            });
+        });
+    });
+    jQuery(document).ready(function($){
+        $(document).ready(function() {
             $('#resolution_id').select2({
                 theme: "classic",
                 width: "100%",
@@ -46,30 +54,17 @@
             });
         });
     });
-    jQuery(document).ready(function($){
-        $(document).ready(function() {
-            $('#percentage_id').select2({
-                theme: "classic",
-                width: "100%",
-            });
-        });
-    });
-    jQuery(document).ready(function($){
-        $(document).ready(function() {
-            $('#product_id').select2({
-                theme: "classic",
-                width: "100%",
-            });
-        });
-    });
-    var cont=0;
-    total=0;
-    subtotal=[];
-    total_tax=0;
-    ret = 0;
+    var cont = 0;
+    var total = 0;
+    var subtotal = [];
+    var total_tax = 0;
+    var tax_iva = 0;
+    var total_pay = 0;
+    var total_desc = 0;
+    var ret = 0;
+    var vrte = 0;
     //form purchase
     $("#idPro").hide();
-    $("#percentagey").hide();
     $("#percent").hide();
     $("#save").hide();
 
@@ -103,6 +98,7 @@
                 $("#generat").hide();
                 $("#startd").hide();
                 $("#invoiceCode").hide();
+                $("#resolution_id").val(1);
             }
         });
     });
@@ -123,21 +119,6 @@
         });
     });
 
-    //Seleccionar de acuerdo a porcentage
-    $("#percentage_id").change(percentageVer);
-
-    function percentageVer(){
-        percentage= $("#percentage_id option:selected").text();
-        $("#percentage").val(percentage);
-
-        percentages();
-        totals();
-    }
-    function percentages(){
-
-        $("#percentagey").hide();
-    }
-
     purchase = {!! json_encode($prePurchaseProducts) !!};
     purchase.forEach((value, i) => {
         if (value['quantity'] > 0) {
@@ -148,22 +129,22 @@
             price= value['price'];
             stock= value['stock'];
             tax_rate= value['tax_rate'];
+            tax_type = value['tax_type_id'];
+
             if(product_id !="" && quantity!="" && quantity>0  && price!=""){
                 subtotal[cont]= parseFloat(quantity) * parseFloat(price);
                 total= total+subtotal[cont];
                 ivita= subtotal[cont]*tax_rate/100;
-                total_tax=total_tax+ivita;
-
-                var fila= '<tr class="selected" id="fila'+cont+'"><td><input type="hidden" name="product_id[]" value="'+product_id+'">'+product+'</td> <td><input type="hidden" id="quantity" name="quantity[]" value="'+parseFloat(quantity).toFixed(2)+'">'+quantity+'</td> <td><input type="hidden" id="price" name="price[]" value="'+parseFloat(price).toFixed(2)+'">'+price+'</td> td> <td><input type="hidden" name="tax_rate[]" value="'+tax_rate+'">'+tax_rate+'</td>  <td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';
+                total_tax += ivita;
+                if(tax_type == 1){
+                    tax_iva += ivita;
+                }
+                var fila= '<tr class="selected" id="fila'+cont+'"><td><input type="hidden" name="id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product_id[]" value="'+product_id+'">'+product+'</td> <td><input type="hidden" id="quantity" name="quantity[]" value="'+parseFloat(quantity).toFixed(2)+'">'+quantity+'</td> <td><input type="hidden" id="price" name="price[]" value="'+parseFloat(price).toFixed(2)+'">'+price+'</td> td> <td><input type="hidden" name="tax_rate[]" value="'+tax_rate+'">'+tax_rate+'</td>  <td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';
                 cont++;
 
                 totals();
                 assess();
                 $('#details').append(fila);
-
-                $('#product_id option:selected').remove();
-
-
             }else{
                 //alert("Rellene todos los campos del detalle para esta compra");
                 Swal.fire({
@@ -175,54 +156,28 @@
         }
     });
     function totals(){
-        rte = parseFloat($("#percentage").val());
-        vrte = total*rte/100;
+        var total_pay = total + total_tax;
 
         $("#total_html").html("$ " + total.toFixed(2));
         $("#total").val(total.toFixed(2));
 
-        total_pay=total+total_tax;
-
         $("#total_tax_html").html("$ " + total_tax.toFixed(2));
         $("#total_tax").val(total_tax.toFixed(2));
-
-        total_pay = total_pay - vrte;
-        $("#retention_html").html("$ " + vrte.toFixed(2));
-        $("#retention").val(vrte.toFixed(2));
 
         $("#total_pay_html").html("$ " + total_pay.toFixed(2));
         $("#total_pay").val(total_pay.toFixed(2));
 
         $("#balance").val(total_pay.toFixed(2));
         $("#pendient").val(total_pay.toFixed(2));
+        $("#total_purchase").val(total.toFixed(2));
+        $("#tax_iva").val(tax_iva);
     }
     function assess(){
 
         if(total>0){
-
-        $("#save").show();
-
+            $("#save").show();
         } else{
             $("#save").hide();
         }
-    }
-    function eliminar(index){
-
-        total = total-subtotal[index];
-        total_tax= total*tax_rate/100;
-        total_pay = total + total_tax;
-
-        $("#total_html").html("$ " + total.toFixed(2));
-        $("#total").val(total.toFixed(2));
-
-        total_pay=total+total_tax;
-        $("#total_tax_html").html("$ " + total_tax.toFixed(2));
-        $("#total_tax").val(total_tax.toFixed(2));
-
-        $("#total_pay_html").html("$ " + total_pay.toFixed(2));
-        $("#total_pay").val(total_pay.toFixed(2));
-
-        $("#fila" + index).remove();
-        assess();
     }
 </script>

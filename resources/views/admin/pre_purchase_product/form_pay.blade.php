@@ -23,6 +23,8 @@
             </select>
         </div>
     </div>
+</div>
+<div class="box-body row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="addpayment">
         <div class="form-group">
             <button class="btn btn-celeste btn-sm" type="button" id="addpay" data-toggle="tooltip" data-placement="top" title="Desea Agregar Abono">Agregar abono </button>
@@ -91,28 +93,28 @@
         </div>
     </div>
 
-    <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12" id="valuePay">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="valuePay">
         <div class="form-group">
             <label class="form-control-label requerido" for="pay">Abono</label>
             <input type="number" id="pay" name="pay" value="0"
                 class="form-control blanco" placeholder="pay" pattern="[0-9]{0,15}">
         </div>
     </div>
-    <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12" id="advancePay">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="advancePay">
         <div class="form-group">
             <label class="form-control-label requerido" for="abpayment">abono anticipado</label>
             <input type="number" id="abpayment" name="abpayment"
                 class="form-control blanco">
         </div>
     </div>
-    <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12" id="advancePayValue">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="advancePayValue">
         <div class="form-group">
             <label class="form-control-label" for="payment">Abono +</label>
             <input type="number" id="payment" name="payment"
                 class="form-control blanco" placeholder="valor" pattern="[0-9]{0,15}">
         </div>
     </div>
-    <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12" id="transactions">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="transactions">
         <div class="form-group">
             <label class="form-control-label" for="transaction">#Transaccion</label>
             <input type="text" id="transaction" name="transaction"
@@ -120,7 +122,7 @@
         </div>
     </div>
 
-    <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12" id="banks">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="banks">
         <div class="form-group">
             <label class="requerido" for="bank_id">Bancos</label>
             <select name="bank_id" class="form-control selectpicker" id="bank_id"
@@ -132,7 +134,7 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12" id="cards">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="cards">
         <div class="form-group">
             <label for="card_id">Tipo Tarjeta</label>
             <select name="card_id" class="form-control selectpicker" id="card_id"
@@ -144,7 +146,7 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="advancePayment">
+    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="advancePayment">
         <div class="form-group">
             <label for="payment_id">Pago Anticipado</label>
             <select name="payment_id" class="form-control" id="payment_id">
@@ -153,13 +155,13 @@
         </div>
     </div>
 
-    <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="form-group">
             <label class="form-control-label">Abonar</label><br>
             <button class="btn btn-grisb" type="button" id="paying" data-toggle="tooltip" data-placement="top" title="Abono"><i class="fas fa-check"></i> </button>
         </div>
     </div>
-    <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" >Canc</label><br>
             <a href="{{url('purchase')}}" class="btn btn-grisb" data-toggle="tooltip" data-placement="top" title="Cancelar"><i class="fa fa-window-close"></i>&nbsp; </a>

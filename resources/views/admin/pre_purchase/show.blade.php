@@ -8,13 +8,15 @@
         <div class="box-header with-border">
             <h5 class="box-title">Detalle de la Orden de compra
                 @can('purchase.index')
-                    <a href="{{ route('purchase.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
+                    <a href="{{ route('prePurchase.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
                 @endcan
                 @can('branch.index')
                     <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
                 @endcan
             </h5>
         </div>
+    </div>
+    <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
             <div class="form-group">
                 <label class="form-control-label" for="id">PRE COMPRA #</label>
@@ -59,8 +61,8 @@
                     <thead>
                         <tr>
                             <th>Producto</th>
-                            <th>Precio ($)</th>
                             <th>Cantidad</th>
+                            <th>Precio ($)</th>
                             <th>Subtotal</th>
                         </tr>
                     </thead>
@@ -72,7 +74,7 @@
                         </tr>
 
                         <tr>
-                            <th colspan="3"><p align="right">TOTAL IVA:</p></th>
+                            <th colspan="3"><p align="right">IMPUESTOS:</p></th>
                             <th><p align="right">${{ number_format($prePurchase->total_tax, 2) }}</p></th>
                         </tr>
                         <tr>
@@ -85,9 +87,9 @@
                         @foreach($prePurchaseProducts as $prePurchaseProduct)
                             <tr>
                                 <td>{{ $prePurchaseProduct->product->name }}</td>
-                                <td>${{ $prePurchaseProduct->price }}</td>
-                                <td>{{ $prePurchaseProduct->quantity }}</td>
-                                <td class="tdder">{{ $prePurchaseProduct->subtotal }}</td>
+                                <td class="rightfoot">{{ number_format($prePurchaseProduct->quantity,2)  }}</td>
+                                <td class="rightfoot">${{ number_format($prePurchaseProduct->price,2) }}</td>
+                                <td class="rightfoot">${{ number_format($prePurchaseProduct->subtotal,2) }}</td>
                             </tr>
                         @endforeach
                     </tbody>

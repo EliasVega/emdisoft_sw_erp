@@ -26,6 +26,14 @@ body {
 table {
     width: 100%;
 }
+
+.colorpay {
+    background: #f6ffff;
+}
+
+.colorretentions {
+    background: #edf8ff;
+}
 /*
 *============================================VENTANA MODAL====================================================
 */

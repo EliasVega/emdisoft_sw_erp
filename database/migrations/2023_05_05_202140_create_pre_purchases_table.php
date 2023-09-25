@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
 
             $table->decimal('total', 20, 2);//subtotal de la factura
-            $table->decimal('total_iva', 11, 2);//total iva
+            $table->decimal('total_tax', 11, 2);//total impuestos iva inc
             $table->decimal('total_pay', 20, 2);//total de la factura
             $table->decimal('balance', 20, 2);//saldo de la factura
             $table->enum('status',['active', 'generated', 'canceled'])->default('active');

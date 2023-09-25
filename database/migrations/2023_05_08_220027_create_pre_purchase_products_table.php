@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('price', 11, 2);
             $table->decimal('tax_rate', 10, 2);
             $table->decimal('subtotal', 11, 2);
-            $table->decimal('iva_subtotal', 11, 2);
+            $table->decimal('tax_subtotal', 11, 2);
 
             $table->foreignId('pre_purchase_id')->constrained()->onUpdate('restrict');
             $table->foreignId('product_id')->constrained()->onUpdate('restrict');

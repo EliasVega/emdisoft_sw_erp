@@ -10,6 +10,7 @@ use App\Models\Bank;
 use App\Models\Branch;
 use App\Models\Card;
 use App\Models\Company;
+use App\Models\CompanyTax;
 use App\Models\Department;
 use App\Models\DocumentType;
 use App\Models\GenerationType;
@@ -29,7 +30,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 
 class PrePurchaseController extends Controller
@@ -135,35 +135,32 @@ class PrePurchaseController extends Controller
 
         //Crea un registro de compras
         $prePurchase = new PrePurchase();
-        $prePurchase->user_id = Auth::user()->id;
-        $prePurchase->branch_id = Auth::user()->branch_id;
+        $prePurchase->user_id = current_user()->id;
+        $prePurchase->branch_id = current_user()->branch_id;
         $prePurchase->provider_id = $request->provider_id;
         $prePurchase->total       = $request->total;
-        $prePurchase->total_iva    = $request->total_iva;
+        $prePurchase->total_tax    = $request->total_tax;
         $prePurchase->total_pay    = $request->total_pay;
         $prePurchase->status      = 'active';
         $prePurchase->balance     = $request->total_pay;
         $prePurchase->save();
 
-        $cont = 0;
         //Ingresa los productos que vienen en el array
-        while($cont < count($product_id)){
-
+        for ($i=0; $i < count($product_id); $i++) {
             //Metodo para registrar la relacion entre producto y compra
             $prePurchase_product = new PrePurchaseProduct();
             $prePurchase_product->pre_purchase_id = $prePurchase->id;
-            $prePurchase_product->product_id = $product_id[$cont];
-            $prePurchase_product->quantity = $quantity[$cont];
-            $prePurchase_product->price = $price[$cont];
-            $prePurchase_product->tax_rate = $tax_rate[$cont];
-            $prePurchase_product->subtotal = $quantity[$cont] * $price[$cont];
-            $prePurchase_product->iva_subtotal =($quantity[$cont] * $price[$cont] * $tax_rate[$cont])/100;
+            $prePurchase_product->product_id = $product_id[$i];
+            $prePurchase_product->quantity = $quantity[$i];
+            $prePurchase_product->price = $price[$i];
+            $prePurchase_product->tax_rate = $tax_rate[$i];
+            $prePurchase_product->subtotal = $quantity[$i] * $price[$i];
+            $prePurchase_product->tax_subtotal =($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
             $prePurchase_product->save();
-
-            $cont++;
         }
+        session()->forget('prePurchase');
         session(['prePurchase' => $prePurchase->id]);
-
+        toast('Pre Compra Generada con exito.','success');
         return redirect('prePurchase');
     }
 
@@ -187,13 +184,7 @@ class PrePurchaseController extends Controller
      */
     public function edit(PrePurchase $prePurchase)
     {
-        $departments = Department::get();
-        $municipalities = Municipality::get();
-        $identificationTypes = IdentificationType::get();
-        $liabilities = Liability::get();
-        $organizations = Organization::get();
         $providers = Provider::get();
-        $regimes = Regime::get();
         $branchs = Branch::get();
         $products = Product::where('status', 'active')->get();
         $prePurchaseProducts = PrePurchaseProduct::from('pre_purchase_products as pp')
@@ -203,13 +194,7 @@ class PrePurchaseController extends Controller
         ->get();
         return view('admin.pre_purchase.edit',
         compact(
-            'departments',
-            'municipalities',
-            'identificationTypes',
-            'liabilities',
-            'organizations',
             'providers',
-            'regimes',
             'branchs',
             'products',
             'prePurchase',
@@ -237,7 +222,7 @@ class PrePurchaseController extends Controller
         $prePurchase->branch_id = Auth::user()->branch_id;
         $prePurchase->provider_id = $request->provider_id;
         $prePurchase->total = $request->total;
-        $prePurchase->total_iva = $request->total_iva;
+        $prePurchase->total_tax = $request->total_tax;
         $prePurchase->total_pay = $request->total_pay;
         $prePurchase->balance = $request->total_pay;
         $prePurchase->status = 'active';
@@ -250,7 +235,7 @@ class PrePurchaseController extends Controller
             $prePurchaseProduct->price       = 0;
             $prePurchaseProduct->tax_rate    = 0;
             $prePurchaseProduct->subtotal    = 0;
-            $prePurchaseProduct->iva_subtotal = 0;
+            $prePurchaseProduct->tax_subtotal = 0;
             $prePurchaseProduct->update();
 
         }
@@ -263,7 +248,7 @@ class PrePurchaseController extends Controller
             //Inicia proceso actualizacio pre compra producto si no existe
             if (is_null($prePurchaseProduct)) {
                 $subtotal = $quantity[$i] * $price[$i];
-                $iva_subtotal = $subtotal * $tax_rate[$i]/100;
+                $tax_subtotal = $subtotal * $tax_rate[$i]/100;
 
                 $prePurchaseProduct = new PrePurchaseProduct();
                 $prePurchaseProduct->pre_purchase_id = $prePurchase->id;
@@ -272,33 +257,36 @@ class PrePurchaseController extends Controller
                 $prePurchaseProduct->price       = $price[$i];
                 $prePurchaseProduct->tax_rate    = $tax_rate[$i];
                 $prePurchaseProduct->subtotal    = $subtotal;
-                $prePurchaseProduct->iva_subtotal     = $iva_subtotal;
+                $prePurchaseProduct->tax_subtotal     = $tax_subtotal;
                 $prePurchaseProduct->save();
 
             } else {
                 if ($quantity[$i] > 0) {
 
                     $subtotal = $quantity[$i] * $price[$i];
-                    $iva_subtotal = $subtotal * $tax_rate[$i]/100;
+                    $tax_subtotal = $subtotal * $tax_rate[$i]/100;
 
                     if ($prePurchaseProduct->quantity > 0) {
                         $prePurchaseProduct->quantity    += $quantity[$i];
                         $prePurchaseProduct->price       = $price[$i];
                         $prePurchaseProduct->tax_rate    = $tax_rate[$i];
                         $prePurchaseProduct->subtotal    += $subtotal;
-                        $prePurchaseProduct->iva_subtotal     += $iva_subtotal;
+                        $prePurchaseProduct->tax_subtotal     += $tax_subtotal;
                         $prePurchaseProduct->update();
                     } else {
                         $prePurchaseProduct->quantity    = $quantity[$i];
                         $prePurchaseProduct->price       = $price[$i];
                         $prePurchaseProduct->tax_rate    = $tax_rate[$i];
                         $prePurchaseProduct->subtotal    = $subtotal;
-                        $prePurchaseProduct->iva_subtotal     = $iva_subtotal;
+                        $prePurchaseProduct->tax_subtotal     = $tax_subtotal;
                         $prePurchaseProduct->update();
                     }
                 }
             }
         }
+        session()->forget('prePurchase');
+        session(['prePurchase' => $prePurchase->id]);
+        toast('Pre Compra Editada con exito.','success');
         return redirect('prePurchase');
     }
 
@@ -319,7 +307,7 @@ class PrePurchaseController extends Controller
         \Session()->put('prePurchase', $prePurchase->id, 60 * 24 * 365);
         $providers = Provider::get();
         $documentTypes = DocumentType::where('prefix', 'dse')->get();
-        $resolutions = Resolution::get();
+        $resolutions = Resolution::where('document_type_id', 11)->where('status', 'active')->get();
         $generationTypes = GenerationType::get();
         $paymentForms = PaymentForm::get();
         $paymentMethods = PaymentMethod::get();
@@ -332,9 +320,16 @@ class PrePurchaseController extends Controller
         $date = Carbon::now();
         $prePurchaseProducts = PrePurchaseProduct::from('pre_purchase_products as pp')
         ->join('products as pro', 'pp.product_id', 'pro.id')
-        ->select('pro.id', 'pro.name', 'pro.stock', 'pp.quantity', 'pp.price', 'pp.tax_rate', 'pp.subtotal')
+        ->join('categories as cat', 'pro.category_id', 'cat.id')
+        ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+        ->select('pro.id', 'pro.name', 'pro.stock', 'pp.quantity', 'pp.price', 'pp.tax_rate', 'pp.subtotal', 'ct.tax_type_id')
         ->where('pre_purchase_id', $prePurchase->id)
         ->get();
+        $companyTaxes = CompanyTax::from('company_taxes', 'ct')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
+        ->where('tt.type_tax', 'retention')->get();
 
         return view('admin.pre_purchase_product.create', compact(
             'prePurchase',
@@ -351,7 +346,8 @@ class PrePurchaseController extends Controller
             'advances',
             'products',
             'date',
-            'prePurchaseProducts'
+            'prePurchaseProducts',
+            'companyTaxes'
         ));
     }
 

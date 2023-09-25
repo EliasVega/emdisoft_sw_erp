@@ -17,7 +17,7 @@ class PrePurchase extends Model
 
     protected $fillable = [
         'total',
-        'total_iva',
+        'total_tax',
         'total_pay',
         'balance',
         'status',

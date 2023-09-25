@@ -36,9 +36,9 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-12 col-md-4 col-sm-12 col-xs-12 mt-3">
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mt-2">
         <div class="form-group">
-            <label class="form-control-label" for="document_type_id">Tipo de Documento Electronico</label>
+            <label class="form-control-label" for="document_type_id">Tipo de Documento</label>
                 <select name="document_type_id" class="form-control selectpicker" id="document_type_id" data-live-search="true" required>
                     <option value="0" disabled selected>Seleccionar Tipo de documento</option>
                     @foreach($documentTypes as $documentType)
@@ -47,25 +47,35 @@
                 </select>
         </div>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-        <div class="form-group">
-            <label class="form-control-label" for="generation_date">Fecha Generacion</label>
-            <input type="date" name="generation_date" class="form-control" placeholder="Fecha Vencimiento">
-        </div>
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-        <div class="form-group">
-            <label class="form-control-label" for="due_date">Vencimiento</label>
-            <input type="date" name="due_date" class="form-control" placeholder="Fecha Vencimiento">
-        </div>
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" id="invoiceCode">
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="invoiceCode">
         <div class="form-group">
             <label class="form-control-label" for="invoice_code">N°Factura</label>
             <input type="text" id="invoice_code" name="invoice_code" value="{{ old('invoice_code') }}" class="form-control" placeholder="Numero de la factura" required>
         </div>
     </div>
-
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label class="form-control-label" for="generation_date">Fecha Generacion</label>
+            <input type="date" name="generation_date" class="form-control" value="<?php echo date("Y-m-d");?>" placeholder="Fecha Vencimiento">
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+        <div class="form-group">
+            <label class="form-control-label" for="due_date">Vencimiento</label>
+            <input type="date" name="due_date" class="form-control" value="<?php echo date("Y-m-d");?>" placeholder="Fecha Vencimiento">
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="resolution">
+        <div class="form-group">
+            <label class="form-control-label" for="resolution_id">Resolucion</label>
+                <select name="resolution_id" class="form-control selectpicker" id="resolution_id" data-live-search="true">
+                    <option value="0" disabled selected>Resolucion</option>
+                    @foreach($resolutions as $resolution)
+                        <option value="{{ $resolution->id }}">{{ $resolution->prefix }} {{ $resolution->resolution }}</option>
+                    @endforeach
+                </select>
+        </div>
+    </div>
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="generat">
         <div class="form-group">
             <label class="form-control-label" for="generation_type_id">Tipo de generacion</label>
@@ -83,52 +93,10 @@
             <input type="date" name="start_date" id="start_date" class="form-control" value="<?php echo date("Y-m-d");?>">
         </div>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="resolution">
+    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12" id="noteDocument">
         <div class="form-group">
-            <label class="form-control-label" for="resolution_id">Resolucion</label>
-                <select name="resolution_id" class="form-control selectpicker" id="resolution_id" data-live-search="true" required>
-                    <option value="0" disabled selected>Resolucion</option>
-                    @foreach($resolutions as $resolution)
-                        <option value="{{ $resolution->id }}">{{ $resolution->prefix }} {{ $resolution->resolution }}</option>
-                    @endforeach
-                </select>
-        </div>
-    </div>
-
-    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 mt-4">
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="percentage" value="1" id="rtfon">
-            <label class="form-check-label" for="retefte">
-                Retenciones
-            </label>
-            </div>
-            <div class="form-check">
-            <input class="form-check-input" type="radio" name="percentage" value="0" id="rtfoff" checked>
-            <label class="form-check-label" for="retefte">
-                No Retenciones
-            </label>
-        </div>
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="percentagey">
-        <div class="form-group row">
-            <label class="form-control-label" for="percentage_id">Porcentaje</label>
-            <select name="percentage_id" class="form-control selectpicker" id="percentage_id"
-                data-live-search="true">
-                <option value="1" disabled selected>Seleccionar.</option>
-                @foreach($percentages as $percentage)
-                <option
-                    value="{{ $percentage->id }}">{{ $percentage->percentage }}</option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-
-
-    <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12" id="percent">
-        <div class="form-group">
-            <label class="form-control-label" for="percentage">% Ret</label>
-            <input type="number" id="percentage" name="percentage" value="0" class="form-control"
-                placeholder="V impuesto" disabled pattern="[0-9]{0,15}">
+            <label class="form-control-label" for="note">Observaciones</label>
+            <input type="text" id="note" name="note" value="{{ old('note') }}" class="form-control" placeholder="Observaciones">
         </div>
     </div>
     <div class="clearfix"></div>
@@ -137,6 +105,7 @@
             <table id="details" class="table table-striped table-bordered table-condensed table-hover">
                 <thead>
                     <tr>
+                        <th>Id</th>
                         <th>Producto</th>
                         <th>Cantidad</th>
                         <th>precio ($)</th>
@@ -146,24 +115,19 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <th colspan="4" class="footder">TOTAL:</th>
-                        <td class="footder"><strong id="total_html">$ 0.00</strong>
+                        <th colspan="5" class="rightfoot">TOTAL:</th>
+                        <td class="rightfoot"><strong id="total_html">$ 0.00</strong>
                             <input type="hidden" name="total" id="total"></td>
                     </tr>
                     <tr>
-                        <th colspan="4" class="footder">TOTAL IVA:</th>
-                        <td class="footder"><strong id="total_tax_html">$ 0.00</strong>
+                        <th colspan="5" class="rightfoot">IMPUESTOS:</th>
+                        <td class="rightfoot"><strong id="total_tax_html">$ 0.00</strong>
                             <input type="hidden" name="total_tax" id="total_tax">
                         </td>
                     </tr>
-                    <tr id="rtferase">
-                        <th colspan="4" class="footder">RETENCION:</th>
-                        <td class="footder"><strong id="retention_html">$ 0.00</strong>
-                            <input type="hidden" name="retention" id="retention"></td>
-                    </tr>
                     <tr>
-                        <th colspan="4" class="footder">TOTAL PAGAR:</th>
-                        <td class="footder"><strong id="total_pay_html">$ 0.00</strong>
+                        <th colspan="5" class="rightfoot">TOTAL PAGAR:</th>
+                        <td class="rightfoot"><strong id="total_pay_html">$ 0.00</strong>
                             <input type="hidden" name="total_pay" id="total_pay"></td>
                     </tr>
                 </tfoot>

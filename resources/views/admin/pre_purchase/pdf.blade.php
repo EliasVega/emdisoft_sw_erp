@@ -98,7 +98,7 @@
                             </tr>
 
                             <tr>
-                                <th colspan="3" class="footder">TOTAL IVA:</th>
+                                <th colspan="3" class="footder">IMPUESTOS:</th>
                                 <td class="footder"><strong>${{number_format($prePurchase->total_tax,2)}}</strong> </td>
                             </tr>
 
