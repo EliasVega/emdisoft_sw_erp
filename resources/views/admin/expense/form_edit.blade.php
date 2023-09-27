@@ -103,21 +103,22 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <th colspan="7" class="footder">TOTAL:</th>
-                        <td class="footder"><strong id="total_html">$ 0.00</strong>
+                        <th colspan="7" class="rightfoot">TOTAL:</th>
+                        <td class="rightfoot"><strong id="total_html">$ 0.00</strong>
                             <input type="hidden" name="total" id="total"></td>
                     </tr>
+                    <!--
                     <tr>
-                        <th colspan="7" class="footder">TOTAL IVA:</th>
-                        <td class="footder"><strong id="total_iva_html">$ 0.00</strong>
+                        <th colspan="7" class="rightfoot">TOTAL IVA:</th>
+                        <td class="rightfoot"><strong id="total_iva_html">$ 0.00</strong>
                             <input type="hidden" name="total_iva" id="total_iva">
                         </td>
                     </tr>
                     <tr>
-                        <th colspan="7" class="footder">TOTAL PAGAR:</th>
-                        <td class="footder"><strong id="total_pay_html">$ 0.00</strong>
+                        <th colspan="7" class="rightfoot">TOTAL PAGAR:</th>
+                        <td class="rightfoot"><strong id="total_pay_html">$ 0.00</strong>
                             <input type="hidden" name="total_pay" id="total_pay"></td>
-                    </tr>
+                    </tr> -->
                 </tfoot>
                 <tbody>
                 </tbody>

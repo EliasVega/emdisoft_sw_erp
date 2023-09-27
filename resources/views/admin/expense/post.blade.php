@@ -90,12 +90,12 @@
                     @if ($expense->pay > 0)
                         <tr>
                             <th  colspan="3" class="footRight">ABONOS:</th>
-                            <td  class="footRight"><strong>-${{number_format($expense->pay)}}</strong></td>
+                            <td  class="footRight"><strong>${{number_format($expense->pay)}}</strong></td>
                         </tr>
                     @endif
                     <tr>
                         <th  colspan="3" class="footRight">SALDO A PAGAR:</th>
-                        <td class="footRight"><strong id="total">$ {{number_format($expense->total -  $expense->pay)}}</strong></td>
+                        <td class="footRight"><strong id="total">${{number_format($expense->total -  $expense->pay)}}</strong></td>
                     </tr>
                 </tfoot>
             </table>

@@ -87,7 +87,7 @@
                          @if ($expense->pay > 0)
                              <tr>
                                  <th  colspan="3" class="rightfoot">ABONOS</th>
-                                 <td  class="rightfoot"><strong>$ -{{number_format($expense->pay,2)}}</strong></td>
+                                 <td  class="rightfoot"><strong>${{number_format($expense->pay,2)}}</strong></td>
                              </tr>
                          @endif
                          <tr>

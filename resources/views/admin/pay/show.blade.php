@@ -15,10 +15,14 @@
                 @endcan
             </h5>
         </div>
+    </div>
+    <div class="row">
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
             <div class="form-group">
-                <label class="form-control-label" for="name">CLIENTE</label>
+                <label class="form-control-label" for="name">TERCERO</label>
                 <p>@if ($pay->type == 'purchase')
+                    <p>{{ $pay->payable->third->name }}</p>
+                @elseif ($pay->type == 'expense')
                     <p>{{ $pay->payable->third->name }}</p>
                 @elseif ($pay->type == 'invoice')
                     <p>{{ $pay->payable->third->name }}</p>

@@ -7,7 +7,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <h5>Cargos
             @can('company.create')
-                <a href="company/create" class="btn btn-celeste"><i class="fa fa-plus"></i>Agregar Compañia</a>
+                <a href="company/create" class="btn btn-celeste btn-sm"><i class="fa fa-plus"></i>Agregar Compañia</a>
             @endcan
         </h5>
     </div>

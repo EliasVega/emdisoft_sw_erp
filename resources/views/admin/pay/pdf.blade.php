@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet" href="{{ asset('css/vouchers.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/voucher.css') }}">
         <title>ANTICIPO</title>
 
     </head>
@@ -12,7 +12,7 @@
         <!-- LOGGO -->
         <div class="center">
             <div id="logo">
-                <img src="{{ public_path('images/logos/'.$company->logo) }}" alt="{{ $company->name }}" class="app-logo">
+                <img src="{{ asset($company->logo) }}" alt="{{ $company->name }}" width="150px" height="50px" class="app-logo">
             </div>
         <!--DATOS company -->
             <div class="company">
@@ -51,20 +51,20 @@
                 <p>Direccion:</p>
             </div>
             <div class="description4">
-                <p>{{  $pay->payable->provider->address  }}</p>
+                <p>{{  $pay->payable->third->address  }}</p>
             </div>
             <div class="title">
                 <p>Telefono:</p>
             </div>
             <div class="description2">
-                <p>{{  $pay->payable->provider->phone  }}</p>
+                <p>{{  $pay->payable->third->phone  }}</p>
             </div>
             <div class="clearfix"></div>
             <div class="title">
                 <p>Recibo de:</p>
             </div>
             <div class="description5">
-                <p>{{  $pay->payable->provider->name  }}</p>
+                <p>{{  $pay->payable->third->name  }}</p>
             </div>
             <div class="clearfix"></div>
             <div class="title">

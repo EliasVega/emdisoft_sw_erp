@@ -280,7 +280,7 @@ class PurchaseController extends Controller
             } else {
                 $purchase->pay = 0;
             }
-            $purchase->balance = $total_pay - $totalpay - $retention;
+            $purchase->balance = $total_pay - $totalpay;
             $purchase->grand_total = $total_pay - $retention;
             $purchase->start_date = $request->start_date;
             $purchase->save();
@@ -903,7 +903,7 @@ class PurchaseController extends Controller
         ));
     }
 
-   public function debitNote($id)
+    public function debitNote($id)
     {
         $purchase = Purchase::where('id', $id)->first();
         $indicator = Indicator::findOrFail(1);

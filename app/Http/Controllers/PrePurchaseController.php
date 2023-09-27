@@ -131,18 +131,17 @@ class PrePurchaseController extends Controller
         $quantity   = $request->quantity;
         $price      = $request->price;
         $tax_rate   = $request->tax_rate;
-        $branch     = $request->branch_id[0];
 
         //Crea un registro de compras
         $prePurchase = new PrePurchase();
         $prePurchase->user_id = current_user()->id;
         $prePurchase->branch_id = current_user()->branch_id;
         $prePurchase->provider_id = $request->provider_id;
-        $prePurchase->total       = $request->total;
-        $prePurchase->total_tax    = $request->total_tax;
-        $prePurchase->total_pay    = $request->total_pay;
-        $prePurchase->status      = 'active';
-        $prePurchase->balance     = $request->total_pay;
+        $prePurchase->total = $request->total;
+        $prePurchase->total_tax = $request->total_tax;
+        $prePurchase->total_pay = $request->total_pay;
+        $prePurchase->status = 'active';
+        $prePurchase->balance = $request->total_pay;
         $prePurchase->save();
 
         //Ingresa los productos que vienen en el array

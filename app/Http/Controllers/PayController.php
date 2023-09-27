@@ -113,27 +113,42 @@ class PayController extends Controller
      */
     public function store(StorepayRequest $request)
     {
+        //dd($request->all());
         $document_id = $request->document_id;
-        $purchase = Purchase::findOrFail($document_id);
+        $voucher = $request->voucher;
         $totalpay = $request->totalpay;
         $document = '';
-        switch($request->voucher) {
+        switch($voucher) {
             case(7):
+                $purchase = Purchase::findOrFail($document_id);
                 $typeDocument = 'purchase';
                 $document = $purchase;
+                $purchase->balance -= $totalpay;
+                $purchase->pay += $totalpay;
+                $purchase->update();
             break;
             case(12):
+                $purchase = Purchase::findOrFail($document_id);
                 $typeDocument = 'purchase';
                 $document = $purchase;
+                $purchase->balance -= $totalpay;
+                $purchase->pay += $totalpay;
+                $purchase->update();
+            break;
+            case(20):
+                $expense = Expense::findOrFail($document_id);
+                $typeDocument = 'expense';
+                $document = $expense;
+                $expense->balance -= $totalpay;
+                $expense->pay += $totalpay;
+                $expense->update();
             break;
             default:
                 $msg = 'No has seleccionado voucher.';
         }
 
         Pays($request, $document, $typeDocument);
-        $purchase->balance -= $totalpay;
-        $purchase->pay += $totalpay;
-        $purchase->update();
+
         Alert::success('Pago','Realizado Satisfactoriamente.');
         return redirect('pay');
     }

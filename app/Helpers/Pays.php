@@ -28,7 +28,7 @@ if (! function_exists('Pays')) {
         $pay->user_id = current_user()->id;
         $pay->branch_id = current_user()->branch_id;
         $pay->pay = $totalpay;
-        $pay->balance = $document->balance - $totalpay;
+        $pay->balance = $document->balance;
         $pay->type = $typeDocument;
         switch($typeDocument) {
             case 'purchase':

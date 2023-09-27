@@ -151,6 +151,7 @@ class NdpurchaseController extends Controller
         $reverse = $request->reverse;//1 si desea volver valor a caja 2 si desea crear un avance
         $advancePay = $purchase->pay - $newGrandTotal;
         $documentType = $request->document_type_id;
+        $documentOrigin = $purchase;
         $store = false;
         if ($documentType == 11 && $indicator->dian == 'on') {
             $data = AdjustmentNoteSend($request, $purchase);
@@ -317,7 +318,7 @@ class NdpurchaseController extends Controller
                         $cashRegister->update();
                     }
                 } else {
-                    $this->advanceCreate($voucherTypes, $purchase, $advancePay);
+                    $this->advanceCreate($voucherTypes, $documentOrigin, $advancePay, $typeDocument);
 
                     if ($indicator->post == 'on') {
                         $cashRegister->out_advance += $advancePay;

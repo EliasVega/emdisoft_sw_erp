@@ -137,7 +137,7 @@ class PrePurchaseProductController extends Controller
             } else {
                 $purchase->pay = 0;
             }
-            $purchase->balance = $total_pay - $totalpay - $retention;
+            $purchase->balance = $total_pay;
             $purchase->grand_total = $total_pay - $retention;
             $purchase->start_date = $request->start_date;
             $purchase->save();
@@ -221,6 +221,9 @@ class PrePurchaseProductController extends Controller
                 $resolutions->consecutive += 1;
                 $resolutions->update();
             }
+            $purchase->balance -= ($totalpay + $retention);
+            $purchase-> update();
+
             $prePurchase->status = 'generated';
             $prePurchase->update();
 
