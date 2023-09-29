@@ -14,7 +14,7 @@
                     <a href="{{ route('company.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
                 @endcan
                 @can('product.index')
-                <a href="{{ route('product.index') }}" class="btn btn-gris btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Productos</a>
+                <a href="{{ route('product.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Productos</a>
             @endcan
             </h5>
         </div>

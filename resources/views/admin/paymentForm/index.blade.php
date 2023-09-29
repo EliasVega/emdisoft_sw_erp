@@ -9,7 +9,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h5>Formas de pago
                 @can('paymentForm.create')
-                    <a href="paymentForm/create" class="btn btn-celeste"><i class="fa fa-plus"></i> Forma de pago</a>
+                    <a href="paymentForm/create" class="btn btn-lightBlueGrad"><i class="fa fa-plus"></i> Forma de pago</a>
                 @endcan
                 @can('company.index')
                     <a href="{{ route('company.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>

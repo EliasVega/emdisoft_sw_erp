@@ -18,16 +18,16 @@
                 <option {{ old('company_tax_id', $category->company_tax_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar porcentage</option>
                 @foreach($companyTaxes as $companyTax)
                     @if(old('company_tax_id', $category->company_tax_id ?? '') == $companyTax->id)
-                        <option value="{{ $companyTax->id }}" selected>{{ $companyTax->name }}</option>
+                        <option value="{{ $companyTax->id }}" selected>{{ $companyTax->name }} - {{ $companyTax->percentage->percentage }}</option>
                     @else
-                        <option value="{{ $companyTax->id }}">{{ $companyTax->name }}</option>
+                        <option value="{{ $companyTax->id }}">{{ $companyTax->name }} - {{ $companyTax->percentage->percentage }}</option>
                     @endif
                 @endforeach
             </select>
         </div>
     </div>
 
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="utility_rate">Utilidad</label>
             <input type="number" name="utility_rate" value="{{ old('utility_rate', $category->utility_rate ?? '') }}" class="form-control" placeholder="Porcentage de Utilidad">
@@ -35,8 +35,8 @@
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-celeste btn-md" type="submit"><i class="fa fa-save"></i>&nbsp; Guardar</button>
-            <a href="{{url('category')}}" class="btn btn-fucsion"><i class="fa fa-window-close"></i>&nbsp; Cancelar</a>
+            <button class="btn btn-lightBlueGrad btn-md" type="submit"><i class="fa fa-save"></i>&nbsp; Guardar</button>
+            <a href="{{url('category')}}" class="btn btn-blueGrad"><i class="fa fa-window-close"></i>&nbsp; Cancelar</a>
         </div>
     </div>
 </div>

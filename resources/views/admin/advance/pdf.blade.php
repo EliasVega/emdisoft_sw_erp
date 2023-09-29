@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet" href="{{ asset('css/vouchers.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/voucher.css') }}">
         <title>ANTICIPO</title>
 
     </head>
@@ -12,7 +12,7 @@
         <!-- LOGGO -->
         <div class="center">
             <div id="logo">
-                <img src="{{ public_path('images/logos/'.$company->logo) }}" alt="{{ $company->name }}" class="app-logo">
+                <img src="{{ asset($company->logo) }}" alt="{{ $company->name }}" width="150px" height="50px" class="app-logo">
             </div>
         <!--DATOS company -->
             <div class="company">
@@ -81,39 +81,40 @@
                 @endif
             </div>
         </div>
-        <div class="content">
-            <div class="center">
-                <div id="ttable">
-                    <table class="table">
-                        <!--DETALLE DE VENTA -->
-                        <thead>
-                            <tr>
-                                <th>Transaccion</th>
-                                <th>Medio de pago</th>
-                                <th>Valor</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($payPaymentMethods as $payPaymentMethod)
-                            <tr>
-                                <td>{{ $payPaymentMethod->transaction }}</td>
-                                <td>{{ $payPaymentMethod->paymentMethod->name }}</td>
-                                <td class="tdder">$ {{ number_format($payPaymentMethod->pay, 2) }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th  colspan="2"><p align="right">TOTAL:</p></th>
-                                <th><p align="right">${{ number_format($advance->pay, 2) }}</p></th>
-                            </tr>
-                        </tfoot>
-                    </table>
+        @if ($payPaymentMethods != null)
+            <div class="content">
+                <div class="center">
+                    <div id="ttable">
+                        <table class="table">
+                            <!--DETALLE DE VENTA -->
+                            <thead>
+                                <tr>
+                                    <th>Transaccion</th>
+                                    <th>Medio de pago</th>
+                                    <th>Valor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($payPaymentMethods as $payPaymentMethod)
+                                <tr>
+                                    <td>{{ $payPaymentMethod->transaction }}</td>
+                                    <td>{{ $payPaymentMethod->paymentMethod->name }}</td>
+                                    <td class="tdder">$ {{ number_format($payPaymentMethod->pay, 2) }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th  colspan="2"><p align="right">TOTAL:</p></th>
+                                    <th><p align="right">${{ number_format($advance->pay, 2) }}</p></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
                 </div>
-
             </div>
-        </div>
-
+        @endif
         <!--DATOS CLIENTE -->
         <br>
         <br>

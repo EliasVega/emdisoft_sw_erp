@@ -9,7 +9,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h5>Tarjetas
                 @can('card.create')
-                    <a href="card/create" class="btn btn-lightBlueGrad btn-sm"><i class="fa fa-plus mr-2"></i> Agregar Tarjeta</a>
+                    <a href="card/create" class="btn btn-greenGrad btn-sm"><i class="fa fa-plus mr-2"></i> Agregar Tarjeta</a>
                 @endcan
                 @can('company.index')
                     <a href="{{ route('company.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>

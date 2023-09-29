@@ -9,7 +9,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h5>Codigos de verificacion
                 @can('verificationCode.create')
-                    <a href="verificationCode/create" class="btn btn-celeste"><i class="fa fa-plus"></i>Agregar Verificacion</a>
+                    <a href="verificationCode/create" class="btn btn-lightBlueGrad"><i class="fa fa-plus"></i>Agregar Verificacion</a>
                 @endcan
                 @can('user.index')
                     <a href="{{ route('user.index') }}" class="btn btn-lightBlueGrad"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>

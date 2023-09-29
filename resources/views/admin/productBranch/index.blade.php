@@ -8,13 +8,13 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h5>Listado de Traslados
                 @can('productBranch.create')
-                    <a href="productBranch/create" class="btn btn-celeste"><i class="fa fa-plus"></i>Agregar Traslado</a>
+                    <a href="productBranch/create" class="btn btn-lightBlueGrad"><i class="fa fa-plus"></i>Agregar Traslado</a>
                 @endcan
                 @can('branch.index')
                     <a href="{{ route('branch.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
                 @endcan
                 @can('productBranch.index')
-                <a href="{{ route('productBranch.index') }}" class="btn btn-gris"><i class="fas fa-undo-alt mr-2"></i>Ver Movimientos</a>
+                <a href="{{ route('productBranch.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Ver Movimientos</a>
                 @endcan
             </h5>
         </div>

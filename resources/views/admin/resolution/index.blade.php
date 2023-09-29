@@ -9,7 +9,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h5>Resoluciones
                 @can('resolution.create')
-                    <a href="resolution/create" class="btn btn-celeste"><i class="fa fa-plus"></i>Agregar Resolucion</a>
+                    <a href="resolution/create" class="btn btn-lightBlueGrad"><i class="fa fa-plus"></i>Agregar Resolucion</a>
                 @endcan
                 @can('branch.index')
                     <a href="{{ route('branch.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>

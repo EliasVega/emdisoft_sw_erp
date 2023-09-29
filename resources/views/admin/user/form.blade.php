@@ -117,8 +117,8 @@
 
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-celeste" type="submit">Guardar</button>
-            <a href="{{url('user')}}" class="btn btn-gris">Cancelar</a>
+            <button class="btn btn-lightBlueGrad" type="submit">Guardar</button>
+            <a href="{{url('user')}}" class="btn btn-blueGrad">Cancelar</a>
         </div>
     </div>
 </div>

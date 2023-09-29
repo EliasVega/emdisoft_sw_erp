@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateCompanyTaxRequest;
 use App\Models\Percentage;
 use App\Models\TaxType;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 
 class CompanyTaxController extends Controller
@@ -108,12 +109,13 @@ class CompanyTaxController extends Controller
      */
     public function update(UpdateCompanyTaxRequest $request, CompanyTax $companyTax)
     {
-        $companyTax = new CompanyTax();
         $companyTax->name = $request->name;
         $companyTax->description = $request->description;
         $companyTax->tax_type_id = $request->tax_type_id;
         $companyTax->percentage_id = $request->percentage_id;
         $companyTax->update();
+
+        Alert::success('Impuesto','Editado Satisfactoriamente.');
         return redirect("companyTax");
     }
 

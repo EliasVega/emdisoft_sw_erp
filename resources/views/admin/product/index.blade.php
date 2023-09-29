@@ -9,10 +9,13 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h5>Productos
                 @can('product.create')
-                    <a href="product/create" class="btn btn-celeste btn-sm"><i class="fa fa-plus"></i> Agregar Producto</a>
+                    <a href="product/create" class="btn btn-lightBlueGrad btn-sm"><i class="fa fa-plus"></i> Agregar Producto</a>
                 @endcan
                 @can('branch.index')
                     <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
+                @endcan
+                @can('branchProduct.index')
+                    <a href="{{ route('branchProduct.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Producto Sucursal</a>
                 @endcan
             </h5>
         </div>

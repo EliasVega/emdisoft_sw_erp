@@ -9,7 +9,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h5>Unidades de Medida
                 @can('measureUnit.create')
-                    <a href="measureUnit/create" class="btn btn-celeste"><i class="fa fa-plus"></i> Agregar Unidad de Medida</a>
+                    <a href="measureUnit/create" class="btn btn-lightBlueGrad"><i class="fa fa-plus"></i> Agregar Unidad de Medida</a>
                 @endcan
                 @can('company.index')
                     <a href="{{ route('company.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>

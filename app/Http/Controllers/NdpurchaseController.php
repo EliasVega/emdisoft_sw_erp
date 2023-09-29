@@ -9,7 +9,6 @@ use App\Models\BranchProduct;
 use App\Models\CashInflow;
 use App\Models\CashRegister;
 use App\Models\Company;
-use App\Models\CompanyTax;
 use App\Models\Environment;
 use App\Models\Indicator;
 use App\Models\NdpurchaseProduct;
@@ -19,7 +18,6 @@ use App\Models\Product;
 use App\Models\ProductPurchase;
 use App\Models\Purchase;
 use App\Models\Resolution;
-use App\Models\Retention;
 use App\Models\Tax;
 use App\Models\VoucherType;
 use Carbon\Carbon;
@@ -31,10 +29,11 @@ use App\Traits\AdvanceCreate;
 use App\Traits\KardexCreate;
 use App\Traits\Taxes;
 use App\Traits\NdpurchaseProductCreate;
+use App\Traits\reverse;
 
 class NdpurchaseController extends Controller
 {
-    use AdvanceCreate, KardexCreate, Taxes, NdpurchaseProductCreate;
+    use AdvanceCreate, KardexCreate, Taxes, NdpurchaseProductCreate, reverse;
 
     function __construct()
     {
@@ -314,7 +313,9 @@ class NdpurchaseController extends Controller
                         $cashRegister->cash_in_total += $advancePay;
                         $cashRegister->in_cash += $advancePay;
                         $cashRegister->in_total += $advancePay;
-                        $cashRegister->out_purchase -= $advancePay;
+                        if ($date1 == $date2) {
+                            $cashRegister->purchase -= $advancePay;
+                        }
                         $cashRegister->update();
                     }
                 } else {
@@ -322,7 +323,9 @@ class NdpurchaseController extends Controller
 
                     if ($indicator->post == 'on') {
                         $cashRegister->out_advance += $advancePay;
-                        $cashRegister->out_purchase -= $advancePay;
+                        if ($date1 == $date2) {
+                            $cashRegister->purchase -= $advancePay;
+                        }
                         $cashRegister->update();
                     }
                 }

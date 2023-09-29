@@ -7,7 +7,7 @@
         </div>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        <label for="provider_id">Proveedor <a href="{{ route('prePurchase.index') }}" class="btn btn-celeste btn-sm"><i class="fas fa-undo-alt mr-2"></i>Regresar</a></label>
+        <label for="provider_id">Proveedor <a href="{{ route('prePurchase.index') }}" class="btn btn-lightBlueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Regresar</a></label>
         <div class="select">
             <select id="provider_id" name="provider_id" class="form-control selectpicker" data-live-search="true" disabled>
                 <option {{ old('provider_id', $prePurchase->provider_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Proveedor</option>

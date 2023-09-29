@@ -79,22 +79,22 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        $message = 'este es un mensaje para prueba';
+        $message = 'Creada Satisfactoriamente';
         $category = new Category();
         $category->name = $request->name;
         $category->description = $request->description;
         $category->utility_rate = $request->utility_rate;
         $category->company_tax_id = $request->company_tax_id;
         $category->save();
-        Alert::success('Categoria', $message);
-        //Alert::success('Categoria','Creada Satisfactoriamente.');
+
+        toast($message,'success');
         return redirect('category');
     }
 
     public function storeCategory(Request $request)
     {
         $category = $request->file('category_file');
-        Excel::import(new CategoryImport, $category);
+        //Excel::import(new CategoryImport, $category);
 
         $message = 'Importacion de Categorias realizada con exito';
         //Alert::success('Categoria', $message);
@@ -140,7 +140,7 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->description = $request->description;
         $category->utility_rate = $request->utility_rate;
-        $category->companyTaxes_id = $request->companyTaxes_id;
+        $category->company_tax_id = $request->company_tax_id;
         $category->update();
         Alert::success('Categoria','Editada Satisfactoriamente.');
         return redirect('category');
@@ -157,7 +157,7 @@ class CategoryController extends Controller
         $products = Product::where('category_id', $category->id)->get();
         $cont = count($products);
         if ($cont > 0) {
-            toast('No puedes Eliminar esta Categoria tiene productos asignados','warning');
+            toast('No puedes Eliminar esta Categoria tiene productos asignados','success');
             return redirect("category");
             //return redirect("category")->with('success', 'No puedes Eliminar esta Categoria tiene productos asignados');
 
@@ -175,6 +175,9 @@ class CategoryController extends Controller
 
             return DataTables::of($categories)
             ->addIndexColumn()
+            ->addColumn('tax_rate', function (Category $category) {
+                return $category->companyTax->percentage->percentage;
+            })
             ->addColumn('btn', 'admin/category/active')
             ->rawcolumns(['btn'])
             ->make(true);

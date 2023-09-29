@@ -16,9 +16,11 @@
 
             </h4>
         </div>
+    </div>
+    <div class="row">
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
             <div class="form-group">
-                <label class="form-control-label" for="customer">CLIENTE</label>
+                <label class="form-control-label" for="customer">TERCERO</label>
                 <p>{{ $advance->advanceable->name }}</p>
             </div>
         </div>
@@ -71,39 +73,44 @@
             </div>
         </div>
     </div>
-    <div class="box-body row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered table-condensed table-hover">
-                    <thead>
-                        <tr class="bg-info">
-                            <th>Medio de Pago</th>
-                            <th>Banco</th>
-                            <th>Tarjeta</th>
-                            <th>Transaccion</th>
-                            <th>Valor</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th  colspan="4"><p align="right">TOTAL:</p></th>
-                            <th><p align="right">${{ number_format($advance->pay, 2) }}</p></th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        @foreach($payPaymentMethods as $payPaymentMethod)
-                            <tr>
-                                <td>{{ $payPaymentMethod->paymentMethod->name }}</td>
-                                <td>{{ $payPaymentMethod->bank->name }}</td>
-                                <td>{{ $payPaymentMethod->card->name }}</td>
-                                <td>{{ $payPaymentMethod->transaction }}</td>
-                                <td class="tdder">$ {{ number_format($payPaymentMethod->pay, 2) }}</td>
+    @if ($payPaymentMethods != null)
+        <div class="box-body row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr class="bg-info">
+                                <th>Medio de Pago</th>
+                                <th>Banco</th>
+                                <th>Tarjeta</th>
+                                <th>Transaccion</th>
+                                <th>Valor</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th  colspan="4"><p align="right">TOTAL:</p></th>
+                                <th><p align="right">${{ number_format($advance->pay, 2) }}</p></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+
+                                @foreach($payPaymentMethods as $payPaymentMethod)
+                                    <tr>
+                                        <td>{{ $payPaymentMethod->paymentMethod->name }}</td>
+                                        <td>{{ $payPaymentMethod->bank->name }}</td>
+                                        <td>{{ $payPaymentMethod->card->name }}</td>
+                                        <td>{{ $payPaymentMethod->transaction }}</td>
+                                        <td class="rightfoot">$ {{ number_format($payPaymentMethod->pay, 2) }}</td>
+                                    </tr>
+                                @endforeach
+
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
+    @endif
 </main>
 @endsection

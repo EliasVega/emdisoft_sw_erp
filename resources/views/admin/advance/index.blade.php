@@ -9,9 +9,9 @@
 
             <h5>Anticipos
                 @can('advance.create')
-                    <a href="advance/create" class="btn btn-greenGrad"><i class="fa fa-plus"></i> Agregar Anticipo</a>
+                    <a href="advance/create" class="btn btn-greenGrad btn-sm"><i class="fa fa-plus"></i> Agregar Anticipo</a>
                 @endcan
-                <a href="{{ route('branch.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
+                <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
             </h5>
         </div>
     </div>
@@ -58,7 +58,7 @@ $(document).ready(function ()
             [
                 {data: 'id'},
                 {data: 'third'},
-                {data: 'type'},
+                {data: 'type_third'},
                 {data: 'branch'},
                 {data: 'pay'},
                 {data: 'balance'},

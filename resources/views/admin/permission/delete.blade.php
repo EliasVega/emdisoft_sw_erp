@@ -13,7 +13,7 @@
                     <p>¿Está seguro que desea eliminar este Permiso de forma permanente? Esta acción no se podrá deshacer.</p>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-gris" type="button" data-dismiss="modal">Cerrar</button>
+                    <button class="btn btn-blueGrad" type="button" data-dismiss="modal">Cerrar</button>
                     <button class="btn btn-celeste" type="submit">Confirmar</button>
                 </div>
             </div>

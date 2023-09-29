@@ -16,8 +16,8 @@
                     <input type="hidden" id="id" name="id" value="">
                     <p>Estas seguro de cambiar el estado?</p>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-gris" data-dismiss="modal"><i class="fa fa-times"></i>Cerrar</button>
-                        <button type="submit" class="btn btn-celeste"><i class="fa fa-lock"></i>Aceptar</button>
+                        <button type="button" class="btn btn-blueGrad" data-dismiss="modal"><i class="fa fa-times"></i>Cerrar</button>
+                        <button type="submit" class="btn btn-lightBlueGrad"><i class="fa fa-lock"></i>Aceptar</button>
                     </div>
                 </form>
             </div>

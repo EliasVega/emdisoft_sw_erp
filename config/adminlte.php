@@ -430,6 +430,11 @@ return [
                             'url' => 'paymentMethod',
                             'can'  => 'paymentMethod.index',
                         ],
+                        [
+                            'text' => 'Tipos de Contrato',
+                            'url' => 'contratType',
+                            'can'  => 'contratType.index',
+                        ],
                     ],
                 ],
             ],
@@ -495,11 +500,6 @@ return [
                             'url' => 'customer',
                             'can'  => 'customer.index',
                         ],
-                        [
-                            'text' => 'Empleados',
-                            'url' => 'employee',
-                            'can'  => 'employee.index',
-                        ],
                     ],
                 ],
                 [
@@ -548,14 +548,29 @@ return [
                     'icon'    => 'fas fa-fw fa-hand-holding-usd',
                     'submenu' => [
                         [
-                            'text' => 'Anticipos',
-                            'url' => 'advsance',
-                            'can'  => 'advsance.index',
+                            'text' => 'Caja',
+                            'url' => 'cashRegister',
+                            'can'  => 'cashRegister.index',
+                        ],
+                        [
+                            'text' => 'Ingresos a Caja',
+                            'url' => 'cashInflow',
+                            'can'  => 'cashInflow.index',
+                        ],
+                        [
+                            'text' => 'Salidas de Caja',
+                            'url' => 'cashOutflow',
+                            'can'  => 'cashOutflow.index',
                         ],
                         [
                             'text' => 'Pagos',
                             'url' => 'pay',
                             'can'  => 'pay.index',
+                        ],
+                        [
+                            'text' => 'Anticipos',
+                            'url' => 'advance',
+                            'can'  => 'advance.index',
                         ],
                     ],
                 ],
@@ -583,11 +598,6 @@ return [
                             'url' => 'prepurchase',
                             'can'  => 'prepurchase.index',
                         ],
-                        [
-                            'text' => 'Proveedores',
-                            'url' => 'provider',
-                            'can'  => 'provider.index',
-                        ],
                     ],
                 ],
                 [
@@ -598,11 +608,6 @@ return [
                             'text' => 'Ventas',
                             'url' => '#',
                             'can'  => '#',
-                        ],
-                        [
-                            'text' => 'Clientes',
-                            'url' => 'customer',
-                            'can'  => 'customer.index',
                         ],
                     ],
                 ],
@@ -636,6 +641,32 @@ return [
 
         ],
         [
+            'text'    => 'INVENTARIOS',
+            'icon'    => 'fas fa-fw fa-warehouse',
+            'submenu' => [
+                    [
+                        'text' => 'Categorias',
+                        'url' => 'category',
+                        'can'  => 'category.index',
+                    ],
+                    [
+                        'text' => 'Productos',
+                        'url' => 'product',
+                        'can'  => 'product.index',
+                    ],
+                    [
+                        'text' => 'Kardex',
+                        'url' => 'kardex',
+                        'can'  => 'kardex.index',
+                    ],
+                    [
+                        'text' => 'Traslados',
+                        'url' => 'transfer',
+                        'can'  => 'transfer.index',
+                    ],
+                ],
+            ],
+        [
             'text'    => 'NOMINA',
             'icon'    => 'fas fa-fw fa-people-carry',
             'submenu' => [
@@ -647,6 +678,11 @@ return [
                             'text' => 'Empleados',
                             'url' => 'employee',
                             'can'  => 'employee.index',
+                        ],
+                        [
+                            'text' => 'Cargos',
+                            'url' => 'charge',
+                            'can'  => 'charge.index',
                         ],
                     ],
                 ],

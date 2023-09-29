@@ -8,13 +8,13 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h5>Bancos
                 @can('bank.create')
-                    <a href="bank/create" class="btn btn-celeste"><i class="fa fa-plus"></i>Agregar Banco</a>
+                    <a href="bank/create" class="btn btn-greenGrad btn-sm"><i class="fa fa-plus"></i>Agregar Banco</a>
                 @endcan
                 @can('bank.index')
-                    <a href="{{ route('bank.index') }}" class="btn btn-lightBlueGrad"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
+                    <a href="{{ route('bank.index') }}" class="btn btn-lightBlueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
                 @endcan
                 @can('company.index')
-                    <a href="{{ route('company.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
+                    <a href="{{ route('company.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
                 @endcan
             </h5>
         </div>

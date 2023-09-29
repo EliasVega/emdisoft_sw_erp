@@ -8,16 +8,16 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h5>Categorias
                 @can('category.create')
-                    <a href="category/create" class="btn btn-celeste"><i class="fa fa-plus"></i> Agregar Categoria</a>
-                @endcan
-                @can('category.create')
-                    <a href="categoryImport" class="btn btn-success"><i class="fa fa-plus"></i> Importar Categoria</a>
+                    <a href="category/create" class="btn btn-greenGrad btn-sm"><i class="fa fa-plus"></i> Agregar Categoria</a>
                 @endcan
                 @can('branch.index')
-                    <a href="{{ route('branch.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
+                    <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
                 @endcan
                 @can('category.categoryInactive')
-                    <a href="{{ route('categoryInactive') }}" class="btn btn-greenGrad"><i class="fas fa-undo-alt mr-2"></i>Categorias Inactivas</a>
+                    <a href="{{ route('categoryInactive') }}" class="btn btn-lightBlueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Categorias Inactivas</a>
+                @endcan
+                @can('category.create')
+                    <a href="categoryImport" class="btn btn-blueGrad btn-sm"><i class="fa fa-plus"></i> Importar Categoria</a>
                 @endcan
             </h5>
         </div>

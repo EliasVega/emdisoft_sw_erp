@@ -34,8 +34,8 @@ class UpdateExpenseRequest extends FormRequest
             'grand_total' => 'numeric',
             'branch_id' => 'integer',
             'provider_id' => '',
-            'payment_form_id' => 'required|integer',
-            'payment_method_id' => 'required|',
+            'payment_form_id' => '',
+            'payment_method_id' => '',
             'voucher_type_id' => 'integer'
         ];
     }

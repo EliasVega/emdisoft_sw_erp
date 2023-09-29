@@ -8,7 +8,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h5>
                 @can('branch.index')
-                    <a href="{{ route('branch.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
+                    <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
                 @endcan
             </h5>
         </div>

@@ -123,6 +123,11 @@ class CustomerController extends Controller
      */
     public function store(StoreCustomerRequest $request)
     {
+        $creditLimit = $request->credit_limit;
+        if ($creditLimit == null) {
+            $creditLimit = 0;
+        }
+
         $customer = new Customer();
         $customer->department_id = $request->department_id;
         $customer->municipality_id = $request->municipality_id;
@@ -136,9 +141,9 @@ class CustomerController extends Controller
         $customer->address = $request->address;
         $customer->phone = $request->phone;
         $customer->email = $request->email;
-        $customer->credit_limit = $request->credit_limit;
+        $customer->credit_limit = $creditLimit;
         $customer->used = 0;
-        $customer->available = $request->credit_limit;
+        $customer->available = $creditLimit;
         $customer->save();
 
         Alert::success('Cliente','Creado Satisfactoriamente.');

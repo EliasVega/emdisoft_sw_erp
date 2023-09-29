@@ -6,7 +6,6 @@ use App\Models\Provider;
 
 trait AdvanceCreate {
     public function advanceCreate($voucherTypes, $documentOrigin, $advancePay, $typeDocument){
-
         $advance = new Advance();
         $advance->user_id = current_user()->id;
         $advance->branch_id = current_user()->branch_id;
@@ -20,7 +19,14 @@ trait AdvanceCreate {
             case 'ndpurchase':
                 $advance->origin = 'Factura de Compra' . '-' . $documentOrigin->id;
                 $advance->note = 'por nota de Ajuste (debito) a compra' . '-' . $documentOrigin->id;
-                $provider = Provider::findOrFail($typeDocument->provider_id);
+                $provider = Provider::findOrFail($documentOrigin->provider_id);
+                $advance->type_third = 'provider';
+                $provider->advances()->save($advance);
+                break;
+            case 'expense':
+                $advance->origin = 'Factura de Compra Gastos' . '-' . $documentOrigin->id;
+                $advance->note = 'por Edicion de Gasto' . '-' . $documentOrigin->id;
+                $provider = Provider::findOrFail($documentOrigin->provider_id);
                 $advance->type_third = 'provider';
                 $provider->advances()->save($advance);
                 break;

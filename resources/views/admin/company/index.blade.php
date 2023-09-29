@@ -7,7 +7,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <h5>Cargos
             @can('company.create')
-                <a href="company/create" class="btn btn-celeste btn-sm"><i class="fa fa-plus"></i>Agregar Compañia</a>
+                <a href="company/create" class="btn btn-greenGrad btn-sm"><i class="fa fa-plus"></i>Agregar Compañia</a>
             @endcan
         </h5>
     </div>
@@ -145,32 +145,18 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-4 col-xl-4">
+                            <div class="card bg-c-orange order-card">
+                                <div class="card-blok">
+                                    <h5>Reportes</h5>
+                                    <h2 class="text-right"><i class="fa fa-users f-left"></i><span>Reportes</span></h2>
+                                        <p class="m-b-0 text-right"><a href="#" class="text-white">Ver mas</a></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="addpayment">
-        <div class="form-group">
-            <a href="{{ route('branch.index') }}"><button class="btn btn-celeste btn-sm" type="button"  data-toggle="tooltip" data-placement="top" title="Entrar Sucursales" style='width:150px; height:100px; font-size: 24px;'>Sucursales </button></a>
-
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="addpayment">
-        <div class="form-group">
-            <a href="{{ route('user.index') }}"><button class="btn btn-celeste btn-sm" type="button"  data-toggle="tooltip" data-placement="top" title="Entrar Usuarios" style='width:150px; height:100px; font-size: 24px;'>Usuarios </button></a>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="addpayment">
-        <div class="form-group">
-            <a href="{{ route('company.index') }}"><button class="btn btn-celeste btn-sm" type="button"  data-toggle="tooltip" data-placement="top" title="Entrar Reportes" style='width:150px; height:100px; font-size: 24px;'>Reportes </button></a>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="addpayment">
-        <div class="form-group">
-            <a href="{{ route('company.index') }}"><button class="btn btn-celeste btn-sm" type="button"  data-toggle="tooltip" data-placement="top" title="Autorizar Usuario" style='width:150px; height:100px; font-size: 24px;'>Permisos</button></a>
         </div>
     </div>
 </div>

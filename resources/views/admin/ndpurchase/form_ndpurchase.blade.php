@@ -121,13 +121,13 @@
     <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12" id="added">
         <div class="form-group">
             <label class="form-control-label">Add</label><br>
-            <button class="btn btn-grisb" type="button" id="add" data-toggle="tooltip" data-placement="top" title="adicionar"><i class="fas fa-check"></i>&nbsp; </button>
+            <button class="btn btn-blueGrad" type="button" id="add" data-toggle="tooltip" data-placement="top" title="adicionar"><i class="fas fa-check"></i>&nbsp; </button>
         </div>
     </div>
     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" id="cancelled">
         <div class="form-group">
             <label class="form-control-label" >Canc</label><br>
-            <a href="{{url('purchase')}}" class="btn btn-grisb" data-toggle="tooltip" data-placement="top" title="Cancelar"><i class="fa fa-window-close"></i>&nbsp; </a>
+            <a href="{{url('purchase')}}" class="btn btn-blueGrad" data-toggle="tooltip" data-placement="top" title="Cancelar"><i class="fa fa-window-close"></i>&nbsp; </a>
         </div>
     </div>
 
@@ -177,7 +177,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="form-group">
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
-                <button class="btn btn-celeste" type="submit"><i class="fa fa-save fa-2x"></i>&nbsp; Registrar</button>
+                <button class="btn btn-lightBlueGrad" type="submit"><i class="fa fa-save fa-2x"></i>&nbsp; Registrar</button>
             </div>
         </div>
     </div>

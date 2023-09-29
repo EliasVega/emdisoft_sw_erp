@@ -14,10 +14,10 @@
                 <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
             @endcan
             @can('provider.index')
-                <a href="{{ route('provider.index') }}" class="btn btn-gris btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Proveedores</a>
+                <a href="{{ route('provider.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Proveedores</a>
             @endcan
             @can('pay.index')
-                <a href="{{ route('pay.index') }}" class="btn btn-gris btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Abonos</a>
+                <a href="{{ route('pay.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Abonos</a>
             @endcan
         </div>
     </div>

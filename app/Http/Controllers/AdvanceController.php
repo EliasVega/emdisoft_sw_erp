@@ -13,7 +13,6 @@ use App\Models\Customer;
 use App\Models\Employee;
 use App\Models\Indicator;
 use App\Models\pay;
-use App\Models\Payment;
 use App\Models\PaymentMethod;
 use App\Models\PayPaymentMethod;
 use App\Models\Provider;
@@ -200,7 +199,7 @@ class AdvanceController extends Controller
                 if ($advance->type_third == 'customer') {
                     if($mp == 10){
                         $cashRegister->in_advance_cash += $paymentLine;
-                        $cashRegister->cash += $paymentLine;
+                        $cashRegister->cash_in_total += $paymentLine;
                     }
                     $cashRegister->in_advance += $paymentLine;
                     $cashRegister->in_total += $paymentLine;
@@ -231,7 +230,14 @@ class AdvanceController extends Controller
     {
         $advance = Advance::where('id', $advance->id)->first();
         $pay = Pay::where('type', 'advance')->where('payable_id', $advance->id)->first();
-        $payPaymentMethods = PayPaymentMethod::where('pay_id', $pay->id)->get();
+        //$payPaymentMethods = PayPaymentMethod::where('pay_id', $pay->id)->get();
+
+        if ($pay) {
+            $payPaymentMethods = PayPaymentMethod::where('pay_id', $pay->id)->get();
+        } else {
+            $payPaymentMethods = null;
+        }
+
 
         return view('admin.advance.show', compact('advance', 'payPaymentMethods'));
     }
@@ -276,7 +282,12 @@ class AdvanceController extends Controller
         $company = Company::where('id', 1)->first();
         $user = auth::user();
         $pay = Pay::where('type', 'advance')->where('payable_id', $advance->id)->first();
-        $payPaymentMethods = PayPaymentMethod::where('pay_id', $pay->id)->get();
+        if ($pay) {
+            $payPaymentMethods = PayPaymentMethod::where('pay_id', $pay->id)->get();
+        } else {
+            $payPaymentMethods = null;
+        }
+        //$payPaymentMethods = PayPaymentMethod::where('pay_id', $pay->id)->get();
         $advancepdf = "ADV-". $advance->id;
         $logo = './imagenes/logos'.$company->logo;
         $view = \view('admin.advance.pdf', compact('payPaymentMethods', 'company', 'logo', 'advance', 'user'))->render();

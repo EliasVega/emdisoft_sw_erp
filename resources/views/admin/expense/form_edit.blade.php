@@ -48,6 +48,20 @@
             <input type="number" name="vprice" id="vprice"  class="form-control" readonly>
         </div>
     </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-3" id="addReverse" >
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="reverse" value="1" id="reverse_on">
+            <label class="form-check-label" for="reverse">
+                Regresar Valor a la Caja
+            </label>
+            </div>
+            <div class="form-check">
+            <input class="form-check-input" type="radio" name="reverse" value="2" id="reverse_off" checked>
+            <label class="form-check-label" for="reverse">
+                Dejar valor como anticipo
+            </label>
+        </div>
+    </div>
     <div class="clearfix"></div>
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="editProductId">
         <div class="form-group row">
@@ -77,13 +91,13 @@
     <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12" id="editAdd">
         <div class="form-group">
             <label class="form-control-label">Add</label><br>
-            <button class="btn btn-grisb" type="button" id="add" data-toggle="tooltip" data-placement="top" title="Add"><i class="fas fa-check"></i>&nbsp; </button>
+            <button class="btn btn-blueGrad" type="button" id="add" data-toggle="tooltip" data-placement="top" title="Add"><i class="fas fa-check"></i>&nbsp; </button>
         </div>
     </div>
     <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" >Canc</label><br>
-            <a href="{{url('expense')}}" class="btn btn-grisb" data-toggle="tooltip" data-placement="top" title="Cancelar"><i class="fa fa-window-close"></i>&nbsp; </a>
+            <a href="{{url('expense')}}" class="btn btn-blueGrad" data-toggle="tooltip" data-placement="top" title="Cancelar"><i class="fa fa-window-close"></i>&nbsp; </a>
         </div>
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -123,6 +137,15 @@
                 <tbody>
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div class="modal-footer" id="save">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group">
+                <input type="hidden" name="_token" value="{{csrf_token()}}">
+                <button class="btn btn-lightBlueGrad" type="submit"><i class="fa fa-save"></i>&nbsp;
+                    Registrar</button>
+            </div>
         </div>
     </div>
 </div>

@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             @can('user.index')
-                <a href="{{ route('user.index') }}" class="btn btn-gris"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
+                <a href="{{ route('user.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
             @endcan
         </div>
     </div>

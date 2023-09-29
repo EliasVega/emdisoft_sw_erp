@@ -15,37 +15,37 @@
 
     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-celeste btn-md" type="button" id="cash" data-toggle="tooltip" data-placement="top" title="Efectivo">Efectivo</button>
+            <button class="btn btn-lightBlueGrad btn-md" type="button" id="cash" data-toggle="tooltip" data-placement="top" title="Efectivo">Efectivo</button>
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-celeste btn-md" type="button" id="transfer" data-toggle="tooltip" data-placement="top" title="Transferencia">Transferencia</button>
+            <button class="btn btn-lightBlueGrad btn-md" type="button" id="transfer" data-toggle="tooltip" data-placement="top" title="Transferencia">Transferencia</button>
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-celeste btn-md" type="button" id="nequi" data-toggle="tooltip" data-placement="top" title="Nequi">Nequi</button>
+            <button class="btn btn-lightBlueGrad btn-md" type="button" id="nequi" data-toggle="tooltip" data-placement="top" title="Nequi">Nequi</button>
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-celeste btn-md" type="button" id="card1" data-toggle="tooltip" data-placement="top" title="Tarjetas">T/Credito</button>
+            <button class="btn btn-lightBlueGrad btn-md" type="button" id="card1" data-toggle="tooltip" data-placement="top" title="Tarjetas">T/Credito</button>
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-celeste btn-md" type="button" id="card2" data-toggle="tooltip" data-placement="top" title="Tarjetas">T/Debito</button>
+            <button class="btn btn-lightBlueGrad btn-md" type="button" id="card2" data-toggle="tooltip" data-placement="top" title="Tarjetas">T/Debito</button>
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-celeste btn-md" type="button" id="noDefined" data-toggle="tooltip" data-placement="top" title="Metodo no definido">Indefinido </button>
+            <button class="btn btn-lightBlueGrad btn-md" type="button" id="noDefined" data-toggle="tooltip" data-placement="top" title="Metodo no definido">Indefinido </button>
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-celeste btn-md" type="button" id="paymentThird" data-toggle="tooltip" data-placement="top" title="Anticipo">Anticipo</button>
+            <button class="btn btn-lightBlueGrad btn-md" type="button" id="paymentThird" data-toggle="tooltip" data-placement="top" title="Anticipo">Anticipo</button>
         </div>
     </div>
 
@@ -78,20 +78,20 @@
     <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" id="total_p">
         <div class="form-group">
             <label class="form-control-label" for="total_document">Valor Compra</label>
-            <input type="number" id="total_document" name="total_document" value="{{ $document->total_pay }}" class="form-control gris" disabled pattern="[0-9]{0,15}">
+            <input type="number" id="total_document" name="total_document" value="{{ $document->total_pay }}" class="form-control blueGrad" disabled pattern="[0-9]{0,15}">
         </div>
     </div>
     <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" id="balancy">
         <div class="form-group">
             <label class="form-control-label" for="balance">Saldo Pendiente</label>
-            <input type="number" id="balance" name="balance" value="{{ $document->balance }}" class="form-control gris" disabled pattern="[0-9]{0,15}">
+            <input type="number" id="balance" name="balance" value="{{ $document->balance }}" class="form-control blueGrad" disabled pattern="[0-9]{0,15}">
         </div>
     </div>
     <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" id="returny">
         <div class="form-group">
             <label class="form-control-label" for="returned">Menos este abono</label>
             <input type="number" id="returned" name="returned" value="0"
-                class="form-control gris" disabled pattern="[0-9]{0,15}">
+                class="form-control blueGrad" disabled pattern="[0-9]{0,15}">
         </div>
     </div>
     <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" id="payi">
@@ -143,8 +143,8 @@
 
     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-celeste" type="button" id="add"><i class="fa fa-save"></i>&nbsp; Agregar Abono</button>
-            <a href="{{url('pay')}}" class="btn btn-gris"><i class="fa fa-window-close"></i>&nbsp; Cancelar</a>
+            <button class="btn btn-lightBlueGrad" type="button" id="add"><i class="fa fa-save"></i>&nbsp; Agregar Abono</button>
+            <a href="{{url('pay')}}" class="btn btn-blueGrad"><i class="fa fa-window-close"></i>&nbsp; Cancelar</a>
         </div>
     </div>
 
@@ -182,7 +182,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="form-group">
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
-                <button class="btn btn-celeste" type="submit"><i class="fa fa-save"></i>&nbsp;
+                <button class="btn btn-lightBlueGrad" type="submit"><i class="fa fa-save"></i>&nbsp;
                     Registrar</button>
             </div>
         </div>

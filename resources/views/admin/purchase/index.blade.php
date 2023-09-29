@@ -14,25 +14,25 @@
                 <a href="{{ route('branch.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
             @endcan
             @can('provider.index')
-                <a href="{{ route('provider.index') }}" class="btn btn-gris btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Proveedores</a>
+                <a href="{{ route('provider.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Proveedores</a>
             @endcan
             @can('ncpurchase.index')
-                <a href="{{ route('ncpurchase.index') }}" class="btn btn-gris btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>N.C.</a>
+                <a href="{{ route('ncpurchase.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>N.C.</a>
             @endcan
             @can('ndpurchase.index')
-                <a href="{{ route('ndpurchase.index') }}" class="btn btn-gris btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>N.D.</a>
+                <a href="{{ route('ndpurchase.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>N.D.</a>
             @endcan
             @can('pay.index')
-                <a href="{{ route('pay.index') }}" class="btn btn-gris btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Abonos</a>
+                <a href="{{ route('pay.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Abonos</a>
             @endcan
             @can('advance.index')
-                <a href="{{ route('advance.index') }}" class="btn btn-gris btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Ant a Proveedores</a>
+                <a href="{{ route('advance.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Ant a Proveedores</a>
             @endcan
             @can('prePurchase.index')
-                <a href="{{ route('prePurchase.index') }}" class="btn btn-gris btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Orden Compra</a>
+                <a href="{{ route('prePurchase.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Orden Compra</a>
             @endcan
             @can('branchProduct.index')
-                <a href="{{ route('branchProduct.index') }}" class="btn btn-gris btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Productos Sucursal</a>
+                <a href="{{ route('branchProduct.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Productos Sucursal</a>
             @endcan
         </div>
     </div>

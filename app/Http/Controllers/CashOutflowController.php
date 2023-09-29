@@ -93,18 +93,17 @@ class CashOutflowController extends Controller
             return redirect("cashOutflow");
         } else {
             $cashOutflow = new CashOutflow();
-            $cashOutflow->user_id     = $user->id;
+            $cashOutflow->user_id = $user->id;
             $cashOutflow->cash_register_id = $cashRegister->id;
-            $cashOutflow->branch_id   = $user->branch_id;
-            $cashOutflow->admin_id    = $admin_id;
-            $cashOutflow->cash     = $cash;
-            $cashOutflow->reason      = $request->reason;
+            $cashOutflow->branch_id = $user->branch_id;
+            $cashOutflow->admin_id = $admin_id;
+            $cashOutflow->cash = $cash;
+            $cashOutflow->reason = $request->reason;
             $cashOutflow->save();
 
             $cashRegister->out_cash += $cash;
             $cashRegister->out_total += $cash;
             $cashRegister->cash_out_total += $cash;
-            $cashRegister->cash -= $cash;
             $cashRegister->update();
         }
         toast('Entrega de efectivo de la Caja realizado con exito.','success');

@@ -10,12 +10,14 @@ use App\Models\Bank;
 use App\Models\Branch;
 use App\Models\BranchProduct;
 use App\Models\Card;
+use App\Models\CashInflow;
 use App\Models\CashRegister;
 use App\Models\Company;
 use App\Models\Department;
 use App\Models\ExpenseProduct;
 use App\Models\IdentificationType;
 use App\Models\Indicator;
+use App\Models\Kardex;
 use App\Models\Liability;
 use App\Models\Municipality;
 use App\Models\Organization;
@@ -35,10 +37,11 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use App\Traits\Inventory;
 use App\Traits\KardexCreate;
+use App\Traits\reverse;
 
 class ExpenseController extends Controller
 {
-    use Inventory, KardexCreate;
+    use Inventory, KardexCreate, reverse;
     function __construct()
     {
         $this->middleware('permission:expense.index|expense.create|expense.show|expense.edit', ['only'=>['index']]);
@@ -305,179 +308,80 @@ class ExpenseController extends Controller
         $indicator = Indicator::findOrFail(1);
         $date1 = Carbon::now()->toDateString();
         $date2 = Expense::find($expense->id)->created_at->toDateString();
+        $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
+        $typeDocument = 'expense';
 
         //Variables del request expense
         $product_id = $request->product_id;
         $quantity   = $request->quantity;
         $price      = $request->price;
-        $totalpay = $request->totalpay;
         $total = $request->total;
-
-        //variables del request pay
-        $paymentMethod = $request->payment_method_id;
-        $bank = $request->bank_id;
-        $card = $request->card_id;
-        $advance_id = $request->advance_id;
-        $payment = $request->pay;
-        $transaction = $request->transaction;
-        $advance = $request->advance;
+        $reverse = $request->reverse;
 
 
         //gran total de la compra
-        $grandTotalold = $expense->grand_total;
-        $newGrandTotal = $grandTotalold - $total;
+        $totalold = $expense->total;
         $advancePay = $expense->pay - $total;
-
-        $payNew = $totalpay;
-        $payTotal = $payNew + $payOld;
+        $document = $expense;
         $documentOrigin = $expense;
 
-        if ($payOld > $total) {
+        if ($advancePay > 0) {
+            $this->reverse($reverse, $advancePay, $cashRegister, $indicator, $documentOrigin, $typeDocument, $document, $date1, $date2);
 
-            $voucherTypes = VoucherType::findOrFail(18);
-            //Metodo para crear un nuevo advance
-
-            $this->advanceCreate($voucherTypes, $documentOrigin, $advancePay, $typeDocument);
-            $advance = new Advance();
-            $advance->user_id = current_user()->id;
-            $advance->branch_id = current_user()->branch_id;
-            $advance->voucher_type_id = 18;
-            $advance->document = $voucherTypes->code . '-' . $voucherTypes->consecutive;
-            $advance->origin = 'Expense' . '-' . $expense->document;
-            $advance->destination = null;
-            $advance->pay = $payOld - $total_pay;
-            $advance->balance = $payOld - $total_pay;;
-            $advance->note = 'Anticipo generado por edicion de Gasto' . '-' . $expense->document;
-            $advance->status = 'pending';
-            $provider = Provider::findOrFail($request->provider_id);
-            $advance->type = 'provider';
-            $provider->advances()->save($advance);
-
-            $advance = new Advance();
-            $advance->user_id = current_user()->id;
-            $advance->branch_id = current_user()->branch_id;
-            $advance->voucher_type_id = 18;
-            $advance->document = $voucherTypes->code . '-' . $voucherTypes->consecutive;
-            $advance->origin = 'Factura de Compra' . '-' . $purchase->id;
-            $advance->destination = null;
-            $advance->pay = $advancePay;
-            $advance->balance = $advancePay;
-            $advance->note = 'por nota de Ajuste (debito) a compra' . '-' . $purchase->id;
-            $advance->status = 'pending';
-            $provider = Provider::findOrFail($purchase->provider_id);
-            $advance->type_third = 'provider';
-            $provider->advances()->save($advance);
-
-            if ($indicator->post == 'on') {
-                //actualizar la caja
-                $cashRegister = CashRegister::where('user_id', '=', $expense->user_id)->where('status', '=', 'open')->first();
-                $cashRegister->out_advance = $advance->pay;
-                $cashRegister->update();
-            }
-        }
-
-        if ($indicator->post == 'on') {
-            //actualizar la caja
-            if ($date1 == $date2) {
-                $cashRegister = CashRegister::where('user_id', '=', $expense->user_id)->where('status', '=', 'open')->first();
-                $cashRegister->expense -= $expense->total_pay;
-                $cashRegister->update();
-            }
+            $expense->balance = 0;
+            $expense->pay = $total;
+            $expense->update();
         }
 
         //Actualizando un registro de compras
 
         $expense->provider_id = $request->provider_id;
-        $expense->payment_form_id = $request->payment_form_id;
-        $expense->payment_method_id = $request->payment_method_id[0];
         $expense->total = $request->total;
-        $expense->total_iva = $request->total_iva;
-        $expense->total_pay = $total_pay;
-        if ($payTotal <= $total_pay) {
-            $expense->pay = $payTotal;
-            $expense->balance = $total_pay - $payTotal;
-        } else {
-            $expense->pay = $total_pay;
-            $expense->balance = 0;
-        }
+        $expense->total_tax = 0;
+        $expense->total_pay = $total;
         $expense->update();
 
         if ($indicator->post == 'on') {
             //actualizar la caja
             if ($date1 == $date2) {
-                $cashRegister = CashRegister::where('user_id', '=', $expense->user_id)->where('status', '=', 'open')->first();
-                $cashRegister->expense += $expense->total_pay;
+                $cashRegister->expense -= $totalold;
+                $cashRegister->expense += $total;
                 $cashRegister->update();
             }
         }
 
-        //inicio proceso si hay pagos
-        if($totalpay > 0){
+        $expenseProducts = ExpenseProduct::where('expense_id', $expense->id)->get();
+        foreach ($expenseProducts as $key => $expenseProduct) {
+            //selecciona el producto que viene del array
+            $quantityActual = $expenseProduct->qiantity;
 
-            //Metodo para crear un nuevo pago y su realcion polimorfica dependiendo del tipo de documento
-            $pay = new pay();
-            $pay->user_id = $user->id;
-            $pay->branch_id = $user->branch_id;
-            $pay->pay = $totalpay;
-            $pay->balance = $expense->balance;
-            $pay->type = 'expense';
-            $expense->pays()->save($pay);
+            //$product = Product::findOrFail($id);
+            if ($indicator->inventory == 'on') {
+                $products = Product::where('id', $expenseProduct->product_id)->first();
+                $products->stock -= $quantityActual;
+                $products->update();
 
-            for ($i=0; $i < count($payment); $i++) {
-                # code...
+                //selecciona el producto de la sucursal que sea el mismo del array
+                $branchProducts = BranchProduct::where('product_id', '=', $expenseProduct->product_id)
+                ->where('branch_id',  current_user()->branch_id)
+                ->first();
 
-                //variable si el pago fue de un pago anticipado
-                $payAdvance = $request->advance[$i];
-                //inicio proceso si hay pago po abono anticipado
-                if ($payAdvance > 0) {
-                    //llamado al pago anticipado
-                    $advance = Advance::findOrFail( $request->advance_id);
-                    //si el pago es utilizado en su totalidad agregar el destino aplicado
-                    if ($advance->pay > $advance->balance) {
-                        $advance->destination = $advance->destination . '<->' . $expense->document;
-                    } else {
-                        $advance->destination = $expense->document;
-                    }
-                    //variable si hay saldo en el pago anticipado
-                    $payAdvance_total = $advance->balance - $payAdvance;
-                    //cambiar el status del pago anticipado
-                    if ($payAdvance_total == 0) {
-                        $advance->status      = 'aplicado';
-                    } else {
-                        $advance->status      = 'parcial';
-                    }
-                    //actualizar el saldo del pago anticipado
-                    $advance->balance = $payAdvance_total;
-                    $advance->update();
-                } else {
-
-                        //Metodo para registrar la relacion entre pago y metodo de pago
-                    $pay_paymentMethod = new PayPaymentMethod();
-                    $pay_paymentMethod->pay_id = $pay->id;
-                    $pay_paymentMethod->payment_method_id = $paymentMethod[$i];
-                    $pay_paymentMethod->bank_id = $bank[$i];
-                    $pay_paymentMethod->card_id = $card[$i];
-                    if (isset($advance_id[$i])){
-                        $pay_paymentMethod->advance_id = $advance_id[$i];
-                    }
-                    $pay_paymentMethod->pay = $payment[$i];
-                    $pay_paymentMethod->transaction = $transaction[$i];
-                    $pay_paymentMethod->save();
-
-                    $mp = $paymentMethod[$i];
-
-                    if ($indicator->post == 'on') {
-                        //metodo para actualizar la caja
-                        $cashRegister = CashRegister::where('user_id', '=', $expense->user_id)->where('status', '=', 'open')->first();
-                        if($mp == 10){
-                            $cashRegister->out_expense_cash += $pay;
-                            $cashRegister->cash_out_total += $pay;
-                        }
-                        $cashRegister->out_expense += $pay;
-                        $cashRegister->update();
-                    }
-                }
+                $branchProducts->stock -= $quantityActual;
+                $branchProducts->update();
             }
+
+            //Actualiza la tabla del Kardex
+            $kardex = Kardex::where('voucher_type_id', $expense->voucher_type_id)->where('document', $expense->document)->first();
+            $kardex->quantity -= $quantityActual;
+            $kardex->stock -= $quantityActual;
+            $kardex->save();
+
+            $expenseProduct->quantity = 0;
+            $expenseProduct->price = 0;
+            $expenseProduct->tax_rate = 0;
+            $expenseProduct->subtotal = 0;
+            $expenseProduct->tax_subtotal = 0;
+            $expenseProduct->update();
 
         }
 
@@ -489,31 +393,29 @@ class ExpenseController extends Controller
             ->where('product_id', $product_id[$i])->first();
 
             $subtotal = $quantity[$i] * $price[$i];
-            $iva_subtotal   = $subtotal * $tax_rate[$i]/100;
-            //Inicia proceso actualizacio product expense si no existe
             if (is_null($expenseProduct)) {
                 $expenseProduct = new ExpenseProduct();
                 $expenseProduct->expense_id = $expense->id;
                 $expenseProduct->product_id = $product_id[$i];
                 $expenseProduct->quantity = $quantity[$i];
                 $expenseProduct->price = $price[$i];
-                $expenseProduct->tax_rate = $tax_rate[$i];
+                $expenseProduct->tax_rate = 0;
                 $expenseProduct->subtotal = $subtotal;
-                $expenseProduct->iva_subtotal = $iva_subtotal;
+                $expenseProduct->tax_subtotal = 0;
                 $expenseProduct->save();
             } else {
                 if ($quantity[$i] > 0) {
                     $expenseProduct->quantity = $quantity[$i];
                     $expenseProduct->price = $price[$i];
-                    $expenseProduct->tax_rate = $tax_rate[$i];
+                    $expenseProduct->tax_rate = 0;
                     $expenseProduct->subtotal = $subtotal;
-                    $expenseProduct->iva_subtotal = $iva_subtotal;
+                    $expenseProduct->tax_subtotal = 0;
                     $expenseProduct->update();
                 }
             }
         }
-        if ($payOld > $total_pay) {
-            Alert::success('Gasto','Editado Satisfactoriamente. Con creacion de anticipo de Proveedor');
+        if ($advancePay > 0) {
+            Alert::success('Gasto','Editado Satisfactoriamente. Con creacion de anticipo de Proveedor oingreso de efectivo a caja');
             return redirect('expense');
 
         } else {

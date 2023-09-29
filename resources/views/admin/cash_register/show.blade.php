@@ -6,7 +6,7 @@
 <main class="main">
     <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 offset-lg-4">
-            <a href="{{ route('cashRegister.index') }}" class="btn btn-celeste"><i class="fa fa-plus mr-2"></i>Regresar</a>
+            <a href="{{ route('cashRegister.index') }}" class="btn btn-lightBlueGrad"><i class="fa fa-plus mr-2"></i>Regresar</a>
         </div>
     </div>
     <div class="row">
@@ -28,10 +28,14 @@
                 <p>{{ $cashRegister->created_at }}</p>
             </div>
         </div>
+
         <div class="col-12 col-md-4 col-sm-6">
             <div class="form-group">
                 <label class="form-control-label" for="close"> fecha de Cierre</label>
-                <p>{{ $cashRegister->updated_at }}</p>
+                @if ($cashRegister->status == 'close')
+                    <p>{{ $cashRegister->updated_at }}</p>
+                @endif
+
             </div>
         </div>
         <div class="col-12 col-md-4 col-sm-6">

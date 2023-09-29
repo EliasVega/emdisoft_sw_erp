@@ -95,20 +95,20 @@
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                         <div class="form-group">
                             <label class="form-control-label">Add</label><br>
-                            <button class="btn btn-grisb" type="button" id="add" data-toggle="tooltip" data-placement="top" title="adicionar"><i class="fas fa-check"></i>&nbsp; </button>
+                            <button class="btn btn-blueGrad" type="button" id="add" data-toggle="tooltip" data-placement="top" title="adicionar"><i class="fas fa-check"></i>&nbsp; </button>
                         </div>
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                         <div class="form-group">
                             <label class="form-control-label" >Canc</label><br>
-                            <a href="{{url('product_branch')}}" class="btn btn-grisb" data-toggle="tooltip" data-placement="top" title="Cancelar"><i class="fa fa-window-close"></i>&nbsp; </a>
+                            <a href="{{url('product_branch')}}" class="btn btn-blueGrad" data-toggle="tooltip" data-placement="top" title="Cancelar"><i class="fa fa-window-close"></i>&nbsp; </a>
                         </div>
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="table-responsive">
                             <table id="details" class="table table-striped table-bordered table-condensed table-hover">
-                                <thead class="th-gris">
-                                    <tr class="th-gris">
+                                <thead class="th-blueGrad">
+                                    <tr class="th-blueGrad">
                                         <th>Eliminar</th>
                                         <th>ID</th>
                                         <th>Producto</th>
@@ -130,7 +130,7 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                <button class="btn btn-celeste" type="submit"><i class="fa fa-save"></i>&nbsp;
+                                <button class="btn btn-lightBlueGrad" type="submit"><i class="fa fa-save"></i>&nbsp;
                                     Registrar</button>
                             </div>
                         </div>

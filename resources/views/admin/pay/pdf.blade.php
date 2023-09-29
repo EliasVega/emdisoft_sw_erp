@@ -51,20 +51,20 @@
                 <p>Direccion:</p>
             </div>
             <div class="description4">
-                <p>{{  $pay->payable->third->address  }}</p>
+                <p>{{  $pay->payable->advanceable->address  }}</p>
             </div>
             <div class="title">
                 <p>Telefono:</p>
             </div>
             <div class="description2">
-                <p>{{  $pay->payable->third->phone  }}</p>
+                <p>{{  $pay->payable->advanceable->phone  }}</p>
             </div>
             <div class="clearfix"></div>
             <div class="title">
                 <p>Recibo de:</p>
             </div>
             <div class="description5">
-                <p>{{  $pay->payable->third->name  }}</p>
+                <p>{{  $pay->payable->advanceable->name  }}</p>
             </div>
             <div class="clearfix"></div>
             <div class="title">

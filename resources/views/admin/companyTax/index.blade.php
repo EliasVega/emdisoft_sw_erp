@@ -9,10 +9,10 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h5>Impuesto
                 @can('companyTax.create')
-                    <a href="companyTax/create" class="btn btn-celeste"><i class="fa fa-plus"></i> Agregar Impuesto</a>
+                    <a href="companyTax/create" class="btn btn-greenGrad btn-sm"><i class="fa fa-plus"></i> Agregar Impuesto</a>
                 @endcan
                 @can('company.index')
-                    <a href="{{ route('company.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
+                    <a href="{{ route('company.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
                 @endcan
 
             </h5>
@@ -54,6 +54,7 @@ $(document).ready(function ()
                 url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
             },
             ajax: '{{ route('companyTax.index') }}',
+            order: [[0, "desc"]],
             columns:
             [
                 {data: 'id'},

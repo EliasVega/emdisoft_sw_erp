@@ -34,9 +34,6 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             @include('admin/expense.form_edit')
         </div>
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            @include('admin/expense.form_pay_edit')
-        </div>
     </div>
     {!!Form::close()!!}
     @include('admin/expense.editmodal')

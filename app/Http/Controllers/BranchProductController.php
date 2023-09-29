@@ -30,7 +30,7 @@ class BranchProductController extends Controller
             if ($user == 'superAdmin' ||$user == 'admin') {
                 //Consulta para mostrar productos de las sucursales a admin y superAdmin
                 //$branchProducts = BranchProduct::get();
-                $branchProducts = BranchProduct::where('branch_id', $request->session()->get('branch'))->get();
+                $branchProducts = BranchProduct::get();
             } else {
                 //Consulta para mostrar productos sucursales de los demas roles
                 $branchProducts = BranchProduct::where('branch_id', $users->branch_id)->get();
