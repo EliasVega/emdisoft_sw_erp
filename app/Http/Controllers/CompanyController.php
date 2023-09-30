@@ -14,9 +14,7 @@ use App\Models\Organization;
 use App\Models\Regime;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
-use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\File;
 use Intervention\Image\Facades\Image;
 
 class CompanyController extends Controller
@@ -84,7 +82,6 @@ class CompanyController extends Controller
      */
     public function store(StoreCompanyRequest $request)
     {
-        $logo = $request->logo;
         $company = new company();
         $company->department_id = $request->department_id;
         $company->municipality_id = $request->municipality_id;
@@ -126,10 +123,6 @@ class CompanyController extends Controller
 
         Alert::success('Compañia','Creada Satisfactoriamente.');
         return redirect('company');
-
-        if ($logo = Company::setLogo($request->logo)) {
-            # code...
-        }
     }
 
     /**

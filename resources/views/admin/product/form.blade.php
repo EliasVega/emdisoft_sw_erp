@@ -39,7 +39,7 @@
             <input type="text" name="sale_price" value="{{ old('sale_price', $product->sale_price ?? '') }}" class="form-control" placeholder="Precio de Venta">
         </div>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <label for="measure_unit_id">Unidad de Medida</label>
         <div class="select">
             <select id="measure_unit_id" name="measure_unit_id" class="form-control selectpicker" data-live-search="true" required>
@@ -54,7 +54,7 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <label for="type_product">Typo de producto</label>
         <div class="select">
             <select id="type_product" name="type_product" class="form-control selectpicker" data-live-search="true" required>
@@ -64,13 +64,12 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="image">Imagen</label>
-            <input type="file" name="image" class="form-control" id="image">
+            <input type="file" id="image" name="image" data-initial-preview="{{ old('image', $product->image ?? '') }}" accept="image/*" data-msg-placeholder="Seleccionar archivo"/>
         </div>
     </div>
-
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
             <button class="btn btn-lightBlueGrad btn-md mt-3" type="submit"><i class="fa fa-save"></i>&nbsp; Guardar</button>

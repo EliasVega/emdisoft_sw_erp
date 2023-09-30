@@ -1,7 +1,9 @@
 <div class="box-body row">
     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
-            <label for="provider_id">Proveedor  <button class="btn btn-lightBlueGrad btn-sm mb-2" type="button" data-toggle="modal" data-target="#provider"><i class="fa fa-plus"></i>&nbsp;&nbsp;Agregar</button></label>
+            <label for="provider_id"> Proveedor <a href="{{ route('provider.create') }}" class="btn btn-lightBlueGrad btn-sm" target="_blank" data-toggle="tooltip" data-placement="top">
+                <i class="fa fa-plus"> Agregar Proveedor</i>
+            </a></label>
             <select name="provider_id" class="form-control selectpicker" id="provider_id"
                 data-live-search="true" required>
                 <option value="" disabled selected>Seleccionar el Proveedor</option>
@@ -60,7 +62,7 @@
     <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">
         <div class="form-group">
             <label class="form-control-label">Add</label><br>
-            <button class="btn btn-blueGrad" type="button" id="add" data-toggle="tooltip" data-placement="top" title="Add"><i class="fas fa-check"></i>&nbsp; </button>
+            <button class="btn btn-lightBlueGrad" type="button" id="add" data-toggle="tooltip" data-placement="top" title="Add"><i class="fas fa-check"></i>&nbsp; </button>
         </div>
     </div>
     <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">

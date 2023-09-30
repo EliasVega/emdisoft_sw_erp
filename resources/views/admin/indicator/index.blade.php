@@ -12,7 +12,7 @@
             @endcan
             <h5>Indicadores
                 @can('company.index')
-                    <a href="{{ route('company.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
+                    <a href="{{ route('company.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
                 @endcan
             </h5>
         </div>

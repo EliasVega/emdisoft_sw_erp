@@ -29,17 +29,25 @@ class KardexController extends Controller
             }
             return DataTables::of($kardexes)
             ->addIndexColumn()
-            ->addColumn('productId', function (Kardex $kardex) {
-                return $kardex->product->id;
-            })
             ->addColumn('branch', function (Kardex $kardex) {
                 return $kardex->branch->name;
+            })
+            ->addColumn('operation', function (Kardex $kardex) {
+                if ($kardex->movement == 'purchase') {
+                    return $kardex->movement == 'purchase' ? 'Compra' : 'Compra';
+                } elseif ($kardex->movement == 'expense') {
+                    return $kardex->movement == 'expense' ? 'Gasto' : 'Gasto';
+                }elseif ($kardex->movement == 'debit_note') {
+                    return $kardex->movement == 'debit_note' ? 'Nota Debito' : 'Nota Debito';
+                } elseif ($kardex->movement == 'credit_note'){
+                    return $kardex->movement == 'credit_note' ? 'Nota Credito' : 'Nota Credito';
+                }
             })
             ->addColumn('product', function (Kardex $kardex) {
                 return $kardex->product->name;
             })
             ->editColumn('created_at', function(Kardex $kardex){
-                return $kardex->created_at->format('yy-m-d: h:m');
+                return $kardex->created_at->format('yy-m-d');
             })
             ->addColumn('edit', 'admin/kardex/actions')
             ->rawcolumns(['edit'])
@@ -58,17 +66,25 @@ class KardexController extends Controller
             }
             return DataTables::of($kardexes)
             ->addIndexColumn()
-            ->addColumn('productId', function (Kardex $kardex) {
-                return $kardex->product->id;
-            })
             ->addColumn('branch', function (Kardex $kardex) {
                 return $kardex->branch->name;
+            })
+            ->addColumn('operation', function (Kardex $kardex) {
+                if ($kardex->movement == 'purchase') {
+                    return $kardex->movement == 'purchase' ? 'Compra' : 'Compra';
+                } elseif ($kardex->movement == 'expense') {
+                    return $kardex->movement == 'expense' ? 'Gasto' : 'Gasto';
+                }elseif ($kardex->movement == 'debit_note') {
+                    return $kardex->movement == 'debit_note' ? 'Nota Debito' : 'Nota Debito';
+                } elseif ($kardex->movement == 'credit_note'){
+                    return $kardex->movement == 'credit_note' ? 'Nota Credito' : 'Nota Credito';
+                }
             })
             ->addColumn('product', function (Kardex $kardex) {
                 return $kardex->product->name;
             })
             ->editColumn('created_at', function(Kardex $kardex){
-                return $kardex->created_at->format('yy-m-d: h:m');
+                return $kardex->created_at->format('yy-m-d');
             })
             ->addColumn('edit', 'admin/kardex/actions')
             ->rawcolumns(['edit'])

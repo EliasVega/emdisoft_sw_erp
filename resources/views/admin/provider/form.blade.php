@@ -62,25 +62,25 @@
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="identification">Numero Identificacion</label>
-            <input type="text" name="identification" id="identification" value="{{ old('identification', $provider->identification ?? '') }}" class="form-control" placeholder="Identifiacion ">
+            <input type="text" name="identification" id="identification" value="{{ old('identification', $provider->identification ?? '') }}" class="form-control" placeholder="Identifiacion " required>
         </div>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="dv">D.V.</label>
-            <input type="text" name="dv" id="dv" value="{{ old('dv', $provider->dv ?? '') }}" class="form-control" placeholder="dv">
+            <input type="text" name="dv" id="dv" value="{{ old('dv', $provider->dv ?? '') }}" class="form-control" placeholder="dv" required>
         </div>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="name">Nombre del Proveedor</label>
-            <input type="text" name="name" value="{{ old('name', $provider->name ?? '') }}" class="form-control" placeholder="Nombre del proveedor">
+            <input type="text" name="name" value="{{ old('name', $provider->name ?? '') }}" class="form-control" placeholder="Nombre del proveedor" required>
         </div>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="address">Direccion</label>
-            <input type="text" name="address" value="{{ old('address', $provider->address ?? '') }}" class="form-control" placeholder="Direccion">
+            <input type="text" name="address" value="{{ old('address', $provider->address ?? '') }}" class="form-control" placeholder="Direccion" required>
         </div>
     </div>
 
@@ -93,7 +93,7 @@
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="phone">Telefono</label>
-            <input type="text" name="phone" value="{{ old('phone', $provider->phone ?? '') }}" class="form-control" placeholder="Telefono">
+            <input type="text" name="phone" value="{{ old('phone', $provider->phone ?? '') }}" class="form-control" placeholder="Telefono" required>
         </div>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -131,13 +131,13 @@
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="postal_code">Codigo Postal</label>
-            <input type="text" name="postal_code" id="postal_code" value="{{ old('postal_code', $provider->postal_code ?? '') }}" class="form-control" placeholder="Codigo Postal">
+            <input type="text" name="postal_code" id="postal_code" value="{{ old('postal_code', $provider->postal_code ?? '') }}" class="form-control" placeholder="Codigo Postal" required>
         </div>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="merchant_registration">Registro Meracantil</label>
-            <input type="text" name="merchant_registration" value="{{ old('merchant_registration', $provider->merchan_registration ?? '000000-00') }}" class="form-control" placeholder="Registro Mercantil">
+            <input type="text" name="merchant_registration" value="{{ old('merchant_registration', $provider->merchan_registration ?? '000000-00') }}" class="form-control" placeholder="Registro Mercantil" required>
         </div>
     </div>
     <div class="col-lg- col-md-6 col-sm-12 col-xs-12">

@@ -5,9 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Tax;
 use App\Http\Requests\StoreTaxRequest;
 use App\Http\Requests\UpdateTaxRequest;
-use App\Models\Percentage;
-use App\Models\Purchase;
-use App\Models\TaxType;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 

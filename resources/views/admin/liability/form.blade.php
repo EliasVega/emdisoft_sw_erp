@@ -8,8 +8,8 @@
 
     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
         <div class="form-group">
-            <label for="name">Fiscales</label>
-            <input type="text" name="name" value="{{ old('name', $liability->name ?? '') }}" class="form-control" placeholder="Fiscal">
+            <label for="name">Responsabilidad Fiscal</label>
+            <input type="text" name="name" value="{{ old('name', $liability->name ?? '') }}" class="form-control" placeholder="Nombre">
         </div>
     </div>
 

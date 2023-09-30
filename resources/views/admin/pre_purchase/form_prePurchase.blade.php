@@ -71,7 +71,7 @@
     <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">
         <div class="form-group">
             <label class="form-control-label">Add</label><br>
-            <button class="btn btn-blueGrad" type="button" id="add" data-toggle="tooltip" data-placement="top" title="Add"><i class="fas fa-check"></i>&nbsp; </button>
+            <button class="btn btn-lightBlueGrad" type="button" id="add" data-toggle="tooltip" data-placement="top" title="Add"><i class="fas fa-check"></i>&nbsp; </button>
         </div>
     </div>
     <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">
@@ -97,18 +97,18 @@
                 <tfoot>
                     <tr>
                         <th colspan="5" class="rightfoot">TOTAL:</th>
-                        <td class="rightfoot"><strong id="total_html">$ 0.00</strong>
+                        <td class="rightfoot thfoot"><strong id="total_html">$ 0.00</strong>
                             <input type="hidden" name="total" id="total"></td>
                     </tr>
                     <tr>
                         <th colspan="5" class="rightfoot">IMPUESTOS:</th>
-                        <td class="rightfoot"><strong id="total_tax_html">$ 0.00</strong>
+                        <td class="rightfoot thfoot"><strong id="total_tax_html">$ 0.00</strong>
                             <input type="hidden" name="total_tax" id="total_tax">
                         </td>
                     </tr>
                     <tr>
                         <th colspan="5" class="rightfoot">TOTAL PAGAR:</th>
-                        <td class="rightfoot"><strong id="total_pay_html">$ 0.00</strong>
+                        <td class="rightfoot thfoot"><strong id="total_pay_html">$ 0.00</strong>
                             <input type="hidden" name="total_pay" id="total_pay"></td>
                     </tr>
                 </tfoot>

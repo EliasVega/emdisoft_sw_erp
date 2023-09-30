@@ -7,12 +7,12 @@
 <main class="main">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h5>Cargos
+            <h5>Urls para Envios
                 @can('environment.create')
-                    <a href="environment/create" class="btn btn-lightBlueGrad"><i class="fa fa-plus"></i>Agregar Cargo</a>
+                    <a href="environment/create" class="btn btn-greenGrad btn-sm"><i class="fa fa-plus"></i>Agregar url</a>
                 @endcan
                 @can('branch.index')
-                    <a href="{{ route('branch.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
+                    <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
                 @endcan
             </h5>
         </div>

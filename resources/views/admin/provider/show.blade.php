@@ -15,6 +15,8 @@
                 @endcan
             </h5>
         </div>
+    </div>
+    <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
             <strong>ID</strong>: <p><h4>{{ $provider->id }}</h4></p>
         </div>

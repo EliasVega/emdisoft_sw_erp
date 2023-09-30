@@ -37,6 +37,7 @@
                 <table class="table table-striped table-bordered table-condensed table-hover" id="kardexes">
                     <thead>
                         <tr>
+                            <th>Doc.</th>
                             <th>Pro.ID</th>
                             <th>Sucursal</th>
                             <th>Operacion</th>
@@ -72,11 +73,12 @@ $(document).ready(function ()
             order: [[0, "desc"]],
             columns:
             [
-                { data: 'productId'},
+                { data: 'document'},
+                { data: 'product_id'},
                 { data: 'branch'},
                 { data: 'operation'},
                 { data: 'created_at'},
-                { data: 'number'},
+                { data: 'document'},
                 { data: 'product'},
                 { data: 'quantity'},
                 { data: 'stock'},

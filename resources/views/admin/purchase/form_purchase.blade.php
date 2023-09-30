@@ -1,7 +1,9 @@
 <div class="box-body row">
     <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
         <div class="form-group">
-            <label for="provider_id">Proveedor  <button class="btn btn-lightBlueGrad btn-sm mb-2" type="button" data-toggle="modal" data-target="#provider"><i class="fa fa-plus"></i>&nbsp;&nbsp;Agregar</button></label>
+            <label for="provider_id"> Proveedor <a href="{{ route('provider.create') }}" class="btn btn-lightBlueGrad btn-sm" target="_blank" data-toggle="tooltip" data-placement="top">
+                <i class="fa fa-plus"> Agregar Proveedor</i>
+            </a></label>
             <select name="provider_id" class="form-control selectpicker" id="provider_id"
                 data-live-search="true" required>
                 <option value="" disabled selected>Seleccionar el Proveedor</option>
@@ -11,7 +13,7 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12 mt-3">
+    <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12 mt-2">
         <div class="form-group">
             <label class="form-control-label" for="branch_id">Sucursal Destino</label>
                 <select name="branch_id" class="form-control selectpicker" id="branch_id" data-live-search="true" required>
@@ -144,7 +146,7 @@
     <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">
         <div class="form-group">
             <label class="form-control-label">Add</label><br>
-            <button class="btn btn-blueGrad" type="button" id="add" data-toggle="tooltip" data-placement="top" title="Add"><i class="fas fa-check"></i>&nbsp; </button>
+            <button class="btn btn-lightBlueGrad" type="button" id="add" data-toggle="tooltip" data-placement="top" title="Add"><i class="fas fa-check"></i>&nbsp; </button>
         </div>
     </div>
     <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">
@@ -157,7 +159,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="table-responsive">
             <table id="details" class="table table-striped table-bordered table-condensed table-hover">
-                <thead>
+                <thead class="bg-info">
                     <tr>
                         <th>Eliminar</th>
                         <th>Editar</th>
@@ -172,18 +174,18 @@
                 <tfoot>
                     <tr>
                         <th colspan="7" class="rightfoot">TOTAL:</th>
-                        <td class="rightfoot"><strong id="total_html">$ 0.00</strong>
+                        <td class="rightfoot thfoot"><strong id="total_html">$ 0.00</strong>
                             <input type="hidden" name="total" id="total"></td>
                     </tr>
                     <tr>
                         <th colspan="7" class="rightfoot">IMPUESTO:</th>
-                        <td class="rightfoot"><strong id="total_tax_html">$ 0.00</strong>
+                        <td class="rightfoot thfoot"><strong id="total_tax_html">$ 0.00</strong>
                             <input type="hidden" name="total_tax" id="total_tax">
                         </td>
                     </tr>
                     <tr>
                         <th colspan="7" class="rightfoot">TOTAL COMPRA:</th>
-                        <td class="rightfoot"><strong id="total_pay_html">$ 0.00</strong>
+                        <td class="rightfoot thfoot"><strong id="total_pay_html">$ 0.00</strong>
                             <input type="hidden" name="total_pay" id="total_pay"></td>
                     </tr>
                 </tfoot>

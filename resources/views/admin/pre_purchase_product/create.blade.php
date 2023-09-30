@@ -8,8 +8,8 @@
         <div class="box-danger">
             <div class="box-header with-border">
                 <h5 class="box-title">Facturando Orden de Compra
-                    @can('prePurchaseProduct.index')
-                        <a href="{{ route('prePurchaseProduct.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
+                    @can('prePurchaseProduct.store')
+                        <a href="{{ route('prePurchase.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
                     @endcan
                     @can('branch.index')
                         <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>

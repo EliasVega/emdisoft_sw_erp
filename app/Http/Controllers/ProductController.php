@@ -12,6 +12,8 @@ use App\Models\MeasureUnit;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class ProductController extends Controller
 {
@@ -76,7 +78,6 @@ class ProductController extends Controller
         $product->sale_price = $request->sale_price;
         $product->type_product = $request->type_product;
         $product->stock = 0;
-
         //Handle File Upload
         if($request->hasFile('image')){
             //Get filename with the extension
@@ -85,14 +86,22 @@ class ProductController extends Controller
             $filename = pathinfo($filenamewithExt,PATHINFO_FILENAME);
             //Get just ext
             $extension = $request->file('image')->guessClientExtension();
+
+            $image = Image::make($request->file('image'))->encode('jpg', 75);
+            $image->resize(512,448,function($constraint) {
+                $constraint->upsize();
+            });
             //FileName to store
-            $fileNameToStore = time().'.'.$extension;
+            $fileNameToStore = time() . '.jpg';
+            $product->imageName = $fileNameToStore;
             //Upload Image
-            $path = $request->file('image')->move('images/products',$fileNameToStore);
-            } else{
-                $fileNameToStore="noimagen.jpg";
-            }
-            $product->image=$fileNameToStore;
+            Storage::disk('public')->put("images/products/$fileNameToStore", $image->stream());
+            $fileNameToStore = Storage::url("images/products/$fileNameToStore");
+        } else{
+            $product->imageName = 'noimage.jpg';
+            $fileNameToStore="/storage/images/products/noimage.jpg";
+        }
+        $product->image=$fileNameToStore;
         $product->save();
 
         //metodo para agregar producto a la sucursal
@@ -154,23 +163,36 @@ class ProductController extends Controller
         $product->type_product = $request->type_product;
         $product->stock = $product->stock;
 
+        $currentImage = $product->imageName;
         //Handle File Upload
         if($request->hasFile('image')){
+            if ($currentImage != 'noimage.jpg') {
+                Storage::disk('public')->delete("images/products/$currentImage");
+            }
             //Get filename with the extension
             $filenamewithExt = $request->file('image')->getClientOriginalName();
             //Get just filename
             $filename = pathinfo($filenamewithExt,PATHINFO_FILENAME);
             //Get just ext
             $extension = $request->file('image')->guessClientExtension();
+
+            $image = Image::make($request->file('image'))->encode('jpg', 75);
+            $image->resize(512,448,function($constraint) {
+                $constraint->upsize();
+            });
             //FileName to store
-            $fileNameToStore = time().'.'.$extension;
+            $fileNameToStore = time() . '.jpg';
+            $product->imageName = $fileNameToStore;
             //Upload Image
-            $path = $request->file('image')->move('images/products',$fileNameToStore);
-            } else{
-                $fileNameToStore="noimagen.jpg";
-            }
-            $product->image=$fileNameToStore;
+            Storage::disk('public')->put("images/products/$fileNameToStore", $image->stream());
+            $fileNameToStore = Storage::url("images/products/$fileNameToStore");
+        } else{
+            $product->imageName = 'noimage.jpg';
+            $fileNameToStore="/storage/images/products/noimage.jpg";
+        }
+        $product->image=$fileNameToStore;
         $product->update();
+
         toast('Producto Editado con éxito.','success');
         return redirect('product');
     }

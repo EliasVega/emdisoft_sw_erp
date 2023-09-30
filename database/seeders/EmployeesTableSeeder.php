@@ -43,6 +43,8 @@ class EmployeesTableSeeder extends Seeder
                 'charge_id' => 1,
                 'payment_method_id' => 47,
                 'bank_id' => 5,
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43',
             ),
         ));
     }

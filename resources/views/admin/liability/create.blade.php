@@ -4,10 +4,10 @@
 @endsection
 @section('content')
 <div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
         <div class="box-danger">
             <div class="box-header with-border">
-                <h5> class="box-title">Agregar Responsabilidad Fiscal
+                <h5 class="box-title">Agregar Responsabilidad Fiscal
                     @can('liability.index')
                         <a href="{{ route('liability.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
                     @endcan

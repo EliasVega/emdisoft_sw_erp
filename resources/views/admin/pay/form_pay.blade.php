@@ -166,7 +166,7 @@
                         <th colspan="5">
                             <p align="right">TOTAL:</p>
                         </th>
-                        <th>
+                        <th class="thfoot">
                             <p align="right"><span id="totalpay_html">$ 0.00</span>
                                 <input type="hidden" name="totalpay" id="totalpay"> </p>
                         </th>

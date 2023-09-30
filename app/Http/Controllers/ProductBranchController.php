@@ -5,11 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\ProductBranch;
 use App\Http\Requests\StoreProductBranchRequest;
 use App\Http\Requests\UpdateProductBranchRequest;
-use App\Models\Branch;
-use App\Models\BranchProduct;
-use App\Models\Transfer;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 
 class ProductBranchController extends Controller
@@ -24,7 +19,7 @@ class ProductBranchController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {/*
         if (request()->ajax()) {
             $productBranches = ProductBranch::get();
 
@@ -49,7 +44,7 @@ class ProductBranchController extends Controller
             ->rawcolumns(['edit'])
             ->toJson();
         }
-        return view('admin.productBranch.index');
+        return view('admin.productBranch.index');*/
     }
 
     /**

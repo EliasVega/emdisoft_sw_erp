@@ -158,7 +158,7 @@
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="form-group">
             <label class="form-control-label">Abonar</label><br>
-            <button class="btn btn-blueGrad" type="button" id="paying" data-toggle="tooltip" data-placement="top" title="Abono"><i class="fas fa-check"></i> </button>
+            <button class="btn btn-lightBlueGrad" type="button" id="paying" data-toggle="tooltip" data-placement="top" title="Abono"><i class="fas fa-check"></i> </button>
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -185,7 +185,7 @@
                         <th colspan="5">
                             <p align="right">TOTAL:</p>
                         </th>
-                        <th>
+                        <th class="thfoot">
                             <p align="right"><span id="totalpay_html">$ 0.00</span>
                                 <input type="hidden" name="totalpay" id="totalpay"> </p>
                         </th>

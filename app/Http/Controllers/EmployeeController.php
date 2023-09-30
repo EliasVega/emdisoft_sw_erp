@@ -42,7 +42,6 @@ class EmployeeController extends Controller
 
             return DataTables::of($employees)
             ->addIndexColumn()
-
             ->addColumn('identificationType', function (Employee $employee) {
                 return $employee->identificationType->initial;
             })
@@ -228,7 +227,7 @@ class EmployeeController extends Controller
         }
         $employee->update();
 
-        return redirect('user');
+        return redirect('employee');
     }
 
     //Metodo para obtener el municipio dependiendo del departamento

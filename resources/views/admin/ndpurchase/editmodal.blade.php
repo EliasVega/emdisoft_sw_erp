@@ -14,8 +14,8 @@
                 {!!Form::close()!!}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-blueGrad" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-lightBlueGrad" id="updateNdpurchase">Guardar</button>
+                <button type="button" class="btn btn-lightBlueGrad" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-blueGrad" id="updateNdpurchase">Guardar</button>
             </div>
         </div>
     </div>

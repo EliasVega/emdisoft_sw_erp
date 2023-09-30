@@ -303,7 +303,7 @@ class PrePurchaseController extends Controller
     public function invoice($id)
     {
         $prePurchase = PrePurchase::findOrFail($id);
-        \Session()->put('prePurchase', $prePurchase->id, 60 * 24 * 365);
+        //\Session()->put('prePurchase', $prePurchase->id, 60 * 24 * 365);
         $providers = Provider::get();
         $documentTypes = DocumentType::where('prefix', 'dse')->get();
         $resolutions = Resolution::where('document_type_id', 11)->where('status', 'active')->get();

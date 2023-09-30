@@ -164,7 +164,7 @@
     <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12" id="editAdd">
         <div class="form-group">
             <label class="form-control-label">Add</label><br>
-            <button class="btn btn-blueGrad" type="button" id="add" data-toggle="tooltip" data-placement="top" title="Add"><i class="fas fa-check"></i>&nbsp; </button>
+            <button class="btn btn-lightBlueGrad" type="button" id="add" data-toggle="tooltip" data-placement="top" title="Add"><i class="fas fa-check"></i>&nbsp; </button>
         </div>
     </div>
     <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">
@@ -177,7 +177,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="table-responsive">
             <table id="details" class="table table-striped table-bordered table-condensed table-hover">
-                <thead>
+                <thead class="bg-info">
                     <tr>
                         <th>Eliminar</th>
                         <th>Editar</th>
@@ -192,29 +192,29 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <th colspan="8" class="footder">TOTAL:</th>
-                        <td class="footder"><strong id="total_html">$ 0.00</strong>
+                        <th colspan="8" class="rightfoot">TOTAL:</th>
+                        <td class="rightfoot thfoot"><strong id="total_html">$ 0.00</strong>
                             <input type="hidden" name="total" id="total"></td>
                     </tr>
                     <tr>
-                        <th colspan="8" class="footder">TOTAL IVA:</th>
-                        <td class="footder"><strong id="total_tax_html">$ 0.00</strong>
+                        <th colspan="8" class="rightfoot">TOTAL IVA:</th>
+                        <td class="rightfoot thfoot"><strong id="total_tax_html">$ 0.00</strong>
                             <input type="hidden" name="total_tax" id="total_tax">
                         </td>
                     </tr>
                     <tr id="rtferase">
-                        <th colspan="8" class="footder">RETENCION:</th>
-                        <td class="footder"><strong id="retention_html">$ 0.00</strong>
+                        <th colspan="8" class="rightfoot">RETENCION:</th>
+                        <td class="rightfoot thfoot"><strong id="retention_html">$ 0.00</strong>
                             <input type="hidden" name="retention" id="retention"></td>
                     </tr>
                     <tr id="rtftotal">
-                        <th colspan="8" class="footder">TOTAL - DESC:</th>
-                        <td class="footder"><strong id="total_desc_html">$ 0.00</strong>
+                        <th colspan="8" class="rightfoot">TOTAL - DESC:</th>
+                        <td class="rightfoot thfoot"><strong id="total_desc_html">$ 0.00</strong>
                             <input type="hidden" name="total_desc" id="total_desc"></td>
                     </tr>
                     <tr>
-                        <th colspan="8" class="footder">TOTAL PAGAR:</th>
-                        <td class="footder"><strong id="total_pay_html">$ 0.00</strong>
+                        <th colspan="8" class="rightfoot">TOTAL PAGAR:</th>
+                        <td class="rightfoot thfoot"><strong id="total_pay_html">$ 0.00</strong>
                             <input type="hidden" name="total_pay" id="total_pay"></td>
                     </tr>
                 </tfoot>

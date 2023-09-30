@@ -16,6 +16,18 @@
         </div>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for="identification">Identificacion</label>
+            <input type="text" name="identification" id="identification" value="{{ old('identification', $employee->identification ?? '') }}" class="form-control" placeholder="Identificacion">
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for="name">Nombre del Empleado</label>
+            <input type="text" name="name" value="{{ old('name', $employee->name ?? '') }}" class="form-control" placeholder="Ingrese el nombre del Cliente">
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
         <label for="department_id">Departamento</label>
         <div class="select">
             <select id="department_id" name="department_id" class="form-control selectpicker" data-live-search="true" required>
@@ -54,18 +66,8 @@
         </div>
     </div>
 
-    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-        <div class="form-group">
-            <label for="identification">Identificacion</label>
-            <input type="text" name="identification" id="identification" value="{{ old('identification', $employee->identification ?? '') }}" class="form-control" placeholder="Identificacion">
-        </div>
-    </div>
-    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-        <div class="form-group">
-            <label for="name">Nombre del Empleado</label>
-            <input type="text" name="name" value="{{ old('name', $employee->name ?? '') }}" class="form-control" placeholder="Ingrese el nombre del Cliente">
-        </div>
-    </div>
+
+
     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="address">Direccion</label>

@@ -9,10 +9,10 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h5>Tipos de Empleado
                 @can('employeeType.create')
-                    <a href="employeeType/create" class="btn btn-lightBlueGrad"><i class="fa fa-plus"></i>Agregar Tipo de Empleado</a>
+                    <a href="employeeType/create" class="btn btn-greenGrad btn-sm"><i class="fa fa-plus"></i>Agregar Tipo de Empleado</a>
                 @endcan
                 @can('company.index')
-                    <a href="{{ route('company.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
+                    <a href="{{ route('company.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
                 @endcan
             </h5>
         </div>

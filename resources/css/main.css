@@ -35,6 +35,10 @@ table {
     background: #edf8ff;
 }
 
+.thfoot {
+    background: #EBEDEF;
+}
+
 .required {
     color: red;
     font-weight: bold;
@@ -202,7 +206,7 @@ table {
     border-bottom: 1px solid #e9ecef;
     border-top-left-radius: calc(0.3rem - 1px);
     border-top-right-radius: calc(0.3rem - 1px);
-    background-color: #f88745 !important;
+    background-color: #083080 !important;
   }
 
   .modal-header .close, .modal-header .mailbox-attachment-close {
@@ -211,9 +215,10 @@ table {
   }
 
   .modal-title {
+    color: #fff;
     margin-bottom: 0;
     line-height: 1.5;
-    background-color: #f88745 !important;
+    background-color: #083080 !important;
   }
 
   .modal-body {

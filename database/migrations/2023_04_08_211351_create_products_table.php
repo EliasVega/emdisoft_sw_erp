@@ -23,6 +23,7 @@ return new class extends Migration
             $table->decimal('stock', 11,2);
             $table->enum('type_product', ['product', 'service']);
             $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->string('imageName', 45);
             $table->string('image', 255);
 
             $table->foreignId('category_id')->constrained()->onUpdate('cascade')->onDelete('cascade');

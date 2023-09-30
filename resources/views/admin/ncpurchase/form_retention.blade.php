@@ -49,7 +49,7 @@
                         <th colspan="4">
                             <p align="right">TOTAL RETENCIONES:</p>
                         </th>
-                        <th>
+                        <th class="thfoot">
                             <p align="right"><span id="total_retention_html">$ 0.00</span>
                                 <input type="hidden" name="total_retention" id="total_retention"> </p>
                         </th>

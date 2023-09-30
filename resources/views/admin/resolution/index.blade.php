@@ -9,10 +9,10 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h5>Resoluciones
                 @can('resolution.create')
-                    <a href="resolution/create" class="btn btn-lightBlueGrad"><i class="fa fa-plus"></i>Agregar Resolucion</a>
+                    <a href="resolution/create" class="btn btn-greenGrad btn-sm"><i class="fa fa-plus"></i>Agregar Resolucion</a>
                 @endcan
                 @can('branch.index')
-                    <a href="{{ route('branch.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
+                    <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
                 @endcan
 
             </h5>
@@ -22,7 +22,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-condensed table-hover" id="resolutions">
-                    <thead>
+                    <thead class="trdatacolor">
                         <tr>
                             <th>Id</th>
                             <th>Compañia</th>

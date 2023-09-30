@@ -7,7 +7,7 @@
         </div>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        <label for="provider_id">Proveedor <a href="{{ route('prePurchase.index') }}" class="btn btn-lightBlueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Regresar</a></label>
+        <label for="provider_id">Proveedor </label>
         <div class="select">
             <select id="provider_id" name="provider_id" class="form-control selectpicker" data-live-search="true" disabled>
                 <option {{ old('provider_id', $prePurchase->provider_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Proveedor</option>
@@ -103,7 +103,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="table-responsive">
             <table id="details" class="table table-striped table-bordered table-condensed table-hover">
-                <thead>
+                <thead class="bg-info">
                     <tr>
                         <th>Id</th>
                         <th>Producto</th>
@@ -116,18 +116,18 @@
                 <tfoot>
                     <tr>
                         <th colspan="5" class="rightfoot">TOTAL:</th>
-                        <td class="rightfoot"><strong id="total_html">$ 0.00</strong>
+                        <td class="rightfoot thfoot"><strong id="total_html">$ 0.00</strong>
                             <input type="hidden" name="total" id="total"></td>
                     </tr>
                     <tr>
                         <th colspan="5" class="rightfoot">IMPUESTOS:</th>
-                        <td class="rightfoot"><strong id="total_tax_html">$ 0.00</strong>
+                        <td class="rightfoot thfoot"><strong id="total_tax_html">$ 0.00</strong>
                             <input type="hidden" name="total_tax" id="total_tax">
                         </td>
                     </tr>
                     <tr>
                         <th colspan="5" class="rightfoot">TOTAL PAGAR:</th>
-                        <td class="rightfoot"><strong id="total_pay_html">$ 0.00</strong>
+                        <td class="rightfoot thfoot"><strong id="total_pay_html">$ 0.00</strong>
                             <input type="hidden" name="total_pay" id="total_pay"></td>
                     </tr>
                 </tfoot>

@@ -10,10 +10,10 @@
 
             <h5>Tipos de Empleado
                 @can('employeeSubtype.create')
-                    <a href="employeeSubtype/create" class="btn btn-lightBlueGrad"><i class="fa fa-plus"></i>Agregar Sub Tipo de Empleado</a>
+                    <a href="employeeSubtype/create" class="btn btn-greenGrad btn-sm"><i class="fa fa-plus"></i>Agregar Sub Tipo de Empleado</a>
                 @endcan
                 @can('company.index')
-                    <a href="{{ route('company.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
+                    <a href="{{ route('company.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
                 @endcan
             </h5>
         </div>

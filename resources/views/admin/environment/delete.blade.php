@@ -13,8 +13,8 @@
                     <p>¿Está seguro que desea eliminar este Environment de forma permanente? Esta acción no se podrá deshacer.</p>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-default" type="button" data-dismiss="modal">Cerrar</button>
-                    <button class="btn btn-primary" type="submit">Confirmar</button>
+                    <button class="btn btn-lightBlueGrad" type="button" data-dismiss="modal">Cerrar</button>
+                    <button class="btn btn-blueGrad" type="submit">Confirmar</button>
                 </div>
             </div>
         </div>

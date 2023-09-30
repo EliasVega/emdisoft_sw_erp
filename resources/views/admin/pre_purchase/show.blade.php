@@ -58,7 +58,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-condensed table-hover">
-                    <thead>
+                    <thead class="bg-info">
                         <tr>
                             <th>Producto</th>
                             <th>Cantidad</th>
@@ -70,16 +70,16 @@
 
                         <tr>
                             <th  colspan="3"><p align="right">TOTAL:</p></th>
-                            <th><p align="right">${{ number_format($prePurchase->total, 2) }}</p></th>
+                            <th class="thfoot"><p align="right">${{ number_format($prePurchase->total, 2) }}</p></th>
                         </tr>
 
                         <tr>
                             <th colspan="3"><p align="right">IMPUESTOS:</p></th>
-                            <th><p align="right">${{ number_format($prePurchase->total_tax, 2) }}</p></th>
+                            <th class="thfoot"><p align="right">${{ number_format($prePurchase->total_tax, 2) }}</p></th>
                         </tr>
                         <tr>
                             <th  colspan="3"><p align="right">TOTAL PAGAR:</p></th>
-                            <th><p align="right">${{ number_format($prePurchase->total_pay, 2) }}</p></th>
+                            <th class="thfoot"><p align="right">${{ number_format($prePurchase->total_pay, 2) }}</p></th>
                         </tr>
 
                     </tfoot>

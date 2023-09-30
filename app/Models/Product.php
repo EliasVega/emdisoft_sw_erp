@@ -53,8 +53,8 @@ class Product extends Model
         return $this->belongsTo(ProductBranch::class);
     }
 
-    public function kardex(){
-        return $this->belongsTo(Kardex::class);
+    public function kardexes(){
+        return $this->hasMany(Kardex::class);
     }
 
     public function ncpurchaseProduct(){

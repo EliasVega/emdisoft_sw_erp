@@ -169,7 +169,7 @@
     <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">
         <div class="form-group">
             <label class="form-control-label">Abonar</label><br>
-            <button class="btn btn-blueGrad" type="button" id="paying" data-toggle="tooltip" data-placement="top" title="Abono"><i class="fas fa-check"></i> </button>
+            <button class="btn btn-lightBlueGrad" type="button" id="paying" data-toggle="tooltip" data-placement="top" title="Abono"><i class="fas fa-check"></i> </button>
         </div>
     </div>
     <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">

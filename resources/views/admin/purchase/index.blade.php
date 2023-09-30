@@ -11,7 +11,7 @@
                 <a href="purchase/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Agregar Compra</a>
             @endcan
             @can('branch.index')
-                <a href="{{ route('branch.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
+                <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
             @endcan
             @can('provider.index')
                 <a href="{{ route('provider.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Proveedores</a>

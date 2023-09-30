@@ -7,10 +7,10 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <h5>Listado de Roles
             @can('rol.create')
-                <a href="roles/create"><button class="btn btn-lightBlueGrad"><i class="fa fa-plus"></i>&nbsp;&nbsp; Agregar Rol</button></a>
+                <a href="roles/create"><button class="btn btn-greenGrad btn-sm"><i class="fa fa-plus"></i> Agregar Rol</button></a>
             @endcan
             @can('branch.index')
-                <a href="{{ route('company.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
+                <a href="{{ route('company.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
             @endcan
         </h5>
     </div>
@@ -19,8 +19,8 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-condensed table-hover" id="roles">
-                <thead>
-                    <tr class="bg-success">
+                <thead class="trdatacolor">
+                    <tr>
                         <th>Id</th>
                         <th>Rol</th>
                         <th>Acciones</th>

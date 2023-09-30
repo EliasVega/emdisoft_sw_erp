@@ -122,19 +122,19 @@
                     <tfoot>
                         <tr>
                             <th  colspan="8"><p align="right">TOTAL:</p></th>
-                            <th><p align="right"><span id="total_html">$ 0.00</span>
+                            <th class="thfoot"><p align="right"><span id="total_html">$ 0.00</span>
                                 <input type="hidden" name="total" id="total"> </p></th>
                         </tr>
 
                         <tr>
                             <th colspan="8"><p align="right">IMPUESTO:</p></th>
-                            <th><p align="right"><span id="total_tax_html">$ 0.00</span>
+                            <th class="thfoot"><p align="right"><span id="total_tax_html">$ 0.00</span>
                                 <input type="hidden" name="total_tax" id="total_tax"></p></th>
                         </tr>
 
                         <tr>
                             <th  colspan="8"><p align="right">TOTAL PAGAR:</p></th>
-                            <th><p align="right"><span align="right" id="total_pay_html">$ 0.00</span>
+                            <th class="thfoot"><p align="right"><span align="right" id="total_pay_html">$ 0.00</span>
                                 <input type="hidden" name="total_pay" id="total_pay"></p></th>
                         </tr>
                     </tfoot>

@@ -318,8 +318,12 @@ return [
                             'text' => 'Indicadores',
                             'url' => 'indicator',
                             'can'  => 'indicator.index',
-                        ]
-
+                        ],
+                        [
+                            'text' => 'Url envio',
+                            'url' => 'environment',
+                            'can'  => 'environment.index',
+                        ],
                     ]
 
                 ],
@@ -431,9 +435,24 @@ return [
                             'can'  => 'paymentMethod.index',
                         ],
                         [
+                            'text' => 'Frecuencia de pago',
+                            'url' => 'paymentFrecuency',
+                            'can'  => 'paymentFrecuency.index',
+                        ],
+                        [
                             'text' => 'Tipos de Contrato',
                             'url' => 'contratType',
                             'can'  => 'contratType.index',
+                        ],
+                        [
+                            'text' => 'Tipos Empleados',
+                            'url' => 'employeeType',
+                            'can'  => 'employeeType.index',
+                        ],
+                        [
+                            'text' => 'Subtipos Empleados',
+                            'url' => 'employeeSubtype',
+                            'can'  => 'employeeSubtype.index',
                         ],
                     ],
                 ],
@@ -472,7 +491,7 @@ return [
                         [
                             'text' => 'Roles',
                             'url' => 'roles',
-                            'can'  => 'roles.index',
+                            'can'  => 'rol.index',
                         ],
                         [
                             'text' => 'Permisos',
@@ -513,25 +532,13 @@ return [
                         ],
                         [
                             'text' => 'Porcentages',
-                            'url' => 'percebtage',
-                            'can'  => 'percebtage.index',
+                            'url' => 'percentage',
+                            'can'  => 'percentage.index',
                         ],
                         [
                             'text' => 'Impuestos',
                             'url' => 'companyTax',
                             'can'  => 'companyTax.index',
-                        ],
-
-                    ],
-                ],
-                [
-                    'text' => 'Reportes',
-                    'icon'    => 'fas fa-fw fa-receipt',
-                    'submenu' => [
-                        [
-                            'text' => 'Impuestos',
-                            'url' => 'tax',
-                            'can'  => 'tax.index',
                         ],
 
                     ],
@@ -595,9 +602,14 @@ return [
                         ],
                         [
                             'text' => 'Pre compras',
-                            'url' => 'prepurchase',
-                            'can'  => 'prepurchase.index',
+                            'url' => 'prePurchase',
+                            'can'  => 'prePurchase.index',
                         ],
+                        [
+                            'text' => 'Gastos',
+                            'url' => 'expense',
+                            'can'  => 'expense.index',
+                        ]
                     ],
                 ],
                 [
@@ -611,32 +623,6 @@ return [
                         ],
                     ],
                 ],
-                [
-                    'text' => 'Inventarios',
-                    'icon'    => 'fas fa-fw fa-warehouse',
-                    'submenu' => [
-                        [
-                            'text' => 'Categorias',
-                            'url' => 'category',
-                            'can'  => 'category.index',
-                        ],
-                        [
-                            'text' => 'Productos',
-                            'url' => 'product',
-                            'can'  => 'product.index',
-                        ],
-                        [
-                            'text' => 'Kardex',
-                            'url' => 'kardex',
-                            'can'  => 'kardex.index',
-                        ],
-                        [
-                            'text' => 'Traslados',
-                            'url' => 'transfer',
-                            'can'  => 'transfer.index',
-                        ],
-                    ],
-                ],
             ],
 
         ],
@@ -644,28 +630,40 @@ return [
             'text'    => 'INVENTARIOS',
             'icon'    => 'fas fa-fw fa-warehouse',
             'submenu' => [
-                    [
-                        'text' => 'Categorias',
-                        'url' => 'category',
-                        'can'  => 'category.index',
-                    ],
-                    [
-                        'text' => 'Productos',
-                        'url' => 'product',
-                        'can'  => 'product.index',
-                    ],
-                    [
-                        'text' => 'Kardex',
-                        'url' => 'kardex',
-                        'can'  => 'kardex.index',
-                    ],
-                    [
-                        'text' => 'Traslados',
-                        'url' => 'transfer',
-                        'can'  => 'transfer.index',
-                    ],
+                [
+                    'text' => 'Categorias',
+                    'url' => 'category',
+                    'can'  => 'category.index',
+                ],
+                [
+                    'text' => 'Productos',
+                    'url' => 'product',
+                    'can'  => 'product.index',
+                ],
+                [
+                    'text' => 'Kardex',
+                    'url' => 'kardex',
+                    'can'  => 'kardex.index',
+                ],
+                [
+                    'text' => 'Traslados',
+                    'url' => 'transfer',
+                    'can'  => 'transfer.index',
                 ],
             ],
+        ],
+        [
+            'text'    => 'REPORTES',
+            'icon'    => 'fas fa-fw fa-receipt',
+            'submenu' => [
+                [
+                    'text' => 'Impuestos',
+                    'url' => 'tax',
+                    'can'  => 'tax.index',
+                ],
+
+            ],
+        ],
         [
             'text'    => 'NOMINA',
             'icon'    => 'fas fa-fw fa-people-carry',
