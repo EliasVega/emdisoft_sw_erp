@@ -3521,7 +3521,7 @@ class MeasureUnitsTableSeeder extends Seeder
                 'status' => 'inactive',
             ),
         ));
-        \DB::table('measure_units')->insert(array (
+        DB::table('measure_units')->insert(array (
             0 =>
             array (
                 'id' => 501,

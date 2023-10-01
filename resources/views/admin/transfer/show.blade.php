@@ -15,6 +15,8 @@
                 @endcan
             </h5>
         </div>
+    </div>
+    <div class="row">
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <div class="form-group">
                 <label class="form-control-label">SEDE ORIGEN</label>

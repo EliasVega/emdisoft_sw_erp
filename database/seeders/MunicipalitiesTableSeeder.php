@@ -1421,7 +1421,7 @@ class MunicipalitiesTableSeeder extends Seeder
                 'department_id' => 5,
             ),
         ));
-        \DB::table('municipalities')->insert(array (
+        DB::table('municipalities')->insert(array (
             0 =>
             array (
                 'id' => 201,
@@ -2823,7 +2823,7 @@ class MunicipalitiesTableSeeder extends Seeder
                 'department_id' => 8,
             ),
         ));
-        \DB::table('municipalities')->insert(array (
+        DB::table('municipalities')->insert(array (
             0 =>
             array (
                 'id' => 401,
@@ -4225,7 +4225,7 @@ class MunicipalitiesTableSeeder extends Seeder
                 'department_id' => 12,
             ),
         ));
-        \DB::table('municipalities')->insert(array (
+        DB::table('municipalities')->insert(array (
             0 =>
             array (
                 'id' => 601,
@@ -5627,7 +5627,7 @@ class MunicipalitiesTableSeeder extends Seeder
                 'department_id' => 18,
             ),
         ));
-        \DB::table('municipalities')->insert(array (
+        DB::table('municipalities')->insert(array (
             0 =>
             array (
                 'id' => 801,
@@ -7029,7 +7029,7 @@ class MunicipalitiesTableSeeder extends Seeder
                 'department_id' => 23,
             ),
         ));
-        \DB::table('municipalities')->insert(array (
+        DB::table('municipalities')->insert(array (
             0 =>
             array (
                 'id' => 1001,

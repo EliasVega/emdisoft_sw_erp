@@ -7,7 +7,7 @@
     <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
         <div class="box-danger">
             <div class="box-header with-border">
-                <h5> class="box-title">Agregar Municipio
+                <h5 class="box-title">Agregar Municipio
                     @can('municipality.index')
                         <a href="{{ route('municipality.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
                     @endcan

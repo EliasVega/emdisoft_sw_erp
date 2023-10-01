@@ -83,8 +83,7 @@
     </div>
     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
-            <label for="password-confirm" class="col-md-12 col-form-label">Conf.
-                Contraseña</label>
+            <label for="password-confirm" class="col-md-12 col-form-label">Conf. Contraseña</label>
             <input id="password-confirm" type="password" class="form-control" name="password_confirmation"
                    placeholder="Confirmar Password" required>
         </div>
@@ -96,7 +95,12 @@
             <input type="text" name="position" value="{{ old('position', $user->position ?? '') }}" class="form-control" placeholder="Cargo">
         </div>
     </div>
-
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+        <div class="form-group">
+            <label for="roles">Roles</label>
+            {!! Form::select('roles[]', $roles, [], array('class' => 'form-control')) !!}
+        </div>
+    </div>
     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
         <div class="radio">
             <h6>Traslados</h6>
@@ -108,13 +112,6 @@
             <label for="transfer">No Autorizado</label>
         </div>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-        <div class="form-group">
-            <label for="roles">Roles</label>
-            {!! Form::select('roles[]', $roles, [], array('class' => 'form-control')) !!}
-        </div>
-    </div>
-
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
             <button class="btn btn-lightBlueGrad" type="submit">Guardar</button>

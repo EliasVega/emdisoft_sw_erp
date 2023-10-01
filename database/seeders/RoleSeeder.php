@@ -23,6 +23,8 @@ class RoleSeeder extends Seeder
         $purchases = Role::create(['name' => 'purchases']);
         $sales = Role::create(['name' => 'sales']);
 
+        Permission::create(['name' => 'superAdmin', 'description' => 'derechos solo superadministrador', 'status' => 'locked'])->syncRoles([$superAdmin]);
+
         Permission::create(['name' => 'advance.index', 'description' => 'Listado de Anticipo clientes', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $sales]);
         Permission::create(['name' => 'advance.create', 'description' => 'Crear anticipo clientes', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $sales]);
         Permission::create(['name' => 'advance.show', 'description' => 'Ver anticipo clientes', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $sales]);
@@ -234,6 +236,12 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'permission.destroy', 'description' => 'Eliminar permisos', 'status' => 'locked'])->syncRoles([$superAdmin]);
         Permission::create(['name' => 'permission.permissionStatus', 'description' => 'Permiso estado', 'status' => 'locked'])->syncRoles([$superAdmin]);
 
+        Permission::create(['name' => 'postalCode.index', 'description' => 'Listado codigos Postales', 'status' => 'active'])->assignRole($superAdmin, $admin, $operatings, $purchases, $sales);
+        Permission::create(['name' => 'postalCode.create', 'description' => 'Crear codigo Postal', 'status' => 'locked'])->assignRole($superAdmin);
+        Permission::create(['name' => 'postalCode.show', 'description' => 'Ver codigo Postal', 'status' => 'locked'])->assignRole($superAdmin);
+        Permission::create(['name' => 'postalCode.edit', 'description' => 'Editar codigo Postal', 'status' => 'locked'])->assignRole($superAdmin);
+        Permission::create(['name' => 'postalCode.destroy', 'description' => 'Eliminar codigo Postal', 'status' => 'locked'])->assignRole($superAdmin);
+
         Permission::create(['name' => 'prePurchase.index', 'description' => 'Listado orden de compra', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
         Permission::create(['name' => 'prePurchase.create', 'description' => 'Crear orden de compra', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
         Permission::create(['name' => 'prePurchase.show', 'description' => 'Ver orden de compra', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
@@ -274,10 +282,16 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'resolution.destroy', 'description' => 'Eliminar resolucion', 'status' => 'locked'])->syncRoles([$superAdmin]);
 
         Permission::create(['name' => 'rol.index', 'description' => 'Listado roles', 'status' => 'active'])->syncRoles([$superAdmin, $admin]);
-        Permission::create(['name' => 'rol.create', 'description' => 'Crear rol', 'status' => 'active'])->syncRoles([$superAdmin, $admin]);
-        Permission::create(['name' => 'rol.show', 'description' => 'Ver rol', 'status' => 'active'])->syncRoles([$superAdmin, $admin]);
-        Permission::create(['name' => 'rol.edit', 'description' => 'Editar rol', 'status' => 'active'])->syncRoles([$superAdmin, $admin]);
+        Permission::create(['name' => 'rol.create', 'description' => 'Crear rol', 'status' => 'active'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'rol.show', 'description' => 'Ver rol', 'status' => 'active'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'rol.edit', 'description' => 'Editar rol', 'status' => 'active'])->syncRoles([$superAdmin]);
         Permission::create(['name' => 'rol.destroy', 'description' => 'Eliminar rol', 'status' => 'locked'])->syncRoles([$superAdmin]);
+
+        Permission::create(['name' => 'supportDocumentResponse.index', 'description' => 'Listado respuestas ds', 'status' => 'active'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'supportDocumentResponse.create', 'description' => 'Crear respuesta ds', 'status' => 'locked'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'supportDocumentResponse.show', 'description' => 'Ver respuesta ds', 'status' => 'locked'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'supportDocumentResponse.edit', 'description' => 'Editar respuesta ds', 'status' => 'locked'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'supportDocumentResponse.destroy', 'description' => 'Eliminar respuesta ds', 'status' => 'locked'])->syncRoles([$superAdmin]);
 
         Permission::create(['name' => 'tax.index', 'description' => 'Listado impuestos', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
         Permission::create(['name' => 'tax.create', 'description' => 'Crear impuestos %', 'status' => 'active'])->syncRoles([$superAdmin]);

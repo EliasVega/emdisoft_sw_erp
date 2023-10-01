@@ -46,4 +46,9 @@ class Municipality extends Model
     {
         return $this->hasMany(Employee::class);
     }
+
+    public function postalCodes()
+    {
+        return $this->hasMany(PostalCode::class);
+    }
 }

@@ -55,22 +55,12 @@ class TaxTypeController extends Controller
      */
     public function store(StoreTaxTypeRequest $request)
     {
+        //dd($request->all());
         $taxType = new TaxType();
         $taxType->code = $request->code;
         $taxType->name = $request->name;
         $taxType->description = $request->description;
-        switch($request->type_tax) {
-            case(1):
-                $taxType->type_tax = 'tax_item';
-            break;
-            case(2):
-                $taxType->type_tax = 'retention';
-            break;
-            case(3):
-                $taxType->type_tax = 'tax_global';
-            break;
-            default:
-        }
+        $taxType->type_tax = $request->type_tax;
         $taxType->save();
         return redirect("taxType");
     }

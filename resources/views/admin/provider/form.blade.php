@@ -129,9 +129,20 @@
         </div>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        <div class="form-group">
-            <label for="postal_code">Codigo Postal</label>
-            <input type="text" name="postal_code" id="postal_code" value="{{ old('postal_code', $provider->postal_code ?? '') }}" class="form-control" placeholder="Codigo Postal" required>
+        <label for="postal_code_id">Codigo Postal</label>
+        <div class="select">
+            <select id="postal_code_id" name="postal_code_id" class="form-control selectpicker" data-live-search="true" required>
+                <option {{ ($provider->postal_code_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar</option>
+                @if(($municipalities ?? '') != null)
+                    @foreach($postalCodes as $postalCode)
+                        @if($postalCode->id == ($provider->postal_code_id ?? ''))
+                            <option value="{{ $postalCode->id }}" selected>{{ $postalCode->postal_code }}</option>
+                        @else
+                            <option value="{{ $postalCode->id }}">{{ $postalCode->postal_code }}</option>
+                        @endif
+                    @endforeach
+                @endif
+            </select>
         </div>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">

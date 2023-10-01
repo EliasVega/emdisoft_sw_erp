@@ -1,5 +1,5 @@
 <div class="box-body row">
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <label for="user_id">Usuario</label>
         <div class="select">
             <select id="user_id" name="user_id" class="form-control selectpicker" data-live-search="true" required>
@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="clearfix"></div>
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="code">Codigo Admin</label>
             <input type="password" name="code" value="{{ old('code', $verificationCode->code ?? '') }}" class="form-control" placeholder="Codigo">

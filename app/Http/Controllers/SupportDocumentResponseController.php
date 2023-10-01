@@ -5,15 +5,33 @@ namespace App\Http\Controllers;
 use App\Models\SupportDocumentResponse;
 use App\Http\Requests\StoreSupportDocumentResponseRequest;
 use App\Http\Requests\UpdateSupportDocumentResponseRequest;
+use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class SupportDocumentResponseController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $responses = SupportDocumentResponse::get();
+
+            return DataTables::of($responses)
+            ->addIndexColumn()
+                ->addColumn('provider', function (SupportDocumentResponse $response) {
+                    return $response->purchase->provider->name;
+                })
+                ->editColumn('created_at', function(SupportDocumentResponse $response) {
+                    return $response->created_at->format('yy-m-d');
+                })
+
+            ->addColumn('edit', 'admin/supportDocumentResponse/actions')
+            ->rawcolumns(['edit'])
+            ->make(true);
+        }
+        return view('admin.supportDocumentResponse.index');
     }
 
     /**

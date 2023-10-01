@@ -23,13 +23,13 @@ return new class extends Migration
             $table->string('phone', 20);
             $table->string('email', 100);
             $table->string('merchant_registration', 12)->default('000000,00');
-            $table->string('postal_code', 6);
             $table->string('contact', 50)->nullable();
             $table->string('phone_contact', 20)->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
 
             $table->foreignId('department_id')->constrained()->onUpdate('cascade');
             $table->foreignId('municipality_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('postal_code_id')->constrained()->onUpdate('cascade');
             $table->foreignId('identification_type_id')->constrained()->onUpdate('cascade');
             $table->foreignId('liability_id')->constrained()->onUpdate('cascade');
             $table->foreignId('organization_id')->constrained()->onUpdate('cascade');

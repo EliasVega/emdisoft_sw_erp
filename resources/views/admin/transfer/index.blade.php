@@ -7,12 +7,9 @@
 <main class="main">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h5>Translados
-                @can('transfer.create')
-                    <a href="transfer/create" class="btn btn-greenGrad"><i class="fa fa-plus"></i> Agregar Translados</a>
-                @endcan
+            <h5>Traslados de Productos
                 @can('branch.index')
-                    <a href="{{ route('branch.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
+                    <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
                 @endcan
             </h5>
         </div>
@@ -21,7 +18,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-condensed table-hover" id="transfers">
-                    <thead>
+                    <thead class="trdatacolor">
                         <tr>
                             <th>Id</th>
                             <th>Origen</th>

@@ -53,7 +53,6 @@ class VerificationCodeController extends Controller
     public function create()
     {
         $users = User::where('id', '!=', 1)->get();
-        dd($users);
         return view('admin.verificationCode.create', compact('users'));
     }
 
@@ -117,8 +116,10 @@ class VerificationCodeController extends Controller
      */
     public function update(UpdateVerificationCodeRequest $request, VerificationCode $verificationCode)
     {
+        $verificationCode->user_id = $request->user_id;
         $verificationCode->code = $request->code;
         $verificationCode->update();
+
         Alert::success('Autorizacion','Editada con exito.');
         return redirect('verificationCode');
     }

@@ -9,16 +9,16 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h5>Listado de Usuarios
                 @can('user.create')
-                    <a href="user/create" class="btn btn-lightBlueGrad"><i class="fa fa-plus mr-2"></i> Agregar Usuario</a>
+                    <a href="user/create" class="btn btn-greenGrad btn-sm"><i class="fa fa-plus mr-2"></i> Agregar Usuario</a>
                 @endcan
                 @can('company.index')
-                    <a href="{{ route('company.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
+                    <a href="{{ route('company.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
                 @endcan
                 @can('user.locked')
-                    <a href="{{ route('inactive') }}" class="btn btn-blueGrad"><i class="fas fa-user mr-2"></i>Activar Usuario</a>
+                    <a href="{{ route('inactive') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-user mr-2"></i>Activar Usuario</a>
                 @endcan
                 @can('verificationCode.create')
-                    <a href="verificationCode/create" class="btn btn-blueGrad"><i class="fas fa-key mr-xl-2"></i> Agregar Codigo Admin</a>
+                    <a href="verificationCode/create" class="btn btn-blueGrad btn-sm"><i class="fas fa-key mr-xl-2"></i> Agregar Codigo Admin</a>
                 @endcan
                 @can('rol.index')
                     <a href="roles" class="btn btn-blueGrad"><i class="fa fa-plus mr-2"></i> Roles</a>

@@ -37,6 +37,7 @@ use App\Http\Controllers\PaymentFrecuencyController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PercentageController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\PostalCodeController;
 use App\Http\Controllers\PrePurchaseController;
 use App\Http\Controllers\PrePurchaseProductController;
 use App\Http\Controllers\ProductBranchController;
@@ -46,6 +47,7 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\RegimeController;
 use App\Http\Controllers\ResolutionController;
 use App\Http\Controllers\RolController;
+use App\Http\Controllers\SupportDocumentResponseController;
 use App\Http\Controllers\TaxController;
 use App\Http\Controllers\TaxTypeController;
 use App\Http\Controllers\TransferController;
@@ -117,6 +119,7 @@ Route::resource('paymentFrecuency', PaymentFrecuencyController::class);
 Route::resource('paymentMethod', PaymentMethodController::class);
 Route::resource('percentage', PercentageController::class);
 Route::resource('permission', PermissionController::class);
+Route::resource('postalCode', PostalCodeController::class);
 Route::resource('prePurchase', PrePurchaseController::class);
 Route::resource('prePurchaseProduct', PrePurchaseProductController::class);
 Route::resource('product', ProductController::class);
@@ -126,6 +129,7 @@ Route::resource('purchase', PurchaseController::class);
 Route::resource('regime', RegimeController::class);
 Route::resource('resolution', ResolutionController::class);
 Route::resource('roles', RolController::class);
+Route::resource('supportDocumentResponse', SupportDocumentResponseController::class);
 Route::resource('tax', TaxController::class);
 Route::resource('taxType', TaxTypeController::class);
 Route::resource('transfer', TransferController::class);
@@ -191,6 +195,8 @@ Route::get('percentage/status/{id}', [PercentageController::class, 'status'])->n
 
 Route::get('permission/status/{id}', [PermissionController::class, 'status'])->name('permissionStatus');
 
+Route::get('postalCode/municipality/{id}', [PostalCodeController::class, 'getMunicipalities']);
+
 Route::get('prePurchase/invoice/{id}', [PrePurchaseController::class, 'invoice'])->name('prePurchaseInvoice');
 Route::get('prePurchase/pdf/{id}', [PrePurchaseController::class, 'prePurchasePdf'])->name('prePurchasePdf');
 Route::get('prePurchase/post/{id}', [PrePurchaseController::class, 'prePurchasePost'])->name('prePurchasePost');
@@ -198,6 +204,7 @@ Route::get('pdfPrePurchase', [PrePurchaseController::class, 'pdfPrePurchase'])->
 Route::get('postPrePurchase', [PrePurchaseController::class, 'postPrePurchase'])->name('postPrePurchase');
 
 Route::get('provider/create/{id}', [ProviderController::class, 'getMunicipalities']);
+Route::get('provider/postalCode/{id}', [ProviderController::class, 'getPostalCode']);
 Route::get('provider/advance/{id}', [ProviderController::class, 'advance'])->name('advanceProvider');
 Route::get('provider/status/{id}', [ProviderController::class, 'status'])->name('providerStatus');
 
@@ -209,6 +216,8 @@ Route::get('purchase/creditNotePurchase/{id}', [PurchaseController::class, 'cred
 Route::get('purchase/debitNotePurchase/{id}', [PurchaseController::class, 'debitNote'])->name('debitNotePurchase');
 Route::get('pdfPurchase', [PurchaseController::class, 'pdfPurchase'])->name('pdfPurchase');
 Route::get('postPurchase', [PurchaseController::class, 'postPurchase'])->name('postPurchase');
+
+Route::get('transfer/product/{id}', [TransferController::class, 'getProducts']);
 
 Route::get('user/status/{id}', [UserController::class, 'status'])->name('status');
 Route::get('inactive', [UserController::class, 'inactive'])->name('inactive');

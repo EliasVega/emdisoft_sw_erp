@@ -13,6 +13,7 @@ use App\Models\Liability;
 use App\Models\Municipality;
 use App\Models\Organization;
 use App\Models\PaymentMethod;
+use App\Models\PostalCode;
 use App\Models\Regime;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -55,6 +56,14 @@ class ProviderController extends Controller
                         return null;
                     } else {
                         return $provider->municipality->name;
+                    }
+                })
+                ->addColumn('postal_code', function (Provider $provider) {
+                    $postalCode = $provider->postalCode;
+                    if ($postalCode == null) {
+                        return null;
+                    } else {
+                        return $provider->postalCode->postal_code;
                     }
                 })
                 ->addColumn('identificationType', function (Provider $provider) {
@@ -109,13 +118,15 @@ class ProviderController extends Controller
         $liabilities = Liability::get();
         $organizations = Organization::get();
         $regimes = Regime::get();
+        $postalCodes = PostalCode::get();
         return view('admin.provider.create', compact(
             'departments',
             'municipalities',
             'identificationTypes',
             'liabilities',
             'organizations',
-            'regimes'
+            'regimes',
+            'postalCodes'
         ));
     }
 
@@ -135,6 +146,7 @@ class ProviderController extends Controller
         $provider->liability_id = $request->liability_id;
         $provider->organization_id = $request->organization_id;
         $provider->regime_id = $request->regime_id;
+        $provider->postal_code_id = $request->postal_code_id;
         $provider->name = $request->name;
         $provider->identification = $request->identification;
         $provider->dv = $request->dv;
@@ -142,7 +154,6 @@ class ProviderController extends Controller
         $provider->phone = $request->phone;
         $provider->email = $request->email;
         $provider->merchant_registration = $request->merchant_registration;
-        $provider->postal_code = $request->postal_code;
         $provider->contact = $request->contact;
         $provider->phone_contact = $request->phone_contact;
         $provider->save();
@@ -175,6 +186,7 @@ class ProviderController extends Controller
         $liabilities = Liability::get();
         $organizations = Organization::get();
         $regimes = Regime::get();
+        $postalCodes = PostalCode::get();
         return view('admin.provider.edit', compact(
             'provider',
             'departments',
@@ -182,7 +194,8 @@ class ProviderController extends Controller
             'identificationTypes',
             'liabilities',
             'organizations',
-            'regimes'
+            'regimes',
+            'postalCodes'
         ));
     }
 
@@ -201,6 +214,7 @@ class ProviderController extends Controller
         $provider->liability_id = $request->liability_id;
         $provider->organization_id = $request->organization_id;
         $provider->regime_id = $request->regime_id;
+        $provider->postal_code_id = $request->postal_code_id;
         $provider->name = $request->name;
         $provider->identification = $request->identification;
         $provider->dv = $request->dv;
@@ -208,7 +222,6 @@ class ProviderController extends Controller
         $provider->phone = $request->phone;
         $provider->email = $request->email;
         $provider->merchant_registration = $request->merchant_registration;
-        $provider->postal_code = $request->postal_code;
         $provider->contact = $request->contact;
         $provider->phone_contact = $request->phone_contact;
         $provider->update();
@@ -273,5 +286,16 @@ class ProviderController extends Controller
             'paymentMethods',
             'cards'
         ));
+    }
+
+    //Metodo para obtener el codigo postal dependeiento del municipio
+    public function getPostalCode(Request $request, $id)
+    {
+        if($request)
+        {
+            $postalCodes = PostalCode::where('municipality_id', '=', $id)->get();
+
+            return response()->json($postalCodes);
+        }
     }
 }

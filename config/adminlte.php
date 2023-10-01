@@ -309,6 +309,7 @@ return [
         [
             'text'    => 'SETTINGS',
             'icon'    => 'fas fa-fw fa-cogs',
+            'can'  => 'superAdmin',
             'submenu' => [
                 [
                     'text' => 'Configuracion',
@@ -340,6 +341,11 @@ return [
                             'text' => 'Municipios',
                             'url' => 'municipality',
                             'can'  => 'municipality.index',
+                        ],
+                        [
+                            'text' => 'Codigos Postales',
+                            'url' => 'postalCode',
+                            'can'  => 'postalCode.index',
                         ],
                     ],
                 ],
@@ -540,7 +546,6 @@ return [
                             'url' => 'companyTax',
                             'can'  => 'companyTax.index',
                         ],
-
                     ],
                 ],
             ],
@@ -609,7 +614,12 @@ return [
                             'text' => 'Gastos',
                             'url' => 'expense',
                             'can'  => 'expense.index',
-                        ]
+                        ],
+                        [
+                            'text' => 'DS respuestas',
+                            'url' => 'supportDocumentResponse',
+                            'can'  => 'supportDocumentResponse.index',
+                        ],
                     ],
                 ],
                 [

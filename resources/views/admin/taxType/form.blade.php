@@ -1,14 +1,16 @@
 <div class="box-body row">
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-3" >
-        <label for="type_tax">Tipo de Impuesto:</label>
-        <select name="type_tax" id="type_tax" class="form-select" aria-label="Default select example">
-            <option {{ old('type_tax', $taxType->type_tax ?? '') == '' ? "selected" : "" }} disabled>Seleccionar tipo</option>
-            <option value="1">Impuesto a linea</option>
-            <option value="2">Retencion</option>
-            <option value="3">Impuesto al total</option>
-        </select>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <label for="type_tax">Tipo de impuesto</label>
+        <div class="select">
+            <select id="type_tax" name="type_tax" class="form-control selectpicker" data-live-search="true" required>
+                <option {{ old('type_tax', $taxType->type_tax ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Responsabilidad</option>
+                <option value="tax_item">Impuesto en Linea</option>
+                <option value="retention">Retencion</option>
+                <option value="tax_blobal">Impuesto al total</option>
+            </select>
+        </div>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="code">Codigo</label>
             <input type="number" name="code" value="{{ old('code', $taxType->code ?? '') }}" class="form-control" placeholder="Ingrese codigo">

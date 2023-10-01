@@ -35,3 +35,6 @@
         </div>
     {!!Form::close()!!}
 @endsection
+@section('scripts')
+    @include('admin/user.script')
+@endsection

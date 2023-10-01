@@ -20,13 +20,13 @@ class UserController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:user.index|user.create|user.show|user.edit|user.destroy|user.status|user.inactive', ['only'=>['index']]);
+        $this->middleware('permission:user.index|user.create|user.show|user.edit|user.destroy|user.status|user.locked', ['only'=>['index']]);
         $this->middleware('permission:user.create', ['only'=>['create','store']]);
         $this->middleware('permission:user.show', ['only'=>['show']]);
         $this->middleware('permission:user.edit', ['only'=>['edit', 'update']]);
         $this->middleware('permission:user.destroy', ['only'=>['destroy']]);
         $this->middleware('permission:user.status', ['only'=>['status']]);
-        $this->middleware('permission:user.inactive', ['only'=>['inactive']]);
+        $this->middleware('permission:user.locked', ['only'=>['inactive']]);
     }
     /**
      * Display a listing of the resource.
@@ -96,7 +96,6 @@ class UserController extends Controller
         $user->position = $request->position;
         $user->transfer = $request->transfer;
         $user->status = 'active';
-
         $user->save();
 
         $user->assignRole($request->input('roles'));

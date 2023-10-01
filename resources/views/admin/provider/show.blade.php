@@ -45,6 +45,15 @@
                 <strong class="titulo-show">Municipio</strong>: <p class="vista">{{ $provider->municipality->name }}</p>
             </div>
         @endif
+        @if ($provider->postalCode == null)
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <strong class="titulo-show">Codigo Postal</strong>: <p class="vista">Indefinido</p>
+            </div>
+        @else
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <strong class="titulo-show">Codigo Postal</strong>: <p class="vista">{{ $provider->postalCode->postal_code }}</p>
+            </div>
+        @endif
 
         <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
             <strong class="titulo-show">Direccion</strong>: <p class="vista">{{ $provider->address }}</p>

@@ -23,11 +23,11 @@ class Provider extends Model
         'phone',
         'email',
         'merchant_registration',
-        'postal_code',
         'contact',
         'phone_contact',
         'department_id',
         'municipality_id',
+        'postal_code_id',
         'identification_type_id',
         'liability_id',
         'organization_id',
@@ -77,5 +77,8 @@ class Provider extends Model
         return $this->morphMany(Advance::class, 'advanceable');
     }
 
-
+    public function postalCode()
+    {
+        return $this->belongsTo(PostalCode::class);
+    }
 }
