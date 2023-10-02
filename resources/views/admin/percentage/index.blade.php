@@ -42,14 +42,14 @@
     @push('scripts')
 <script type="text/javascript">
 function format(d) {
-        return `
-                <table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">
-                    <tr>
-                        <td>Concepto</td>
-                        <td>${d.concept}</td>
-                    </tr>
-                </table>
-            `;
+    return `
+            <table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">
+                <tr>
+                    <td>Concepto</td>
+                    <td>${d.concept}</td>
+                </tr>
+            </table>
+        `;
     }
 $(document).ready(function ()
     {
@@ -67,22 +67,23 @@ $(document).ready(function ()
                 url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
             },
             ajax: '{{ route('percentage.index') }}',
+            order: [[0, 'desc']],
             columns:
             [
                 {
-                    "className": 'details-control',
-                    "orderable": false,
-                    "data": null,
-                    "defaultContent": ''
+                    className: 'details-control',
+                    orderable: false,
+                    data: null,
+                    defaultContent: ''
                 },
                 {data: 'id'},
                 {data: 'percentage'},
                 {data: 'base'},
                 {data: 'base_uvt'},
                 {data: 'name'},
-                {data: 'edit'},
-                {data: 'status'},
-                {data: 'destroy'},
+                {data: 'edit', orderable:false, searchable:false},
+                {data: 'status', orderable:false, searchable:false},
+                {data: 'destroy', orderable:false, searchable:false},
             ],
             dom: 'Blfrtip',
             lengthMenu: [

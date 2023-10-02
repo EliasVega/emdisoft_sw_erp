@@ -44,11 +44,25 @@ table {
     font-weight: bold;
 }
 /*
-*============================================VENTANA MODAL====================================================
+*============================================DATATABLES====================================================
 */
 .trdatacolor {
     color: #ffffff;
     background: #083080;
+}
+
+.highlight {
+    color: #acff86;
+    background: #000000 !important;
+}
+
+td.details-control {
+    background: url("/public/img/details_open.jpg") no-repeat center center;
+    cursor: pointer;
+}
+
+tr.shown td.details-control {
+    background: url("/public/img/details_close.jpg") no-repeat center center;
 }
 
 /*
