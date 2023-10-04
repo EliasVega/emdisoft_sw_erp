@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('support_document_responses', function (Blueprint $table) {
+        Schema::create('nsd_responses', function (Blueprint $table) {
             $table->id();
 
             $table->string('document', 20);
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('code', 3);
             $table->string('description', 100);
             $table->string('status_message', 100);
-            $table->foreignId('purchase_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('ndpurchase_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
 
             $table->timestamps();
         });
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('support_document_responses');
+        Schema::dropIfExists('nsd_responses');
     }
 };

@@ -193,6 +193,12 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'ndpurchase.store', 'description' => 'Crear ND compra', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings,$superAdmin, $admin, $operatings, $purchases, $sales]);
         Permission::create(['name' => 'ndpurchase.show', 'description' => 'Ver ND compra', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings,$superAdmin, $admin, $operatings, $purchases, $sales]);
 
+        Permission::create(['name' => 'nsdResponse.index', 'description' => 'Listado respuestas nds', 'status' => 'active'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'nsdResponse.create', 'description' => 'Crear respuesta nds', 'status' => 'locked'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'nsdResponse.show', 'description' => 'Ver respuesta nds', 'status' => 'locked'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'nsdResponse.edit', 'description' => 'Editar respuesta nds', 'status' => 'locked'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'nsdResponse.destroy', 'description' => 'Eliminar respuesta nds', 'status' => 'locked'])->syncRoles([$superAdmin]);
+
         Permission::create(['name' => 'organization.index', 'description' => 'Listado organizacion fiscal', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
         Permission::create(['name' => 'organization.create', 'description' => 'Crear organizacion fiscal', 'status' => 'locked'])->syncRoles([$superAdmin]);
         Permission::create(['name' => 'organization.show', 'description' => 'Ver organizacion fiscal', 'status' => 'locked'])->syncRoles([$superAdmin]);

@@ -86,13 +86,13 @@ $(document).ready(function ()
                 {
                     extend: 'copy',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
                     }
                 },
                 {
                     extend: 'excel',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                     }
                 },
                 {
@@ -101,13 +101,13 @@ $(document).ready(function ()
                     orientation: 'landscape',
                     pageSize: 'LEGAL',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                     }
                 },
                 {
                     extend: 'print',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                     }
                 },
             ],

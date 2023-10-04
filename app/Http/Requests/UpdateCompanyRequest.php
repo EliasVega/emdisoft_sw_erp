@@ -27,6 +27,8 @@ class UpdateCompanyRequest extends FormRequest
             'name' => 'required|max:45',
             'nit' => 'required|max:20',
             'dv' => 'required|max:1',
+            'address' => 'required|string|max:100',
+            'phone' => 'required|string|max:12',
             'api_token' => 'required|string|max:100',
             'email' => 'required',
             'emailfe' => 'required',

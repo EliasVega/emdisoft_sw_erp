@@ -34,6 +34,18 @@
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
+            <label for="address">Direccion</label>
+            <input type="text" name="address" value="{{ old('address', $company->address ?? '') }}" class="form-control" placeholder="Direccion" required>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="form-group">
+            <label for="phone">Telefono</label>
+            <input type="text" name="phone" value="{{ old('phone', $company->phone ?? '') }}" class="form-control" placeholder="Telefono" required>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="form-group">
             <label for="api_token">Api Token</label>
             <input type="text" name="api_token" value="{{ old('api_token', $company->api_token ?? '') }}" class="form-control" placeholder="Api_token" required>
         </div>

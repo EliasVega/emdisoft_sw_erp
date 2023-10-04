@@ -219,7 +219,6 @@ class BranchController extends Controller
 
     public function transfer($id)
     {
-
         $user = Auth::user();
 
         if ($user->transfer == 1) {
@@ -230,10 +229,6 @@ class BranchController extends Controller
             toast('Usuario no autorizado para hacer Traslados.','warning');
             return redirect("branch");
         }
-
-
-
-
         return view("admin.transfer.create", compact('branches', 'branchProducts', 'branch'));
     }
 }

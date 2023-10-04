@@ -462,6 +462,22 @@ return [
                         ],
                     ],
                 ],
+                [
+                    'text' => 'Response',
+                    'icon'    => 'fas fa-fw fa-university',
+                    'submenu' => [
+                        [
+                            'text' => 'DS response',
+                            'url' => 'supportDocumentResponse',
+                            'can'  => 'supportDocumentResponse.index',
+                        ],
+                        [
+                            'text' => 'NDS response',
+                            'url' => 'nsdResponse',
+                            'can'  => 'nsdResponse.index',
+                        ],
+                    ],
+                ],
             ],
 
         ],
@@ -614,11 +630,6 @@ return [
                             'text' => 'Gastos',
                             'url' => 'expense',
                             'can'  => 'expense.index',
-                        ],
-                        [
-                            'text' => 'DS respuestas',
-                            'url' => 'supportDocumentResponse',
-                            'can'  => 'supportDocumentResponse.index',
                         ],
                     ],
                 ],

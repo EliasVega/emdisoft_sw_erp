@@ -26,6 +26,8 @@ class CompaniesTableSeeder extends Seeder
                 'name' => 'SUAREZ PEREZ JAIRO ENRIQUE',
                 'nit' => '91343991',
                 'dv' => '7',
+                'address' => 'Cl 59 1w 70 apto 301 mutis',
+                'phone' => '3014109204',
                 'api_token' => 'b8f76155bf77accadd728428917d3f4bdf8a862a78bfd32ea89f48f1fa9fdd82',
                 'email' => 'comercial.ecounts@gmail.com',
                 'emailfe' => 'comercial.ecounts@gmail.com',

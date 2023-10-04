@@ -112,4 +112,14 @@ class Purchase extends Model
     {
         return $this->morphMany(Tax::class, 'taxable');
     }
+
+    public function supportDocumentResponse()
+    {
+        return $this->hasOne(SupportDocumentResponse::class);
+    }
+
+    public function nsdResponse()
+    {
+        return $this->hasOne(NsdResponse::class);
+    }
 }

@@ -4,12 +4,12 @@
 @endsection
 @section('content')
 <div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
         <div class="box-danger">
             <div class="box-header with-border">
-                <h5 class="box-title">Agregar Respuesta a documento soporte
-                    @can('supportDocumentResponse.index')
-                        <a href="{{ route('supportDocumentResponse.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
+                <h5 class="box-title">Agregar Respuesta a Nota de ajuste DS
+                    @can('nsdResponse.index')
+                        <a href="{{ route('nsdResponse.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
                     @endcan
                     @can('branch.index')
                         <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
@@ -25,10 +25,10 @@
                     </ul>
                 </div>
             @endif
-            {!!Form::open(array('url'=>'supportDocumentResponse', 'method'=>'POST', 'autocomplete'=>'off'))!!}
+            {!!Form::open(array('url'=>'nsdResponse', 'method'=>'POST', 'autocomplete'=>'off'))!!}
             {!!Form::token()!!}
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    @include('admin/supportDocumentResponse.form')
+                    @include('admin/nsdResponse.form')
                 </div>
             {!!Form::close()!!}
         </div>

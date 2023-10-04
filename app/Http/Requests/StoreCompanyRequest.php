@@ -27,6 +27,8 @@ class StoreCompanyRequest extends FormRequest
             'name' => 'required|max:45',
             'nit' => 'required|max:20',
             'dv' => 'required|max:1',
+            'address' => 'required|string|max:100',
+            'phone' => 'required|string|max:12',
             'email' => 'required',
             'emailfe' => 'required',
             'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',

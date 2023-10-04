@@ -225,8 +225,9 @@ class PurchaseController extends Controller
             $retention = $request->total_retention;
         }
 
-
         $documentType = $request->document_type_id;
+        $service = '';
+        $errorMessages = '';
         $store = false;
         if ($documentType == 11 && $indicator->dian == 'on') {
             $data = SupportDocumentSend($request);
@@ -370,7 +371,8 @@ class PurchaseController extends Controller
             toast('Compra Registrada satisfactoriamente.','success');
             return redirect('purchase');
         }
-        return redirect('purchases')->with('error_message', $errorMessages);
+        toast($errorMessages,'danger');
+        return redirect('purchase');
     }
 
     /**

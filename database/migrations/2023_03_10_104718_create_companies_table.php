@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('name', 45);
             $table->string('nit', 20)->unique();
             $table->string('dv', 1);
+            $table->string('address', 100);
+            $table->string('phone', 12);
             $table->string('api_token', 100);
             $table->string('email', 50)->unique();
             $table->string('emailfe', 50)->unique();

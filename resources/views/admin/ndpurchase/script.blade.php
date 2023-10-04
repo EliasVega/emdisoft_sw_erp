@@ -45,7 +45,7 @@
     $("#documentType").hide();
     $("#addResolution").hide();
 
-    supportDocument = $("#document_type").val();
+    supportDocument = $("#document_type_id").val();
     if (supportDocument == 11) {
         $("#discrepancy_id").val(2);
         $("#discrepancy").hide();
@@ -62,13 +62,13 @@
         $("#addReverse").show();
         $("#addResolution").show();
         editing();
-
-
+    } else {
+        $("#resolution_id").val(3);
     }
-
+    /*
     $("#resolution_id").change(function(){
         retentionLoad();
-    });
+    });*/
 
     $(document).ready(function(){
         /*
@@ -122,7 +122,6 @@
                     $("#added").hide();
                     $("#cancelled").hide();
                     //$("#updatePurchase").hide();
-                    $("#resolution_id").val(1);
                     $("#addReverse").show();
                     editing();
                     retentionLoad();
@@ -141,7 +140,6 @@
                     $("#addtax_rate").hide();
                     $("#addstock").hide();
                     $("#added").hide();
-                    $("#resolution_id").val(1);
                     $("#addReverse").show();
                     editing();
                     retentionLoad();
@@ -160,7 +158,6 @@
                     $("#addtax_rate").hide();
                     $("#addstock").hide();
                     $("#added").hide();
-                    $("#resolution_id").val(1);
                     $("#addReverse").show();
                     editing();
                     retentionLoad();

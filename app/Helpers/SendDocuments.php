@@ -17,7 +17,6 @@ if (! function_exists('SendDocuments')) {
         $service = $response->json();
 
         $responseErrors = $service['errors'] ?? '';
-
         if ($responseErrors == '') {
             $responseDian = $service['ResponseDian'] ?? '';
             if ($responseDian != '') {

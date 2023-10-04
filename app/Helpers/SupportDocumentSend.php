@@ -36,7 +36,7 @@ if (! function_exists('SupportDocumentSend')) {
         $taxCont = 0;
         $withholdingLines = [];
         $withholdingCont = 0;
-        $discountLines = [];
+        //$discountLines = [];
 
         $taxes[] = [];
         $contax = 0;
@@ -49,25 +49,23 @@ if (! function_exists('SupportDocumentSend')) {
             $taxAmount = ($quantity[$i] * $price[$i] * $taxRate[$i])/100;
             $amount = $quantity[$i] * $price[$i];
 
-            if ($taxAmount > 0) {
-                if ($taxes[0] != []) { //contax > 0
-                    $contsi = 0;
-                    foreach ($taxes as $key => $tax) {
+            if ($taxes[0] != []) { //contax > 0
+                $contsi = 0;
+                foreach ($taxes as $key => $tax) {
 
-                        if ($tax[0] == $companyTaxProduct) {
-                            $tax[2] += $taxAmount;
-                            $tax[3] += $amount;
-                            $contsi++;
-                        }
+                    if ($tax[0] == $companyTaxProduct) {
+                        $tax[2] += $taxAmount;
+                        $tax[3] += $amount;
+                        $contsi++;
                     }
-                    if ($contsi == 0) {
-                        $taxes[$contax] = [$companyTax->id, $companyTax->tax_type_id, $taxAmount, $amount, $taxRate[$i]];
-                            $contax++;
-                    }
-                } else {
-                    $taxes[$contax] = [$companyTax->id, $companyTax->tax_type_id, $taxAmount, $amount, $taxRate[$i]];
-                    $contax++;
                 }
+                if ($contsi == 0) {
+                    $taxes[$contax] = [$companyTax->id, $companyTax->tax_type_id, $taxAmount, $amount, $taxRate[$i]];
+                        $contax++;
+                }
+            } else {
+                $taxes[$contax] = [$companyTax->id, $companyTax->tax_type_id, $taxAmount, $amount, $taxRate[$i]];
+                $contax++;
             }
 
             $productLine = [
@@ -96,6 +94,7 @@ if (! function_exists('SupportDocumentSend')) {
             $productLines[$i] = $productLine;
 
         }
+
         for ($i=0; $i < count($taxes); $i++) {
             $taxLine = [
                 "tax_id" => $taxes[$i][1],
@@ -107,7 +106,6 @@ if (! function_exists('SupportDocumentSend')) {
             $taxLines[$taxCont] = $taxLine;
             $taxCont++;
         }
-
         if ($retentions != null) {
             for ($i=0; $i < count($retentions); $i++) {
                 $companyTax = CompanyTax::findOrFail($retentions[$i]);
@@ -136,6 +134,15 @@ if (! function_exists('SupportDocumentSend')) {
                 }
 
             }
+        } else {
+            $withholdingLine = [
+                "tax_id" => 4,
+                "tax_amount" => 0.00,
+                "percent" => 0.00,
+                "taxable_amount" => $totalDocument
+            ];
+            $withholdingLines[$withholdingCont] = $withholdingLine;
+            $withholdingCont++;
         }
 
         $total = $total + $subtotal;
@@ -157,7 +164,7 @@ if (! function_exists('SupportDocumentSend')) {
                 "address" => $provider->address,
                 "email" => $provider->email,
                 "merchant_registration" => $provider->merchant_registration,
-                "postal_zone_code" => $provider->postal_code,
+                "postal_zone_code" => $provider->postalCode->postal_code,
                 "type_document_identification_id" => $provider->identification_type_id,
                 "type_organization_id" => $provider->organization_id,
                 "municipality_id" => $provider->municipality_id,
@@ -165,7 +172,7 @@ if (! function_exists('SupportDocumentSend')) {
             ],
             "payment_form" => [
                 "payment_form_id" => $request->payment_form_id,
-                "payment_method_id" => $request->payment_method_id,
+                "payment_method_id" => $request->payment_method_id[0],
                 "payment_due_date" => $dueDate,
                 "duration_measure" => $expirationTime
             ],
@@ -180,7 +187,7 @@ if (! function_exists('SupportDocumentSend')) {
             "invoice_lines" => $productLines,
             "tax_totals" => $taxLines,
             "with_holding_tax_total" => $withholdingLines,
-            "allowance_charges" => $discountLines,
+            //"allowance_charges" => $discountLines,
         ];
 
         return $data;

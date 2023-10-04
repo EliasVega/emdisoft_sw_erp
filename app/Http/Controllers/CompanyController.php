@@ -92,6 +92,8 @@ class CompanyController extends Controller
         $company->name = $request->name;
         $company->nit = $request->nit;
         $company->dv = $request->dv;
+        $company->address = $request->address;
+        $company->phone = $request->phone;
         $company->api_token = $request->api_token;
         $company->email = $request->email;
         $company->emailfe = $request->emailfe;
@@ -184,6 +186,8 @@ class CompanyController extends Controller
         $company->name = $request->name;
         $company->nit = $request->nit;
         $company->dv = $request->dv;
+        $company->address = $request->address;
+        $company->phone = $request->phone;
         $company->api_token = $request->api_token;
         $company->email = $request->email;
         $company->emailfe = $request->emailfe;

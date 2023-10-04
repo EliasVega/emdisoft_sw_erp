@@ -108,6 +108,28 @@ class ProvidersTableSeeder extends Seeder
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43',
             ),
+            4 =>
+            array (
+                'id' => 5,
+                'name' => 'ARNULFO VALDIVIESO',
+                'identification' => '91283760',
+                'dv' => 4,
+                'address' => 'Cr 8 28 43 apto 201 B Girardot',
+                'phone' => '6330059',
+                'email' => 'discom.is@gmail.com',
+                'contact' => 'ELIAS VEGA',
+                'phone_contact' => '3174476983',
+                'postal_code_id' => 2733,
+                'status' => 'active',
+                'department_id' => 21,
+                'municipality_id' => 846,
+                'identification_type_id' => 3,
+                'liability_id' => 5,
+                'organization_id' => 2,
+                'regime_id' => 2,
+                'created_at' => '2023-09-30 21:07:43',
+                'updated_at' => '2023-09-30 21:07:43',
+            ),
         ));
 
 

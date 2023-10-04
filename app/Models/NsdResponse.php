@@ -5,33 +5,33 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Retention extends Model
+class NsdResponse extends Model
 {
     use HasFactory;
 
-    public $table = 'retentions';
+    public $table = 'nsd_responses';
 
     protected $primaryKey = 'id';
 
     public $timestamps = true;
 
     protected $fillable = [
-        'retention',
-        'type',
-        'company_tax_id'
+        'document',
+        'cuds',
+        'message',
+        'valid',
+        'code',
+        'description',
+        'status_message',
+        'ndpurchase_id'
     ];
 
     protected $guarded = [
         'id'
     ];
 
-    public function retentionable()
+    public function ndpurchase()
     {
-        return $this->morphTo();
-    }
-
-    public function companyTax()
-    {
-        return $this->belongsTo(Percentage::class);
+        return $this->belongsTo(Ndpurchase::class);
     }
 }

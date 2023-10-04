@@ -7,21 +7,31 @@
 <main class="main">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <h5>Codigo Postal
+                @can('nsdResponse.create')
+                    <a href="nsdResponse/create" class="btn btn-greenGrad btn-sm"><i class="fa fa-plus"></i>Agregar Respuesta NDS</a>
+                @endcan
+                @can('company.index')
+                    <a href="{{ route('company.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
+                @endcan
             </h5>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="table-responsive">
-                <table class="table table-striped table-bordered table-condensed table-hover" id="retentions">
-                    <thead>
+                <table class="table table-striped table-bordered table-condensed table-hover" id="responses">
+                    <thead class="trdatacolor">
                         <tr>
                             <th>Id</th>
-                            <th># Documento</th>
-                            <th>Tipo Documento</th>
-                            <th>%</th>
-                            <th>Base</th>
-                            <th>Valor</th>
+                            <th>Documento</th>
+                            <th>Cuds</th>
+                            <th>Mensaje</th>
+                            <th>Valido</th>
+                            <th>Codigo</th>
+                            <th>Descripcion</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                 </table>
@@ -32,7 +42,7 @@
 <script type="text/javascript">
 $(document).ready(function ()
     {
-        $('#retentions').DataTable(
+        $('#response').DataTable(
         {
             info: true,
             paging: true,
@@ -45,18 +55,21 @@ $(document).ready(function ()
             language: {
                 url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
             },
-            ajax: '{{ route('retention.index') }}',
+            ajax: '{{ route('nsdResponse.index') }}',
             order: [[0, "desc"]],
             columns:
             [
                 {data: 'id'},
                 {data: 'document'},
-                {data: 'type'},
-                {data: 'percentage'},
-                {data: 'base'},
-                {data: 'value', className: 'dt-body-right', render: $.fn.dataTable.render.number( '.', ',', 2, '$')},
+                {data: 'cuds'},
+                {data: 'message'},
+                {data: 'valid'},
+                {data: 'code'},
+                {data: 'description'},
+                {data: 'status_message'},
+                {data: 'edit'},
             ],
-            dom: 'Blfrtip',
+            dom: 'Bfltip',
             lengthMenu: [
                 [10, 20, 50, 100, 500, -1], [10, 20, 50, 100, 500, 'Todos']
             ],
@@ -95,3 +108,8 @@ $(document).ready(function ()
 @endpush
 </main>
 @endsection
+
+
+
+
+

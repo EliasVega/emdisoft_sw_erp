@@ -20,6 +20,8 @@ class Company extends Model
         'name',
         'nit',
         'dv',
+        'address',
+        'phone',
         'api_token',
         'email',
         'emailfe',

@@ -56,7 +56,7 @@
         <div class="form-group">
             <label class="form-control-label" for="resolution_id">Resolucion</label>
                 <select name="resolution_id" class="form-control selectpicker" id="resolution_id" data-live-search="true">
-                    <option value="1" disabled selected>Seleccionar...</option>
+                    <option value="3" disabled selected>Seleccionar...</option>
                     @foreach($resolutions as $resolution)
                         <option value="{{ $resolution->id }}">{{ $resolution->prefix }} {{ $resolution->resolution }}</option>
                     @endforeach

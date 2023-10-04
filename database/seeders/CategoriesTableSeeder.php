@@ -65,11 +65,22 @@ class CategoriesTableSeeder extends Seeder
             4 =>
             array (
                 'id' => 5,
-                'name' => 'Servicios y Excentos',
+                'name' => 'Productos gravados con INC',
                 'description' => 'Gastos de la empresa',
                 'utility_rate' => '0.00',
                 'status' => 'active',
                 'company_tax_id' => 3,
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43',
+            ),
+            5 =>
+            array (
+                'id' => 6,
+                'name' => 'Excentos',
+                'description' => 'Gastos de la empresa',
+                'utility_rate' => '0.00',
+                'status' => 'active',
+                'company_tax_id' => 1,
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43',
             ),

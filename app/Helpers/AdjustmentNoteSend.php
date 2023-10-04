@@ -13,10 +13,16 @@ use Carbon\Carbon;
 if (! function_exists('AdjustmentNoteSend')) {
     function AdjustmentNoteSend($request, $purchase)
     {
+        $resolut = $request->resolution_id;
+        if ($resolut) {
+            $resolution = Resolution::findOrFail($request->resolution_id);//resolucion selecionada en el request
+        } else {
+            $resolution = Resolution::findOrFail(3);//resolucion selecionada en el request
+        }
         $company = Company::findOrFail(current_user()->company_id);
         $provider = Provider::findOrFail($purchase->provider_id);
         $discrepancy = Discrepancy::findOrFail($request->discrepancy_id);
-        $resolution = Resolution::findOrFail($request->resolution_id);
+        //$resolution = Resolution::findOrFail($request->resolution_id);
         $supportDocumentResponse = SupportDocumentResponse::where('purchase_id', $purchase->id)->first();
         $date = Carbon::now();
 
@@ -24,9 +30,9 @@ if (! function_exists('AdjustmentNoteSend')) {
         $quantity = $request->quantity;
         $price = $request->price;
         $taxRate = $request->tax_rate;
-        $totalDocument = $request->total;
+        $total = $request->total;
+        $total_pay = $request->total_pay;
         //$totalIva = $request->tax_iva;
-        $total = $request->total_pay;
 
         //$retentions = $request->company_tax_id;
 
@@ -48,29 +54,28 @@ if (! function_exists('AdjustmentNoteSend')) {
             $taxAmount = ($quantity[$i] * $price[$i] * $taxRate[$i])/100;
             $amount = $quantity[$i] * $price[$i];
 
-            if ($taxAmount > 0) {
-                if ($taxes[0] != []) { //contax > 0
-                    $contsi = 0;
-                    foreach ($taxes as $key => $tax) {
+            if ($taxes[0] != []) { //contax > 0
+                $contsi = 0;
+                foreach ($taxes as $key => $tax) {
 
-                        if ($tax[0] == $companyTaxProduct) {
-                            $tax[2] += $taxAmount;
-                            $tax[3] += $amount;
-                            $contsi++;
-                        }
+                    if ($tax[0] == $companyTaxProduct) {
+                        $tax[2] += $taxAmount;
+                        $tax[3] += $amount;
+                        $contsi++;
                     }
-                    if ($contsi == 0) {
-                        $taxes[$contax] = [$companyTax->id, $companyTax->tax_type_id, $taxAmount, $amount, $taxRate[$i]];
-                            $contax++;
-                    }
-                } else {
-                    $taxes[$contax] = [$companyTax->id, $companyTax->tax_type_id, $taxAmount, $amount, $taxRate[$i]];
-                    $contax++;
                 }
+                if ($contsi == 0) {
+                    $taxes[$contax] = [$companyTax->id, $companyTax->tax_type_id, $taxAmount, $amount, $taxRate[$i]];
+                        $contax++;
+                }
+            } else {
+                $taxes[$contax] = [$companyTax->id, $companyTax->tax_type_id, $taxAmount, $amount, $taxRate[$i]];
+                $contax++;
             }
+
             $productLine = [
                 "unit_measure_id" => $product->measure_unit_id,
-                "invoiced_quantity" => round($quantity[$i], 2),
+                "invoiced_quantity" => $quantity[$i],
                 "line_extension_amount" => $amount,
                 "free_of_charge_indicator" => false,
                 "tax_totals" => [
@@ -87,8 +92,8 @@ if (! function_exists('AdjustmentNoteSend')) {
                 "brandname" => $product->category->name,
                 "modelname" => $product->code,
                 "type_item_identification_id" => 4,
-                "price_amount" => round($price[$i]),
-                "base_quantity" => round($quantity[$i], 2)
+                "price_amount" => $price[$i],
+                "base_quantity" => $quantity[$i]
             ];
 
             $productLines[$i] = $productLine;
@@ -108,7 +113,7 @@ if (! function_exists('AdjustmentNoteSend')) {
         $data = [
             "billing_reference" => [
                 "number" => $purchase->document,
-                "uuid" => 123456,
+                "uuid" => $supportDocumentResponse->cuds,
                 "issue_date" => $purchase->generation_date
             ],
             "discrepancyresponsecode" => $discrepancy->code,
@@ -137,19 +142,19 @@ if (! function_exists('AdjustmentNoteSend')) {
                 "address" => $provider->address,
                 "email" => $provider->email,
                 "merchant_registration" => $provider->merchant_registration,
-                "postal_zone_code" => $provider->postal_code,
+                "postal_zone_code" => $provider->postalCode->postal_code,
                 "type_document_identification_id" => $provider->identification_type_id,
                 "type_organization_id" => $provider->organization_id,
                 "municipality_id" => $provider->municipality->id,
                 "type_regime_id" => $provider->regime_id
             ],
             "legal_monetary_totals" => [
-                "line_extension_amount" => $totalDocument,
-                "tax_exclusive_amount" => $totalDocument,
-                "tax_inclusive_amount" => $total,
+                "line_extension_amount" => $total,
+                "tax_exclusive_amount" => $total,
+                "tax_inclusive_amount" => $total_pay,
                 "allowance_total_amount" => "0.00",
                 "charge_total_amount" => "0.00",
-                "payable_amount" => $total
+                "payable_amount" => $total_pay
             ],
             "credit_note_lines" => $productLines,
             "tax_totals" => $taxLines,

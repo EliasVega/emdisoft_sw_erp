@@ -12,6 +12,7 @@ use App\Models\Company;
 use App\Models\Environment;
 use App\Models\Indicator;
 use App\Models\NdpurchaseProduct;
+use App\Models\NsdResponse;
 use App\Models\Pay;
 use App\Models\PayPaymentMethod;
 use App\Models\Product;
@@ -30,6 +31,7 @@ use App\Traits\KardexCreate;
 use App\Traits\Taxes;
 use App\Traits\NdpurchaseProductCreate;
 use App\Traits\reverse;
+use Illuminate\Support\Facades\Storage;
 
 class NdpurchaseController extends Controller
 {
@@ -109,7 +111,6 @@ class NdpurchaseController extends Controller
         $branch = current_user()->branch_id;
         //dd($request->all());
 
-
         if ($resolut) {
             $resolution = Resolution::findOrFail($request->resolution_id);//resolucion selecionada en el request
         } else {
@@ -117,7 +118,7 @@ class NdpurchaseController extends Controller
         }
         $company = Company::findOrFail(current_user()->company_id);
         $purchase = Purchase::findOrFail($request->purchase_id);//encontrando la factura
-        $environment = Environment::where('code', 'NDS')->first();//Url nota de ajuste documento soporte
+        $environment = Environment::where('code', 'NSD')->first();//Url nota de ajuste documento soporte
         $pay = Pay::where('type', 'purchase')->where('payable_id', $purchase->id)->get();//pagos hechos a esta factura
         $indicator = Indicator::findOrFail(1);
         $voucherTypes = VoucherType::findOrFail(18);
@@ -151,6 +152,8 @@ class NdpurchaseController extends Controller
         $advancePay = $purchase->pay - $newGrandTotal;
         $documentType = $request->document_type_id;
         $documentOrigin = $purchase;
+        $service = '';
+        $errorMessages = '';
         $store = false;
         if ($documentType == 11 && $indicator->dian == 'on') {
             $data = AdjustmentNoteSend($request, $purchase);
@@ -161,7 +164,6 @@ class NdpurchaseController extends Controller
         } else {
             $store = true;
         }
-
         if ($store == true) {
             //Registrar tabla Nota Debito
             $ndpurchase = new Ndpurchase();
@@ -357,15 +359,6 @@ class NdpurchaseController extends Controller
                 }
             } elseif ($purchase->status == 'credit_note') {
                 $purchase->status = 'complete';
-            }
-
-
-            if ($purchase->status == 'purchase') {
-                if ($discrepancy == 2) {
-                    $purchase->status = 'complete';
-                } else {
-                    $purchase->status = 'debit_note';
-                }
             } elseif ($purchase->status == 'support_document') {
                 $purchase->status = 'adjustment_note';
             } elseif ($purchase->status == 'credit_note') {
@@ -373,12 +366,44 @@ class NdpurchaseController extends Controller
             }
             $purchase->update();
 
+            if ($documentType == 11 && $indicator->dian == 'on') {
+                $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
+                    ['SendBillSyncResult']['IsValid'];
+                $code = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
+                    ['SendBillSyncResult']['StatusCode'];
+                $description = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
+                    ['SendBillSyncResult']['StatusDescription'];
+                $statusMessage = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
+                    ['SendBillSyncResult']['StatusMessage'];
+
+                $nsdResponse = new NsdResponse();
+                $nsdResponse->document = $purchase->document;
+                $nsdResponse->message = $service['message'];
+                $nsdResponse->valid = $valid;
+                $nsdResponse->code = $code;
+                $nsdResponse->description = $description;
+                $nsdResponse->status_message = $statusMessage;
+                $nsdResponse->cuds = $service['cuds'];
+                $nsdResponse->ndpurchase_id = $ndpurchase->id;
+                $nsdResponse->save();
+
+                $environmentPdf = Environment::where('code', 'PDF')->first();
+
+                $pdf = file_get_contents($environmentPdf->url . $company->nit ."/NDSNS-" . $resolution->prefix .
+                $resolution->consecutive .".pdf");
+                Storage::disk('public')->put('files/graphical_representations/adjustment_notes_ds/' .
+                $resolution->prefix . $resolution->consecutive . '.pdf', $pdf);
+
+                $resolution->consecutive += 1;
+                $resolution->update();
+            }
+
             session(['ndpurchase' => $ndpurchase->id]);
 
             toast('Nota Debito Registrada satisfactoriamente.','success');
             return redirect('ndpurchase');
         } else {
-            toast('Nota Debito No fue Registrada.','success');
+            toast($errorMessages,'Danger');
             return redirect('ndpurchase');
         }
 

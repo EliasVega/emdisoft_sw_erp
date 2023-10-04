@@ -139,6 +139,23 @@ class ProductsTableSeeder extends Seeder
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43',
             ),
+            7 =>
+            array (
+                'id' => 8,
+                'code' => '2308',
+                'name' => 'REPARACIONES GENERALES',
+                'price' => '1000.00',
+                'sale_price' => '0.00',
+                'stock' => 0,
+                'type_product' => 'service',
+                'status' => 'active',
+                'imageName' => 'noimage.jpg',
+                'image' => '/storage/images/products/noimage.jpg',
+                'category_id' => 6,
+                'measure_unit_id' => 70,
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43',
+            ),
         ));
     }
 }

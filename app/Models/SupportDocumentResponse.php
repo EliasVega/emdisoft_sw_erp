@@ -32,7 +32,7 @@ class SupportDocumentResponse extends Model
 
     public function purchase()
     {
-        return $this->belongsTo(Purchasee::class);
+        return $this->belongsTo(Purchase::class);
     }
 
 }

@@ -23,8 +23,8 @@
                 <table class="table table-striped table-bordered table-condensed table-hover" id="percentages">
                     <thead>
                         <tr class="trdatacolor">
-                            <th></th>
                             <th>Id</th>
+                            <th></th>
                             <th>%</th>
                             <th>Base</th>
                             <th>Base UVT</th>
@@ -70,13 +70,13 @@ $(document).ready(function ()
             order: [[0, 'desc']],
             columns:
             [
+                {data: 'id'},
                 {
                     className: 'details-control',
                     orderable: false,
                     data: null,
                     defaultContent: ''
                 },
-                {data: 'id'},
                 {data: 'percentage'},
                 {data: 'base'},
                 {data: 'base_uvt'},
