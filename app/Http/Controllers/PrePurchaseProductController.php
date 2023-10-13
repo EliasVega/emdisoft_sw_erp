@@ -18,13 +18,13 @@ use App\Models\Resolution;
 use App\Models\SupportDocumentResponse;
 use App\Models\VoucherType;
 use Illuminate\Support\Facades\Storage;
-use App\Traits\Inventory;
+use App\Traits\InventoryPurchases;
 use App\Traits\KardexCreate;
 use App\Traits\Taxes;
 
 class PrePurchaseProductController extends Controller
 {
-    use Inventory, KardexCreate, Taxes;
+    use InventoryPurchases, KardexCreate, Taxes;
     function __construct()
     {
         $this->middleware('permission:prePurchaseProduct.store', ['only'=>['store']]);
@@ -86,8 +86,8 @@ class PrePurchaseProductController extends Controller
         $documentType = $request->document_type_id;
         $store = false;
         if ($documentType == 11 && $indicator->dian == 'on') {
-            $data = SupportDocumentSend($request);
-            $requestResponse = SendDocuments($company, $environment, $data);
+            $data = supportDocumentSend($request);
+            $requestResponse = sendDocuments($company, $environment, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];
@@ -176,19 +176,19 @@ class PrePurchaseProductController extends Controller
 
                 $quantityLocal = $quantity[$i];
                 $priceLocal = $price[$i];
-                $this->inventory($product, $branchProducts, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
+                $this->inventoryPurchases($product, $branchProducts, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
                 $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
 
             }
 
             $taxes = $this->getTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC
-            TaxesGlobals($document, $quantityBag, $typeDocument);
-            TaxesLines($document, $taxes, $typeDocument);
-            Retentions($request, $document, $typeDocument);
+            //taxesGlobals($document, $quantityBag, $typeDocument);
+            taxesLines($document, $taxes, $typeDocument);
+            retentions($request, $document, $typeDocument);
 
 
             if ($totalpay > 0) {
-                Pays($request, $document, $typeDocument);
+                pays($request, $document, $typeDocument);
             }
             if ($documentType == 11 && $indicator->dian == 'on') {
                 $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']

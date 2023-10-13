@@ -100,6 +100,7 @@ class IndicatorController extends Controller
     {
         $indicator->smlv = $request->smlv;
         $indicator->transport_assistance = $request->transport_assistance;
+        $indicator->uvt = $request->uvt;
         $indicator->plastic_bag_tax = $request->plastic_bag_tax;
         $indicator->update();
         return redirect('indicator');

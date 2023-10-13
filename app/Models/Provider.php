@@ -81,4 +81,14 @@ class Provider extends Model
     {
         return $this->belongsTo(PostalCode::class);
     }
+
+    public function ndPurchases()
+    {
+        return $this->hasMany(Ndpurchase::class,);
+    }
+
+    public function ncPurchases()
+    {
+        return $this->hasMany(Ncpurchase::class,);
+    }
 }

@@ -517,7 +517,7 @@
                         <tfoot>
                             <tr>
                                 <th  colspan="3"><p align="right">TOTAL:</p></th>
-                                <th><p align="right">${{ $sumCashInflows }}</p></th>
+                                <th><p align="right">${{ number_format($sumCashInflows,2) }}</p></th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -526,7 +526,7 @@
                                     <td>{{ $cashInflow->created_at }}</td>
                                     <td>{{ $cashInflow->id }}</td>
                                     <td>{{ $cashInflow->admin->name }}</td>
-                                    <td class="rightfoot">$ {{ $cashInflow->cash }}</td>
+                                    <td class="rightfoot">$ {{ number_format($cashInflow->cash,2) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -554,7 +554,7 @@
                         <tfoot>
                             <tr>
                                 <th  colspan="3"><p align="right">TOTAL:</p></th>
-                                <th><p align="right">${{ $sumCashOutflows }}</p></th>
+                                <th><p align="right">${{ number_format($sumCashOutflows,2) }}</p></th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -563,7 +563,7 @@
                                     <td>{{ $cashOutflow->created_at }}</td>
                                     <td>{{ $cashOutflow->id }}</td>
                                     <td>{{ $cashOutflow->admin->name }}</td>
-                                    <td class="rightfoot">$ {{ $cashOutflow->cash }}</td>
+                                    <td class="rightfoot">$ {{ number_format($cashOutflow->cash,2) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

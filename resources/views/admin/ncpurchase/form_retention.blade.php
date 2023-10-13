@@ -38,7 +38,6 @@
                 <thead class="bg-info">
                     <tr>
                         <th>Eliminar</th>
-                        <th>cont</th>
                         <th>Tipo id</th>
                         <th>Tipo</th>
                         <th>Valor</th>
@@ -46,7 +45,7 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <th colspan="4">
+                        <th colspan="3">
                             <p align="right">TOTAL RETENCIONES:</p>
                         </th>
                         <th class="thfoot">

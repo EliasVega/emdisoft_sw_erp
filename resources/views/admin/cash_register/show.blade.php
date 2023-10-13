@@ -73,7 +73,7 @@
     <div class="row">
         @if ($cashRegister->invoice > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <strong class="tpdf">Detalle Facturas</strong>
+                <strong class="tpdf">Detalle Ventas</strong>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="table-responsive">
@@ -86,7 +86,7 @@
                                 <th>Estado</th>
                                 <th>Abonos</th>
                                 <th>Saldo</th>
-                                <th>Ventas</th>
+                                <th>Valor</th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -157,26 +157,28 @@
                 </div>
             </div>
         @endif
-        @if ($cashRegister->out_expense > 0)
+        @if ($cashRegister->expense > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <strong class="tpdf">Detalle Gastos</strong>
             </div>
-
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered table-condensed table-hover">
                         <thead>
                             <tr class="bg-info">
                                 <th>Fecha</th>
-                                <th>N°.Gasto</th>
+                                <th>N°.G</th>
                                 <th>Proveedor</th>
+                                <th>Estado</th>
+                                <th>Abonos</th>
+                                <th>Saldo</th>
                                 <th>Valor</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th  colspan="3"><p align="right">TOTAL:</p></th>
-                                <th><p align="right">${{ number_format($exppay,2) }}</p></th>
+                                <th  colspan="6"><p align="right">TOTAL:</p></th>
+                                <th><p align="right">${{ number_format($cashRegister->expense,2) }}</p></th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -185,7 +187,11 @@
                                     <td>{{ $expense->created_at }}</td>
                                     <td>{{ $expense->document }}</td>
                                     <td>{{ $expense->third->name }}</td>
+                                    <td>{{ $expense->status }}</td>
+                                    <td class="rightfoot">$ {{ number_format($expense->pay,2) }}</td>
+                                    <td class="rightfoot">$ {{ number_format($expense->balance,2) }}</td>
                                     <td class="rightfoot">$ {{ number_format($expense->total_pay,2) }}</td>
+
 
                                 </tr>
                             @endforeach
@@ -246,8 +252,8 @@
                         <thead>
                             <tr class="bg-info">
                                 <th>Fecha</th>
-                                <th>N°.P ND</th>
-                                <th>N°. Fact</th>
+                                <th>N°. ND</th>
+                                <th>Aplicado A.</th>
                                 <th>Cliente</th>
                                 <th>Valor</th>
                             </tr>
@@ -255,7 +261,7 @@
                         <tfoot>
                             <tr>
                                 <th  colspan="4"><p align="right">TOTAL:</p></th>
-                                <th><p align="right">${{ number_format($ndipay,2) }}</p></th>
+                                <th><p align="right">${{ number_format($ndinvoiceTotal,2) }}</p></th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -284,7 +290,7 @@
                             <tr class="bg-info">
                                 <th>Fecha</th>
                                 <th>N°.NC</th>
-                                <th>N° Factura</th>
+                                <th>Aplicado A.</th>
                                 <th>Cliente</th>
                                 <th>Valor</th>
                             </tr>
@@ -292,7 +298,7 @@
                         <tfoot>
                             <tr>
                                 <th  colspan="4"><p align="right">TOTAL:</p></th>
-                                <th><p align="right">${{ number_format($ncipay,2) }}</p></th>
+                                <th><p align="right">${{ number_format($ncinvoiceTotal,2) }}</p></th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -321,15 +327,15 @@
                             <tr class="bg-info">
                                 <th>Fecha</th>
                                 <th>N°. ND</th>
-                                <th>N°. Fact</th>
-                                <th>Cliente</th>
+                                <th>Aplicado A.</th>
+                                <th>Proveedor</th>
                                 <th>Valor</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
                                 <th  colspan="4"><p align="right">TOTAL:</p></th>
-                                <th><p align="right">${{ number_format($ndtotal,2) }}</p></th>
+                                <th><p align="right">${{ number_format($ndpurchaseTotal,2) }}</p></th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -358,15 +364,15 @@
                             <tr class="bg-info">
                                 <th>Fecha</th>
                                 <th>N°.NC</th>
-                                <th>N° Factura</th>
-                                <th>Cliente</th>
+                                <th>Aplicado A.</th>
+                                <th>Proveedor</th>
                                 <th>Valor</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
                                 <th  colspan="4"><p align="right">TOTAL:</p></th>
-                                <th><p align="right">${{ number_format($ndtotal,2) }}</p></th>
+                                <th><p align="right">${{ number_format($ndpurchaseTotal,2) }}</p></th>
                             </tr>
                         </tfoot>
                         <tbody>

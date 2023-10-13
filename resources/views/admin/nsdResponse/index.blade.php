@@ -7,7 +7,7 @@
 <main class="main">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h5>Codigo Postal
+            <h5>Respuesta Nota de ajuste DS
                 @can('nsdResponse.create')
                     <a href="nsdResponse/create" class="btn btn-greenGrad btn-sm"><i class="fa fa-plus"></i>Agregar Respuesta NDS</a>
                 @endcan

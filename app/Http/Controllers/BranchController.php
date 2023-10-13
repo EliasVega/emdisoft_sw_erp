@@ -62,7 +62,7 @@ class BranchController extends Controller
                 return $branch->company->indicator->post;
             })
             //->addColumn('order', 'admin/branch/btn/order')
-            //->addColumn('invoice', 'admin/branch/btn/invoice')
+            ->addColumn('invoice', 'admin/branch/btn/invoice')
             ->addColumn('box', 'admin/branch/btn/box')
             ->addColumn('purchase', 'admin/branch/btn/purchase')
             ->addColumn('expense', 'admin/branch/btn/expense')
@@ -70,7 +70,7 @@ class BranchController extends Controller
             ->addColumn('transfer', 'admin/branch/btn/transfer')
             ->addColumn('edit', 'admin/branch/btn/edit')
             ->addColumn('show', 'admin/branch/btn/show')
-            ->rawColumns(['box', 'purchase', 'expense', 'product', 'transfer', 'edit', 'show'])
+            ->rawColumns(['invoice', 'box', 'purchase', 'expense', 'product', 'transfer', 'edit', 'show'])
             ->make(true);
                 /*
             ->addColumn('btn', 'admin/branch/actions')

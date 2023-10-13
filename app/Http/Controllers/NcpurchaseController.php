@@ -19,13 +19,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
-use App\Traits\Inventory;
+use App\Traits\InventoryPurchases;
 use App\Traits\KardexCreate;
 use App\Traits\Taxes;
 
 class NcpurchaseController extends Controller
 {
-    use Inventory, KardexCreate, Taxes;
+    use InventoryPurchases, KardexCreate, Taxes;
     function __construct()
     {
         $this->middleware('permission:ncpurchase.index|ncpurchase.store|ncpurchase.show', ['only'=>['index']]);
@@ -140,9 +140,7 @@ class NcpurchaseController extends Controller
 
         if ($indicator->post == 'on') {
             //actualizar la caja
-            $cashRegister = CashRegister::where('user_id', '=', $purchase->user_id)->where('status', '=', 'open')->first();
             $cashRegister->ncpurchase += $total_pay;
-            $cashRegister->purchase += $total_pay;
             $cashRegister->update();
         }
 
@@ -176,7 +174,7 @@ class NcpurchaseController extends Controller
                     $quantityLocal = $quantity[$i];
                     $priceLocal = $price[$i];
 
-                    $this->inventory($product, $branchProducts, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
+                    $this->inventoryPurchases($product, $branchProducts, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
                 }
                 break;
             case(8):
@@ -207,8 +205,8 @@ class NcpurchaseController extends Controller
 
         $document = $ncpurchase;
         $taxes = $this->getTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC
-        TaxesLines($document, $taxes, $typeDocument);//Helper para impuestos de linea
-        Retentions($request, $document, $typeDocument);//Helper para retenciones
+        taxesLines($document, $taxes, $typeDocument);//Helper para impuestos de linea
+        retentions($request, $document, $typeDocument);//Helper para retenciones
 
         $voucherTypes = VoucherType::findOrFail(10);
         $voucherTypes->consecutive += 1;
@@ -226,6 +224,7 @@ class NcpurchaseController extends Controller
         }
         $purchase->update();
 
+        session()->forget('ncpurchase');
         session(['ncpurchase' => $ncpurchase->id]);
 
         toast('Nota Credito Registrada satisfactoriamente.','success');
@@ -320,7 +319,7 @@ class NcpurchaseController extends Controller
         ->where('tax.taxable_id', $ncpurchase->id)
         ->where('tt.type_tax', 'retention')->sum('tax_value');
 
-       $ncpurchasepdf = "COMP-". $ncpurchase->document;
+       $ncpurchasepdf = $ncpurchase->document;
        $logo = './imagenes/logos'.$company->logo;
        $view = \view('admin.ncpurchase.pdf', compact(
             'ncpurchase',
@@ -343,17 +342,35 @@ class NcpurchaseController extends Controller
         $ncpurchases = session('ncpurchase');
         $ncpurchase = Ncpurchase::findOrFail($ncpurchases);
         session()->forget('ncpurchase');
-        $ncpurchaseProducts = NcpurchaseProduct::where('ncpurchase_id', $ncpurchase->id)->where('quantity', '>', 0)->get();
+        $ncpurchaseProducts = ncpurchaseProduct::where('ncpurchase_id', $ncpurchase->id)->where('quantity', '>', 0)->get();
         $company = Company::findOrFail(1);
 
-        $ncpurchasepdf = "COMP-". $ncpurchase->document;
-        $logo = './imagenes/logos'.$company->logo;
-        $view = \view('admin.ncpurchase.pdf', compact('ncpurchase', 'ncpurchaseProducts', 'company', 'logo'));
+        $retentions = Tax::from('taxes as tax')
+        ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->select('tax.tax_value', 'ct.name')
+        ->where('tax.type', 'ncpurchase')
+        ->where('tax.taxable_id', $ncpurchase->id)
+        ->where('tt.type_tax', 'retention')->get();
+       $retentionsum = Tax::from('taxes as tax')
+        ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->select('tax.tax_value', 'ct.name')
+        ->where('tax.type', 'ncpurchase')
+        ->where('tax.taxable_id', $ncpurchase->id)
+        ->where('tt.type_tax', 'retention')->sum('tax_value');
+
+        $ncpurchasepdf = $ncpurchase->document;
+        $view = \view('admin.ncpurchase.pdf', compact(
+            'ncpurchase',
+            'ncpurchaseProducts',
+            'company',
+            'retentions',
+            'retentionsum'
+        ));
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
-        //$pdf->setPaper ( 'A7' , 'landscape' );
 
         return $pdf->stream('vista-pdf', "$ncpurchasepdf.pdf");
-        //return $pdf->download("$purchasepdf.pdf");*/
     }
 }

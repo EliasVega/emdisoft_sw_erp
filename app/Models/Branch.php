@@ -86,6 +86,21 @@ class Branch extends Model
         return $this->hasMany(Ncpurchase::class);
     }
 
+    public function ndPurchases()
+    {
+        return $this->hasMany(Ndpurchase::class);
+    }
+
+    public function ncInvoices()
+    {
+        return $this->hasMany(NcInvoices::class);
+    }
+
+    public function ndInvoices()
+    {
+        return $this->hasMany(Ndinvoice::class);
+    }
+
     public function expenses()
     {
         return $this->hasMany(Expense::class);

@@ -63,11 +63,7 @@ class Purchase extends Model
 
     public function branch(){
         return $this->belongsTo(Branch::class);
-    }/*
-    public function products()
-    {
-        return $this->morphToMany(Product::class, 'productable');
-    }*/
+    }
 
     public function productPurchases(){
         return $this->hasMany(ProductPurchase::class);
@@ -75,11 +71,11 @@ class Purchase extends Model
 
     public function voucherTipe()
     {
-        return $this->belongsTo(Voucher_type::class);
+        return $this->belongsTo(VoucherType::class);
     }
 
     public function generationType(){
-        return $this->hasOne(Generation::class);
+        return $this->hasOne(GenerationType::class);
     }
 
     public function paymentForm(){
@@ -102,11 +98,6 @@ class Purchase extends Model
     {
         return $this->morphMany(pay::class, 'payable');
     }
-    /*
-    public function retention()
-    {
-        return $this->morphOne(Retention::class, 'retentionable');
-    }*/
 
     public function taxes(): MorphMany
     {

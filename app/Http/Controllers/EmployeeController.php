@@ -68,7 +68,7 @@ class EmployeeController extends Controller
         $identificationTypes = IdentificationType::get();
         $employeeTypes = EmployeeType::get();
         $employeeSubtypes = EmployeeSubtype::get();
-        $paymentFrecuencies = PaymentFrecuency::get();
+        $paymentFrecuencies = PaymentFrecuency::where('id', '>', 2)->get();
         $contratTypes = ContratType::get();
         $charges = charge::get();
         $paymentMethods = PaymentMethod::get();

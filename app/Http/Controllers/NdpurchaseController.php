@@ -105,11 +105,11 @@ class NdpurchaseController extends Controller
      */
     public function store(StoreNdpurchaseRequest $request)
     {
+        //dd($request->all());
         $resolut = $request->resolution_id;
         $typeDocument = 'ndpurchase';
         $voucherType = 11;
         $branch = current_user()->branch_id;
-        //dd($request->all());
 
         if ($resolut) {
             $resolution = Resolution::findOrFail($request->resolution_id);//resolucion selecionada en el request
@@ -118,7 +118,7 @@ class NdpurchaseController extends Controller
         }
         $company = Company::findOrFail(current_user()->company_id);
         $purchase = Purchase::findOrFail($request->purchase_id);//encontrando la factura
-        $environment = Environment::where('code', 'NSD')->first();//Url nota de ajuste documento soporte
+        $environment = Environment::where('id', 17)->first();//Url nota de ajuste documento soporte
         $pay = Pay::where('type', 'purchase')->where('payable_id', $purchase->id)->get();//pagos hechos a esta factura
         $indicator = Indicator::findOrFail(1);
         $voucherTypes = VoucherType::findOrFail(18);
@@ -156,8 +156,8 @@ class NdpurchaseController extends Controller
         $errorMessages = '';
         $store = false;
         if ($documentType == 11 && $indicator->dian == 'on') {
-            $data = AdjustmentNoteSend($request, $purchase);
-            $requestResponse = SendDocuments($company, $environment, $data);
+            $data = adjustmentNoteSend($request, $purchase);
+            $requestResponse = sendDocuments($company, $environment, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];
@@ -181,10 +181,7 @@ class NdpurchaseController extends Controller
             $ndpurchase->total_pay = $request->total_pay;
             $ndpurchase->save();
 
-            $voucher = VoucherType::findOrFail(11);
-            $voucher->consecutive += 1;
-            $voucher->update();
-
+            $document = $ndpurchase;
             $productPurchases = ProductPurchase::where('purchase_id', $purchase->id)->get();
             switch($discrepancy) {
                 case(1):
@@ -192,7 +189,7 @@ class NdpurchaseController extends Controller
                         toast(' Nota debito no debe ser menor o igual a 0.','warning');
                         return redirect("purchase");
                     }
-                    $this->ndpurchaseProductCreate($request, $ndpurchase);//crear ndpurchaseProduct
+                    $this->ndpurchaseProductCreate($request, $document);//crear ndpurchaseProduct
                     for ($i=0; $i < count($product_id); $i++) {
                         $id = $product_id[$i];
                         $product = Product::findOrFail($id);
@@ -208,7 +205,6 @@ class NdpurchaseController extends Controller
                                 $branchProduct->update();
                             }
                             //Actualizando el  Kardex
-                            $document = $ndpurchase;
                             $quantityLocal = $quantity[$i];
                             $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
                         }
@@ -248,7 +244,7 @@ class NdpurchaseController extends Controller
                                 }
 
                                 $quantityLocal = $quantity[$i];
-                                $this->kardexCreate($product, $branch, $voucherType, $purchase, $quantityLocal, $typeDocument);//trait crear Kardex
+                                $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
                             }
                         }
                     }
@@ -297,14 +293,14 @@ class NdpurchaseController extends Controller
             }
             $document = $ndpurchase;
             $taxes = $this->getTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC
-            TaxesLines($document, $taxes, $typeDocument);//Helper para Impuestos de linea
-            Retentions($request, $document, $typeDocument);// Helper para retenciones
+            taxesLines($document, $taxes, $typeDocument);//Helper para Impuestos de linea
+            retentions($request, $document, $typeDocument);// Helper para retenciones
 
             if ($advancePay > 0) {
                 if ($reverse == 1) {
                     $cashInflow = new CashInflow();
                     $cashInflow->cash = $advancePay;
-                    $cashInflow->reason = 'Ingreso de efectivo por nota devito' . $ndpurchase->id;
+                    $cashInflow->reason = 'Ingreso de efectivo por nota debito' . $ndpurchase->id;
                     $cashInflow->cash_register_id = $cashRegister->id;
                     $cashInflow->user_id = current_user()->id;
                     $cashInflow->branch_id = current_user()->branch_id;
@@ -316,7 +312,7 @@ class NdpurchaseController extends Controller
                         $cashRegister->in_cash += $advancePay;
                         $cashRegister->in_total += $advancePay;
                         if ($date1 == $date2) {
-                            $cashRegister->purchase -= $advancePay;
+                            $cashRegister->out_purchase -= $advancePay;
                         }
                         $cashRegister->update();
                     }
@@ -326,7 +322,7 @@ class NdpurchaseController extends Controller
                     if ($indicator->post == 'on') {
                         $cashRegister->out_advance += $advancePay;
                         if ($date1 == $date2) {
-                            $cashRegister->purchase -= $advancePay;
+                            $cashRegister->out_purchase -= $advancePay;
                         }
                         $cashRegister->update();
                     }
@@ -336,13 +332,13 @@ class NdpurchaseController extends Controller
                 $purchase->update();
             }
 
-            if ($indicator->post == 'on') {
+            if ($indicator->post == 'on' && $date1 == $date2) {
                 $cashRegister->ndpurchase += $total_pay;
-                if ($date1 == $date2) {
-                    $cashRegister->purchase -= $total_pay;
-                }
                 $cashRegister->update();
             }
+
+            $voucherTypes->consecutive += 1;
+            $voucherTypes->update();
 
             $purchase->balance -= $grandTotalNd;
             $purchase->grand_total = $newGrandTotal;
@@ -393,11 +389,11 @@ class NdpurchaseController extends Controller
                 $resolution->consecutive .".pdf");
                 Storage::disk('public')->put('files/graphical_representations/adjustment_notes_ds/' .
                 $resolution->prefix . $resolution->consecutive . '.pdf', $pdf);
-
-                $resolution->consecutive += 1;
-                $resolution->update();
             }
+            $resolution->consecutive += 1;
+            $resolution->update();
 
+            session()->forget('ndpurchase');
             session(['ndpurchase' => $ndpurchase->id]);
 
             toast('Nota Debito Registrada satisfactoriamente.','success');

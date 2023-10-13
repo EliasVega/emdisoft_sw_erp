@@ -17,7 +17,7 @@ class Ndpurchase extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'purchase',
+        'document',
         'retention',
         'total',
         'total_tax',
@@ -60,11 +60,6 @@ class Ndpurchase extends Model
 
     public function resolution(){
         return $this->belongsTo(Resolution::class);
-    }
-
-    public function retention()
-    {
-        return $this->morphMany(Retention::class, 'retentionable');
     }
 
     public function taxes(): MorphMany

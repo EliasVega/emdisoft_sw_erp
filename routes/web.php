@@ -24,11 +24,17 @@ use App\Http\Controllers\EnvironmentController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\IdentificationTypeController;
 use App\Http\Controllers\IndicatorController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\InvoiceResponseController;
 use App\Http\Controllers\KardexController;
 use App\Http\Controllers\LiabilityController;
 use App\Http\Controllers\MeasureUnitController;
 use App\Http\Controllers\MunicipalityController;
+use App\Http\Controllers\NcinvoiceController;
+use App\Http\Controllers\NcinvoiceResponseController;
 use App\Http\Controllers\NcpurchaseController;
+use App\Http\Controllers\NdinvoiceController;
+use App\Http\Controllers\NdinvoiceResponseController;
 use App\Http\Controllers\NdpurchaseController;
 use App\Http\Controllers\NsdResponseController;
 use App\Http\Controllers\OrganizationController;
@@ -108,10 +114,16 @@ Route::resource('expense', ExpenseController::class);
 Route::resource('kardex', KardexController::class);
 Route::resource('identificationType', IdentificationTypeController::class);
 Route::resource('indicator', IndicatorController::class);
+Route::resource('invoice', InvoiceController::class);
+Route::resource('invoiceResponse', InvoiceResponseController::class);
 Route::resource('liability', LiabilityController::class);
 Route::resource('measureUnit', MeasureUnitController::class);
 Route::resource('municipality', MunicipalityController::class);
+Route::resource('ncinvoice', NcinvoiceController::class);
+Route::resource('ncinvoiceResponse', NcinvoiceResponseController::class);
 Route::resource('ncpurchase', NcpurchaseController::class);
+Route::resource('ndinvoice', NdinvoiceController::class);
+Route::resource('ndinvoiceResponse', NdinvoiceResponseController::class);
 Route::resource('ndpurchase', NdpurchaseController::class);
 Route::resource('nsdResponse', NsdResponseController::class);
 Route::resource('organization', OrganizationController::class);
@@ -181,10 +193,25 @@ Route::get('indicator/accountingStatus/{id}', [IndicatorController::class, 'acco
 Route::get('indicator/inventoryStatus/{id}', [IndicatorController::class, 'inventoryStatus'])->name('inventoryStatus');
 Route::get('indicator/productPrice/{id}', [IndicatorController::class, 'productPrice'])->name('productPrice');
 
+Route::get('invoice/create/{id}', [InvoiceController::class, 'getMunicipalities']);
+Route::get('invoice/InvoicePay/{id}', [InvoiceController::class, 'invoicePay'])->name('invoicePay');
+Route::get('invoice/InvoicePdf/{id}', [InvoiceController::class, 'invoicePdf'])->name('invoicePdf');
+Route::get('invoice/InvoicePost/{id}', [InvoiceController::class, 'invoicePost'])->name('invoicePost');
+Route::get('invoice/creditNoteInvoice/{id}', [InvoiceController::class, 'creditNote'])->name('creditNoteInvoice');
+Route::get('invoice/debitNoteInvoice/{id}', [InvoiceController::class, 'debitNote'])->name('debitNoteInvoice');
+Route::get('pdfInvoice', [InvoiceController::class, 'pdfInvoice'])->name('pdfInvoice');
+Route::get('postInvoice', [InvoiceController::class, 'postInvoice'])->name('postInvoice');
+
 Route::get('kardex/kardexProduct/{id}', [KardexController::class, 'kardexProduct'])->name('kardexProduct');
+
+Route::get('ncinvoice/ncinvoicePdf/{id}', [NcinvoiceController::class, 'ncinvoicePdf'])->name('ncinvoicePdf');
+Route::get('pdfNcinvoice', [NcinvoiceController::class, 'pdfNcinvoice'])->name('pdfNcinvoice');
 
 Route::get('ncpurchase/ncpurchasePdf/{id}', [NcpurchaseController::class, 'ncpurchasePdf'])->name('ncpurchasePdf');
 Route::get('pdfNcpurchase', [NcpurchaseController::class, 'pdfNcpurchase'])->name('pdfNcpurchase');
+
+Route::get('ndinvoice/ndinvoicePdf/{id}', [NdinvoiceController::class, 'ndinvoicePdf'])->name('ndinvoicePdf');
+Route::get('pdfNdinvoice', [NdinvoiceController::class, 'pdfNdinvoice'])->name('pdfNdinvoice');
 
 Route::get('ndpurchase/ndpurchasePdf/{id}', [NdpurchaseController::class, 'ndpurchasePdf'])->name('ndpurchasePdf');
 Route::get('pdfNdpurchase', [NdpurchaseController::class, 'pdfNdpurchase'])->name('pdfNdpurchase');
@@ -224,84 +251,4 @@ Route::get('transfer/product/{id}', [TransferController::class, 'getProducts']);
 Route::get('user/status/{id}', [UserController::class, 'status'])->name('status');
 Route::get('inactive', [UserController::class, 'inactive'])->name('inactive');
 Route::post('user/logout', [UserController::class, 'logout'])->name('logout_user');
-
-
-/*
-Route::resource('invoice', InvoiceController::class);
-Route::resource('ncinvoice', NcinvoiceController::class);
-Route::resource('ndinvoice', NdinvoiceController::class);
-Route::resource('order', OrderController::class);
-Route::resource('pay_order', PayorderController::class);
-Route::resource('pay_invoice', PayinvoiceController::class);
-Route::resource('order_product', OrderProductController::class);
-Route::resource('report', ReportController::class);
-Route::resource('software', SoftwareController::class);
-Route::resource('subaccount', SubaccountController::class);
-Route::resource('auxiliary_account', AuxiliaryAccountController::class);
-Route::resource('country', CountryController::class);
-Route::resource('co_country', CoCountryController::class);
-Route::resource('co_department', CoDepartmentController::class);
-Route::resource('co_municipality', CoMunicipalityController::class);
-Route::resource('advance', AdvanceController::class);
-Route::resource('payment', PaymentController::class);
-Route::resource('expense', ExpenseController::class);
-Route::resource('pay_expense', PayExpenseController::class);
-Route::resource('service', ServiceController::class);
-
-
-Route::get('payment/paymentPdf/{id}', [PaymentController::class, 'paymentPdf'])->name('paymentPdf');
-
-Route::get('show_invoice/{id}', [BranchController::class, 'show_invoice'])->name('show_invoice');
-Route::get('show_order/{id}', [BranchController::class, 'show_order'])->name('show_order');
-
-Route::get('prosuc/crate/{id}', [ProductBranchController::class, 'getProducts']);
-
-Route::get('customer/create/{id}', [CustomerController::class, 'getProducts']);
-
-Route::get('invoice/show_ncinvoice/{id}', [InvoiceController::class, 'show_ncinvoice'])->name('show_ncinvoice');
-Route::get('invoice/show_ndinvoice/{id}', [InvoiceController::class, 'show_ndinvoice'])->name('show_ndinvoice');
-Route::get('invoice/show_pdf_invoice/{id}', [InvoiceController::class, 'show_pdf_invoice'])->name('show_pdf_invoice');
-Route::get('invoice/show_pay_invoice/{id}', [InvoiceController::class, 'show_pay_invoice'])->name('show_pay_invoice');
-Route::get('invoice/create/{id}', [InvoiceController::class, 'getMunicipalities']);
-Route::get('invoice/post/{id}', [InvoiceController::class, 'post'])->name('post');
-Route::get('invoice/getAdvance/{id}', [InvoiceController::class, 'getAdvances'])->name('getAdvance');
-
-Route::get('order/show_invoicy/{id}', [orderController::class, 'show_invoicy'])->name('show_invoicy');
-Route::get('order/show_pay_order/{id}', [orderController::class, 'show_pay_order'])->name('show_pay_order');
-Route::get('order/show_pdf_order/{id}', [orderController::class, 'show_pdf_order'])->name('show_pdf_order');
-Route::get('order/eliminar/{id}', [orderController::class, 'eliminar'])->name('eliminar');
-Route::get('order/create/{id}', [OrderController::class, 'getMunicipalities']);
-
-
-
-Route::get('portfolio', [ReportController::class, 'portfolio'])->name('portfolio');
-Route::get('past_due_portfolio', [ReportController::class, 'past_due_portfolio'])->name('past_due_portfolio');
-Route::get('portfolio_thirty', [ReportController::class, 'portfolio_thirty'])->name('portfolio_thirty');
-Route::get('portfolio_sixty', [ReportController::class, 'portfolio_sixty'])->name('portfolio_sixty');
-Route::get('daily_report', [ReportController::class, 'daily_report'])->name('daily_report');
-
-Route::get('show_pay_ncinvoice/{id}', [NcinvoiceController::class, 'show_pay_ncinvoice'])->name('show_pay_ncinvoice');
-
-Route::get('subaccount/getAccountGroup/{id}', [SubaccountController::class, 'getAccountGroups'])->name('getAccountGroup');
-Route::get('subaccount/getAccount/{id}', [ SubaccountController::class, 'getAccounts'])->name('getAccount');
-Route::get('subaccount/getSubaccount/{id}', [SubaccountController::class, 'getSubaccounts'])->name('getSubaccount');
-
-Route::get('auxiliary_account/AccountGroup/{id}', [AuxiliaryAccountController::class, 'AccountGroups'])->name('AccountGroups');
-Route::get('auxiliary_account/Account/{id}', [AuxiliaryAccountController::class, 'Accounts'])->name('Accounts');
-Route::get('auxiliary_account/Subaccount/{id}', [AuxiliaryAccountController::class, 'Subaccounts'])->name('Subaccount');
-Route::get('auxiliary_account/AuxAccount/{id}', [AuxiliaryAccountController::class, 'AuxAccounts'])->name('AuxAccount');
-
-Route::get('pdf_pay_invoice/{id}', [PayinvoiceController::class, 'pdf_pay_invoice'])->name('pdf_pay_invoice');
-Route::get('pdf_pay_purchase/{id}', [PayPurchaseController::class, 'pdf_pay_purchase'])->name('pdf_pay_purchase');
-Route::get('pdfPayOrder/{id}', [PayorderController::class, 'pdfPayOrder'])->name('pdfPayOrder');
-
-Route::get('co_municipality/co_department/{id}', [CoMunicipalityController::class, 'getCoDepartment'])->name('co_department');
-Route::resource('cash_receipt', CashReceiptController::class);
-
-Route::get('expense/show_pdf_expense/{id}', [ExpenseController::class, 'show_pdf_expense'])->name('show_pdf_expense');
-Route::get('expense/show_pay_expense/{id}', [ExpenseController::class, 'show_pay_expense'])->name('show_pay_expense');
-Route::get('expense/create/{id}', [InvoiceController::class, 'getMunicipalities']);
-Route::get('expense/post_expense/{id}', [ExpenseController::class, 'post_expense'])->name('post_expense');
-
-Route::get('purchase/getPayment/{id}', [PurchaseController::class, 'getPayments'])->name('getPayment');*/
 

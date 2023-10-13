@@ -4,8 +4,8 @@ namespace App\Traits;
 use App\Models\BranchProduct;
 use App\Models\Indicator;
 
-trait Inventory {
-    public function inventory($product, $branchProducts, $quantity, $price, $branch){
+trait InventoryPurchases {
+    public function inventoryPurchases($product, $branchProducts, $quantity, $price, $branch){
 
         $indicator = Indicator::findOrFail(1);
         if ($product->type_product == 'product') {

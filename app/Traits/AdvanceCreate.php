@@ -2,6 +2,7 @@
 namespace App\Traits;
 
 use App\Models\Advance;
+use App\Models\Customer;
 use App\Models\Provider;
 
 trait AdvanceCreate {
@@ -22,14 +23,21 @@ trait AdvanceCreate {
                 $provider = Provider::findOrFail($documentOrigin->provider_id);
                 $advance->type_third = 'provider';
                 $provider->advances()->save($advance);
-                break;
+            break;
             case 'expense':
                 $advance->origin = 'Factura de Compra Gastos' . '-' . $documentOrigin->id;
                 $advance->note = 'por Edicion de Gasto' . '-' . $documentOrigin->id;
                 $provider = Provider::findOrFail($documentOrigin->provider_id);
                 $advance->type_third = 'provider';
                 $provider->advances()->save($advance);
-                break;
+            break;
+            case 'ncinvoice':
+                $advance->origin = 'Factura de Venta' . '-' . $documentOrigin->id;
+                $advance->note = 'por Nota Credito a venta' . '-' . $documentOrigin->id;
+                $customer = Customer::findOrFail($documentOrigin->customer_id);
+                $advance->type_third = 'customer';
+                $customer->advances()->save($advance);
+            break;
         }
     }
 }

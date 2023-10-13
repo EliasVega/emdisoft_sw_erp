@@ -59,13 +59,55 @@ class ResolutionSeeder extends Seeder
                 'document_type_id' => 27
             ],
             [
+                'prefix' => 'POST',
+                'resolution' => 'No Aplica',
+                'resolution_date' => null,
+                'technical_key' => 'null',
+                'start_number' => 1,
+                'end_number' => 10000,
+                'consecutive' => 1,
+                'start_date' => null,
+                'end_date' => null,
+                'status' => 'inactive',
+                'company_id' => 1,
+                'document_type_id' => 12
+            ],
+            [
+                'prefix' => 'NCP',
+                'resolution' => 'No Aplica',
+                'resolution_date' => null,
+                'technical_key' => 'null',
+                'start_number' => 1,
+                'end_number' => 10000,
+                'consecutive' => 1,
+                'start_date' => null,
+                'end_date' => null,
+                'status' => 'inactive',
+                'company_id' => 1,
+                'document_type_id' => 28
+            ],
+            [
+                'prefix' => 'NDP',
+                'resolution' => 'No Aplica',
+                'resolution_date' => null,
+                'technical_key' => 'null',
+                'start_number' => 1,
+                'end_number' => 10000,
+                'consecutive' => 1,
+                'start_date' => null,
+                'end_date' => null,
+                'status' => 'inactive',
+                'company_id' => 1,
+                'document_type_id' => 29
+            ],
+            [
                 'prefix' => 'SETP',
                 'resolution' => '18760000001',
                 'resolution_date' => '2019-01-19',
                 'technical_key' => 'fc8eac422eba16e22ffd8c6f94b3f40a6e38162c',
                 'start_number' => 990000000,
                 'end_number' => 995000000,
-                'consecutive' => 9900000001,
+                'consecutive' => 990000001,
                 'start_date' => '2019-01-19',
                 'end_date' => '2030-01-19',
                 'status' => 'active',
@@ -127,7 +169,21 @@ class ResolutionSeeder extends Seeder
                 'status' => 'active',
                 'company_id' => 1,
                 'document_type_id' => 13
-            ]
+            ],
+            [
+                'prefix' => 'FVEC',
+                'resolution' => '18764050702643',
+                'resolution_date' => '2023-06-21',
+                'technical_key' => 'edd8c8665026708791fa048afda2adb7ec4fc9520b39522d885dfcf0a80b9939',
+                'start_number' => 1501,
+                'end_number' => 2000,
+                'consecutive' => 1501,
+                'start_date' => '2023-06-21',
+                'end_date' => '2023-12-21',
+                'status' => 'active',
+                'company_id' => 1,
+                'document_type_id' => 1
+            ],
         ];
 
         foreach ($resolutions as $resolution) {

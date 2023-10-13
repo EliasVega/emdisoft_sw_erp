@@ -3,8 +3,8 @@
 use App\Models\CompanyTax;
 use App\Models\Tax;
 
-if (! function_exists('Retentions')) {
-    function Retentions($request, $document, $typeDocument)
+if (! function_exists('retentions')) {
+    function retentions($request, $document, $typeDocument)
     {
         $companyTaxId = $request->company_tax_id;
         $total = $document->total;
@@ -20,7 +20,7 @@ if (! function_exists('Retentions')) {
 
                 switch($id) {
                     case(5):
-                        if ($typeDocument == 'purchase') {
+                        if ($typeDocument == 'purchase' || $typeDocument == 'invoice') {
                             if ($taxTotal >= $percentageBase) {
                                 $tax = new Tax();
                                 $tax->tax_value = ($taxTotal * $percentageTax)/100;//valor del Reteiva
@@ -30,6 +30,10 @@ if (! function_exists('Retentions')) {
                                     case 'purchase':
                                         $purchase = $document;
                                         $purchase->taxes()->save($tax);
+                                    break;
+                                    case 'invoice':
+                                        $invoice = $document;
+                                        $invoice->taxes()->save($tax);
                                     break;
                                 }
                             }
@@ -48,12 +52,20 @@ if (! function_exists('Retentions')) {
                                         $ncpurchase = $document;
                                         $ncpurchase->taxes()->save($tax);
                                     break;
+                                    case 'ncinvoice':
+                                        $ncinvoice = $document;
+                                        $ncinvoice->taxes()->save($tax);
+                                    break;
+                                    case 'ndinvoice':
+                                        $ndinvoice = $document;
+                                        $ndinvoice->taxes()->save($tax);
+                                    break;
                                 }
                             }
                         }
                     break;
                     case(6):
-                        if ($typeDocument == 'purchase') {
+                        if ($typeDocument == 'purchase' || $typeDocument == 'invoice') {
                             if ($total >= $percentageBase) {
                                 $tax = new Tax();
                                 $tax->tax_value = ($total * $percentageTax)/100;//valor del Reterenta
@@ -63,6 +75,10 @@ if (! function_exists('Retentions')) {
                                     case 'purchase':
                                         $purchase = $document;
                                         $purchase->taxes()->save($tax);
+                                    break;
+                                    case 'invoice':
+                                        $invoice = $document;
+                                        $invoice->taxes()->save($tax);
                                     break;
                                 }
                             }
@@ -80,11 +96,19 @@ if (! function_exists('Retentions')) {
                                     $ncpurchase = $document;
                                     $ncpurchase->taxes()->save($tax);
                                 break;
+                                case 'ncinvoice':
+                                    $ncinvoice = $document;
+                                    $ncinvoice->taxes()->save($tax);
+                                break;
+                                case 'ndinvoice':
+                                    $ndinvoice = $document;
+                                    $ndinvoice->taxes()->save($tax);
+                                break;
                             }
                         }
                     break;
                     case(7):
-                        if ($typeDocument == 'purchase') {
+                        if ($typeDocument == 'purchase' || $typeDocument == 'invoice') {
                             if ($total >= $percentageBase) {
                                 $tax = new Tax();
                                 $tax->tax_value = ($total * $percentageTax)/100;//valor del ReteIca
@@ -94,6 +118,10 @@ if (! function_exists('Retentions')) {
                                     case 'purchase':
                                         $purchase = $document;
                                         $purchase->taxes()->save($tax);
+                                    break;
+                                    case 'invoice':
+                                        $invoice = $document;
+                                        $invoice->taxes()->save($tax);
                                     break;
                                 }
                             }
@@ -110,6 +138,14 @@ if (! function_exists('Retentions')) {
                                 case 'ncpurchase':
                                     $ncpurchase = $document;
                                     $ncpurchase->taxes()->save($tax);
+                                break;
+                                case 'ncinvoice':
+                                    $ncinvoice = $document;
+                                    $ncinvoice->taxes()->save($tax);
+                                break;
+                                case 'ndinvoice':
+                                    $ndinvoice = $document;
+                                    $ndinvoice->taxes()->save($tax);
                                 break;
                             }
                         }

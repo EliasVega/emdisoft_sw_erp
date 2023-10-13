@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('address', 100)->nullable();
             $table->string('phone', 20)->nullable();
             $table->string('email', 100);
+            $table->string('merchant_registration', 12)->default('000000,00');
             $table->decimal('credit_limit', 10, 2)->nullable()->default(0);
             $table->decimal('used', 12, 2)->nullable()->default(0);
             $table->decimal('available', 12, 2)->nullable()->default(0);

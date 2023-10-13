@@ -91,6 +91,40 @@
                     </table>
                 </div>
             @endif
+            @if ($cashRegister->expense > 0)
+                <div class="content_postbox">
+                    <p>REPORTE DE GASTOS SERVICIOS</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Articulo</th>
+                                <th>Cant</th>
+                                <th>Precio</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($expenseProducts as $expenseProduct)
+                            <tr>
+                                <td>{{ $expenseProduct->id }}</td>
+                                <td>{{ $expenseProduct->name }}</td>
+                                <td>{{ $expenseProduct->stock }}</td>
+                                <td align="right">${{ number_format($expenseProduct->price) }}</td>
+                                <td align="right">${{ number_format($expenseProduct->sale_price) }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot>
+
+                            <tr>
+                                <th colspan="4" ><p align="right" >TOTAL:</p></th>
+                                <td><p align="right" >${{number_format($cashRegister->invoice)}}</p></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            @endif
             @if ($cashRegister->purchase > 0)
                 <div class="content_postbox">
                     <p>REPORTE DE COMPRAS</p>
@@ -132,11 +166,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($invoices as $inv)
+                            @foreach ($invoices as $invoice)
                             <tr>
-                                <td>{{ $inv->document }}</td>
-                                <td>{{ $inv->customer->name }}</td>
-                                <td align="right">$ {{ number_format($inv->total_pay) }}</td>
+                                <td>{{ $invoice->document }}</td>
+                                <td>{{ $invoice->third->name }}</td>
+                                <td align="right">$ {{ number_format($invoice->total_pay) }}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -162,11 +196,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($expenses as $exp)
+                            @foreach ($expenses as $expense)
                             <tr>
-                                <td>{{ $exp->document }}</td>
-                                <td>{{ $exp->provider->name }}</td>
-                                <td align="right">$ {{ number_format($exp->total_pay, 2) }}</td>
+                                <td>{{ $expense->document }}</td>
+                                <td>{{ $expense->third->name }}</td>
+                                <td align="right">$ {{ number_format($expense->total_pay, 2) }}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -191,11 +225,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($orders as $ord)
+                            @foreach ($orders as $order)
                             <tr>
-                                <td>{{ $ord->id }}</td>
-                                <td>{{ $ord->customer->name }}</td>
-                                <td align="right">$ {{ number_format($ord->total_pay, 2) }}</td>
+                                <td>{{ $order->id }}</td>
+                                <td>{{ $order->customer->name }}</td>
+                                <td align="right">$ {{ number_format($order->total_pay, 2) }}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -220,11 +254,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($ncinvoices as $nc)
+                            @foreach ($ncinvoices as $ncinvoice)
                             <tr>
-                                <td>{{ $nc->id }}</td>
-                                <td>{{ $nc->invoice->customer->name }}</td>
-                                <td align="right">$ {{ $nc->total_pay }}</td>
+                                <td>{{ $ncinvoice->id }}</td>
+                                <td>{{ $ncinvoice->invoice->third->name }}</td>
+                                <td align="right">$ {{ $ncinvoice->total_pay }}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -249,11 +283,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($ndinvoices as $nd)
+                            @foreach ($ndinvoices as $ndinvoice)
                             <tr>
-                                <td>{{ $nd->id }}</td>
-                                <td>{{ $nd->invoice->customer->name }}</td>
-                                <td align="right">$ {{ $nd->total_pay }}</td>
+                                <td>{{ $ndinvoice->id }}</td>
+                                <td>{{ $ndinvoice->invoice->third->name }}</td>
+                                <td align="right">$ {{ $ndinvoice->total_pay }}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -273,16 +307,16 @@
                         <thead>
                             <tr>
                                 <th>N°.NC</th>
-                                <th>Cliente</th>
+                                <th>Proveedor</th>
                                 <th>Precio</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($ncinvoices as $nc)
+                            @foreach ($ncinvoices as $ncinvoice)
                             <tr>
-                                <td>{{ $nc->id }}</td>
-                                <td>{{ $nc->invoice->customer->name }}</td>
-                                <td align="right">$ {{ $nc->total_pay }}</td>
+                                <td>{{ $ncinvoice->id }}</td>
+                                <td>{{ $ncinvoice->invoice->third->name }}</td>
+                                <td align="right">$ {{ $ncinvoice->total_pay }}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -302,16 +336,16 @@
                         <thead>
                             <tr>
                                 <th>N°.ND</th>
-                                <th>Cliente</th>
+                                <th>Proveedor</th>
                                 <th>Precio</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($ndinvoices as $nd)
+                            @foreach ($ndinvoices as $ndpurchase)
                             <tr>
-                                <td>{{ $nd->id }}</td>
-                                <td>{{ $nd->invoice->customer->name }}</td>
-                                <td align="right">$ {{ $nd->total_pay }}</td>
+                                <td>{{ $ndpurchase->id }}</td>
+                                <td>{{ $ndpurchase->invoice->third->name }}</td>
+                                <td align="right">$ {{ $ndpurchase->total_pay }}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -324,7 +358,7 @@
                     </table>
                 </div>
             @endif
-            @if ($cashRegister->sum_pay_orders > 0)
+            @if ($cashRegister->in_order > 0)
                 <div class="content_postbox">
                     <p>REPORTE DE ABONOS A PEDIDOS</p>
                     <table>
@@ -336,24 +370,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($pay_orders as $po)
+                            @foreach ($orderPays as $orderPays)
                             <tr>
-                                <td>{{ $po->order_id }}</td>
-                                <td>{{ $po->order->customer->name }}</td>
-                                <td align="right">$ {{ $po->pay }}</td>
+                                <td>{{ $orderPays->payable->document }}</td>
+                                <td>{{ $orderPays->payable->third->name }}</td>
+                                <td align="right">$ {{ $orderPays->pay }}</td>
                             </tr>
                             @endforeach
                         </tbody>
                         <tfoot>
                             <tr>
                                 <th colspan="2" ><p align="right" >TOTAL:</p></th>
-                                <td><p align="right" >${{number_format($sum_pay->orders)}}</p></td>
+                                <td><p align="right" >${{number_format($orderSumPays)}}</p></td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
             @endif
-            @if ($cashRegister->sum_pay_invoices > 0)
+            @if ($cashRegister->in_invoice > 0)
                 <div class="content_postbox">
                     <p>REPORTE DE ABONOS A FACTURAS</p>
                     <table>
@@ -365,24 +399,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($pay_invoices as $pi)
+                            @foreach ($invoicePays as $invoicePay)
                             <tr>
-                                <td>{{ $pi->invoice->document }}</td>
-                                <td>{{ $pi->invoice->customer->name }}</td>
-                                <td align="right">$ {{ $pi->pay }}</td>
+                                <td>{{ $invoicePay->payable->document }}</td>
+                                <td>{{ $invoicePay->payable->third->name }}</td>
+                                <td align="right">$ {{ $invoicePay->pay }}</td>
                             </tr>
                             @endforeach
                         </tbody>
                         <tfoot>
                             <tr>
                                 <th colspan="2" ><p align="right" >TOTAL:</p></th>
-                                <td><p align="right" >${{number_format($sum_pay->invoices)}}</p></td>
+                                <td><p align="right" >${{number_format($invoiceSumPays)}}</p></td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
             @endif
-            @if ($cashRegister->sum_pay_purchases > 0)
+            @if ($cashRegister->out_purchase > 0)
                 <div class="content_postbox">
                     <p>REPORTE DE PAGOS A COMPRAS</p>
                     <table>
@@ -394,24 +428,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($pay_purchases as $pay_purchase)
+                            @foreach ($purchasePays as $purchasePay)
                             <tr>
-                                <td>{{ $pay_purchase->purchase->id }}</td>
-                                <td>{{ $pay_purchase->purchase->provider->name }}</td>
-                                <td align="right">$ {{ $pay_purchase->pay }}</td>
+                                <td>{{ $purchasePay->payable->id }}</td>
+                                <td>{{ $purchasePay->payable->third->name }}</td>
+                                <td align="right">$ {{ $purchasePay->pay }}</td>
                             </tr>
                             @endforeach
                         </tbody>
                         <tfoot>
                             <tr>
                                 <th colspan="2" ><p align="right" >TOTAL:</p></th>
-                                <td><p align="right" >${{number_format($sum_pay->purchases)}}</p></td>
+                                <td><p align="right" >${{number_format($purchaseSumPays)}}</p></td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
             @endif
-            @if ($cashRegister->sum_pay_expenses > 0)
+            @if ($cashRegister->out_expense > 0)
                 <div class="content_postbox">
                     <p>REPORTE DE PAGOS Y GASTOS</p>
                     <table>
@@ -423,72 +457,163 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($pay_expenses as $pe)
+                            @foreach ($expensePays as $expensePay)
                             <tr>
-                                <td>{{ $pe->expense->id }}</td>
-                                <td>{{ $pe->expense->provider->name }}</td>
-                                <td align="right">$ {{ $pe->pay }}</td>
+                                <td>{{ $expensePay->payable->id }}</td>
+                                <td>{{ $expensePay->payable->third->name }}</td>
+                                <td align="right">$ {{ $expensePay->pay }}</td>
                             </tr>
                             @endforeach
                         </tbody>
                         <tfoot>
                             <tr>
                                 <th colspan="2" ><p align="right" >TOTAL:</p></th>
-                                <td><p align="right" >${{number_format($sum_pay->expenses)}}</p></td>
+                                <td><p align="right" >${{number_format($expenseSumPays)}}</p></td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
             @endif
-            @if ($cashRegister->sum_cash_ins > 0)
+            @if ($cashRegister->in_cash > 0)
                 <div class="content_postbox">
                     <p>REPORTE DE ENTRADAS EFECTIVO</p>
                     <table>
                         <thead>
                             <tr>
+                                <th>Fecha y hora</th>
                                 <th>Autoriza</th>
                                 <th>Valor</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($cashIns as $cas)
+                            @foreach ($cashInflows as $cashInflow)
                             <tr>
-                                <td>{{ $cas->name }}</td>
-                                <td>$ {{ $cas->payment }}</td>
+                                <td>{{ $cashInflow->created_at }}</td>
+                                <td>{{ $cashInflow->admin->name }}</td>
+                                <td align="right">$ {{ $cashInflow->cash }}</td>
                             </tr>
                             @endforeach
                         </tbody>
                         <tfoot>
                             <tr>
                                 <th colspan="2" ><p align="right" >TOTAL:</p></th>
-                                <td><p align="right" >${{number_format($sum_cash_ins)}}</p></td>
+                                <td><p align="right" >${{ number_format($sumCashInflows,2) }}</p></td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
             @endif
-            @if ($cashRegister->sum_cash_outs > 0)
+            @if ($cashRegister->out_cash > 0)
                 <div class="content_postbox">
                     <p>REPORTE DE SALIDAS EFECTIVO</p>
                     <table>
                         <thead>
                             <tr>
+                                <th>Fecha y hora</th>
                                 <th>Autoriza</th>
                                 <th>Valor</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($cashOuts as $cas)
+                            @foreach ($cashOutflows as $cashOutflow)
                             <tr>
-                                <td>{{ $cas->name }}</td>
-                                <td>$ {{ $cas->payment }}</td>
+                                <td>{{ $cashOutflow->created_at }}</td>
+                                <td>{{ $cashOutflow->admin->name }}</td>
+                                <td align="right">$ {{ $cashOutflow->cash }}</td>
                             </tr>
                             @endforeach
                         </tbody>
                         <tfoot>
                             <tr>
                                 <th colspan="2" ><p align="right" >TOTAL:</p></th>
-                                <td><p align="right" >${{number_format($sum_cash_outs)}}</p></td>
+                                <td><p align="right" >${{ number_format($sumCashOutflows,2) }}</p></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            @endif
+            @if ($sumAdvanceProviders > 0)
+                <div class="content_postbox">
+                    <p>ANTICIPOS DE PROVEEDORES</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Fecha y hora</th>
+                                <th>Proveedor</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($advanceProviders as $advanceProvider)
+                            <tr>
+                                <td>{{ $advanceProvider->created_at }}</td>
+                                <td>{{ $advanceProvider->advanceable->name }}</td>
+                                <td align="right">$ {{ $advanceProvider->pay }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="2" ><p align="right" >TOTAL:</p></th>
+                                <td><p align="right" >${{ number_format($sumAdvanceProviders,2) }}</p></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            @endif
+            @if ($sumAdvanceCustomers > 0)
+                <div class="content_postbox">
+                    <p>ANTICIPOS A CLIENTES</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Fecha y hora</th>
+                                <th>cLIENTE</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($advanceCustomers as $advanceCustomer)
+                            <tr>
+                                <td>{{ $advanceCustomer->created_at }}</td>
+                                <td>{{ $advanceCustomer->advanceable->name }}</td>
+                                <td align="right">$ {{ $advanceCustomer->pay }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="2" ><p align="right" >TOTAL:</p></th>
+                                <td><p align="right" >${{ number_format($sumAdvanceCustomers,2) }}</p></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            @endif
+            @if ($sumAdvanceEmployees > 0)
+                <div class="content_postbox">
+                    <p>ANTICIPOS A EMPLEADOS</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Fecha y hora</th>
+                                <th>Empleado</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($advanceEmployees as $advanceEmployee)
+                            <tr>
+                                <td>{{ $advanceEmployee->created_at }}</td>
+                                <td>{{ $advanceEmployee->advanceable->name }}</td>
+                                <td align="right">$ {{ $advanceEmployee->pay }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="2" ><p align="right" >TOTAL:</p></th>
+                                <td><p align="right" >${{ number_format($sumAdvanceEmployees,2) }}</p></td>
                             </tr>
                         </tfoot>
                     </table>
@@ -507,7 +632,7 @@
                         @if ($cashRegister->expense > 0)
                             <tr>
                                 <th colspan="4" ><p align="left" >TOTAL GASTOS:</p></th>
-                                <td align="right"><h2>${{number_format($sum_pay_expenses,2)}}</h2></td>
+                                <td align="right"><h2>${{number_format($cashRegister->expense,2)}}</h2></td>
                             </tr>
                         @endif
                         @if ($cashRegister->invoice > 0)

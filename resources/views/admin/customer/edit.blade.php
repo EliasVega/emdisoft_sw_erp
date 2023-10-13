@@ -27,7 +27,7 @@
             {!!Form::model($customer, ['method'=>'PATCH','route'=>['customer.update', $customer->id]])!!}
             {!!Form::token()!!}
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    @include('admin/customer.form')
+                    @include('admin/customer.form_edit')
                 </div>
             {!!Form::close()!!}
         </div>

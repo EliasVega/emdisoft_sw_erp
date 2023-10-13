@@ -102,7 +102,7 @@
                         <td colspan="3" class="footRight"><strong>${{number_format($purchase->total,2)}}</strong></td>
                     </tr>
                     <tr>
-                        <th colspan="3" class="footRight">TOTAL IVA:</th>
+                        <th colspan="3" class="footRight">IMPUESTOS:</th>
                         <td colspan="3" class="footRight"><strong>${{number_format($purchase->total_tax,2)}}</strong> </td>
                     </tr>
                     <tr>

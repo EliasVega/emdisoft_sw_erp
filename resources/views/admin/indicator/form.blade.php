@@ -13,6 +13,12 @@
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
+            <label for="uvt">UVT</label>
+            <input type="text" name="uvt" value="{{ old('uvt', $indicator->uvt ?? '') }}" class="form-control" placeholder="UVT">
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
             <label for="plastic_bag_tax">Impuesto a las bolsas</label>
             <input type="text" name="plastic_bag_tax" value="{{ old('plastic_bag_tax', $indicator->plastic_bag_tax ?? '') }}" class="form-control" placeholder="impuesto a las bolsas">
         </div>

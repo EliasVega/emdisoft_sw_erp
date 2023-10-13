@@ -33,13 +33,13 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
-use App\Traits\Inventory;
+use App\Traits\InventoryPurchases;
 use App\Traits\KardexCreate;
 use App\Traits\reverse;
 
 class ExpenseController extends Controller
 {
-    use Inventory, KardexCreate, reverse;
+    use InventoryPurchases, KardexCreate, reverse;
     function __construct()
     {
         $this->middleware('permission:expense.index|expense.create|expense.show|expense.edit', ['only'=>['index']]);
@@ -193,7 +193,7 @@ class ExpenseController extends Controller
         if ($indicator->post == 'on') {
             //actualizar la caja
             $cashRegister->expense += $expense->total;
-            $cashRegister->out_total += $totalpay;
+            //$cashRegister->out_total += $totalpay;
             $cashRegister->update();
         }
         //Toma el Request del array
@@ -222,7 +222,7 @@ class ExpenseController extends Controller
             $quantityLocal = $quantity[$i];
             $priceLocal = $price[$i];
             $voucherType = 20;
-            $this->inventory($product, $branchProducts, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
+            $this->inventoryPurchases($product, $branchProducts, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
             $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
         }
         //variables necesarias

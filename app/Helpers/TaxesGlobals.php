@@ -5,8 +5,8 @@ use App\Models\Indicator;
 use App\Models\Purchase;
 use App\Models\Tax;
 
-if (! function_exists('TaxesGlobals')) {
-    function TaxesGlobals($document, $quantityBag, $typeDocument)
+if (! function_exists('taxesGlobals')) {
+    function taxesGlobals($document, $quantityBag, $typeDocument)
     {
         $total = $document->total;
         $indicator = Indicator::findOrFail(1);
@@ -72,15 +72,27 @@ if (! function_exists('TaxesGlobals')) {
                             case 'purchase':
                                 $purchase = $document;
                                 $purchase->taxes()->save($tax);
-                                break;
+                            break;
                             case 'ndpurchase':
                                 $ndpurchase = $document;
                                 $ndpurchase->taxes()->save($tax);
-                                break;
+                            break;
                             case 'ncpurchase':
                                 $ncpurchase = $document;
                                 $ncpurchase->taxes()->save($tax);
-                                break;
+                            break;
+                            case 'invoice':
+                                $invoice = $document;
+                                $invoice->taxes()->save($tax);
+                            break;
+                            case 'ncinvoice':
+                                $ncinvoice = $document;
+                                $ncinvoice->taxes()->save($tax);
+                            break;
+                            case 'ndinvoice':
+                                $ndinvoice = $document;
+                                $ndinvoice->taxes()->save($tax);
+                            break;
                         }
                     }
                 break;
@@ -94,15 +106,27 @@ if (! function_exists('TaxesGlobals')) {
                             case 'purchase':
                                 $purchase = $document;
                                 $purchase->taxes()->save($tax);
-                                break;
+                            break;
                             case 'ndpurchase':
                                 $ndpurchase = $document;
                                 $ndpurchase->taxes()->save($tax);
-                                break;
+                            break;
                             case 'ncpurchase':
                                 $ncpurchase = $document;
                                 $ncpurchase->taxes()->save($tax);
-                                break;
+                            break;
+                            case 'invoice':
+                                $invoice = $document;
+                                $invoice->taxes()->save($tax);
+                            break;
+                            case 'ncinvoice':
+                                $ncinvoice = $document;
+                                $ncinvoice->taxes()->save($tax);
+                            break;
+                            case 'ndinvoice':
+                                $ndinvoice = $document;
+                                $ndinvoice->taxes()->save($tax);
+                            break;
                         }
                     }
                 break;
@@ -116,15 +140,27 @@ if (! function_exists('TaxesGlobals')) {
                             case 'purchase':
                                 $purchase = $document;
                                 $purchase->taxes()->save($tax);
-                                break;
+                            break;
                             case 'ndpurchase':
                                 $ndpurchase = $document;
                                 $ndpurchase->taxes()->save($tax);
-                                break;
+                            break;
                             case 'ncpurchase':
                                 $ncpurchase = $document;
                                 $ncpurchase->taxes()->save($tax);
-                                break;
+                            break;
+                            case 'invoice':
+                                $invoice = $document;
+                                $invoice->taxes()->save($tax);
+                            break;
+                            case 'ncinvoice':
+                                $ncinvoice = $document;
+                                $ncinvoice->taxes()->save($tax);
+                            break;
+                            case 'ndinvoice':
+                                $ndinvoice = $document;
+                                $ndinvoice->taxes()->save($tax);
+                            break;
                         }
                     }
                 break;
@@ -138,15 +174,27 @@ if (! function_exists('TaxesGlobals')) {
                             case 'purchase':
                                 $purchase = $document;
                                 $purchase->taxes()->save($tax);
-                                break;
+                            break;
                             case 'ndpurchase':
                                 $ndpurchase = $document;
                                 $ndpurchase->taxes()->save($tax);
-                                break;
+                            break;
                             case 'ncpurchase':
                                 $ncpurchase = $document;
                                 $ncpurchase->taxes()->save($tax);
-                                break;
+                            break;
+                            case 'invoice':
+                                $invoice = $document;
+                                $invoice->taxes()->save($tax);
+                            break;
+                            case 'ncinvoice':
+                                $ncinvoice = $document;
+                                $ncinvoice->taxes()->save($tax);
+                            break;
+                            case 'ndinvoice':
+                                $ndinvoice = $document;
+                                $ndinvoice->taxes()->save($tax);
+                            break;
                         }
                     }
                 break;
@@ -160,15 +208,27 @@ if (! function_exists('TaxesGlobals')) {
                             case 'purchase':
                                 $purchase = $document;
                                 $purchase->taxes()->save($tax);
-                                break;
+                            break;
                             case 'ndpurchase':
                                 $ndpurchase = $document;
                                 $ndpurchase->taxes()->save($tax);
-                                break;
+                            break;
                             case 'ncpurchase':
                                 $ncpurchase = $document;
                                 $ncpurchase->taxes()->save($tax);
-                                break;
+                            break;
+                            case 'invoice':
+                                $invoice = $document;
+                                $invoice->taxes()->save($tax);
+                            break;
+                            case 'ncinvoice':
+                                $ncinvoice = $document;
+                                $ncinvoice->taxes()->save($tax);
+                            break;
+                            case 'ndinvoice':
+                                $ndinvoice = $document;
+                                $ndinvoice->taxes()->save($tax);
+                            break;
                         }
                     }
                 break;
@@ -182,15 +242,27 @@ if (! function_exists('TaxesGlobals')) {
                             case 'purchase':
                                 $purchase = $document;
                                 $purchase->taxes()->save($tax);
-                                break;
+                            break;
                             case 'ndpurchase':
                                 $ndpurchase = $document;
                                 $ndpurchase->taxes()->save($tax);
-                                break;
+                            break;
                             case 'ncpurchase':
                                 $ncpurchase = $document;
                                 $ncpurchase->taxes()->save($tax);
-                                break;
+                            break;
+                            case 'invoice':
+                                $invoice = $document;
+                                $invoice->taxes()->save($tax);
+                            break;
+                            case 'ncinvoice':
+                                $ncinvoice = $document;
+                                $ncinvoice->taxes()->save($tax);
+                            break;
+                            case 'ndinvoice':
+                                $ndinvoice = $document;
+                                $ndinvoice->taxes()->save($tax);
+                            break;
                         }
                     }
                 break;
@@ -204,15 +276,27 @@ if (! function_exists('TaxesGlobals')) {
                             case 'purchase':
                                 $purchase = $document;
                                 $purchase->taxes()->save($tax);
-                                break;
+                            break;
                             case 'ndpurchase':
                                 $ndpurchase = $document;
                                 $ndpurchase->taxes()->save($tax);
-                                break;
+                            break;
                             case 'ncpurchase':
                                 $ncpurchase = $document;
                                 $ncpurchase->taxes()->save($tax);
-                                break;
+                            break;
+                            case 'invoice':
+                                $invoice = $document;
+                                $invoice->taxes()->save($tax);
+                            break;
+                            case 'ncinvoice':
+                                $ncinvoice = $document;
+                                $ncinvoice->taxes()->save($tax);
+                            break;
+                            case 'ndinvoice':
+                                $ndinvoice = $document;
+                                $ndinvoice->taxes()->save($tax);
+                            break;
                         }
                     }
                 break;
@@ -226,15 +310,27 @@ if (! function_exists('TaxesGlobals')) {
                             case 'purchase':
                                 $purchase = $document;
                                 $purchase->taxes()->save($tax);
-                                break;
+                            break;
                             case 'ndpurchase':
                                 $ndpurchase = $document;
                                 $ndpurchase->taxes()->save($tax);
-                                break;
+                            break;
                             case 'ncpurchase':
                                 $ncpurchase = $document;
                                 $ncpurchase->taxes()->save($tax);
-                                break;
+                            break;
+                            case 'invoice':
+                                $invoice = $document;
+                                $invoice->taxes()->save($tax);
+                            break;
+                            case 'ncinvoice':
+                                $ncinvoice = $document;
+                                $ncinvoice->taxes()->save($tax);
+                            break;
+                            case 'ndinvoice':
+                                $ndinvoice = $document;
+                                $ndinvoice->taxes()->save($tax);
+                            break;
                         }
                     }
                 break;
@@ -248,15 +344,27 @@ if (! function_exists('TaxesGlobals')) {
                             case 'purchase':
                                 $purchase = $document;
                                 $purchase->taxes()->save($tax);
-                                break;
+                            break;
                             case 'ndpurchase':
                                 $ndpurchase = $document;
                                 $ndpurchase->taxes()->save($tax);
-                                break;
+                            break;
                             case 'ncpurchase':
                                 $ncpurchase = $document;
                                 $ncpurchase->taxes()->save($tax);
-                                break;
+                            break;
+                            case 'invoice':
+                                $invoice = $document;
+                                $invoice->taxes()->save($tax);
+                            break;
+                            case 'ncinvoice':
+                                $ncinvoice = $document;
+                                $ncinvoice->taxes()->save($tax);
+                            break;
+                            case 'ndinvoice':
+                                $ndinvoice = $document;
+                                $ndinvoice->taxes()->save($tax);
+                            break;
                         }
                     }
                 break;
@@ -269,15 +377,27 @@ if (! function_exists('TaxesGlobals')) {
                         case 'purchase':
                             $purchase = $document;
                             $purchase->taxes()->save($tax);
-                            break;
+                        break;
                         case 'ndpurchase':
                             $ndpurchase = $document;
                             $ndpurchase->taxes()->save($tax);
-                            break;
+                        break;
                         case 'ncpurchase':
                             $ncpurchase = $document;
                             $ncpurchase->taxes()->save($tax);
-                            break;
+                        break;
+                        case 'invoice':
+                            $invoice = $document;
+                            $invoice->taxes()->save($tax);
+                        break;
+                        case 'ncinvoice':
+                            $ncinvoice = $document;
+                            $ncinvoice->taxes()->save($tax);
+                        break;
+                        case 'ndinvoice':
+                            $ndinvoice = $document;
+                            $ndinvoice->taxes()->save($tax);
+                        break;
                     }
                 break;
                 default:

@@ -34,7 +34,7 @@ class VoucherTypeTableSeeder extends Seeder
                 'id' => 2,
                 'consecutive' => 1,
                 'code' => 'FVP',
-                'name' => 'Factura de Venta Pos',
+                'name' => 'Factura de Venta Post',
                 'status' => 'locked',
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43'
@@ -215,6 +215,26 @@ class VoucherTypeTableSeeder extends Seeder
                 'consecutive' => 1,
                 'code' => 'FCG',
                 'name' => 'Factura de compra por Gastos',
+                'status' => 'active',
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43'
+            ),
+            20 =>
+            array (
+                'id' => 21,
+                'consecutive' => 1,
+                'code' => 'NCP',
+                'name' => 'Nota Credito factura post',
+                'status' => 'active',
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43'
+            ),
+            21 =>
+            array (
+                'id' => 22,
+                'consecutive' => 1,
+                'code' => 'NDP',
+                'name' => 'Nota Debito factura post',
                 'status' => 'active',
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43'

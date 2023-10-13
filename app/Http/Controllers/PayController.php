@@ -11,6 +11,7 @@ use App\Models\Card;
 use App\Models\CashRegister;
 use App\Models\Company;
 use App\Models\Expense;
+use App\Models\Invoice;
 use App\Models\PaymentMethod;
 use App\Models\PayPaymentMethod;
 use App\Models\Purchase;
@@ -143,11 +144,27 @@ class PayController extends Controller
                 $expense->pay += $totalpay;
                 $expense->update();
             break;
+            case(1):
+                $invoice = Invoice::findOrFail($document_id);
+                $typeDocument = 'invoice';
+                $document = $invoice;
+                $invoice->balance -= $totalpay;
+                $invoice->pay += $totalpay;
+                $invoice->update();
+            break;
+            case(2):
+                $invoice = Invoice::findOrFail($document_id);
+                $typeDocument = 'invoice';
+                $document = $invoice;
+                $invoice->balance -= $totalpay;
+                $invoice->pay += $totalpay;
+                $invoice->update();
+            break;
             default:
                 $msg = 'No has seleccionado voucher.';
         }
 
-        Pays($request, $document, $typeDocument);
+        pays($request, $document, $typeDocument);
 
         Alert::success('Pago','Realizado Satisfactoriamente.');
         return redirect('pay');

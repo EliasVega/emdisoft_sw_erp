@@ -22,6 +22,7 @@ class Customer extends Model
         'address',
         'phone',
         'email',
+        'merchant_registration',
         'credit_limit',
         'used',
         'available',
@@ -65,5 +66,15 @@ class Customer extends Model
     public function advances()
     {
         return $this->morphMany(Advance::class, 'advanceable');
+    }
+
+    public function ndInvoices()
+    {
+        return $this->hasMany(Ndinvoice::class,);
+    }
+
+    public function ncInvoices()
+    {
+        return $this->hasMany(Ncinvoice::class,);
     }
 }

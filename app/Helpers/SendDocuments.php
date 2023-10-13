@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Http;
 
-if (! function_exists('SendDocuments')) {
-    function SendDocuments($company, $environment, $data)
+if (! function_exists('sendDocuments')) {
+    function sendDocuments($company, $environment, $data)
     {
         $requestResponse = [];
         $errorMessages = null;

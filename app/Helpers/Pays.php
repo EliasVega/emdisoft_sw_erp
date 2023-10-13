@@ -6,8 +6,8 @@ use App\Models\Indicator;
 use App\Models\Pay;
 use App\Models\PayPaymentMethod;
 
-if (! function_exists('Pays')) {
-    function Pays($request, $document, $typeDocument)
+if (! function_exists('pays')) {
+    function pays($request, $document, $typeDocument)
     {
         $indicator = Indicator::findOrFail(1);
         $cashRegister = CashRegister::where('user_id', '=', $document->user_id)->where('status', '=', 'open')->first();
@@ -38,6 +38,10 @@ if (! function_exists('Pays')) {
             case 'expense':
                 $expense = $document;
                 $expense->pays()->save($pay);
+            break;
+            case 'invoice':
+                $invoice = $document;
+                $invoice->pays()->save($pay);
             break;
             default:
                 $msg = 'No has seleccionado voucher.';
@@ -92,6 +96,7 @@ if (! function_exists('Pays')) {
                             $cashRegister->cash_out_total += $payment[$i];
                         }
                         $cashRegister->out_purchase += $payment[$i];
+                        $cashRegister->out_total += $payment[$i];
                         $cashRegister->update();
                     }
                 break;
@@ -103,6 +108,19 @@ if (! function_exists('Pays')) {
                             $cashRegister->cash_out_total += $payment[$i];
                         }
                         $cashRegister->out_expense += $payment[$i];
+                        $cashRegister->out_total += $payment[$i];
+                        $cashRegister->update();
+                    }
+                break;
+                case 'invoice':
+                    if ($indicator->post == 'on') {
+                        //metodo para actualizar la caja
+                        if($mp == 10){
+                            $cashRegister->in_invoice_cash += $payment[$i];
+                            $cashRegister->cash_in_total += $payment[$i];
+                        }
+                        $cashRegister->in_invoice += $payment[$i];
+                        $cashRegister->in_total += $payment[$i];
                         $cashRegister->update();
                     }
                 break;

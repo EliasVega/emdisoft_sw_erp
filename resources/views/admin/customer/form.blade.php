@@ -118,20 +118,26 @@
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="address">Direccion</label>
-            <input type="text" name="address" value="{{ old('address', $customer->address ?? '') }}" class="form-control" placeholder="Direccion">
+            <input type="text" name="address" value="{{ old('address', $customer->address ?? 'Bucaramanga') }}" class="form-control" placeholder="Direccion">
         </div>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="phone">Telefono</label>
-            <input type="text" name="phone" value="{{ old('phone', $customer->phone ?? '') }}" class="form-control" placeholder="Telefono">
+            <input type="text" name="phone" value="{{ old('phone', $customer->phone ?? '3165555555') }}" class="form-control" placeholder="Telefono">
         </div>
     </div>
 
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for="merchant_registration">Registro Meracantil</label>
+            <input type="text" name="merchant_registration" value="{{ old('merchant_registration', $provider->merchan_registration ?? '000000-00') }}" class="form-control" placeholder="Registro Mercantil" required>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="credit_limit">Cupo Asignado</label>
-            <input type="number" name="credit_limit" value="{{ old('credit_limit', $customer->credit_limit ?? '') }}" class="form-control" placeholder="Cupo asignado">
+            <input type="number" name="credit_limit" value="{{ old('credit_limit', $customer->credit_limit ?? '0') }}" class="form-control" placeholder="Cupo asignado">
         </div>
     </div>
 

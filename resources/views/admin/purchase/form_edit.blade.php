@@ -3,9 +3,9 @@
         <label for="provider_id">Proveedor</label>
         <div class="select">
             <select id="provider_id" name="provider_id" class="form-control selectpicker" data-live-search="true" required>
-                <option {{ old('provider_id', $purchase->provider_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar tipo de persona</option>
+                <option {{ old('provider_id', $purchase->provider_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Proveedor</option>
                 @foreach($providers as $provider)
-                    @if(old('supplier_id', $purchase->provider_id ?? '') == $provider->id)
+                    @if(old('provider_id', $purchase->provider_id ?? '') == $provider->id)
                         <option value="{{ $provider->id }}" selected>{{ $provider->name }}</option>
                     @else
                         <option value="{{ $provider->id }}">{{ $provider->name }}</option>

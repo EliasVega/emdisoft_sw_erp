@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('total', 20, 2);//total antes de impuestos de linea
             $table->decimal('total_tax', 10, 2);//total de impuestos de linea
             $table->decimal('total_pay', 20, 2);//total mas impuestos de linea
+            $table->text('note')->nullable();//nota de informacion
 
             $table->foreignId('user_id')->constrained()->onUpdate('cascade');
             $table->foreignId('branch_id')->constrained()->onUpdate('cascade');

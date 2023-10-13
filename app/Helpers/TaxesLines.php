@@ -3,8 +3,8 @@
 use App\Models\CompanyTax;
 use App\Models\Tax;
 
-if (! function_exists('TaxesLine')) {
-    function TaxesLines($document, $taxes, $typeDocument)
+if (! function_exists('taxesLine')) {
+    function taxesLines($document, $taxes, $typeDocument)
     {
 
         $total = $document->total;
@@ -26,15 +26,27 @@ if (! function_exists('TaxesLine')) {
                             case 'purchase':
                                 $purchase = $document;
                                 $purchase->taxes()->save($tax);
-                                break;
+                            break;
                             case 'ndpurchase':
                                 $ndpurchase = $document;
                                 $ndpurchase->taxes()->save($tax);
-                                break;
+                            break;
                             case 'ncpurchase':
                                 $ncpurchase = $document;
                                 $ncpurchase->taxes()->save($tax);
-                                break;
+                            break;
+                            case 'invoice':
+                                $invoice = $document;
+                                $invoice->taxes()->save($tax);
+                            break;
+                            case 'ncinvoice':
+                                $ncinvoice = $document;
+                                $ncinvoice->taxes()->save($tax);
+                            break;
+                            case 'ndinvoice':
+                                $ndinvoice = $document;
+                                $ndinvoice->taxes()->save($tax);
+                            break;
                         }
 
                     break;
@@ -47,15 +59,27 @@ if (! function_exists('TaxesLine')) {
                             case 'purchase':
                                 $purchase = $document;
                                 $purchase->taxes()->save($tax);
-                                break;
+                            break;
                             case 'ndpurchase':
                                 $ndpurchase = $document;
                                 $ndpurchase->taxes()->save($tax);
-                                break;
+                            break;
                             case 'ncpurchase':
                                 $ncpurchase = $document;
                                 $ncpurchase->taxes()->save($tax);
-                                break;
+                            break;
+                            case 'invoice':
+                                $invoice = $document;
+                                $invoice->taxes()->save($tax);
+                            break;
+                            case 'ncinvoice':
+                                $ncinvoice = $document;
+                                $ncinvoice->taxes()->save($tax);
+                            break;
+                            case 'ndinvoice':
+                                $ndinvoice = $document;
+                                $ndinvoice->taxes()->save($tax);
+                            break;
                         }
                     break;
                     case(17):
@@ -67,15 +91,27 @@ if (! function_exists('TaxesLine')) {
                             case 'purchase':
                                 $purchase = $document;
                                 $purchase->taxes()->save($tax);
-                                break;
+                            break;
                             case 'ndpurchase':
                                 $ndpurchase = $document;
                                 $ndpurchase->taxes()->save($tax);
-                                break;
+                            break;
                             case 'ncpurchase':
                                 $ncpurchase = $document;
                                 $ncpurchase->taxes()->save($tax);
-                                break;
+                            break;
+                            case 'invoice':
+                                $invoice = $document;
+                                $invoice->taxes()->save($tax);
+                            break;
+                            case 'ncinvoice':
+                                $ncinvoice = $document;
+                                $ncinvoice->taxes()->save($tax);
+                            break;
+                            case 'ndinvoice':
+                                $ndinvoice = $document;
+                                $ndinvoice->taxes()->save($tax);
+                            break;
                         }
                     break;
                     default:

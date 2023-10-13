@@ -164,6 +164,17 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'indicator.inventoryStatus', 'description' => 'Manejo inventario', 'status' => 'locked'])->syncRoles([$superAdmin]);
         Permission::create(['name' => 'indicator.productPrice', 'description' => 'Manejo Precio Producto', 'status' => 'locked'])->syncRoles([$superAdmin]);
 
+        Permission::create(['name' => 'invoice.index', 'description' => 'Listado Invoice', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
+        Permission::create(['name' => 'invoice.create', 'description' => 'CrearInvoice', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
+        Permission::create(['name' => 'invoice.show', 'description' => 'VerInvoice', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
+        Permission::create(['name' => 'invoice.edit', 'description' => 'EditarInvoice', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
+
+        Permission::create(['name' => 'invoiceResponse.index', 'description' => 'Listado respuestas fv', 'status' => 'active'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'invoiceResponse.create', 'description' => 'Crear respuesta fv', 'status' => 'locked'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'invoiceResponse.show', 'description' => 'Ver respuesta fv', 'status' => 'locked'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'invoiceResponse.edit', 'description' => 'Editar respuesta fv', 'status' => 'locked'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'invoiceResponse.destroy', 'description' => 'Eliminar respuesta fv', 'status' => 'locked'])->syncRoles([$superAdmin]);
+
         Permission::create(['name' => 'kardex.index', 'description' => 'Listado kardex', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings]);
         Permission::create(['name' => 'kardex.kardexProduct', 'description' => 'Listado kardex producto', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings]);
 
@@ -185,9 +196,29 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'municipality.edit', 'description' => 'Editar municipio', 'status' => 'locked'])->assignRole($superAdmin);
         Permission::create(['name' => 'municipality.destroy', 'description' => 'Eliminar municipio', 'status' => 'locked'])->assignRole($superAdmin);
 
+        Permission::create(['name' => 'ncinvoice.index', 'description' => 'Listado NC venta', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
+        Permission::create(['name' => 'ncinvoice.store', 'description' => 'Crear NC venta', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
+        Permission::create(['name' => 'ncinvoice.show', 'description' => 'Ver NC venta', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
+
+        Permission::create(['name' => 'ncinvoiceResponse.index', 'description' => 'Listado respuestas NC', 'status' => 'active'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'ncinvoiceResponse.create', 'description' => 'Crear respuesta NC', 'status' => 'locked'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'ncinvoiceResponse.show', 'description' => 'Ver respuesta NC', 'status' => 'locked'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'ncinvoiceResponse.edit', 'description' => 'Editar respuesta NC', 'status' => 'locked'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'ncinvoiceResponse.destroy', 'description' => 'Eliminar respuesta NC', 'status' => 'locked'])->syncRoles([$superAdmin]);
+
         Permission::create(['name' => 'ncpurchase.index', 'description' => 'Listado NC compra', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
         Permission::create(['name' => 'ncpurchase.store', 'description' => 'Crear NC compra', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
         Permission::create(['name' => 'ncpurchase.show', 'description' => 'Ver NC compra', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
+
+        Permission::create(['name' => 'ndinvoice.index', 'description' => 'Listado ND venta', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
+        Permission::create(['name' => 'ndinvoice.store', 'description' => 'Crear ND venta', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings,$superAdmin, $admin, $operatings, $purchases, $sales]);
+        Permission::create(['name' => 'ndinvoice.show', 'description' => 'Ver ND venta', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings,$superAdmin, $admin, $operatings, $purchases, $sales]);
+
+        Permission::create(['name' => 'ndinvoiceResponse.index', 'description' => 'Listado respuestas ND', 'status' => 'active'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'ndinvoiceResponse.create', 'description' => 'Crear respuesta ND', 'status' => 'locked'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'ndinvoiceResponse.show', 'description' => 'Ver respuesta ND', 'status' => 'locked'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'ndinvoiceResponse.edit', 'description' => 'Editar respuesta ND', 'status' => 'locked'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'ndinvoiceResponse.destroy', 'description' => 'Eliminar respuesta ND', 'status' => 'locked'])->syncRoles([$superAdmin]);
 
         Permission::create(['name' => 'ndpurchase.index', 'description' => 'Listado ND compra', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
         Permission::create(['name' => 'ndpurchase.store', 'description' => 'Crear ND compra', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings,$superAdmin, $admin, $operatings, $purchases, $sales]);

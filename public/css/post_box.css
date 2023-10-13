@@ -4,14 +4,9 @@
 }
 body {
     text-align: center;
-    display: flex;
-    margin: 0px auto;
+    margin: 0px;
+    padding: opx;
     font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-weight: normal;
-    line-height: 1.5;
-    color: #151b1e;
-    min-width: 100%;
-    padding: 0%;
 }
 
 .clearfix {
@@ -57,48 +52,28 @@ table {
     width: 100%;
 }
 
-thead {
+table thead {
     width: 100%;
     margin: 0%;
     padding: 0%;
     border-bottom: 1px solid #7a7d7e;
 }
 
-tbody {
+table tbody {
     width: 100%;
     margin: 0%;
     padding: 0%;
     border-bottom: 1px solid #7a7d7e;
 }
 
-th{
+table thead tr th{
     font-size: 0.6rem;
 }
 
-td {
+table tbody tr td {
     font-size: 0.6rem;
 }
 
-#tdizq {
-    text-align: right;
+table tbody tr td .tdright {
     font-size: 0.6rem;
-}
-#tdiz {
-    text-align: right;
-    font-size: 0.6rem;
-}
-
-#tdi {
-    text-align: right;
-    font-size: 0.6rem;
-}
-
-.tfd {
-    margin: 0%;
-    padding: 0%;
-}
-
-.gpsc {
-    position: fixed;
-    text-align: center;
 }

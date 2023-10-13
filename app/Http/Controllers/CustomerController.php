@@ -123,27 +123,48 @@ class CustomerController extends Controller
      */
     public function store(StoreCustomerRequest $request)
     {
+        $liability = $request->liability_id;
+        $organization = $request->organization_id;
+        $regime = $request->regime_id;
+        $department = $request->department_id;
+        $municipality = $request->municipality_id;
         $creditLimit = $request->credit_limit;
+        if ($liability == null) {
+            $liability = 117;
+        }
+        if ($organization == null) {
+            $organization = 2;
+        }
+        if ($regime == null) {
+            $regime = 2;
+        }
+        if ($department == null) {
+            $department = 21;
+        }
+        if ($municipality == null) {
+            $municipality = 846;
+        }
         if ($creditLimit == null) {
             $creditLimit = 0;
         }
 
         $customer = new Customer();
-        $customer->department_id = $request->department_id;
-        $customer->municipality_id = $request->municipality_id;
+        $customer->department_id = $department;
+        $customer->municipality_id = $municipality;
         $customer->identification_type_id = $request->identification_type_id;
-        $customer->liability_id = $request->liability_id;
-        $customer->organization_id = $request->organization_id;
-        $customer->regime_id = $request->regime_id;
+        $customer->liability_id = $liability;
+        $customer->organization_id = $organization;
+        $customer->regime_id = $regime;
         $customer->name = $request->name;
         $customer->identification = $request->identification;
         $customer->dv = $request->dv;
         $customer->address = $request->address;
         $customer->phone = $request->phone;
         $customer->email = $request->email;
-        $customer->credit_limit = $creditLimit;
+        $customer->merchant_registration = $request->merchant_registration;
+        $customer->credit_limit = $request->credit_limit;
         $customer->used = 0;
-        $customer->available = $creditLimit;
+        $customer->available = $request->credit_limit;
         $customer->save();
 
         Alert::success('Cliente','Creado Satisfactoriamente.');
@@ -207,6 +228,7 @@ class CustomerController extends Controller
         $customer->address = $request->address;
         $customer->phone = $request->phone;
         $customer->email = $request->email;
+        $customer->merchant_registration = $request->merchant_registration;
         $customer->credit_limit = $request->credit_limit;
         $customer->used = 0;
         $customer->available = $request->credit_limit;

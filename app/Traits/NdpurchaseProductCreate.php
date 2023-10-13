@@ -2,10 +2,9 @@
 namespace App\Traits;
 
 use App\Models\NdpurchaseProduct;
-use App\Models\Product;
 
 trait NdpurchaseProductCreate {
-    public function ndpurchaseProductCreate($request, $ndpurchase){
+    public function ndpurchaseProductCreate($request, $document){
         //variables del request
         $product_id = $request->id;
         $quantity = $request->quantity;
@@ -15,7 +14,7 @@ trait NdpurchaseProductCreate {
 
             //registrando nota debito productos
             $ndpurchaseProduct = new NdpurchaseProduct();
-            $ndpurchaseProduct->ndpurchase_id = $ndpurchase->id;
+            $ndpurchaseProduct->ndpurchase_id = $document->id;
             $ndpurchaseProduct->product_id = $product_id[$i];
             $ndpurchaseProduct->quantity = $quantity[$i];
             $ndpurchaseProduct->price = $price[$i];

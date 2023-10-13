@@ -18,7 +18,7 @@
         tax.forEach((value, i) => {
             if (value['tax_value'] > 0) {
 
-                taxId = value['id'],
+                companyTaxId = value['id'],
                 taxName= value['name'];
                 taxValue= value['tax_value'];
                 taxTypeid = value['tax_type_id'];
@@ -31,7 +31,7 @@
                     }
                     totalRetention[contRetention] = taxValue;
                     total_retention = parseFloat(total_retention)  + parseFloat(totalRetention[contRetention]);
-                    var rowretention= '<tr class="selected" id="rowretention'+contRetention+'"><td><button type="button" class="btn btn-danger btn-sm" onclick="deleteRetention('+contRetention+');"><i class="fa fa-times"></i></button></td><td><input type="hidden" name="company_tax_id[]" value="'+taxTypeid+'">'+taxTypeid+'</td><td><input type="hidden" name="company_tax_id[]" value="'+taxId+'">'+taxName+'</td><td> $'+parseFloat(totalRetention[contRetention]).toFixed(2)+'</td></tr>';
+                    var rowretention= '<tr class="selected" id="rowretention'+contRetention+'"><td><button type="button" class="btn btn-danger btn-sm" onclick="deleterow('+contRetention+');"><i class="fa fa-times"></i></button></td><td><input type="hidden" name="company_tax_id[]" value="'+companyTaxId+'">'+companyTaxId+'</td><td><input type="hidden" name="tax[]" value="'+taxName+'">'+taxName+'</td><td> $'+parseFloat(totalRetention[contRetention]).toFixed(2)+'</td></tr>';
                     contRetention++;
 
                     retentionTotals();
@@ -54,7 +54,7 @@
         tax.forEach((value, i) => {
             if (value['tax_value'] > 0) {
 
-                taxId = value['id'],
+                companyTaxId = value['id'],
                 taxName= value['name'];
                 taxValue= value['tax_value'];
                 taxTypeid = value['tax_type_id'];
@@ -62,7 +62,7 @@
 
                 iva = $("#tax_iva").val();
                 total_ndpurchase = $("#total_ndpurchase").val();
-                if(taxName!='', taxId!=''){
+                if(taxName!='', companyTaxId!=''){
                     if (taxTypeid == 5) {
                         totalRetention[contRetention] = iva * percentage/100;
                     } else {
@@ -70,7 +70,7 @@
                     }
                     //totalRetention[contRetention] = taxValue;
                     total_retention = parseFloat(total_retention)  + parseFloat(totalRetention[contRetention]);
-                    var rowretention= '<tr class="selected" id="rowretention'+contRetention+'"><td><button type="button" class="btn btn-danger btn-sm" onclick="deleterow('+contRetention+');"><i class="fa fa-times"></i></button></td><td><input type="hidden" name="tax_type_id[]" value="'+taxTypeid+'">'+taxTypeid+'</td><td><input type="hidden" name="company_tax_id[]" value="'+taxId+'">'+taxName+'</td><td> $'+parseFloat(totalRetention[contRetention]).toFixed(2)+'</td></tr>';
+                    var rowretention= '<tr class="selected" id="rowretention'+contRetention+'"><td><button type="button" class="btn btn-danger btn-sm" onclick="deleterow('+contRetention+');"><i class="fa fa-times"></i></button></td><td><input type="hidden" name="company_tax_id[]" value="'+companyTaxId+'">'+companyTaxId+'</td><td><input type="hidden" name="tax[]" value="'+taxName+'">'+taxName+'</td><td> $'+parseFloat(totalRetention[contRetention]).toFixed(2)+'</td></tr>';
                     contRetention++;
 
                     retentionTotals();

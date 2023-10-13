@@ -30,7 +30,7 @@ class UpdateProviderRequest extends FormRequest
             'address' => 'required|string|max:100',
             'phone' => 'required|string|max:12',
             'email' => 'required|email|max:100',
-            'merchant_registration' => 'required|string|max:12',
+            'merchant_registration' => 'string|max:12',
             'contact' => 'nullable|string|max:100',
             'phone_contact' => 'nullable|string|max:12',
             'department_id' => 'required|integer',

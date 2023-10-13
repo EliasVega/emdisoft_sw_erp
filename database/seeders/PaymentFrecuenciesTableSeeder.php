@@ -48,12 +48,13 @@ class PaymentFrecuenciesTableSeeder extends Seeder
                 'code' => '5',
                 'name' => 'Mensual',
             ),
+            /*
             5 =>
             array (
                 'id' => 6,
                 'code' => '6',
                 'name' => 'otro',
-            ),
+            ),*/
         ));
     }
 }

@@ -178,6 +178,26 @@ class DocumentTypesTableSeeder extends Seeder
                 'created_at' => '2023-01-12 21:07:44',
                 'updated_at' => '2023-01-12 21:07:44',
             ),
+            16 =>
+            array (
+                'id' => 28,
+                'code' => '994',
+                'name' => 'Nota Credito post',
+                'prefix' => 'NCFP',
+                'cufe_algorithm' => 'CUDS-SHA384',
+                'created_at' => '2023-01-12 21:07:44',
+                'updated_at' => '2023-01-12 21:07:44',
+            ),
+            17 =>
+            array (
+                'id' => 29,
+                'code' => '995',
+                'name' => 'Nota Debito post',
+                'prefix' => 'NDFP',
+                'cufe_algorithm' => 'CUDS-SHA384',
+                'created_at' => '2023-01-12 21:07:44',
+                'updated_at' => '2023-01-12 21:07:44',
+            ),
         ));
     }
 }

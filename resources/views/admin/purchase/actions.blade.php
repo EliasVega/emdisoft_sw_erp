@@ -1,9 +1,3 @@
-@can('purchase.edit')
-    @if ($role == 'superAdmin')
-        <a href="{{ route('purchase.edit', $id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip"
-        data-placement="top" title="Editar"><i class="far fa-edit"></i></a>
-    @endif
-@endcan
 @can('purchase.show')
     <a href="{{ route('purchase.show', $id) }}" class="btn btn-success btn-sm" data-toggle="tooltip"
     data-placement="top" title="Ver Compra"><i class="far fa-eye"></i></a>

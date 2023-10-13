@@ -47,13 +47,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
-use App\Traits\Inventory;
+use App\Traits\InventoryPurchases;
 use App\Traits\KardexCreate;
 use App\Traits\Taxes;
 
 class PurchaseController extends Controller
 {
-    use Inventory, KardexCreate, Taxes;
+    use InventoryPurchases, KardexCreate, Taxes;
     function __construct()
     {
         $this->middleware('permission:purchase.index|purchase.create|purchase.show|purchase.edit', ['only'=>['index']]);
@@ -86,16 +86,6 @@ class PurchaseController extends Controller
             })
             ->addColumn('branch', function (Purchase $purchase) {
                 return $purchase->branch->name;
-            })
-            ->addColumn('note', function (Purchase $purchase) {
-
-                $debitNote = $purchase->ndpurchase;
-                $creditNote = $purchase->ncpurchase;
-                if ($debitNote) {
-                    return $purchase->ndpurchase->document . ' * ' . $purchase->ndpurchase->total_pay;
-                } elseif ($creditNote){
-                    return $purchase->ncpurchase->document . ' * ' . $purchase->ncpurchase->total_pay;
-                }
             })
             ->addColumn('retention', function (Purchase $purchase) {
                 return $purchase->retention;
@@ -203,12 +193,11 @@ class PurchaseController extends Controller
     public function store(StorePurchaseRequest $request)
     {
         //dd($request->all());
+        $resolution = $request->resolution_id;
         $company = Company::findOrFail(current_user()->company_id);
-        $environment = Environment::where('code', 'SD')->first();
+        $environment = Environment::where('id', 16)->first();
         $indicator = Indicator::findOrFail(1);
         $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
-        $typeDocument = 'purchase';
-        $voucherType = 7;
 
         //Variables del request
         $product_id = $request->id;
@@ -226,12 +215,21 @@ class PurchaseController extends Controller
         }
 
         $documentType = $request->document_type_id;
+        $typeDocument = 'purchase';
+        $voucherType = '';
+        if ($documentType == 11) {
+            $voucherType = 12;
+        } else {
+            $voucherType = 7;
+            $resolution = 1;
+        }
+        $resolutions = Resolution::findOrFail($resolution);
         $service = '';
         $errorMessages = '';
         $store = false;
         if ($documentType == 11 && $indicator->dian == 'on') {
-            $data = SupportDocumentSend($request);
-            $requestResponse = SendDocuments($company, $environment, $data);
+            $data = supportDocumentSend($request);
+            $requestResponse = sendDocuments($company, $environment, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];
@@ -248,13 +246,12 @@ class PurchaseController extends Controller
             $purchase->provider_id = $request->provider_id;
             $purchase->payment_form_id = $request->payment_form_id;
             $purchase->payment_method_id = $request->payment_method_id[0];
-            $purchase->resolution_id = $request->resolution_id;
+            $purchase->resolution_id = $resolution;
             $purchase->generation_type_id = $request->generation_type_id;
             $purchase->document_type_id = $documentType;
+            $purchase->document = $resolutions->prefix . '-' . $resolutions->consecutive;
             if ($documentType == 11) {
-                $resolutions = Resolution::findOrFail($request->resolution_id);
                 $voucherTypes = VoucherType::findOrFail(12);
-                $purchase->document = $resolutions->prefix . '-' . $resolutions->consecutive;
                 $purchase->invoice_code = $voucherTypes->code . '-' . $voucherTypes->consecutive;
                 $purchase->voucher_type_id = 12;
                 $purchase->status = 'support_document';
@@ -262,12 +259,13 @@ class PurchaseController extends Controller
                 $voucherTypes->update();
             } else {
                 $voucherTypes = VoucherType::findOrFail(7);
-                $purchase->document = $voucherTypes->code . '-' . $voucherTypes->consecutive;
                 $purchase->invoice_code = $request->invoice_code;
                 $purchase->voucher_type_id = 7;
                 $purchase->status = 'purchase';
                 $voucherTypes->consecutive += 1;
                 $voucherTypes->update();
+                $resolutions->consecutive += 1;
+                $resolutions->update();
             }
             $purchase->generation_date = $request->generation_date;
             $purchase->due_date = $request->due_date;
@@ -293,7 +291,7 @@ class PurchaseController extends Controller
             if ($indicator->post == 'on') {
                 //actualizar la caja
                     $cashRegister->purchase += $total_pay;
-                    $cashRegister->out_total += $totalpay;
+                    //$cashRegister->out_total += $totalpay;
                     $cashRegister->update();
             }
             $document = $purchase;
@@ -320,19 +318,19 @@ class PurchaseController extends Controller
 
                 $quantityLocal = $quantity[$i];
                 $priceLocal = $price[$i];
-                $this->inventory($product, $branchProducts, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
+                $this->inventoryPurchases($product, $branchProducts, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
                 $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
 
             }
 
             $taxes = $this->getTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC
-            TaxesGlobals($document, $quantityBag, $typeDocument);
-            TaxesLines($document, $taxes, $typeDocument);
-            Retentions($request, $document, $typeDocument);
+            //TaxesGlobals($document, $quantityBag, $typeDocument);
+            taxesLines($document, $taxes, $typeDocument);
+            retentions($request, $document, $typeDocument);
 
 
             if ($totalpay > 0) {
-                Pays($request, $document, $typeDocument);
+                pays($request, $document, $typeDocument);
             }
             if ($documentType == 11 && $indicator->dian == 'on') {
                 $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
@@ -972,7 +970,7 @@ class PurchaseController extends Controller
     }
 
     public function purchasePdf(Request $request, $id)
-   {
+    {
         $purchase = Purchase::findOrFail($id);
         //$retentiones = Retention::where('type', 'purchase')->where('retentionable_id', $id)->first();
         $productPurchases = ProductPurchase::where('purchase_id', $purchase->id)->where('quantity', '>', 0)->get();
@@ -1058,14 +1056,14 @@ class PurchaseController extends Controller
 
         return $pdf->stream('vista-pdf', "$purchasepdf.pdf");
         //return $pdf->download("$purchasepdf.pdf");*/
-   }
+    }
 
    public function pdfPurchase(Request $request)
    {
         $purchases = session('purchase');
         $purchase = Purchase::findOrFail($purchases);
         session()->forget('purchase');
-        $retentiones = Retention::where('type', 'purchase')->where('retentionable_id', $purchase->id)->first();
+        //$retentiones = Retentio::where('type', 'purchase')->where('retentionable_id', $purchase->id)->first();
         $productPurchases = ProductPurchase::where('purchase_id', $purchase->id)->where('quantity', '>', 0)->get();
         $company = Company::findOrFail(1);
         $debitNotes = Ndpurchase::where('purchase_id', $purchase->id)->first();
@@ -1088,22 +1086,18 @@ class PurchaseController extends Controller
         ->where('tax.taxable_id', $purchase->id)
         ->where('tt.type_tax', 'retention')->sum('tax_value');
 
-        $retention = 0;
         $debitNote = 0;
         $creditNote = 0;
         $retentionnd = 0;
         $retentionnc = 0;
-        if ($retentiones != null) {
-            $retention = $retentions->retention;
-        }
         if ($debitNotes != null) {
             $debitNote = $debitNotes->total_pay;
-            $retnd = Retention::where('type', 'ndpurchase')->where('retentionable_id', $debitNotes->id)->first();
+            $retnd = Tax::where('type', 'ndpurchase')->where('retentionable_id', $debitNotes->id)->first();
             $retentionnd = $retnd->retention;
         }
         if ($creditNotes != null) {
             $creditNote = $creditNotes->total_pay;
-            $retnc = Retention::where('type', 'ncpurchase')->where('retentionable_id', $creditNotes->id)->first();
+            $retnc = Tax::where('type', 'ncpurchase')->where('retentionable_id', $creditNotes->id)->first();
             $retentionnc = $retnc->retention;
         }
         $view = \view('admin.purchase.pdf', compact(

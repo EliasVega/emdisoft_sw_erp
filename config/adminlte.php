@@ -86,7 +86,7 @@ return [
     'auth_logo' => [
         'enabled' => false,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            'path' => 'vendor/adminlte/dist/img/Emdisoft.png',
             'alt' => 'Auth Logo',
             'class' => '',
             'width' => 50,
@@ -107,9 +107,9 @@ return [
     */
 
     'preloader' => [
-        'enabled' => true,
+        'enabled' => false,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            'path' => 'vendor/adminlte/dist/img/Emdisoft.png',
             'alt' => 'AdminLTE Preloader Image',
             'effect' => 'animation__shake',
             'width' => 60,
@@ -476,6 +476,21 @@ return [
                             'url' => 'nsdResponse',
                             'can'  => 'nsdResponse.index',
                         ],
+                        [
+                            'text' => 'FV response',
+                            'url' => 'invoiceResponse',
+                            'can'  => 'invoiceResponse.index',
+                        ],
+                        [
+                            'text' => 'NC response',
+                            'url' => 'ncinvoiceResponse',
+                            'can'  => 'ncinvoiceResponse.index',
+                        ],
+                        [
+                            'text' => 'ND response',
+                            'url' => 'ndinvoiceResponse',
+                            'can'  => 'ndinvoiceResponse.index',
+                        ],
                     ],
                 ],
             ],
@@ -639,8 +654,18 @@ return [
                     'submenu' => [
                         [
                             'text' => 'Ventas',
-                            'url' => '#',
-                            'can'  => '#',
+                            'url' => 'invoice',
+                            'can'  => 'invoice.index',
+                        ],
+                        [
+                            'text' => 'Notas Credito',
+                            'url' => 'ncinvoice',
+                            'can'  => 'ncinvoice.index',
+                        ],
+                        [
+                            'text' => 'Notas Debito',
+                            'url' => 'ndinvoice',
+                            'can'  => 'ndinvoice.index',
                         ],
                     ],
                 ],

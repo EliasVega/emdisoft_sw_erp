@@ -64,4 +64,12 @@ class Product extends Model
     public function ndpurchaseProduct(){
         return $this->belongsTo(NdpurchaseProduct::class);
     }
+
+    public function ncinvoiceProduct(){
+        return $this->belongsTo(NcinvoiceProduct::class);
+    }
+
+    public function ndinvoiceProduct(){
+        return $this->belongsTo(NdinvoiceProduct::class);
+    }
 }

@@ -58,7 +58,7 @@
         <div class="form-group">
             <label class="form-control-label" for="resolution_id">Resolucion</label>
                 <select name="resolution_id" class="form-control selectpicker" id="resolution_id" data-live-search="true">
-                    <option value="0" disabled selected>Resolucion</option>
+                    <option value="1" disabled selected>Resolucion</option>
                     @foreach($resolutions as $resolution)
                         <option value="{{ $resolution->id }}">{{ $resolution->prefix }} {{ $resolution->resolution }}</option>
                     @endforeach
@@ -98,7 +98,7 @@
     </div>
     <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
         <div class="form-group">
-            <label class="form-control-label" for="tax_rate">Iva %</label>
+            <label class="form-control-label" for="tax_rate">Imp %</label>
             <input type="number" id="tax_rate" name="tax_rate" class="form-control" placeholder="%" disabled
                 pattern="[0-9]{0,15}">
         </div>

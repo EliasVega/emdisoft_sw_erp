@@ -22,12 +22,13 @@ class Ncpurchase extends Model
         'total',
         'total_tax',
         'total_pay',
+        'note',
         'user_id',
         'branch_id',
         'purchase_id',
         'provider_id',
         'resolution_id',
-        'nd_discrepancy_id',
+        'discrepancy_id',
         'voucher_type_id'
     ];
 
@@ -59,18 +60,16 @@ class Ncpurchase extends Model
         return $this->belongsToMany(Product::class);
     }
 
-    public function nd_discrepancy(){
+    public function discrepancy(){
         return $this->belongsTo(Discrepancy::class);
     }
 
-    public function retention()
-    {
-        return $this->morphOne(Retention::class, 'retentionable');
+    public function resolution(){
+        return $this->belongsTo(Resolution::class);
     }
 
     public function taxes(): MorphMany
     {
         return $this->morphMany(Tax::class, 'taxable');
     }
-
 }

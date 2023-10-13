@@ -6,8 +6,8 @@ use App\Models\Provider;
 use App\Models\Resolution;
 use Carbon\Carbon;
 
-if (! function_exists('SupportDocumentSend')) {
-    function SupportDocumentSend($request)
+if (! function_exists('supportDocumentSend')) {
+    function supportDocumentSend($request)
     {
 
         $provider = Provider::findOrFail($request->provider_id);
@@ -28,7 +28,7 @@ if (! function_exists('SupportDocumentSend')) {
 
         $retentions = $request->company_tax_id;
 
-        $subtotal = 0;
+        //$subtotal = 0;
         $discountTotal = 0.00;
 
         $productLines = [];
@@ -145,7 +145,7 @@ if (! function_exists('SupportDocumentSend')) {
             $withholdingCont++;
         }
 
-        $total = $total + $subtotal;
+        //$total = $total + $subtotal;
 
         $data = [
             "number" => $resolution->consecutive,

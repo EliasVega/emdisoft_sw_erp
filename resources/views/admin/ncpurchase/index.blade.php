@@ -40,7 +40,7 @@
 <script type="text/javascript">
 $(document).ready(function ()
     {
-        window.onload = function() {
+        function print(){
             var ncpurchase = "{{ $ncpurchase ?? '' }}";
             if (ncpurchase != '') {
                 var imprimir = "{{ route('pdfNcpurchase', ['ncpurchase' => ':ncpurchase']) }}";
@@ -48,6 +48,7 @@ $(document).ready(function ()
                 window.open(imprimir, "_blank");
             }
         }
+        print();
         $('#ncpurchases').DataTable(
         {
             info: true,

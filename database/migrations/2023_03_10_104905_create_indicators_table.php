@@ -18,6 +18,7 @@ return new class extends Migration
 
             $table->decimal('smlv', 12,2);
             $table->decimal('transport_assistance', 10,2);
+            $table->decimal('uvt',10,2);
             $table->decimal('plastic_bag_tax', 10,2);
             $table->enum('dian', ['on', 'off'])->default('off');
             $table->enum('post', ['on', 'off'])->default('on');

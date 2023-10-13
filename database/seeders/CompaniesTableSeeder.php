@@ -36,7 +36,7 @@ class CompaniesTableSeeder extends Seeder
                 'department_id' => 21,
                 'municipality_id' => 846,
                 'identification_type_id' => 3,
-                'liability_id' => 5,
+                'liability_id' => 117,
                 'organization_id' => 2,
                 'regime_id' => 2,
                 'created_at' => '2023-01-12 21:07:42',

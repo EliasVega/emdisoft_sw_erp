@@ -43,6 +43,9 @@
         "files": [
             "app/Helpers/AdjustmentNoteSend.php",
             "app/Helpers/CurrentUser.php",
+            "app/Helpers/InvoiceSend.php",
+            "app/Helpers/NcinvoiceSend.php",
+            "app/Helpers/NdinvoiceSend.php",
             "app/Helpers/Pays.php",
             "app/Helpers/Retentions.php",
             "app/Helpers/SendDocuments.php",

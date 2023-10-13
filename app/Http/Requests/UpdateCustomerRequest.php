@@ -30,6 +30,7 @@ class UpdateCustomerRequest extends FormRequest
             'address' => 'nullable|string|max:100',
             'phone' => 'nullable|string|max:12',
             'email' => 'required|email|max:100',
+            'merchant_registration' => 'string|max:12',
             'credit_limit' => 'numeric',
             'used' => 'numeric',
             'available' => 'numeric',

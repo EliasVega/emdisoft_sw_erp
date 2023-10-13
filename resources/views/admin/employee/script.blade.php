@@ -79,6 +79,14 @@
             });
         });
     });
+    jQuery(document).ready(function($){
+        $(document).ready(function() {
+            $('#payment_method_id').select2({
+                theme: "classic",
+                width: "100%",
+            });
+        });
+    });
     $("#department_id").change(function(event){
         $.get("create/" + event.target.value + "", function(response){
             $("#municipality_id").empty();

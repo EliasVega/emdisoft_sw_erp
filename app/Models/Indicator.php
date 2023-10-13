@@ -18,6 +18,7 @@ class Indicator extends Model
     protected $fillable = [
         'smlv',
         'transport_assistance',
+        'uvt',
         'plastic_bag_tax',
         'dian',
         'post',

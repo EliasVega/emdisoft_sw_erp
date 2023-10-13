@@ -26,6 +26,7 @@ trait Taxes {
 
             if ($taxAmount > 0) {
 
+
                 if ($taxes[0] != []) { //contax > 0
                     $contsi = 0;
                     foreach ($taxes as $key => $tax) {
@@ -35,6 +36,7 @@ trait Taxes {
                             $tax[2] += $taxAmount;
                             $tax[3] += $amount;
                             $contsi++;
+                            $taxes[$key] = $tax;
                         }
                     }
                     if ($contsi == 0) {
@@ -48,6 +50,7 @@ trait Taxes {
                 }
             }
         }
+
         return $taxes;
     }
 }

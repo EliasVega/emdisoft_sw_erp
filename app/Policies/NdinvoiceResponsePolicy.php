@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\NsdResponse;
+use App\Models\NdinvoiceResponse;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class NsdResponsePolicy
+class NdinvoiceResponsePolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -19,7 +19,7 @@ class NsdResponsePolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, NsdResponse $nsdResponse): bool
+    public function view(User $user, NdinvoiceResponse $ndinvoiceResponse): bool
     {
         //
     }
@@ -35,7 +35,7 @@ class NsdResponsePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, NsdResponse $nsdResponse): bool
+    public function update(User $user, NdinvoiceResponse $ndinvoiceResponse): bool
     {
         //
     }
@@ -43,7 +43,7 @@ class NsdResponsePolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, NsdResponse $nsdResponse): bool
+    public function delete(User $user, NdinvoiceResponse $ndinvoiceResponse): bool
     {
         //
     }
@@ -51,7 +51,7 @@ class NsdResponsePolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, NsdResponse $nsdResponse): bool
+    public function restore(User $user, NdinvoiceResponse $ndinvoiceResponse): bool
     {
         //
     }
@@ -59,7 +59,7 @@ class NsdResponsePolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, NsdResponse $nsdResponse): bool
+    public function forceDelete(User $user, NdinvoiceResponse $ndinvoiceResponse): bool
     {
         //
     }

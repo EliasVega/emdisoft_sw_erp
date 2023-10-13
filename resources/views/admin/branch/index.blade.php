@@ -25,8 +25,8 @@
                 <table class="table table-striped table-bordered table-condensed table-hover" id="branches">
                     <thead>
                         <tr class="bg-info">
-                            <!--<th>O.P</th>
-                            <th>F.V</th>-->
+                            <!--<th>O.P</th>-->
+                            <th>F.V</th>
                             <th>BOX</th>
                             <th>F.C</th>
                             <th>F.G</th>
@@ -67,7 +67,7 @@ $(document).ready(function ()
             columns:
             [
                 //{data: 'order'},
-                //{data: 'invoice'},
+                {data: 'invoice'},
                 {data: 'box'},
                 //{data: 'prePurchase'},
                 {data: 'purchase'},

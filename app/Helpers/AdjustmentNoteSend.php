@@ -10,8 +10,8 @@ use App\Models\Resolution;
 use App\Models\SupportDocumentResponse;
 use Carbon\Carbon;
 
-if (! function_exists('AdjustmentNoteSend')) {
-    function AdjustmentNoteSend($request, $purchase)
+if (! function_exists('adjustmentNoteSend')) {
+    function adjustmentNoteSend($request, Purchase $purchase)
     {
         $resolut = $request->resolution_id;
         if ($resolut) {

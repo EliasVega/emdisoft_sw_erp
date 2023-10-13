@@ -24,7 +24,7 @@
     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="name">Nombre del Empleado</label>
-            <input type="text" name="name" value="{{ old('name', $employee->name ?? '') }}" class="form-control" placeholder="Ingrese el nombre del Cliente">
+            <input type="text" name="name" value="{{ old('name', $employee->name ?? '') }}" class="form-control" placeholder="Nombre">
         </div>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
