@@ -99,7 +99,7 @@ class ExpenseController extends Controller
         ->where('user_id', '=', Auth::user()->id)
         ->where('status', '=', 'open')
         ->first();
-        if ($indicator->post == 'on') {
+        if ($indicator->pos == 'on') {
             if(is_null($cashRegister)){
                 return redirect("branch")->with('warning', 'Debes tener una caja Abierta para realizar Compras');
             }
@@ -190,7 +190,7 @@ class ExpenseController extends Controller
         $voucherTypes->consecutive += 1;
         $voucherTypes->update();
 
-        if ($indicator->post == 'on') {
+        if ($indicator->pos == 'on') {
             //actualizar la caja
             $cashRegister->expense += $expense->total;
             //$cashRegister->out_total += $totalpay;
@@ -339,7 +339,7 @@ class ExpenseController extends Controller
         $expense->total_pay = $total;
         $expense->update();
 
-        if ($indicator->post == 'on') {
+        if ($indicator->pos == 'on') {
             //actualizar la caja
             if ($date1 == $date2) {
                 $cashRegister->expense -= $totalold;
@@ -494,14 +494,14 @@ class ExpenseController extends Controller
         return $pdf->stream('vista-pdf', "$expensepdf.pdf");
    }
 
-   public function expensePost($id)
+   public function expensePos($id)
    {
         $expense = Expense::where('id', $id)->first();
         $expenseProducts = ExpenseProduct::where('expense_id', $id)->where('quantity', '>', 0)->get();
         $company = Company::where('id', 1)->first();
         $expensepdf = "FACT-". $expense->document;
         $logo = './imagenes/logos'.$company->logo;
-        $view = \view('admin.expense.post', compact(
+        $view = \view('admin.expense.pos', compact(
             'expense',
             'expenseProducts',
             'company',
@@ -514,7 +514,7 @@ class ExpenseController extends Controller
         return $pdf->stream('vista-pdf', "$expensepdf.pdf");
    }
 
-   public function postExpense(Request $request)
+   public function posExpense(Request $request)
    {
         $expenses = session('expense');
         $expense = Expense::findOrFail($expenses);
@@ -524,7 +524,7 @@ class ExpenseController extends Controller
 
         $expensepdf = "FACT-". $expense->document;
         $logo = './imagenes/logos'.$company->logo;
-        $view = \view('admin.expense.post', compact(
+        $view = \view('admin.expense.pos', compact(
             'expense',
             'expenseProducts',
             'company',

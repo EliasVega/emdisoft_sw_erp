@@ -26,8 +26,8 @@
                 <table class="table table-striped table-bordered table-condensed table-hover" id="products">
                     <thead class="trdatacolor">
                         <tr>
-                            <th>Imagen</th>
                             <th>Id</th>
+                            <th>Imagen</th>
                             <th>Tipo</th>
                             <th>Categoria</th>
                             <th>Codigo</th>
@@ -64,6 +64,7 @@ $(document).ready(function ()
             order: [[0, "desc"]],
             columns:
             [
+                { data: 'id'},
                 {data: 'image',
                     'sortable': false,
                     'searchable': false,
@@ -75,7 +76,6 @@ $(document).ready(function ()
                         return '<img src="' + img + '" height="50px" width="50px" />';
                     }
                 }},
-                { data: 'id'},
                 { data: 'type_product'},
                 { data: 'category'},
                 { data: 'code'},

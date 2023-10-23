@@ -30,6 +30,7 @@ class Purchase extends Model
         'grand_total',
         'start_date',
         'status',
+        'type_product',
         'user_id',
         'branch_id',
         'supplier_id',

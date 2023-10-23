@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Product extends Model
 {
@@ -24,6 +25,7 @@ class Product extends Model
         'type_product',
         'status',
         'image',
+        'imageName',
         'category_id',
         'unit_measure_id'
     ];
@@ -53,8 +55,9 @@ class Product extends Model
         return $this->belongsTo(ProductBranch::class);
     }
 
-    public function kardexes(){
-        return $this->hasMany(Kardex::class);
+    public function kardexes(): MorphMany
+    {
+        return $this->morphMany(Kardex::class, 'kardexable');
     }
 
     public function ncpurchaseProduct(){

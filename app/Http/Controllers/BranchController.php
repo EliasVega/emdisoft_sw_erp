@@ -6,19 +6,15 @@ use App\Models\Branch;
 use App\Http\Requests\StoreBranchRequest;
 use App\Http\Requests\UpdateBranchRequest;
 use App\Models\BranchProduct;
-use App\Models\CashRegister;
 use App\Models\Company;
 use App\Models\Department;
 use App\Models\Indicator;
 use App\Models\Municipality;
-use App\Models\Role;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
-use Spatie\Permission\Traits\HasRoles;
 
 class BranchController extends Controller
 {
@@ -58,9 +54,12 @@ class BranchController extends Controller
             ->addColumn('company', function (Branch $branch) {
                 return $branch->company->nit;
             })
-            ->addColumn('cashRegister', function (Branch $branch) {
-                return $branch->company->indicator->post;
+            ->addColumn('restaurant', function (Branch $branch) {
+                return $branch->company->indicator->restaurant;
             })
+            ->addColumn('cashRegister', function (Branch $branch) {
+                return $branch->company->indicator->pos;
+            })/*
             //->addColumn('order', 'admin/branch/btn/order')
             ->addColumn('invoice', 'admin/branch/btn/invoice')
             ->addColumn('box', 'admin/branch/btn/box')
@@ -70,13 +69,13 @@ class BranchController extends Controller
             ->addColumn('transfer', 'admin/branch/btn/transfer')
             ->addColumn('edit', 'admin/branch/btn/edit')
             ->addColumn('show', 'admin/branch/btn/show')
-            ->rawColumns(['invoice', 'box', 'purchase', 'expense', 'product', 'transfer', 'edit', 'show'])
-            ->make(true);
-                /*
+            ->rawColumns(['invoice', 'box', 'purchase', 'expense', 'product', 'transfer', 'edit', 'show'])*/
+
+
             ->addColumn('btn', 'admin/branch/actions')
             ->addColumn('accesos', 'admin/branch/accesos')
             ->rawcolumns(['btn', 'accesos'])
-            ->make(true);*/
+            ->make(true);
         }
         return view('admin.branch.index');
     }

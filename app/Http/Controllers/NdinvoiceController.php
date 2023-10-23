@@ -145,7 +145,7 @@ class NdinvoiceController extends Controller
         $ndinvoice->total_pay = $request->total_pay;
         $ndinvoice->save();
 
-        if ($indicator->post == 'on') {
+        if ($indicator->pos == 'on') {
             //actualizar la caja
             $cashRegister->ndinvoice += $total_pay;
             $cashRegister->update();

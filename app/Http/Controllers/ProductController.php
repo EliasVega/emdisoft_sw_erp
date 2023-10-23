@@ -7,8 +7,11 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\BranchProduct;
 use App\Models\Category;
+use App\Models\Indicator;
 use App\Models\Kardex;
 use App\Models\MeasureUnit;
+use App\Models\ProductRawmaterial;
+use App\Models\RawMaterial;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
@@ -33,7 +36,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $products = product::get();
+            $products = Product::get();
             return DataTables::of($products)
             ->addIndexColumn()
             ->addColumn('category', function (Product $product) {
@@ -56,9 +59,11 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $indicator = Indicator::findOrFail(1);
+        $rawMaterials = RawMaterial::get();
         $categories = Category::get();
         $measureUnits = MeasureUnit::where('status', 'active')->get();
-        return view('admin.product.create', compact('categories', 'measureUnits'));
+        return view('admin.product.create', compact('categories', 'measureUnits', 'rawMaterials', 'indicator'));
     }
 
     /**
@@ -69,6 +74,8 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
+        //dd($request->all());
+        $indicator = Indicator::findOrFail(1);
         $product = new Product();
         $product->category_id = $request->category_id;
         $product->measure_unit_id = $request->measure_unit_id;
@@ -104,16 +111,23 @@ class ProductController extends Controller
         $product->image=$fileNameToStore;
         $product->save();
 
-        //metodo para agregar producto a la sucursal
-        $branchProduct = new BranchProduct();
-        $branchProduct->branch_id = 1;
-        $branchProduct->product_id = $product->id;
-        $branchProduct->stock = 0;
-        $branchProduct->order_product = 0;
-        $branchProduct->save();
+        if ($indicator->raw_material == 'on') {
+            $quantity = $request->quantity;
+            $consumer = $request->consumer_price;
+            $rawMaterial = $request->raw_material_id;
+
+            for ($i=0; $i < count($quantity); $i++) {
+                $productRawmaterials = new ProductRawmaterial();
+                $productRawmaterials->quantity = $quantity[$i];
+                $productRawmaterials->consumer_price = $consumer[$i];
+                $productRawmaterials->subtotal = $quantity[$i] * $consumer[$i];
+                $productRawmaterials->raw_material_id = $rawMaterial[$i];
+                $productRawmaterials->product_id = $product->id;
+                $productRawmaterials->save();
+            }
+        }
         Alert::success('Producto','Creado con éxito.');
         return redirect('product');
-
     }
 
     /**
@@ -135,13 +149,24 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $categories = Category::select('id', 'name')->get();
+        $indicator = Indicator::findOrFail(1);
+        $rawMaterials = RawMaterial::get();
+        $categories = Category::get();
         $measureUnits = MeasureUnit::where('status', 'active')->get();
+        $productRawMaterials = ProductRawmaterial::from('product_rawmaterials as prm')
+        ->join('products as pro', 'prm.product_id', 'pro.id')
+        ->join('raw_materials as rm', 'prm.raw_material_id', 'rm.id')
+        ->select('rm.id', 'rm.name', 'prm.quantity', 'prm.consumer_price')
+        ->where('product_id', $product->id)
+        ->get();
 
         return view("admin.product.edit", compact(
             'product',
+            'indicator',
+            'rawMaterials',
             'categories',
-            'measureUnits'
+            'measureUnits',
+            'productRawMaterials'
         ));
     }
 
@@ -154,6 +179,7 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
+        //dd($request->all());
         $product->category_id = $request->category_id;
         $product->measure_unit_id = $request->measure_unit_id;
         $product->code = $request->code;
@@ -193,6 +219,31 @@ class ProductController extends Controller
         $product->image=$fileNameToStore;
         $product->update();
 
+        $indicator = Indicator::findOrFail(1);
+        if ($indicator->raw_material == 'on') {
+            $quantity = $request->quantity;
+            $consumer_price = $request->consumer_price;
+            $rawMaterial = $request->raw_material_id;
+
+            for ($i=0; $i < count($quantity); $i++) {
+                $productRawmaterials = ProductRawmaterial::where('product_id', $product->id)->where('raw_material_id', $rawMaterial[$i])->first();
+                if ($productRawmaterials) {
+                    $productRawmaterials->quantity = $quantity[$i];
+                    $productRawmaterials->consumer_price = $consumer_price[$i];
+                    $productRawmaterials->subtotal = $quantity[$i] * $consumer_price[$i];
+                    $productRawmaterials->update();
+                } else {
+                    $productRawmaterials = new ProductRawmaterial();
+                    $productRawmaterials->quantity = $quantity[$i];
+                    $productRawmaterials->consumer_price = $consumer_price[$i];
+                    $productRawmaterials->subtotal = $quantity[$i] * $consumer_price[$i];
+                    $productRawmaterials->raw_material_id = $rawMaterial[$i];
+                    $productRawmaterials->product_id = $product->id;
+                    $productRawmaterials->save();
+                }
+            }
+        }
+
         toast('Producto Editado con éxito.','success');
         return redirect('product');
     }
@@ -216,5 +267,19 @@ class ProductController extends Controller
             toast('Producto Eliminado con Exito.','success');
             return redirect("category");
         }
+    }
+
+    public function status($id)
+    {
+
+        $product = Product::findOrFail($id);
+        if ($product->status == 'active') {
+            $product->status = 'inactive';
+        } else {
+            $product->status = 'active';
+        }
+        $product->update();
+
+        return redirect('product');
     }
 }

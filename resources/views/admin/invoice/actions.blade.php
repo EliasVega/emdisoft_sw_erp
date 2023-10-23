@@ -16,7 +16,7 @@
 <a href="{{ route('invoicePdf', $id) }}" class="btn btn-pdf btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="Venta pdf">
     <i class="fas fa-file-pdf"></i>
 </a>
-<a href="{{ route('invoicePost', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="pdf Post" >
+<a href="{{ route('invoicePos', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="pdf pos" >
     <i class="fas fa-receipt"></i>
 </a>
 @if ($status == 'invoice')

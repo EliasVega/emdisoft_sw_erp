@@ -1,0 +1,99 @@
+/* ----- ----- ----- ----- */
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+/*
+  body {
+    font-size: 16px;
+    background: #fff;
+    font-family: "Roboto";
+}*/
+
+  a {
+    color: #0074D9;
+}
+
+.wrap {
+    width: 90%;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.info {
+    text-align: center;
+    padding: 20px;
+    color: #001F3F;
+    border-bottom: 1px solid #ccc;
+}
+.info p {
+    margin-top: 20px;
+}
+.formulario h2 {
+    font-size: 32px;
+    color: #001F3F;
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+.formulario > div {
+    padding: 20px 0;
+    border-bottom: 1px solid #ccc;
+}
+.formulario .radio label,
+.formulario .checkbox label {
+    display: inline-block;
+    cursor: pointer;
+    color: #0074D9;
+    position: relative;
+    padding: 5px 15px 5px 64px;
+    font-size: 2em;
+    border-radius: 5px;
+    -webkit-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.formulario .radio label:hover,
+.formulario .checkbox label:hover {
+background: rgba(255, 65, 54, 0.1);
+}
+.formulario .radio label:before,
+.formulario .checkbox label:before {
+    content: "";
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    left: 15px;
+    border-radius: 50%;
+    background: none;
+    border: 5px solid #0074D9;
+}
+.formulario input[type="radio"] {
+    display: none;
+}
+.formulario input[type="radio"]:checked + label:before {
+    display: none;
+}
+.formulario input[type="radio"]:checked + label {
+    padding: 5px 15px;
+    background: #0074D9;
+    border-radius: 5px;
+    color: #fff;
+}
+.formulario .checkbox label:before {
+    border-radius: 3px;
+}
+.formulario .checkbox input[type="checkbox"] {
+    display: none;
+}
+.formulario .checkbox input[type="checkbox"]:checked + label:before {
+    display: none;
+}
+.formulario .checkbox input[type="checkbox"]:checked + label {
+    background: #0074D9;
+    color: #fff;
+    padding: 5px 15px;
+}

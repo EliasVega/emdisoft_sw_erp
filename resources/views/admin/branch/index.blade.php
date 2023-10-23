@@ -26,19 +26,13 @@
                     <thead>
                         <tr class="bg-info">
                             <!--<th>O.P</th>-->
-                            <th>F.V</th>
-                            <th>BOX</th>
-                            <th>F.C</th>
-                            <th>F.G</th>
-                            <th>PRO</th>
-                            <th>TRF</th>
+                            <th>Operatciones</th>
                             <th>Id</th>
                             <th>Departamento</th>
                             <th>Municipio</th>
                             <th>Sucursal</th>
                             <th>Nit</th>
-                            <th>Edit</th>
-                            <th>Ver</th>
+                            <th>acciones</th>
                         </tr>
                     </thead>
                 </table>
@@ -66,21 +60,13 @@ $(document).ready(function ()
             ajax: '{{ route('branch.index') }}',
             columns:
             [
-                //{data: 'order'},
-                {data: 'invoice'},
-                {data: 'box'},
-                //{data: 'prePurchase'},
-                {data: 'purchase'},
-                {data: 'expense'},
-                {data: 'product'},
-                {data: 'transfer'},
+                {data: 'btn'},
                 {data: 'id'},
                 {data: 'department'},
                 {data: 'municipality'},
                 {data: 'name'},
                 {data: 'company'},
-                {data: 'edit'},
-                {data: 'show'},
+                {data: 'accesos'},
             ],
             dom: 'Blfrtip',
             lengthMenu: [

@@ -14,7 +14,7 @@
     <a href="{{ route('show_cashOutflow', $id) }}" class="btn btn-sm btn-danger" data-toggle="tooltip"
     data-placement="top" title="Salida Efectivo"><i class="fas fa-dollar-sign"></i></a>
 @endcan
-<a href="{{ route('cashRegisterPost', $id) }}" class="btn btn-sm btn-primary" target="_blank" data-toggle="tooltip" data-placement="top" title="Reporte Post">
+<a href="{{ route('cashRegisterPos', $id) }}" class="btn btn-sm btn-primary" target="_blank" data-toggle="tooltip" data-placement="top" title="Reporte Pos">
     <i class="fas fa-newspaper"></i>
 </a>
 <a href="{{ route('cashRegisterClose', $id) }}" class="btn btn-sm btn-verde" data-toggle="tooltip" data-placement="top" title="Cierre de caja">

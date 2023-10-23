@@ -44,7 +44,7 @@ class KardexController extends Controller
                 }
             })
             ->addColumn('product', function (Kardex $kardex) {
-                return $kardex->product->name;
+                return $kardex->kardexable->name;
             })
             ->editColumn('created_at', function(Kardex $kardex){
                 return $kardex->created_at->format('yy-m-d');

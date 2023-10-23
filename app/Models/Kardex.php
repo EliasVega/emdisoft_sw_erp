@@ -18,7 +18,6 @@ class Kardex extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'product_id',
         'branch_id',
         'voucher_type_id',
         'document',
@@ -27,8 +26,9 @@ class Kardex extends Model
         'movement'
     ];
 
-    public function product(){
-        return $this->belongsTo(Product::class);
+    public function kardexable()
+    {
+        return $this->morphTo();
     }
 
     public function branch(){

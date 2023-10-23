@@ -89,7 +89,7 @@ if (! function_exists('pays')) {
             $mp = $paymentMethod[$i];
             switch($typeDocument) {
                 case 'purchase':
-                    if ($indicator->post == 'on') {
+                    if ($indicator->pos == 'on') {
                         //metodo para actualizar la caja
                         if($mp == 10){
                             $cashRegister->out_purchase_cash += $payment[$i];
@@ -101,7 +101,7 @@ if (! function_exists('pays')) {
                     }
                 break;
                 case 'expense':
-                    if ($indicator->post == 'on') {
+                    if ($indicator->pos == 'on') {
                         //metodo para actualizar la caja
                         if($mp == 10){
                             $cashRegister->out_expense_cash += $payment[$i];
@@ -113,7 +113,7 @@ if (! function_exists('pays')) {
                     }
                 break;
                 case 'invoice':
-                    if ($indicator->post == 'on') {
+                    if ($indicator->pos == 'on') {
                         //metodo para actualizar la caja
                         if($mp == 10){
                             $cashRegister->in_invoice_cash += $payment[$i];

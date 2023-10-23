@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class ProductsTableSeeder extends Seeder
 {
@@ -15,19 +14,19 @@ class ProductsTableSeeder extends Seeder
      */
     public function run()
     {
+        
 
-
-        DB::table('products')->delete();
-
-        DB::table('products')->insert(array (
-            0 =>
+        \DB::table('products')->delete();
+        
+        \DB::table('products')->insert(array (
+            0 => 
             array (
                 'id' => 1,
                 'code' => '2309',
                 'name' => 'CABLE BAJA DENSIDAD #20',
                 'price' => '800.00',
                 'sale_price' => '1000.00',
-                'stock' => 0,
+                'stock' => '0.00',
                 'type_product' => 'product',
                 'status' => 'active',
                 'imageName' => 'noimage.jpg',
@@ -37,14 +36,14 @@ class ProductsTableSeeder extends Seeder
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43',
             ),
-            1 =>
+            1 => 
             array (
                 'id' => 2,
                 'code' => '2301',
                 'name' => 'CABLE DUPLEX #12',
                 'price' => '15000.00',
                 'sale_price' => '19500.00',
-                'stock' => 0,
+                'stock' => '0.00',
                 'type_product' => 'product',
                 'status' => 'active',
                 'imageName' => 'noimage.jpg',
@@ -54,14 +53,14 @@ class ProductsTableSeeder extends Seeder
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43',
             ),
-            2 =>
+            2 => 
             array (
                 'id' => 3,
                 'code' => '2302',
                 'name' => 'Taladro Electrico MK',
                 'price' => '200000.00',
                 'sale_price' => '260000.00',
-                'stock' => 0,
+                'stock' => '0.00',
                 'type_product' => 'product',
                 'status' => 'active',
                 'imageName' => 'noimage.jpg',
@@ -71,14 +70,14 @@ class ProductsTableSeeder extends Seeder
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43',
             ),
-            3 =>
+            3 => 
             array (
                 'id' => 4,
                 'code' => '2303',
                 'name' => 'Pulidora SWITH',
                 'price' => '150000.00',
                 'sale_price' => '195000.00',
-                'stock' => 0,
+                'stock' => '0.00',
                 'type_product' => 'product',
                 'status' => 'active',
                 'imageName' => 'noimage.jpg',
@@ -88,14 +87,14 @@ class ProductsTableSeeder extends Seeder
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43',
             ),
-            4 =>
+            4 => 
             array (
                 'id' => 5,
                 'code' => '2304',
                 'name' => 'Lenovo 360',
                 'price' => '1500000.00',
                 'sale_price' => '1950000.00',
-                'stock' => 0,
+                'stock' => '0.00',
                 'type_product' => 'product',
                 'status' => 'active',
                 'imageName' => 'noimage.jpg',
@@ -105,14 +104,14 @@ class ProductsTableSeeder extends Seeder
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43',
             ),
-            5 =>
+            5 => 
             array (
                 'id' => 6,
                 'code' => '2305',
                 'name' => 'ASUS',
                 'price' => '1900000.00',
                 'sale_price' => '2470000.00',
-                'stock' => 0,
+                'stock' => '0.00',
                 'type_product' => 'product',
                 'status' => 'active',
                 'imageName' => 'noimage.jpg',
@@ -122,14 +121,14 @@ class ProductsTableSeeder extends Seeder
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43',
             ),
-            6 =>
+            6 => 
             array (
                 'id' => 7,
                 'code' => '2306',
                 'name' => 'SANSUMG',
                 'price' => '1500000.00',
                 'sale_price' => '1950000.00',
-                'stock' => 0,
+                'stock' => '0.00',
                 'type_product' => 'product',
                 'status' => 'active',
                 'imageName' => 'noimage.jpg',
@@ -139,14 +138,14 @@ class ProductsTableSeeder extends Seeder
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43',
             ),
-            7 =>
+            7 => 
             array (
                 'id' => 8,
                 'code' => '2307',
                 'name' => 'MANTENIMIENTO DE EQUIPOS DE OFICINA',
                 'price' => '150000.00',
                 'sale_price' => '195000.00',
-                'stock' => 0,
+                'stock' => '0.00',
                 'type_product' => 'service',
                 'status' => 'active',
                 'imageName' => 'noimage.jpg',
@@ -156,14 +155,14 @@ class ProductsTableSeeder extends Seeder
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43',
             ),
-            8 =>
+            8 => 
             array (
                 'id' => 9,
                 'code' => '2308',
                 'name' => 'REPARACIONES GENERALES',
                 'price' => '1000.00',
                 'sale_price' => '0.00',
-                'stock' => 0,
+                'stock' => '0.00',
                 'type_product' => 'service',
                 'status' => 'active',
                 'imageName' => 'noimage.jpg',
@@ -174,5 +173,7 @@ class ProductsTableSeeder extends Seeder
                 'updated_at' => '2023-01-12 21:07:43',
             ),
         ));
+        
+        
     }
 }

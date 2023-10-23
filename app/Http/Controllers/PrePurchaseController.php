@@ -386,7 +386,7 @@ class PrePurchaseController extends Controller
         //return $pdf->download("$purchasepdf.pdf");
     }
 
-    public function prePurchasePost($id)
+    public function prePurchasePos($id)
     {
         $prePurchase = PrePurchase::where('id', $id)->first();
         $prePurchaseProducts = PrePurchaseProduct::where('pre_purchase_id', $id)->where('quantity', '>', 0)->get();
@@ -394,7 +394,7 @@ class PrePurchaseController extends Controller
 
         $prePurchasepdf = "FACT-". $prePurchase->document;
         $logo = './imagenes/logos'.$company->logo;
-        $view = \view('admin.pre_purchase.post', compact(
+        $view = \view('admin.pre_purchase.pos', compact(
             'prePurchase',
             'prePurchaseProducts',
             'company',
@@ -408,7 +408,7 @@ class PrePurchaseController extends Controller
         //return $pdf->download("$purchasepdf.pdf");
     }
 
-    public function postPrePurchase()
+    public function posPrePurchase()
     {
         $prePurchases = session('prePurchase');
         $prePurchase = PrePurchase::findOrFail($prePurchases);
@@ -418,7 +418,7 @@ class PrePurchaseController extends Controller
 
         $prePurchasepdf = "FACT-". $prePurchase->document;
         $logo = './imagenes/logos'.$company->logo;
-        $view = \view('admin.pre_purchase.post', compact(
+        $view = \view('admin.pre_purchase.pos', compact(
             'prePurchase',
             'prePurchaseProducts',
             'company',

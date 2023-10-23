@@ -6,13 +6,28 @@
 <main class="main">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h5>Listado de Compras</h5>
-            @can('purchase.create')
-                <a href="purchase/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Agregar Compra</a>
-            @endcan
-            @can('branch.index')
-                <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
-            @endcan
+            <h5>Listado de Compras
+                @can('purchase.create')
+                    <a href="purchase/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Compra Productos</a>
+                @endcan
+                @if ($indicator->raw_material == 'on')
+                    @can('purchase.create')
+                        <a href="createRawmaterial" class="btn btn-orangeGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Compra Materia Prima</a>
+                    @endcan
+                @endif
+                @if ($indicator->raw_material == 'on')
+                    @can('expense.create')
+                        <a href="expense/create" class="btn btn-lightBlueGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Gastos</a>
+                    @endcan
+                @endif
+                @can('branch.index')
+                    <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
+                @endcan
+            </h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             @can('provider.index')
                 <a href="{{ route('provider.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Proveedores</a>
             @endcan

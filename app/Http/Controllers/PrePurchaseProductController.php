@@ -146,7 +146,7 @@ class PrePurchaseProductController extends Controller
             $voucher->consecutive = $purchase->id;
             $voucher->update();
 
-            if ($indicator->post == 'on') {
+            if ($indicator->pos == 'on') {
                 //actualizar la caja
                     $cashRegister->purchase += $total_pay;
                     $cashRegister->out_total += $totalpay;

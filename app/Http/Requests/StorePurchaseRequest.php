@@ -37,6 +37,7 @@ class StorePurchaseRequest extends FormRequest
             'grand_total' => 'numeric',
             'start_date' => 'date',
             'status' => 'in:purchase,support_document,debit_note,credit_note,adjustment_note,complete',
+            'type_product' => 'in:product,raw_material',
             'branch_id' => 'integer',
             'provider_id' => 'required|integer',
             'payment_form_id' => 'required|integer',

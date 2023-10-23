@@ -211,8 +211,8 @@ return [
     */
 
     'sidebar_mini' => 'lg',
-    'sidebar_collapse' => false,
-    'sidebar_collapse_auto_size' => false,
+    'sidebar_collapse' => true,
+    'sidebar_collapse_auto_size' => true,
     'sidebar_collapse_remember' => false,
     'sidebar_collapse_remember_no_transition' => true,
     'sidebar_scrollbar_theme' => 'os-theme-light',
@@ -669,6 +669,28 @@ return [
                         ],
                     ],
                 ],
+                [
+                    'text' => 'Restaurantts',
+                    'icon'    => 'fas fa-fw fa-file-invoice-dollar',
+                    'submenu' => [
+                        [
+                            'text' => 'Mesas',
+                            'url' => 'restaurantTable',
+                            'can'  => 'restaurantTable.index',
+                        ],
+                        [
+                            'text' => 'Comanda',
+                            'url' => 'restaurantOrder',
+                            'can'  => 'restaurantOrder.index',
+                        ],
+                        [
+                            'text' => 'Materias Primas',
+                            'url' => 'rawMaterial',
+                            'can'  => 'rawMaterial.index',
+                        ],
+
+                    ],
+                ],
             ],
 
         ],
@@ -685,6 +707,11 @@ return [
                     'text' => 'Productos',
                     'url' => 'product',
                     'can'  => 'product.index',
+                ],
+                [
+                    'text' => 'Materias Primas',
+                    'url' => 'rawMaterial',
+                    'can'  => 'rawMaterial.index',
                 ],
                 [
                     'text' => 'Kardex',

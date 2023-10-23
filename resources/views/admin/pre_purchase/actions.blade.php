@@ -9,7 +9,7 @@
 <a href="{{ route('prePurchasePdf', $id) }}" class="btn btn-pdf btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="Precompra pdf">
     <i class="fas fa-file-pdf"></i>
 </a>
-<a href="{{ route('prePurchasePost', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="precompra Post" >
+<a href="{{ route('prePurchasePos', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="precompra pos" >
     <i class="fas fa-receipt"></i>
 </a>
 @if ($status == 'active')

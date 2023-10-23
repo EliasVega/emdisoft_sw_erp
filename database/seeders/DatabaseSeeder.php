@@ -45,30 +45,14 @@ class DatabaseSeeder extends Seeder
         $this->call(ProvidersTableSeeder::class);
         $this->call(CustomersTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
-        $this->call(ProductsTableSeeder::class);
+        $this->call(ProductSeeder::class);
         $this->call(VoucherTypeTableSeeder::class);
         $this->call(ResolutionSeeder::class);
         $this->call(PaymentFormsTableSeeder::class);
         $this->call(PaymentMethodsTableSeeder::class);
         $this->call(EmployeesTableSeeder::class);
-
-        //$this->call(PermissionTableSeeder::class);
-        //$this->call(CoCountriesTableSeeder::class);
-        //$this->call(CoDepartmentsTableSeeder::class);
-        //$this->call(CoMunicipalitiesTableSeeder::class);
-        //$this->call(VoucherTypeSeeder::class);
-        //$this->call(RolesTableSeeder::class);
-        //$this->call(NcDiscrepanciesTableSeeder::class);
-        //$this->call(NdDiscrepanciesTableSeeder::class);
-
-
-        //$this->call(PercentagesTableSeeder::class);
-        //$this->call(BranchProductsTableSeeder::class);
-        //$this->call(TypeGenerationsTableSeeder::class);
-        //$this->call(AccountClassesTableSeeder::class);
-        //$this->call(AccountGroupsTableSeeder::class);
-        //$this->call(AccountsTableSeeder::class);
-        //$this->call(SubaccountsTableSeeder::class);
-        //$this->call(ServiceTableSeeder::class);
+        $this->call(RestaurantTableSeeder::class);
+        $this->call(RawMaterialSeeder::class);
+        $this->call(ProductRawmaterialSeeder::class);
     }
 }

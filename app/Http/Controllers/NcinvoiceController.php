@@ -301,7 +301,7 @@ class NcinvoiceController extends Controller
                     $cashInflow->admin_id = current_user()->id;
                     $cashInflow->save();
 
-                    if ($indicator->post == 'on') {
+                    if ($indicator->pos == 'on') {
                         $cashRegister->cash_in_total += $advancePay;
                         $cashRegister->in_cash += $advancePay;
                         $cashRegister->in_total += $advancePay;
@@ -313,7 +313,7 @@ class NcinvoiceController extends Controller
                 } else {
                     $this->advanceCreate($voucherTypes, $documentOrigin, $advancePay, $typeDocument);
 
-                    if ($indicator->post == 'on') {
+                    if ($indicator->pos == 'on') {
                         $cashRegister->out_advance += $advancePay;
                         if ($date1 == $date2) {
                             $cashRegister->invoice -= $advancePay;
@@ -330,7 +330,7 @@ class NcinvoiceController extends Controller
                 $invoice->update();
             }
 
-            if ($indicator->post == 'on') {
+            if ($indicator->pos == 'on') {
                 if ($date1 == $date2) {
                     $cashRegister->ncinvoice += $total_pay;
                     $cashRegister->update();

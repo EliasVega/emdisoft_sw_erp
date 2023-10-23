@@ -24,7 +24,6 @@ class UpdateKardexRequest extends FormRequest
     public function rules()
     {
         return [
-            'product_id' => 'required|integer',
             'branch_id' => 'required|integer',
             'voucher_type_id' => 'required|integer',
             'document' => 'required|string|max:20',

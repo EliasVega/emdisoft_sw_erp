@@ -21,11 +21,13 @@ return new class extends Migration
             $table->decimal('uvt',10,2);
             $table->decimal('plastic_bag_tax', 10,2);
             $table->enum('dian', ['on', 'off'])->default('off');
-            $table->enum('post', ['on', 'off'])->default('on');
+            $table->enum('pos', ['on', 'off'])->default('on');
             $table->enum('payroll', ['on', 'off'])->default('off');
             $table->enum('accounting', ['on', 'off'])->default('off');
             $table->enum('inventory', ['on', 'off'])->default('on');
             $table->enum('product_price', ['automatic', 'manual'])->default('automatic');
+            $table->enum('raw_material', ['on', 'off'])->default('off');
+            $table->enum('restaurant',['on', 'off'])->default('off');
 
             $table->foreignId('company_id')->constrained();
 

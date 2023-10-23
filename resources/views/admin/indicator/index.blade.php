@@ -23,15 +23,17 @@
                 <table class="table table-striped table-bordered table-condensed table-hover" id="indicators">
                     <thead>
                         <tr>
-                            <th>Salario Minimo</th>
-                            <th>Auxilio de trasporte</th>
+                            <th>S/Minimo</th>
+                            <th>A/trasporte</th>
                             <th>Editar</th>
                             <th>Dian</th>
                             <th>Post</th>
                             <th>Nomina</th>
-                            <th>Contabilidad</th>
-                            <th>Inventarios</th>
-                            <th>P/Producto</th>
+                            <th>Cont.</th>
+                            <th>Inv.</th>
+                            <th>P/Prod</th>
+                            <th>M/Primas</th>
+                            <th>Rest.</th>
                         </tr>
                     </thead>
                 </table>
@@ -62,11 +64,13 @@ $(document).ready(function ()
                 {data: 'transport_assistance', className: 'dt-body-right', render: $.fn.dataTable.render.number( '.', ',', 2, '$')},
                 {data: 'edit'},
                 {data: 'dian'},
-                {data: 'post'},
+                {data: 'pos'},
                 {data: 'payroll'},
                 {data: 'accounting'},
                 {data: 'inventory'},
                 {data: 'productPrice'},
+                {data: 'rawMaterial'},
+                {data: 'restaurant'},
             ],
             dom: 'Blfrtip',
             lengthMenu: [

@@ -29,11 +29,13 @@ class StoreIndicatorRequest extends FormRequest
             'uvt' => 'required|numeric',
             'plastic_bag_tax' => 'required',
             'dian' => 'in:on,off',
-            'post' => 'required|in:on,off',
+            'pos' => 'required|in:on,off',
             'payroll' => 'required|in:on,off',
             'accounting' => 'required|in:on,off',
             'inventory' => 'in:on,off',
-            'product_price' => 'in:automatic,manual'
+            'product_price' => 'in:automatic,manual',
+            'raw_material' => 'in:on,off',
+            'restaurant' => 'in:on,off'
         ];
     }
 }

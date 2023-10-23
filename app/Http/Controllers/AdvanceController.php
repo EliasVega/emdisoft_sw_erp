@@ -190,7 +190,7 @@ class AdvanceController extends Controller
 
             $mp = $paymentMethod[$cont];
 
-            if ($indicator->post == 'on') {
+            if ($indicator->pos == 'on') {
 
                 $cashRegister = CashRegister::where('user_id', '=', Auth::user()->id)
                 ->where('status', '=', 'open')

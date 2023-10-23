@@ -49,7 +49,7 @@ $(document).ready(function ()
         window.onload = function() {
             var expense = "{{ $expense ?? '' }}";
             if (expense != '') {
-                var imprimir = "{{ route('postExpense', ['expense' => ':expense']) }}";
+                var imprimir = "{{ route('posExpense', ['expense' => ':expense']) }}";
                 imprimir = imprimir.replace(':expense', expense);
                 window.open(imprimir, "_blank");
             }

@@ -6,12 +6,15 @@ use App\Models\Ncpurchase;
 use App\Http\Requests\StoreNcpurchaseRequest;
 use App\Http\Requests\UpdateNcpurchaseRequest;
 use App\Models\BranchProduct;
+use App\Models\BranchRawmaterial;
 use App\Models\CashRegister;
 use App\Models\Company;
 use App\Models\Indicator;
 use App\Models\NcpurchaseProduct;
+use App\Models\NcpurchaseRawmaterial;
 use App\Models\Product;
 use App\Models\Purchase;
+use App\Models\RawMaterial;
 use App\Models\Resolution;
 use App\Models\Tax;
 use App\Models\VoucherType;
@@ -138,7 +141,7 @@ class NcpurchaseController extends Controller
         $ncpurchase->total_pay = $request->total_pay;
         $ncpurchase->save();
 
-        if ($indicator->post == 'on') {
+        if ($indicator->pos == 'on') {
             //actualizar la caja
             $cashRegister->ncpurchase += $total_pay;
             $cashRegister->update();
@@ -154,27 +157,46 @@ class NcpurchaseController extends Controller
                 for ($i=0; $i < count($product_id); $i++) {
                     $id = $product_id[$i];
                     //selecciona el producto que viene del array
-                    $product = Product::findOrFail($id);
+                    if ($purchase->type_product == 'product') {
+                        $product = Product::findOrFail($id);
+                        $branchProducts = BranchProduct::where('branch_id', $purchase->branch_id)->where('product_id', $id)->first();
 
-                    $branchProducts = BranchProduct::where('product_id', '=', $id)
-                    ->where('branch_id', '=', $branch)
-                    ->first();
+                        //registrando nota debito productos
+                        $ncpurchaseProduct = new NcpurchaseProduct();
+                        $ncpurchaseProduct->ncpurchase_id = $ncpurchase->id;
+                        $ncpurchaseProduct->product_id = $id;
+                        $ncpurchaseProduct->quantity = $quantity[$i];
+                        $ncpurchaseProduct->price = $price[$i];
+                        $ncpurchaseProduct->tax_rate = $tax_rate[$i];
+                        $ncpurchaseProduct->subtotal = $quantity[$i] * $price[$i];
+                        $ncpurchaseProduct->tax_subtotal = ($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
+                        $ncpurchaseProduct->save();
+                        $quantityLocal = $quantity[$i];
+                        $priceLocal = $price[$i];
 
-                    //registrando nota debito productos
-                    $ncpurchaseProduct = new NcpurchaseProduct();
-                    $ncpurchaseProduct->ncpurchase_id = $ncpurchase->id;
-                    $ncpurchaseProduct->product_id = $id;
-                    $ncpurchaseProduct->quantity = $quantity[$i];
-                    $ncpurchaseProduct->price = $price[$i];
-                    $ncpurchaseProduct->tax_rate = $tax_rate[$i];
-                    $ncpurchaseProduct->subtotal = $quantity[$i] * $price[$i];
-                    $ncpurchaseProduct->tax_subtotal = ($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
-                    $ncpurchaseProduct->save();
+                        $this->inventoryPurchases($product, $branchProducts, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
+                    } else {
+                        $product = RawMaterial::findOrFail($id);
+                        $branchProducts = BranchRawmaterial::where('branch_id', $purchase->branch_id)->where('product_id', $id)->first();
 
-                    $quantityLocal = $quantity[$i];
-                    $priceLocal = $price[$i];
+                        //registrando nota debito productos
+                        $ncpurchaseRawmaterial = new NcpurchaseRawmaterial();
+                        $ncpurchaseRawmaterial->ncpurchase_id = $ncpurchase->id;
+                        $ncpurchaseRawmaterial->raw_material_id = $id;
+                        $ncpurchaseRawmaterial->quantity = $quantity[$i];
+                        $ncpurchaseRawmaterial->price = $price[$i];
+                        $ncpurchaseRawmaterial->tax_rate = $tax_rate[$i];
+                        $ncpurchaseRawmaterial->subtotal = $quantity[$i] * $price[$i];
+                        $ncpurchaseRawmaterial->tax_subtotal = ($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
+                        $ncpurchaseRawmaterial->save();
 
-                    $this->inventoryPurchases($product, $branchProducts, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
+                        $quantityLocal = $quantity[$i];
+                        $priceLocal = $price[$i];
+
+                        $this->rawMaterialPurchases($product, $branchProducts, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
+                    }
+
+
                 }
                 break;
             case(8):

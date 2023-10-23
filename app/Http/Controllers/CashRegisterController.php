@@ -23,6 +23,7 @@ use App\Models\pay;
 use App\Models\Product;
 use App\Models\ProductPurchase;
 use App\Models\Purchase;
+use App\Models\RestaurantOrder;
 use App\Models\User;
 use App\Models\VerificationCode;
 use Illuminate\Http\Request;
@@ -134,6 +135,7 @@ class CashRegisterController extends Controller
             $cashRegister->in_order_cash = 0;
             $cashRegister->in_order = 0;
             $cashRegister->order = 0;
+            $cashRegister->restaurant_order = 0;
             $cashRegister->in_invoice_cash = 0;
             $cashRegister->in_invoice = 0;
             $cashRegister->invoice = 0;
@@ -402,6 +404,8 @@ class CashRegisterController extends Controller
             $invoiceBalance = Invoice::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('balance');
             $invoicePays = Invoice::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('pay');
 
+            $restaurantOrders = RestaurantOrder::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
+
             $expenses = Expense::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
             $expenseBalance = Expense::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('balance');
             $expensePays =  Expense::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
@@ -481,6 +485,8 @@ class CashRegisterController extends Controller
             'invoices',
             'invoiceBalance',
             'invoicePays',
+
+            'restaurantOrders',
 
             'expenses',
             'expenseBalance',
@@ -803,7 +809,7 @@ class CashRegisterController extends Controller
     }
 
      //funcion para ver el cierre de caja de la caja
-     public function cashRegisterPost($id)
+     public function cashRegisterPos($id)
      {
         $userRole = current_user()->roles->pluck('name', 'name')->all();
         $cashRegister = CashRegister::findOrFail($id);
@@ -958,6 +964,8 @@ class CashRegisterController extends Controller
         //$purchaseTotalTaxs = purchase::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('total_tax');
         //$purchaseTotals = purchase::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('total');
 
+        $restaurantOrders = RestaurantOrder::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
+
         $expenses = Expense::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
 
         $purchasePays = Pay::where('user_id', current_user()->id)->where('type', 'purchase')->whereBetween('created_at', [$from, $to])->get();
@@ -997,7 +1005,7 @@ class CashRegisterController extends Controller
         $sumAdvanceEmployees = Advance::where('user_id', current_user()->id)->where('type_third', 'employee')->whereBetween('created_at', [$from, $to])->sum('pay');
 
         $company = Company::findOrFail(1);
-        $view = \view('admin.cash_register.cashRegisterPost', compact(
+        $view = \view('admin.cash_register.cashRegisterPos', compact(
             'company',
             'cashRegister',
             'productPurchases',
@@ -1016,6 +1024,8 @@ class CashRegisterController extends Controller
 
             'invoicePays',
             'invoiceSumPays',
+
+            'restaurantOrders',
 
             'expensePays',
             'expenseSumPays',
@@ -1338,7 +1348,7 @@ class CashRegisterController extends Controller
             ->get();*/
         //}
 
-        $view = \view('admin.cash_register.show_post', compact(
+        $view = \view('admin.cash_register.show_pos', compact(
             'cashRegister',
             'productPurchases',
             'purchases',
@@ -1357,7 +1367,7 @@ class CashRegisterController extends Controller
             'sum_cashOutflows',
             ))->render();
 
-        $pdf = \App::make('dompdf.wrapper');
+        $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
         $pdf->setPaper (array(0,0,226.76,497.64));
 

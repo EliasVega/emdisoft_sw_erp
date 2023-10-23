@@ -31,7 +31,8 @@ class UpdateProductRequest extends FormRequest
             'stock'           => '',
             'type_product'    => 'required|in:product,service',
             'status'          => 'in:active,inactive',
-            'image'           => '',
+            'image'           => 'image|mimes:jpeg,png|max:1000',
+            'imageName'       => '',
             'category_id'     => 'required|integer',
             'measure_unit_id' => 'required|integer'
         ];

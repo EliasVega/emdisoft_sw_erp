@@ -109,6 +109,13 @@
             <input type="number" name="vprice" id="vprice"  class="form-control" readonly>
         </div>
     </div>
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="addTypeProduct">
+        <div class="form-group">
+            <label class="form-control-label" for="typeProduct">Typo Producto</label>
+            <input type="number" id="typeProduct" name="typeProduct" class="form-control" value="{{ $typeProduct }}"
+                pattern="[0-9]{0,15}">
+        </div>
+    </div>
     <div class="clearfix"></div>
 
     <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">

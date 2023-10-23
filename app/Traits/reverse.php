@@ -19,7 +19,7 @@ trait reverse {
             $cashInflow->admin_id = current_user()->id;
             $cashInflow->save();
 
-            if ($indicator->post == 'on') {
+            if ($indicator->pos == 'on') {
                 $cashRegister->cash_in_total += $advancePay;
                 $cashRegister->in_cash += $advancePay;
                 $cashRegister->in_total += $advancePay;
@@ -31,7 +31,7 @@ trait reverse {
 
             $this->advanceCreate($voucherTypes, $documentOrigin, $advancePay, $typeDocument);
 
-            if ($indicator->post == 'on') {
+            if ($indicator->pos == 'on') {
                 //actualizar la caja
                 $cashRegister->out_advance = $advancePay;
                 $cashRegister->update();

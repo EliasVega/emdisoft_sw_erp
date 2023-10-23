@@ -113,14 +113,26 @@
                             </tr>
                         </thead>
                         <tbody class="detail">
-                            @foreach ($productPurchases as $productPurchase)
-                            <tr>
-                                <td>{{ $productPurchase->product->name }}</td>
-                                <td id="ccent">{{ number_format($productPurchase->quantity) }}</td>
-                                <td class="tdder">${{ number_format($productPurchase->price)}}</td>
-                                <td class="tdder">${{number_format($productPurchase->quantity * $productPurchase->price)}}</td>
-                            </tr>
-                            @endforeach
+                            @if ($purchase->type_product == 'product')
+                                @foreach ($productPurchases as $productPurchase)
+                                    <tr>
+                                        <td>{{ $productPurchase->product->name }}</td>
+                                        <td id="ccent">{{ number_format($productPurchase->quantity) }}</td>
+                                        <td class="tdder">${{ number_format($productPurchase->price)}}</td>
+                                        <td class="tdder">${{number_format($productPurchase->quantity * $productPurchase->price)}}</td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                @foreach ($productPurchases as $productPurchase)
+                                    <tr>
+                                        <td>{{ $productPurchase->rawMaterial->name }}</td>
+                                        <td id="ccent">{{ number_format($productPurchase->quantity) }}</td>
+                                        <td class="tdder">${{ number_format($productPurchase->price)}}</td>
+                                        <td class="tdder">${{number_format($productPurchase->quantity * $productPurchase->price)}}</td>
+                                    </tr>
+                                @endforeach
+                            @endif
+
                         </tbody>
                         <tfoot>
                             <!--DATOS FTOTALES -->

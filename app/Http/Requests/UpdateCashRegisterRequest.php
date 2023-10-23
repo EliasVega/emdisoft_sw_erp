@@ -34,6 +34,7 @@ class UpdateCashRegisterRequest extends FormRequest
             'in_order_cash' => '',
             'in_order' => '',
             'order' => '',
+            'restaurant_order' => '',
             'in_invoice_cash' => '',
             'in_invoice' => '',
             'invoice' => '',

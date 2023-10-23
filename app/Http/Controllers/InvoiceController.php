@@ -108,32 +108,22 @@ class InvoiceController extends Controller
         ->where('user_id', '=', current_user()->id)
         ->where('status', '=', 'open')
         ->first();
-        if ($indicator->post == 'on') {
+        if ($indicator->pos == 'on') {
             if(is_null($cashRegister)){
                 Alert::success('danger','Debes tener una caja Abierta para realizar Compras');
                 return redirect("branch");
             }
         }
-        //$departments = Department::get();
-        //$municipalities = Municipality::get();
-        //$identificationTypes = IdentificationType::get();
-        //$liabilities = Liability::get();
-        //$organizations = Organization::get();
         $customers = Customer::get();
-        //$regimes = Regime::get();
-        //$documentTypes = DocumentType::where('id', 1)->first();
         $resolutions = Resolution::where('document_type_id', 1)->where('status', 'active')->get();
-        //$generationTypes = GenerationType::get();
         $paymentForms = PaymentForm::get();
         $paymentMethods = PaymentMethod::get();
         $banks = Bank::get();
         $cards = Card::get();
         $branchs = Branch::get();
         $uvtmax = $indicator->uvt * 5;
-        //$percentages = Percentage::where('status', 'active')->get();
         $advances = Advance::where('status', '!=', 'aplicado')->get();
         $date = Carbon::now();
-        //$products = [];
         if ($indicator->inventory == 'on') {
             $products = BranchProduct::from('branch_products as bp')
             ->join('products as pro', 'bp.product_id', 'pro.id')
@@ -156,22 +146,13 @@ class InvoiceController extends Controller
         ->where('tt.type_tax', 'retention')->get();
         return view('admin.invoice.create',
         compact(
-            //'departments',
-            //'municipalities',
-            //'identificationTypes',
-            //'liabilities',
-            //'organizations',
             'customers',
-            //'regimes',
-            //'documentTypes',
             'resolutions',
-            //'generationTypes',
             'paymentForms',
             'paymentMethods',
             'banks',
             'cards',
             'branchs',
-            //'percentages',
             'advances',
             'products',
             'date',
@@ -203,7 +184,7 @@ class InvoiceController extends Controller
         $typeDocument = 'invoice';
         $documentType = '';
 
-        if ($indicator->post == 'on' && $request->fe == 2) {
+        if ($indicator->pos == 'on' && $request->fe == 2) {
             $voucherType = 2;
             $documentType = 12;
         } else {
@@ -274,7 +255,7 @@ class InvoiceController extends Controller
             $voucherTypes->consecutive += 1;
             $voucherTypes->update();
 
-            if ($indicator->post == 'on') {
+            if ($indicator->pos == 'on') {
                 //actualizar la caja
                     $cashRegister->invoice += $total_pay;
                     //$cashRegister->in_total += $totalpay;
@@ -726,7 +707,7 @@ class InvoiceController extends Controller
         return $pdf->stream('vista-pdf', "$invoicepdf.pdf");
    }
 
-    public function invoicePost($id)
+    public function invoicePos($id)
     {
             $invoice = Invoice::findOrFail($id);
             $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->where('quantity', '>', 0)->get();
@@ -752,49 +733,35 @@ class InvoiceController extends Controller
             ->where('tax.taxable_id', $invoice->id)
             ->where('tt.type_tax', 'retention')->sum('tax_value');
 
-            $retention = 0;
             $debitNote = 0;
-            $creditNote = 0;
-            $retentionnd = 0;
-            $retentionnc = 0;
-            if ($retentions != null) {
-                $retention = $retentions->retention;
-            }
-            if ($debitNotes != null) {
-                $debitNote = $debitNotes->total_pay;
-                $retnd = Tax::where('type', 'ndinvoice')->where('taxable_id', $debitNotes->id)->first();
-                if ($retnd) {
-                    $retentionnd = $retnd->retention;
-                } else {
-                    $retentionnd = 0;
-                }
-            }
-            if ($creditNotes != null) {
-                $creditNote = $creditNotes->total_pay;
-                $retnc = Tax::where('type', 'ncinvocice')->where('taxable_id', $creditNotes->id)->first();
-
-                if ($retnc) {
-                    $retentionnc = $retnc->retention;
-                } else {
-                    $retentionnc = 0;
-                }
-            }
-            $view = \view('admin.invoice.post', compact(
-                'invoice',
-                'days',
-                'invoiceProducts',
-                'company',
-                'logo',
-                'debitNotes',
-                'creditNotes',
-                'retention',
-                'debitNote',
-                'creditNote',
-                'retentionnd',
-                'retentionnc',
-                'retentions',
-                'retentionsum'
-            ))->render();
+        $creditNote = 0;
+        $retentionnd = 0;
+        $retentionnc = 0;
+        if ($debitNotes != null) {
+            $debitNote = $debitNotes->total_pay;
+            $retnd = Tax::where('type', 'ndinvoice')->where('retentionable_id', $debitNotes->id)->first();
+            $retentionnd = $retnd->retention;
+        }
+        if ($creditNotes != null) {
+            $creditNote = $creditNotes->total_pay;
+            $retnc = Tax::where('type', 'ncinvoice')->where('retentionable_id', $creditNotes->id)->first();
+            $retentionnc = $retnc->retention;
+        }
+        $view = \view('admin.invoice.pos', compact(
+            'invoice',
+            'days',
+            'invoiceProducts',
+            'company',
+            //'logo',
+            'debitNotes',
+            'creditNotes',
+            'retentions',
+            'retentionsum',
+            'debitNote',
+            'creditNote',
+            'retentionnd',
+            'retentionnc'
+        ))->render();
             $pdf = App::make('dompdf.wrapper');
             $pdf->loadHTML($view);
             $pdf->setPaper (array(0,0,226.76,497.64), 'portrait');
@@ -802,7 +769,7 @@ class InvoiceController extends Controller
             return $pdf->stream('vista-pdf', "$invoicepdf.pdf");
     }
 
-    public function postInvoice(Request $request)
+    public function posInvoice(Request $request)
     {
         $invoices = session('invoice');
         $invoice = Invoice::findOrFail($invoices);
@@ -830,39 +797,26 @@ class InvoiceController extends Controller
         ->where('tax.taxable_id', $invoice->id)
         ->where('tt.type_tax', 'retention')->sum('tax_value');
 
-        $retention = 0;
         $debitNote = 0;
         $creditNote = 0;
         $retentionnd = 0;
         $retentionnc = 0;
-        if ($retentions != null) {
-            $retention = $retentions->retention;
-        }
         if ($debitNotes != null) {
             $debitNote = $debitNotes->total_pay;
-            $retnd = Tax::where('type', 'ndinvoice')->where('taxable_id', $debitNotes->id)->first();
-            if ($retnd) {
-                $retentionnd = $retnd->retention;
-            } else {
-                $retentionnd = 0;
-            }
+            $retnd = Tax::where('type', 'ndinvoice')->where('retentionable_id', $debitNotes->id)->first();
+            $retentionnd = $retnd->retention;
         }
         if ($creditNotes != null) {
             $creditNote = $creditNotes->total_pay;
-            $retnc = Tax::where('type', 'ncinvoice')->where('taxable_id', $creditNotes->id)->first();
-
-            if ($retnc) {
-                $retentionnc = $retnc->retention;
-            } else {
-                $retentionnc = 0;
-            }
+            $retnc = Tax::where('type', 'ncinvoice')->where('retentionable_id', $creditNotes->id)->first();
+            $retentionnc = $retnc->retention;
         }
-        $view = \view('admin.invoice.post', compact(
+        $view = \view('admin.invoice.pos', compact(
             'invoice',
             'days',
             'invoiceProducts',
             'company',
-            'logo',
+            //'logo',
             'debitNotes',
             'creditNotes',
             'retentions',

@@ -12,14 +12,16 @@ class IndicatorController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:indicator.index|indicator.edit|indicator.dianStatus|indicator.postStatus|indicator.payrollStatus|indicator.accountingStatus|indicator.inventoryStatus', ['only'=>['index']]);
+        $this->middleware('permission:indicator.index|indicator.edit|indicator.dianStatus|indicator.posStatus|indicator.payrollStatus|indicator.accountingStatus|indicator.inventoryStatus|indicator.productPrice|indicator.materialStatus', ['only'=>['index']]);
         $this->middleware('permission:indicator.edit', ['only'=>['edit', 'update']]);
-        $this->middleware('permission:indicator.dianStatus', ['only'=>['postStstus']]);
-        $this->middleware('permission:indicator.postStatus', ['only'=>['postStstus']]);
+        $this->middleware('permission:indicator.dianStatus', ['only'=>['dianStstus']]);
+        $this->middleware('permission:indicator.posStatus', ['only'=>['posStstus']]);
         $this->middleware('permission:indicator.payrollStatus', ['only'=>['payrollStatus']]);
         $this->middleware('permission:indicator.accountingStatus', ['only'=>['accountingStatus']]);
         $this->middleware('permission:indicator.inventoryStatus', ['only'=>['inventoryStatus']]);
         $this->middleware('permission:indicator.productPrice', ['only'=>['productPrice']]);
+        $this->middleware('permission:indicator.materialStatus', ['only'=>['materialStatus']]);
+        $this->middleware('permission:indicator.restaurantStatus', ['only'=>['restaurantStatus']]);
     }
     /**
      * Display a listing of the resource.
@@ -34,12 +36,14 @@ class IndicatorController extends Controller
             return DataTables::of($indicators)
             ->addColumn('edit', 'admin/indicator/actions')
             ->addColumn('dian', 'admin/indicator/dian')
-            ->addColumn('post', 'admin/indicator/post')
+            ->addColumn('pos', 'admin/indicator/pos')
             ->addColumn('payroll', 'admin/indicator/payroll')
             ->addColumn('accounting', 'admin/indicator/accounting')
             ->addColumn('inventory', 'admin/indicator/inventory')
             ->addColumn('productPrice', 'admin/indicator/productPrice')
-            ->rawColumns(['edit', 'dian', 'post', 'payroll', 'accounting', 'productPrice', 'inventory'])
+            ->addColumn('rawMaterial', 'admin/indicator/rawMaterial')
+            ->addColumn('restaurant', 'admin/indicator/restaurant')
+            ->rawColumns(['edit', 'dian', 'pos', 'payroll', 'accounting', 'productPrice', 'inventory', 'rawMaterial', 'restaurant'])
             ->make(true);
         }
 
@@ -131,14 +135,14 @@ class IndicatorController extends Controller
         return redirect('indicator');
     }
 
-    public function postStatus($id)
+    public function posStatus($id)
     {
         $indicator = Indicator::findOrFail($id);
 
-        if ($indicator->post == 'on') {
-            $indicator->post = 'off';
+        if ($indicator->pos == 'on') {
+            $indicator->pos = 'off';
         } else {
-            $indicator->post = 'on';
+            $indicator->pos = 'on';
         }
         $indicator->update();
 
@@ -195,6 +199,34 @@ class IndicatorController extends Controller
             $indicator->product_price = 'manual';
         } else {
             $indicator->product_price = 'automatic';
+        }
+        $indicator->update();
+
+        return redirect('indicator');
+    }
+
+    public function materialStatus($id)
+    {
+        $indicator = Indicator::findOrFail($id);
+
+        if ($indicator->raw_material == 'on') {
+            $indicator->raw_material = 'off';
+        } else {
+            $indicator->raw_material = 'on';
+        }
+        $indicator->update();
+
+        return redirect('indicator');
+    }
+
+    public function restaurantStatus($id)
+    {
+        $indicator = Indicator::findOrFail($id);
+
+        if ($indicator->restaurant == 'on') {
+            $indicator->restaurant = 'off';
+        } else {
+            $indicator->restaurant = 'on';
         }
         $indicator->update();
 

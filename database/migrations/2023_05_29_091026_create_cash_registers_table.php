@@ -28,6 +28,8 @@ return new class extends Migration
             $table->decimal('in_order',20,2);//ingreso total por pedidos
             $table->decimal('order',20,2);//total de pedidos
 
+            $table->decimal('restaurant_order', 20,2); //total comandas
+
             $table->decimal('in_invoice_cash',20,2);//ingreso efectivo por ventas
             $table->decimal('in_invoice',20,2);//ingreso total por ventas
             $table->decimal('invoice',20,2);//total de ventas

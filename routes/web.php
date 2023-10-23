@@ -4,6 +4,7 @@ use App\Http\Controllers\AdvanceController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\BranchProductController;
+use App\Http\Controllers\BranchRawmaterialController;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\CashInflowController;
 use App\Http\Controllers\CashOutflowController;
@@ -49,10 +50,14 @@ use App\Http\Controllers\PrePurchaseController;
 use App\Http\Controllers\PrePurchaseProductController;
 use App\Http\Controllers\ProductBranchController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductRestaurantOrderController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\RawMaterialController;
 use App\Http\Controllers\RegimeController;
 use App\Http\Controllers\ResolutionController;
+use App\Http\Controllers\RestaurantOrderController;
+use App\Http\Controllers\RestaurantTableController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\SupportDocumentResponseController;
 use App\Http\Controllers\TaxController;
@@ -93,6 +98,7 @@ Route::resource('advance', AdvanceController::class);
 Route::resource('bank', BankController::class);
 Route::resource('branch', BranchController::class);
 Route::resource('branchProduct', BranchProductController::class);
+Route::resource('branchRowmaterial', BranchRawmaterialController::class);
 Route::resource('card', CardController::class);
 Route::resource('cashInflow', CashInflowController::class);
 Route::resource('cashOutflow', CashOutflowController::class);
@@ -138,10 +144,14 @@ Route::resource('prePurchase', PrePurchaseController::class);
 Route::resource('prePurchaseProduct', PrePurchaseProductController::class);
 Route::resource('product', ProductController::class);
 Route::resource('productBranch', ProductBranchController::class);
+Route::resource('productRestaurantOrder', ProductRestaurantOrderController::class);
 Route::resource('provider', ProviderController::class);
 Route::resource('purchase', PurchaseController::class);
+Route::resource('rawMaterial', RawMaterialController::class);
 Route::resource('regime', RegimeController::class);
 Route::resource('resolution', ResolutionController::class);
+Route::resource('restaurantOrder', RestaurantOrderController::class);
+Route::resource('restaurantTable', RestaurantTableController::class);
 Route::resource('roles', RolController::class);
 Route::resource('supportDocumentResponse', SupportDocumentResponseController::class);
 Route::resource('tax', TaxController::class);
@@ -161,7 +171,7 @@ Route::get('branch/product/{id}', [BranchController::class, 'product'])->name('s
 
 Route::get('cashRegister/show_cashOutflow/{id}', [CashRegisterController::class, 'show_cashOutflow'])->name('show_cashOutflow');
 Route::get('cashRegister/show_cashInflow/{id}', [CashRegisterController::class, 'show_cashInflow'])->name('show_cashInflow');
-Route::get('cashRegister/cashRegisterPost/{id}', [CashRegisterController::class, 'cashRegisterPost'])->name('cashRegisterPost');
+Route::get('cashRegister/cashRegisterPos/{id}', [CashRegisterController::class, 'cashRegisterPos'])->name('cashRegisterPos');
 Route::get('cashRegister/casRegisterClose/{id}', [CashRegisterController::class, 'cashRegisterClose'])->name('cashRegisterClose');
 
 Route::get('category/status/{id}', [CategoryController::class, 'status'])->name('categoryStatus');
@@ -182,25 +192,27 @@ Route::get('employee/create/{id}', [EmployeeController::class, 'getMunicipalitie
 Route::get('expense/create/{id}', [ExpenseController::class, 'getMunicipalities']);
 Route::get('expense/expensePay/{id}', [ExpenseController::class, 'expensePay'])->name('expensePay');
 Route::get('expense/expensePdf/{id}', [ExpenseController::class, 'expensePdf'])->name('expensePdf');
-Route::get('expense/expensePost/{id}', [ExpenseController::class, 'expensePost'])->name('expensePost');
+Route::get('expense/expensePos/{id}', [ExpenseController::class, 'expensePos'])->name('expensePos');
 Route::get('pdfExpense', [ExpenseController::class, 'pdfExpense'])->name('pdfExpense');
-Route::get('postExpense', [ExpenseController::class, 'postExpense'])->name('postExpense');
+Route::get('posExpense', [ExpenseController::class, 'posExpense'])->name('posExpense');
 
 Route::get('indicator/dianStatus/{id}', [IndicatorController::class, 'dianStatus'])->name('dianStatus');
-Route::get('indicator/postStatus/{id}', [IndicatorController::class, 'postStatus'])->name('postStatus');
+Route::get('indicator/posStatus/{id}', [IndicatorController::class, 'posStatus'])->name('posStatus');
 Route::get('indicator/payrollStatus/{id}', [IndicatorController::class, 'payrollStatus'])->name('payrollStatus');
 Route::get('indicator/accountingStatus/{id}', [IndicatorController::class, 'accountingStatus'])->name('accountingStatus');
 Route::get('indicator/inventoryStatus/{id}', [IndicatorController::class, 'inventoryStatus'])->name('inventoryStatus');
 Route::get('indicator/productPrice/{id}', [IndicatorController::class, 'productPrice'])->name('productPrice');
+Route::get('indicator/materialStatus/{id}', [IndicatorController::class, 'materialStatus'])->name('materialStatus');
+Route::get('indicator/restaurantStatus/{id}', [IndicatorController::class, 'restaurantStatus'])->name('restaurantStatus');
 
 Route::get('invoice/create/{id}', [InvoiceController::class, 'getMunicipalities']);
 Route::get('invoice/InvoicePay/{id}', [InvoiceController::class, 'invoicePay'])->name('invoicePay');
 Route::get('invoice/InvoicePdf/{id}', [InvoiceController::class, 'invoicePdf'])->name('invoicePdf');
-Route::get('invoice/InvoicePost/{id}', [InvoiceController::class, 'invoicePost'])->name('invoicePost');
+Route::get('invoice/InvoicePos/{id}', [InvoiceController::class, 'invoicePos'])->name('invoicePos');
 Route::get('invoice/creditNoteInvoice/{id}', [InvoiceController::class, 'creditNote'])->name('creditNoteInvoice');
 Route::get('invoice/debitNoteInvoice/{id}', [InvoiceController::class, 'debitNote'])->name('debitNoteInvoice');
 Route::get('pdfInvoice', [InvoiceController::class, 'pdfInvoice'])->name('pdfInvoice');
-Route::get('postInvoice', [InvoiceController::class, 'postInvoice'])->name('postInvoice');
+Route::get('posInvoice', [InvoiceController::class, 'posInvoice'])->name('posInvoice');
 
 Route::get('kardex/kardexProduct/{id}', [KardexController::class, 'kardexProduct'])->name('kardexProduct');
 
@@ -228,9 +240,11 @@ Route::get('postalCode/municipality/{id}', [PostalCodeController::class, 'getMun
 
 Route::get('prePurchase/invoice/{id}', [PrePurchaseController::class, 'invoice'])->name('prePurchaseInvoice');
 Route::get('prePurchase/pdf/{id}', [PrePurchaseController::class, 'prePurchasePdf'])->name('prePurchasePdf');
-Route::get('prePurchase/post/{id}', [PrePurchaseController::class, 'prePurchasePost'])->name('prePurchasePost');
+Route::get('prePurchase/pos/{id}', [PrePurchaseController::class, 'prePurchasePos'])->name('prePurchasePos');
 Route::get('pdfPrePurchase', [PrePurchaseController::class, 'pdfPrePurchase'])->name('pdfPrePurchase');
-Route::get('postPrePurchase', [PrePurchaseController::class, 'postPrePurchase'])->name('postPrePurchase');
+Route::get('posPrePurchase', [PrePurchaseController::class, 'posPrePurchase'])->name('posPrePurchase');
+
+Route::get('product/status/{id}', [ProductController::class, 'status'])->name('productStatus');
 
 Route::get('provider/create/{id}', [ProviderController::class, 'getMunicipalities']);
 Route::get('provider/postalCode/{id}', [ProviderController::class, 'getPostalCode']);
@@ -240,13 +254,21 @@ Route::get('provider/status/{id}', [ProviderController::class, 'status'])->name(
 Route::get('purchase/create/{id}', [PurchaseController::class, 'getMunicipalities']);
 Route::get('purchase/purchase_pay/{id}', [PurchaseController::class, 'purchase_pay'])->name('purchase_pay');
 Route::get('purchase/purchasePdf/{id}', [PurchaseController::class, 'purchasePdf'])->name('purchasePdf');
-Route::get('purchase/purchasePost/{id}', [PurchaseController::class, 'purchasePost'])->name('purchasePost');
+Route::get('purchase/purchasePos/{id}', [PurchaseController::class, 'purchasePos'])->name('purchasePos');
 Route::get('purchase/creditNotePurchase/{id}', [PurchaseController::class, 'creditNote'])->name('creditNotePurchase');
 Route::get('purchase/debitNotePurchase/{id}', [PurchaseController::class, 'debitNote'])->name('debitNotePurchase');
 Route::get('pdfPurchase', [PurchaseController::class, 'pdfPurchase'])->name('pdfPurchase');
-Route::get('postPurchase', [PurchaseController::class, 'postPurchase'])->name('postPurchase');
+Route::get('posPurchase', [PurchaseController::class, 'posPurchase'])->name('posPurchase');
+Route::get('createRawmaterial', [PurchaseController::class, 'createRawmaterial'])->name('createRawmaterial');
 
+Route::get('rawMaterial/status/{id}', [RawMaterialController::class, 'status'])->name('rawMaterialStatus');
+
+Route::get('restaurantOrder/generateInvoice/{id}', [RestaurantOrderController::class, 'generateInvoice'])->name('generateInvoice');
+Route::get('restaurantOrder/restaurantOrderPdf/{id}', [RestaurantOrderController::class, 'restaurantOrderPdf'])->name('restaurantOrderPdf');
+Route::get('restaurantOrder/restaurantOrderPos/{id}', [RestaurantOrderController::class, 'restaurantOrderPos'])->name('restaurantOrderPos');
+Route::get('posRestaurantOrder', [RestaurantOrderController::class, 'posRestaurantOrder'])->name('posRestaurantOrder');
 Route::get('transfer/product/{id}', [TransferController::class, 'getProducts']);
+Route::get('restaurantOrder/getRawMaterial/{id}', [RestaurantOrderController::class, 'getRawMaterial']);
 
 Route::get('user/status/{id}', [UserController::class, 'status'])->name('status');
 Route::get('inactive', [UserController::class, 'inactive'])->name('inactive');

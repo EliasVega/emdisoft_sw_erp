@@ -21,11 +21,13 @@ class Indicator extends Model
         'uvt',
         'plastic_bag_tax',
         'dian',
-        'post',
+        'pos',
         'payroll',
         'accounting',
         'inventory',
-        'product_price'
+        'product_price',
+        'raw_material',
+        'restaurant'
     ];
 
     protected $guarded = [

@@ -10,7 +10,7 @@
 <a href="{{ route('purchasePdf', $id) }}" class="btn btn-pdf btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="Compra pdf">
     <i class="fas fa-file-pdf"></i>
 </a>
-<a href="{{ route('purchasePost', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="pdf Post" >
+<a href="{{ route('purchasePos', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="pdf pos" >
     <i class="fas fa-receipt"></i>
 </a>
 @if ($status == 'purchase')

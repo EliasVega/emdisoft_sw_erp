@@ -73,6 +73,7 @@
     $("#startd").hide();
     $("#resolution").hide();
     $("#invoiceCode").hide();
+    $("#addTypeProduct").hide();
     //$("#noteDocument").hide();
 
     //$("#percentage").val(0);

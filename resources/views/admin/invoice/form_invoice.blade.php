@@ -34,13 +34,13 @@
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="uvt5">
         <div class="form-group">
             <label class="form-control-label" for="uvtmax">UVT Max</label>
-            <input type="text" id="uvtmax" name="uvtmax" value="{{ $uvtmax }}" class="form-control" placeholder="tope de post">
+            <input type="text" id="uvtmax" name="uvtmax" value="{{ $uvtmax }}" class="form-control" placeholder="tope de pos">
         </div>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="postActive">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="posActive">
         <div class="form-group">
-            <label class="form-control-label" for="post_active">Post Activado</label>
-            <input type="text" id="post_active" name="post_active" value="{{ $indicator->post }}" class="form-control" placeholder="tope de post">
+            <label class="form-control-label" for="pos_active">Post Activado</label>
+            <input type="text" id="pos_active" name="pos_active" value="{{ $indicator->pos }}" class="form-control" placeholder="tope de pos">
         </div>
     </div>
 
@@ -122,7 +122,7 @@
                 </select>
         </div>
     </div>
-    @if ($indicator->post == 'on')
+    @if ($indicator->pos == 'on')
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mt-3" id="addFe" >
             <div class="form-check">
                 <input class="form-check-input fe_true" type="radio" name="fe" value="1" id="fe_on">

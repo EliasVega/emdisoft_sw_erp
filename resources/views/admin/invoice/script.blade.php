@@ -2,19 +2,6 @@
     /*$(document).ready(function(){
             alert('estoy funcionando correctamanete empresa');
         });*/
-
-        //Selecciona el municipio de acuerdo al departamento
-        /*
-    $("#department_id").change(function(event){
-        $.get("create/" + event.target.value + "", function(response){
-            $("#municipality_id").empty();
-            $("#municipality_id").append("<option value = '#' disabled selected>Seleccionar ...</option>");
-            for(i = 0; i < response.length; i++){
-                $("#municipality_id").append("<option value = '" + response[i].id +"'>" + response[i].name + "</option>");
-            }
-            $("#municipality_id").selectpicker('refresh');
-        });
-    });*/
     jQuery(document).ready(function($){
         $(document).ready(function() {
             $('#branch_id').select2({
@@ -55,7 +42,7 @@
     var total_pay = 0;
     var total_desc = 0;
     var uvt = '';
-    var post_on = '';
+    var pos_on = '';
     //form invoice
     $("#idPro").hide();
     $("#percent").hide();
@@ -63,49 +50,11 @@
     $("#resolution").hide();
     $("#documentType").hide();
     $("#uvt5").hide();
-    $("#postActive").hide();
+    $("#posActive").hide();
     $("#save").hide();
 
-    //$("#generat").hide();
-    //$("#startd").hide();
-    //$("#resolution").hide();
-    //$("#invoiceCode").hide();
-    //$("#noteDocument").hide();
-
-    //$("#percentage").val(0);
-
-/*
-    //Mostrar u ocultar elementos de acuerdo al tipo de documento
     $(document).ready(function(){
-        $("#document_type_id").change(function(){
-            var documentType = $("#document_type_id").val();
-            if(documentType == 11){
-                $("#resolution").show();
-                //$("#generat").show();
-                //$("#startd").show();
-                //$("#invoiceCode").hide();
-                //$("#invoice_code").val(1);
-                //$("#noteDocument").show();
-            }else if(documentType == 25){
-                $("#resolution").hide();
-                $("#generat").hide();
-                $("#startd").hide();
-                $("#invoiceCode").show();
-                $("#resolution_id").val(1);
-                //$("#noteDocument").show();
-                $("#resolution_id").val(1);
-            } else {
-                $("#resolution").hide();
-                $("#generat").hide();
-                $("#startd").hide();
-                $("#invoiceCode").hide();
-                //$("#noteDocument").hide();
-                $("#resolution_id").val(1);
-            }
-        });
-    });*/
-    $(document).ready(function(){
-            typeInvoice = $("#post_active").val();
+            typeInvoice = $("#pos_active").val();
             if (typeInvoice == 'off') {
                 $("#resolution").show();
                 $("#addFe").hide();
@@ -141,7 +90,7 @@
         tax_rate= $("#tax_rate").val();
         tax_type = $("#tax_type").val();
         uvt = $("#uvtmax").val();
-        post_on = $("#post_active").val();
+        pos_on = $("#pos_active").val();
         if(product_id !="" && quantity!="" && quantity>0  && price!=""){
             subtotal[cont] = parseFloat(quantity) * parseFloat(price);
             total = total+subtotal[cont];
@@ -191,11 +140,11 @@
         $("#pendient").val(total_pay.toFixed(2));
         $("#total_invoice").val(total.toFixed(2));
         $("#tax_iva").val(tax_iva);
-        post();
+        pos();
     }
 
-    function post(){
-        if (post_on == 'on') {
+    function pos(){
+        if (pos_on == 'on') {
             if (total > uvt) {
                 $("#resolution").show();
                 $(".fe_true").val(1);
@@ -269,8 +218,8 @@
         $("#total_pay").val(total_pay.toFixed(2));
 
         $("#row" + index).remove();
-        if (post_on == on) {
-            post();
+        if (pos_on == on) {
+            pos();
         }
         assess();
     }

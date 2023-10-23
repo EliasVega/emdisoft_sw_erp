@@ -6,6 +6,7 @@ use App\Models\Ndpurchase;
 use App\Http\Requests\StoreNdpurchaseRequest;
 use App\Http\Requests\UpdateNdpurchaseRequest;
 use App\Models\BranchProduct;
+use App\Models\BranchRawmaterial;
 use App\Models\CashInflow;
 use App\Models\CashRegister;
 use App\Models\Company;
@@ -17,7 +18,9 @@ use App\Models\Pay;
 use App\Models\PayPaymentMethod;
 use App\Models\Product;
 use App\Models\ProductPurchase;
+use App\Models\ProductRawmaterial;
 use App\Models\Purchase;
+use App\Models\RawMaterial;
 use App\Models\Resolution;
 use App\Models\Tax;
 use App\Models\VoucherType;
@@ -189,10 +192,21 @@ class NdpurchaseController extends Controller
                         toast(' Nota debito no debe ser menor o igual a 0.','warning');
                         return redirect("purchase");
                     }
-                    $this->ndpurchaseProductCreate($request, $document);//crear ndpurchaseProduct
+                    if ($purchase->type_product == 'product') {
+                        $this->ndpurchaseProductCreate($request, $document);//crear ndpurchaseProduct
+                    } else {
+                        $this->ndpurchaseRawmaterials($request, $document);//crear ndpurchaseProduct
+                    }
+
                     for ($i=0; $i < count($product_id); $i++) {
                         $id = $product_id[$i];
-                        $product = Product::findOrFail($id);
+                        if ($purchase->type_product == 'product') {
+                            $product = Product::findOrFail($id);
+                            $branchProduct = BranchProduct::where('branch_id', $purchase->branch_id)->where('product_id', $id)->first();
+                        } else {
+                            $product = RawMaterial::findOrFail($id);
+                            $branchProduct = BranchRawmaterial::where('branch_id', $purchase->branch_id)->where('product_id', $id)->first();
+                        }
                         if ($product->type_product == 'product') {
                             //devolviendo productos al inventario
                             if ($indicator->inventory == 'on') {
@@ -200,7 +214,6 @@ class NdpurchaseController extends Controller
                                 $product->update();
 
                                 //devolviendo productos a la sucursal
-                                $branchProduct = BranchProduct::where('branch_id', $purchase->branch_id)->where('product_id', $id)->first();
                                 $branchProduct->stock -= $quantity[$i];
                                 $branchProduct->update();
                             }
@@ -209,7 +222,7 @@ class NdpurchaseController extends Controller
                             $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
                         }
                     }
-                    break;
+                break;
                 case(2):
                     //$productPurchases = ProductPurchase::where('purchase_id', $purchase->id)->get();
                     if ($store == true) {
@@ -217,7 +230,13 @@ class NdpurchaseController extends Controller
 
                             //foreach ($productPurchases as $productPurchase) {
                             $id = $productPurchases[$i]->product_id;
-                            $product = Product::findOrFail($id);
+                            if ($purchase->type_product == 'product') {
+                                $product = Product::findOrFail($id);
+                                $branchProduct = BranchProduct::where('branch_id', $purchase->branch_id)->where('product_id', $id)->first();
+                            } else {
+                                $product = RawMaterial::findOrFail($id);
+                                $branchProduct = BranchRawmaterial::where('branch_id', $purchase->branch_id)->where('product_id', $id)->first();
+                            }
 
                             //registrando nota debito productos
                             $ndpurchaseProduct = new NdpurchaseProduct();
@@ -230,7 +249,6 @@ class NdpurchaseController extends Controller
                             $ndpurchaseProduct->tax_subtotal = $productPurchases[$i]->tax_subtotal;
                             $ndpurchaseProduct->save();
 
-                            $product = Product::findOrFail($id);
                             if ($product->type_product == 'product') {
                                 //devolviendo productos al inventario
                                 if ($indicator->inventory == 'on') {
@@ -248,14 +266,17 @@ class NdpurchaseController extends Controller
                             }
                         }
                     }
-                    break;
+                break;
                 case(3):
                     if ($total_pay <= 0) {
                         toast(' Nota debito no debe ser menor o igual a 0.','warning');
                         return redirect("purchase");
                     }
-
-                    $productPurchases = ProductPurchase::where('purchase_id', $purchase->id)->get();
+                    if ($purchase->type_product == 'product') {
+                        $productPurchases = ProductPurchase::where('purchase_id', $purchase->id)->get();
+                    } else {
+                        $productPurchases = ProductRawmaterial::where('purchase_id', $purchase->id)->get();
+                    }
 
                     for ($i=0; $i < count($price); $i++) {
                         foreach ($productPurchases as $key => $productPurchase) {
@@ -267,15 +288,23 @@ class NdpurchaseController extends Controller
                             }
                         }
                     }
-                    $this->ndpurchaseProductCreate($request, $ndpurchase);//crear ndpurchaseProduct
-                    break;
+                    if ($purchase->type_product == 'product') {
+                        $this->ndpurchaseProductCreate($request, $document);//crear ndpurchaseProduct
+                    } else {
+                        $this->ndpurchaseRawmaterials($request, $document);//crear ndpurchaseProduct
+                    }
+                break;
                 case(4):
                     if ($total_pay <= 0) {
                         toast(' Nota debito no debe ser menor o igual a 0.','warning');
                         return redirect("purchase");
                     }
 
-                    $productPurchases = ProductPurchase::where('purchase_id', $purchase->id)->get();
+                    if ($purchase->type_product == 'product') {
+                        $productPurchases = ProductPurchase::where('purchase_id', $purchase->id)->get();
+                    } else {
+                        $productPurchases = ProductRawmaterial::where('purchase_id', $purchase->id)->get();
+                    }
 
                     for ($i=0; $i < count($price); $i++) {
                         foreach ($productPurchases as $key => $productPurchase) {
@@ -286,8 +315,13 @@ class NdpurchaseController extends Controller
                                 }
                             }
                         }
-                    }$this->ndpurchaseProductCreate($request, $ndpurchase);//crear ndpurchaseProduct
-                    break;
+                    }
+                    if ($purchase->type_product == 'product') {
+                        $this->ndpurchaseProductCreate($request, $document);//crear ndpurchaseProduct
+                    } else {
+                        $this->ndpurchaseRawmaterials($request, $document);//crear ndpurchaseProduct
+                    }
+                break;
                 default:
                     $msg = 'No has seleccionado voucher.';
             }
@@ -307,7 +341,7 @@ class NdpurchaseController extends Controller
                     $cashInflow->admin_id = current_user()->id;
                     $cashInflow->save();
 
-                    if ($indicator->post == 'on') {
+                    if ($indicator->pos == 'on') {
                         $cashRegister->cash_in_total += $advancePay;
                         $cashRegister->in_cash += $advancePay;
                         $cashRegister->in_total += $advancePay;
@@ -319,7 +353,7 @@ class NdpurchaseController extends Controller
                 } else {
                     $this->advanceCreate($voucherTypes, $documentOrigin, $advancePay, $typeDocument);
 
-                    if ($indicator->post == 'on') {
+                    if ($indicator->pos == 'on') {
                         $cashRegister->out_advance += $advancePay;
                         if ($date1 == $date2) {
                             $cashRegister->out_purchase -= $advancePay;
@@ -332,7 +366,7 @@ class NdpurchaseController extends Controller
                 $purchase->update();
             }
 
-            if ($indicator->post == 'on' && $date1 == $date2) {
+            if ($indicator->pos == 'on' && $date1 == $date2) {
                 $cashRegister->ndpurchase += $total_pay;
                 $cashRegister->update();
             }

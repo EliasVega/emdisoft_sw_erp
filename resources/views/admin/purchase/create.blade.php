@@ -45,7 +45,6 @@
     </div>
 </div>
 <!--Inicio del modal cliente-->
-@include('admin/purchase.provider')
 @include('admin/purchase.editmodal')
 <!--Fin del modal-->
 @endsection
@@ -53,5 +52,4 @@
     @include('admin/purchase.script')
     @include('admin/purchase.script_pay')
     @include('admin/purchase.script_retention')
-    @include('admin/purchase.script_provider')
 @endsection
