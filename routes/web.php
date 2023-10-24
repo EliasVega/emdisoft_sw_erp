@@ -268,9 +268,9 @@ Route::get('restaurantOrder/restaurantOrderPdf/{id}', [RestaurantOrderController
 Route::get('restaurantOrder/restaurantOrderPos/{id}', [RestaurantOrderController::class, 'restaurantOrderPos'])->name('restaurantOrderPos');
 Route::get('posRestaurantOrder', [RestaurantOrderController::class, 'posRestaurantOrder'])->name('posRestaurantOrder');
 Route::get('transfer/product/{id}', [TransferController::class, 'getProducts']);
-Route::get('restaurantOrder/getRawMaterial/{id}', [RestaurantOrderController::class, 'getRawMaterial']);
+Route::get('restaurantOrder/getRawMaterial/{id}', [RestaurantOrderController::class, 'getRawMaterial'])->name('getRawMaterial');
 
 Route::get('user/status/{id}', [UserController::class, 'status'])->name('status');
 Route::get('inactive', [UserController::class, 'inactive'])->name('inactive');
-Route::post('user/logout', [UserController::class, 'logout'])->name('logout_user');
+Route::patch('user/logout', [UserController::class, 'logout'])->name('logout_user');
 

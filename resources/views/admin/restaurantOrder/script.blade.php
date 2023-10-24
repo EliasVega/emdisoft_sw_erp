@@ -22,12 +22,6 @@
     $("#editrm").hide();
     $("#homeOrder").hide();
 
-    $(document).ready(function(){
-        $("#editProductMenu").click(function(){
-            $("#editrm").show();
-        });
-    });
-
     $("#product_id").change(productValue);
 
     function productValue(){
@@ -120,7 +114,6 @@
         $("#total_pay_html").html("$ " + total_pay.toFixed(2));
         $("#total_pay").val(total_pay.toFixed(2));
 
-        borrarmaterial(index);
         $("#fila" + index).remove();
         assess();
     }

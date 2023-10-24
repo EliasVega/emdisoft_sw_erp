@@ -25,6 +25,7 @@ use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Models\ProductRawmaterial;
 use App\Models\RawMaterial;
+use App\Models\RawmaterialRestaurantorder;
 use App\Models\Resolution;
 use App\Models\RestaurantOrder;
 use App\Models\VoucherType;
@@ -229,7 +230,7 @@ class ProductRestaurantOrderController extends Controller
                 $invoiceProduct->subtotal = $quantity[$i] * $price[$i];
                 $invoiceProduct->tax_subtotal =($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
                 $invoiceProduct->save();
-
+                /*
                 $productRawmaterials = ProductRawmaterial::where('product_id', $product_id[$i])->get();
                 if ($productRawmaterials) {
                     foreach ($productRawmaterials as $key => $productRawmaterial) {
@@ -243,21 +244,32 @@ class ProductRestaurantOrderController extends Controller
                         $quantityLocal = $quantity[$i];
                         $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
                     }
-                }
+                }*/
 
 
                 //selecciona el producto que viene del array
                 $product = Product::findOrFail($id);
                 //selecciona el producto de la sucursal que sea el mismo del array
-                $branchProducts = BranchProduct::where('product_id', '=', $id)
-                ->where('branch_id', '=', $branch)
-                ->first();
+                $branchProducts = BranchProduct::where('branch_id', '=', $branch)->where('product_id', '=', $id)->first();
 
                 $quantityLocal = $quantity[$i];
                 $this->inventoryInvoices($product, $branchProducts, $quantityLocal, $branch);//trait para actualizar inventario
                 $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
 
             }
+            $rawmaterialRestaurantorders = RawmaterialRestaurantorder::where('restaurant_order_id', $restaurantOrder->id)->where('quantity', '>', 0)->get();
+                if ($rawmaterialRestaurantorders) {
+                    foreach ($rawmaterialRestaurantorders as $key => $rawmaterialRestaurantorder) {
+                        $quantityrm = $rawmaterialRestaurantorder->quantity;
+                        $rawMaterial = RawMaterial::findOrFail($rawmaterialRestaurantorder->raw_material_id);
+                        $rawMaterial->stock -= $rawmaterialRestaurantorder->quantity;
+                        $rawMaterial->update();
+
+                        $product = $rawMaterial;
+                        $quantityLocal = $quantityrm[$i];
+                        $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
+                    }
+                }
 
             $taxes = $this->getTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC
             taxesGlobals($document, $quantityBag, $typeDocument);

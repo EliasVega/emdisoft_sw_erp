@@ -115,6 +115,7 @@ class RestaurantOrderController extends Controller
         $price = $request->price;
         $taxRate = $request->tax_rate;
         $quantityrm = $request->quantityrm;
+        $pricerm = $request->consumer_price;
         $material = $request->material;
         $idp = $request->idP;
         $pay = $request->pay;
@@ -126,39 +127,43 @@ class RestaurantOrderController extends Controller
         $raw_material_id = $request->raw_material_id;
         $contRmRo = 0;
 
-        for ($i=0; $i < count($raw_material_id); $i++) {
-            if ($rawMaterials[0] != []) {
-                $contsi = 0;
-                foreach ($rawMaterials as $key => $rawMaterial) {
-                    if ($rawMaterial[0] == $raw_material_id[$i]) {
-                        $rawMaterial[1] += $quantityrm[$i];
-                        $contsi++;
-                        $rawMaterials[$key] = $rawMaterial;
+        if ($raw_material_id) {
+
+            for ($i=0; $i < count($raw_material_id); $i++) {
+                if ($rawMaterials[0] != []) {
+                    $contsi = 0;
+                    foreach ($rawMaterials as $key => $rawMaterial) {
+                        if ($rawMaterial[0] == $raw_material_id[$i]) {
+                            $rawMaterial[1] += $quantityrm[$i];
+                            $contsi++;
+                            $rawMaterials[$key] = $rawMaterial;
+                        }
                     }
-                }
-                if ($contsi == 0) {
+                    if ($contsi == 0) {
+                        $rawMaterials[$contRM] = [$raw_material_id[$i], $quantityrm[$i], $material[$i]];
+                            $contRM++;
+                    }
+                } else {
                     $rawMaterials[$contRM] = [$raw_material_id[$i], $quantityrm[$i], $material[$i]];
-                        $contRM++;
+                    $contRM++;
+
                 }
-            } else {
-                $rawMaterials[$contRM] = [$raw_material_id[$i], $quantityrm[$i], $material[$i]];
-                $contRM++;
-
             }
-        }
-        for ($i=0; $i < count($rawMaterials); $i++) {
-            $rawMaterialId = $rawMaterials[$i][0];
-            $quantityRawmaterial = $rawMaterials[$i][1];
-            $nameRawmaterial = $rawMaterials[$i][2];
-            $rawMaterial = RawMaterial::findOrFail($rawMaterialId);
-            $stock = $rawMaterial->stock;
-            $product = Product::findOrFail($idp[$i]);
-            $nameProduct = $product->name;
 
-            if ($quantityRawmaterial > $stock && $rawMaterial->type_product == 'product') {
-                toast("$nameRawmaterial" . ' ' . 'no es suficiente para' . ' ' . "$nameProduct",'warning');
-                //Alert::success('Error', "$nameProduct" . ' ' . 'no es suficiente para' . ' ' . "$nameMenu");
-                return redirect()->back();
+            for ($i=0; $i < count($rawMaterials); $i++) {
+                $rawMaterialId = $rawMaterials[$i][0];
+                $quantityRawmaterial = $rawMaterials[$i][1];
+                $nameRawmaterial = $rawMaterials[$i][2];
+                $rawMaterial = RawMaterial::findOrFail($rawMaterialId);
+                $stock = $rawMaterial->stock;
+                $product = Product::findOrFail($idp[$i]);
+                $nameProduct = $product->name;
+
+                if ($quantityRawmaterial > $stock && $rawMaterial->type_product == 'product') {
+                    toast("$nameRawmaterial" . ' ' . 'no es suficiente para' . ' ' . "$nameProduct",'warning');
+                    //Alert::success('Error', "$nameProduct" . ' ' . 'no es suficiente para' . ' ' . "$nameMenu");
+                    return redirect()->back();
+                }
             }
         }
         if ($service == 0) {
@@ -196,19 +201,27 @@ class RestaurantOrderController extends Controller
             $homeOrder->restaurant_order_id = $restaurantOrder->id;
             $homeOrder->save();
         }
+        if ($raw_material_id) {
 
-        for ($i=0; $i < count($product_id); $i++) {
-            //$ref = $ref[$i];
+            for ($i=0; $i < count($product_id); $i++) {
+                $cont = 0;
 
-            for ($y=0; $y < count($raw_material_id); $y++) {
-                if ($ref[$i] == $referency[$y]) {
-                    $rawMaterialRestaurantOrder = new RawmaterialRestaurantorder();
-                    $rawMaterialRestaurantOrder->referency = $contRmRo;
-                    $rawMaterialRestaurantOrder->quantity = $quantity[$i] * $quantityrm[$y];
-                    $rawMaterialRestaurantOrder->restaurant_order_id = $restaurantOrder->id;
-                    $rawMaterialRestaurantOrder->raw_material_id = $raw_material_id[$y];
-                    $rawMaterialRestaurantOrder->product_id = $product_id[$i];
-                    $rawMaterialRestaurantOrder->save();
+                for ($y=0; $y < count($raw_material_id); $y++) {
+                $quantityActual = $quantity[$i] * $quantityrm[$y];
+
+                    if ($ref[$i] == $referency[$y]) {
+                        $rawMaterialRestaurantOrder = new RawmaterialRestaurantorder();
+                        $rawMaterialRestaurantOrder->referency = $contRmRo;
+                        $rawMaterialRestaurantOrder->quantity = $quantityActual;
+                        $rawMaterialRestaurantOrder->consumer_price = $pricerm[$y];
+                        $rawMaterialRestaurantOrder->restaurant_order_id = $restaurantOrder->id;
+                        $rawMaterialRestaurantOrder->raw_material_id = $raw_material_id[$y];
+                        $rawMaterialRestaurantOrder->product_id = $product_id[$i];
+                        $rawMaterialRestaurantOrder->save();
+                        $cont++;
+                    }
+                }
+                if ($cont > 0) {
                     $contRmRo++;
                 }
             }
@@ -218,7 +231,6 @@ class RestaurantOrderController extends Controller
         $sale_box->restaurant_order += $restaurantOrder->total_pay;
         $sale_box->update();
 
-        //si hay Abono registra abono
 
         for ($i=0; $i < count($product_id); $i++) {
             //registrando la tabla de orders y productos
@@ -257,14 +269,25 @@ class RestaurantOrderController extends Controller
      */
     public function edit(RestaurantOrder $restaurantOrder)
     {
-        //$documents = Document::get();
         $restaurantTables = RestaurantTable::where('id', '!=', 1)->get();
         $products = Product::get();
+        $rawMaterials = RawMaterial::get();
         $productRestaurantOrders = ProductRestaurantOrder::from('product_restaurant_orders as pr')
         ->join('products as pro', 'pr.product_id', 'pro.id')
         ->join('restaurant_orders as ro', 'pr.restaurant_order_id', 'ro.id')
         ->select('pr.id', 'pro.id as idP', 'pro.name', 'pr.quantity', 'pr.price', 'pr.tax_rate', 'pr.subtotal')
         ->where('restaurant_order_id', $restaurantOrder->id)
+        ->get();
+        $productRawMaterials = ProductRawmaterial::from('product_rawmaterials as pr')
+        ->join('products as pro', 'pr.product_id', 'pro.id')
+        ->join('raw_materials as rm', 'pr.raw_material_id', 'rm.id')
+        ->select('rm.id', 'rm.name', 'pr.quantity as quantityrm', 'pr.consumer_price', )
+        ->get();
+        //$rawmaterialRestaurantorders = RawmaterialRestaurantorder::where('restaurant_order_id', $restaurantOrder->id)->get();
+        $rawmaterialRestaurantorders = RawmaterialRestaurantorder::from('rawmaterial_restaurantorders as rr')
+        ->join('raw_materials as rm', 'rr.raw_material_id', 'rm.id')
+        ->select('rr.product_id', 'rr.raw_material_id', 'rr.quantity', 'rr.consumer_price', 'rr.referency', 'rm.name')
+        ->where('rr.restaurant_order_id', $restaurantOrder->id)
         ->get();
         $service = $restaurantOrder->restaurant_table_id;
         return view('admin.restaurantOrder.edit', compact(
@@ -272,7 +295,10 @@ class RestaurantOrderController extends Controller
             //'documents',
             'restaurantTables',
             'products',
+            'rawMaterials',
             'productRestaurantOrders',
+            'productRawMaterials',
+            'rawmaterialRestaurantorders',
             'service'
         ));
     }
@@ -284,87 +310,142 @@ class RestaurantOrderController extends Controller
     {
         //dd($request->all());
         //llamado a variables
-        $product_id = $request->product_id;
-        $quantity   = $request->quantity;
-        $price      = $request->price;
-        $taxRate        = $request->tax_rate;
-        $service = $restaurantOrder->restaurant_table_id;
         $ed = $request->ed;
 
+        $service = $request->service;
+        $table = $request->restaurant_table_id;
+        $product_id = $request->product_id;
+        $quantity = $request->quantity;
+        $price = $request->price;
+        $taxRate = $request->tax_rate;
+        $quantityrm = $request->quantityrm;
+        $pricerm = $request->consumer_price;
+        $material = $request->material;
+        $idp = $request->idP;
         $rawMaterials[] = [];
         $contRM = 0;
-        for ($i=0; $i < count($product_id); $i++) {
-            $product = Product::where('id', $product_id[$i])->first();
-            $productRawmaterials = ProductRawmaterial::where('product_id', $product->id)->get();
 
-            if (!isEmpty($productRawmaterials)) {
+        $ref = $request->ref;
+        $referency = $request->referency;
+        $raw_material_id = $request->raw_material_id;
+        $contRmRo = 0;
 
-                foreach ($productRawmaterials as $key => $productRawmaterial) {
-                    $rawMaterialId = $productRawmaterial->raw_material_id;
-                    $quantityMP = $productRawmaterial->quantity;
-                    if ($rawMaterials[0] != []) {
-                        $contsi = 0;
-                        foreach ($rawMaterials as $key => $rawMaterial) {
-                            if ($rawMaterial[0] == $rawMaterialId) {
-                                $rawMaterial[1] += $quantityMP;
-                                $contsi++;
-                                $rawMaterials[$key] = $rawMaterial;
-                            }
+        $sale_box = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
+        $sale_box->restaurant_order -= $restaurantOrder->total_pay;
+        $sale_box->update();
+
+        if ($raw_material_id) {
+
+            for ($i=0; $i < count($raw_material_id); $i++) {
+                if ($rawMaterials[0] != []) {
+                    $contsi = 0;
+                    foreach ($rawMaterials as $key => $rawMaterial) {
+                        if ($rawMaterial[0] == $raw_material_id[$i]) {
+                            $rawMaterial[1] += $quantityrm[$i];
+                            $contsi++;
+                            $rawMaterials[$key] = $rawMaterial;
                         }
-                        if ($contsi == 0) {
-                            $rawMaterials[$contRM] = [$rawMaterialId, $quantityMP, $product->name];
-                                $contRM++;
-                        }
-                    } else {
-                        $rawMaterials[$contRM] = [$rawMaterialId, $quantityMP, $product->name];
-                        $contRM++;
-
                     }
+                    if ($contsi == 0) {
+                        $rawMaterials[$contRM] = [$raw_material_id[$i], $quantityrm[$i], $material[$i]];
+                            $contRM++;
+                    }
+                } else {
+                    $rawMaterials[$contRM] = [$raw_material_id[$i], $quantityrm[$i], $material[$i]];
+                    $contRM++;
+
                 }
-                for ($i=0; $i < count($rawMaterials); $i++) {
-                    $rawMaterialId = $rawMaterials[$i][0];
-                    $quantityRawmaterial = $rawMaterials[$i][1];
-                    $nameProduct = $rawMaterials[$i][2];
-                    $rawMaterial = RawMaterial::findOrFail($rawMaterialId);
-                    $stock = $rawMaterial->stock;
-                    $nameRawmaterial = $rawMaterial->name;
-                    if ($quantityRawmaterial > $stock) {
-                        toast("$nameRawmaterial" . ' ' . 'no es suficiente para' . ' ' . "$nameProduct",'warning');
-                        //Alert::success('Error', "$nameProduct" . ' ' . 'no es suficiente para' . ' ' . "$nameMenu");
-                        return redirect()->back();
-                    }
+            }
+
+            for ($i=0; $i < count($rawMaterials); $i++) {
+                $rawMaterialId = $rawMaterials[$i][0];
+                $quantityRawmaterial = $rawMaterials[$i][1];
+                $nameRawmaterial = $rawMaterials[$i][2];
+                $rawMaterial = RawMaterial::findOrFail($rawMaterialId);
+                $stock = $rawMaterial->stock;
+                $product = Product::findOrFail($idp[$i]);
+                $nameProduct = $product->name;
+
+                if ($quantityRawmaterial > $stock && $rawMaterial->type_product == 'product') {
+                    toast("$nameRawmaterial" . ' ' . 'no es suficiente para' . ' ' . "$nameProduct",'warning');
+                    return redirect()->back();
                 }
             }
         }
 
-        /*
-        //actualizar la caja
-        $sale_box = Sale_box::where('user_id', '=', $order->user_id)->where('status', 'open')->first();
-        $sale_box->order -= $order->total_pay;
-        $sale_box->out_total -= $order->total_pay;
-        $sale_box->update();*/
-
-        //registro en la tabla Order
-        $restaurantOrder->user_id           = current_user()->id;
-        $restaurantOrder->restaurant_table_id = $service;
-        $restaurantOrder->total             = $request->total;
-        $restaurantOrder->total_tax         = $request->total_tax;
-        $restaurantOrder->total_pay         = $request->total_pay;
+        //registro en la tabla restaurant_order
+        $restaurantOrder->total = $request->total;
+        $restaurantOrder->total_tax = $request->total_tax;
+        $restaurantOrder->total_pay = $request->total_pay;
+        $restaurantOrder->note = $request->note;
+        if ($service == 0) {
+            $restaurantOrder->restaurant_table_id = $table;
+        } else {
+            $restaurantOrder->restaurant_table_id = 1;
+        }
         $restaurantOrder->update();
 
+        $sale_box->restaurant_order += $restaurantOrder->total_pay;
+        $sale_box->update();
+
+        //si es un domicilio se crea la tabla Home_orders
         if ($service == 1) {
+            $date = Carbon::now();
             $homeOrder = HomeOrder::where('order_id', $restaurantOrder->id)->first();
             $homeOrder->name = $request->name;
             $homeOrder->address = $request->address;
             $homeOrder->phone = $request->phone;
+            $homeOrder->domiciliary = $request->domiciliary;
+            $homeOrder->time_sent = $date->toTimeString();
             $homeOrder->update();
         }
-        /*
-        //actualizar la caja
-        $sale_box = Sale_box::where('user_id', '=', $order->user_id)->where('status', 'open')->first();
-        $sale_box->order += $order->total_pay;
-        $sale_box->out_total += $order->pay;
-        $sale_box->update();*/
+
+        $rawMatRestOrders = RawmaterialRestaurantorder::where('restaurant_order_id', $restaurantOrder->id)->get();
+
+        foreach ($rawMatRestOrders as $key => $rawMatRestOrder) {
+            $rawMatRestOrder->referency = 0;
+            $rawMatRestOrder->quantity = 0;
+            $rawMatRestOrder->consumer_price = 0;
+            $rawMatRestOrder->save();
+        }
+
+        if ($raw_material_id) {
+            $contz = 0;
+            for ($i=0; $i < count($product_id); $i++) {
+                $cont = 0;
+
+                for ($y=0; $y < count($raw_material_id); $y++) {
+                $quantityActual = $quantity[$i] * $quantityrm[$y];
+
+                    if ($ref[$i] == $referency[$y]) {
+                        if ($contz < count($rawMatRestOrders)) {
+                            $rawMatRestOrders[$contz]->referency = $contRmRo;
+                            $rawMatRestOrders[$contz]->quantity = $quantityActual;
+                            $rawMatRestOrders[$contz]->consumer_price = $pricerm[$y];
+                            $rawMatRestOrders[$contz]->restaurant_order_id = $restaurantOrder->id;
+                            $rawMatRestOrders[$contz]->raw_material_id = $raw_material_id[$y];
+                            $rawMatRestOrders[$contz]->product_id = $product_id[$i];
+                            $rawMatRestOrders[$contz]->update();
+                            $contz++;
+                            $cont++;
+                        } else {
+                            $rawMaterialRestaurantOrder = new RawmaterialRestaurantorder();
+                            $rawMaterialRestaurantOrder->referency = $contRmRo;
+                            $rawMaterialRestaurantOrder->quantity = $quantityActual;
+                            $rawMaterialRestaurantOrder->consumer_price = $pricerm[$y];
+                            $rawMaterialRestaurantOrder->restaurant_order_id = $restaurantOrder->id;
+                            $rawMaterialRestaurantOrder->raw_material_id = $raw_material_id[$y];
+                            $rawMaterialRestaurantOrder->product_id = $product_id[$i];
+                            $rawMaterialRestaurantOrder->save();
+                            $cont++;
+                        }
+                    }
+                }
+                if ($cont > 0) {
+                    $contRmRo++;
+                }
+            }
+        }
 
         $productRestaurantOrders = ProductRestaurantOrder::where('restaurant_order_id', $restaurantOrder->id)->get();
         foreach ($productRestaurantOrders as $key => $productRestaurantOrder) {
@@ -429,6 +510,7 @@ class RestaurantOrderController extends Controller
                 $productRestaurantOrder->update();
             }
         }
+
         session()->forget('restaurantOrder');
         session(['restaurantOrder' => $restaurantOrder->id]);
 
@@ -490,19 +572,20 @@ class RestaurantOrderController extends Controller
 
     public function posRestaurantOrder(Request $request)
     {
+
         $restaurantOrders = session('restaurantOrder');
         $restaurantOrder = RestaurantOrder::findOrFail($restaurantOrders);
         session()->forget('restaurantOrder');
         $productRestaurantOrders = ProductRestaurantOrder::where('restaurant_order_id', $restaurantOrder->id)->where('quantity', '>', 0)->get();
         $company = Company::where('id', 1)->first();
 
-        $restaurantOrderpdf = "COMANDA-". $restaurantOrder->id;
+        $restaurantOrderpos = "COMANDA-". $restaurantOrder->id;
         $view = \view('admin.restaurantOrder.pos', compact('restaurantOrder', 'productRestaurantOrders', 'company'))->render();
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
         $pdf->setPaper (array(0,0,226.76,497.64), 'portrait');
 
-        return $pdf->stream('vista-pdf', "$restaurantOrderpdf.pdf");
+        return $pdf->stream('vista-pdf', "$restaurantOrderpos.pdf");
         //return $pdf->download("$orderpdf.pdf");
     }
 

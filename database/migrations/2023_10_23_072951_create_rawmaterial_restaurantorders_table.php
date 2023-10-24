@@ -16,6 +16,7 @@ return new class extends Migration
 
             $table->bigInteger('referency');
             $table->decimal('quantity', 10,2);
+            $table->decimal('consumer_price', 10,2);
 
             $table->foreignId('restaurant_order_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('raw_material_id')->constrained()->onUpdate('cascade');

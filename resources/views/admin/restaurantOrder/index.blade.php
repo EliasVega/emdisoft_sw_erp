@@ -51,6 +51,7 @@
             }
         }
         print();
+
         $('#restaurantOrders').DataTable(
         {
             responsive: true,

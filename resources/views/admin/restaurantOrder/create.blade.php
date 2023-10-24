@@ -26,21 +26,23 @@
             <form action="{{route('restaurantOrder.store')}}" method="POST" class="formulario">
                 {{csrf_field()}}
                 <div class="row">
-                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                        @include('admin/restaurantOrder.form_restaurantOrder')
-                    </div>
-                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                        @include('admin/restaurantOrder.form_editRawMaterial')
-                    </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         @include('admin/restaurantOrder.form_selectTable')
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="createTable">
                         @include('admin/restaurantOrder.form_table')
                     </div>
-
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="homeOrder">
                         @include('admin/restaurantOrder.form_home_order')
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        @include('admin/restaurantOrder.form_restaurantOrder')
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        @include('admin/restaurantOrder.form_rawMaterial')
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="homeOrder">
+                        @include('admin/restaurantOrder.form_register')
                     </div>
                 </div>
             </form>
@@ -53,5 +55,5 @@
 @endsection
 @section('scripts')
     @include('admin/restaurantOrder.script')
-    @include('admin/restaurantOrder.script_editRawMaterial')
+    @include('admin/restaurantOrder.script_rawMaterial')
 @endsection

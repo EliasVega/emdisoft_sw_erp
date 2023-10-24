@@ -63,7 +63,7 @@
 
     $("#product_id").change(function(event){
 
-        $.get("../getRawMaterial/" + event.target.value + "", function(response){
+        $.get("getRawMaterial/" + event.target.value + "", function(response){
 
             $("#material_id").empty();
             $("#material_id").append("<option value = '#' disabled selected>Seleccionar ...</option>");
@@ -188,38 +188,4 @@
 
         $("#rowrm" + index).remove();
     }
-
-    //function editing(){
-        rawmaterialRestaurantorder = {!! json_encode($rawmaterialRestaurantorders) !!};
-        rawmaterialRestaurantorder.forEach((value, i) => {
-            if (value['quantity'] > 0) {
-
-                idP = value['product_id'];
-                raw_material_id = value['raw_material_id'];
-                material= value['name'];
-                quantityrm= value['quantity'];
-                consumer_price= value['consumer_price'];
-                referency = value['referency'];
-
-                if(raw_material_id !="" && quantityrm!="" && quantityrm>0  && consumer_price!="" && consumer_price>0){
-                    subtotalrm[contrm]= parseFloat(quantityrm) * parseFloat(consumer_price);
-                    totalrm = totalrm+subtotalrm[contrm];
-
-                    var rowrm= '<tr class="selected" id="rowrm'+contrm+'"><td><button type="button" class="btn btn-danger btn-sm" onclick="deleterowrm('+contrm+');"><i class="fa fa-times"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrowrm('+contrm+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="referency[]" value="'+referency+'">'+referency+'</td><td><input type="hidden" name="idP[]" value="'+idP+'">'+idP+'</td> <td><input type="hidden" name="raw_material_id[]" value="'+raw_material_id+'">'+raw_material_id+'</td> <td><input type="hidden" name="material[]" value="'+material+'">'+material+'</td> <td><input type="hidden" name="quantityrm[]" value="'+quantityrm+'">'+quantityrm+'</td> <td><input type="hidden" name="consumer_price[]" value="'+consumer_price+'">'+consumer_price+'</td><td>$'+subtotalrm[contrm]+' </td></tr>';
-                    contrm++
-                    totalrms();
-                    $('#materials').append(rowrm);
-                    clear();
-                    //$('#product_id option:selected').remove();
-                }else{
-                    //alert("Rellene todos los campos del detalle para esta compra");
-                    Swal.fire({
-                    type: 'error',
-                    //title: 'Oops...',
-                    text: 'Rellene todos los campos del detalle para esta compra',
-                    })
-                }
-            }
-        });
-    //}
 </script>

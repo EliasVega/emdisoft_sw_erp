@@ -2,6 +2,14 @@
     /*$(document).ready(function(){
             alert('estoy funcionando correctamanete empresa');
         });*/
+    jQuery(document).ready(function($){
+        $(document).ready(function() {
+            $('#product_id').select2({
+                theme: "classic",
+                width: "100%",
+            });
+        });
+    });
     let  cont=0;
     let  total = 0;
     let subtotal = [];
@@ -9,14 +17,18 @@
     let tax_ratecont = [];
     //form Order
     $("#save").hide();
+    $("#editSugestedPrice").hide();
+    $("#editTax_rate").hide();
 
     $("#product_id").change(productValue);
 
     function productValue(){
-        dataproduct = document.getElementById('product_id').value.split('_');
-        $("#sale_price").val(dataproduct[1]);
-        $("#tax_rate").val(dataproduct[2]);
-        $("#suggested_price").val(dataproduct[1]);
+        dataProduct = document.getElementById('product_id').value.split('_');
+        $("#idProduct").val(dataProduct[0]);
+        $("#sale_price").val(dataProduct[1]);
+        $("#tax_rate").val(dataProduct[2]);
+        $("#suggested_price").val(dataProduct[1]);
+
     }
     $(document).ready(function(){
         $("#add").click(function(){
@@ -24,12 +36,14 @@
         });
     });
     function add(){
+
         dataproduct = document.getElementById('product_id').value.split('_');
         product_id= dataproduct[0];
         product= $("#product_id option:selected").text();
         quantity= $("#quantity").val();
         price= $("#sale_price").val();
         tax_rate= $("#tax_rate").val();
+        $("#referency").val(cont);
         ed = 2;//para saber si es registrado o nuevo
 
         if(product_id !="" && quantity!="" && quantity>0  && price!="" && tax_rate!=""){
@@ -39,8 +53,7 @@
             total_tax = total_tax+tax_subtotal;
             tax_ratecont[cont] = tax_rate;
 
-            var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="ed[]" value="'+ed+'">'+ed+'</td><td><input type="hidden" name="id[]" value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product_id[]" value="'+product_id+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td>$'+subtotal[cont]+' </td></tr>';
-
+            var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="ed[]" value="'+ed+'">'+ed+'</td><td><input type="hidden" name="ref[]" value="'+cont+'">'+cont+'</td><td><input type="hidden" name="product_id[]" value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td>$'+subtotal[cont]+' </td></tr>';
             cont++;
 
             totals();
@@ -109,8 +122,8 @@
     }
 
     //function editing(){
-        order = {!! json_encode($productRestaurantOrders) !!};
-        order.forEach((value, i) => {
+        restaurantOrder = {!! json_encode($productRestaurantOrders) !!};
+        restaurantOrder.forEach((value, i) => {
             if (value['quantity'] > 0) {
 
                 product_id = value['idP'];
@@ -127,7 +140,7 @@
                     total_tax=total_tax+tax_subtotal;
                     tax_ratecont[cont] = tax_rate;
 
-                    var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="ed[]" value="'+ed+'">'+ed+'</td><td><input type="hidden" name="id[]" value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product_id[]" value="'+product_id+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td>$'+subtotal[cont]+' </td></tr>';
+                    var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="ed[]" value="'+ed+'">'+ed+'</td><td><input type="hidden" name="ref[]" value="'+cont+'">'+cont+'</td><td><input type="hidden" name="product_id[]" value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td>$'+subtotal[cont]+' </td></tr>';
                     cont++;
 
                     totals();
@@ -204,7 +217,7 @@
             total_tax=total_tax+tax_subtotal;
             tax_ratecont[cont] = tax_rate;
 
-            var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="ed[]" value="'+ed+'">'+ed+'</td><td><input type="hidden" name="id[]" value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product_id[]" value="'+product_id+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td>$'+subtotal[cont]+' </td></tr>';
+            var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="ed[]" value="'+ed+'">'+ed+'</td><td><input type="hidden" name="ref[]" value="'+cont+'">'+cont+'</td><td><input type="hidden" name="product_id[]" value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td>$'+subtotal[cont]+' </td></tr>';
             cont++;
             deleterow(contedit);
             totals();
@@ -229,4 +242,29 @@
             }
         });
     }
+    /*
+    $(document).ready(function(){
+        $("#checkbox1").click(function(){
+            $("#createTable").show();
+            $("#homeOrder").hide();
+        });
+    });
+
+    $(document).ready(function(){
+        $("#checkbox2").click(function(){
+            $("#homeOrder").show();
+            $("#createTable").hide();
+        });
+    });
+    $("input:checkbox").on('click', function() {
+        // in the handler, 'this' refers to the box clicked on
+        var $box = $(this);
+        if ($box.is(":checked")) {
+            var group = "input:checkbox[name='" + $box.attr("name") + "']";
+            $(group).prop("checked", false);
+            $box.prop("checked", true);
+        } else {
+            $box.prop("checked", false);
+        }
+    });*/
 </script>
