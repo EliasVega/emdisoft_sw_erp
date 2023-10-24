@@ -1,8 +1,36 @@
 {
+  "public/img/details_close.jpg": {
+    "file": "assets/details_close-22f66f75.jpg",
+    "src": "public/img/details_close.jpg"
+  },
+  "public/img/details_open.jpg": {
+    "file": "assets/details_open-4acc0637.jpg",
+    "src": "public/img/details_open.jpg"
+  },
   "resources/css/app.css": {
     "file": "assets/app-658b96cc.css",
     "isEntry": true,
     "src": "resources/css/app.css"
+  },
+  "resources/css/button.css": {
+    "file": "assets/button-e63079a9.css",
+    "isEntry": true,
+    "src": "resources/css/button.css"
+  },
+  "resources/css/card.css": {
+    "file": "assets/card-3df92615.css",
+    "isEntry": true,
+    "src": "resources/css/card.css"
+  },
+  "resources/css/main.css": {
+    "file": "assets/main-bfd684e5.css",
+    "isEntry": true,
+    "src": "resources/css/main.css"
+  },
+  "resources/css/rdb.css": {
+    "file": "assets/rdb-70702d77.css",
+    "isEntry": true,
+    "src": "resources/css/rdb.css"
   },
   "resources/js/app.js": {
     "file": "assets/app-dbe23e4c.js",
