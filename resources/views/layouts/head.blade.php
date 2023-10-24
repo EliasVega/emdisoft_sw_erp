@@ -1,9 +1,4 @@
-@vite([
-    'resources/css/card.css',
-    'resources/css/button.css',
-    'resources/css/main.css',
-    'resources/css/rdb.css'
-    ])
+
 <!-- File input  -->
 <link rel="stylesheet" href="{{ asset('vendor/bootstrap-fileinput/css/fileinput.min.css') }}">
 <!-- Datatable -->
