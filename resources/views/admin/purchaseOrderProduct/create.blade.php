@@ -7,9 +7,9 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="box-danger">
             <div class="box-header with-border">
-                <h5 class="box-title">Agregar Compra
-                    @can('purchase.index')
-                        <a href="{{ route('purchase.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
+                <h5 class="box-title">Facturando Orden de Compra
+                    @can('purchaseOrderProduct.store')
+                        <a href="{{ route('purchaseOrder.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
                     @endcan
                     @can('branch.index')
                         <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
@@ -25,31 +25,26 @@
                     </ul>
                 </div>
             @endif
-            {!!Form::open(array('url'=>'purchase', 'method'=>'POST', 'autocomplete'=>'off'))!!}
+            {!!Form::open(array('url'=>'purchaseOrderProduct', 'method'=>'POST', 'autocomplete'=>'off'))!!}
             {!!Form::token()!!}
             <div class="row m-1">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    @include('admin/purchase.form_purchase')
+                    @include('admin/pre_purchase_product.form_pre_purchase')
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 colorretentions">
-                    @include('admin/purchase.form_retention')
+                    @include('admin/pre_purchase_product.form_retention')
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 colorpay">
-                    @include('admin/purchase.form_pay')
+                    @include('admin/pre_purchase_product.form_pay')
                 </div>
-
             </div>
-
             {!!Form::close()!!}
         </div>
     </div>
 </div>
-<!--Inicio del modal cliente-->
-@include('admin/purchase.editmodal')
-<!--Fin del modal-->
 @endsection
 @section('scripts')
-    @include('admin/purchase.script')
-    @include('admin/generalview.script_pay')
-    @include('admin/purchase.script_retention')
+    @include('admin/pre_purchase_product.script')
+    @include('admin/pre_purchase_product.script_pay')
+    @include('admin/pre_purchase_product.script_retention')
 @endsection

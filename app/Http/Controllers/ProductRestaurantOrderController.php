@@ -266,7 +266,7 @@ class ProductRestaurantOrderController extends Controller
                         $rawMaterial->update();
 
                         $product = $rawMaterial;
-                        $quantityLocal = $quantityrm[$i];
+                        $quantityLocal = $quantityrm;
                         $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
                     }
                 }

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('address', 100);
             $table->string('phone', 255);
             $table->string('domiciliary', 50)->nullable();
+            $table->integer('domicile_value')->nullable();
             $table->time('time_receipt');
             $table->time('time_sent')->nullable();
 

@@ -44,7 +44,6 @@ trait InventoryPurchases {
                     $branchProduct->branch_id = $branch;
                     $branchProduct->product_id = $product->id;
                     $branchProduct->stock += $quantity;
-                    $branchProduct->order_product = 0;
                     $branchProduct->save();
                 }
             }
@@ -67,7 +66,6 @@ trait InventoryPurchases {
                     $branchProduct->branch_id = $branch;
                     $branchProduct->product_id = $product->id;
                     $branchProduct->stock += $quantity;
-                    $branchProduct->order_product = 0;
                     $branchProduct->save();
                 }
             }

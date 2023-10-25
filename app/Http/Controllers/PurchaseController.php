@@ -385,15 +385,15 @@ class PurchaseController extends Controller
                     $purchaseRawmaterial->save();
 
                     //selecciona el producto que viene del array
-                    $product = RawMaterial::findOrFail($id);
+                    $rawMaterial = RawMaterial::findOrFail($id);
                     //selecciona el producto de la sucursal que sea el mismo del array
                     $branchRawmaterials = BranchRawmaterial::where('raw_material_id', '=', $id)
                     ->where('branch_id', '=', $branch)
                     ->first();
-
+                    $product = $rawMaterial;
                     $quantityLocal = $quantity[$i];
                     $priceLocal = $price[$i];
-                    $this->rawMaterialPurchases($product, $branchRawmaterials, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
+                    $this->rawMaterialPurchases($rawMaterial, $branchRawmaterials, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
                     $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
 
                 }
@@ -854,7 +854,6 @@ class PurchaseController extends Controller
                             $branchProduct->branch_id = $branch;
                             $branchProduct->product_id = $productPurchase->product_id;
                             $branchProduct->stock = $productPurchase->quantity;
-                            $branchProduct->order_product = 0;
                             $branchProduct->save();
                         }
                     } else {
@@ -866,7 +865,6 @@ class PurchaseController extends Controller
                             $branchProduct->branch_id = $branch;
                             $branchProduct->product_id = $productPurchase->product_id;
                             $branchProduct->stock = $productPurchase->quantity;
-                            $branchProduct->order_product = 0;
                             $branchProduct->save();
                         }
                     }

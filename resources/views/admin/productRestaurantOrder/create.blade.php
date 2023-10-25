@@ -44,5 +44,5 @@
 @endsection
 @section('scripts')
     @include('admin/productRestaurantOrder.script')
-    @include('admin/productRestaurantOrder.script_pay')
+    @include('admin/generalview.script_pay')
 @endsection

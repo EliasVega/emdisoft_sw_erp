@@ -282,12 +282,12 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'postalCode.edit', 'description' => 'Editar codigo Postal', 'status' => 'locked'])->assignRole($superAdmin);
         Permission::create(['name' => 'postalCode.destroy', 'description' => 'Eliminar codigo Postal', 'status' => 'locked'])->assignRole($superAdmin);
 
-        Permission::create(['name' => 'prePurchase.index', 'description' => 'Listado orden de compra', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
-        Permission::create(['name' => 'prePurchase.create', 'description' => 'Crear orden de compra', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
-        Permission::create(['name' => 'prePurchase.show', 'description' => 'Ver orden de compra', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
-        Permission::create(['name' => 'prePurchase.edit', 'description' => 'Editar orden de compra', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
+        Permission::create(['name' => 'purchaseOrder.index', 'description' => 'Listado orden de compra', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
+        Permission::create(['name' => 'purchaseOrder.create', 'description' => 'Crear orden de compra', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
+        Permission::create(['name' => 'purchaseOrder.show', 'description' => 'Ver orden de compra', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
+        Permission::create(['name' => 'purchaseOrder.edit', 'description' => 'Editar orden de compra', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
 
-        Permission::create(['name' => 'prePurchaseProduct.store', 'description' => 'Facturar orden de compra', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
+        Permission::create(['name' => 'purchaseOrderProduct.store', 'description' => 'Facturar orden de compra', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
 
         Permission::create(['name' => 'productBranch.index', 'description' => 'Listado movimientos productos', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
 

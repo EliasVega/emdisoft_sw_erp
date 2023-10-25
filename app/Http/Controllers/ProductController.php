@@ -111,6 +111,12 @@ class ProductController extends Controller
         $product->image=$fileNameToStore;
         $product->save();
 
+        $branchProduct = new BranchProduct();
+        $branchProduct->branch_id = 1;
+        $branchProduct->product_id = $product->id;
+        $branchProduct->stock = 0;
+        $branchProduct->save();
+
         if ($indicator->raw_material == 'on') {
             $quantity = $request->quantity;
             $consumer = $request->consumer_price;

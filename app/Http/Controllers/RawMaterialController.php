@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\RawMaterial;
 use App\Http\Requests\StoreRawMaterialRequest;
 use App\Http\Requests\UpdateRawMaterialRequest;
+use App\Models\BranchRawmaterial;
 use App\Models\Category;
 use App\Models\Kardex;
 use App\Models\MeasureUnit;
@@ -68,14 +69,13 @@ class RawMaterialController extends Controller
         $rawMaterial->type_product = $request->type_product;
         $rawMaterial->stock = 0;
         $rawMaterial->save();
-        /*
-        //metodo para agregar rawMaterial a la sucursal
-        $branchProduct = new BranchProduct();
-        $branchProduct->branch_id = 1;
-        $branchProduct->rawMaterial_id = $rawMaterial->id;
-        $branchProduct->stock = 0;
-        $branchProduct->order_rawMaterial = 0;
-        $branchProduct->save();*/
+
+        $branchRawmaterials = new BranchRawmaterial();
+        $branchRawmaterials->branch_id = 1;
+        $branchRawmaterials->raw_material_id = $rawMaterial->id;
+        $branchRawmaterials->stock = 0;
+        $branchRawmaterials->save();
+
         Alert::success('Materia Prima','Creada con éxito.');
         return redirect('rawMaterial');
     }

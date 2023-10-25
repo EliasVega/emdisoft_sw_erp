@@ -50,6 +50,6 @@
 @endsection
 @section('scripts')
     @include('admin/invoice.script')
-    @include('admin/invoice.script_pay')
+    @include('admin/generalview.script_pay')
     @include('admin/invoice.script_retention')
 @endsection

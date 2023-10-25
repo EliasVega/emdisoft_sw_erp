@@ -62,9 +62,9 @@ class Provider extends Model
     {
         return $this->belongsTo(regime::class);
     }
-    public function prePurchase()
+    public function purchaseOrder()
     {
-        return $this->hasMany(PrePurchase::class);
+        return $this->hasMany(PurchaseOrder::class);
     }
 
     public function purchase()

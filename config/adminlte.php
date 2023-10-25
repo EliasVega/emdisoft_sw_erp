@@ -637,9 +637,9 @@ return [
                             'can'  => 'ndpurchase.index',
                         ],
                         [
-                            'text' => 'Pre compras',
-                            'url' => 'prePurchase',
-                            'can'  => 'prePurchase.index',
+                            'text' => 'Orden compras',
+                            'url' => 'purchaseOrder',
+                            'can'  => 'purchaseOrder.index',
                         ],
                         [
                             'text' => 'Gastos',

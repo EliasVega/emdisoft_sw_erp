@@ -196,6 +196,7 @@ class RestaurantOrderController extends Controller
             $homeOrder->address = $request->address;
             $homeOrder->phone = $request->phone;
             $homeOrder->domiciliary = null;
+            $homeOrder->domicile_value = null;
             $homeOrder->time_receipt = $date->toTimeString();
             $homeOrder->time_sent = null;
             $homeOrder->restaurant_order_id = $restaurantOrder->id;
@@ -396,6 +397,7 @@ class RestaurantOrderController extends Controller
             $homeOrder->address = $request->address;
             $homeOrder->phone = $request->phone;
             $homeOrder->domiciliary = $request->domiciliary;
+            $homeOrder->domicile_value = $request->domicile_value;
             $homeOrder->time_sent = $date->toTimeString();
             $homeOrder->update();
         }

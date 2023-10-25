@@ -76,9 +76,9 @@ class Branch extends Model
         return $this->hasMany(Product::class);
     }
 
-    public function prePurchases()
+    public function purchaseOrders()
     {
-        return $this->hasMany(PrePurchase::class);
+        return $this->hasMany(PurchaseOrder::class);
     }
 
     public function ncPurchases()

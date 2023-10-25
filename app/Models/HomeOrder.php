@@ -20,6 +20,7 @@ class HomeOrder extends Model
         'address',
         'phone',
         'domiciliary',
+        'domicile_value',
         'time_receipt',
         'time_sent',
         'order_id'

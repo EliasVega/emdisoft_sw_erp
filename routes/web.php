@@ -46,13 +46,13 @@ use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PercentageController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PostalCodeController;
-use App\Http\Controllers\PrePurchaseController;
-use App\Http\Controllers\PrePurchaseProductController;
 use App\Http\Controllers\ProductBranchController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductRestaurantOrderController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\PurchaseOrderProductController;
 use App\Http\Controllers\RawMaterialController;
 use App\Http\Controllers\RegimeController;
 use App\Http\Controllers\ResolutionController;
@@ -140,8 +140,8 @@ Route::resource('paymentMethod', PaymentMethodController::class);
 Route::resource('percentage', PercentageController::class);
 Route::resource('permission', PermissionController::class);
 Route::resource('postalCode', PostalCodeController::class);
-Route::resource('prePurchase', PrePurchaseController::class);
-Route::resource('prePurchaseProduct', PrePurchaseProductController::class);
+Route::resource('purchaseOrder', PurchaseOrderController::class);
+Route::resource('purchaseOrderProduct', PurchaseOrderProductController::class);
 Route::resource('product', ProductController::class);
 Route::resource('productBranch', ProductBranchController::class);
 Route::resource('productRestaurantOrder', ProductRestaurantOrderController::class);
@@ -238,11 +238,11 @@ Route::get('permission/status/{id}', [PermissionController::class, 'status'])->n
 
 Route::get('postalCode/municipality/{id}', [PostalCodeController::class, 'getMunicipalities']);
 
-Route::get('prePurchase/invoice/{id}', [PrePurchaseController::class, 'invoice'])->name('prePurchaseInvoice');
-Route::get('prePurchase/pdf/{id}', [PrePurchaseController::class, 'prePurchasePdf'])->name('prePurchasePdf');
-Route::get('prePurchase/pos/{id}', [PrePurchaseController::class, 'prePurchasePos'])->name('prePurchasePos');
-Route::get('pdfPrePurchase', [PrePurchaseController::class, 'pdfPrePurchase'])->name('pdfPrePurchase');
-Route::get('posPrePurchase', [PrePurchaseController::class, 'posPrePurchase'])->name('posPrePurchase');
+Route::get('purchaseOrder/invoice/{id}', [PurchaseOrderController::class, 'invoice'])->name('purchaseOrderInvoice');
+Route::get('purchaseOrder/pdf/{id}', [PurchaseOrderController::class, 'purchaseOrderPdf'])->name('purchaseOrderPdf');
+Route::get('purchaseOrder/pos/{id}', [PurchaseOrderController::class, 'purchaseOrderPos'])->name('purchaseOrderPos');
+Route::get('pdfPurchaseOrder', [PurchaseOrderController::class, 'pdfPurchaseOrder'])->name('pdfPurchaseOrder');
+Route::get('posPurchaseOrder', [PurchaseOrderController::class, 'posPurchaseOrder'])->name('posPurchaseOrder');
 
 Route::get('product/status/{id}', [ProductController::class, 'status'])->name('productStatus');
 
