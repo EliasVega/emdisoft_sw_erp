@@ -37,11 +37,21 @@ class KardexController extends Controller
                     return $kardex->movement == 'purchase' ? 'Compra' : 'Compra';
                 } elseif ($kardex->movement == 'expense') {
                     return $kardex->movement == 'expense' ? 'Gasto' : 'Gasto';
-                }elseif ($kardex->movement == 'debit_note') {
-                    return $kardex->movement == 'debit_note' ? 'Nota Debito' : 'Nota Debito';
-                } elseif ($kardex->movement == 'credit_note'){
-                    return $kardex->movement == 'credit_note' ? 'Nota Credito' : 'Nota Credito';
+                }elseif ($kardex->movement == 'ndpurchase') {
+                    return $kardex->movement == 'ndpurchase' ? 'ND compra' : 'ND compra';
+                } elseif ($kardex->movement == 'ncpurchase'){
+                    return $kardex->movement == 'ncpurchase' ? 'Nc compra' : 'Nc compra';
+                } elseif ($kardex->movement == 'invoice') {
+                    return $kardex->movement == 'invoice' ? 'Venta' : 'Venta';
+                }elseif ($kardex->movement == 'ndinvoice') {
+                    return $kardex->movement == 'ndinvoice' ? 'ND venta' : 'ND venta';
+                } elseif ($kardex->movement == 'ncinvoice'){
+                    return $kardex->movement == 'ncinvoice' ? 'Nc venta' : 'Nc venta';
                 }
+            })
+
+            ->addColumn('product_id', function (Kardex $kardex) {
+                return $kardex->kardexable->id;
             })
             ->addColumn('product', function (Kardex $kardex) {
                 return $kardex->kardexable->name;
@@ -54,43 +64,6 @@ class KardexController extends Controller
             ->toJson();
         }
         return view('admin.kardex.index');
-    }
-
-    public function kardexProduct(Request $request, $id)
-    {
-        if ($request->ajax()) {
-            if (!empty($request->end)) {
-                $kardexes = Kardex::where('product_id', $id)->whereBetween('created_at', [$request->start, $request->end])->get();
-            } else {
-                $kardexes = Kardex::where('product_id', $id)->get();
-            }
-            return DataTables::of($kardexes)
-            ->addIndexColumn()
-            ->addColumn('branch', function (Kardex $kardex) {
-                return $kardex->branch->name;
-            })
-            ->addColumn('operation', function (Kardex $kardex) {
-                if ($kardex->movement == 'purchase') {
-                    return $kardex->movement == 'purchase' ? 'Compra' : 'Compra';
-                } elseif ($kardex->movement == 'expense') {
-                    return $kardex->movement == 'expense' ? 'Gasto' : 'Gasto';
-                }elseif ($kardex->movement == 'debit_note') {
-                    return $kardex->movement == 'debit_note' ? 'Nota Debito' : 'Nota Debito';
-                } elseif ($kardex->movement == 'credit_note'){
-                    return $kardex->movement == 'credit_note' ? 'Nota Credito' : 'Nota Credito';
-                }
-            })
-            ->addColumn('product', function (Kardex $kardex) {
-                return $kardex->product->name;
-            })
-            ->editColumn('created_at', function(Kardex $kardex){
-                return $kardex->created_at->format('yy-m-d');
-            })
-            ->addColumn('edit', 'admin/kardex/actions')
-            ->rawcolumns(['edit'])
-            ->toJson();
-        }
-        return view('admin.kardex.kardexProduct');
     }
 
     /**

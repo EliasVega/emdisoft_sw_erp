@@ -24,10 +24,7 @@ return new class extends Migration
             $table->decimal('cash_in_total',20,2);//total entradas efectivo
             $table->decimal('cash_out_total',20,2);//total salidas efectivo
 
-            $table->decimal('in_order_cash',20,2);//ingreso de efectivo por pedidos
-            $table->decimal('in_order',20,2);//ingreso total por pedidos
-            $table->decimal('order',20,2);//total de pedidos
-
+            $table->decimal('invoice_order',20,2);//total de pedidos
             $table->decimal('restaurant_order', 20,2); //total comandas
 
             $table->decimal('in_invoice_cash',20,2);//ingreso efectivo por ventas
@@ -44,6 +41,8 @@ return new class extends Migration
             //$table->decimal('in_ncpurchase_cash',20,2); //ingreso efectivo notas credito compras
             //$table->decimal('in_ncpurchase',20,2); //ingreso total notas debito compras
             $table->decimal('ncpurchase',20,2);//total de notas credito compras
+
+            $table->decimal('purchase_order',20,2);//total de pedidos
 
             $table->decimal('out_purchase_cash',20,2);//salida efectivo compras
             $table->decimal('out_purchase',20,2);//salida total compras

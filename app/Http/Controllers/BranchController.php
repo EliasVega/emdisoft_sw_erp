@@ -10,6 +10,7 @@ use App\Models\Company;
 use App\Models\Department;
 use App\Models\Indicator;
 use App\Models\Municipality;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;

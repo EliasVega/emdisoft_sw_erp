@@ -43,8 +43,8 @@
             @can('advance.index')
                 <a href="{{ route('advance.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Ant a Proveedores</a>
             @endcan
-            @can('prePurchase.index')
-                <a href="{{ route('prePurchase.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Orden Compra</a>
+            @can('purchaseOrder.index')
+                <a href="{{ route('purchaseOrder.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Orden Compra</a>
             @endcan
             @can('branchProduct.index')
                 <a href="{{ route('branchProduct.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Productos Sucursal</a>
@@ -78,14 +78,27 @@
         <script type="text/javascript">
             $(document).ready(function ()
             {
-                function print(){
-                    var purchase = "{{ $purchase ?? '' }}";
-                    if (purchase != '') {
-                        var imprimir = "{{ route('pdfPurchase', ['purchase' => ':purchase']) }}";
-                        imprimir = imprimir.replace(':purchase', purchase);
-                        window.open(imprimir, "_blank");
+                var typeDocument = "{{ $typeDocument ?? '' }}";
+                if (typeDocument == 'document') {
+                    function print(){
+                        var purchase = "{{ $purchase ?? '' }}";
+                        if (purchase != '') {
+                            var imprimir = "{{ route('pdfPurchase', ['purchase' => ':purchase']) }}";
+                            imprimir = imprimir.replace(':purchase', purchase);
+                            window.open(imprimir, "_blank");
+                        }
+                    }
+                } else {
+                    function print(){
+                        var purchase = "{{ $purchase ?? '' }}";
+                        if (purchase != '') {
+                            var imprimir = "{{ route('posPurchase', ['purchase' => ':purchase']) }}";
+                            imprimir = imprimir.replace(':purchase', purchase);
+                            window.open(imprimir, "_blank");
+                        }
                     }
                 }
+
                 print();
                 $('#purchases').DataTable(
                 {

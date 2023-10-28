@@ -1,6 +1,6 @@
 @can('cashRegister.edit')
-<a href="{{ route('cashRegister.edit', $id) }}" class="btn btn-sm btn-danger" data-toggle="tooltip"
-    data-placement="top" title="Cerrar Caja" ><i class="fas fa-user-lock"></i></a>
+    <a href="{{ route('cashRegister.edit', $id) }}" class="btn btn-sm btn-danger" data-toggle="tooltip"
+        data-placement="top" title="Cerrar Caja" ><i class="fas fa-user-lock"></i></a>
 @endcan
 @can('cashRegister.show')
     <a href="{{ route('cashRegister.show', $id) }}" class="btn btn-sm btn-success" data-toggle="tooltip"

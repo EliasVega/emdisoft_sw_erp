@@ -35,6 +35,9 @@
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             @include('admin/product.form_image')
                         </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            @include('admin/product.register')
+                        </div>
                     </div>
                 @else
                     <div class="row">
@@ -47,7 +50,9 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             @include('admin/product.form_material')
                         </div>
-
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            @include('admin/product.register')
+                        </div>
                     </div>
                 @endif
 

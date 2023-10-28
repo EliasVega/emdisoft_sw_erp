@@ -30,6 +30,7 @@ class StoreIndicatorRequest extends FormRequest
             'plastic_bag_tax' => 'required',
             'dian' => 'in:on,off',
             'pos' => 'required|in:on,off',
+            'logo' => 'required|in:on,off',
             'payroll' => 'required|in:on,off',
             'accounting' => 'required|in:on,off',
             'inventory' => 'in:on,off',

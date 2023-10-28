@@ -213,30 +213,59 @@
                     </table>
                 </div>
             @endif
-            @if ($cashRegister->order > 0)
+            @if ($cashRegister->purchase_order > 0)
                 <div class="content_postbox">
-                    <p>REPORTE DE PEDIDOS</p>
+                    <p>REPORTE DE ORDENES DE COMPRA</p>
                     <table>
                         <thead>
                             <tr>
-                                <th>N°.pedido</th>
+                                <th>N°.orden</th>
                                 <th>Cliente</th>
                                 <th>Precio</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($orders as $order)
+                            @foreach ($purchaseOrders as $purchaseOrder)
                             <tr>
-                                <td>{{ $order->id }}</td>
-                                <td>{{ $order->customer->name }}</td>
-                                <td align="right">$ {{ number_format($order->total_pay, 2) }}</td>
+                                <td>{{ $purchaseOrder->id }}</td>
+                                <td>{{ $purchaseOrder->customer->name }}</td>
+                                <td align="right">$ {{ number_format($purchaseOrder->total_pay, 2) }}</td>
                             </tr>
                             @endforeach
                         </tbody>
                         <tfoot>
                             <tr>
                                 <th colspan="2" ><p align="right" >TOTAL:</p></th>
-                                <td><p align="right" >${{number_format($cashRegister->order)}}</p></td>
+                                <td><p align="right" >${{number_format($cashRegister->purchase_order)}}</p></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            @endif
+            @if ($cashRegister->restaurant_order > 0)
+                <div class="content_postbox">
+                    <p>REPORTE DE COMANDAS</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>N°.comanda</th>
+                                <th>Cliente</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($restaurantOrders as $restaurantOrder)
+                            <tr>
+                                <td>{{ $restaurantOrder->id }}</td>
+                                <td>{{ $restaurantOrder->customer->name }}</td>
+                                <td align="right">$ {{ number_format($restaurantOrder->total_pay, 2) }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="2" ><p align="right" >TOTAL:</p></th>
+                                <td><p align="right" >${{number_format($cashRegister->restaurant_order)}}</p></td>
                             </tr>
                         </tfoot>
                     </table>
@@ -258,7 +287,7 @@
                             <tr>
                                 <td>{{ $ncinvoice->id }}</td>
                                 <td>{{ $ncinvoice->invoice->third->name }}</td>
-                                <td align="right">$ {{ $ncinvoice->total_pay }}</td>
+                                <td align="right">${{number_format($ncinvoice->total_pay)}}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -287,7 +316,7 @@
                             <tr>
                                 <td>{{ $ndinvoice->id }}</td>
                                 <td>{{ $ndinvoice->invoice->third->name }}</td>
-                                <td align="right">$ {{ $ndinvoice->total_pay }}</td>
+                                <td align="right">${{number_format($ndinvoice->total_pay)}}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -316,7 +345,7 @@
                             <tr>
                                 <td>{{ $ncinvoice->id }}</td>
                                 <td>{{ $ncinvoice->invoice->third->name }}</td>
-                                <td align="right">$ {{ $ncinvoice->total_pay }}</td>
+                                <td align="right">${{number_format($ncinvoice->total_pay)}}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -345,7 +374,7 @@
                             <tr>
                                 <td>{{ $ndpurchase->id }}</td>
                                 <td>{{ $ndpurchase->invoice->third->name }}</td>
-                                <td align="right">$ {{ $ndpurchase->total_pay }}</td>
+                                <td align="right">${{number_format($ndpurchase->total_pay)}}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -353,35 +382,6 @@
                             <tr>
                                 <th colspan="2" ><p align="right" >TOTAL:</p></th>
                                 <td><p align="right" >${{number_format($cashRegister->ndpurchase)}}</p></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            @endif
-            @if ($cashRegister->in_order > 0)
-                <div class="content_postbox">
-                    <p>REPORTE DE ABONOS A PEDIDOS</p>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>N°.order</th>
-                                <th>Cliente</th>
-                                <th>Valor</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($orderPays as $orderPays)
-                            <tr>
-                                <td>{{ $orderPays->payable->document }}</td>
-                                <td>{{ $orderPays->payable->third->name }}</td>
-                                <td align="right">$ {{ $orderPays->pay }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th colspan="2" ><p align="right" >TOTAL:</p></th>
-                                <td><p align="right" >${{number_format($orderSumPays)}}</p></td>
                             </tr>
                         </tfoot>
                     </table>
@@ -403,7 +403,7 @@
                             <tr>
                                 <td>{{ $invoicePay->payable->document }}</td>
                                 <td>{{ $invoicePay->payable->third->name }}</td>
-                                <td align="right">$ {{ $invoicePay->pay }}</td>
+                                <td align="right">${{number_format($invoicePay->pay)}}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -432,7 +432,7 @@
                             <tr>
                                 <td>{{ $purchasePay->payable->id }}</td>
                                 <td>{{ $purchasePay->payable->third->name }}</td>
-                                <td align="right">$ {{ $purchasePay->pay }}</td>
+                                <td align="right">${{number_format($purchasePay->pay)}}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -461,7 +461,7 @@
                             <tr>
                                 <td>{{ $expensePay->payable->id }}</td>
                                 <td>{{ $expensePay->payable->third->name }}</td>
-                                <td align="right">$ {{ $expensePay->pay }}</td>
+                                <td align="right">${{number_format($expensePay->pay)}}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -490,7 +490,7 @@
                             <tr>
                                 <td>{{ $cashInflow->created_at }}</td>
                                 <td>{{ $cashInflow->admin->name }}</td>
-                                <td align="right">$ {{ $cashInflow->cash }}</td>
+                                <td align="right">${{number_format($cashInflow->cash)}}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -519,7 +519,7 @@
                             <tr>
                                 <td>{{ $cashOutflow->created_at }}</td>
                                 <td>{{ $cashOutflow->admin->name }}</td>
-                                <td align="right">$ {{ $cashOutflow->cash }}</td>
+                                <td align="right">${{number_format($cashOutflow->cash)}}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -548,7 +548,7 @@
                             <tr>
                                 <td>{{ $advanceProvider->created_at }}</td>
                                 <td>{{ $advanceProvider->advanceable->name }}</td>
-                                <td align="right">$ {{ $advanceProvider->pay }}</td>
+                                <td align="right">${{number_format($advanceProvider->pay)}}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -577,7 +577,7 @@
                             <tr>
                                 <td>{{ $advanceCustomer->created_at }}</td>
                                 <td>{{ $advanceCustomer->advanceable->name }}</td>
-                                <td align="right">$ {{ $advanceCustomer->pay }}</td>
+                                <td align="right">${{number_format($advanceCustomer->pay)}}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -606,7 +606,7 @@
                             <tr>
                                 <td>{{ $advanceEmployee->created_at }}</td>
                                 <td>{{ $advanceEmployee->advanceable->name }}</td>
-                                <td align="right">$ {{ $advanceEmployee->pay }}</td>
+                                <td align="right">${{number_format($advanceEmployee->pay)}}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -641,10 +641,16 @@
                                 <td align="right"><h2>${{number_format($cashRegister->invoice,2)}}</h2></td>
                             </tr>
                         @endif
-                        @if ($cashRegister->order > 0)
+                        @if ($cashRegister->purchase_order > 0)
                             <tr>
-                                <th colspan="4"><p align="left" >TOTAL PEDIDOS:</p></th>
-                                <td align="right"><h2>${{number_format($cashRegister->order,2)}}</h2></td>
+                                <th colspan="4"><p align="left" >TOTAL ORDEN COMPRAS:</p></th>
+                                <td align="right"><h2>${{number_format($cashRegister->purchase_order,2)}}</h2></td>
+                            </tr>
+                        @endif
+                        @if ($cashRegister->restaurant_order > 0)
+                            <tr>
+                                <th colspan="4"><p align="left" >TOTAL COMANDAS:</p></th>
+                                <td align="right"><h2>${{number_format($cashRegister->restaurant_order,2)}}</h2></td>
                             </tr>
                         @endif
                         @if ($cashRegister->ncinvoice > 0)
@@ -689,12 +695,6 @@
                             <td align="right"><h2>${{number_format($cashRegister->in_invoice,2)}}</h2></td>
                         </tr>
                         @endif
-                        @if ($cashRegister->in_order > 0)
-                        <tr>
-                            <th colspan="4" ><p align="left" >INGRESOS PEDIDOS:</p></th>
-                            <td align="right"><h2>${{number_format($cashRegister->in_order,2)}}</h2></td>
-                        </tr>
-                        @endif
                         @if ($cashRegister->out_total > 0)
                             <tr>
                                 <th colspan="4" ><p align="left" >TOTAL EGRESOS:</p></th>
@@ -731,13 +731,6 @@
                             <td align="right"><h2>${{number_format($cashRegister->in_invoice_cash,2)}}</h2></td>
                         </tr>
                         @endif
-                        @if ($cashRegister->in_order_cash > 0)
-                        <tr>
-                            <th colspan="4" ><p align="left" >EFECTIVO PEDIDOS:</p></th>
-                            <td align="right"><h2>${{number_format($cashRegister->in_order_cash,2)}}</h2></td>
-                        </tr>
-                        @endif
-
                         @if ($cashRegister->cash_in_total > 0)
                             <tr>
                                 <th colspan="4" ><p align="left" >TOTAL EFECTIVO:</p></th>

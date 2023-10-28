@@ -9,7 +9,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h5>Productos
                 @can('purchaseOrder.create')
-                    <a href="purchaseOrder/create" class="btn btn-greenGrad btn-sm"><i class="fa fa-plus"></i> Agregar Pre compra</a>
+                    <a href="purchaseOrder/create" class="btn btn-greenGrad btn-sm"><i class="fa fa-plus"></i> Agregar Orden de compra</a>
                 @endcan
                 @can('purchase.index')
                     <a href="{{ route('purchase.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>

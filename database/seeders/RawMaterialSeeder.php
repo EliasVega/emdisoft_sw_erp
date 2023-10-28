@@ -911,6 +911,34 @@ class RawMaterialSeeder extends Seeder
                 'measure_unit_id' => 70,
                 'created_at' => '2023-10-20 12:00:00',
                 'updated_at' => '2023-10-20 12:00:00'
+            ),
+            64 =>
+            array (
+                'id' => 65,
+                'code' => 'SER2301',
+                'name' => 'MANTENIMIENTO COCINA',
+                'price' => 180000,
+                'stock' => 0,
+                'type_product' => 'product',
+                'status' => 'active',
+                'category_id' => 13,
+                'measure_unit_id' => 70,
+                'created_at' => '2023-10-20 12:00:00',
+                'updated_at' => '2023-10-20 12:00:00'
+            ),
+            65 =>
+            array (
+                'id' => 66,
+                'code' => 'SER2302',
+                'name' => 'MANTENIMIENTO NEVERAS',
+                'price' => 230000,
+                'stock' => 0,
+                'type_product' => 'product',
+                'status' => 'active',
+                'category_id' => 13,
+                'measure_unit_id' => 70,
+                'created_at' => '2023-10-20 12:00:00',
+                'updated_at' => '2023-10-20 12:00:00'
             )
         ));
     }

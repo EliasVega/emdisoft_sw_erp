@@ -5,16 +5,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="stylesheet" href="{{ 'css/post.css' }}">
-        <title>Factura de venta Post</title>
+        <title>Factura de venta Pos</title>
 
     </head>
 
     <header id="header">
         <!-- LOGGO -->
         <div class="center">
-            <div id="logo">
-                <img src="{{ asset($company->logo) }}" alt="{{ $company->name }}">
-            </div>
+            @if ($indicator->logo == 'on')
+                <div class="center">
+                    <div id="logo">
+                        <img src="{{ asset($company->logo) }}" alt="{{ $company->name }}">
+                    </div>
+                </div>
+            @endif
         </div>
 
         <div class="clearfix"></div>

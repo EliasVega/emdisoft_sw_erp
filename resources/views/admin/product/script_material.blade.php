@@ -5,7 +5,7 @@
     var cont=0;
     var total = 0;
     var subtotal = [];
-    $("#save").hide();
+    //$("#save").hide();
 
     $("#raw_material_id").change(productValue);
 
@@ -33,7 +33,7 @@
             totals();
             $('#materials').append(row);
             clear();
-            assess();
+            //assess();
         } else {
             //alert("Rellene todos los campos del detalle de la venta");
             Swal.fire({

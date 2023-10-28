@@ -12,9 +12,13 @@
     <header id="header">
         <!-- LOGGO -->
         <div class="center">
-            <div id="logo">
-                <img src="{{ asset($company->logo) }}" alt="{{ $company->name }}">
-            </div>
+            @if ($indicator->logo == 'on')
+                <div class="center">
+                    <div id="logo">
+                        <img src="{{ asset($company->logo) }}" alt="{{ $company->name }}">
+                    </div>
+                </div>
+            @endif
         </div>
 
         <div class="clearfix"></div>
@@ -28,7 +32,7 @@
             </div>
             <!--DATOS FACTURA -->
             <div id="document">
-                <p> POST: <strong id="numfact">N°.{{ $purchaseOrder->id }}</strong> <br>
+                <p> ORDEN DE COMPRA: <strong id="numfact">N°.{{ $purchaseOrder->id }}</strong> <br>
                     FECHA DE EMISION: <strong id="datfact">{{ date('d-m-Y', strtotime($purchaseOrder->created_at)) }}</strong>
                 </p>
             </div>

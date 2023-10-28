@@ -55,6 +55,7 @@ class ExpenseController extends Controller
     public function index(Request $request)
     {
         $expense = session('expense');
+        $indicator = Indicator::findOrFail(1);
         if ($request->ajax()) {
             $users = Auth::user();
             $user = $users->Roles[0]->name;
@@ -84,7 +85,7 @@ class ExpenseController extends Controller
             ->rawColumns(['btn'])
             ->make(true);
         }
-        return view('admin.expense.index', compact('expense'));
+        return view('admin.expense.index', compact('expense', 'indicator'));
     }
 
     /**

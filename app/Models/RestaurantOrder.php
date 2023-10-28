@@ -22,6 +22,7 @@ class RestaurantOrder extends Model
         'status',
         'user_id',
         'restaurant_table_id',
+        'invoice_id'
     ];
 
     protected $guarded = [

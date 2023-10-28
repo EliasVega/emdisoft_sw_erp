@@ -25,6 +25,7 @@ use App\Models\PaymentForm;
 use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Models\Resolution;
+use App\Models\RestaurantOrder;
 use App\Models\Tax;
 use App\Models\VoucherType;
 use Carbon\Carbon;
@@ -53,6 +54,13 @@ class InvoiceController extends Controller
     public function index(Request $request)
     {
         $invoice = session('invoice');
+        $indicator = Indicator::findOrFail(1);
+        $typeDocument = '';
+        if ($indicator->pos == 'off') {
+            $typeDocument = 'document';
+        } else {
+            $typeDocument = 'pos';
+        }
         if ($request->ajax()) {
             $users = current_user();
             $user = $users->Roles[0]->name;
@@ -95,7 +103,7 @@ class InvoiceController extends Controller
             ->rawColumns(['btn'])
             ->make(true);
         }
-        return view('admin.invoice.index', compact('invoice'));
+        return view('admin.invoice.index', compact('invoice', 'indicator', 'typeDocument'));
     }
 
     /**
@@ -709,31 +717,32 @@ class InvoiceController extends Controller
 
     public function invoicePos($id)
     {
-            $invoice = Invoice::findOrFail($id);
-            $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->where('quantity', '>', 0)->get();
-            $company = Company::findOrFail(1);
-            $debitNotes = Ndinvoice::where('invoice_id', $id)->first();
-            $creditNotes = Ncinvoice::where('invoice_id', $id)->first();
-            $days = $invoice->created_at->diffInDays($invoice->due_date);
-            $invoicepdf = $invoice->document;
-            $logo = './imagenes/logos'.$company->logo;
-            $retention = Tax::where('type', 'invoice')->where('taxable_id', $invoice->id)->get();
-            $retentions = Tax::from('taxes as tax')
-            ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
-            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-            ->select('tax.tax_value', 'ct.name')
-            ->where('tax.type', 'invoice')
-            ->where('tax.taxable_id', $invoice->id)
-            ->where('tt.type_tax', 'retention')->get();
-            $retentionsum = Tax::from('taxes as tax')
-            ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
-            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-            ->select('tax.tax_value', 'ct.name')
-            ->where('tax.type', 'invoice')
-            ->where('tax.taxable_id', $invoice->id)
-            ->where('tt.type_tax', 'retention')->sum('tax_value');
+        $invoice = Invoice::findOrFail($id);
+        $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->where('quantity', '>', 0)->get();
+        $restaurantOrder = RestaurantOrder::where('invoice_id', $id)->first();
+        $company = Company::findOrFail(1);
+        $debitNotes = Ndinvoice::where('invoice_id', $id)->first();
+        $creditNotes = Ncinvoice::where('invoice_id', $id)->first();
+        $days = $invoice->created_at->diffInDays($invoice->due_date);
+        $invoicepdf = $invoice->document;
+        $logo = './imagenes/logos'.$company->logo;
+        $retention = Tax::where('type', 'invoice')->where('taxable_id', $invoice->id)->get();
+        $retentions = Tax::from('taxes as tax')
+        ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->select('tax.tax_value', 'ct.name')
+        ->where('tax.type', 'invoice')
+        ->where('tax.taxable_id', $invoice->id)
+        ->where('tt.type_tax', 'retention')->get();
+        $retentionsum = Tax::from('taxes as tax')
+        ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->select('tax.tax_value', 'ct.name')
+        ->where('tax.type', 'invoice')
+        ->where('tax.taxable_id', $invoice->id)
+        ->where('tt.type_tax', 'retention')->sum('tax_value');
 
-            $debitNote = 0;
+        $debitNote = 0;
         $creditNote = 0;
         $retentionnd = 0;
         $retentionnc = 0;
@@ -749,6 +758,7 @@ class InvoiceController extends Controller
         }
         $view = \view('admin.invoice.pos', compact(
             'invoice',
+            'restaurantOrder',
             'days',
             'invoiceProducts',
             'company',
@@ -774,6 +784,7 @@ class InvoiceController extends Controller
         $invoices = session('invoice');
         $invoice = Invoice::findOrFail($invoices);
         session()->forget('invoice');
+        $restaurantOrder = RestaurantOrder::where('invoice_id', $invoice->id)->first();
         $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->where('quantity', '>', 0)->get();
         $company = Company::findOrFail(1);
         $debitNotes = Ndinvoice::where('invoice_id', $invoice->id)->first();
@@ -815,6 +826,7 @@ class InvoiceController extends Controller
             'invoice',
             'days',
             'invoiceProducts',
+            'restaurantOrder',
             'company',
             //'logo',
             'debitNotes',

@@ -13,6 +13,7 @@ use App\Models\MeasureUnit;
 use App\Models\ProductRawmaterial;
 use App\Models\RawMaterial;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Storage;
@@ -121,15 +122,16 @@ class ProductController extends Controller
             $quantity = $request->quantity;
             $consumer = $request->consumer_price;
             $rawMaterial = $request->raw_material_id;
-
-            for ($i=0; $i < count($quantity); $i++) {
-                $productRawmaterials = new ProductRawmaterial();
-                $productRawmaterials->quantity = $quantity[$i];
-                $productRawmaterials->consumer_price = $consumer[$i];
-                $productRawmaterials->subtotal = $quantity[$i] * $consumer[$i];
-                $productRawmaterials->raw_material_id = $rawMaterial[$i];
-                $productRawmaterials->product_id = $product->id;
-                $productRawmaterials->save();
+            if ($quantity) {
+                for ($i=0; $i < count($quantity); $i++) {
+                    $productRawmaterials = new ProductRawmaterial();
+                    $productRawmaterials->quantity = $quantity[$i];
+                    $productRawmaterials->consumer_price = $consumer[$i];
+                    $productRawmaterials->subtotal = $quantity[$i] * $consumer[$i];
+                    $productRawmaterials->raw_material_id = $rawMaterial[$i];
+                    $productRawmaterials->product_id = $product->id;
+                    $productRawmaterials->save();
+                }
             }
         }
         Alert::success('Producto','Creado con éxito.');

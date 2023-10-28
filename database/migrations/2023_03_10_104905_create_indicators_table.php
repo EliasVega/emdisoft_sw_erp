@@ -22,6 +22,7 @@ return new class extends Migration
             $table->decimal('plastic_bag_tax', 10,2);
             $table->enum('dian', ['on', 'off'])->default('off');
             $table->enum('pos', ['on', 'off'])->default('on');
+            $table->enum('logo', ['on', 'off'])->default('on');
             $table->enum('payroll', ['on', 'off'])->default('off');
             $table->enum('accounting', ['on', 'off'])->default('off');
             $table->enum('inventory', ['on', 'off'])->default('on');

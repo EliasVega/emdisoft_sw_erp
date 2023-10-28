@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('price', 10,2); //precio de compra
             $table->decimal('sale_price', 11,2);
             $table->decimal('stock', 11,2);
-            $table->enum('type_product', ['product', 'service']);
+            $table->enum('type_product', ['product', 'service', 'consumo']);
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->string('imageName', 45);
             $table->string('image', 255);

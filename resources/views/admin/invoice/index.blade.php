@@ -7,9 +7,16 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h5>Listado de Ventas</h5>
+            @if ($indicator->restaurant == 'off')
             @can('invoice.create')
                 <a href="invoice/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Agregar Venta</a>
             @endcan
+            @else
+            @can('restaurantOrder.create')
+                <a href="restaurantOrder/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Agregar Comanda</a>
+            @endcan
+            @endif
+
             @can('branch.index')
                 <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
             @endcan
@@ -63,14 +70,27 @@
         <script type="text/javascript">
             $(document).ready(function ()
             {
-                function print(){
-                    var invoice = "{{ $invoice ?? '' }}";
-                    if (invoice != '') {
-                        var imprimir = "{{ route('pdfInvoice', ['invoice' => ':invoice']) }}";
-                        imprimir = imprimir.replace(':invoice', invoice);
-                        window.open(imprimir, "_blank");
+                var typeDocument = "{{ $typeDocument ?? '' }}";
+                if (typeDocument == 'document') {
+                    function print(){
+                        var invoice = "{{ $invoice ?? '' }}";
+                        if (invoice != '') {
+                            var imprimir = "{{ route('pdfInvoice', ['invoice' => ':invoice']) }}";
+                            imprimir = imprimir.replace(':invoice', invoice);
+                            window.open(imprimir, "_blank");
+                        }
+                    }
+                } else {
+                    function print(){
+                        var invoice = "{{ $invoice ?? '' }}";
+                        if (invoice != '') {
+                            var imprimir = "{{ route('posInvoice', ['invoice' => ':invoice']) }}";
+                            imprimir = imprimir.replace(':invoice', invoice);
+                            window.open(imprimir, "_blank");
+                        }
                     }
                 }
+
                 print();
                 $('#invoices').DataTable(
                 {

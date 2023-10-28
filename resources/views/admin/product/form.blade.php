@@ -60,6 +60,9 @@
                 <option {{ ($product->type_product ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Tipo</option>
                     <option value="product">PRODUCTO</option>
                     <option value="service">SERVICIO</option>
+                    @if ($indicator->raw_material == 'on')
+                        <option value="consumo">CONSUMO</option>
+                    @endif
             </select>
         </div>
     </div>

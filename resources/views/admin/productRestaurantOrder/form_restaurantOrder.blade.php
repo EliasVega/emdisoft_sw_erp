@@ -33,6 +33,13 @@
                     class="form-control" placeholder="Domiciliario">
             </div>
         </div>
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 mt-3" id="addHomeOrder">
+            <div class="form-group">
+                <label class="form-control-label" for="domiciliary">Domiciliario</label>
+                <input type="text" id="domicile_value" name="domicile_value" value=""
+                    class="form-control" placeholder="Valor Domicilio">
+            </div>
+        </div>
     @endif
     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12" id="addGeneration_date">
         <div class="form-group">

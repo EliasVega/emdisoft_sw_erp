@@ -12,9 +12,13 @@
     <header id="header">
         <!-- LOGGO -->
         <div class="center">
-            <div id="logo">
-                <img src="{{ asset($company->logo) }}" alt="{{ $company->name }}">
-            </div>
+            @if ($indicator->logo == 'on')
+                <div class="center">
+                    <div id="logo">
+                        <img src="{{ asset($company->logo) }}" alt="{{ $company->name }}">
+                    </div>
+                </div>
+            @endif
         </div>
 
         <div class="clearfix"></div>
@@ -111,11 +115,13 @@
                         </tr>
                     @endforeach
                 @endif
-                @if ($invoice->pay > 0)
-                    <tr>
-                        <th  colspan="3" class="footRight">ABONOS</th>
-                        <td colspan="3" class="footRight"><strong>$ -{{number_format($invoice->pay,2)}}</strong></td>
-                    </tr>
+                @if ($restaurantOrder == null)
+                    @if ($invoice->pay > 0)
+                        <tr>
+                            <th  colspan="3" class="footRight">ABONOS</th>
+                            <td colspan="3" class="footRight"><strong>$ -{{number_format($invoice->pay,2)}}</strong></td>
+                        </tr>
+                    @endif
                 @endif
                 @if ($debitNote > 0)
                     <tr>
@@ -136,18 +142,41 @@
                     </tr>
                 @endif
                 @if ($retentionnc > 0)
-                        <tr>
-                            <th  colspan="3" class="footRight">RET NC:</th>
-                            <td colspan="3" class="footRight"><strong id="total">${{number_format($retentionnc,2)}}</strong></td>
-                        </tr>
-                    @endif
-                <tr>
-                    <th colspan="3" class="footRight">SALDO A PAGAR:</th>
-                    <td colspan="3" class="footRight"><strong>$ {{number_format($invoice->total_pay -  $invoice->pay - $creditNote - $retentionsum + $debitNote + $retentionnc - $retentionnd,2)}}</strong></td>
-                </tr>
+                    <tr>
+                        <th  colspan="3" class="footRight">RET NC:</th>
+                        <td colspan="3" class="footRight"><strong id="total">${{number_format($retentionnc,2)}}</strong></td>
+                    </tr>
+                @endif
+                @if ($restaurantOrder == null)
+                    <tr>
+                        <th colspan="3" class="footRight">SALDO A PAGAR:</th>
+                        <td colspan="3" class="footRight"><strong>$ {{number_format($invoice->total_pay -  $invoice->pay - $creditNote - $retentionsum + $debitNote + $retentionnc - $retentionnd,2)}}</strong></td>
+                    </tr>
+                @endif
             </tfoot>
         </table>
     </div>
+    @if ($restaurantOrder != null)
+        @if ($restaurantOrder->restaurant_table_id == 1)
+
+            <div id="document">
+                <p> PARA ENVIO A DOMICILIO A:</p>
+            </div>
+
+            <div id="document">
+                <p> NOMBRE: <strong class="numfact">{{ $restaurantOrder->homeOrder->name }}</strong></p>
+            </div>
+            <div id="document">
+                <p> DIRECCION: <strong class="numfact">{{ $restaurantOrder->homeOrder->address }}</strong></p>
+            </div>
+            <div id="document">
+                <p> TELEFONO: <strong class="numfact">{{ $restaurantOrder->homeOrder->phone }}</strong></p>
+            </div>
+            <div id="document">
+                <p> DOMICILIO: <strong class="numfact">${{ number_format($restaurantOrder->homeOrder->domicile_value,2) }}</strong></p>
+            </div>
+        @endif
+    @endif
     <br>
     <br>
     <footer>

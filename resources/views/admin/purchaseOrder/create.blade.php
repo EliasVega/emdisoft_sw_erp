@@ -29,7 +29,7 @@
             {!!Form::token()!!}
             <div class="row m-1">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 colorbody">
-                    @include('admin/pre_purchase.form_purchaseOrder')
+                    @include('admin/purchaseOrder.form_purchaseOrder')
                 </div>
             </div>
             {!!Form::close()!!}
@@ -38,5 +38,5 @@
 </div>
 @endsection
 @section('scripts')
-    @include('admin/pre_purchase.script')
+    @include('admin/purchaseOrder.script')
 @endsection

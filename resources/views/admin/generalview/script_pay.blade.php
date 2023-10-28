@@ -373,7 +373,7 @@
                 totalpayment();
                 assesspayment();
                 $('#payments').append(rowpay);
-                clear();
+                clearpay();
             } else {
                 totalpay = parseFloat(totalpay) - parseFloat(pay);
                 //alert("Rellene todos los campos del detalle de la venta");
@@ -392,7 +392,7 @@
             });
         }
     }
-    function clear(){
+    function clearpay(){
             $("#payment_method_id").val("");
             $("#bank_id").val("");
             $("#card_id").val("");

@@ -12,9 +12,13 @@
     <header id="header">
         <!-- LOGGO -->
         <div class="center">
-            <div id="logo">
-                <img src="{{ asset($company->logo) }}" alt="{{ $company->name }}">
-            </div>
+            @if ($indicator->logo == 'on')
+                <div class="center">
+                    <div id="logo">
+                        <img src="{{ asset($company->logo) }}" alt="{{ $company->name }}">
+                    </div>
+                </div>
+            @endif
         </div>
 
         <div class="clearfix"></div>
@@ -82,13 +86,13 @@
             </div>
 
             <div id="document">
-                <p> NOMBRE: <strong id="numfact">{{ $restaurantOrder->homeOrder->name }}</strong></p>
+                <p> NOMBRE: <strong class="numfact">{{ $restaurantOrder->homeOrder->name }}</strong></p>
             </div>
             <div id="document">
-                <p> DIRECCION: <strong id="numfact">{{ $restaurantOrder->homeOrder->address }}</strong></p>
+                <p> DIRECCION: <strong class="numfact">{{ $restaurantOrder->homeOrder->address }}</strong></p>
             </div>
             <div id="document">
-                <p> TELEFONO: <strong id="numfact">{{ $restaurantOrder->homeOrder->phone }}</strong></p>
+                <p> TELEFONO: <strong class="numfact">{{ $restaurantOrder->homeOrder->phone }}</strong></p>
             </div>
         @endif
     <br>

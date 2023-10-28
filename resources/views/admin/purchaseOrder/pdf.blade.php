@@ -11,9 +11,11 @@
     <header id="header">
         <!-- LOGGO -->
         <div class="center">
-            <div id="logo">
-                <img src="{{ asset($company->logo) }}" alt="{{ $company->name }}" width="150px" height="50px" class="app-logo">
-            </div>
+            @if ($indicator->logo == 'on')
+                <div id="logo">
+                    <img src="{{ asset($company->logo) }}" alt="{{ $company->name }}" width="150px" height="50px" class="app-logo">
+                </div>
+            @endif
         <!--DATOS company -->
             <div class="company">
                 <p><strong id="companyName">{{  $company->name  }}</strong></p>
@@ -23,7 +25,7 @@
             </div>
             <!--DATOS FACTURA -->
             <div id="document">
-                <p> <h4>PRECOMPRA <br> <strong id="documentNumber">N°.{{ $purchaseOrder->id }}</strong>  </h4>
+                <p> <h4>ORDEN DE COMPRA <br> <strong id="documentNumber">N°.{{ $purchaseOrder->id }}</strong>  </h4>
 
                 </p>
                 <p> <h4>FECHA DE EMISION <br> <strong id="documentData">{{ date('d-m-Y', strtotime($purchaseOrder->created_at)) }}</strong>  </h4>

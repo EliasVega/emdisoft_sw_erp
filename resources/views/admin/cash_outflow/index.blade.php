@@ -11,8 +11,8 @@
                     @can('cashRegister.index')
                         <a href="{{ route('cashRegister.index') }}" class="btn btn-lightBlueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
                     @endcan
-                    @can('caompany.index')
-                        <a href="{{ route('company.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
+                    @can('branch.index')
+                        <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
                     @endcan
                 </h5>
             </div>

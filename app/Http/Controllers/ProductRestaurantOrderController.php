@@ -23,7 +23,6 @@ use App\Models\InvoiceResponse;
 use App\Models\PaymentForm;
 use App\Models\PaymentMethod;
 use App\Models\Product;
-use App\Models\ProductRawmaterial;
 use App\Models\RawMaterial;
 use App\Models\RawmaterialRestaurantorder;
 use App\Models\Resolution;
@@ -156,10 +155,10 @@ class ProductRestaurantOrderController extends Controller
             $date = Carbon::now();
             $homeOrder = HomeOrder::where('restaurant_order_id', $restaurantOrder->id)->first();
             $homeOrder->domiciliary = $request->domiciliary;
+            $homeOrder->domicile_value = $request->domicile_value;
             $homeOrder->time_sent = $date->toTimeString();
             $homeOrder->update();
         }
-
         $quantityBag = $request->bags;
         if ($request->total_retention != null) {
             $retention = $request->total_retention;
@@ -311,6 +310,7 @@ class ProductRestaurantOrderController extends Controller
             $resolutions->consecutive += 1;
             $resolutions->update();
 
+            $restaurantOrder->invoice_id = $invoice->id;
             $restaurantOrder->status = 'generated';
             $restaurantOrder->update();
 

@@ -214,8 +214,6 @@ Route::get('invoice/debitNoteInvoice/{id}', [InvoiceController::class, 'debitNot
 Route::get('pdfInvoice', [InvoiceController::class, 'pdfInvoice'])->name('pdfInvoice');
 Route::get('posInvoice', [InvoiceController::class, 'posInvoice'])->name('posInvoice');
 
-Route::get('kardex/kardexProduct/{id}', [KardexController::class, 'kardexProduct'])->name('kardexProduct');
-
 Route::get('ncinvoice/ncinvoicePdf/{id}', [NcinvoiceController::class, 'ncinvoicePdf'])->name('ncinvoicePdf');
 Route::get('pdfNcinvoice', [NcinvoiceController::class, 'pdfNcinvoice'])->name('pdfNcinvoice');
 

@@ -11,12 +11,13 @@
 
     <header id="header">
         <!-- LOGGO -->
-        <div class="center">
-            <div id="logo">
-                <img src="{{ asset($company->logo) }}" alt="{{ $company->name }}">
+        @if ($indicator->logo == 'on')
+            <div class="center">
+                <div id="logo">
+                    <img src="{{ asset($company->logo) }}" alt="{{ $company->name }}">
+                </div>
             </div>
-        </div>
-
+        @endif
         <div class="clearfix"></div>
         <div class="center">
         <!--DATOS company -->

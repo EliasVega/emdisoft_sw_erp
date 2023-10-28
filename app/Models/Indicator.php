@@ -22,6 +22,7 @@ class Indicator extends Model
         'plastic_bag_tax',
         'dian',
         'pos',
+        'logo',
         'payroll',
         'accounting',
         'inventory',

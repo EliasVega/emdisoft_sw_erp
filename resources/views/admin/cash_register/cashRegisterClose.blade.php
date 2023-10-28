@@ -6,6 +6,7 @@
 <main class="main">
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <label class="form-control-label"> CIERRE DE CAJA N°. <strong>{{ $cashRegister->id }}</strong> </label>
             @can('cashRegister.index')
                 <a href="{{ route('cashRegister.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
             @endcan
@@ -22,12 +23,6 @@
                 <p>{{ $cashRegister->user->name }}</p>
             </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <div class="form-group">
-                <label class="form-control-label" for="nombre">Caja #</label>
-                <p>{{ $cashRegister->id }}</p>
-            </div>
-        </div>
         @if ($cashRegister->cash_initial > 0)
             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                 <div class="form-group">
@@ -38,6 +33,12 @@
         @endif
 
         @if ($cashRegister->status == 'close')
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label class="form-control-label" for="open">Abierta</label>
+                    <p>{{ $cashRegister->created_at }}</p>
+                </div>
+            </div>
             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label class="form-control-label" for="close">Cerrada</label>
@@ -63,7 +64,7 @@
         @if ($cashRegister->out_purchase > 0)
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
-                    <label class="form-control-label" for="abono">Egreso X Compras</label>
+                    <label class="form-control-label" for="abono">Egresos Compras</label>
                     <p>${{ number_format($cashRegister->out_purchase,2) }}</p>
                 </div>
             </div>
@@ -87,7 +88,7 @@
         @if ($cashRegister->out_expense > 0)
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
-                    <label class="form-control-label" for="abono">Egreso X Gastos</label>
+                    <label class="form-control-label" for="abono">Egresos Gastos</label>
                     <p>${{ number_format($cashRegister->out_expense,2) }}</p>
                 </div>
             </div>
@@ -218,10 +219,96 @@
                 </div>
             </div>
         @endif
+        @if ($cashRegister->expense > 0)
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <strong class="tpdf">Gastos adquiridos</strong>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div>
+                    <table class="table table-striped table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr class="bg-info">
+                                <th>id</th>
+                                <th>Gasto</th>
+                                <th>Cantidad</th>
+                                <th>Imp</th>
+                                <th>subtotal</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th  colspan="3"><p align="right">TOTALES:</p></th>
+                                <th><p align="right">${{ number_format($expenseTotalTaxs,2) }}</p></th>
+                                <th><p align="right">${{ number_format($expenseTotals,2) }}</p></th>
+                                <th><p align="right">${{ number_format($expenseTotalTaxs + $expenseTotals,2) }}</p></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach($expenseProducts as $expenseProduct)
+                                <tr>
+                                    <td>{{ $expenseProduct->id }}</td>
+                                    <td>{{ $expenseProduct->name }}</td>
+                                    <td class="rightfoot">{{ $expenseProduct->quantity }}</td>
+                                    <td class="rightfoot">$ {{ number_format($expenseProduct->tax_subtotal,2) }}</td>
+                                    <td class="rightfoot">$ {{ number_format($expenseProduct->subtotal,2) }}</td>
+                                    <td class="rightfoot">$ {{ number_format($expenseProduct->subtotal + $expenseProduct->tax_subtotal,2) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        @endif
+        @if ($cashRegister->invoice > 0)
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <strong class="tpdf">Articulos Vendidos</strong>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div>
+                    <table class="table table-striped table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr class="bg-info">
+                                <th>id</th>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Imp</th>
+                                <th>subtotal</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th  colspan="3"><p align="right">TOTALES:</p></th>
+                                <th><p align="right">${{ number_format($invoiceTotalTaxs,2) }}</p></th>
+                                <th><p align="right">${{ number_format($invoiceTotals,2) }}</p></th>
+                                <th><p align="right">${{ number_format($invoiceTotalTaxs + $expenseTotals,2) }}</p></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach($invoiceProducts as $invoiceProduct)
+                                <tr>
+                                    <td>{{ $invoiceProduct->id }}</td>
+                                    <td>{{ $invoiceProduct->name }}</td>
+                                    <td class="rightfoot">{{ $invoiceProduct->quantity }}</td>
+                                    <td class="rightfoot">$ {{ number_format($invoiceProduct->tax_subtotal,2) }}</td>
+                                    <td class="rightfoot">$ {{ number_format($invoiceProduct->subtotal,2) }}</td>
+                                    <td class="rightfoot">$ {{ number_format($invoiceProduct->subtotal + $invoiceProduct->tax_subtotal,2) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        @endif
         @if ($cashRegister->ndpurchase > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <strong class="tpdf">Articulos Devueltos nota Debito</strong>
+                    <strong class="tpdf">Articulos Rechazados ND compra</strong>
                 </div>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -254,6 +341,49 @@
                                     <td class="rightfoot">$ {{ number_format($ndpurchaseProduct->tax_subtotal,2) }}</td>
                                     <td class="rightfoot">$ {{ number_format($ndpurchaseProduct->subtotal,2) }}</td>
                                     <td class="rightfoot">$ {{ number_format($ndpurchaseProduct->subtotal + $ndpurchaseProduct->tax_subtotal,2) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        @endif
+        @if ($cashRegister->ncinvoice > 0)
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <strong class="tpdf">Articulos Rechazados NC venta</strong>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr class="bg-info">
+                                <th>id</th>
+                                <th>Producto</th>
+                                <th>cantidad</th>
+                                <th>Imp</th>
+                                <th>subtotal</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th  colspan="3"><p align="right">TOTALES:</p></th>
+                                <th><p align="right">${{ number_format($ncinvoiceTotalTaxs,2) }}</p></th>
+                                <th><p align="right">${{ number_format($ncinvoiceTotals,2) }}</p></th>
+                                <th><p align="right">${{ number_format($ncinvoiceTotalTaxs + $ncinvoiceTotals,2) }}</p></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach($ncinvoiceProducts as $ndpurchaseProduct)
+                                <tr>
+                                    <td>{{ $ncinvoiceProduct->id }}</td>
+                                    <td>{{ $ncinvoiceProduct->name }}</td>
+                                    <td class="rightfoot">{{ $ncinvoiceProduct->quantity }}</td>
+                                    <td class="rightfoot">$ {{ number_format($ncinvoiceProduct->tax_subtotal,2) }}</td>
+                                    <td class="rightfoot">$ {{ number_format($ncinvoiceProduct->subtotal,2) }}</td>
+                                    <td class="rightfoot">$ {{ number_format($ncinvoiceProduct->subtotal + $ncinvoiceProduct->tax_subtotal,2) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -299,6 +429,96 @@
                                     <td class="rightfoot">$ {{ number_format($purchase->pay,2) }}</td>
                                     <td class="rightfoot">$ {{ number_format($purchase->balance,2) }}</td>
                                     <td class="rightfoot">$ {{ number_format($purchase->total_pay,2) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        @endif
+        @if ($cashRegister->invoice > 0)
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <strong class="tpdf">Detalle de Ventas</strong>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr class="bg-info">
+                                <th>Fecha</th>
+                                <th>N°.F</th>
+                                <th>Cliente</th>
+                                <th>Estado</th>
+                                <th>Abonos</th>
+                                <th>Saldo</th>
+                                <th>Compras</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th  colspan="4"><p align="right">TOTAL:</p></th>
+                                <th><p align="right">${{ number_format($invoiceSumPays,2) }}</p></th>
+                                <th><p align="right">${{ number_format($invoiceBalances,2) }}</p></th>
+                                <th><p align="right">${{ number_format($invoiceTotalPays,2) }}</p></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach($invoices as $invoice)
+                                <tr>
+                                    <td>{{ $invoice->created_at }}</td>
+                                    <td>{{ $invoice->document }}</td>
+                                    <td>{{ $invoice->third->name }}</td>
+                                    <td >{{ $invoice->status }}</td>
+                                    <td class="rightfoot">$ {{ number_format($invoice->pay,2) }}</td>
+                                    <td class="rightfoot">$ {{ number_format($invoice->balance,2) }}</td>
+                                    <td class="rightfoot">$ {{ number_format($invoice->total_pay,2) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        @endif
+        @if ($cashRegister->expense > 0)
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <strong class="tpdf">Detalle de Gastos</strong>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr class="bg-info">
+                                <th>Fecha</th>
+                                <th>N°.G</th>
+                                <th>Proveedor</th>
+                                <th>Estado</th>
+                                <th>Abonos</th>
+                                <th>Saldo</th>
+                                <th>Compras</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th  colspan="4"><p align="right">TOTAL:</p></th>
+                                <th><p align="right">${{ number_format($expenseSumPays,2) }}</p></th>
+                                <th><p align="right">${{ number_format($expenseBalances,2) }}</p></th>
+                                <th><p align="right">${{ number_format($expenseTotalPays,2) }}</p></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach($expenses as $expense)
+                                <tr>
+                                    <td>{{ $expense->created_at }}</td>
+                                    <td>{{ $expense->document }}</td>
+                                    <td>{{ $expense->third->name }}</td>
+                                    <td >{{ $expense->status }}</td>
+                                    <td class="rightfoot">$ {{ number_format($expense->pay,2) }}</td>
+                                    <td class="rightfoot">$ {{ number_format($expense->balance,2) }}</td>
+                                    <td class="rightfoot">$ {{ number_format($expense->total_pay,2) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -384,6 +604,84 @@
                 </div>
             </div>
         @endif
+        @if ($cashRegister->ncinvoice > 0)
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <strong class="tpdf">Detalle Notas Credito Ventas</strong>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr class="bg-info">
+                                <th>Fecha</th>
+                                <th>N°. ND</th>
+                                <th>N°. Compra</th>
+                                <th>Cliente</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th  colspan="4"><p align="right">TOTAL:</p></th>
+                                <th><p align="right">${{ number_format($sumNcinvoices,2) }}</p></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach($ncinvoices as $ncinvoice)
+                                <tr>
+                                    <td>{{ $ncinvoice->created_at }}</td>
+                                    <td>{{ $ncinvoice->id }}</td>
+                                    <td>{{ $ncinvoice->document }}</td>
+                                    <td>{{ $ncinvoice->third->name }}</td>
+                                    <td class="rightfoot">$ {{ number_format($ncinvoice->total_pay,2) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        @endif
+        @if ($cashRegister->ndinvoice > 0)
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <strong class="tpdf">Detalle Notas Credito Compras</strong>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr class="bg-info">
+                                <th>Fecha</th>
+                                <th>N°.NC</th>
+                                <th>N° Compra</th>
+                                <th>Proveedor</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th  colspan="4"><p align="right">TOTAL:</p></th>
+                                <th><p align="right">${{ number_format($sumNdinvoices,2) }}</p></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach($ndinvoices as $ndinvoice)
+                                <tr>
+                                    <td>{{ $ndinvoice->created_at }}</td>
+                                    <td>{{ $ndinvoice->id }}</td>
+                                    <td>{{ $ndinvoice->document }}</td>
+                                    <td>{{ $ndinvoice->third->name }}</td>
+                                    <td class="rightfoot">$ {{ number_format($ndinvoice->total_pay,2) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        @endif
         @if ($cashRegister->out_purchase > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -416,6 +714,84 @@
                                     <td>{{ $purchasePay->payable->document }}</td>
                                     <td>{{ $purchasePay->payable->third->name }}</td>
                                     <td class="rightfoot">$ {{ number_format($purchasePay->pay,2) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        @endif
+        @if ($cashRegister->out_expense > 0)
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <strong class="tpdf">Detalle Pagos por Gastos</strong>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr class="bg-info">
+                                <th>Fecha</th>
+                                <th>ID</th>
+                                <th>N°. Doc</th>
+                                <th>Proveedor</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th  colspan="4"><p align="right">TOTAL:</p></th>
+                                <th><p align="right">${{ number_format($expenseSumPays,2) }}</p></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach($expensePays as $expensePay)
+                                <tr>
+                                    <td>{{ $expensePay->created_at }}</td>
+                                    <td>{{ $expensePay->id }}</td>
+                                    <td>{{ $expensePay->payable->document }}</td>
+                                    <td>{{ $expensePay->payable->third->name }}</td>
+                                    <td class="rightfoot">$ {{ number_format($expensePay->pay,2) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        @endif
+        @if ($cashRegister->in_invoice > 0)
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <strong class="tpdf">Detalle Recaudo por Ventas</strong>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr class="bg-info">
+                                <th>Fecha</th>
+                                <th>ID</th>
+                                <th>N° Factura</th>
+                                <th>Cliente</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th  colspan="4"><p align="right">TOTAL:</p></th>
+                                <th><p align="right">${{ number_format($invoiceSumPays,2) }}</p></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach($invoicePays as $invoicePay)
+                                <tr>
+                                    <td>{{ $invoicePay->created_at }}</td>
+                                    <td>{{ $invoicePay->id }}</td>
+                                    <td>{{ $invoicePay->payable->document }}</td>
+                                    <td>{{ $invoicePay->payable->third->name }}</td>
+                                    <td class="rightfoot">$ {{ number_format($invoicePay->pay,2) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

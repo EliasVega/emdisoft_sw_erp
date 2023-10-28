@@ -14,32 +14,23 @@ use App\Models\Card;
 use App\Models\CashRegister;
 use App\Models\Company;
 use App\Models\CompanyTax;
-use App\Models\Department;
 use App\Models\Discrepancy;
 use App\Models\DocumentType;
 use App\Models\Environment;
 use App\Models\GenerationType;
-use App\Models\IdentificationType;
 use App\Models\Indicator;
-use App\Models\Kardex;
-use App\Models\Liability;
 use App\Models\Municipality;
 use App\Models\Ncpurchase;
 use App\Models\Ndpurchase;
-use App\Models\Organization;
-use App\Models\Pay;
 use App\Models\PaymentForm;
 use App\Models\PaymentMethod;
-use App\Models\PayPaymentMethod;
 use App\Models\Percentage;
 use App\Models\Product;
 use App\Models\ProductPurchase;
 use App\Models\Provider;
 use App\Models\PurchaseRawmaterial;
 use App\Models\RawMaterial;
-use App\Models\Regime;
 use App\Models\Resolution;
-use App\Models\Retention;
 use App\Models\SupportDocumentResponse;
 use App\Models\Tax;
 use App\Models\VoucherType;
@@ -74,6 +65,13 @@ class PurchaseController extends Controller
     {
         $purchase = session('purchase');
         $indicator = Indicator::findOrFail(1);
+        $typeDocument = '';
+        if ($indicator->pos == 'off') {
+            $typeDocument = 'document';
+        } else {
+            $typeDocument = 'pos';
+        }
+
         if ($request->ajax()) {
             $users = Auth::user();
             $user = $users->Roles[0]->name;
@@ -120,7 +118,7 @@ class PurchaseController extends Controller
             ->rawColumns(['btn'])
             ->make(true);
         }
-        return view('admin.purchase.index', compact('purchase', 'indicator'));
+        return view('admin.purchase.index', compact('purchase', 'indicator', 'typeDocument'));
     }
 
     /**
@@ -153,7 +151,7 @@ class PurchaseController extends Controller
         $percentages = Percentage::where('status', 'active')->get();
         $advances = Advance::where('status', '!=', 'aplicado')->get();
         $date = Carbon::now();
-        $products = Product::where('status', 'active')->get();
+        $products = Product::where('status', 'active')->where('type_product', 'product')->get();
         $companyTaxes = CompanyTax::from('company_taxes', 'ct')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
         ->join('percentages as per', 'ct.percentage_id', 'per.id')
@@ -545,6 +543,7 @@ class PurchaseController extends Controller
      */
     public function edit(Purchase $purchase)
     {
+        /*
         $retention = Retention::where('type', 'purchase')->where('retentionable_id', $purchase->id)->first();
         $providers = Provider::get();
         $documentTypes = DocumentType::where('prefix', 'dse')->get();
@@ -584,7 +583,7 @@ class PurchaseController extends Controller
             'date',
             'productPurchases',
             'payPurchases'
-        ));
+        ));*/
     }
 
     /**
@@ -596,6 +595,7 @@ class PurchaseController extends Controller
      */
     public function update(UpdatePurchaseRequest $request, Purchase $purchase)
     {
+        /*
             $indicator = Indicator::findOrFail(1);
             $user = Auth::user();
 
@@ -931,7 +931,7 @@ class PurchaseController extends Controller
 
         } else {
             return redirect("purchase")->with('success', 'Compra Editada Satisfactoriamente');
-        }
+        }*/
     }
 
     /**

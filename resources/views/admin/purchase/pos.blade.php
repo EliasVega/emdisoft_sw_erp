@@ -12,9 +12,13 @@
     <header id="header">
         <!-- LOGGO -->
         <div class="center">
-            <div id="logo">
-                <img src="{{ asset($company->logo) }}" alt="{{ $company->name }}">
-            </div>
+            @if ($indicator->logo == 'on')
+                <div class="center">
+                    <div id="logo">
+                        <img src="{{ asset($company->logo) }}" alt="{{ $company->name }}">
+                    </div>
+                </div>
+            @endif
         </div>
 
         <div class="clearfix"></div>

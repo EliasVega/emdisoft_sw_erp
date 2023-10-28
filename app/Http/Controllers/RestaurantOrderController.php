@@ -107,6 +107,9 @@ class RestaurantOrderController extends Controller
     public function store(StoreRestaurantOrderRequest $request)
     {
         //dd($request->all());
+
+        $indicator = Indicator::findOrFail(1);
+        $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
         //Obteniendo variables
         $service = $request->service;
         $table = $request->restaurant_table_id;
@@ -114,6 +117,7 @@ class RestaurantOrderController extends Controller
         $quantity = $request->quantity;
         $price = $request->price;
         $taxRate = $request->tax_rate;
+        $total_pay = $request->total_pay;
         $quantityrm = $request->quantityrm;
         $pricerm = $request->consumer_price;
         $material = $request->material;
@@ -177,7 +181,7 @@ class RestaurantOrderController extends Controller
         $restaurantOrder = new RestaurantOrder();
         $restaurantOrder->total = $request->total;
         $restaurantOrder->total_tax = $request->total_tax;
-        $restaurantOrder->total_pay = $request->total_pay;
+        $restaurantOrder->total_pay = $total_pay;
         $restaurantOrder->status = 'pending';
         $restaurantOrder->note = $request->note;
         $restaurantOrder->user_id = current_user()->id;
@@ -187,6 +191,12 @@ class RestaurantOrderController extends Controller
             $restaurantOrder->restaurant_table_id = 1;
         }
         $restaurantOrder->save();
+
+        if ($indicator->pos == 'on') {
+            //actualizar la caja
+            $cashRegister->restaurant_order += $total_pay;
+            $cashRegister->update();
+        }
 
         //si es un domicilio se crea la tabla Home_orders
         if ($service == 1) {
@@ -248,6 +258,7 @@ class RestaurantOrderController extends Controller
             $productResstaurantOrder->tax_subtotal = $taxSubtotal;
             $productResstaurantOrder->save();
         }
+        session()->forget('restaurantOrder');
         session(['restaurantOrder' => $restaurantOrder->id]);
 
         toast('Comanda Registrada satisfactoriamente.','success');
@@ -310,6 +321,8 @@ class RestaurantOrderController extends Controller
     public function update(UpdateRestaurantOrderRequest $request, RestaurantOrder $restaurantOrder)
     {
         //dd($request->all());
+        $indicator = Indicator::findOrFail(1);
+        $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
         //llamado a variables
         $ed = $request->ed;
 
@@ -319,6 +332,7 @@ class RestaurantOrderController extends Controller
         $quantity = $request->quantity;
         $price = $request->price;
         $taxRate = $request->tax_rate;
+        $total_pay = $request->total_pay;
         $quantityrm = $request->quantityrm;
         $pricerm = $request->consumer_price;
         $material = $request->material;
@@ -331,9 +345,11 @@ class RestaurantOrderController extends Controller
         $raw_material_id = $request->raw_material_id;
         $contRmRo = 0;
 
-        $sale_box = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
-        $sale_box->restaurant_order -= $restaurantOrder->total_pay;
-        $sale_box->update();
+        if ($indicator->pos == 'on') {
+            //actualizar la caja
+            $cashRegister->restaurant_order -= $restaurantOrder->total_pay;
+            $cashRegister->update();
+        }
 
         if ($raw_material_id) {
 
@@ -386,8 +402,17 @@ class RestaurantOrderController extends Controller
         }
         $restaurantOrder->update();
 
-        $sale_box->restaurant_order += $restaurantOrder->total_pay;
-        $sale_box->update();
+        if ($indicator->pos == 'on') {
+            //actualizar la caja
+            $cashRegister->restaurant_order += $total_pay;
+            $cashRegister->update();
+        }
+
+        if ($indicator->pos == 'on') {
+            //actualizar la caja
+            $cashRegister->restaurant_order += $total_pay;
+            $cashRegister->update();
+        }
 
         //si es un domicilio se crea la tabla Home_orders
         if ($service == 1) {

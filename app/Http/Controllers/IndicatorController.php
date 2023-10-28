@@ -12,10 +12,11 @@ class IndicatorController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:indicator.index|indicator.edit|indicator.dianStatus|indicator.posStatus|indicator.payrollStatus|indicator.accountingStatus|indicator.inventoryStatus|indicator.productPrice|indicator.materialStatus', ['only'=>['index']]);
+        $this->middleware('permission:indicator.index|indicator.edit|indicator.dianStatus|indicator.posStatus|indicator.logoStatus|indicator.payrollStatus|indicator.accountingStatus|indicator.inventoryStatus|indicator.productPrice|indicator.materialStatus', ['only'=>['index']]);
         $this->middleware('permission:indicator.edit', ['only'=>['edit', 'update']]);
         $this->middleware('permission:indicator.dianStatus', ['only'=>['dianStstus']]);
         $this->middleware('permission:indicator.posStatus', ['only'=>['posStstus']]);
+        $this->middleware('permission:indicator.logoStatus', ['only'=>['logoStstus']]);
         $this->middleware('permission:indicator.payrollStatus', ['only'=>['payrollStatus']]);
         $this->middleware('permission:indicator.accountingStatus', ['only'=>['accountingStatus']]);
         $this->middleware('permission:indicator.inventoryStatus', ['only'=>['inventoryStatus']]);
@@ -37,6 +38,7 @@ class IndicatorController extends Controller
             ->addColumn('edit', 'admin/indicator/actions')
             ->addColumn('dian', 'admin/indicator/dian')
             ->addColumn('pos', 'admin/indicator/pos')
+            ->addColumn('logo', 'admin/indicator/logo')
             ->addColumn('payroll', 'admin/indicator/payroll')
             ->addColumn('accounting', 'admin/indicator/accounting')
             ->addColumn('inventory', 'admin/indicator/inventory')
@@ -143,6 +145,20 @@ class IndicatorController extends Controller
             $indicator->pos = 'off';
         } else {
             $indicator->pos = 'on';
+        }
+        $indicator->update();
+
+        return redirect('indicator');
+    }
+
+    public function logoStatus($id)
+    {
+        $indicator = Indicator::findOrFail($id);
+
+        if ($indicator->logo == 'on') {
+            $indicator->logo = 'off';
+        } else {
+            $indicator->logo = 'on';
         }
         $indicator->update();
 

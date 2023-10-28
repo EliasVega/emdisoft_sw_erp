@@ -30,6 +30,7 @@ class UpdateIndicatorRequest extends FormRequest
             'plastic_bag_tax' => 'required',
             'dian' => 'in:on,off',
             'pos' => 'in:on,off',
+            'logo' => 'in:on,off',
             'payroll' => 'in:on,off',
             'accounting' => 'in:on,off',
             'inventory' => 'in:on,off',

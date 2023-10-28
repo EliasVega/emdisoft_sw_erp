@@ -22,6 +22,7 @@ return new class extends Migration
 
             $table->foreignId('user_id')->constrained();
             $table->foreignId('restaurant_table_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('invoice_id')->nullable()->constrained();
 
             $table->timestamps();
         });

@@ -9,10 +9,12 @@ use App\Models\Advance;
 use App\Models\Bank;
 use App\Models\Branch;
 use App\Models\Card;
+use App\Models\CashRegister;
 use App\Models\Company;
 use App\Models\CompanyTax;
 use App\Models\DocumentType;
 use App\Models\GenerationType;
+use App\Models\Indicator;
 use App\Models\PaymentForm;
 use App\Models\PaymentMethod;
 use App\Models\Percentage;
@@ -100,11 +102,14 @@ class PurchaseOrderController extends Controller
      */
     public function store(StorePurchaseOrderRequest $request)
     {
+        $indicator = Indicator::findOrFail(1);
+        $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
         //Variables del request
         $product_id = $request->product_id;
         $quantity   = $request->quantity;
         $price      = $request->price;
         $tax_rate   = $request->tax_rate;
+        $total_pay = $request->total_pay;
 
         //Crea un registro de compras
         $purchaseOrder = new PurchaseOrder();
@@ -113,10 +118,16 @@ class PurchaseOrderController extends Controller
         $purchaseOrder->provider_id = $request->provider_id;
         $purchaseOrder->total = $request->total;
         $purchaseOrder->total_tax = $request->total_tax;
-        $purchaseOrder->total_pay = $request->total_pay;
+        $purchaseOrder->total_pay = $total_pay;
         $purchaseOrder->status = 'active';
-        $purchaseOrder->balance = $request->total_pay;
+        $purchaseOrder->balance = $total_pay;
         $purchaseOrder->save();
+
+        if ($indicator->pos == 'on') {
+            //actualizar la caja
+                $cashRegister->purchase_order += $total_pay;
+                $cashRegister->update();
+        }
 
         //Ingresa los productos que vienen en el array
         for ($i=0; $i < count($product_id); $i++) {
@@ -156,7 +167,7 @@ class PurchaseOrderController extends Controller
         $products = Product::where('status', 'active')->get();
         $purchaseOrderProducts = PurchaseOrderProduct::from('purchase_order_products as pop')
         ->join('products as pro', 'pop.product_id', 'pro.id')
-        ->select('pro.id', 'pro.name', 'pro.stock', 'pp.quantity', 'pop.price', 'pop.tax_rate', 'pop.subtotal')
+        ->select('pro.id', 'pro.name', 'pro.stock', 'pop.quantity', 'pop.price', 'pop.tax_rate', 'pop.subtotal')
         ->where('purchase_order_id', $purchaseOrder->id)
         ->get();
         return view('admin.purchaseOrder.edit',
@@ -174,11 +185,20 @@ class PurchaseOrderController extends Controller
      */
     public function update(UpdatePurchaseOrderRequest $request, PurchaseOrder $purchaseOrder)
     {
+        $indicator = Indicator::findOrFail(1);
+        $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
         //llamado a variables
         $product_id = $request->product_id;
         $quantity   = $request->quantity;
         $price      = $request->price;
         $tax_rate   = $request->tax_rate;
+        $total_pay = $request->total_pay;
+
+        if ($indicator->pos == 'on') {
+            //actualizar la caja
+            $cashRegister->purchase_order -= $purchaseOrder->total_pay;
+            $cashRegister->update();
+        }
 
         //Actualizando un registro de compras
         $purchaseOrder->user_id = current_user()->id;
@@ -186,11 +206,17 @@ class PurchaseOrderController extends Controller
         $purchaseOrder->provider_id = $request->provider_id;
         $purchaseOrder->total = $request->total;
         $purchaseOrder->total_tax = $request->total_tax;
-        $purchaseOrder->total_pay = $request->total_pay;
-        $purchaseOrder->balance = $request->total_pay;
+        $purchaseOrder->total_pay = $total_pay;
+        $purchaseOrder->balance = $total_pay;
         $purchaseOrder->status = 'active';
         $purchaseOrder->note = $request->note;
         $purchaseOrder->update();
+
+        if ($indicator->pos == 'on') {
+            //actualizar la caja
+            $cashRegister->purchase_order += $total_pay;
+            $cashRegister->update();
+        }
 
         $purchaseOrderProducts = PurchaseOrderProduct::where('purchase_order_id', $purchaseOrder->id)->get();
         foreach ($purchaseOrderProducts as $key => $purchaseOrderProduct) {
