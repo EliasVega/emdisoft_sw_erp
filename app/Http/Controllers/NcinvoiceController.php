@@ -455,7 +455,7 @@ class NcinvoiceController extends Controller
        $ncinvoice = Ncinvoice::findOrFail($id);
        $ncinvoiceProducts = NcinvoiceProduct::where('ncinvoice_id', $id)->where('quantity', '>', 0)->get();
        $company = Company::findOrFail(1);
-
+       $indicator = Indicator::findOrFail(1);
        $retentions = Tax::from('taxes as tax')
         ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
@@ -477,6 +477,7 @@ class NcinvoiceController extends Controller
             'ncinvoice',
             'ncinvoiceProducts',
             'company',
+            'indicator',
             'logo',
             'retentions',
             'retentionsum'
@@ -496,7 +497,7 @@ class NcinvoiceController extends Controller
         session()->forget('ncinvoice');
         $ncinvoiceProducts = NcinvoiceProduct::where('ncinvoice_id', $ncinvoice->id)->where('quantity', '>', 0)->get();
         $company = Company::findOrFail(1);
-
+        $indicator = Indicator::findOrFail(1);
         $retentions = Tax::from('taxes as tax')
         ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
@@ -518,6 +519,7 @@ class NcinvoiceController extends Controller
             'ncinvoice',
             'ncinvoiceProducts',
             'company',
+            'indicator',
             'logo',
             'retentions',
             'retentionsum'

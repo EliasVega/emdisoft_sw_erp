@@ -343,7 +343,7 @@ class NdinvoiceController extends Controller
        $ndinvoice = ndinvoice::findOrFail($id);
        $ndinvoiceProducts = ndinvoiceProduct::where('ndinvoice_id', $id)->where('quantity', '>', 0)->get();
        $company = Company::findOrFail(1);
-       //$retention = Retention::where('type', 'ndinvoice')->where('retentionable_id', $id)->first();
+       $indicator = Indicator::findOrFail(1);
        $retentions = Tax::from('taxes as tax')
         ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
@@ -365,6 +365,7 @@ class NdinvoiceController extends Controller
             'ndinvoice',
             'ndinvoiceProducts',
             'company',
+            'indicator',
             'logo',
             'retentions',
             'retentionsum'
@@ -384,7 +385,7 @@ class NdinvoiceController extends Controller
         session()->forget('ndinvoice');
         $ndinvoiceProducts = ndinvoiceProduct::where('ndinvoice_id', $ndinvoice->id)->where('quantity', '>', 0)->get();
         $company = Company::findOrFail(1);
-
+        $indicator = Indicator::findOrFail(1);
         $retentions = Tax::from('taxes as tax')
         ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
@@ -405,6 +406,7 @@ class NdinvoiceController extends Controller
             'ndinvoice',
             'ndinvoiceProducts',
             'company',
+            'indicator',
             'retentions',
             'retentionsum'
         ));

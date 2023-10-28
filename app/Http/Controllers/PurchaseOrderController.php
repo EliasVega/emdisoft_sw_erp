@@ -342,7 +342,7 @@ class PurchaseOrderController extends Controller
         $purchaseOrder = PurchaseOrder::findOrFail($id);
         $purchaseOrderProducts = PurchaseOrderProduct::where('purchase_order_id', $id)->where('quantity', '>', 0)->get();
         $company = Company::findOrFail(1);
-
+        $indicator = Indicator::findOrFail(1);
         $purchaseOrderpdf = "COMP-". $purchaseOrder->id;
         $logo = './imagenes/logos'.$company->logo;
         $view = \view('admin.purchaseOrder.pdf', compact('purchaseOrder', 'purchaseOrderProducts', 'company', 'logo'));
@@ -364,7 +364,13 @@ class PurchaseOrderController extends Controller
 
         $purchaseOrderpdf = "COMP-". $purchaseOrder->id;
         $logo = './imagenes/logos'.$company->logo;
-        $view = \view('admin.purchaseOrder.pdf', compact('purchaseOrder', 'purchaseOrderProducts', 'company', 'logo'));
+        $view = \view('admin.purchaseOrder.pdf', compact(
+            'purchaseOrder',
+            'purchaseOrderProducts',
+            'company',
+            'indicator',
+            'logo'
+        ));
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
         //$pdf->setPaper ( 'A7' , 'landscape' );
@@ -378,13 +384,14 @@ class PurchaseOrderController extends Controller
         $purchaseOrder = PurchaseOrder::where('id', $id)->first();
         $purchaseOrderProducts = PurchaseOrderProduct::where('purchase_order_id', $id)->where('quantity', '>', 0)->get();
         $company = Company::where('id', 1)->first();
-
+        $indicator = Indicator::findOrFail(1);
         $purchaseOrderpdf = "FACT-". $purchaseOrder->document;
         $logo = './imagenes/logos'.$company->logo;
         $view = \view('admin.purchaseOrder.pos', compact(
             'purchaseOrder',
             'purchaseOrderProducts',
             'company',
+            'indicator',
             'logo',
         ))->render();
         $pdf = App::make('dompdf.wrapper');
@@ -402,13 +409,14 @@ class PurchaseOrderController extends Controller
         session()->forget('purchaseOrder');
         $purchaseOrderProducts = PurchaseOrderProduct::where('purchase_order_id', $purchaseOrder->id)->where('quantity', '>', 0)->get();
         $company = Company::where('id', 1)->first();
-
+        $indicator = Indicator::findOrFail(1);
         $purchaseOrderpdf = "FACT-". $purchaseOrder->document;
         $logo = './imagenes/logos'.$company->logo;
         $view = \view('admin.purchase_order.pos', compact(
             'purchaseOrder',
             'purchaseOrderProducts',
             'company',
+            'indicator',
             'logo',
         ))->render();
         $pdf = App::make('dompdf.wrapper');

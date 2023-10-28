@@ -572,6 +572,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::findOrFail($id);
         $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->where('quantity', '>', 0)->get();
         $company = Company::findOrFail(1);
+        $indicator = Indicator::findOrFail(1);
         $debitNotes = Ndinvoice::where('invoice_id', $id)->first();
         $creditNotes = Ncinvoice::where('invoice_id', $id)->first();
         $days = $invoice->created_at->diffInDays($invoice->due_date);
@@ -635,7 +636,7 @@ class InvoiceController extends Controller
             'days',
             'invoiceProducts',
             'company',
-            //'logo',
+            'indicator',
             'debitNotes',
             'creditNotes',
             'retentions',
@@ -660,6 +661,7 @@ class InvoiceController extends Controller
         session()->forget('invoice');
         $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->where('quantity', '>', 0)->get();
         $company = Company::findOrFail(1);
+        $indicator = Indicator::findOrFail(1);
         $debitNotes = Ndinvoice::where('invoice_id', $invoice->id)->first();
         $creditNotes = Ncinvoice::where('invoice_id', $invoice->id)->first();
         $days = $invoice->created_at->diffInDays($invoice->due_date);
@@ -699,7 +701,7 @@ class InvoiceController extends Controller
             'days',
             'invoiceProducts',
             'company',
-            //'logo',
+            'indicator',
             'debitNotes',
             'creditNotes',
             'retentions',
@@ -721,6 +723,7 @@ class InvoiceController extends Controller
         $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->where('quantity', '>', 0)->get();
         $restaurantOrder = RestaurantOrder::where('invoice_id', $id)->first();
         $company = Company::findOrFail(1);
+        $indicator = Indicator::findOrFail(1);
         $debitNotes = Ndinvoice::where('invoice_id', $id)->first();
         $creditNotes = Ncinvoice::where('invoice_id', $id)->first();
         $days = $invoice->created_at->diffInDays($invoice->due_date);
@@ -762,7 +765,7 @@ class InvoiceController extends Controller
             'days',
             'invoiceProducts',
             'company',
-            //'logo',
+            'indicator',
             'debitNotes',
             'creditNotes',
             'retentions',
@@ -787,6 +790,7 @@ class InvoiceController extends Controller
         $restaurantOrder = RestaurantOrder::where('invoice_id', $invoice->id)->first();
         $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->where('quantity', '>', 0)->get();
         $company = Company::findOrFail(1);
+        $indicator = Indicator::findOrFail(1);
         $debitNotes = Ndinvoice::where('invoice_id', $invoice->id)->first();
         $creditNotes = Ncinvoice::where('invoice_id', $invoice->id)->first();
         $days = $invoice->created_at->diffInDays($invoice->due_date);
@@ -828,7 +832,7 @@ class InvoiceController extends Controller
             'invoiceProducts',
             'restaurantOrder',
             'company',
-            //'logo',
+            'indicator',
             'debitNotes',
             'creditNotes',
             'retentions',

@@ -322,41 +322,42 @@ class NcpurchaseController extends Controller
 
     public function ncpurchasePdf(Request $request, $id)
     {
-       $ncpurchase = Ncpurchase::findOrFail($id);
-       $ncpurchaseProducts = NcpurchaseProduct::where('ncpurchase_id', $id)->where('quantity', '>', 0)->get();
-       $company = Company::findOrFail(1);
+        $ncpurchase = Ncpurchase::findOrFail($id);
+        $ncpurchaseProducts = NcpurchaseProduct::where('ncpurchase_id', $id)->where('quantity', '>', 0)->get();
+        $company = Company::findOrFail(1);
+        $indicator = Indicator::findOrFail(1);
+        $retentions = Tax::from('taxes as tax')
+            ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('tax.tax_value', 'ct.name')
+            ->where('tax.type', 'ncpurchase')
+            ->where('tax.taxable_id', $ncpurchase->id)
+            ->where('tt.type_tax', 'retention')->get();
+        $retentionsum = Tax::from('taxes as tax')
+            ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('tax.tax_value', 'ct.name')
+            ->where('tax.type', 'ncpurchase')
+            ->where('tax.taxable_id', $ncpurchase->id)
+            ->where('tt.type_tax', 'retention')->sum('tax_value');
 
-       $retentions = Tax::from('taxes as tax')
-        ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
-        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-        ->select('tax.tax_value', 'ct.name')
-        ->where('tax.type', 'ncpurchase')
-        ->where('tax.taxable_id', $ncpurchase->id)
-        ->where('tt.type_tax', 'retention')->get();
-       $retentionsum = Tax::from('taxes as tax')
-        ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
-        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-        ->select('tax.tax_value', 'ct.name')
-        ->where('tax.type', 'ncpurchase')
-        ->where('tax.taxable_id', $ncpurchase->id)
-        ->where('tt.type_tax', 'retention')->sum('tax_value');
+        $ncpurchasepdf = $ncpurchase->document;
+        $logo = './imagenes/logos'.$company->logo;
+        $view = \view('admin.ncpurchase.pdf', compact(
+                'ncpurchase',
+                'ncpurchaseProducts',
+                'company',
+                'indicator',
+                'logo',
+                'retentions',
+                'retentionsum'
+            ));
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        //$pdf->setPaper ( 'A7' , 'landscape' );
 
-       $ncpurchasepdf = $ncpurchase->document;
-       $logo = './imagenes/logos'.$company->logo;
-       $view = \view('admin.ncpurchase.pdf', compact(
-            'ncpurchase',
-            'ncpurchaseProducts',
-            'company',
-            'logo',
-            'retentions',
-            'retentionsum'
-        ));
-       $pdf = App::make('dompdf.wrapper');
-       $pdf->loadHTML($view);
-       //$pdf->setPaper ( 'A7' , 'landscape' );
-
-       return $pdf->stream('vista-pdf', "$ncpurchasepdf.pdf");
-       //return $pdf->download("$purchasepdf.pdf");*/
+        return $pdf->stream('vista-pdf', "$ncpurchasepdf.pdf");
+        //return $pdf->download("$purchasepdf.pdf");*/
     }
 
     public function pdfNcpurchase(Request $request)

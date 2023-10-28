@@ -28,6 +28,7 @@
                             <th>Editar</th>
                             <th>Dian</th>
                             <th>Post</th>
+                            <th>Logo</th>
                             <th>Nomina</th>
                             <th>Cont.</th>
                             <th>Inv.</th>
@@ -65,6 +66,7 @@ $(document).ready(function ()
                 {data: 'edit'},
                 {data: 'dian'},
                 {data: 'pos'},
+                {data: 'logo'},
                 {data: 'payroll'},
                 {data: 'accounting'},
                 {data: 'inventory'},

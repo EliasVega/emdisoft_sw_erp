@@ -510,7 +510,7 @@ class NdpurchaseController extends Controller
        $ndpurchase = ndpurchase::findOrFail($id);
        $ndpurchaseProducts = ndpurchaseProduct::where('ndpurchase_id', $id)->where('quantity', '>', 0)->get();
        $company = Company::findOrFail(1);
-       //$retention = Retention::where('type', 'ndpurchase')->where('retentionable_id', $id)->first();
+       $indicator = Indicator::findOrFail(1);
        $retentions = Tax::from('taxes as tax')
         ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
@@ -532,6 +532,7 @@ class NdpurchaseController extends Controller
             'ndpurchase',
             'ndpurchaseProducts',
             'company',
+            'indicator',
             'logo',
             'retentions',
             'retentionsum'
@@ -551,7 +552,7 @@ class NdpurchaseController extends Controller
         session()->forget('ndpurchase');
         $ndpurchaseProducts = ndpurchaseProduct::where('ndpurchase_id', $ndpurchase->id)->where('quantity', '>', 0)->get();
         $company = Company::findOrFail(1);
-
+        $indicator = Indicator::findOrFail(1);
         $retentions = Tax::from('taxes as tax')
         ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
@@ -573,6 +574,7 @@ class NdpurchaseController extends Controller
             'ndpurchase',
             'ndpurchaseProducts',
             'company',
+            'indicator',
             'logo',
             'retentions',
             'retentionsum'

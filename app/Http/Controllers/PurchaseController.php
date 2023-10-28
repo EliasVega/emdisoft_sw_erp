@@ -1081,6 +1081,7 @@ class PurchaseController extends Controller
             $productPurchases = PurchaseRawmaterial::where('purchase_id', $purchase->id)->where('quantity', '>', 0)->get();
         }
         $company = Company::findOrFail(1);
+        $indicator = Indicator::findOrFail(1);
         $debitNotes = Ndpurchase::where('purchase_id', $id)->first();
         $creditNotes = Ncpurchase::where('purchase_id', $id)->first();
         $days = $purchase->created_at->diffInDays($purchase->due_date);
@@ -1146,6 +1147,7 @@ class PurchaseController extends Controller
             'days',
             'productPurchases',
             'company',
+            'indicator',
             'logo',
             'debitNotes',
             'creditNotes',
@@ -1175,6 +1177,7 @@ class PurchaseController extends Controller
             $productPurchases = PurchaseRawmaterial::where('purchase_id', $purchase->id)->where('quantity', '>', 0)->get();
         }
         $company = Company::findOrFail(1);
+        $indicator = Indicator::findOrFail(1);
         $debitNotes = Ndpurchase::where('purchase_id', $purchase->id)->first();
         $creditNotes = Ncpurchase::where('purchase_id', $purchase->id)->first();
         $days = $purchase->created_at->diffInDays($purchase->due_date);
@@ -1214,6 +1217,7 @@ class PurchaseController extends Controller
             'days',
             'productPurchases',
             'company',
+            'indicator',
             'logo',
             'debitNotes',
             'creditNotes',
@@ -1241,6 +1245,7 @@ class PurchaseController extends Controller
             $productPurchases = PurchaseRawmaterial::where('purchase_id', $purchase->id)->where('quantity', '>', 0)->get();
         }
         $company = Company::findOrFail(1);
+        $indicator = Indicator::findOrFail(1);
         $debitNotes = Ndpurchase::where('purchase_id', $id)->first();
         $creditNotes = Ncpurchase::where('purchase_id', $id)->first();
         $days = $purchase->created_at->diffInDays($purchase->due_date);
@@ -1280,6 +1285,7 @@ class PurchaseController extends Controller
             'days',
             'productPurchases',
             'company',
+            'indicator',
             'logo',
             'debitNotes',
             'creditNotes',
@@ -1309,6 +1315,7 @@ class PurchaseController extends Controller
             $productPurchases = PurchaseRawmaterial::where('purchase_id', $purchase->id)->where('quantity', '>', 0)->get();
         }
         $company = Company::findOrFail(1);
+        $indicator = Indicator::findOrFail(1);
         $debitNotes = Ndpurchase::where('purchase_id', $purchase->id)->first();
         $creditNotes = Ncpurchase::where('purchase_id', $purchase->id)->first();
         $days = $purchase->created_at->diffInDays($purchase->due_date);
@@ -1348,6 +1355,7 @@ class PurchaseController extends Controller
             'days',
             'productPurchases',
             'company',
+            'indicator',
             'logo',
             'debitNotes',
             'creditNotes',

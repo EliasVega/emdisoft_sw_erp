@@ -45,7 +45,7 @@ class IndicatorController extends Controller
             ->addColumn('productPrice', 'admin/indicator/productPrice')
             ->addColumn('rawMaterial', 'admin/indicator/rawMaterial')
             ->addColumn('restaurant', 'admin/indicator/restaurant')
-            ->rawColumns(['edit', 'dian', 'pos', 'payroll', 'accounting', 'productPrice', 'inventory', 'rawMaterial', 'restaurant'])
+            ->rawColumns(['edit', 'dian', 'pos', 'logo', 'payroll', 'accounting', 'productPrice', 'inventory', 'rawMaterial', 'restaurant'])
             ->make(true);
         }
 

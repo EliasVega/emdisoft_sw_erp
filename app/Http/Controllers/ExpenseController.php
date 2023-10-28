@@ -457,6 +457,7 @@ class ExpenseController extends Controller
         $expense = Expense::findOrFail($id);
         $expenseProducts = ExpenseProduct::where('expense_id', $expense->id)->where('quantity', '>', 0)->get();
         $company = Company::findOrFail(1);
+        $indicator = Indicator::findOrFail(1);
         $expensepdf = "COMP-". $expense->document;
         $logo = './imagenes/logos'.$company->logo;
 
@@ -486,6 +487,7 @@ class ExpenseController extends Controller
             'expense',
             'expenseProducts',
             'company',
+            'indicator',
             'logo'
         ));
         $pdf = App::make('dompdf.wrapper');
@@ -500,12 +502,14 @@ class ExpenseController extends Controller
         $expense = Expense::where('id', $id)->first();
         $expenseProducts = ExpenseProduct::where('expense_id', $id)->where('quantity', '>', 0)->get();
         $company = Company::where('id', 1)->first();
+        $indicator = Indicator::findOrFail(1);
         $expensepdf = "FACT-". $expense->document;
         $logo = './imagenes/logos'.$company->logo;
         $view = \view('admin.expense.pos', compact(
             'expense',
             'expenseProducts',
             'company',
+            'indicator',
             'logo'
         ))->render();
         $pdf = App::make('dompdf.wrapper');
@@ -522,13 +526,14 @@ class ExpenseController extends Controller
         session()->forget('expense');
         $expenseProducts = ExpenseProduct::where('expense_id', $expense->id)->where('quantity', '>', 0)->get();
         $company = Company::where('id', 1)->first();
-
+        $indicator = Indicator::findOrFail(1);
         $expensepdf = "FACT-". $expense->document;
         $logo = './imagenes/logos'.$company->logo;
         $view = \view('admin.expense.pos', compact(
             'expense',
             'expenseProducts',
             'company',
+            'indicator',
             'logo'
             ))->render();
         $pdf = App::make('dompdf.wrapper');

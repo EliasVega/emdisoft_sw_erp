@@ -586,9 +586,14 @@ class RestaurantOrderController extends Controller
         $restaurantOrder = RestaurantOrder::where('id', $id)->first();
         $productRestaurantOrders = ProductRestaurantOrder::where('restaurant_order_id', $id)->where('quantity', '>', 0)->get();
         $company = Company::where('id', 1)->first();
-
+        $indicator = Indicator::findOrFail(1);
         $restaurantOrderpdf = "COMANDA-". $restaurantOrder->id;
-        $view = \view('admin.restaurantOrder.pos', compact('restaurantOrder', 'productRestaurantOrders', 'company'))->render();
+        $view = \view('admin.restaurantOrder.pos', compact(
+            'restaurantOrder',
+            'productRestaurantOrders',
+            'company',
+            'indicator'
+            ))->render();
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
         $pdf->setPaper (array(0,0,226.76,497.64), 'portrait');
@@ -605,9 +610,14 @@ class RestaurantOrderController extends Controller
         session()->forget('restaurantOrder');
         $productRestaurantOrders = ProductRestaurantOrder::where('restaurant_order_id', $restaurantOrder->id)->where('quantity', '>', 0)->get();
         $company = Company::where('id', 1)->first();
-
+        $indicator = Indicator::findOrFail(1);
         $restaurantOrderpos = "COMANDA-". $restaurantOrder->id;
-        $view = \view('admin.restaurantOrder.pos', compact('restaurantOrder', 'productRestaurantOrders', 'company'))->render();
+        $view = \view('admin.restaurantOrder.pos', compact(
+            'restaurantOrder',
+            'productRestaurantOrders',
+            'company',
+            'indicator'
+            ))->render();
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
         $pdf->setPaper (array(0,0,226.76,497.64), 'portrait');
