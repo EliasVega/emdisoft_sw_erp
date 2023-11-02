@@ -546,14 +546,12 @@
                                             <p>Facturas</p>
                                         </a>
                                     </li>
-                                    @if (indicator()->restautant == 'on')
                                         <li class="nav-item">
                                             <a href="{{ url('restaurantOrder') }}" class="nav-link">
                                                 <i class="far fa-dot-circle nav-icon"></i>
                                                 <p>Comanda</p>
                                             </a>
                                         </li>
-                                    @endif
 
                                     <li class="nav-item">
                                         <a href="{{ url('ncinvoice') }}" class="nav-link">
@@ -627,7 +625,6 @@
                         </ul>
                     </li>
                 @endif
-                @if (indicator()->payroll == 'on')
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -697,7 +694,6 @@
                             </li>
                         </ul>
                     </li>
-                @endif
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
