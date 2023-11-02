@@ -35,14 +35,13 @@ class BranchController extends Controller
     public function index(Request $request)
     {
         if (request()->ajax()) {
-            $users = Auth::user();
-            $user = $users->Roles[0]->name;
+            $user = current_user()->Roles[0]->name;
             if ($user == 'superAdmin' ||$user == 'admin') {
                 //Consulta para mostrar sucursales a admin y superadmin
                 $branches = Branch::get();
             } else {
                 //Consulta para mostrar sucursales de los demas roles
-                $branches = Branch::where('id', $users->branch_id)->get();
+                $branches = Branch::where('id', current_user()->branch_id)->get();
             }
             return DataTables::of($branches)
             ->addIndexColumn()

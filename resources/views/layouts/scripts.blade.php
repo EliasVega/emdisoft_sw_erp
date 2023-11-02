@@ -1,3 +1,23 @@
+<!-- jQuery -->
+
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+<!-- Bootstrap 4 -->
+
+
+<!-- AdminLTE App -->
+<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/js/adminlte.min.js"></script>
+
+<script src="https://kit.fontawesome.com/88e63931e0.js" crossorigin="anonymous"></script>
+
+<!--
+<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js" defer></script>-->
+
 <!-- DataTable -->
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js" defer></script>
 <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js" defer></script>
@@ -24,10 +44,13 @@
 <script src="{{ asset('vendor/bootstrap-fileinput/js/locales/es.js') }}" type="text/javascript"></script>
 <script src="{{ asset('vendor/bootstrap-fileinput/themes/fa5/theme.min.js') }}" type="text/javascript"></script>
 
-<!-- Sweet Alert2 -->
-
 <!-- Select2 -->
 <script src="{{ asset('vendor/select2/js/select2.min.js') }}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script src="{{ asset('js/app.min.js')}}"></script>
+<script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('vendor/sweetalert2/sweetalert2.min.js') }}"></script>
 
 
 

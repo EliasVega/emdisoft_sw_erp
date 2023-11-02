@@ -59,7 +59,7 @@ class MunicipalityController extends Controller
      */
     public function store(StoreMunicipalityRequest $request)
     {
-        $municipality = new municipality();
+        $municipality = new Municipality();
         $municipality->department_id = $request->department_id;
         $municipality->code = $request->code;
         $municipality->name = $request->name;

@@ -243,6 +243,18 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'organization.edit', 'description' => 'Editar organizacion fiscal', 'status' => 'locked'])->syncRoles([$superAdmin]);
         Permission::create(['name' => 'organization.destroy', 'description' => 'Eliminar organizacion fiscal', 'status' => 'locked'])->syncRoles([$superAdmin]);
 
+        Permission::create(['name' => 'overtimeType.index', 'description' => 'Listado Tipos de Hora', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
+        Permission::create(['name' => 'overtimeType.create', 'description' => 'Crear tipos de hora', 'status' => 'locked'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'overtimeType.show', 'description' => 'Ver tipos de hora', 'status' => 'locked'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'overtimeType.edit', 'description' => 'Editar tipos de hora', 'status' => 'locked'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'overtimeType.destroy', 'description' => 'Eliminar tipos de hora', 'status' => 'locked'])->syncRoles([$superAdmin]);
+
+        Permission::create(['name' => 'overtime.index', 'description' => 'Listado Horas extras', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
+        Permission::create(['name' => 'overtime.create', 'description' => 'Crear horas Extra', 'status' => 'active'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'overtime.show', 'description' => 'Ver horas Extra', 'status' => 'active'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'overtime.edit', 'description' => 'Editar horas Extra', 'status' => 'active'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'overtime.destroy', 'description' => 'Eliminar horas Extra', 'status' => 'active'])->syncRoles([$superAdmin]);
+
         Permission::create(['name' => 'pay.index', 'description' => 'Listado Pago y abonos', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
         Permission::create(['name' => 'pay.create', 'description' => 'Crear Pago y abonos', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
         Permission::create(['name' => 'pay.show', 'description' => 'Ver Pago y abonos', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);

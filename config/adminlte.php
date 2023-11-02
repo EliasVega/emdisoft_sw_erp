@@ -460,6 +460,42 @@ return [
                             'url' => 'employeeSubtype',
                             'can'  => 'employeeSubtype.index',
                         ],
+                        [
+                            'text' => 'Tipo de hora',
+                            'url' => 'employeeSubtype',
+                            'can'  => 'employeeSubtype.index',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Tipos Nomina',
+                    'icon'    => 'fas fa-fw fa-landmark',
+                    'submenu' => [
+                        [
+                            'text' => 'Frecuencia de pago',
+                            'url' => 'paymentFrecuency',
+                            'can'  => 'paymentFrecuency.index',
+                        ],
+                        [
+                            'text' => 'Tipos de Contrato',
+                            'url' => 'contratType',
+                            'can'  => 'contratType.index',
+                        ],
+                        [
+                            'text' => 'Tipos Empleados',
+                            'url' => 'employeeType',
+                            'can'  => 'employeeType.index',
+                        ],
+                        [
+                            'text' => 'Subtipos Empleados',
+                            'url' => 'employeeSubtype',
+                            'can'  => 'employeeSubtype.index',
+                        ],
+                        [
+                            'text' => 'Tipo de hora',
+                            'url' => 'overtimeType',
+                            'can'  => 'overtimeType.index',
+                        ],
                     ],
                 ],
                 [
@@ -754,6 +790,11 @@ return [
                             'text' => 'Cargos',
                             'url' => 'charge',
                             'can'  => 'charge.index',
+                        ],
+                        [
+                            'text' => 'Horas Extras',
+                            'url' => 'overtime',
+                            'can'  => 'overtime.index',
                         ],
                     ],
                 ],

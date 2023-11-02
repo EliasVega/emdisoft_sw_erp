@@ -95,4 +95,9 @@ class Employee extends Model
     {
         return $this->morphMany(Advance::class, 'advanceable');
     }
+
+    public function overtimes()
+    {
+        return $this->belongsToMany(Overtime::class);
+    }
 }

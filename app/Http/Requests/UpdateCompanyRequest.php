@@ -32,7 +32,7 @@ class UpdateCompanyRequest extends FormRequest
             'api_token' => 'required|string|max:100',
             'email' => 'required',
             'emailfe' => 'required',
-            'logo' => '',
+            'imageName' => '',
             'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'in:activo,inactivo',
             //'cash_register' => 'required|in:activo,inactivo',

@@ -31,6 +31,7 @@ class StoreCompanyRequest extends FormRequest
             'phone' => 'required|string|max:12',
             'email' => 'required',
             'emailfe' => 'required',
+            'imageName' => '',
             'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'in:activo,inactivo',
             'department_id' => 'required',

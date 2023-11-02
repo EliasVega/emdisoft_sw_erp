@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -56,5 +57,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RawMaterialSeeder::class);
         $this->call(ProductRawmaterialSeeder::class);
         $this->call(BranchRawmaterialsTableSeeder::class);
+        $this->call(OvertimeTypeSeeder::class);
     }
 }

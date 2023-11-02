@@ -43,7 +43,9 @@
         },
         "files": [
             "app/Helpers/AdjustmentNoteSend.php",
+            "app/Helpers/CashRegisterModel.php",
             "app/Helpers/CurrentUser.php",
+            "app/Helpers/Indicator.php",
             "app/Helpers/InvoiceSend.php",
             "app/Helpers/NcinvoiceSend.php",
             "app/Helpers/NdinvoiceSend.php",
@@ -53,6 +55,7 @@
             "app/Helpers/SupportDocumentSend.php",
             "app/Helpers/TaxesGlobals.php",
             "app/Helpers/TaxesLines.php"
+
         ]
     },
     "scripts": {

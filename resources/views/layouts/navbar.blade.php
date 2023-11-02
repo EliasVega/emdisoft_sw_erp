@@ -3,9 +3,19 @@
     <!-- Left navbar links -->
     <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link" data-widget="pushmenu" href="#" role="button "><i class="fas fa-bars cl-icon"></i></a>
+          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
-    </ul>
+        @can('branch.index')
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="branch" class="nav-link">Sucursales</a>
+            </li>
+        @endcan
+        @can('company.index')
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="company" class="nav-link">Compañia</a>
+            </li>
+        @endcan
+      </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
