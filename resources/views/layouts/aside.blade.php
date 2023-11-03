@@ -540,19 +540,22 @@
                                 </p>
                                 </a>
                                 <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{ url('invoice') }}" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Facturas</p>
-                                        </a>
-                                    </li>
+
+                                    @if (current_user()->company->indicator->restaurant == 'off')
+                                        <li class="nav-item">
+                                            <a href="{{ url('invoice') }}" class="nav-link">
+                                                <i class="far fa-dot-circle nav-icon"></i>
+                                                <p>Facturas</p>
+                                            </a>
+                                        </li>
+                                    @else
                                         <li class="nav-item">
                                             <a href="{{ url('restaurantOrder') }}" class="nav-link">
                                                 <i class="far fa-dot-circle nav-icon"></i>
                                                 <p>Comanda</p>
                                             </a>
                                         </li>
-
+                                    @endif
                                     <li class="nav-item">
                                         <a href="{{ url('ncinvoice') }}" class="nav-link">
                                             <i class="far fa-dot-circle nav-icon"></i>
@@ -625,6 +628,7 @@
                         </ul>
                     </li>
                 @endif
+                @if (current_user()->company->indicator->payroll == 'on')
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -694,6 +698,7 @@
                             </li>
                         </ul>
                     </li>
+                @endif
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

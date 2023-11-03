@@ -61,7 +61,7 @@
                     <option value="product">PRODUCTO</option>
                     <option value="service">SERVICIO</option>
                     @if ($indicator->raw_material == 'on')
-                        <option value="consumo">CONSUMO</option>
+                        <option value="consumer">CONSUMO</option>
                     @endif
             </select>
         </div>

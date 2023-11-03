@@ -16,7 +16,7 @@ trait InventoryInvoices {
                 $branchProducts->stock -= $quantityLocal;
                 $branchProducts->update();
             }
-        } else if ($product->type_product == 'consumo') {//si el producto es typo consumo
+        } else if ($product->type_product == 'consumer') {//si el producto es typo consumer
             if ($indicator->inventory == 'on') {//si se maneja inventario
                 $product->stock += $quantityLocal;
                 $product->update();

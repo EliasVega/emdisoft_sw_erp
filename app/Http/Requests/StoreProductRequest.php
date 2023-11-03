@@ -29,7 +29,7 @@ class StoreProductRequest extends FormRequest
             'price'           => 'required|numeric',
             'sale_price'      => '',
             'stock'           => '',
-            'type_product'    => 'required|in:product,service,consumo',
+            'type_product'    => 'required|in:product,service,consumer',
             'status'          => 'in:active,inactive',
             'image'           => 'image|mimes:jpeg,png|max:1000',
             'imageName'       => '',
