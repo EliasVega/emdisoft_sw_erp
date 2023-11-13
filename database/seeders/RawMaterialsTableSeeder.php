@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class RawMaterialsTableSeeder extends Seeder
 {
@@ -14,11 +15,9 @@ class RawMaterialsTableSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('raw_materials')->delete();
 
-
-        \DB::table('raw_materials')->delete();
-
-        \DB::table('raw_materials')->insert(array (
+        DB::table('raw_materials')->insert(array (
             0 =>
             array (
                 'id' => 1,
