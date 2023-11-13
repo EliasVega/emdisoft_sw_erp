@@ -113,58 +113,58 @@
                 <tfoot>
                     <!--DATOS FTOTALES -->
                     <tr>
-                        <th colspan="3" class="footRight">TOTAL:</th>
-                        <td colspan="3" class="footRight"><strong>${{number_format($purchase->total,2)}}</strong></td>
+                        <th colspan="3" class="footRight">TOTAL</th>
+                        <td class="footRight"><strong>${{number_format($purchase->total)}}</strong></td>
                     </tr>
                     <tr>
-                        <th colspan="3" class="footRight">IMPUESTOS:</th>
-                        <td colspan="3" class="footRight"><strong>${{number_format($purchase->total_tax,2)}}</strong> </td>
+                        <th colspan="3" class="footRight">IMPUESTOS</th>
+                        <td class="footRight"><strong>${{number_format($purchase->total_tax)}}</strong> </td>
                     </tr>
                     <tr>
-                        <th colspan="3" class="footRight">TOTAL PAGAR:</th>
-                        <td colspan="3" class="footRight"><strong>${{number_format($purchase->total_pay,2)}}</strong></td>
+                        <th colspan="3" class="footRight">TOTAL PAGAR</th>
+                        <td class="footRight"><strong>${{number_format($purchase->total_pay)}}</strong></td>
                     </tr>
                     @if ($retentionsum > 0)
                         @foreach ($retentions as $retention)
                             <tr>
-                                <th colspan="3" class="footRight">{{ $retention->name }}:</th>
-                                <td colspan="3" class="footRight"><strong>$ -{{number_format($retention->tax_value,2)}}</strong> </td>
+                                <th colspan="3" class="footRight">{{ $retention->name }}-</th>
+                                <td class="footRight"><strong>${{number_format($retention->tax_value)}}</strong> </td>
                             </tr>
                         @endforeach
                     @endif
                     @if ($purchase->pay > 0)
                         <tr>
-                            <th  colspan="3" class="footRight">ABONOS</th>
-                            <td colspan="3" class="footRight"><strong>$ -{{number_format($purchase->pay,2)}}</strong></td>
+                            <th  colspan="3" class="footRight">ABONOS -</th>
+                            <td class="footRight"><strong>${{number_format($purchase->pay)}}</strong></td>
                         </tr>
                     @endif
                     @if ($debitNote > 0)
                         <tr>
-                            <th  colspan="3" class="footRight">NOTA DEBITO:</th>
-                            <td colspan="3" class="footRight"><strong id="total">$ -{{number_format($debitNote,2)}}</strong></td>
+                            <th  colspan="3" class="footRight">NOTA DEBITO -</th>
+                            <td class="footRight"><strong id="total">${{number_format($debitNote)}}</strong></td>
                         </tr>
                     @endif
                     @if ($retentionnd > 0)
                          <tr>
-                             <th  colspan="3" class="footRight">RET ND:</th>
-                             <td colspan="3" class="footRight"><strong id="total">$ -{{number_format($retentionnd,2)}}</strong></td>
+                             <th  colspan="3" class="footRight">RET ND -</th>
+                             <td class="footRight"><strong id="total">${{number_format($retentionnd,2)}}</strong></td>
                          </tr>
                      @endif
                     @if ($creditNote > 0)
                         <tr>
-                            <th  colspan="3" class="footRight">NOTA CREDITO:</th>
-                            <td colspan="3" class="footRight"><strong id="total">${{number_format($creditNote,2)}}</strong></td>
+                            <th  colspan="3" class="footRight">NOTA CREDITO</th>
+                            <td class="footRight"><strong id="total">${{number_format($creditNote)}}</strong></td>
                         </tr>
                     @endif
                     @if ($retentionnc > 0)
                          <tr>
-                             <th  colspan="3" class="footRight">RET NC:</th>
-                             <td colspan="3" class="footRight"><strong id="total">$ -{{number_format($retentionnc,2)}}</strong></td>
+                             <th  colspan="3" class="footRight">RET NC -</th>
+                             <td class="footRight"><strong id="total">${{number_format($retentionnc)}}</strong></td>
                          </tr>
                      @endif
                     <tr>
-                        <th colspan="3" class="footRight">SALDO A PAGAR:</th>
-                        <td colspan="3" class="footRight"><strong>$ {{number_format($purchase->total_pay -  $purchase->pay - $debitNote - $retentionsum + $creditNote + $retentionnd - $retentionnc,2)}}</strong></td>
+                        <th colspan="3" class="footRight">SALDO A PAGAR</th>
+                        <td class="footRight"><strong>$ {{number_format($purchase->total_pay -  $purchase->pay - $debitNote - $retentionsum + $creditNote + $retentionnd - $retentionnc,2)}}</strong></td>
                     </tr>
                 </tfoot>
             </table>

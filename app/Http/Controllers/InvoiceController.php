@@ -118,7 +118,7 @@ class InvoiceController extends Controller
         ->first();
         if ($indicator->pos == 'on') {
             if(is_null($cashRegister)){
-                Alert::success('danger','Debes tener una caja Abierta para realizar Compras');
+                Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
                 return redirect("branch");
             }
         }

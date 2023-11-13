@@ -554,10 +554,16 @@
                                         <li class="nav-item">
                                             <a href="{{ url('invoice') }}" class="nav-link">
                                                 <i class="far fa-dot-circle nav-icon"></i>
-                                                <p>Facturas</p>
+                                                <p>Ventas</p>
                                             </a>
                                         </li>
                                     @else
+                                        <li class="nav-item">
+                                            <a href="{{ url('invoice') }}" class="nav-link">
+                                                <i class="far fa-dot-circle nav-icon"></i>
+                                                <p>Ventas</p>
+                                            </a>
+                                        </li>
                                         <li class="nav-item">
                                             <a href="{{ url('restaurantOrder') }}" class="nav-link">
                                                 <i class="far fa-dot-circle nav-icon"></i>
@@ -565,6 +571,7 @@
                                             </a>
                                         </li>
                                     @endif
+
                                     <li class="nav-item">
                                         <a href="{{ url('ncinvoice') }}" class="nav-link">
                                             <i class="far fa-dot-circle nav-icon"></i>

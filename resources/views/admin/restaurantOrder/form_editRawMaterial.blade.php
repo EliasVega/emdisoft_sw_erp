@@ -1,7 +1,7 @@
 <div class="box-body row">
     <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
-            <label for="raw_material_id">Editar Materia Prima de este producto</label>
+            <label for="raw_material_id">Materia Prima</label>
             <select name="raw_material_id" class="form-control selectpicker" data-live-search="true" id="raw_material_id">
                 <option value="{{ old('raw_material_id') }}" disabled selected>Seleccionar.</option>
                 @foreach($rawMaterials as $rawMaterial)

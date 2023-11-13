@@ -55,6 +55,7 @@
     $("#addDue_date").hide();
     $("#addBags").hide();
     $("#addOrder").hide();
+    $("#addPosBis").hide();
     $("#save").hide();
 
     $(document).ready(function(){

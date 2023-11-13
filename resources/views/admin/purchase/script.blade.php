@@ -72,11 +72,10 @@
     $("#generat").hide();
     $("#startd").hide();
     $("#resolution").hide();
-    $("#invoiceCode").hide();
+    //$("#invoiceCode").hide();
     $("#addTypeProduct").hide();
-    //$("#noteDocument").hide();
-
-    //$("#percentage").val(0);
+    $("#sucursalBis").hide();
+    $("#documentBis").hide();
 
 
     //Mostrar u ocultar elementos de acuerdo al tipo de documento

@@ -25,7 +25,7 @@ class CategoriesTableSeeder extends Seeder
                 'description' => 'ALMUERZOS',
                 'utility_rate' => '30.00',
                 'status' => 'active',
-                'company_tax_id' => 3,
+                'company_tax_id' => 2,
                 'created_at' =>	'2023-10-20 12:00:00',
                 'updated_at' =>	'2023-10-20 12:00:00'
             ),
@@ -36,7 +36,7 @@ class CategoriesTableSeeder extends Seeder
                 'description' => 'CARNES',
                 'utility_rate' => '30.00',
                 'status' => 'active',
-                'company_tax_id' => 3,
+                'company_tax_id' => 2,
                 'created_at' =>	'2023-10-20 12:00:00',
                 'updated_at' =>	'2023-10-20 12:00:00'
             ),
@@ -47,7 +47,7 @@ class CategoriesTableSeeder extends Seeder
                 'description' => 'DE LA REGION',
                 'utility_rate' => '30.00',
                 'status' => 'active',
-                'company_tax_id' => 3,
+                'company_tax_id' => 2,
                 'created_at' =>	'2023-10-20 12:00:00',
                 'updated_at' =>	'2023-10-20 12:00:00'
             ),
@@ -58,7 +58,7 @@ class CategoriesTableSeeder extends Seeder
                 'description' => 'DESAYUNOS',
                 'utility_rate' => '30.00',
                 'status' => 'active',
-                'company_tax_id' => 3,
+                'company_tax_id' => 2,
                 'created_at' =>	'2023-10-20 12:00:00',
                 'updated_at' =>	'2023-10-20 12:00:00'
             ),
@@ -69,7 +69,7 @@ class CategoriesTableSeeder extends Seeder
                 'description' => 'EMBUTIDOS',
                 'utility_rate' => '30.00',
                 'status' => 'active',
-                'company_tax_id' => 3,
+                'company_tax_id' => 2,
                 'created_at' =>	'2023-10-20 12:00:00',
                 'updated_at' =>	'2023-10-20 12:00:00'
             ),
@@ -80,7 +80,7 @@ class CategoriesTableSeeder extends Seeder
                 'description' => 'ENTRADAS',
                 'utility_rate' => '30.00',
                 'status' => 'active',
-                'company_tax_id' => 3,
+                'company_tax_id' => 2,
                 'created_at' =>	'2023-10-20 12:00:00',
                 'updated_at' =>	'2023-10-20 12:00:00'
             ),
@@ -91,7 +91,7 @@ class CategoriesTableSeeder extends Seeder
                 'description' => 'PASTA',
                 'utility_rate' => '30.00',
                 'status' => 'active',
-                'company_tax_id' => 3,
+                'company_tax_id' => 2,
                 'created_at' =>	'2023-10-20 12:00:00',
                 'updated_at' =>	'2023-10-20 12:00:00'
             ),
@@ -102,7 +102,7 @@ class CategoriesTableSeeder extends Seeder
                 'description' => 'PESCADOS',
                 'utility_rate' => '30.00',
                 'status' => 'active',
-                'company_tax_id' => 3,
+                'company_tax_id' => 2,
                 'created_at' =>	'2023-10-20 12:00:00',
                 'updated_at' =>	'2023-10-20 12:00:00'
             ),
@@ -113,7 +113,7 @@ class CategoriesTableSeeder extends Seeder
                 'description' => 'POLLO',
                 'utility_rate' => '30.00',
                 'status' => 'active',
-                'company_tax_id' => 3,
+                'company_tax_id' => 2,
                 'created_at' =>	'2023-10-20 12:00:00',
                 'updated_at' =>	'2023-10-20 12:00:00'
             ),
@@ -124,7 +124,7 @@ class CategoriesTableSeeder extends Seeder
                 'description' => 'PORCIONES',
                 'utility_rate' => '30.00',
                 'status' => 'active',
-                'company_tax_id' => 3,
+                'company_tax_id' => 2,
                 'created_at' =>	'2023-10-20 12:00:00',
                 'updated_at' =>	'2023-10-20 12:00:00'
             ),
@@ -135,7 +135,7 @@ class CategoriesTableSeeder extends Seeder
                 'description' => 'TIPICOS',
                 'utility_rate' => '30.00',
                 'status' => 'active',
-                'company_tax_id' => 3,
+                'company_tax_id' => 2,
                 'created_at' =>	'2023-10-20 12:00:00',
                 'updated_at' =>	'2023-10-20 12:00:00'
             ),
@@ -146,7 +146,7 @@ class CategoriesTableSeeder extends Seeder
                 'description' => 'VERDURAS',
                 'utility_rate' => '30.00',
                 'status' => 'active',
-                'company_tax_id' => 3,
+                'company_tax_id' => 2,
                 'created_at' =>	'2023-10-20 12:00:00',
                 'updated_at' =>	'2023-10-20 12:00:00'
             ),

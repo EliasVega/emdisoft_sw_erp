@@ -2,10 +2,6 @@
     <a href="{{ route('product.edit', $id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip"
     data-placement="top" title="Editar"><i class="far fa-edit"></i></a>
 @endcan
-@can('kardex.kardexProduct')
-    <a href="{{ route('kardex.index', $id) }}" class="btn btn-limon btn-sm" data-toggle="tooltip"
-    data-placement="top" title="kardex producto"><i class="far fa-edit"></i>Kardex</a>
-@endcan
 @can('product.productStatus')
     @if ($status == 'active')
         <a href="{{ route('productStatus', $id) }}" class="btn btn-verde" data-toggle="tooltip"

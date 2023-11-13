@@ -19,7 +19,7 @@
                             <a type="button" name="filter" id="filter" class="btn btn-lila">Filtrar</a>
                             <a type="button" name="refresh" id="refresh" class="btn btn-ver">Refrescar</a>
                             @can('product.index')
-                                <a href="{{ route('product.index') }}" class="btn btn-lightBlueGrad ml-3"><i class="fas fa-undo-alt mr-3"></i>Regresar </a>
+                                <a href="{{ route('branch.index') }}" class="btn btn-lightBlueGrad ml-3"><i class="fas fa-undo-alt mr-3"></i>Regresar </a>
                             @endcan
                             @can('branch.index')
                                 <a href="{{ route('branch.index') }}" class="btn btn-blueGrad"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>

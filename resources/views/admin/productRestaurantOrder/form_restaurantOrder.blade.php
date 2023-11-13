@@ -92,20 +92,30 @@
         </div>
     </div>
     @if ($indicator->pos == 'on')
-        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mt-3" id="addFe" >
-            <div class="form-check">
-                <input class="form-check-input fe_true" type="radio" name="fe" value="1" id="fe_on">
-                <label class="form-check-label" for="fe">
-                    Generar Factura Electronica
-                </label>
-                </div>
+        @if ($indicator->dian == 'on')
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mt-3" id="addFe" >
                 <div class="form-check">
-                <input class="form-check-input fe_true" type="radio" name="fe" value="2" id="fe_off" checked>
-                <label class="form-check-label" for="fe">
-                    Generar ticket POST
-                </label>
+                    <input class="form-check-input fe_true" type="radio" name="fe" value="1" id="fe_on">
+                    <label class="form-check-label" for="fe">
+                        Generar Factura Electronica
+                    </label>
+                    </div>
+                    <div class="form-check">
+                    <input class="form-check-input fe_true" type="radio" name="fe" value="2" id="fe_off" checked>
+                    <label class="form-check-label" for="fe">
+                        Generar ticket POST
+                    </label>
+                </div>
             </div>
-        </div>
+        @else
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="addPosBis">
+                <div class="form-group">
+                    <label class="form-control-label" for="fe">Pos</label>
+                    <input type="text" id="fe" name="fe" value="2" class="form-control" placeholder="Pos">
+                </div>
+            </div>
+        @endif
+
     @endif
 
     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" id="addBags">

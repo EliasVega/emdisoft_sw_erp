@@ -34,6 +34,8 @@ class BranchController extends Controller
      */
     public function index(Request $request)
     {
+        $indicator = Indicator::findOrFail(1);
+        $rawMaterial = $indicator->raw_material;
         if (request()->ajax()) {
             $user = current_user()->Roles[0]->name;
             if ($user == 'superAdmin' ||$user == 'admin') {
@@ -77,7 +79,7 @@ class BranchController extends Controller
             ->rawcolumns(['btn', 'accesos'])
             ->make(true);
         }
-        return view('admin.branch.index');
+        return view('admin.branch.index', compact('rawMaterial'));
     }
 
     /**

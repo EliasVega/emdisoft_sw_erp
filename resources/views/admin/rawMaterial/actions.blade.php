@@ -2,11 +2,6 @@
     <a href="{{ route('rawMaterial.edit', $id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip"
     data-placement="top" title="Editar"><i class="far fa-edit"></i></a>
 @endcan
-@can('kardex.kardexProduct')
-    <a href="{{ route('kardexProduct', $id) }}" class="btn btn-limon btn-sm" data-toggle="tooltip"
-        data-placement="top" title="kardex"><i class="fas fa-undo-alt"> Kardex Producto</i></a>
-
-@endcan
 @can('rawMaterial.rawMaterialStatus')
     @if ($status == 'active')
         <a href="{{ route('rawMaterialStatus', $id) }}" class="btn btn-verde btn-sm" data-toggle="tooltip"

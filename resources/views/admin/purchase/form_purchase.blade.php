@@ -1,5 +1,5 @@
 <div class="box-body row">
-    <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="provider_id"> Proveedor <a href="{{ route('provider.create') }}" class="btn btn-lightBlueGrad btn-sm" target="_blank" data-toggle="tooltip" data-placement="top">
                 <i class="fa fa-plus"> Agregar Proveedor</i>
@@ -13,41 +13,61 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-6 col-md-4 col-sm-12 col-xs-12 mt-2">
-        <div class="form-group">
-            <label class="form-control-label" for="branch_id">Sucursal Destino</label>
-                <select name="branch_id" class="form-control selectpicker" id="branch_id" data-live-search="true" required>
-                    <option value="0" disabled selected>Seleccionar Sucursal</option>
-                    @foreach($branchs as $branch)
-                        <option value="{{ $branch->id }}">{{ $branch->name }}</option>
-                    @endforeach
-                </select>
+    @if ($countBranchs > 1)
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 mt-2">
+            <div class="form-group">
+                <label class="form-control-label" for="branch_id">Sucursal Destino</label>
+                    <select name="branch_id" class="form-control selectpicker" id="branch_id" data-live-search="true" required>
+                        <option value="0" disabled selected>Seleccionar Sucursal</option>
+                        @foreach($branchs as $branch)
+                            <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                        @endforeach
+                    </select>
+            </div>
         </div>
-    </div>
-    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-        <div class="form-group">
-            <label class="form-control-label" for="document_type_id">Tipo de Documento</label>
-                <select name="document_type_id" class="form-control selectpicker" id="document_type_id" data-live-search="true" required>
-                    <option value="0" disabled selected>Seleccionar Tipo de documento</option>
-                    @foreach($documentTypes as $documentType)
-                        <option value="{{ $documentType->id }}">{{ $documentType->name }}</option>
-                    @endforeach
-                </select>
+    @else
+        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="sucursalBis">
+            <div class="form-group">
+                <label class="form-control-label" for="branch_id">Sucursal</label>
+                <input type="text" id="branch_id" name="branch_id" value="1" class="form-control" placeholder="Sucursal">
+            </div>
         </div>
-    </div>
+    @endif
+
+    @if ($indicator->dian == 'on')
+        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group">
+                <label class="form-control-label" for="document_type_id">Tipo de Documento</label>
+                    <select name="document_type_id" class="form-control selectpicker" id="document_type_id" data-live-search="true" required>
+                        <option value="0" disabled selected>Seleccionar Tipo de documento</option>
+                        @foreach($documentTypes as $documentType)
+                            <option value="{{ $documentType->id }}">{{ $documentType->name }}</option>
+                        @endforeach
+                    </select>
+            </div>
+        </div>
+    @else
+        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="documentBis">
+            <div class="form-group">
+                <label class="form-control-label" for="document_type_id">Typo Documento</label>
+                <input type="text" id="document_type_id" name="document_type_id" value="25" class="form-control" placeholder="Tipo Documento">
+            </div>
+        </div>
+    @endif
+
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="invoiceCode">
         <div class="form-group">
             <label class="form-control-label" for="invoice_code">N°Factura</label>
             <input type="text" id="invoice_code" name="invoice_code" value="{{ old('invoice_code') }}" class="form-control" placeholder="Numero de la factura" required>
         </div>
     </div>
-    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
-            <label class="form-control-label" for="generation_date">Fecha Generacion</label>
+            <label class="form-control-label" for="generation_date">F/Generacion</label>
             <input type="date" name="generation_date" class="form-control" value="<?php echo date("Y-m-d");?>" placeholder="Fecha Vencimiento">
         </div>
     </div>
-    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="due_date">Vencimiento</label>
             <input type="date" name="due_date" class="form-control" value="<?php echo date("Y-m-d");?>" placeholder="Fecha Vencimiento">
@@ -89,21 +109,21 @@
             <input type="text" id="note" name="note" value="{{ old('note') }}" class="form-control" placeholder="Observaciones">
         </div>
     </div>
-    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="stock">Stock</label>
             <input type="number" id="stock" name="stock" value="{{ old('stock') }}" class="form-control"
                 placeholder="stock" disabled pattern="[0-9]{0,15}">
         </div>
     </div>
-    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="tax_rate">Imp %</label>
             <input type="number" id="tax_rate" name="tax_rate" class="form-control" placeholder="%" disabled
                 pattern="[0-9]{0,15}">
         </div>
     </div>
-    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
             <label for="vprice">V/Actual</label>
             <input type="number" name="vprice" id="vprice"  class="form-control" readonly>

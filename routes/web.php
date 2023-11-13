@@ -101,7 +101,7 @@ Route::resource('advance', AdvanceController::class);
 Route::resource('bank', BankController::class);
 Route::resource('branch', BranchController::class);
 Route::resource('branchProduct', BranchProductController::class);
-Route::resource('branchRowmaterial', BranchRawmaterialController::class);
+Route::resource('branchRawmaterial', BranchRawmaterialController::class);
 Route::resource('card', CardController::class);
 Route::resource('cashInflow', CashInflowController::class);
 Route::resource('cashOutflow', CashOutflowController::class);
@@ -221,6 +221,8 @@ Route::get('invoice/debitNoteInvoice/{id}', [InvoiceController::class, 'debitNot
 Route::get('pdfInvoice', [InvoiceController::class, 'pdfInvoice'])->name('pdfInvoice');
 Route::get('posInvoice', [InvoiceController::class, 'posInvoice'])->name('posInvoice');
 
+//Route::get('rawMaterial/kardexRawMaterial/{id}', [KardexController::class, 'kardexRawMaterial'])->name('kardexRawMaterial');
+
 Route::get('ncinvoice/ncinvoicePdf/{id}', [NcinvoiceController::class, 'ncinvoicePdf'])->name('ncinvoicePdf');
 Route::get('pdfNcinvoice', [NcinvoiceController::class, 'pdfNcinvoice'])->name('pdfNcinvoice');
 
@@ -267,6 +269,7 @@ Route::get('posPurchase', [PurchaseController::class, 'posPurchase'])->name('pos
 Route::get('createRawmaterial', [PurchaseController::class, 'createRawmaterial'])->name('createRawmaterial');
 
 Route::get('rawMaterial/status/{id}', [RawMaterialController::class, 'status'])->name('rawMaterialStatus');
+Route::get('rawMaterial/kardexRawMaterial/{id}', [RawMaterialController::class, 'kardexRawMaterial'])->name('kardexRawMaterial');
 
 Route::get('restaurantOrder/generateInvoice/{id}', [RestaurantOrderController::class, 'generateInvoice'])->name('generateInvoice');
 Route::get('restaurantOrder/restaurantOrderPdf/{id}', [RestaurantOrderController::class, 'restaurantOrderPdf'])->name('restaurantOrderPdf');

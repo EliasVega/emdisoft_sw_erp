@@ -14,8 +14,14 @@
                     <a href="{{ route('company.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
                 @endcan
                 @can('product.index')
-                <a href="{{ route('product.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Productos</a>
-            @endcan
+                    <a href="{{ route('product.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Productos</a>
+                @endcan
+                @if ($rawMaterial == 'on')
+                    @can('rawMaterial.index')
+                        <a href="{{ route('rawMaterial.index') }}" class="btn btn-orangeGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Materias primas</a>
+                    @endcan
+                @endif
+
             </h5>
         </div>
     </div>

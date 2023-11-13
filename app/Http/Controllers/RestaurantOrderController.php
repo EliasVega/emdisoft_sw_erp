@@ -446,7 +446,7 @@ class RestaurantOrderController extends Controller
 
                     if ($ref[$i] == $referency[$y]) {
                         if ($contz < count($rawMatRestOrders)) {
-                            $rawMatRestOrders[$contz]->referency = $contRmRo;
+                            $rawMatRestOrders[$contz]->referency = $ref[$i];
                             $rawMatRestOrders[$contz]->quantity = $quantityActual;
                             $rawMatRestOrders[$contz]->consumer_price = $pricerm[$y];
                             $rawMatRestOrders[$contz]->restaurant_order_id = $restaurantOrder->id;
@@ -457,7 +457,7 @@ class RestaurantOrderController extends Controller
                             $cont++;
                         } else {
                             $rawMaterialRestaurantOrder = new RawmaterialRestaurantorder();
-                            $rawMaterialRestaurantOrder->referency = $contRmRo;
+                            $rawMaterialRestaurantOrder->referency = $ref[$i];
                             $rawMaterialRestaurantOrder->quantity = $quantityActual;
                             $rawMaterialRestaurantOrder->consumer_price = $pricerm[$y];
                             $rawMaterialRestaurantOrder->restaurant_order_id = $restaurantOrder->id;

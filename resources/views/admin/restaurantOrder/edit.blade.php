@@ -44,10 +44,10 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="createTable">
                         @include('admin/restaurantOrder.form_table')
                     </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                         @include('admin/restaurantOrder.form_editRestaurantOrder')
                     </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                         @include('admin/restaurantOrder.form_editRawMaterial')
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="createTable">

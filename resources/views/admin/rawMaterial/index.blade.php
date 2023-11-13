@@ -15,7 +15,10 @@
                     <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
                 @endcan
                 @can('branchProduct.index')
-                    <a href="{{ route('branchProduct.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Producto Sucursal</a>
+                    <a href="{{ route('branchRawmaterial.index') }}" class="btn btn-orangeGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Producto Sucursal</a>
+                @endcan
+                @can('kardex.index')
+                    <a href="{{ route('kardex.index') }}" class="btn btn-greenGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Kardex</a>
                 @endcan
             </h5>
         </div>

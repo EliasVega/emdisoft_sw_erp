@@ -39,12 +39,6 @@
         </div>
     </div>
     <div class="clearfix"></div>
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="payUndefined">
-        <div class="form-group">
-            <button class="btn btn-lightBlueGrad btn-sm" type="button" id="noDefined" data-toggle="tooltip"
-            data-placement="top" title="Metodo no definido">Indefinido </button>
-        </div>
-    </div>
     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="payCash">
         <div class="form-group">
             <button class="btn btn-lightBlueGrad btn-sm" type="button" id="cash" data-toggle="tooltip"
@@ -79,6 +73,12 @@
         <div class="form-group">
             <button class="btn btn-lightBlueGrad btn-sm" type="button" id="card2" data-toggle="tooltip"
             data-placement="top" title="Tarjetas">T/Debito</button>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="payUndefined">
+        <div class="form-group">
+            <button class="btn btn-lightBlueGrad btn-sm" type="button" id="noDefined" data-toggle="tooltip"
+            data-placement="top" title="Metodo no definido">Indefinido </button>
         </div>
     </div>
 </div>
