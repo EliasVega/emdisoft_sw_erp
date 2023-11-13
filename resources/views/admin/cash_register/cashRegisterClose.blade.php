@@ -286,7 +286,7 @@
                                 <th  colspan="3"><p align="right">TOTALES:</p></th>
                                 <th><p align="right">${{ number_format($invoiceTotalTaxs,2) }}</p></th>
                                 <th><p align="right">${{ number_format($invoiceTotals,2) }}</p></th>
-                                <th><p align="right">${{ number_format($invoiceTotalTaxs + $expenseTotals,2) }}</p></th>
+                                <th><p align="right">${{ number_format($invoiceTotalTaxs + $invoiceTotals,2) }}</p></th>
                             </tr>
                         </tfoot>
                         <tbody>

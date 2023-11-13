@@ -31,13 +31,12 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     @include('admin/invoice.form_invoice')
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 colorretentions">
-                    @include('admin/invoice.form_retention')
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 colorpay">
+                <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 colorpay">
                     @include('admin/invoice.form_pay')
                 </div>
-
+                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 colorretentions">
+                    @include('admin/invoice.form_retention')
+                </div>
             </div>
 
             {!!Form::close()!!}

@@ -38,6 +38,11 @@ class Customer extends Model
         'id'
     ];
 
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
     public function municipality()
     {
         return $this->belongsTo(Municipality::class);

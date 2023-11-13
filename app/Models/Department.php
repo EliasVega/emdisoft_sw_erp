@@ -31,4 +31,9 @@ class Department extends Model
     {
         return $this->hasMany(Branch::class);
     }
+
+    public function customers()
+    {
+        return $this->hasMany(Customer::class);
+    }
 }

@@ -184,8 +184,11 @@ class InvoiceController extends Controller
         $resolut = $request->resolution_id;
         //dd($resolut);
         if ($resolut == null) {
-            $resolutions = Resolution::findOrFail(4);
-
+            if ($indicator->dian == 'on') {
+                $resolutions = Resolution::findOrFail(4);
+            } else {
+                $resolutions = Resolution::findOrFail(13);
+            }
         } else {
             $resolutions = Resolution::findOrFail($request->resolution_id);
         }

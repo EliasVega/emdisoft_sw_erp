@@ -282,6 +282,15 @@
                         </ul>
                     </li>
                 @endcan
+                <li class="nav-item has-treeview">
+                    <a href="dashboard" class="nav-link">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            DASHBOARD
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                </li>
                 @if (current_user()->Roles[0]->name == 'superAdmin' || current_user()->Roles[0]->name == 'admin')
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">

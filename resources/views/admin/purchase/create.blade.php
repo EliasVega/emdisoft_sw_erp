@@ -37,8 +37,6 @@
                 <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 colorretentions">
                     @include('admin/purchase.form_retention')
                 </div>
-
-
             </div>
 
             {!!Form::close()!!}

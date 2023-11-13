@@ -110,7 +110,7 @@
             <a href="{{url('Invoice')}}" class="btn btn-blueGrad" data-toggle="tooltip" data-placement="top" title="Cancelar"><i class="fa fa-window-close"></i>&nbsp; </a>
         </div>
     </div>
-
+    @if ($indicator->dian == 'on')
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="resolution">
         <div class="form-group">
             <label class="form-control-label required" for="resolution_id">Resolucion</label>
@@ -122,6 +122,7 @@
                 </select>
         </div>
     </div>
+    @endif
     @if ($indicator->pos == 'on')
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mt-3" id="addFe" >
             <div class="form-check">

@@ -6,7 +6,7 @@
               <!-- Default box -->
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title"><strong class="titulo-mostrar mr-3">EmdisoftPro:</strong>
+                  <h3 class="card-title"><strong class="titulo-mostrar mr-3">Emdisoft Pro:</strong>
                   @if (Session::has('branch'))
                   {{ Session::get('name') }}
                   @endif

@@ -19,45 +19,42 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-        <!-- Messages Dropdown Menu -->
+        <!-- User Dropdown Menu -->
+        <li class="nav-item dropdown user-menu show">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
+                <span class="d-none d-md-inline">
+                    {{ (Auth::user() ?? '') != '' ? Auth::user()->name : 'Emdisoft' }}
+                    <i class="fas fa-chevron-circle-down"></i>
+                </span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                <!-- User image -->
+                <li class="user-header bg-primary">
+                    <img class="img-circle elevation-2" src="{{ asset('images/admin/user.png') }}" alt="user Image">
+                    <p>
+                        {{ (Auth::user() ?? '') != '' ? Auth::user()->name : 'Emdisoft' }}
+                        <small>
+                            Miembro desde
+                            {{ Auth::user()->created_at->format('Y-m-d') ?? '' }}
+                        </small>
+                    </p>
+                </li>
+                <!-- Menu Footer-->
+                <li class="user-footer">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
 
-        <li class="breadcrumb-item">
-            @if (!Session()->has('empresa'))
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-
-                <a href="{{ route('logout') }}" class="btn btn-celeste" onclick="event.preventDefault();
-                                            this.closest('form').submit();">
-                    {{ __('Cerrar Sesion') }}
-                </a>
-            </form>
-            @elseif(Session()->has('empresa') && !Session()->has('sede'))
-                <form method="POST" action="{{ route('logoutEmpresa') }}">
-                    @csrf
-
-                    <a href="{{ route('logoutEmpresa') }}" class="btn btn-loglila" onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                        {{ __('Salir Empresa') }}
-                    </a>
-                    <a href="{{ route('logout') }}" class="btn btn-celeste" onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                        {{ __('Cerrar Sesion') }}
-                    </a>
-                </form>
-
-            @elseif(Session()->has('empresa') && Session()->has('sede'))
-                <form method="POST" action="{{ route('logoutSede') }}">
-                    @csrf
-                    <a href="{{ route('logoutSede') }}" class="btn btn-logfucsia" onclick="event.preventDefault();
-                    this.closest('form').submit();">
-                        {{ __('Salir Sucursal') }}
-                    </a>
-                    <a href="{{ route('logout') }}" class="btn btn-celeste" onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                        {{ __('Cerrar Sesion') }}
-                    </a>
-                </form>
-            @endif
+                                <a href="{{ route('logout') }}" class="btn btn-danger btn-flat" onclick="event.preventDefault();
+                                                            this.closest('form').submit();">
+                                    {{ __('Cerrar Sesion') }}
+                                </a>
+                            </form>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </li>
     </ul>
 </nav>

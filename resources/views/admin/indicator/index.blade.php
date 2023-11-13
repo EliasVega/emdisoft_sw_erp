@@ -27,7 +27,7 @@
                             <th>A/trasporte</th>
                             <th>Editar</th>
                             <th>Dian</th>
-                            <th>Post</th>
+                            <th>Pos</th>
                             <th>Logo</th>
                             <th>Nomina</th>
                             <th>Cont.</th>

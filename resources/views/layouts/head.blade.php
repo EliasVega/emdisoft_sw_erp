@@ -8,12 +8,13 @@
 
     @vite(['resources/css/card.css','resources/css/button.css','resources/css/main.css','resources/css/rdb.css'])
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}" type="text/css"/>
+    <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" type="text/css"/>
     <!-- Sweetalert2  -->
     <link rel="stylesheet" href="{{ asset('vendor/sweetalert2/sweetalert2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/sweetalert2/sweetalert2.min.css') }}">
      <!-- Bootstrap -->
-     <link rel="stylesheet" href="{{ asset('vendor/bootstrap-datepicker/css/bootstrap-datepicker.standalone.css') }}">
+     <link rel="stylesheet" href="{{ asset('vendor/daterangepicker/daterangepicker.css') }}" />
+     {{--  <link rel="stylesheet" href="{{ asset('vendor/bootstrap-datepicker/css/bootstrap-datepicker.standalone.css') }}">--}}
     <link rel="stylesheet" href="{{ asset('vendor/bootstrap-fileinput/css/fileinput.min.css') }}">
 
     <!-- Select2  -->
@@ -46,5 +47,12 @@
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
 
     <!-- Scripts -->
+    <!-- Chart -->
+    <link rel="stylesheet" href="{{ asset('vendor/chart.js/css/Chart.min.css') }}" />
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="{{ asset('vendor/jqvmap/jqvmap.min.css') }}" />
+    <!-- summernote -->
+    <link rel="stylesheet" href="{{ asset('vendor/summernote/summernote-bs4.css') }}" />
+
     @livewireStyles
   </head>

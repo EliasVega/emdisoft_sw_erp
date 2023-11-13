@@ -18,7 +18,7 @@
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     @if ($userito = Auth::user()->roles[0]->name == 'superAdmin' || $userito = Auth::user()->roles[0]->name == 'admin')
-                    <x-nav-link href="{{ route('company.index') }}" :active="request()->routeIs('Emdisoft')">
+                    <x-nav-link href="{{ route('dashboardGraphic.index') }}" :active="request()->routeIs('Emdisoft')">
                         {{ __('Emdisoft_erp') }}
                     </x-nav-link>
                     @else
