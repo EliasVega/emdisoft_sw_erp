@@ -148,6 +148,24 @@ class RestaurantTableSeeder extends Seeder
                 'name' => '21',
                 'branch_id' => 1,
             ),
+            22 =>
+            array (
+                'id' => 23,
+                'name' => '22',
+                'branch_id' => 1,
+            ),
+            23 =>
+            array (
+                'id' => 24,
+                'name' => '23',
+                'branch_id' => 1,
+            ),
+            24 =>
+            array (
+                'id' => 25,
+                'name' => '24',
+                'branch_id' => 1,
+            ),
         ));
     }
 }
