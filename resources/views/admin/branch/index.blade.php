@@ -80,12 +80,6 @@ $(document).ready(function ()
             ],
             buttons: [
                 {
-                    extend: 'copy',
-                    exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5, 6 ]
-                    }
-                },
-                {
                     extend: 'excel',
                     exportOptions: {
                         columns: [ 0, 1, 2, 3, 4, 5, 6 ]

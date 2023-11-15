@@ -78,8 +78,8 @@ class TaxTypeSeeder extends Seeder
             array (
                 'id' => 8,
                 'code' => '08',
-                'name' => 'IC DATOS',
-                'description' => 'Impuesto al consumo de datos',
+                'name' => 'IC PORCENTUAL',
+                'description' => 'Impuesto al consumo Departamental Porcentual',
                 'type_tax' => 'tax_global'
             ),
             8 =>
@@ -144,8 +144,8 @@ class TaxTypeSeeder extends Seeder
             array (
                 'id' => 16,
                 'code' => '30',
-                'name' => 'IC PORCENTUAL',
-                'description' => 'Impuesto al consumo Departamental Porcentual',
+                'name' => 'IC DATOS',
+                'description' => 'Impuesto al consumo de datos',
                 'type_tax' => 'tax_global'
             ),
             array (

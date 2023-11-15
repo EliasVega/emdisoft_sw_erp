@@ -11,20 +11,21 @@
                     <div class="card">
                         <div class="card-header border-0">
                             <div class="d-flex justify-content-between">
-                                <h3 class="card-title">Online Store Visitors</h3>
-                                <a href="javascript:void(0);">View Report</a>
+                                <h3 class="card-title">Compras Vs Ventas</h3>
+                                <a href="javascript:void(0);">Ver Reporte</a>
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="d-flex">
                                 <p class="d-flex flex-column">
-                                    <span class="text-bold text-lg">820</span>
-                                    <span>Visitors Over Time</span>
+                                    <span class="text-success">
+                                        <i class="fas fa-arrow-up"></i>${{ number_format($purchaseTotalMonth, 2) }}</span>
+                                    <span class="text-muted">Compras</span>
                                 </p>
                                 <p class="ml-auto d-flex flex-column text-right">
                                     <span class="text-success">
-                                        <i class="fas fa-arrow-up"></i> 12.5%</span>
-                                    <span class="text-muted">Since last week</span>
+                                        <i class="fas fa-arrow-up"></i>${{ number_format($invoiceTotalMonth, 2) }}</span>
+                                    <span class="text-muted">ventas</span>
                                 </p>
                             </div>
                             <!-- /.d-flex -->
@@ -35,11 +36,11 @@
 
                             <div class="d-flex flex-row justify-content-end">
                                 <span class="mr-2">
-                                    <i class="fas fa-square text-primary"></i> This Week
+                                    <i class="fas fa-square text-primary"></i> Ventas
                                 </span>
 
                                 <span>
-                                    <i class="fas fa-square text-gray"></i> Last Week
+                                    <i class="fas fa-square text-gray"></i> Compras
                                 </span>
                             </div>
                         </div>
@@ -52,18 +53,18 @@
                         <div class="card-header border-0">
                             <div class="d-flex justify-content-between">
                                 <h3 class="card-title">Comparativo</h3>
-                                <a href="javascript:void(0);">View Report</a>
+                                <a href="javascript:void(0);">Ver Reporte</a>
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="d-flex">
                                 <p class="d-flex flex-column">
-                                    <span class="text-bold text-lg">{{ number_format($invoiceTotal,2) }}</span>
+                                    <span class="text-bold text-lg">{{ number_format($invoiceTotal, 2) }}</span>
                                     <span>Ventas con el tiempo</span>
                                 </p>
                                 <p class="ml-auto d-flex flex-column text-right">
                                     <span class="text-success">
-                                        <i class="fas fa-arrow-up"></i>{{ number_format($invoiceYear,2) }}</span>
+                                        <i class="fas fa-arrow-up"></i>{{ number_format($invoiceYear, 2) }}</span>
                                     <span class="text-muted">Ventas este año</span>
                                 </p>
                             </div>
@@ -248,4 +249,5 @@
     @include('admin/dashboard.invoiceByPaymentForm')
     @include('admin/dashboard.invoiceByDepartment')
     @include('admin/dashboard.salesChart')
+    @include('admin/dashboard.invoicePurchaseMonth')
 @endsection

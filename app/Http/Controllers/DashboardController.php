@@ -19,11 +19,37 @@ class DashboardController extends Controller
         $dateactual = Carbon::now();
         $year = $dateactual->format('Y');
         $lastYear = $year - 1;
+        $prueba = Invoice::whereDate('created_at', '2022-02-17')->get();
 
         $invoiceLastYear = [];
         $invoiceThisYear = [];
-        //dd($dateactual->format('Y'));
+        $invoiceLastMonth = [];
+        $invoiceThisMonth = [];
+        $purchaseThisMonth = [];
+        $invoiceTotalMonth = 0;
+        $purchaseTotalMonth = 0;
 
+        $day = [];
+        $cont = 0;
+        for ($i=30; $i >= 0; $i--) {
+            $date = Carbon::now();
+            $fecha = $date->subDay($i);
+            $day[$cont] = $fecha->format('d') . '-';
+
+            $dateThisMonth = $fecha->toDateString();
+            $invoiceThisMonth[$cont] = Invoice::whereDate('created_at', $dateThisMonth)->sum('total_pay');
+            if ($invoiceThisMonth[$cont] == null) {
+                $invoiceThisMonth[$cont] = '0.00';
+            }
+            $invoiceTotalMonth += $invoiceThisMonth[$cont];
+
+            $purchaseThisMonth[$cont] = Purchase::whereDate('created_at', $dateThisMonth)->sum('total_pay');
+            if ($purchaseThisMonth[$cont] == null) {
+                $purchaseThisMonth[$cont] = '0.00';
+            }
+            $purchaseTotalMonth += $purchaseThisMonth[$cont];
+            $cont++;
+        }
         $invoicesByMonth = $invoices->groupBy(function ($val) {
             return Carbon::parse($val->created_at)->format('Y-m');
         });
@@ -69,7 +95,12 @@ class DashboardController extends Controller
             'invoicesByDepartment',
             'invoiceLastYear',
             'invoiceThisYear',
-            'invoiceYear'
+            'invoiceYear',
+            'day',
+            'invoiceThisMonth',
+            'purchaseThisMonth',
+            'invoiceTotalMonth',
+            'purchaseTotalMonth'
         ));
     }
 
