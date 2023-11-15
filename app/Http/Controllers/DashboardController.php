@@ -19,7 +19,6 @@ class DashboardController extends Controller
         $dateactual = Carbon::now();
         $year = $dateactual->format('Y');
         $lastYear = $year - 1;
-        $prueba = Invoice::whereDate('created_at', '2022-02-17')->get();
 
         $invoiceLastYear = [];
         $invoiceThisYear = [];

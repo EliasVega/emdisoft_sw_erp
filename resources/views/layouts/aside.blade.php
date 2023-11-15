@@ -647,12 +647,31 @@
                 @if (current_user()->company->indicator->payroll == 'on')
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <i class="nav-icon fas fa-users"></i>
                             <p>
-                                Nomina
+                                NOMINA
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Nomina
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{{ url('overtime') }}" class="nav-link">
+                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <p>Horas extras</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                         <ul class="nav nav-treeview">
                             <li class="nav-item has-treeview">
                                 <a href="#" class="nav-link">

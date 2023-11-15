@@ -23,7 +23,7 @@
                     @if($overtimeType->id == ($overtime->overtime_type_id ?? ''))
                         <option value="{{ $overtimeType->id }}" selected>{{ $overtimeType->code }}</option>
                     @else
-                        <option value="{{ $overtimeType->id }}_{{ $overtimeType->percentage }}">{{ $overtimeType->code }}</option>
+                        <option value="{{ $overtimeType->id }}_{{ $overtimeType->percentage }}">{{ $overtimeType->code }} --{{ $overtimeType->hour_type }}</option>
                     @endif
                 @endforeach
             </select>
@@ -32,7 +32,7 @@
     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="start_time">Inicia</label>
-            <input type="datetime-local" name="start_time" id="start_time" class="form-control" >
+            <input type="datetime-local" name="start_time" id="start_time" class="form-control" min="15:00:00" max="22:00:00">
         </div>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
@@ -65,7 +65,7 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <th colspan="5">
+                        <th colspan="8">
                             <p align="right">TOTAL:</p>
                         </th>
                         <th class="thfoot">

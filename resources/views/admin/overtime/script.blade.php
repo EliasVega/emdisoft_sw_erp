@@ -23,8 +23,6 @@
     total=0;
     //form purchase
     $("#save").hide();
-    //form pay
-    $("#mpay").hide();
 
     //seleccionar de acuerdo al producto
     $("#overtime_type_id").change(overtimeTypeValue);
@@ -51,6 +49,19 @@
         overtimeType= $("#overtime_type_id option:selected").text();
         inicio = new Date($("#start_time").val());
         fin = new Date($("#end_time").val());
+        function validate() {
+            var fecha = document.getElementById('start_time').value;
+            var hora = fecha.substring(11);
+            console.log(hora);
+            if (hora >= '15:00' && hora <= '22:00') {
+                console.log('Hora Correcta');
+                return true;
+            } else {
+                console.log('Hora Incorrecta');
+                return false;
+            }
+        }
+        validate()
         diff1 = fin - inicio;
         diff2 = diff1/100;
         diff = diff2 % 3600;
