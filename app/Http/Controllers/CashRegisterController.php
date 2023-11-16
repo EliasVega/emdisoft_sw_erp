@@ -174,6 +174,7 @@ class CashRegisterController extends Controller
      */
     public function show(CashRegister $cashRegister)
     {
+        //dd(current_user());
         $user = current_user()->roles->pluck('name', 'name')->all();
         $cashRegister = CashRegister::findOrFail($cashRegister->user_id);
         $from = $cashRegister->created_at;
