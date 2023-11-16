@@ -16,7 +16,7 @@
                 @can('category.categoryInactive')
                     <a href="{{ route('categoryInactive') }}" class="btn btn-lightBlueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Categorias Inactivas</a>
                 @endcan
-                @can('category.create')
+                @can('superAdmin')
                     <a href="categoryImport" class="btn btn-blueGrad btn-sm"><i class="fa fa-plus"></i> Importar Categoria</a>
                 @endcan
             </h5>

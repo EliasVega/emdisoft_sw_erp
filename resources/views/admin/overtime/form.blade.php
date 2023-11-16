@@ -32,13 +32,13 @@
     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="start_time">Inicia</label>
-            <input type="datetime-local" name="start_time" id="start_time" class="form-control" min="15:00:00" max="22:00:00">
+            <input type="datetime-local" name="start_time" id="start_time" class="form-control" required>
         </div>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="end_time">Finaliza</label>
-            <input type="datetime-local" name="end_time" id="end_time" class="form-control" >
+            <input type="datetime-local" name="end_time" id="end_time" class="form-control" required>
         </div>
     </div>
     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">

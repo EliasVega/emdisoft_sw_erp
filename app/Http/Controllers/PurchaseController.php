@@ -158,6 +158,7 @@ class PurchaseController extends Controller
         ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
         ->where('tt.type_tax', 'retention')->get();
         $typeProduct = 1;
+        $countBranchs = count($branchs);
         return view('admin.purchase.create',
         compact(
             'indicator',
@@ -175,7 +176,8 @@ class PurchaseController extends Controller
             'products',
             'date',
             'companyTaxes',
-            'typeProduct'
+            'typeProduct',
+            'countBranchs'
         ));
     }
 
