@@ -19,7 +19,7 @@ use App\Models\Ncpurchase;
 use App\Models\Ndinvoice;
 use App\Models\Ndpurchase;
 use App\Models\NdpurchaseProduct;
-use App\Models\Payrequestese4;
+use App\Models\Pay;
 use App\Models\Product;
 use App\Models\ProductPurchase;
 use App\Models\Purchase;
