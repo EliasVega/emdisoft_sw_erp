@@ -47,4 +47,8 @@ class RestaurantOrder extends Model
     {
         return $this->hasOne(HomeOrder::class);
     }
+
+    public function commandRawmaterials(){
+        return $this->hasMany(CommandRawmaterial::class);
+    }
 }

@@ -57,7 +57,9 @@ class ProductRestaurantOrderController extends Controller
 
      public function create(Request $request)
     {
+
         $restaurantOrder = RestaurantOrder::where('id', $request->session()->get('restaurantOrder'))->first();
+        $homeOrder = HomeOrder::where('restaurant_order_id', $restaurantOrder->id)->first();
         $typeService = $restaurantOrder->restaurant_table_id;
         $indicator = Indicator::findOrFail(1);
         $customers = Customer::get();
@@ -89,6 +91,7 @@ class ProductRestaurantOrderController extends Controller
         return view('admin.productRestaurantOrder.create',
         compact(
             'restaurantOrder',
+            'homeOrder',
             'typeService',
             'customers',
             'resolutions',
@@ -259,13 +262,13 @@ class ProductRestaurantOrderController extends Controller
             $rawmaterialRestaurantorders = RawmaterialRestaurantorder::where('restaurant_order_id', $restaurantOrder->id)->where('quantity', '>', 0)->get();
                 if ($rawmaterialRestaurantorders) {
                     foreach ($rawmaterialRestaurantorders as $key => $rawmaterialRestaurantorder) {
-                        $quantityrm = $rawmaterialRestaurantorder->quantity;
+                        $quantityLocal = $rawmaterialRestaurantorder->total_quantity;
                         $rawMaterial = RawMaterial::findOrFail($rawmaterialRestaurantorder->raw_material_id);
-                        $rawMaterial->stock -= $rawmaterialRestaurantorder->quantity;
+                        $rawMaterial->stock -= $quantityLocal;
                         $rawMaterial->update();
 
                         $product = $rawMaterial;
-                        $quantityLocal = $quantityrm;
+                        //$quantityLocal = $quantityrm;
                         $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
                     }
                 }

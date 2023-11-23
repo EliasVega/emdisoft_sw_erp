@@ -25,7 +25,7 @@
             <input type="number" name="restaurant_order_id" id="restaurant_order_id" value="{{ $restaurantOrder->id }}" class="form-control" readonly>
         </div>
     </div>
-    @if ($typeService == 1)
+    @if ($homeOrder->type == 'home')
         <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 mt-3" id="addDomiciliary">
             <div class="form-group">
                 <label class="form-control-label" for="domiciliary">Domiciliario</label>
@@ -35,9 +35,25 @@
         </div>
         <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 mt-3" id="addHomeOrder">
             <div class="form-group">
-                <label class="form-control-label" for="domiciliary">Domiciliario</label>
+                <label class="form-control-label" for="domiciliary">V/Domicilio</label>
                 <input type="text" id="domicile_value" name="domicile_value" value=""
                     class="form-control" placeholder="Valor Domicilio">
+            </div>
+        </div>
+    @endif
+    @if ($homeOrder->type == 'rappi')
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 mt-3" id="addDomiciliary">
+            <div class="form-group">
+                <label class="form-control-label" for="domiciliary">Domiciliario</label>
+                <input type="text" id="domiciliary" name="domiciliary" value="rappi"
+                    class="form-control" placeholder="Domiciliario" readonly>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 mt-3" id="addHomeOrder">
+            <div class="form-group">
+                <label class="form-control-label" for="domiciliary">V/Domicilio</label>
+                <input type="number" id="domicile_value" name="domicile_value" value="0"
+                    class="form-control" placeholder="Valor Domicilio" readonly>
             </div>
         </div>
     @endif

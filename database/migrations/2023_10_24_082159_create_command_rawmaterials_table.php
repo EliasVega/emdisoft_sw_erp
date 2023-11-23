@@ -11,18 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rawmaterial_restaurantorders', function (Blueprint $table) {
+        Schema::create('command_rawmaterials', function (Blueprint $table) {
             $table->id();
 
+            $table->decimal('quantity',10,2);
             $table->integer('referency');
-            $table->decimal('quantity', 10,2);
-            $table->decimal('total_quantity',10,2);
-            $table->decimal('consumer_price', 10,2);
+            $table->enum('status', ['add', 'decrease', 'cancel', 'anulled'])->default('add');
 
             $table->foreignId('restaurant_order_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('raw_material_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('product_id')->constrained()->onUpdate('cascade');
-
+            $table->foreignId('product_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('raw_material_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
@@ -32,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rawmaterial_restaurantorders');
+        Schema::dropIfExists('command_rawmaterials');
     }
 };

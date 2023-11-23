@@ -44,7 +44,8 @@
                 <!--DETALLE DE VENTA -->
                 <thead>
                     <tr>
-                        <th>estado</th>
+                        <th>Est</th>
+                        <th>Ref</th>
                         <th>Descripcion</th>
                         <th>Cant.</th>
                         <th>Valor</th>
@@ -55,6 +56,7 @@
                     @foreach ($productRestaurantOrders as $productRestaurantOrder)
                         <tr>
                             <td>{{ $productRestaurantOrder->status }}</td>
+                            <td>{{ $productRestaurantOrder->referency }}</td>
                             <td>{{ $productRestaurantOrder->product->name }}</td>
                             <td id="tdcenter">{{ number_format($productRestaurantOrder->quantity,2) }}</td>
                             <td class="tdRight">${{ number_format($productRestaurantOrder->price,2)}}</td>
@@ -79,6 +81,45 @@
                 </tfoot>
             </table>
         </div>
+        @if ($commandRawmaterials != null)
+            <div id="document">
+                <p> OBSERVACIONES:</p>
+            </div>
+            <div class="content">
+                <table class="table">
+                    <!--DETALLE DE VENTA -->
+                    <thead>
+                        <tr>
+                            <th>Ref</th>
+                            <th>Est</th>
+                            <th>Producto</th>
+                            <th>Cant.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($commandRawmaterials as $commandRawmaterial)
+                            <tr>
+                                <td>{{ $commandRawmaterial->referency }}</td>
+                                @if ($commandRawmaterial->status == 'add')
+                                    <td>{{ 'adicionar' }}</td>
+                                @elseif ($commandRawmaterial->status == 'decrease')
+                                    <td>{{ 'disminuir' }}</td>
+                                @elseif ($commandRawmaterial->status == 'cancel')
+                                    <td>{{ 'quitar' }}</td>
+                                @elseif ($commandRawmaterial->status == 'anulled')
+                                    <td>{{ 'anulado' }}</td>
+                                @endif
+
+                                <td>{{ $commandRawmaterial->rawMaterial->name }}</td>
+                                <td id="tdcenter">{{ number_format($commandRawmaterial->quantity) }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+            </div>
+        @endif
         @if ($restaurantOrder->restaurant_table_id == 1)
 
             <div id="document">

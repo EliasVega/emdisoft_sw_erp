@@ -113,4 +113,8 @@ class Invoice extends Model
     {
         return $this->hasOne(NdResponse::class);
     }
+    public function restaurantOrder()
+    {
+        return $this->hasOne(RestaurantOrder::class);
+    }
 }

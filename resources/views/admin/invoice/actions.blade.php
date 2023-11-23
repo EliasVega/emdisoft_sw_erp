@@ -13,25 +13,27 @@
         <i class="fas fa-file-invoice-dollar"></i>
     </a>
 @endif
-<a href="{{ route('invoicePdf', $id) }}" class="btn btn-pdf btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="Venta pdf">
-    <i class="fas fa-file-pdf"></i>
-</a>
 <a href="{{ route('invoicePos', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="pdf pos" >
     <i class="fas fa-receipt"></i>
 </a>
-@if ($status == 'invoice')
-    <a href="{{ route('debitNoteInvoice', $id) }}" class="btn btn-lila btn-sm" data-toggle="tooltip"
-    data-placement="top" title="Nota Debito" ><i class="fas fa-notes-medical"></i></a>
-    <a href="{{ route('creditNoteInvoice', $id) }}" class="btn btn-limon btn-sm" data-toggle="tooltip"
-    data-placement="top" title="Nota Credito" ><i class="fas fa-notes-medical"></i></a>
-@endif
-@if ($status == 'debit_note')
-    <a href="{{ route('creditNoteInvoice', $id) }}" class="btn btn-limon btn-sm" data-toggle="tooltip"
-    data-placement="top" title="Nota Credito" ><i class="fas fa-notes-medical"></i></a>
-@endif
-@if ($status == 'credit_note')
-    <a href="{{ route('debitNoteInvoice', $id) }}" class="btn btn-lila btn-sm" data-toggle="tooltip"
-    data-placement="top" title="Nota Debito" ><i class="fas fa-notes-medical"></i></a>
+@if ($restaurant == 'off')
+    <a href="{{ route('invoicePdf', $id) }}" class="btn btn-pdf btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="Venta pdf">
+        <i class="fas fa-file-pdf"></i>
+    </a>
+    @if ($status == 'invoice')
+        <a href="{{ route('debitNoteInvoice', $id) }}" class="btn btn-lila btn-sm" data-toggle="tooltip"
+        data-placement="top" title="Nota Debito" ><i class="fas fa-notes-medical"></i></a>
+        <a href="{{ route('creditNoteInvoice', $id) }}" class="btn btn-limon btn-sm" data-toggle="tooltip"
+        data-placement="top" title="Nota Credito" ><i class="fas fa-notes-medical"></i></a>
+    @endif
+    @if ($status == 'debit_note')
+        <a href="{{ route('creditNoteInvoice', $id) }}" class="btn btn-limon btn-sm" data-toggle="tooltip"
+        data-placement="top" title="Nota Credito" ><i class="fas fa-notes-medical"></i></a>
+    @endif
+    @if ($status == 'credit_note')
+        <a href="{{ route('debitNoteInvoice', $id) }}" class="btn btn-lila btn-sm" data-toggle="tooltip"
+        data-placement="top" title="Nota Debito" ><i class="fas fa-notes-medical"></i></a>
+    @endif
 @endif
 
 

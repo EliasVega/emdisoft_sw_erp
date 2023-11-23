@@ -16,6 +16,7 @@ class ProductRestaurantOrder extends Model
     public $timestamps = true;
 
     protected $fillable = [
+        'referency',
         'quantity',
         'price',
         'tax_rate',

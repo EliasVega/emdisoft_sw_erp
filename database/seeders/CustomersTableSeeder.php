@@ -42,6 +42,28 @@ class CustomersTableSeeder extends Seeder
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43',
             ),
+            1 =>
+            array (
+                'id' => 2,
+                'name' => 'RAPPI',
+                'identification' => '33333333',
+                'dv' => '7',
+                'address' => 'rappi',
+                'phone' => 'rappi',
+                'email' => 'rappi@gmail.com',
+                'credit_limit' => '0.00',
+                'used' => '0.00',
+                'available' => '0.00',
+                'status' => 'active',
+                'department_id' => 21,
+                'municipality_id' => 846,
+                'identification_type_id' => 6,
+                'liability_id' => 117,
+                'organization_id' => 2,
+                'regime_id' => 2,
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43',
+            ),
         ));
     }
 }

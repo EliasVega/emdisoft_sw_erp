@@ -17,7 +17,8 @@ class RawmaterialRestaurantorder extends Model
 
     protected $fillable = [
         'referency',
-
+        'quantity',
+        'total_quantity',
         'restaurant_order_id',
         'raw_material_id',
         'product_id'

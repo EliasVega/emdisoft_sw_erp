@@ -157,8 +157,7 @@
         </table>
     </div>
     @if ($restaurantOrder != null)
-        @if ($restaurantOrder->restaurant_table_id == 1)
-
+        @if ($restaurantOrder->restaurant_table_id == 1 && $homeOrder->type == 'home')
             <div id="document">
                 <p> PARA ENVIO A DOMICILIO A:</p>
             </div>

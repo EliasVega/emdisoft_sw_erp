@@ -75,4 +75,8 @@ class Product extends Model
     public function ndinvoiceProduct(){
         return $this->belongsTo(NdinvoiceProduct::class);
     }
+
+    public function commandRawmaterials(){
+        return $this->hasMany(CommandRawmaterial::class);
+    }
 }

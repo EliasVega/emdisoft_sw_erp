@@ -38,7 +38,7 @@
     </div>
 </div>
 <div class="box-body row">
-    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="addProduct">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="addProduct">
         <div class="form-group row">
             <label class="form-control-label" for="product_id">Menu</label>
             <select name="product_id" class="form-control selectpicker" id="product_id"
@@ -51,27 +51,27 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12" id="editQuantity">
+    <div class="col-lg-4 col-md-3 col-sm-4 col-xs-12" id="editQuantity">
         <div class="form-group">
             <label class="form-control-label" for="quantity">Cantidad</label>
             <input type="number" id="quantity" name="quantity" value=""
                 class="form-control" placeholder="Cantidad" pattern="[0-9]{0,15}">
         </div>
     </div>
-    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12" id="editSalePrice">
+    <div class="col-lg-4 col-md-3 col-sm-4 col-xs-12" id="editSalePrice">
         <div class="form-group">
             <label class="form-control-label" for="sale_price">Precio</label>
             <input type="number" id="sale_price" name="sale_price" class="form-control"
                 placeholder="Precio de venta">
         </div>
     </div>
-    <div class="col-lg-1 col-md-3 col-sm-2 col-xs-12" id="editAdd">
+    <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12" id="editAdd">
         <div class="form-group">
             <label class="form-control-label">Add</label><br>
             <button class="btn btn-lightBlueGrad" type="button" id="add" data-toggle="tooltip" data-placement="top" title="Add"><i class="fas fa-check"></i>&nbsp; </button>
         </div>
     </div>
-    <div class="col-lg-1 col-md-3 col-sm-2 col-xs-12" id="editCanc">
+    <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12" id="editCanc">
         <div class="form-group">
             <label class="form-control-label" >Canc</label><br>
             <a href="{{url('restaurantOrder')}}" class="btn btn-blueGrad" data-toggle="tooltip" data-placement="top" title="Cancelar"><i class="fa fa-window-close"></i>&nbsp; </a>

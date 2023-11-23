@@ -100,6 +100,32 @@
         });
     });
 
+    function editrowrm(index) {
+
+        //$("#contrmMod").hide();
+        //$("#subtotalrmMod").hide();
+        //$("#idpMod").hide();
+
+        // Obtener la fila
+        var rowrm = $("#rowrm" + index);
+        // Solo si la fila existe
+        if(rowrm) {
+
+            // Buscar datos en la fila y asignar a campos del formulario:
+            // Primera columna (0) tiene ID, segunda (1) tiene nombre, tercera (2) capacidad
+            $("#contrmModal").val(index);
+            $("#idpModal").val(rowrm.find("td:eq(3)").text());
+            $("#raw_material_idModal").val(rowrm.find("td:eq(4)").text());
+            $("#rawMaterialModal").val(rowrm.find("td:eq(5)").text());
+            $("#quantityrmModal").val(rowrm.find("td:eq(6)").text());
+            $("#consumer_priceModal").val(rowrm.find("td:eq(7)").text());
+            $("#subtotalrmModal").val(rowrm.find("td:eq(8)").text());
+
+            // Mostrar modal
+            $('#modalRawMaterial').modal('show');
+        }
+    }
+
     function updaterowrm() {
 
         // Buscar datos en la fila y asignar a campos del formulario:
@@ -107,7 +133,7 @@
         conteditrm = $("#contrmModal").val();
         //id = $("#idModal").val();
         raw_material_id = $("#raw_material_idModal").val();
-        product = $("#rawMaterialModal").val();
+        material = $("#rawMaterialModal").val();
         quantityrm = $("#quantityrmModal").val();
         consumer_price = $("#consumer_priceModal").val();
         idP = $("#idpModal").val();
@@ -143,32 +169,6 @@
     jQuery(document).on("click", "#updateRawMaterial", function () {
         updaterowrm();
     });
-
-    function editrowrm(index) {
-
-        //$("#contrmMod").hide();
-        //$("#subtotalrmMod").hide();
-        //$("#idpMod").hide();
-
-        // Obtener la fila
-        var rowrm = $("#rowrm" + index);
-        // Solo si la fila existe
-        if(rowrm) {
-
-            // Buscar datos en la fila y asignar a campos del formulario:
-            // Primera columna (0) tiene ID, segunda (1) tiene nombre, tercera (2) capacidad
-            $("#contrmModal").val(index);
-            $("#idpModal").val(rowrm.find("td:eq(3)").text());
-            $("#raw_material_idModal").val(rowrm.find("td:eq(4)").text());
-            $("#rawMaterialModal").val(rowrm.find("td:eq(5)").text());
-            $("#quantityrmModal").val(rowrm.find("td:eq(6)").text());
-            $("#consumer_priceModal").val(rowrm.find("td:eq(7)").text());
-            $("#subtotalrmModal").val(rowrm.find("td:eq(8)").text());
-
-            // Mostrar modal
-            $('#modalRawMaterial').modal('show');
-        }
-    }
 
     function totalrms(){
         $("#totalrm_html").html("$ " + totalrm.toFixed(2));

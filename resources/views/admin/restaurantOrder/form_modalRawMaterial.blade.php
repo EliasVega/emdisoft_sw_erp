@@ -8,7 +8,7 @@
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="rawMaterialIdModal">
         <div class="form-group">
-            <label for="raw_material_idModal">id</label>
+            <label for="raw_material_idModal">idMP</label>
             <input type="number" name="raw_material_idModal" id="raw_material_idModal"class="form-control" placeholder="materia Prima " readonly>
         </div>
     </div>

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('home_orders', function (Blueprint $table) {
             $table->id();
 
+            $table->enum('type', ['home', 'rappi'])->default('home');
             $table->string('name', 100);
             $table->string('address', 100);
             $table->string('phone', 255);

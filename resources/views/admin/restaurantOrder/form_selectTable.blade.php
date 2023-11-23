@@ -7,6 +7,9 @@
 
                 <input type="checkbox" name="service" value="1" id="checkbox2">
                 <label for="checkbox2">Domicilios</label>
+
+                <input type="checkbox" name="service" value="2" id="checkbox3">
+                <label for="checkbox3">Rappi</label>
             </div>
         </div>
     </div>

@@ -2,6 +2,7 @@
     /*$(document).ready(function(){
             alert('estoy funcionando correctamanete empresa');
         });*/
+
     jQuery(document).ready(function($){
         $(document).ready(function() {
             $('#raw_material_id').select2({
@@ -123,9 +124,11 @@
             contrm++;
             deleterowrm(conteditrm);
             totalrms();
+            clear();
             $('#materials').append(rowrm);
             $('#modalRawMaterial').modal('hide');
             //$('#product_id option:selected').remove();
+            clear();
         }else{
             // alert("Rellene todos los campos del detalle de la compra, revise los datos del producto");
             Swal.fire({
@@ -175,7 +178,8 @@
         $("#totalrm").val(totalrm.toFixed(2));
     }
     function clear(){
-        $("#raw_material_id").val("");
+        $('#raw_material_id').val(null).trigger('change');
+        //$("#raw_material_id").val("");
         $("#quantityrm").val("");
         $("#consumer_price").val("");
     }

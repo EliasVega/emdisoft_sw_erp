@@ -16,6 +16,7 @@ use App\Models\CompanyTax;
 use App\Models\Customer;
 use App\Models\Discrepancy;
 use App\Models\Environment;
+use App\Models\HomeOrder;
 use App\Models\Indicator;
 use App\Models\InvoiceProduct;
 use App\Models\InvoiceResponse;
@@ -95,6 +96,9 @@ class InvoiceController extends Controller
             })
             ->addColumn('role', function (Invoice $invoice) {
                 return $invoice->user->roles[0]->name;
+            })
+            ->addColumn('restaurant', function (Invoice $invoice) {
+                return $invoice->branch->company->indicator->restaurant;
             })
             ->editColumn('created_at', function(Invoice $invoice){
                 return $invoice->created_at->format('yy-m-d: h:m');
@@ -725,6 +729,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::findOrFail($id);
         $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->where('quantity', '>', 0)->get();
         $restaurantOrder = RestaurantOrder::where('invoice_id', $id)->first();
+        $homeOrder = HomeOrder::where('restaurant_order_id', $restaurantOrder->id)->first();
         $company = Company::findOrFail(1);
         $indicator = Indicator::findOrFail(1);
         $debitNotes = Ndinvoice::where('invoice_id', $id)->first();
@@ -765,6 +770,7 @@ class InvoiceController extends Controller
         $view = \view('admin.invoice.pos', compact(
             'invoice',
             'restaurantOrder',
+            'homeOrder',
             'days',
             'invoiceProducts',
             'company',
@@ -791,6 +797,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::findOrFail($invoices);
         session()->forget('invoice');
         $restaurantOrder = RestaurantOrder::where('invoice_id', $invoice->id)->first();
+        $homeOrder = HomeOrder::where('restaurant_order_id', $restaurantOrder->id)->first();
         $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->where('quantity', '>', 0)->get();
         $company = Company::findOrFail(1);
         $indicator = Indicator::findOrFail(1);
@@ -831,6 +838,7 @@ class InvoiceController extends Controller
         }
         $view = \view('admin.invoice.pos', compact(
             'invoice',
+            'homeOrder',
             'days',
             'invoiceProducts',
             'restaurantOrder',

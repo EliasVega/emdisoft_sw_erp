@@ -5,26 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class HomeOrder extends Model
+class CommandRawmaterial extends Model
 {
     use HasFactory;
 
-    public $table = 'home_orders';
+    public $table = 'command_rawmaterials';
 
     protected $primaryKey = 'id';
 
     public $timestamps = true;
 
     protected $fillable = [
-        'type',
-        'name',
-        'address',
-        'phone',
-        'domiciliary',
-        'domicile_value',
-        'time_receipt',
-        'time_sent',
-        'order_id'
+        'quantity',
+        'restaurant_order_id',
+        'product_id',
+        'raw_material_id'
     ];
 
     protected $guarded = [
@@ -34,5 +29,15 @@ class HomeOrder extends Model
     public function restaurantOrder()
     {
         return $this->belongsTo(RestaurantOrder::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function rawMaterial()
+    {
+        return $this->belongsTo(RawMaterial::class);
     }
 }

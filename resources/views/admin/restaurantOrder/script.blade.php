@@ -2,6 +2,7 @@
     /*$(document).ready(function(){
             alert('estoy funcionando correctamanete empresa');
         });*/
+
     jQuery(document).ready(function($){
         $(document).ready(function() {
             $('#product_id').select2({
@@ -70,7 +71,8 @@
         }
     }
     function clean(){
-        $("#product_id").val("");
+        //$("#product_id").val("");
+        $('#product_id').val(null).trigger('change');
         $("#quantity").val("");
         $("#sale_price").val("");
     }
@@ -128,6 +130,19 @@
         $("#checkbox2").click(function(){
             $("#homeOrder").show();
             $("#createTable").hide();
+            $("#name").val('X');
+            $("#address").val('X');
+            $("#phone").val('X');
+        });
+    });
+
+    $(document).ready(function(){
+        $("#checkbox3").click(function(){
+            $("#homeOrder").show();
+            $("#createTable").hide();
+            $("#name").val('Rappi');
+            $("#address").val('Rappi');
+            $("#phone").val('Rappi');
         });
     });
 
