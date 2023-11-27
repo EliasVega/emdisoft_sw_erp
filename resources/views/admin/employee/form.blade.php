@@ -28,6 +28,21 @@
         </div>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+        <label for="branch_id">Sucursal</label>
+        <div class="select">
+            <select id="branch_id" name="branch_id" class="form-control selectpicker" data-live-search="true" required>
+                <option {{ ($employee->branch_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar...</option>
+                @foreach($branchs as $branch)
+                    @if($branch->id == ($employee->branch_id ?? ''))
+                        <option value="{{ $branch->id }}" selected>{{ $branch->name }}</option>
+                    @else
+                        <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                    @endif
+                @endforeach
+            </select>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
         <label for="department_id">Departamento</label>
         <div class="select">
             <select id="department_id" name="department_id" class="form-control selectpicker" data-live-search="true" required>
@@ -80,13 +95,13 @@
             <input type="text" name="phone" value="{{ old('phone', $employee->phone ?? '') }}" class="form-control" placeholder="Telefono">
         </div>
     </div>
-    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="email">Email</label>
             <input type="email" name="email" value="{{ old('email', $employee->email ?? '') }}" class="form-control" placeholder="Correo electronico">
         </div>
     </div>
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <label for="status">Estado</label>
         <select name="status" id="status" class="form-control" required>
             <option {{ ($employee->status ?? '') == '' ? "selected" : "" }}></option>

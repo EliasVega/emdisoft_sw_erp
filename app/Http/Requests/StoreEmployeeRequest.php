@@ -36,6 +36,7 @@ class StoreEmployeeRequest extends FormRequest
             'account_number' => 'required|string|max:20',
             'status'       => 'in:active,inactive',
 
+            'branch_id' => 'required|integer',
             'department_id' => 'required|integer',
             'municipality_id' => 'required|integer',
             'identification_type_id' => 'required|integer',

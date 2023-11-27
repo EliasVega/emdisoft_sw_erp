@@ -46,6 +46,11 @@ class Employee extends Model
         'id'
     ];
 
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
+
     public function municipality()
     {
         return $this->belongsTo(Municipality::class);

@@ -16,15 +16,10 @@ class Overtime extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'date',
-        'start_time',
-        'end_time',
-        'quantiry',
-        'hour_value',
+        'year_month',
         'total',
 
-        'employee_id',
-        'overtime_type_id'
+        'employee_id'
     ];
 
     protected $guarded = [
@@ -34,10 +29,5 @@ class Overtime extends Model
     public function employee()
     {
         return $this->belongsTo(Employee::class);
-    }
-
-    public function overtimeType()
-    {
-        return $this->belongsTo(OvertimeType::class);
     }
 }

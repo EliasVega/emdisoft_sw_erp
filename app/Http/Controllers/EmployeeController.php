@@ -6,6 +6,7 @@ use App\Models\Employee;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use App\Models\Bank;
+use App\Models\Branch;
 use App\Models\charge;
 use App\Models\ContratType;
 use App\Models\Department;
@@ -63,6 +64,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
+        $branchs = Branch::get();
         $departments = Department::get();
         $municipalities = Municipality::get();
         $identificationTypes = IdentificationType::get();
@@ -74,6 +76,7 @@ class EmployeeController extends Controller
         $paymentMethods = PaymentMethod::get();
         $banks = Bank::get();
         return view('admin.employee.create', compact(
+            'branchs',
             'departments',
             'municipalities',
             'identificationTypes',
@@ -96,6 +99,7 @@ class EmployeeController extends Controller
     public function store(StoreEmployeeRequest $request)
     {
         $employee = new Employee();
+        $employee->branch_id = $request->branch_id;
         $employee->department_id = $request->department_id;
         $employee->municipality_id = $request->municipality_id;
         $employee->identification_type_id = $request->identification_type_id;
@@ -142,6 +146,7 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
+        $branchs = Branch::get();
         $departments = Department::get();
         $municipalities = Municipality::get();
         $identificationTypes = IdentificationType::get();
@@ -154,6 +159,7 @@ class EmployeeController extends Controller
         $banks = Bank::get();
         return view('admin.employee.edit', compact(
             'employee',
+            'branchs',
             'departments',
             'municipalities',
             'identificationTypes',
@@ -176,6 +182,7 @@ class EmployeeController extends Controller
      */
     public function update(UpdateEmployeeRequest $request, Employee $employee)
     {
+        $employee->branch_id = $request->branch_id;
         $employee->department_id = $request->department_id;
         $employee->municipality_id = $request->municipality_id;
         $employee->identification_type_id = $request->identification_type_id;

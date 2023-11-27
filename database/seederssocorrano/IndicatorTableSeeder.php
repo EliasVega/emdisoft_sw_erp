@@ -23,6 +23,7 @@ class IndicatorTableSeeder extends Seeder
                 'id' => 1,
                 'smlv' => 1160000,
                 'transport_assistance' => 140606,
+                'weekly_hours' => 47,
                 'uvt' => 42412,
                 'plastic_bag_tax' => 60,
                 'dian' => 'off',

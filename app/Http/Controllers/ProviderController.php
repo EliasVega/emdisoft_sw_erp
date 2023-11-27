@@ -94,7 +94,7 @@ class ProviderController extends Controller
                     }
                 })
                 ->editColumn('created_at', function(Provider $provider) {
-                    return $provider->created_at->format('yy-m-d');
+                    return $provider->created_at->format('Y-m-d');
                 })
 
             ->addColumn('edit', 'admin/provider/actions')

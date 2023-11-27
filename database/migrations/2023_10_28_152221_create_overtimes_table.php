@@ -14,15 +14,10 @@ return new class extends Migration
         Schema::create('overtimes', function (Blueprint $table) {
             $table->id();
 
-            $table->date('date');
-            $table->time('start_time');
-            $table->time('end_time');
-            $table->decimal('quantiry',10,2);
-            $table->decimal('hour_value',10,2);
-            $table->decimal('total',10,2);
+            $table->string('year_month',10);
+            $table->decimal('total',10,2);//valor de este tipo de hora
 
             $table->foreignId('employee_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('overtime_type_id')->constrained()->onUpdate('cascade');
 
             $table->timestamps();
         });

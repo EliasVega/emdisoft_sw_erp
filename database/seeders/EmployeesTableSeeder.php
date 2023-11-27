@@ -33,6 +33,7 @@ class EmployeesTableSeeder extends Seeder
                 'account_number' => '123456789',
                 'status' => 'active',
 
+                'branch_id' => 1,
                 'department_id' => 21,
                 'municipality_id' => 846,
                 'identification_type_id' => 3,

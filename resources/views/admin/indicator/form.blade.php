@@ -13,6 +13,12 @@
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
+            <label for="weekly_hours">Horas semanales</label>
+            <input type="text" name="weekly_hours" value="{{ old('weekly_hours', $indicator->weekly_hours ?? '') }}" class="form-control" placeholder="horas semanales">
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
             <label for="uvt">UVT</label>
             <input type="text" name="uvt" value="{{ old('uvt', $indicator->uvt ?? '') }}" class="form-control" placeholder="UVT">
         </div>

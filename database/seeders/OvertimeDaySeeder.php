@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class RawMaterialSeeder extends Seeder
+class OvertimeDaySeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('account_number', 20);
             $table->enum('status', ['active', 'inactive'])->default('active');
 
+            $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
             $table->foreignId('department_id')->constrained()->onUpdate('cascade');
             $table->foreignId('municipality_id')->constrained()->onUpdate('cascade');
             $table->foreignId('identification_type_id')->constrained()->onUpdate('cascade');

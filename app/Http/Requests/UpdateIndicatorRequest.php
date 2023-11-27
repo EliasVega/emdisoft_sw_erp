@@ -26,6 +26,7 @@ class UpdateIndicatorRequest extends FormRequest
         return [
             'smlv' => 'required|numeric',
             'transport_assistance' => 'required|numeric',
+            'weekly_hours' => 'required|numeric',
             'uvt' => 'required|numeric',
             'plastic_bag_tax' => 'required',
             'dian' => 'in:on,off',

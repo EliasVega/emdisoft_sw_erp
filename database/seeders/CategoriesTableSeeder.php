@@ -21,146 +21,71 @@ class CategoriesTableSeeder extends Seeder
             0 =>
             array (
                 'id' => 1,
-                'name' => 'ALMUERZOS',
-                'description' => 'ALMUERZOS',
+                'name' => 'Electricos',
+                'description' => 'Todo lo relacionado con insumos electricos',
                 'utility_rate' => '30.00',
                 'status' => 'active',
                 'company_tax_id' => 2,
-                'created_at' =>	'2023-10-20 12:00:00',
-                'updated_at' =>	'2023-10-20 12:00:00'
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43',
             ),
             1 =>
             array (
                 'id' => 2,
-                'name' => 'CARNES',
-                'description' => 'CARNES',
+                'name' => 'Ferreteria',
+                'description' => 'Todo lo relacionado con Herramientas de Ferreteria',
                 'utility_rate' => '30.00',
                 'status' => 'active',
                 'company_tax_id' => 2,
-                'created_at' =>	'2023-10-20 12:00:00',
-                'updated_at' =>	'2023-10-20 12:00:00'
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43',
             ),
             2 =>
             array (
                 'id' => 3,
-                'name' => 'DE LA REGION',
-                'description' => 'DE LA REGION',
+                'name' => 'Computadores',
+                'description' => 'Todo lo relacionado con Computacion',
                 'utility_rate' => '30.00',
                 'status' => 'active',
-                'company_tax_id' => 2,
-                'created_at' =>	'2023-10-20 12:00:00',
-                'updated_at' =>	'2023-10-20 12:00:00'
+                'company_tax_id' => 11,
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43',
             ),
             3 =>
             array (
                 'id' => 4,
-                'name' => 'DESAYUNOS',
-                'description' => 'DESAYUNOS',
+                'name' => 'tablet',
+                'description' => 'Todo lo relacionado con tablets',
                 'utility_rate' => '30.00',
                 'status' => 'active',
                 'company_tax_id' => 2,
-                'created_at' =>	'2023-10-20 12:00:00',
-                'updated_at' =>	'2023-10-20 12:00:00'
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43',
             ),
             4 =>
             array (
                 'id' => 5,
-                'name' => 'EMBUTIDOS',
-                'description' => 'EMBUTIDOS',
-                'utility_rate' => '30.00',
+                'name' => 'Productos gravados con INC',
+                'description' => 'Gastos de la empresa',
+                'utility_rate' => '0.00',
                 'status' => 'active',
-                'company_tax_id' => 2,
-                'created_at' =>	'2023-10-20 12:00:00',
-                'updated_at' =>	'2023-10-20 12:00:00'
+                'company_tax_id' => 3,
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43',
             ),
             5 =>
             array (
                 'id' => 6,
-                'name' => 'ENTRADAS',
-                'description' => 'ENTRADAS',
-                'utility_rate' => '30.00',
-                'status' => 'active',
-                'company_tax_id' => 2,
-                'created_at' =>	'2023-10-20 12:00:00',
-                'updated_at' =>	'2023-10-20 12:00:00'
-            ),
-            6 =>
-            array (
-                'id' => 7,
-                'name' => 'PASTA',
-                'description' => 'PASTA',
-                'utility_rate' => '30.00',
-                'status' => 'active',
-                'company_tax_id' => 2,
-                'created_at' =>	'2023-10-20 12:00:00',
-                'updated_at' =>	'2023-10-20 12:00:00'
-            ),
-            7 =>
-            array (
-                'id' => 8,
-                'name' => 'PESCADOS',
-                'description' => 'PESCADOS',
-                'utility_rate' => '30.00',
-                'status' => 'active',
-                'company_tax_id' => 2,
-                'created_at' =>	'2023-10-20 12:00:00',
-                'updated_at' =>	'2023-10-20 12:00:00'
-            ),
-            8 =>
-            array (
-                'id' => 9,
-                'name' => 'POLLO',
-                'description' => 'POLLO',
-                'utility_rate' => '30.00',
-                'status' => 'active',
-                'company_tax_id' => 2,
-                'created_at' =>	'2023-10-20 12:00:00',
-                'updated_at' =>	'2023-10-20 12:00:00'
-            ),
-            9 =>
-            array (
-                'id' => 10,
-                'name' => 'PORCIONES',
-                'description' => 'PORCIONES',
-                'utility_rate' => '30.00',
-                'status' => 'active',
-                'company_tax_id' => 2,
-                'created_at' =>	'2023-10-20 12:00:00',
-                'updated_at' =>	'2023-10-20 12:00:00'
-            ),
-            10 =>
-            array (
-                'id' => 11,
-                'name' => 'TIPICOS',
-                'description' => 'TIPICOS',
-                'utility_rate' => '30.00',
-                'status' => 'active',
-                'company_tax_id' => 2,
-                'created_at' =>	'2023-10-20 12:00:00',
-                'updated_at' =>	'2023-10-20 12:00:00'
-            ),
-            11 =>
-            array (
-                'id' => 12,
-                'name' => 'VERDURAS',
-                'description' => 'VERDURAS',
-                'utility_rate' => '30.00',
-                'status' => 'active',
-                'company_tax_id' => 2,
-                'created_at' =>	'2023-10-20 12:00:00',
-                'updated_at' =>	'2023-10-20 12:00:00'
-            ),
-            12 =>
-            array (
-                'id' => 13,
-                'name' => 'PRODUCTO EXCENTO',
-                'description' => 'COMPRA MATERIA PRIMA',
-                'utility_rate' => '13.00',
+                'name' => 'Excentos',
+                'description' => 'Gastos de la empresa',
+                'utility_rate' => '0.00',
                 'status' => 'active',
                 'company_tax_id' => 1,
-                'created_at' =>	'2023-10-20 12:00:00',
-                'updated_at' =>	'2023-10-20 12:00:00'
-            )
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43',
+            ),
         ));
+
+
     }
 }

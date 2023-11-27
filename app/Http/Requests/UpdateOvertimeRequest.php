@@ -22,15 +22,10 @@ class UpdateOvertimeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date' => 'required|date',
-            'start_time' => 'required',
-            'end_time' => 'required',
-            'quantiry' => '',
-            'hour_value' => '',
+            'year_month' => '',
             'total' => '',
 
-            'employee_id' => 'required',
-            'overtime_type_id' => 'required'
+            'employee_id' => ''
         ];
     }
 }

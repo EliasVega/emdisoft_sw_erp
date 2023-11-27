@@ -24,12 +24,10 @@
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Fecha</th>
-                            <th>Hora inicio</th>
-                            <th>Hora fin</th>
-                            <th>Cantidad</th>
-                            <th>V/hora</th>
+                            <th>Año y mes</th>
+                            <th>Colaborador</th>
                             <th>V/total</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                 </table>
@@ -57,12 +55,9 @@ $(document).ready(function ()
             columns:
             [
                 {data: 'id'},
-                {data: 'date'},
-                {data: 'start_hour'},
-                {data: 'end_hour'},
-                {data: 'quantity'},
-                {data: 'hour_value'},
-                {data: 'total'},
+                {data: 'year_month'},
+                {data: 'employee'},
+                {data: 'total', className: 'dt-body-right', render: $.fn.dataTable.render.number( '.', ',', 2, '$')},
                 {data: 'edit'},
             ],
             dom: 'Bfltip',
