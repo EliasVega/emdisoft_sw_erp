@@ -60,7 +60,7 @@ class Provider extends Model
 
     public function regime()
     {
-        return $this->belongsTo(Regimentomas::class);
+        return $this->belongsTo(Regime::class);
     }
     public function purchaseOrder()
     {
