@@ -37,14 +37,20 @@ class ProviderController extends Controller
      */
     public function index(Request $request)
     {
+        /*
         $provider = Provider::findOrFail(1);
         $provid = $provider->municipality->department->name;
-        dd($provid);
+        if ($provider == null) {
+            return null;
+        } else {
+            return $provid;
+        }*/
         if ($request->ajax()) {
             $providers = Provider::get();
 
             return DataTables::of($providers)
             ->addIndexColumn()
+            /*
                 ->addColumn('department', function (Provider $provider) {
                     $departments = $provider->municipality;
                     if ($departments == null) {
@@ -98,7 +104,7 @@ class ProviderController extends Controller
                 })
                 ->editColumn('created_at', function(Provider $provider) {
                     return $provider->created_at->format('Y-m-d');
-                })
+                })*/
 
             ->addColumn('edit', 'admin/provider/actions')
             ->rawcolumns(['edit'])

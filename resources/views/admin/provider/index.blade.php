@@ -29,11 +29,7 @@
                             <th>Nombre</th>
                             <th>Tipo ID</th>
                             <th>Nit o CC</th>
-                            <th>Direccion</th>
-                            <th>Telefono</th>
                             <th>Email</th>
-                            <th>Contacto</th>
-                            <th>Tel. Contacto</th>
                             <th>editar</th>
                         </tr>
                     </thead>
@@ -66,11 +62,7 @@ $(document).ready(function ()
                 { data: 'name'},
                 { data: 'identificationType'},
                 { data: 'identification'},
-                { data: 'address'},
-                { data: 'phone'},
                 { data: 'email'},
-                { data: 'contact'},
-                { data: 'phone_contact'},
                 { data: 'edit'},
             ],
             dom: 'Blfrtip',
