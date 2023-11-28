@@ -24,14 +24,9 @@
                         <tr>
                             <th>Id</th>
                             <th>Nombre</th>
-                            <th>DOC.</th>
-                            <th>Numero</th>
-                            <th>Direccion</th>
-                            <th>Telefono</th>
+                            <th>CC o NIT.</th>
+                            <th>Identificacion</th>
                             <th>Email</th>
-                            <th>Cupo</th>
-                            <th>Fecha Inicio</th>
-                            <th>Municipio</th>
                             <th>editar</th>
                         </tr>
                     </thead>
@@ -64,12 +59,7 @@ $(document).ready(function ()
                 {data: 'name'},
                 {data: 'identificationType'},
                 {data: 'identification'},
-                {data: 'address'},
-                {data: 'phone'},
                 {data: 'email'},
-                {data: 'credit_limit', className: 'dt-body-right', render: $.fn.dataTable.render.number( '.', ',', 2, '$')},
-                {data: 'created_at'},
-                {data: 'municipality'},
                 {data: 'edit'},
             ],
             dom: 'Blfrtip',
