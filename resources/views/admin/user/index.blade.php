@@ -23,7 +23,7 @@
                 @can('rol.index')
                     <a href="roles" class="btn btn-blueGrad"><i class="fa fa-plus mr-2"></i> Roles</a>
                 @endcan
-                @can('permission.index')
+                @can('superAdmin')
                     <a href="permission" class="btn btn-blueGrad"><i class="fa fa-plus mr-2"></i> Permisos</a>
                 @endcan
             </h5>
