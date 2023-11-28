@@ -45,59 +45,58 @@ class ProviderController extends Controller
             ->addColumn('identificationType', function (Provider $provider) {
                 return $provider->identificationType->initial;
             })
-            /*
-                ->addColumn('department', function (Provider $provider) {
-                    $departments = $provider->municipality;
-                    if ($departments == null) {
-                        return null;
-                    } else {
-                        return $provider->municipality->department->name;
-                    }
-                })
-                ->addColumn('municipality', function (Provider $provider) {
-                    $municipalities = $provider->municipality;
-                    if ($municipalities == null) {
-                        return null;
-                    } else {
-                        return $provider->municipality->name;
-                    }
-                })
-                ->addColumn('postal_code', function (Provider $provider) {
-                    $postalCode = $provider->postalCode;
-                    if ($postalCode == null) {
-                        return null;
-                    } else {
-                        return $provider->postalCode->postal_code;
-                    }
-                })
+            ->addColumn('department', function (Provider $provider) {
+                $departments = $provider->municipality;
+                if ($departments == null) {
+                    return null;
+                } else {
+                    return $provider->municipality->department->name;
+                }
+            })
+            ->addColumn('municipality', function (Provider $provider) {
+                $municipalities = $provider->municipality;
+                if ($municipalities == null) {
+                    return null;
+                } else {
+                    return $provider->municipality->name;
+                }
+            })
+            ->addColumn('postal_code', function (Provider $provider) {
+                $postalCode = $provider->postalCode;
+                if ($postalCode == null) {
+                    return null;
+                } else {
+                    return $provider->postalCode->postal_code;
+                }
+            })
 
-                ->addColumn('liability', function (Provider $provider) {
-                    $liabilities = $provider->liability;
-                    if ($liabilities == null) {
-                        return null;
-                    } else {
-                        return $provider->liability->name;
-                    }
-                })
-                ->addColumn('organization', function (Provider $provider) {
-                    $organizations = $provider->organization;
-                    if ($organizations == null) {
-                        return null;
-                    } else {
-                        return $provider->organization->name;
-                    }
-                })
-                ->addColumn('regime', function (Provider $provider) {
-                    $regimes = $provider->regime;
-                    if ($regimes == null) {
-                        return null;
-                    } else {
-                        return $provider->regime->name;
-                    }
-                })
-                ->editColumn('created_at', function(Provider $provider) {
-                    return $provider->created_at->format('Y-m-d');
-                })*/
+            ->addColumn('liability', function (Provider $provider) {
+                $liabilities = $provider->liability;
+                if ($liabilities == null) {
+                    return null;
+                } else {
+                    return $provider->liability->name;
+                }
+            })
+            ->addColumn('organization', function (Provider $provider) {
+                $organizations = $provider->organization;
+                if ($organizations == null) {
+                    return null;
+                } else {
+                    return $provider->organization->name;
+                }
+            })
+            ->addColumn('regime', function (Provider $provider) {
+                $regimes = $provider->regime;
+                if ($regimes == null) {
+                    return null;
+                } else {
+                    return $provider->regime->name;
+                }
+            })
+            ->editColumn('created_at', function(Provider $provider) {
+                return $provider->created_at->format('Y-m-d');
+            })
 
             ->addColumn('edit', 'admin/provider/actions')
             ->rawcolumns(['edit'])

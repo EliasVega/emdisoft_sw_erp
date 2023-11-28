@@ -41,7 +41,6 @@ class CustomerController extends Controller
                 ->addColumn('identificationType', function (Customer $customer) {
                     return $customer->identificationType->initial;
                 })
-                /*
                 ->addColumn('department', function (Customer $customer) {
                     $departments = $customer->municipality;
                     if ($departments == null) {
@@ -85,7 +84,7 @@ class CustomerController extends Controller
                 })
                 ->editColumn('created_at', function(Customer $customer) {
                     return $customer->created_at->format('yy-m-d');
-                })*/
+                })
 
                 ->addColumn('edit', 'admin/customer/actions')
                 ->rawcolumns(['edit'])
