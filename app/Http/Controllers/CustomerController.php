@@ -33,6 +33,9 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
+        $customer = Customer::findOrFail(1);
+        $custom = $customer->municipality->department->name;
+        dd($custom);
         if ($request->ajax()) {
             $customers = Customer::get();
 

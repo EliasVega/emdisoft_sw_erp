@@ -37,6 +37,9 @@ class ProviderController extends Controller
      */
     public function index(Request $request)
     {
+        $provider = Provider::findOrFail(1);
+        $provid = $provider->municipality->department->name;
+        dd($provid);
         if ($request->ajax()) {
             $providers = Provider::get();
 
