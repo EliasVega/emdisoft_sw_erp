@@ -37,19 +37,14 @@ class ProviderController extends Controller
      */
     public function index(Request $request)
     {
-        /*
-        $provider = Provider::findOrFail(1);
-        $provid = $provider->municipality->department->name;
-        if ($provider == null) {
-            return null;
-        } else {
-            return $provid;
-        }*/
         if ($request->ajax()) {
             $providers = Provider::get();
 
             return DataTables::of($providers)
             ->addIndexColumn()
+            ->addColumn('identificationType', function (Provider $provider) {
+                return $provider->identificationType->initial;
+            })
             /*
                 ->addColumn('department', function (Provider $provider) {
                     $departments = $provider->municipality;
@@ -75,9 +70,7 @@ class ProviderController extends Controller
                         return $provider->postalCode->postal_code;
                     }
                 })
-                ->addColumn('identificationType', function (Provider $provider) {
-                    return $provider->identificationType->initial;
-                })
+
                 ->addColumn('liability', function (Provider $provider) {
                     $liabilities = $provider->liability;
                     if ($liabilities == null) {

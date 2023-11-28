@@ -33,14 +33,15 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
-        $customer = Customer::findOrFail(1);
-        $custom = $customer->municipality->department->name;
-        dd($custom);
         if ($request->ajax()) {
             $customers = Customer::get();
 
             return DataTables::of($customers)
                 ->addIndexColumn()
+                ->addColumn('identificationType', function (Customer $customer) {
+                    return $customer->identificationType->initial;
+                })
+                /*
                 ->addColumn('department', function (Customer $customer) {
                     $departments = $customer->municipality;
                     if ($departments == null) {
@@ -57,9 +58,7 @@ class CustomerController extends Controller
                         return $customer->municipality->name;
                     }
                 })
-                ->addColumn('identificationType', function (Customer $customer) {
-                    return $customer->identificationType->initial;
-                })
+
                 ->addColumn('liability', function (Customer $customer) {
                     $liabilities = $customer->liability;
                     if ($liabilities == null) {
@@ -86,7 +85,7 @@ class CustomerController extends Controller
                 })
                 ->editColumn('created_at', function(Customer $customer) {
                     return $customer->created_at->format('yy-m-d');
-                })
+                })*/
 
                 ->addColumn('edit', 'admin/customer/actions')
                 ->rawcolumns(['edit'])
