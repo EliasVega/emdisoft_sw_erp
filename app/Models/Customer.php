@@ -65,7 +65,7 @@ class Customer extends Model
 
     public function regime()
     {
-        return $this->belongsTo(regime::class);
+        return $this->belongsTo(Regimento::class);
     }
 
     public function advances()
