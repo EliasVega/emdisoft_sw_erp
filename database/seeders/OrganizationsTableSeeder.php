@@ -15,8 +15,6 @@ class OrganizationsTableSeeder extends Seeder
      */
     public function run()
     {
-
-
         DB::table('organizations')->delete();
 
         DB::table('organizations')->insert(array (
@@ -33,7 +31,5 @@ class OrganizationsTableSeeder extends Seeder
                 'name' => 'Persona Natural y Asimiladas',
             ),
         ));
-
-
     }
 }
