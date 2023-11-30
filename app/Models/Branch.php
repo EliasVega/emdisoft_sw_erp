@@ -110,4 +110,9 @@ class Branch extends Model
     {
         return $this->hasMany(Expense::class);
     }
+
+    public function restaurantTables()
+    {
+        return $this->hasMany(RestaurantTable::class);
+    }
 }

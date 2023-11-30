@@ -57,7 +57,7 @@ class KardexController extends Controller
                 return $kardex->kardexable->name;
             })
             ->editColumn('created_at', function(Kardex $kardex){
-                return $kardex->created_at->format('yy-m-d');
+                return $kardex->created_at->format('Y-m-d');
             })
             ->addColumn('edit', 'admin/kardex/actions')
             ->rawcolumns(['edit'])

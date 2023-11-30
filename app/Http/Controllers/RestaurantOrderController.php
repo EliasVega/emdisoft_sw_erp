@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\RestaurantOrder;
 use App\Http\Requests\StoreRestaurantOrderRequest;
 use App\Http\Requests\UpdateRestaurantOrderRequest;
+use App\Models\Branch;
 use App\Models\CashRegister;
 use App\Models\CommandRawmaterial;
 use App\Models\Company;
@@ -77,6 +78,7 @@ class RestaurantOrderController extends Controller
     public function create()
     {
         $indicator = Indicator::findOrFail(1);
+        $branch = Branch::findOrFail(current_user()->branch_id);
         $cashRegister = CashRegister::select('id')
         ->where('user_id', '=', current_user()->id)
         ->where('status', '=', 'open')
@@ -94,7 +96,7 @@ class RestaurantOrderController extends Controller
         ->join('raw_materials as rm', 'pr.raw_material_id', 'rm.id')
         ->select('rm.id', 'rm.name', 'pr.quantity as quantityrm', 'pr.consumer_price', )
         ->get();
-        $restaurantTables = RestaurantTable::where('id', '!=', 1)->get();
+        $restaurantTables = RestaurantTable::where('id', '!=', 1)->where('branch_id', $branch->id)->get();
         return view('admin.restaurantOrder.create', compact(
             'restaurantTables',
             'products',
