@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kardex;
 use App\Http\Requests\StoreKardexRequest;
 use App\Http\Requests\UpdateKardexRequest;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -22,8 +23,13 @@ class KardexController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            if (!empty($request->end)) {
-                $kardexes = Kardex::whereBetween('created_at', [$request->start, $request->end])->get();
+            $startDate = $request->get('start_date');
+            $endDate = $request->get('end_date');
+            if ($startDate && $endDate) {
+                $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $startDate . ' 00:00:00');
+                $endDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $endDate . ' 23:59:59');
+
+                $kardexes = Kardex::whereBetween('created_at', [$startDateTime, $endDateTime])->get();
             } else {
                 $kardexes = Kardex::get();
             }

@@ -115,7 +115,7 @@ class RawMaterialController extends Controller
         $rawMaterial->code = $request->code;
         $rawMaterial->name = $request->name;
         $rawMaterial->price = $request->price;
-        $rawMaterial->sale_price = $request->sale_price;
+        $rawMaterial->price = $request->price;
         $rawMaterial->type_product = $request->type_product;
         $rawMaterial->stock = $rawMaterial->stock;
         $rawMaterial->update();
