@@ -52,6 +52,7 @@
     $("#uvt5").hide();
     $("#posActive").hide();
     $("#save").hide();
+    $("#posavtivity").hide();
 
     $(document).ready(function(){
             typeInvoice = $("#pos_active").val();

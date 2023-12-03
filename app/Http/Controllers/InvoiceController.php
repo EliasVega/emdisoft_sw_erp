@@ -186,16 +186,16 @@ class InvoiceController extends Controller
         $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
         $resolutions = '';
         $resolut = $request->resolution_id;
-        //dd($resolut);
         if ($resolut == null) {
             if ($indicator->dian == 'on') {
                 $resolutions = Resolution::findOrFail(4);
             } else {
-                $resolutions = Resolution::findOrFail(13);
+                $resolutions = Resolution::findOrFail(7);
             }
         } else {
             $resolutions = Resolution::findOrFail($request->resolution_id);
         }
+
         $typeDocument = 'invoice';
         $documentType = '';
 
@@ -208,7 +208,6 @@ class InvoiceController extends Controller
         }
 
         $voucherTypes = VoucherType::findOrFail($voucherType);
-
         //Variables del request
         $product_id = $request->id;
         $quantity = $request->quantity;
@@ -728,10 +727,15 @@ class InvoiceController extends Controller
     {
         $invoice = Invoice::findOrFail($id);
         $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->where('quantity', '>', 0)->get();
-        $restaurantOrder = RestaurantOrder::where('invoice_id', $id)->first();
-        $homeOrder = HomeOrder::where('restaurant_order_id', $restaurantOrder->id)->first();
         $company = Company::findOrFail(1);
         $indicator = Indicator::findOrFail(1);
+        if ($indicator->restaurant == 'on') {
+            $restaurantOrder = RestaurantOrder::where('invoice_id', $invoice->id)->first();
+            $homeOrder = HomeOrder::where('restaurant_order_id', $restaurantOrder->id)->first();
+        } else {
+            $restaurantOrder = null;
+            $homeOrder = null;
+        }
         $debitNotes = Ndinvoice::where('invoice_id', $id)->first();
         $creditNotes = Ncinvoice::where('invoice_id', $id)->first();
         $days = $invoice->created_at->diffInDays($invoice->due_date);
@@ -796,11 +800,17 @@ class InvoiceController extends Controller
         $invoices = session('invoice');
         $invoice = Invoice::findOrFail($invoices);
         session()->forget('invoice');
-        $restaurantOrder = RestaurantOrder::where('invoice_id', $invoice->id)->first();
-        $homeOrder = HomeOrder::where('restaurant_order_id', $restaurantOrder->id)->first();
+        $indicator = Indicator::findOrFail(1);
+        if ($indicator->restaurant == 'on') {
+            $restaurantOrder = RestaurantOrder::where('invoice_id', $invoice->id)->first();
+            $homeOrder = HomeOrder::where('restaurant_order_id', $restaurantOrder->id)->first();
+        } else {
+            $restaurantOrder = null;
+            $homeOrder = null;
+        }
         $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->where('quantity', '>', 0)->get();
         $company = Company::findOrFail(1);
-        $indicator = Indicator::findOrFail(1);
+
         $debitNotes = Ndinvoice::where('invoice_id', $invoice->id)->first();
         $creditNotes = Ncinvoice::where('invoice_id', $invoice->id)->first();
         $days = $invoice->created_at->diffInDays($invoice->due_date);

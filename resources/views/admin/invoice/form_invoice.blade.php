@@ -123,21 +123,33 @@
         </div>
     </div>
     @endif
+
     @if ($indicator->pos == 'on')
-        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mt-3" id="addFe" >
-            <div class="form-check">
-                <input class="form-check-input fe_true" type="radio" name="fe" value="1" id="fe_on">
-                <label class="form-check-label" for="fe">
-                    Generar Factura Electronica
-                </label>
+
+        @if ($indicator->dian == 'on')
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mt-3" id="addFe" >
+                <div class="form-check">
+                    <input class="form-check-input fe_true" type="radio" name="fe" value="1" id="fe_on">
+                    <label class="form-check-label" for="fe">
+                        Generar Factura Electronica
+                    </label>
                 </div>
                 <div class="form-check">
-                <input class="form-check-input fe_true" type="radio" name="fe" value="2" id="fe_off" checked>
-                <label class="form-check-label" for="fe">
-                    Generar ticket POST
-                </label>
+                    <input class="form-check-input fe_true" type="radio" name="fe" value="2" id="fe_off" checked>
+                    <label class="form-check-label" for="fe">
+                        Generar ticket POS
+                    </label>
+                </div>
             </div>
-        </div>
+        @else
+            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12" id="posavtivity">
+                <div class="form-group">
+                    <label class="form-control-label" for="fe">pos Active</label>
+                    <input type="number" id="fe" name="fe" value="2" class="form-control"
+                        placeholder="fe">
+                </div>
+            </div>
+        @endif
     @endif
     <div class="col-lg-6 col-md-6 col-sm-10 col-xs-12" id="noteDocument">
         <div class="form-group">

@@ -26,6 +26,14 @@ class VerificationCodeTableSeeder extends Seeder
                 'created_at' => '2023-05-12 21:07:43',
                 'updated_at' => '2023-05-12 21:07:43'
             ),
+            1 =>
+            array (
+                'id' => 2,
+                'user_id' => 2,
+                'code' => '91343991',
+                'created_at' => '2023-05-12 21:07:43',
+                'updated_at' => '2023-05-12 21:07:43'
+            ),
         ));
     }
 }

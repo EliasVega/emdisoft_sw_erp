@@ -136,7 +136,8 @@
                 pattern="[0-9]{0,15}">
         </div>
     </div>
-    <div class="clearfix"></div>
+</div>
+<div class="box-body row">
 
     <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group row">

@@ -9,6 +9,16 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row input-daterange input-group" id="datepicker">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3">
+                                @can('product.index')
+                                    <a href="{{ route('branch.index') }}" class="btn btn-lightBlueGrad ml-3"><i
+                                            class="fas fa-undo-alt mr-3"></i>Regresar </a>
+                                @endcan
+                                @can('branch.index')
+                                    <a href="{{ route('branch.index') }}" class="btn btn-blueGrad"><i
+                                            class="fas fa-undo-alt mr-2"></i>Inicio</a>
+                                @endcan
+                            </div>
                             <div class="col-12 col-md-2">
                                 <input type="date" name="start_date" id="start_date" class="form-control"
                                     max="{{ date('Y-m-d') }}">
@@ -25,16 +35,7 @@
                                 <a id="show_all_button" class="btn btn-secondary btn-block">Todos los registros <i
                                         class="fa-solid fa-list ml-md-1"></i></a>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                @can('product.index')
-                                    <a href="{{ route('branch.index') }}" class="btn btn-lightBlueGrad ml-3"><i
-                                            class="fas fa-undo-alt mr-3"></i>Regresar </a>
-                                @endcan
-                                @can('branch.index')
-                                    <a href="{{ route('branch.index') }}" class="btn btn-blueGrad"><i
-                                            class="fas fa-undo-alt mr-2"></i>Inicio</a>
-                                @endcan
-                            </div>
+
                         </div>
                     </div>
                     <br>
@@ -117,13 +118,13 @@
                         buttons: [{
                                 extend: 'copy',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                                 }
                             },
                             {
                                 extend: 'excel',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                                 }
                             },
                             {
@@ -132,13 +133,13 @@
                                 orientation: 'landscape',
                                 pageSize: 'LEGAL',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                                 }
                             },
                             {
                                 extend: 'print',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                                 }
                             },
                         ],
@@ -153,7 +154,7 @@
                         }
 
                         if (startDate != null && endDate != null) {
-                            table.ajax.url("{{ route('lotteryPlayDate') }}" + "?start_date=" +
+                            table.ajax.url("{{ route('kardex.index') }}" + "?start_date=" +
                                 startDate + "&end_date=" + endDate).load();
                         }
                     });
@@ -162,7 +163,7 @@
                         $('#start_date').val('');
                         $('#end_date').val('');
 
-                        table.ajax.url("{{ route('lotteryPlayDate') }}").load();
+                        table.ajax.url("{{ route('kardex.index') }}").load();
                     });
                 });
             </script>
