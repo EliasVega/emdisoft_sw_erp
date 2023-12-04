@@ -345,7 +345,7 @@
                 </div>
             </div>
         @endif
-        @dd('aquii estoy');
+
         @if ($cashRegister->purchaseOrder > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <strong class="tpdf">Detalle Ordenes de compra</strong>
@@ -492,6 +492,7 @@
                 </div>
             </div>
         @endif
+        @dd('aquii estoy');
     </div>
 </main>
 @endsection
