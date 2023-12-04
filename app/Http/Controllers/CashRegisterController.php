@@ -181,152 +181,12 @@ class CashRegisterController extends Controller
         $to = $cashRegister->updated_at;
 
         if ($user == 'superAdmin' || $user == 'admin') {
-            $invoiceProducts = [];
-            $cont = 0;
-            $products = Product::all();
-            foreach ($products as $key => $product ) {
-                $invoiceProduct = InvoiceProduct::from('invoice_products as ip')
-                ->join('invoices as inv', 'ip.invoice_id', 'inv.id')
-                ->join('products as pro', 'ip.product_id', 'pro.id')
-                ->whereBetween('ip.created_at', [$from, $to])
-                ->where('inv.user_id', $cashRegister->user_id)
-                ->where('ip.product_id', $product->id)
-                ->sum('quantity');
-
-                $taxSubtotal = InvoiceProduct::from('invoice_products as ip')
-                ->join('invoices as inv', 'ip.invoice_id', 'inv.id')
-                ->join('products as pro', 'ip.product_id', 'pro.id')
-                ->whereBetween('ip.created_at', [$from, $to])
-                ->where('inv.user_id', $cashRegister->user_id)
-                ->where('ip.product_id', $product->id)
-                ->sum('tax_subtotal');
-
-                if ($invoiceProduct) {
-                    $invoiceProduts[$cont] = Product::findOrFail($product->id);
-                    $invoiceProduts[$cont]->stock = $invoiceProduct;
-                    $invoiceProduts[$cont]->price = $taxSubtotal;
-                    $cont++;
-                }
-            }
-
-            $productpurchases = [];
-            $cont = 0;
-            foreach ($products as $key => $product ) {
-                $productPurchase = ProductPurchase::from('product_purchases as pp')
-                ->join('purchases as pur', 'pp.purchase_id', 'pur.id')
-                ->join('products as pro', 'pp.product_id', 'pro.id')
-                ->whereBetween('pp.created_at', [$from, $to])
-                ->where('pur.user_id', $cashRegister->user_id)
-                ->where('pp.product_id', $product->id)
-                ->sum('quantity');
-
-                $taxSubtotal = ProductPurchase::from('product_purchases as pp')
-                ->join('purchases as pur', 'pp.purchase_id', 'pur.id')
-                ->join('products as pro', 'pp.product_id', 'pro.id')
-                ->whereBetween('pp.created_at', [$from, $to])
-                ->where('pur.user_id', $cashRegister->user_id)
-                ->where('pp.product_id', $product->id)
-                ->sum('tax_subtotal');
-
-                if ($productPurchase) {
-                    $productPurchase[$cont] = Product::findOrFail($product->id);
-                    $productPurchase[$cont]->stock = $productPurchase;
-                    $productPurchase[$cont]->price = $taxSubtotal;
-                    $cont++;
-                }
-            }
-
-            $expenseProducts = [];
-            $cont = 0;
-            foreach ($products as $key => $product ) {
-                $expenseProduct = ExpenseProduct::from('expense_products as ep')
-                ->join('expenses as exp', 'ep.expense_id', 'exp.id')
-                ->join('products as pro', 'ep.product_id', 'pro.id')
-                ->whereBetween('ep.created_at', [$from, $to])
-                ->where('exp.user_id', current_user()->id)
-                ->where('ep.product_id', $product->id)
-                ->sum('quantity');
-
-                $tax_subtotal = ProductPurchase::from('expense_products as ep')
-                ->join('expenses as exp', 'ep.expense_id', 'exp.id')
-                ->join('products as pro', 'ep.product_id', 'pro.id')
-                ->whereBetween('ep.created_at', [$from, $to])
-                ->where('exp.user_id', current_user()->id)
-                ->where('ep.product_id', $product->id)
-                ->sum('tax_subtotal');
-
-                if ($expenseProduct) {
-                    $expenseProducts[$cont] = Product::findOrFail($product->id);
-                    $expenseProducts[$cont]->stock = $expenseProduct;
-                    $expenseProducts[$cont]->price = $tax_subtotal;
-                    $cont++;
-                }
-            }
-            $purchases = Purchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->get();
-            $purchaseBalance = Purchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('balance');
-            $purchasePay = Purchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('pay');
-            /*
-            $expenses = Expense::where('user_id', $cashregister->user_id)->whereBetween('created_at', [$from, $to])->get();
-            $expbalance = Expense::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->sum('balance');
-            $exppay =  Expense::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
-            *//*
-            $ncinvoices = Ncinvoice::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->get();
-            $ncipay =  Ncinvoice::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
-            *//*
-            $ndinvoices = Ndinvoice::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->get();
-            $ndipay = Ndinvoice::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
-            */
-            $ncpurchases = Ncpurchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->get();
-            //$ncppay =  Ncinvoice::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
-
-            $ndpurchases = Ndpurchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->get();
-            //$ndppay = Ndinvoice::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
-            /*
-            $pay_orders = Pay_order::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->get();
-            $sum_pay_orders = Pay_order::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->sum('pay');
-            *//*
-            $pay_invoices = Pay_invoice::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->get();
-            $sum_pay_invoices = Pay_invoice::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->sum('pay');
-            */
-            $payPurchases = Pay::where('user_id', $cashRegister->user_id)->where('type', 'purchase')->whereBetween('created_at', [$from, $to])->get();
-            $sumPayPurchases = Pay::where('user_id', $cashRegister->user_id)->where('type', 'purchase')->whereBetween('created_at', [$from, $to])->sum('pay');
-            /*
-            $pay_expenses = Pay_expense::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->get();
-            $sum_pay_expenses = Pay_expense::where('user_id', $user->id)->whereBetween('created_at', [$from, $to])->sum('pay');
-            */
-            $advanceProviders = Advance::where('user_id', $cashRegister->user_id)->where('type_third', 'provider')->whereBetween('created_at', [$from, $to])->get();
-            $sumAdvancesProvider = Advance::where('user_id', $cashRegister->user_id)->where('type_third', 'provider')->whereBetween('created_at', [$from, $to])->sum('pay');
-
-            $advanceCustomers = Advance::where('user_id', $cashRegister->user_id)->where('type_third', 'customer')->whereBetween('created_at', [$from, $to])->get();
-            $sumAdvanceCustomer = Advance::where('user_id', $cashRegister->user_id)->where('type_third', 'customer')->whereBetween('created_at', [$from, $to])->sum('pay');
-
-            $advanceEmployees = Advance::where('user_id', $cashRegister->user_id)->where('type_third', 'employee')->whereBetween('created_at', [$from, $to])->get();
-            $sumAdvanceEmployee = Advance::where('user_id', $cashRegister->user_id)->where('type_third', 'employee')->whereBetween('created_at', [$from, $to])->sum('pay');
-
-            $cashOutflows = CashOutflow::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->get();
-            $sumCashOutflow = CashOutflow::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('cash');
-            /*
-            $cashOutflow = CashOutflow::from('cash_outflows AS cas')
-            ->join('cashregisteres AS sai', 'cas.cashregister_id', 'sai.id')
-            ->join('users AS use', 'cas.user_id', 'use.id')
-            ->join('users AS usa', 'cas.admin_id', 'usa.id')
-            ->select('cas.id', 'cas.payment', 'cas.created_at', 'usa.name')
-            ->where('cas.user_id', '=', $user->id)
-            ->whereBetween('cas.created_at', [$from, $to])
-            ->get();*/
-
-            $cashInflows = CashInflow::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->get();
-            $sumCashInflow = CashInflow::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('cash_in_total');
-            /*
-            $cashInflow = CashInflow::from('cash_ins AS cas')
-            ->join('cashregisteres AS sal', 'cas.cashregister_id', 'sal.id')
-            ->join('users AS use', 'cas.user_id', 'use.id')
-            ->join('users AS usa', 'cas.admin_id', 'usa.id')
-            ->select('cas.id', 'cas.payment', 'cas.created_at', 'usa.name')
-            ->where('cas.user_id', '=', $user->id)
-            ->whereBetween('cas.created_at', [$from, $to])
-            ->get();*/
+            $userId = CashRegister::findOrFail($cashRegister->user_id);
         } else {
+            $userId = current_user()->id;
+        }
+
+
             $invoiceProducts = [];
             $cont = 0;
             $products = Product::all();
@@ -335,7 +195,7 @@ class CashRegisterController extends Controller
                 ->join('invoices as inv', 'ip.invoice_id', 'inv.id')
                 ->join('products as pro', 'ip.product_id', 'pro.id')
                 ->whereBetween('ip.created_at', [$from, $to])
-                ->where('inv.user_id', current_user()->id)
+                ->where('inv.user_id', $userId)
                 ->where('ip.product_id', $product->id)
                 ->sum('quantity');
 
@@ -343,7 +203,7 @@ class CashRegisterController extends Controller
                 ->join('invoices as inv', 'ip.invoice_id', 'inv.id')
                 ->join('products as pro', 'ip.product_id', 'pro.id')
                 ->whereBetween('ip.created_at', [$from, $to])
-                ->where('inv.user_id', current_user()->id)
+                ->where('inv.user_id', $userId)
                 ->where('ip.product_id', $product->id)
                 ->sum('tax_subtotal');
 
@@ -362,7 +222,7 @@ class CashRegisterController extends Controller
                 ->join('purchases as pur', 'pp.purchase_id', 'pur.id')
                 ->join('products as pro', 'pp.product_id', 'pro.id')
                 ->whereBetween('pp.created_at', [$from, $to])
-                ->where('pur.user_id', current_user()->id)
+                ->where('pur.user_id', $userId)
                 ->where('pp.product_id', $product->id)
                 ->sum('quantity');
 
@@ -370,7 +230,7 @@ class CashRegisterController extends Controller
                 ->join('purchases as pur', 'pp.purchase_id', 'pur.id')
                 ->join('products as pro', 'pp.product_id', 'pro.id')
                 ->whereBetween('pp.created_at', [$from, $to])
-                ->where('pur.user_id', current_user()->id)
+                ->where('pur.user_id', $userId)
                 ->where('pp.product_id', $product->id)
                 ->sum('tax_subtotal');
 
@@ -389,7 +249,7 @@ class CashRegisterController extends Controller
                 ->join('expenses as exp', 'ep.expense_id', 'exp.id')
                 ->join('products as pro', 'ep.product_id', 'pro.id')
                 ->whereBetween('ep.created_at', [$from, $to])
-                ->where('exp.user_id', current_user()->id)
+                ->where('exp.user_id', $userId)
                 ->where('ep.product_id', $product->id)
                 ->sum('quantity');
 
@@ -397,7 +257,7 @@ class CashRegisterController extends Controller
                 ->join('expenses as exp', 'ep.expense_id', 'exp.id')
                 ->join('products as pro', 'ep.product_id', 'pro.id')
                 ->whereBetween('ep.created_at', [$from, $to])
-                ->where('exp.user_id', current_user()->id)
+                ->where('exp.user_id', $userId)
                 ->where('ep.product_id', $product->id)
                 ->sum('tax_subtotal');
 
@@ -409,57 +269,56 @@ class CashRegisterController extends Controller
                 }
             }
 
-            $purchases = Purchase::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
-            $purchaseBalance = Purchase::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('balance');
-            $purchasePays = Purchase::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('pay');
+            $purchases = Purchase::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->get();
+            $purchaseBalance = Purchase::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('balance');
+            $purchasePays = Purchase::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('pay');
 
-            $purchaseOrders = PurchaseOrder::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
+            $purchaseOrders = PurchaseOrder::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->get();
 
-            $invoices = Invoice::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
-            $invoiceBalance = Invoice::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('balance');
-            $invoicePays = Invoice::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('pay');
+            $invoices = Invoice::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->get();
+            $invoiceBalance = Invoice::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('balance');
+            $invoicePays = Invoice::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('pay');
 
-            $restaurantOrders = RestaurantOrder::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
+            $restaurantOrders = RestaurantOrder::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->get();
 
-            $expenses = Expense::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
-            $expenseBalance = Expense::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('balance');
-            $expensePays =  Expense::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
+            $expenses = Expense::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->get();
+            $expenseBalance = Expense::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('balance');
+            $expensePays =  Expense::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('total_pay');
 
-            $ncpurchases = Ncpurchase::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
-            $ncpurchaseTotal =  Ncpurchase::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
+            $ncpurchases = Ncpurchase::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->get();
+            $ncpurchaseTotal =  Ncpurchase::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('total_pay');
 
-            $ndpurchases = Ndpurchase::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
-            $ndpurchaseTotal = Ndpurchase::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
+            $ndpurchases = Ndpurchase::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->get();
+            $ndpurchaseTotal = Ndpurchase::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('total_pay');
 
-            $ncinvoices = Ncinvoice::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
-            $ncinvoiceTotal =  Ncinvoice::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
+            $ncinvoices = Ncinvoice::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->get();
+            $ncinvoiceTotal =  Ncinvoice::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('total_pay');
 
-            $ndinvoices = Ndinvoice::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
-            $ndinvoiceTotal = Ndinvoice::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
+            $ndinvoices = Ndinvoice::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->get();
+            $ndinvoiceTotal = Ndinvoice::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('total_pay');
 
-            $payPurchases = Pay::where('user_id', current_user()->id)->where('type', 'purchase')->whereBetween('created_at', [$from, $to])->get();
-            $sumPayPurchases = Pay::where('user_id', current_user()->id)->where('type', 'purchase')->whereBetween('created_at', [$from, $to])->sum('pay');
+            $payPurchases = Pay::where('user_id', $userId)->where('type', 'purchase')->whereBetween('created_at', [$from, $to])->get();
+            $sumPayPurchases = Pay::where('user_id', $userId)->where('type', 'purchase')->whereBetween('created_at', [$from, $to])->sum('pay');
 
-            $payInvoices = Pay::where('user_id', current_user()->id)->where('type', 'invoice')->whereBetween('created_at', [$from, $to])->get();
-            $sumPayInvoices = Pay::where('user_id', current_user()->id)->where('type', 'invoice')->whereBetween('created_at', [$from, $to])->sum('pay');
+            $payInvoices = Pay::where('user_id', $userId)->where('type', 'invoice')->whereBetween('created_at', [$from, $to])->get();
+            $sumPayInvoices = Pay::where('user_id', $userId)->where('type', 'invoice')->whereBetween('created_at', [$from, $to])->sum('pay');
 
-            $payExpenses = Pay::where('user_id', current_user()->id)->where('type', 'expense')->whereBetween('created_at', [$from, $to])->get();
-            $sumPayExpenses = Pay::where('user_id', current_user()->id)->where('type', 'expense')->whereBetween('created_at', [$from, $to])->sum('pay');
+            $payExpenses = Pay::where('user_id', $userId)->where('type', 'expense')->whereBetween('created_at', [$from, $to])->get();
+            $sumPayExpenses = Pay::where('user_id', $userId)->where('type', 'expense')->whereBetween('created_at', [$from, $to])->sum('pay');
 
-            $advanceProviders = Advance::where('user_id', current_user()->id)->where('type_third', 'provider')->whereBetween('created_at', [$from, $to])->get();
-            $sumAdvanceProvider = Advance::where('user_id', current_user()->id)->where('type_third', 'provider')->whereBetween('created_at', [$from, $to])->sum('pay');
+            $advanceProviders = Advance::where('user_id', $userId)->where('type_third', 'provider')->whereBetween('created_at', [$from, $to])->get();
+            $sumAdvanceProvider = Advance::where('user_id', $userId)->where('type_third', 'provider')->whereBetween('created_at', [$from, $to])->sum('pay');
 
-            $advanceCustomers = Advance::where('user_id', current_user()->id)->where('type_third', 'customer')->whereBetween('created_at', [$from, $to])->get();
-            $sumAdvanceCustomer = Advance::where('user_id', current_user()->id)->where('type_third', 'customer')->whereBetween('created_at', [$from, $to])->sum('pay');
+            $advanceCustomers = Advance::where('user_id', $userId)->where('type_third', 'customer')->whereBetween('created_at', [$from, $to])->get();
+            $sumAdvanceCustomer = Advance::where('user_id', $userId)->where('type_third', 'customer')->whereBetween('created_at', [$from, $to])->sum('pay');
 
-            $advanceEmployees = Advance::where('user_id', current_user()->id)->where('type_third', 'employee')->whereBetween('created_at', [$from, $to])->get();
-            $sumAdvanceEmployee = Advance::where('user_id', current_user()->id)->where('type_third', 'employee')->whereBetween('created_at', [$from, $to])->sum('pay');
+            $advanceEmployees = Advance::where('user_id', $userId)->where('type_third', 'employee')->whereBetween('created_at', [$from, $to])->get();
+            $sumAdvanceEmployee = Advance::where('user_id', $userId)->where('type_third', 'employee')->whereBetween('created_at', [$from, $to])->sum('pay');
 
-            $cashOutflows = CashOutflow::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
-            $sumCashOutflow = CashOutflow::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('cash');
-            $cashInflows = CashInflow::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
-            $sumCashInflow = CashInflow::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('cash');
-        }
+            $cashOutflows = CashOutflow::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->get();
+            $sumCashOutflow = CashOutflow::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('cash');
+            $cashInflows = CashInflow::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->get();
+            $sumCashInflow = CashInflow::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('cash');
 
         return view('admin.cash_register.show', compact(
             'cashRegister',
