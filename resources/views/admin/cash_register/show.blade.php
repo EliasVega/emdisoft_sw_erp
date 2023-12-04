@@ -4,7 +4,6 @@
 @endsection
 @section('content')
 <main class="main">
-    @dd('aquii estoy');
     <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 offset-lg-4">
             <a href="{{ route('cashRegister.index') }}" class="btn btn-lightBlueGrad"><i class="fa fa-plus mr-2"></i>Regresar</a>
@@ -72,6 +71,7 @@
             </div>
         </div>
     </div>
+    @dd('aquii estoy');
     <div class="row">
         @if ($cashRegister->invoice > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
