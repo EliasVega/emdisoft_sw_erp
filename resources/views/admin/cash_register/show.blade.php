@@ -4,7 +4,6 @@
 @endsection
 @section('content')
 <main class="main">
-    @dd('aqui estoy');
     <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 offset-lg-4">
             <a href="{{ route('cashRegister.index') }}" class="btn btn-lightBlueGrad"><i class="fa fa-plus mr-2"></i>Regresar</a>
