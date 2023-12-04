@@ -28,7 +28,7 @@
     $("#returny").hide();
     $("#balancy").hide();
     $("#total_p").hide();
-    $("#document_id").hide();
+    //$("#document_id").hide();
     /*
     $("#abadvance").hide();
     $("#order").val();

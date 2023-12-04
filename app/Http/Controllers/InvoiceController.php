@@ -554,7 +554,7 @@ class InvoiceController extends Controller
         ));
     }
 
-    public function invoice_pay($id)
+    public function invoicePay($id)
     {
         $document = Invoice::findOrFail($id);
         $banks = Bank::get();

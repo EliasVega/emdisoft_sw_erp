@@ -61,6 +61,8 @@ class PayController extends Controller
                     $third = $pay->payable->advanceable->name;
                 } elseif ($pay->type == 'expense') {
                     $third = $pay->payable->third->name;
+                } elseif ($pay->type == 'invoice') {
+                    $third = $pay->payable->third->name;
                 }
 
                 return $third;
@@ -114,7 +116,7 @@ class PayController extends Controller
      */
     public function store(StorepayRequest $request)
     {
-        dd($request->all());
+        //dd($request->all());
         $document_id = $request->document_id;
         $voucher = $request->voucher;
         $totalpay = $request->totalpay;
