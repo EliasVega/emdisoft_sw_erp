@@ -10,7 +10,7 @@
             <div class="modal-body">
                 {!!Form::open(array('url'=>'Invoice', 'method'=>'Post', 'autocomplete'=>'off'))!!}
                 {!!Form::token()!!}
-                    @include('admin/Invoice.form_modal')
+                    @include('admin/invoice.form_modalmas')
                 {!!Form::close()!!}
             </div>
             <div class="modal-footer">
