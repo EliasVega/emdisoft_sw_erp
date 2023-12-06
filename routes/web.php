@@ -58,6 +58,7 @@ use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\PurchaseOrderProductController;
 use App\Http\Controllers\RawMaterialController;
 use App\Http\Controllers\RegimeController;
+use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\ResolutionController;
 use App\Http\Controllers\RestaurantOrderController;
 use App\Http\Controllers\RestaurantTableController;
@@ -270,6 +271,10 @@ Route::get('createRawmaterial', [PurchaseController::class, 'createRawmaterial']
 
 Route::get('rawMaterial/status/{id}', [RawMaterialController::class, 'status'])->name('rawMaterialStatus');
 Route::get('rawMaterial/kardexRawMaterial/{id}', [RawMaterialController::class, 'kardexRawMaterial'])->name('kardexRawMaterial');
+
+Route::get('reportInvoice', [ReportsController::class, 'reportInvoice'])->name('reportInvoice');
+Route::get('reportPurchase', [ReportsController::class, 'reportPurchase'])->name('reportPurchase');
+Route::get('reportRestaurantOrder', [ReportsController::class, 'reportRestaurantOrder'])->name('reportRestaurantOrder');
 
 Route::get('restaurantOrder/generateInvoice/{id}', [RestaurantOrderController::class, 'generateInvoice'])->name('generateInvoice');
 Route::get('restaurantOrder/restaurantOrderPdf/{id}', [RestaurantOrderController::class, 'restaurantOrderPdf'])->name('restaurantOrderPdf');
