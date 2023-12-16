@@ -36,6 +36,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js" defer></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js" defer></script>
+
 <!-- kit font Awesome -->
 <script src="https://kit.fontawesome.com/88e63931e0.js" crossorigin="anonymous"></script>
 

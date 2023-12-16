@@ -96,21 +96,6 @@
 
         $("#balance").val(total_pay.toFixed(2));
     }
-/*
-    function totaledit(){
-        var total_pay = total + total_tax;
-
-        $("#total_html").html("$ " + total.toFixed(2));
-        $("#total").val(total.toFixed(2));
-
-        $("#total_tax_html").html("$ " + total_tax.toFixed(2));
-        $("#total_tax").val(total_tax.toFixed(2));
-
-        $("#total_pay_html").html("$ " + total_pay.toFixed(2));
-        $("#total_pay").val(total_pay.toFixed(2));
-
-        $("#balance").val(total_pay.toFixed(2));
-    }*/
 
     function deleterow(index){
 

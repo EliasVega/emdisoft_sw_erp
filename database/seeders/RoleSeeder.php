@@ -278,6 +278,12 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'paymentMethod.destroy', 'description' => 'Eliminar metodos de pago', 'status' => 'locked'])->syncRoles([$superAdmin]);
         Permission::create(['name' => 'paymentMethod.paymentMethodStatus', 'description' => 'Metodos de pago estado', 'status' => 'active'])->syncRoles([$superAdmin]);
 
+        Permission::create(['name' => 'payroll.index', 'description' => 'Listado Nominas', 'status' => 'active'])->assignRole($superAdmin, $admin, $operatings, $purchases, $sales);
+        Permission::create(['name' => 'payroll.create', 'description' => 'Crear Nomina', 'status' => 'locked'])->assignRole($superAdmin);
+        Permission::create(['name' => 'payroll.show', 'description' => 'Ver Nomina', 'status' => 'locked'])->assignRole($superAdmin);
+        Permission::create(['name' => 'payroll.edit', 'description' => 'Editar Nomina', 'status' => 'locked'])->assignRole($superAdmin);
+        Permission::create(['name' => 'payroll.destroy', 'description' => 'Eliminar Nomina', 'status' => 'locked'])->assignRole($superAdmin);
+
         Permission::create(['name' => 'percentage.index', 'description' => 'Listado porcentages', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
         Permission::create(['name' => 'percentage.create', 'description' => 'Crear porcentages', 'status' => 'active'])->syncRoles([$superAdmin, $admin]);
         Permission::create(['name' => 'percentage.show', 'description' => 'Ver porcentages', 'status' => 'active'])->syncRoles([$superAdmin, $admin]);

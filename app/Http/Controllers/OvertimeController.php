@@ -53,7 +53,7 @@ class OvertimeController extends Controller
     {
         $employees = Employee::get();
         $overtimeTypes = OvertimeType::get();
-        $indicator = Indicator::findOrFail(1);
+        $indicator = indicator();
         return view("admin.overtime.create", compact('employees', 'overtimeTypes', 'indicator'));
     }
 

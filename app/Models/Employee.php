@@ -105,4 +105,9 @@ class Employee extends Model
     {
         return $this->belongsToMany(Overtime::class);
     }
+
+    public function payrolls()
+    {
+        return $this->hasMany(Payroll::class);
+    }
 }
