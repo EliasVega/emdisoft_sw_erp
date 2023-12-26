@@ -24,6 +24,7 @@ use App\Models\Ncinvoice;
 use App\Models\Ndinvoice;
 use App\Models\PaymentForm;
 use App\Models\PaymentMethod;
+use App\Models\paymentReturn;
 use App\Models\Product;
 use App\Models\Resolution;
 use App\Models\RestaurantOrder;
@@ -215,7 +216,15 @@ class InvoiceController extends Controller
         $tax_rate = $request->tax_rate;
         $branch = current_user()->branch_id;
         $total_pay = $request->total_pay;
-        $totalpay = $request->totalpay;
+
+        $paymentForm = $request->payment_form_id;
+
+        if ($indicator->pos == 'on'  && $paymentForm == 1) {
+            $totalpay = $request->total_pay;
+        } else {
+            $totalpay = $request->totalpay;
+        }
+
         $retention = 0;
         //variables del request
         $quantityBag = $request->bags;
@@ -312,6 +321,7 @@ class InvoiceController extends Controller
             if ($totalpay > 0) {
                 pays($request, $document, $typeDocument);
             }
+
             if ($documentType == 1 && $indicator->dian == 'on') {
                 $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
                     ['SendBillSyncResult']['IsValid'];
@@ -756,6 +766,7 @@ class InvoiceController extends Controller
         ->where('tax.type', 'invoice')
         ->where('tax.taxable_id', $invoice->id)
         ->where('tt.type_tax', 'retention')->sum('tax_value');
+        $paymentReturns = paymentReturn::where('invoice_id', $invoice->id)->first();
 
         $debitNote = 0;
         $creditNote = 0;
@@ -786,7 +797,8 @@ class InvoiceController extends Controller
             'debitNote',
             'creditNote',
             'retentionnd',
-            'retentionnc'
+            'retentionnc',
+            'paymentReturns'
         ))->render();
             $pdf = App::make('dompdf.wrapper');
             $pdf->loadHTML($view);
@@ -832,6 +844,8 @@ class InvoiceController extends Controller
         ->where('tax.taxable_id', $invoice->id)
         ->where('tt.type_tax', 'retention')->sum('tax_value');
 
+        $paymentReturns = paymentReturn::where('invoice_id', $invoice->id)->first();
+
         $debitNote = 0;
         $creditNote = 0;
         $retentionnd = 0;
@@ -861,7 +875,8 @@ class InvoiceController extends Controller
             'debitNote',
             'creditNote',
             'retentionnd',
-            'retentionnc'
+            'retentionnc',
+            'paymentReturns'
         ))->render();
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
@@ -869,5 +884,23 @@ class InvoiceController extends Controller
 
         return $pdf->stream('vista-pdf', "$invoicepdf.pdf");
         //return $pdf->download("$invoicepdf.pdf");
+    }
+
+    public function getProduct(Request $request)
+    {
+        if ($request->ajax()) {
+            $products = Product::from('products as pro')
+            ->join('categories as cat', 'pro.category_id', 'cat.id')
+            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+            ->join('percentages as per', 'ct.percentage_id', 'per.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('pro.id', 'pro.name', 'pro.stock', 'pro.sale_price', 'per.percentage', 'tt.id as tt')
+            ->where('pro.code', $request->code)
+            ->first();
+            if ($products) {
+                return response()->json($products);
+            }
+        }
+
     }
 }

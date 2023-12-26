@@ -169,6 +169,7 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'indicator.productPrice', 'description' => 'Manejo Precio Producto', 'status' => 'locked'])->syncRoles([$superAdmin]);
         Permission::create(['name' => 'indicator.materialStatus', 'description' => 'activar Materias primas', 'status' => 'locked'])->syncRoles([$superAdmin]);
         Permission::create(['name' => 'indicator.restaurantStatus', 'description' => 'activar Restaurantes', 'status' => 'locked'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'indicator.barcodeStatus', 'description' => 'activar Codigo de barras', 'status' => 'locked'])->syncRoles([$superAdmin]);
 
 
         Permission::create(['name' => 'invoice.index', 'description' => 'Listado Invoice', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
@@ -277,6 +278,8 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'paymentMethod.edit', 'description' => 'Editar metodos de pago', 'status' => 'locked'])->syncRoles([$superAdmin]);
         Permission::create(['name' => 'paymentMethod.destroy', 'description' => 'Eliminar metodos de pago', 'status' => 'locked'])->syncRoles([$superAdmin]);
         Permission::create(['name' => 'paymentMethod.paymentMethodStatus', 'description' => 'Metodos de pago estado', 'status' => 'active'])->syncRoles([$superAdmin]);
+
+        Permission::create(['name' => 'paymentReturn.index', 'description' => 'Listado pagos y cambios', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
 
         Permission::create(['name' => 'payroll.index', 'description' => 'Listado Nominas', 'status' => 'active'])->assignRole($superAdmin, $admin, $operatings, $purchases, $sales);
         Permission::create(['name' => 'payroll.create', 'description' => 'Crear Nomina', 'status' => 'locked'])->assignRole($superAdmin);

@@ -34,6 +34,7 @@ class IndicatorTableSeeder extends Seeder
                 'product_price' => 'automatic',
                 'raw_material' => 'off',
                 'restaurant' => 'off',
+                'barcode' => 'off',
                 'company_id' => 1,
                 'created_at' => '2023-01-01 00:00:00',
                 'updated_at' => '2023-01-01 00:00:00',

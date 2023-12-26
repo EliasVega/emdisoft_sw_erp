@@ -13,7 +13,7 @@
     "src": "resources/css/app.css"
   },
   "resources/css/button.css": {
-    "file": "assets/button-9ea5e578.css",
+    "file": "assets/button-62a7b782.css",
     "isEntry": true,
     "src": "resources/css/button.css"
   },
@@ -23,7 +23,7 @@
     "src": "resources/css/card.css"
   },
   "resources/css/main.css": {
-    "file": "assets/main-bfd684e5.css",
+    "file": "assets/main-967f7f00.css",
     "isEntry": true,
     "src": "resources/css/main.css"
   },

@@ -12,7 +12,7 @@ class IndicatorController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:indicator.index|indicator.edit|indicator.dianStatus|indicator.posStatus|indicator.logoStatus|indicator.payrollStatus|indicator.accountingStatus|indicator.inventoryStatus|indicator.productPrice|indicator.materialStatus', ['only'=>['index']]);
+        $this->middleware('permission:indicator.index|indicator.edit|indicator.dianStatus|indicator.posStatus|indicator.logoStatus|indicator.payrollStatus|indicator.accountingStatus|indicator.inventoryStatus|indicator.productPrice|indicator.materialStatus|indicator.restaurantStatus|indicator.barcodeStatus', ['only'=>['index']]);
         $this->middleware('permission:indicator.edit', ['only'=>['edit', 'update']]);
         $this->middleware('permission:indicator.dianStatus', ['only'=>['dianStstus']]);
         $this->middleware('permission:indicator.posStatus', ['only'=>['posStstus']]);
@@ -23,6 +23,7 @@ class IndicatorController extends Controller
         $this->middleware('permission:indicator.productPrice', ['only'=>['productPrice']]);
         $this->middleware('permission:indicator.materialStatus', ['only'=>['materialStatus']]);
         $this->middleware('permission:indicator.restaurantStatus', ['only'=>['restaurantStatus']]);
+        $this->middleware('permission:indicator.barcodeStatus', ['only'=>['barcodeStatus']]);
     }
     /**
      * Display a listing of the resource.
@@ -45,7 +46,8 @@ class IndicatorController extends Controller
             ->addColumn('productPrice', 'admin/indicator/productPrice')
             ->addColumn('rawMaterial', 'admin/indicator/rawMaterial')
             ->addColumn('restaurant', 'admin/indicator/restaurant')
-            ->rawColumns(['edit', 'dian', 'pos', 'logo', 'payroll', 'accounting', 'productPrice', 'inventory', 'rawMaterial', 'restaurant'])
+            ->addColumn('barcode', 'admin/indicator/codebar')
+            ->rawColumns(['edit', 'dian', 'pos', 'logo', 'payroll', 'accounting', 'productPrice', 'inventory', 'rawMaterial', 'restaurant', 'barcode'])
             ->make(true);
         }
 
@@ -244,6 +246,20 @@ class IndicatorController extends Controller
             $indicator->restaurant = 'off';
         } else {
             $indicator->restaurant = 'on';
+        }
+        $indicator->update();
+
+        return redirect('indicator');
+    }
+
+    public function barcodeStatus($id)
+    {
+        $indicator = Indicator::findOrFail($id);
+
+        if ($indicator->barcode == 'on') {
+            $indicator->barcode = 'off';
+        } else {
+            $indicator->barcode = 'on';
         }
         $indicator->update();
 

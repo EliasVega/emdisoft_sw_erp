@@ -23,18 +23,21 @@
                 <table class="table table-striped table-bordered table-condensed table-hover" id="indicators">
                     <thead>
                         <tr>
-                            <th>S/Minimo</th>
-                            <th>A/trasporte</th>
-                            <th>Editar</th>
+                            <th>S/Min</th>
+                            <th>A/tran</th>
+                            <th>H/sem.</th>
+                            <th>UVT</th>
+                            <th>Edit</th>
                             <th>Dian</th>
                             <th>Pos</th>
                             <th>Logo</th>
-                            <th>Nomina</th>
+                            <th>Nom</th>
                             <th>Cont.</th>
                             <th>Inv.</th>
                             <th>P/Prod</th>
-                            <th>M/Primas</th>
+                            <th>Mat/Pr</th>
                             <th>Rest.</th>
+                            <th>Bcod</th>
                         </tr>
                     </thead>
                 </table>
@@ -63,6 +66,8 @@ $(document).ready(function ()
             [
                 {data: 'smlv', className: 'dt-body-right', render: $.fn.dataTable.render.number( '.', ',', 2, '$')},
                 {data: 'transport_assistance', className: 'dt-body-right', render: $.fn.dataTable.render.number( '.', ',', 2, '$')},
+                {data: 'weekly_hours'},
+                {data: 'uvt', className: 'dt-body-right', render: $.fn.dataTable.render.number( '.', ',', 2, '$')},
                 {data: 'edit'},
                 {data: 'dian'},
                 {data: 'pos'},
@@ -73,6 +78,7 @@ $(document).ready(function ()
                 {data: 'productPrice'},
                 {data: 'rawMaterial'},
                 {data: 'restaurant'},
+                {data: 'barcode'},
             ],
             dom: 'Blfrtip',
             lengthMenu: [
@@ -82,13 +88,13 @@ $(document).ready(function ()
                 {
                     extend: 'copy',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ]
                     }
                 },
                 {
                     extend: 'excel',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ]
                     }
                 },
                 {
@@ -97,13 +103,13 @@ $(document).ready(function ()
                     orientation: 'landscape',
                     pageSize: 'LEGAL',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ]
                     }
                 },
                 {
                     extend: 'print',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ]
                     }
                 },
             ],

@@ -117,4 +117,7 @@ class Invoice extends Model
     {
         return $this->hasOne(RestaurantOrder::class);
     }
+    public function paymentReturn() {
+        return $this->belongsTo(paymentReturn::class);
+    }
 }

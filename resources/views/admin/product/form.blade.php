@@ -20,19 +20,25 @@
             <input type="text" name="name" value="{{ old('name', $product->name ?? '') }}" class="form-control" placeholder="Nombre del producto">
         </div>
     </div>
-    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="code">Codigo</label>
             <input type="text" name="code" value="{{ old('code', $product->code ?? '') }}" class="form-control" placeholder="Codigo">
         </div>
     </div>
-    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for="stock">Stock</label>
+            <input type="number" name="stock" value="{{ old('stock', $product->stock ?? '') }}" class="form-control" placeholder="Stock">
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="price">P/Compra</label>
             <input type="text" name="price" value="{{ old('price', $product->price ?? '') }}" id="price" class="form-control" placeholder="P/compra">
         </div>
     </div>
-    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="sale_price">P/Venta</label>
             <input type="text" name="sale_price" value="{{ old('sale_price', $product->sale_price ?? '') }}" class="form-control" placeholder="P/Venta">

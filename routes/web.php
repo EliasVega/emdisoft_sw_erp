@@ -46,6 +46,7 @@ use App\Http\Controllers\PayController;
 use App\Http\Controllers\PaymentFormController;
 use App\Http\Controllers\PaymentFrecuencyController;
 use App\Http\Controllers\PaymentMethodController;
+use App\Http\Controllers\PaymentReturnController;
 use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\PercentageController;
 use App\Http\Controllers\PermissionController;
@@ -145,6 +146,7 @@ Route::resource('pay', PayController::class);
 Route::resource('paymentForm', PaymentFormController::class);
 Route::resource('paymentFrecuency', PaymentFrecuencyController::class);
 Route::resource('paymentMethod', PaymentMethodController::class);
+Route::resource('paymentReturn', PaymentReturnController::class);
 Route::resource('payroll', PayrollController::class);
 Route::resource('percentage', PercentageController::class);
 Route::resource('permission', PermissionController::class);
@@ -214,6 +216,7 @@ Route::get('indicator/inventoryStatus/{id}', [IndicatorController::class, 'inven
 Route::get('indicator/productPrice/{id}', [IndicatorController::class, 'productPrice'])->name('productPrice');
 Route::get('indicator/materialStatus/{id}', [IndicatorController::class, 'materialStatus'])->name('materialStatus');
 Route::get('indicator/restaurantStatus/{id}', [IndicatorController::class, 'restaurantStatus'])->name('restaurantStatus');
+Route::get('indicator/barcodeStatus/{id}', [IndicatorController::class, 'barcodeStatus'])->name('barcodeStatus');
 
 Route::get('invoice/create/{id}', [InvoiceController::class, 'getMunicipalities']);
 Route::get('invoice/InvoicePay/{id}', [InvoiceController::class, 'invoicePay'])->name('invoicePay');
@@ -255,6 +258,7 @@ Route::get('pdfPurchaseOrder', [PurchaseOrderController::class, 'pdfPurchaseOrde
 Route::get('posPurchaseOrder', [PurchaseOrderController::class, 'posPurchaseOrder'])->name('posPurchaseOrder');
 
 Route::get('product/status/{id}', [ProductController::class, 'status'])->name('productStatus');
+Route::get('getProduct', [InvoiceController::class, 'getProduct'])->name('getProduct');
 
 Route::get('provider/create/{id}', [ProviderController::class, 'getMunicipalities']);
 Route::get('provider/postalCode/{id}', [ProviderController::class, 'getPostalCode']);

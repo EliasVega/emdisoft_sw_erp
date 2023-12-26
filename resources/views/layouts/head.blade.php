@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     @vite(['resources/css/card.css','resources/css/button.css','resources/css/main.css','resources/css/rdb.css'])
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" type="text/css"/>
     <!-- Sweetalert2  -->

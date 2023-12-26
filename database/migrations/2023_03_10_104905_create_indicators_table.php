@@ -30,6 +30,8 @@ return new class extends Migration
             $table->enum('product_price', ['automatic', 'manual'])->default('automatic');//si o no manejo de precio de productos automatico
             $table->enum('raw_material', ['on', 'off'])->default('off');//si o  oo manejo de materias primas
             $table->enum('restaurant',['on', 'off'])->default('off');//si o no manejo de restaurantes
+            $table->enum('barcode', ['on', 'off'])->default('off'); //si o no manejo codigo de barras
+
 
             $table->foreignId('company_id')->constrained();
 

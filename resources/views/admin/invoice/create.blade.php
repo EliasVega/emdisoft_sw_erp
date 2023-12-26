@@ -28,15 +28,25 @@
             {!!Form::open(array('url'=>'invoice', 'method'=>'POST', 'autocomplete'=>'off'))!!}
             {!!Form::token()!!}
             <div class="row m-1">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    @include('admin/invoice.form_invoice')
-                </div>
-                <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 colorpay">
-                    @include('admin/invoice.form_pay')
-                </div>
-                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 colorretentions">
-                    @include('admin/invoice.form_retention')
-                </div>
+                @if ($indicator->pos == 'on')
+                    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                        @include('admin/invoice.form_invoice')
+                    </div>
+                    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 colorpay">
+                        @include('admin/invoice.form_paypos')
+                    </div>
+                @else
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        @include('admin/invoice.form_invoice')
+                    </div>
+                    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 colorpay">
+                        @include('admin/invoice.form_pay')
+                    </div>
+                    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 colorretentions">
+                        @include('admin/invoice.form_retention')
+                    </div>
+                @endif
+
             </div>
 
             {!!Form::close()!!}
@@ -48,7 +58,11 @@
 <!--Fin del modal-->
 @endsection
 @section('scripts')
-    @include('admin/invoice.script')
-    @include('admin/generalview.script_pay')
-    @include('admin/invoice.script_retention')
+@include('admin/invoice.script')
+    @if ($indicator->pos == 'on')
+        @include('admin/invoice.script_paypos')
+    @else
+        @include('admin/generalview.script_pay')
+        @include('admin/invoice.script_retention')
+    @endif
 @endsection

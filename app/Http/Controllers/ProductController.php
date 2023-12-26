@@ -34,7 +34,13 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
+    {
+        $products = Product::get();
+        return view('admin.product.index', compact('products'));
+    }
+
+    public function indexDatatable(Request $request)
     {
         if ($request->ajax()) {
             $products = Product::get();
@@ -289,5 +295,16 @@ class ProductController extends Controller
         $product->update();
 
         return redirect('product');
+    }
+
+    public function getProduct(Request $request)
+    {
+        return response()->json('mi producto');
+        if ($request->ajax()) {
+            $products = Product::where('code', $request->code)->first();
+            if ($products) {
+                return response()->json($products);
+            }
+        }
     }
 }
