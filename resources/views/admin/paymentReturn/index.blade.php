@@ -25,6 +25,7 @@
                                 <th>Tercero</th>
                                 <th>Pago</th>
                                 <th>Cambio</th>
+                                <th>Fecha</th>
                             </tr>
                         </thead>
                     </table>
@@ -51,7 +52,7 @@
                                 data: 'id'
                             },
                             {
-                                data: 'document'
+                                data: 'invoice'
                             },
                             {
                                 data: 'customer'
@@ -62,6 +63,9 @@
                             {
                                 data: 'return'
                             },
+                            {
+                                data: 'created_at'
+                            },
                         ],
                         dom: 'Bfltip',
                         lengthMenu: [
@@ -71,13 +75,13 @@
                         buttons: [{
                                 extend: 'copy',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4]
+                                    columns: [0, 1, 2, 3, 4, 5]
                                 }
                             },
                             {
                                 extend: 'excel',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4]
+                                    columns: [0, 1, 2, 3, 4, 5]
                                 }
                             },
                             {
@@ -86,13 +90,13 @@
                                 orientation: 'landscape',
                                 pageSize: 'LEGAL',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4]
+                                    columns: [0, 1, 2, 3, 4, 5]
                                 }
                             },
                             {
                                 extend: 'print',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4]
+                                    columns: [0, 1, 2, 3, 4, 5]
                                 }
                             },
                         ],

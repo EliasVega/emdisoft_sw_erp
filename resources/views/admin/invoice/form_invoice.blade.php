@@ -117,7 +117,7 @@
                 @foreach ($products as $product)
                     <option
                         value="{{ $product->id }}_{{ $product->stock }}_{{ $product->sale_price }}_{{ $product->percentage }}_{{ $product->tt }}">
-                        {{ $product->name }}</option>
+                        {{ $product->code }} -- {{ $product->name }}</option>
                 @endforeach
             </select>
         </div>

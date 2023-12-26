@@ -107,11 +107,11 @@ class Invoice extends Model
 
     public function ncResponse()
     {
-        return $this->hasOne(NcResponse::class);
+        return $this->hasOne(NcinvoiceResponse::class);
     }
     public function ndResponse()
     {
-        return $this->hasOne(NdResponse::class);
+        return $this->hasOne(NdinvoiceResponse::class);
     }
     public function restaurantOrder()
     {

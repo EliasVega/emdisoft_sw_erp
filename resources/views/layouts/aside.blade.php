@@ -584,6 +584,12 @@
                                             <p>ND Venta</p>
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="{{ url('paymentReturn') }}" class="nav-link">
+                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <p>Pagos y cambios</p>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                         @endif

@@ -31,6 +31,9 @@ class PaymentReturnController extends Controller
             ->addColumn('customer', function (paymentReturn $paymentReturn) {
                 return $paymentReturn->invoice->third->name;
             })
+            ->editColumn('created_at', function(paymentReturn $paymentReturn){
+                return $paymentReturn->created_at->format('yy-m-d: h:m');
+            })
             ->make(true);
         }
 
