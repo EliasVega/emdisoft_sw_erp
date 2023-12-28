@@ -27,6 +27,8 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\IdentificationTypeController;
 use App\Http\Controllers\IndicatorController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\InvoiceOrderController;
+use App\Http\Controllers\InvoiceOrderProductController;
 use App\Http\Controllers\InvoiceResponseController;
 use App\Http\Controllers\KardexController;
 use App\Http\Controllers\LiabilityController;
@@ -128,6 +130,8 @@ Route::resource('kardex', KardexController::class);
 Route::resource('identificationType', IdentificationTypeController::class);
 Route::resource('indicator', IndicatorController::class);
 Route::resource('invoice', InvoiceController::class);
+Route::resource('invoiceOrder', InvoiceOrderController::class);
+Route::resource('invoiceOrderProduct', InvoiceOrderProductController::class);
 Route::resource('invoiceResponse', InvoiceResponseController::class);
 Route::resource('liability', LiabilityController::class);
 Route::resource('measureUnit', MeasureUnitController::class);
@@ -226,6 +230,12 @@ Route::get('invoice/creditNoteInvoice/{id}', [InvoiceController::class, 'creditN
 Route::get('invoice/debitNoteInvoice/{id}', [InvoiceController::class, 'debitNote'])->name('debitNoteInvoice');
 Route::get('pdfInvoice', [InvoiceController::class, 'pdfInvoice'])->name('pdfInvoice');
 Route::get('posInvoice', [InvoiceController::class, 'posInvoice'])->name('posInvoice');
+
+Route::get('invoiceOrder/invoice/{id}', [InvoiceOrderController::class, 'invoice'])->name('invoiceOrderInvoice');
+Route::get('invoiceOrder/pdf/{id}', [InvoiceOrderController::class, 'invoiceOrderPdf'])->name('invoiceOrderPdf');
+Route::get('invoiceOrder/pos/{id}', [InvoiceOrderController::class, 'invoiceOrderPos'])->name('invoiceOrderPos');
+Route::get('pdfInvoiceOrder', [InvoiceOrderController::class, 'pdfInvoiceOrder'])->name('pdfInvoiceOrder');
+Route::get('posInvoiceOrder', [InvoiceOrderController::class, 'posInvoiceOrder'])->name('posInvoiceOrder');
 
 //Route::get('rawMaterial/kardexRawMaterial/{id}', [KardexController::class, 'kardexRawMaterial'])->name('kardexRawMaterial');
 

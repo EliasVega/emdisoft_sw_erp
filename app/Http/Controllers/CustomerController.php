@@ -140,10 +140,10 @@ class CustomerController extends Controller
             $regime = 2;
         }
         if ($department == null) {
-            $department = 21;
+            $department = current_user()->branch->department_id;
         }
         if ($municipality == null) {
-            $municipality = 846;
+            $municipality = current_user()->branch->municipality_id;
         }
         if ($creditLimit == null) {
             $creditLimit = 0;

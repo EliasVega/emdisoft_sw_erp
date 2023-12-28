@@ -177,6 +177,13 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'invoice.show', 'description' => 'VerInvoice', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
         Permission::create(['name' => 'invoice.edit', 'description' => 'EditarInvoice', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
 
+        Permission::create(['name' => 'invoiceOrder.index', 'description' => 'Listado orden de venta', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
+        Permission::create(['name' => 'invoiceOrder.create', 'description' => 'Crear orden de venta', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
+        Permission::create(['name' => 'invoiceOrder.show', 'description' => 'Ver orden de venta', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
+        Permission::create(['name' => 'invoiceOrder.edit', 'description' => 'Editar orden de venta', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
+
+        Permission::create(['name' => 'invoiceOrderProduct.store', 'description' => 'Facturar orden de compra', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
+
         Permission::create(['name' => 'invoiceResponse.index', 'description' => 'Listado respuestas fv', 'status' => 'active'])->syncRoles([$superAdmin]);
         Permission::create(['name' => 'invoiceResponse.create', 'description' => 'Crear respuesta fv', 'status' => 'locked'])->syncRoles([$superAdmin]);
         Permission::create(['name' => 'invoiceResponse.show', 'description' => 'Ver respuesta fv', 'status' => 'locked'])->syncRoles([$superAdmin]);

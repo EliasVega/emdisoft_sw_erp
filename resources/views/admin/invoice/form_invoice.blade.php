@@ -153,7 +153,7 @@
     <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">
         <div class="form-group">
             <label class="form-control-label">Canc</label><br>
-            <a href="{{ url('Invoice') }}" class="btn btn-blueGrad" data-toggle="tooltip" data-placement="top"
+            <a href="{{ url('invoice') }}" class="btn btn-blueGrad" data-toggle="tooltip" data-placement="top"
                 title="Cancelar"><i class="fa fa-window-close"></i>&nbsp; </a>
         </div>
     </div>

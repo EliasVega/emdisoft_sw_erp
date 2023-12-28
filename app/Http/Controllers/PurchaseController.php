@@ -252,7 +252,7 @@ class PurchaseController extends Controller
         $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
 
         //Variables del request
-        $product_id = $request->id;
+        $product_id = $request->product_id;
         $quantity = $request->quantity;
         $price = $request->price;
         $tax_rate = $request->tax_rate;
@@ -346,6 +346,7 @@ class PurchaseController extends Controller
                     //$cashRegister->out_total += $totalpay;
                     $cashRegister->update();
             }
+
             $document = $purchase;
             if ($request->typeProduct == 1) {
                 for ($i=0; $i < count($product_id); $i++) {
@@ -410,6 +411,7 @@ class PurchaseController extends Controller
 
             $taxes = $this->getTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC
             //TaxesGlobals($document, $quantityBag, $typeDocument);
+
             taxesLines($document, $taxes, $typeDocument);
             retentions($request, $document, $typeDocument);
 
@@ -417,6 +419,7 @@ class PurchaseController extends Controller
             if ($totalpay > 0) {
                 pays($request, $document, $typeDocument);
             }
+
             if ($documentType == 11 && $indicator->dian == 'on') {
                 $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
                     ['SendBillSyncResult']['IsValid'];

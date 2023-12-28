@@ -22,9 +22,11 @@ use App\Models\InvoiceProduct;
 use App\Models\InvoiceResponse;
 use App\Models\Ncinvoice;
 use App\Models\Ndinvoice;
+use App\Models\Pay;
 use App\Models\PaymentForm;
 use App\Models\PaymentMethod;
 use App\Models\paymentReturn;
+use App\Models\PayPaymentMethod;
 use App\Models\Product;
 use App\Models\Resolution;
 use App\Models\RestaurantOrder;
@@ -58,6 +60,7 @@ class InvoiceController extends Controller
         $invoice = session('invoice');
         $indicator = Indicator::findOrFail(1);
         $typeDocument = '';
+        $pos = $indicator->pos;
         if ($indicator->pos == 'off') {
             $typeDocument = 'document';
         } else {
@@ -101,6 +104,9 @@ class InvoiceController extends Controller
             ->addColumn('restaurant', function (Invoice $invoice) {
                 return $invoice->branch->company->indicator->restaurant;
             })
+            ->addColumn('pos', function (Invoice $invoice) {
+                return $invoice->branch->company->indicator->pos;
+            })
             ->editColumn('created_at', function(Invoice $invoice){
                 return $invoice->created_at->format('yy-m-d: h:m');
             })
@@ -108,7 +114,7 @@ class InvoiceController extends Controller
             ->rawColumns(['btn'])
             ->make(true);
         }
-        return view('admin.invoice.index', compact('invoice', 'indicator', 'typeDocument'));
+        return view('admin.invoice.index', compact('invoice', 'indicator', 'typeDocument', 'pos'));
     }
 
     /**
@@ -184,7 +190,7 @@ class InvoiceController extends Controller
         $company = Company::findOrFail(current_user()->company_id);
         $environment = Environment::where('id', 11)->first();
         $indicator = Indicator::findOrFail(1);
-        $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
+        $cashRegister = cashregisterModel();
         $resolutions = '';
         $resolut = $request->resolution_id;
         if ($resolut == null) {
@@ -210,7 +216,7 @@ class InvoiceController extends Controller
 
         $voucherTypes = VoucherType::findOrFail($voucherType);
         //Variables del request
-        $product_id = $request->id;
+        $product_id = $request->product_id;
         $quantity = $request->quantity;
         $price = $request->price;
         $tax_rate = $request->tax_rate;
@@ -317,10 +323,56 @@ class InvoiceController extends Controller
             taxesLines($document, $taxes, $typeDocument);
             retentions($request, $document, $typeDocument);
 
+            if ($indicator->pos == 'on') {
+                $paymentMethod = $request->payment_method_id;
+                $bank = 1;
+                $card = 1;
+                $advance_id = null;
+                $payment = $request->pay;
+                $transaction = 00;
+                $payAdvance = 0;
+                $totalpay = $request->totalpay;
+                $return = $payment - $totalpay;
+                    //Metodo para crear un nuevo pago y su realcion polimorfica dependiendo del tipo de documento
+                $pay = new Pay();
+                $pay->user_id = current_user()->id;
+                $pay->branch_id = current_user()->branch_id;
+                $pay->pay = $totalpay;
+                $pay->balance = $document->balance;
+                $pay->type = $typeDocument;
 
-            if ($totalpay > 0) {
-                pays($request, $document, $typeDocument);
+                $invoice = $document;
+                $invoice->pays()->save($pay);
+
+                //Metodo para registrar la relacion entre pago y metodo de pago
+                $pay_paymentMethod = new PayPaymentMethod();
+                $pay_paymentMethod->pay_id = $pay->id;
+                $pay_paymentMethod->payment_method_id = $paymentMethod;
+                $pay_paymentMethod->bank_id = $bank;
+                $pay_paymentMethod->card_id = $card;
+                $pay_paymentMethod->pay = $payment;
+                $pay_paymentMethod->transaction = $transaction;
+                $pay_paymentMethod->save();
+
+                //metodo para actualizar la caja
+                $cashRegister->in_invoice_cash += $totalpay;
+                $cashRegister->cash_in_total += $totalpay;
+
+                $cashRegister->in_invoice += $totalpay;
+                $cashRegister->in_total += $totalpay;
+                $cashRegister->update();
+
+                $paymentReturn = new paymentReturn();
+                $paymentReturn->payment = $request->pay;
+                $paymentReturn->return = $return;
+                $paymentReturn->invoice_id = $invoice->id;
+                $paymentReturn->save();
+            } else {
+                if ($totalpay > 0) {
+                    pays($request, $document, $typeDocument);
+                }
             }
+
 
             if ($documentType == 1 && $indicator->dian == 'on') {
                 $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']

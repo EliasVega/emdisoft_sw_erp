@@ -48,7 +48,7 @@ class PurchaseOrderController extends Controller
             $user = current_user()->Roles[0]->name;
             if ($user == 'superAdmin' ||$user == 'admin') {
                 //Consulta para mostrar todas las precompras a admin y superadmin
-                $purchaseOrders = purchaseOrder::get();
+                $purchaseOrders = PurchaseOrder::get();
             } else {
                 //Consulta para mostrar precompras de los demas roles
                 $purchaseOrders = PurchaseOrder::where('user_id', $user->id)->get();

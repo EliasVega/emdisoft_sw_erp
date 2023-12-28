@@ -13,13 +13,17 @@
         <i class="fas fa-file-invoice-dollar"></i>
     </a>
 @endif
-<a href="{{ route('invoicePos', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="pdf pos" >
-    <i class="fas fa-receipt"></i>
-</a>
-@if ($restaurant == 'off')
+@if ($pos == 'on')
+    <a href="{{ route('invoicePos', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="pdf pos" >
+        <i class="fas fa-receipt"></i>
+    </a>
+@else
     <a href="{{ route('invoicePdf', $id) }}" class="btn btn-pdf btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="Venta pdf">
         <i class="fas fa-file-pdf"></i>
     </a>
+@endif
+
+@if ($restaurant == 'off')
     @if ($status == 'invoice')
         <a href="{{ route('debitNoteInvoice', $id) }}" class="btn btn-lila btn-sm" data-toggle="tooltip"
         data-placement="top" title="Nota Debito" ><i class="fas fa-notes-medical"></i></a>

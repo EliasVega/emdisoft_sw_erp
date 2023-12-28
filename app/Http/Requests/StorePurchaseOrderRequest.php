@@ -26,7 +26,7 @@ class StorePurchaseOrderRequest extends FormRequest
             'total_tax' => 'required|numeric',
             'total_pay' => 'required|numeric',
             'balance' => 'numeric',
-            'status' => 'in:active,debit_note,credit_note,adjustment_note',
+            'status' => 'in:active,generate,canceled',
             'branch_id' => 'integer',
             'provider_id' => 'required|integer',
         ];

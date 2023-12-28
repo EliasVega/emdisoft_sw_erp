@@ -9,7 +9,7 @@ trait Taxes {
 
         $quantity = $request->quantity;
         $price = $request->price;
-        $product_id = $request->id;
+        $product_id = $request->product_id;
         $tax_rate = $request->tax_rate;
 
         $taxes[] = [];

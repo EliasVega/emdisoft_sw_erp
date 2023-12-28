@@ -19,6 +19,7 @@
     $("#types").hide();
     $("#pendadd").hide();
     $("#methodPay").hide();
+    $("#totalPayValue").hide();
     $("#payment_method_id").val(2);
 
     /*
@@ -51,6 +52,7 @@
     function paymentor(){
         ttp = parseFloat($("#pendient").val())
         abn = parseFloat($("#pay").val())
+        $("#totalpay").val(ttp);
         balancey = ttp - abn;
         $("#returned").val(balancey);
     }

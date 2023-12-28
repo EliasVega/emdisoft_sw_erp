@@ -56,23 +56,19 @@ class PurchaseOrder extends Model
 
     public function voucherTipe()
     {
-        return $this->belongsTo(Voucher_type::class);
+        return $this->belongsTo(VoucherType::class);
     }
 
     public function generationType(){
-        return $this->hasOne(Generation::class);
+        return $this->hasOne(GenerationType::class);
     }
 
     public function paymentForm(){
-        return $this->belongsTo(Payment_form::class);
-    }
-
-    public function retention(){
-        return $this->hasOne(Retention::class);
+        return $this->belongsTo(PaymentForm::class);
     }
 
     public function paymentMethod(){
-        return $this->belongsTo(Payment_method::class);
+        return $this->belongsTo(PaymentMethod::class);
     }
     //Relacion polimorfica con el pago
     public function pays()

@@ -46,9 +46,7 @@
                         @include('admin/invoice.form_retention')
                     </div>
                 @endif
-
             </div>
-
             {!!Form::close()!!}
         </div>
     </div>
