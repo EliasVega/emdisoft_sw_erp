@@ -11,8 +11,12 @@ use App\Models\Company;
 use App\Models\Environment;
 use App\Models\Indicator;
 use App\Models\Invoice;
+use App\Models\InvoiceOrder;
 use App\Models\InvoiceProduct;
 use App\Models\InvoiceResponse;
+use App\Models\Pay;
+use App\Models\paymentReturn;
+use App\Models\PayPaymentMethod;
 use App\Models\Product;
 use App\Models\Resolution;
 use App\Models\VoucherType;
@@ -51,11 +55,13 @@ class InvoiceOrderProductController extends Controller
     public function store(StoreInvoiceOrderProductRequest $request)
     {
         //dd($request->all());
+        $invoiceOrder = InvoiceOrder::findOrFail($request->invoice_order_id);
         $company = Company::findOrFail(current_user()->company_id);
         $environment = Environment::where('id', 11)->first();
         $indicator = Indicator::findOrFail(1);
         $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
         $resolutions = '';
+
         $resolut = $request->resolution_id;
         if ($resolut == null) {
             if ($indicator->dian == 'on') {
@@ -90,6 +96,8 @@ class InvoiceOrderProductController extends Controller
 
         if ($indicator->pos == 'on'  && $paymentForm == 1) {
             $totalpay = $request->total_pay;
+        } else if($indicator->pos == 'on'  && $paymentForm == 2) {
+            $totalpay = 0;
         } else {
             $totalpay = $request->totalpay;
         }
@@ -115,6 +123,7 @@ class InvoiceOrderProductController extends Controller
         } else {
             $store = true;
         }
+
         //Crea un registro de Ventas
         if ($store == true) {
 
@@ -188,8 +197,53 @@ class InvoiceOrderProductController extends Controller
             taxesLines($document, $taxes, $typeDocument);
             retentions($request, $document, $typeDocument);
 
-            if ($totalpay > 0) {
-                pays($request, $document, $typeDocument);
+            if ($indicator->pos == 'on') {
+                $paymentMethod = $request->payment_method_id;
+                $bank = 1;
+                $card = 1;
+                $advance_id = null;
+                $payment = $request->pay;
+                $transaction = 00;
+                $payAdvance = 0;
+                $return = $payment - $totalpay;
+
+                //Metodo para crear un nuevo pago y su realcion polimorfica dependiendo del tipo de documento
+                $pay = new Pay();
+                $pay->user_id = current_user()->id;
+                $pay->branch_id = current_user()->branch_id;
+                $pay->pay = $totalpay;
+                $pay->balance = $document->balance;
+                $pay->type = $typeDocument;
+                $invoice = $document;
+                $invoice->pays()->save($pay);
+
+                //Metodo para registrar la relacion entre pago y metodo de pago
+                $pay_paymentMethod = new PayPaymentMethod();
+                $pay_paymentMethod->pay_id = $pay->id;
+                $pay_paymentMethod->payment_method_id = $paymentMethod;
+                $pay_paymentMethod->bank_id = $bank;
+                $pay_paymentMethod->card_id = $card;
+                $pay_paymentMethod->pay = $payment;
+                $pay_paymentMethod->transaction = $transaction;
+                $pay_paymentMethod->save();
+
+                //metodo para actualizar la caja
+                $cashRegister->in_invoice_cash += $totalpay;
+                $cashRegister->cash_in_total += $totalpay;
+
+                $cashRegister->in_invoice += $totalpay;
+                $cashRegister->in_total += $totalpay;
+                $cashRegister->update();
+
+                $paymentReturn = new paymentReturn();
+                $paymentReturn->payment = $request->pay;
+                $paymentReturn->return = $return;
+                $paymentReturn->invoice_id = $invoice->id;
+                $paymentReturn->save();
+            } else {
+                if ($totalpay > 0) {
+                    pays($request, $document, $typeDocument);
+                }
             }
 
             if ($documentType == 1 && $indicator->dian == 'on') {
@@ -224,6 +278,7 @@ class InvoiceOrderProductController extends Controller
             $resolutions->update();
 
             $invoiceOrder->status = 'generated';
+            $invoiceOrder->update();
 
             session()->forget('invoice');
             session(['invoice' => $invoice->id]);

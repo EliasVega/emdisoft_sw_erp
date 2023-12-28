@@ -23,6 +23,7 @@ class InvoiceOrder extends Model
         'status',
         'user_id',
         'customer_id',
+        'branch_id',
         'invoice_id'
     ];
 

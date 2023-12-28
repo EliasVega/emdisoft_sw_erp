@@ -201,7 +201,6 @@
                     $('#details').append(row);
 
                     $('#product_id option:selected').remove();
-                    clean();
                 }else{
                     //alert("Rellene todos los campos del detalle para esta compra");
                     Swal.fire({

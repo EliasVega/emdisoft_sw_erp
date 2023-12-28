@@ -227,6 +227,8 @@ class InvoiceController extends Controller
 
         if ($indicator->pos == 'on'  && $paymentForm == 1) {
             $totalpay = $request->total_pay;
+        } else if($indicator->pos == 'on'  && $paymentForm == 2){
+            $totalpay = 0;
         } else {
             $totalpay = $request->totalpay;
         }
@@ -331,7 +333,6 @@ class InvoiceController extends Controller
                 $payment = $request->pay;
                 $transaction = 00;
                 $payAdvance = 0;
-                $totalpay = $request->totalpay;
                 $return = $payment - $totalpay;
                     //Metodo para crear un nuevo pago y su realcion polimorfica dependiendo del tipo de documento
                 $pay = new Pay();

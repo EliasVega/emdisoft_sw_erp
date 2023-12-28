@@ -44,6 +44,13 @@
             <input type="number" id="pendient" value="0" class="form-control" disabled pattern="[0-9]{0,15}">
         </div>
     </div>
+    <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12" id="valuePay">
+        <div class="form-group">
+            <label class="form-control-label requerido" for="pay">Abono</label>
+            <input type="number" id="pay" name="pay" value="0"
+                class="form-control form-control-lg text-white bg-info font-weight-bold" placeholder="pay" pattern="[0-9]{0,15}">
+        </div>
+    </div>
     <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12" id="returnedBalance">
         <div class="form-group">
             <label class="form-control-label" for="returned">Cambio</label>
@@ -52,13 +59,6 @@
         </div>
     </div>
 
-    <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12" id="valuePay">
-        <div class="form-group">
-            <label class="form-control-label requerido" for="pay">Abono</label>
-            <input type="number" id="pay" name="pay" value="0"
-                class="form-control form-control-lg text-white bg-info font-weight-bold" placeholder="pay" pattern="[0-9]{0,15}">
-        </div>
-    </div>
     <div class="modal-footer" id="save">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="form-group">

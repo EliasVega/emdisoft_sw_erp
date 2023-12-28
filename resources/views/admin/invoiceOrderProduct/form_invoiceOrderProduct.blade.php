@@ -1,5 +1,5 @@
 <div class="box-body row">
-    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+    <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12">
         <label for="customer_id">Cliente</label>
         <div class="select">
             <select id="customer_id" name="customer_id" class="form-control selectpicker" data-live-search="true">
@@ -49,114 +49,8 @@
                 placeholder="tope de pos">
         </div>
     </div>
-
-    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
-        <div class="form-group">
-            <label class="form-control-label" for="stock">Stock</label>
-            <input type="number" id="stock" name="stock" value="{{ old('stock') }}" class="form-control"
-                placeholder="stock" disabled pattern="[0-9]{0,15}">
-        </div>
-    </div>
-    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
-        <div class="form-group">
-            <label class="form-control-label" for="tax_rate">Imp %</label>
-            <input type="number" id="tax_rate" name="tax_rate" class="form-control" placeholder="%" disabled
-                pattern="[0-9]{0,15}">
-        </div>
-    </div>
-    <div class="col-lg-4 col-md-2 col-sm-4 col-xs-12">
-        <div class="form-group">
-            <label for="vprice">V/Actual</label>
-            <input type="number" name="vprice" id="vprice" class="form-control" readonly>
-        </div>
-    </div>
-    @if ($indicator->barcode == 'on')
-        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 mt-5 suitchBarcode">
-            <div class="form-group">
-                <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="switch_barcode">
-                    <label class="custom-control-label" for="switch_barcode">Codigo de barras</label>
-                </div>
-            </div>
-        </div>
-    @endif
 </div>
-
 <div class="box-body row">
-    @if ($indicator->barcode == 'on')
-        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" id="codeBarcode">
-            <div class="form-group">
-                <label for="code">Codigo</label>
-                <input type="text" name="code" id="code" value="" class="form-control"
-                    placeholder="" aria-describedby="helpId">
-
-            </div>
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" id="barcodeId">
-            <div class="form-group">
-                <label for="barcode_product_id">id Barcode</label>
-                <input type="number" name="barcode_product_id" id="barcode_product_id" value=""
-                    class="form-control" placeholder="">
-
-            </div>
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" id="productBarcode">
-            <div class="form-group">
-                <label for="product_barcode">Nombre</label>
-                <input type="text" name="product_barcode" id="product_barcode" value=""
-                    class="form-control" placeholder="">
-
-            </div>
-        </div>
-    @endif
-    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12" id="addProductId">
-        <div class="form-group row">
-            <label class="form-control-label" for="product_id">Producto</label>
-            <select name="product_id" class="form-control selectpicker" id="product_id" data-live-search="true">
-                <option value="0" disabled selected>Seleccionar</option>
-                @foreach ($products as $product)
-                    <option
-                        value="{{ $product->id }}_{{ $product->stock }}_{{ $product->sale_price }}_{{ $product->percentage }}_{{ $product->tt }}">
-                        {{ $product->code }} -- {{ $product->name }}</option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="taxType">
-        <div class="form-group">
-            <label class="form-control-label" for="tax_type">Tipo Impuesto</label>
-            <input type="number" id="tax_type" name="tax_type" class="form-control" value="0" disabled
-                pattern="[0-9]{0,15}">
-        </div>
-    </div>
-    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
-        <div class="form-group">
-            <label class="form-control-label" for="quantityadd">Cantidad</label>
-            <input type="number" id="quantityadd" name="quantityadd" class="form-control" placeholder="Cant."
-                pattern="[0-9]{0,15}">
-        </div>
-    </div>
-    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
-        <div class="form-group">
-            <label class="form-control-label" for="price">Precio</label>
-            <input type="number" id="price" name="price" class="form-control" placeholder="Precio">
-        </div>
-    </div>
-    <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">
-        <div class="form-group">
-            <label class="form-control-label">Add</label><br>
-            <button class="btn btn-lightBlueGrad" type="button" id="add" data-toggle="tooltip"
-                data-placement="top" title="Add"><i class="fas fa-check"></i>&nbsp; </button>
-        </div>
-    </div>
-    <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">
-        <div class="form-group">
-            <label class="form-control-label">Canc</label><br>
-            <a href="{{ url('invoice') }}" class="btn btn-blueGrad" data-toggle="tooltip" data-placement="top"
-                title="Cancelar"><i class="fa fa-window-close"></i>&nbsp; </a>
-        </div>
-    </div>
     @if ($indicator->dian == 'on')
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="resolution">
             <div class="form-group">
@@ -202,7 +96,7 @@
             </div>
         @endif
     @endif
-    <div class="col-lg-6 col-md-6 col-sm-10 col-xs-12" id="noteDocument">
+    <div class="col-lg-8 col-md-6 col-sm-10 col-xs-12" id="noteDocument">
         <div class="form-group">
             <label class="form-control-label" for="note">Observaciones</label>
             <input type="text" id="note" name="note" value="{{ old('note') }}" class="form-control"
@@ -214,6 +108,13 @@
             <label class="form-control-label" for="bags">Bolsas</label>
             <input type="number" id="bags" name="bags" value="0" class="form-control"
                 placeholder="Bolsas">
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+        <div class="form-group">
+            <label class="form-control-label" for="invoice_order_id">Orden de compra</label>
+            <input type="number" id="invoice_order_id" name="invoice_order_id" value="{{ $invoiceOrder->id }}" class="form-control"
+                placeholder="" readonly>
         </div>
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

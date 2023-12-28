@@ -52,7 +52,6 @@
     function paymentor(){
         ttp = parseFloat($("#pendient").val())
         abn = parseFloat($("#pay").val())
-        $("#totalpay").val(ttp);
         balancey = ttp - abn;
         $("#returned").val(balancey);
     }

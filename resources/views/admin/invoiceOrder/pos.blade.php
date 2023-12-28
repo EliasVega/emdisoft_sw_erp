@@ -27,13 +27,13 @@
             <div class="company">
                 <p><strong id="companyName">{{  $company->name  }}</strong></p>
 
-                <p id="companyData">Nit: {{ $company->nit }} - {{ $company->dv }} - {{ $company->regime->name }} - {{ $company->nameO }}  {{ $invoice->branch->address }} - {{ $company->municipality->name }} {{ $company->department->name }} <br> Email: {{ $invoice->branch->email }}
+                <p id="companyData">Nit: {{ $company->nit }} - {{ $company->dv }} - {{ $company->regime->name }} - {{ $company->nameO }}  {{ $invoiceOrder->branch->address }} - {{ $company->municipality->name }} {{ $company->department->name }} <br> Email: {{ $invoiceOrder->branch->email }}
                     </p>
             </div>
             <!--DATOS FACTURA -->
             <div id="document">
-                <p> POST: <strong id="numfact">N°.{{ $invoice->id }}</strong> <br>
-                    FECHA DE EMISION: <strong id="datfact">{{ date('d-m-Y', strtotime($invoice->generation_date)) }}</strong>
+                <p> POST: <strong id="numfact">N°.{{ $invoiceOrder->id }}</strong> <br>
+                    FECHA DE EMISION: <strong id="datfact">{{ date('d-m-Y', strtotime($invoiceOrder->created_at)) }}</strong>
                 </p>
             </div>
         </div>
@@ -52,26 +52,12 @@
                         <span id="rowHeader">EMAIL:    </span><br>
                     </div>
                     <div id="thirdData">
-                        <span id="rowData">{{ $invoice->third->identification }}</span><br>
-                        <span id="rowData">{{ $invoice->third->name }}</span><br>
-                        <span id="rowData">{{ $invoice->third->email }}</span><br>
+                        <span id="rowData">{{ $invoiceOrder->third->identification }}</span><br>
+                        <span id="rowData">{{ $invoiceOrder->third->name }}</span><br>
+                        <span id="rowData">{{ $invoiceOrder->third->email }}</span><br>
                     </div>
                 </div>
             </div>
-            @if ($debitNote != null)
-            <div class="center">
-                <div id="thirdTitle">
-                    <span id="title">Venta modificada con la Nota debito {{ $debitNote->document }}</span>
-                </div>
-            </div>
-        @endif
-        @if ($creditNote != null)
-            <div class="center">
-                <div id="thirdTitle">
-                    <span id="title">Venta modificada con la Nota credito {{ $creditNote->document }}</span>
-                </div>
-            </div>
-        @endif
         <div class="clearfix"></div>
         <table class="table">
             <!--DETALLE DE VENTA -->
@@ -84,12 +70,12 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($invoiceProducts as $invoiceProduct)
+                @foreach ($invoiceOrderProducts as $invoiceOrderProduct)
                 <tr>
-                    <td>{{ $invoiceProduct->product->name }}</td>
-                    <td id="tdcenter">{{ number_format($invoiceProduct->quantity) }}</td>
-                    <td class="tdRight">${{ number_format($invoiceProduct->price)}}</td>
-                    <td class="tdRight">${{number_format($invoiceProduct->quantity * $invoiceProduct->price)}}</td>
+                    <td>{{ $invoiceOrderProduct->product->name }}</td>
+                    <td id="tdcenter">{{ number_format($invoiceOrderProduct->quantity) }}</td>
+                    <td class="tdRight">${{ number_format($invoiceOrderProduct->price)}}</td>
+                    <td class="tdRight">${{number_format($invoiceOrderProduct->quantity * $invoiceOrderProduct->price)}}</td>
                 </tr>
                 @endforeach
             </tbody>
@@ -97,49 +83,19 @@
                 <!--DATOS FTOTALES -->
                 <tr>
                     <th colspan="3" class="footRight">TOTAL:</th>
-                    <td colspan="3" class="footRight"><strong>${{number_format($invoice->total,2)}}</strong></td>
+                    <td colspan="3" class="footRight"><strong>${{number_format($invoiceOrder->total,2)}}</strong></td>
                 </tr>
                 <tr>
                     <th colspan="3" class="footRight">IMPUESTOS:</th>
-                    <td colspan="3" class="footRight"><strong>${{number_format($invoice->total_tax,2)}}</strong> </td>
+                    <td colspan="3" class="footRight"><strong>${{number_format($invoiceOrder->total_tax,2)}}</strong> </td>
                 </tr>
                 <tr>
                     <th colspan="3" class="footRight">TOTAL PAGAR:</th>
-                    <td colspan="3" class="footRight"><strong>${{number_format($invoice->total_pay,2)}}</strong></td>
+                    <td colspan="3" class="footRight"><strong>${{number_format($invoiceOrder->total_pay,2)}}</strong></td>
                 </tr>
-                @if ($paymentReturns != null)
-                    <tr>
-                        <th  colspan="3" class="footRight">EFECTIVO</th>
-                        <td colspan="3" class="footRight"><strong>$ {{number_format($paymentReturns->payment,2)}}</strong></td>
-                    </tr>
-                    <tr>
-                        <th  colspan="3" class="footRight">CAMBIO</th>
-                        <td colspan="3" class="footRight"><strong>$ {{number_format($paymentReturns->return,2)}}</strong></td>
-                    </tr>
-                @endif
             </tfoot>
         </table>
     </div>
-    @if ($restaurantOrder != null)
-        @if ($restaurantOrder->restaurant_table_id == 1 && $homeOrder->type == 'home')
-            <div id="document">
-                <p> PARA ENVIO A DOMICILIO A:</p>
-            </div>
-
-            <div id="document">
-                <p> NOMBRE: <strong class="numfact">{{ $restaurantOrder->homeOrder->name }}</strong></p>
-            </div>
-            <div id="document">
-                <p> DIRECCION: <strong class="numfact">{{ $restaurantOrder->homeOrder->address }}</strong></p>
-            </div>
-            <div id="document">
-                <p> TELEFONO: <strong class="numfact">{{ $restaurantOrder->homeOrder->phone }}</strong></p>
-            </div>
-            <div id="document">
-                <p> DOMICILIO: <strong class="numfact">${{ number_format($restaurantOrder->homeOrder->domicile_value,2) }}</strong></p>
-            </div>
-        @endif
-    @endif
     <br>
     <br>
     <footer>

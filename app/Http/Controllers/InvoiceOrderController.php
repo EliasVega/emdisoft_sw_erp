@@ -146,7 +146,7 @@ class InvoiceOrderController extends Controller
         $cashRegister = cashregisterModel();
 
         //Variables del request
-        $product_id = $request->id;
+        $product_id = $request->product_id;
         $quantity   = $request->quantity;
         $price      = $request->price;
         $tax_rate   = $request->tax_rate;
@@ -156,6 +156,7 @@ class InvoiceOrderController extends Controller
         $invoiceOrder = new InvoiceOrder();
         $invoiceOrder->user_id = current_user()->id;
         $invoiceOrder->branch_id = current_user()->branch_id;
+        $invoiceOrder->invoice_id = null;
         $invoiceOrder->customer_id = $request->customer_id;
         $invoiceOrder->total = $request->total;
         $invoiceOrder->total_tax = $request->total_tax;
@@ -287,6 +288,7 @@ class InvoiceOrderController extends Controller
         $invoiceOrder->user_id = current_user()->id;
         $invoiceOrder->branch_id = current_user()->branch_id;
         $invoiceOrder->customer_id = $request->customer_id;
+        $invoiceOrder->invoice_id = null;
         $invoiceOrder->total = $request->total;
         $invoiceOrder->total_tax = $request->total_tax;
         $invoiceOrder->total_pay = $total_pay;
