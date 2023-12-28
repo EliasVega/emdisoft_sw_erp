@@ -37,14 +37,14 @@ class PayController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $users = Auth::user();
+            $users = current_user();
             $user = $users->Roles[0]->name;
-            if ($user == 'superAdmin' ||$user == 'admin') {
+            if ($user == 'superAdmin'||$user == 'admin') {
                 //Consulta para mostrar todas las pagos a admin y superadmin
                 $pays = pay::get();
             } else {
                 //Consulta para mostrar pagos de los demas roles
-                $pays = pay::where('user_id', $user->id)->get();
+                $pays = pay::where('user_id', $users->id)->get();
             }
             return DataTables::of($pays)
             ->addIndexColumn()
@@ -77,7 +77,7 @@ class PayController extends Controller
                 return $pay->payable->total_pay;
             })
             ->editColumn('created_at', function(Pay $pay){
-                return $pay->created_at->format('yy-m-d: h:m');
+                return $pay->created_at->format('Y-m-d: h:m');
             })
             ->addColumn('btn', 'admin/pay/actions')
             ->rawColumns(['btn'])

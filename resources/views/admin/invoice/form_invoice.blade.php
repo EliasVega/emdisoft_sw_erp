@@ -74,7 +74,7 @@
         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 mt-5 suitchBarcode">
             <div class="form-group">
                 <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="switch_barcode">
+                    <input type="checkbox" class="custom-control-input" id="switch_barcode" checked>
                     <label class="custom-control-label" for="switch_barcode">Codigo de barras</label>
                 </div>
             </div>

@@ -58,6 +58,7 @@ class InvoiceController extends Controller
     public function index(Request $request)
     {
         $invoice = session('invoice');
+
         $indicator = Indicator::findOrFail(1);
         $typeDocument = '';
         $pos = $indicator->pos;
@@ -864,7 +865,8 @@ class InvoiceController extends Controller
     {
         $invoices = session('invoice');
         $invoice = Invoice::findOrFail($invoices);
-        session()->forget('invoice');
+        $request->session()->forget('invoice');
+        //session()->forget('invoice');
         $indicator = Indicator::findOrFail(1);
         if ($indicator->restaurant == 'on') {
             $restaurantOrder = RestaurantOrder::where('invoice_id', $invoice->id)->first();
