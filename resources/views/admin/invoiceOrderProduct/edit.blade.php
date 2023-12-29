@@ -35,13 +35,13 @@
             @include('admin/Invoice.form_edit')
         </div>
         <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-            @include('admin/Invoice.form_pay_edit')
+            @include('admin/invoice.form_pay_editxx')
         </div>
     </div>
     {!!Form::close()!!}
-    @include('admin/Invoice.editmodal')
+    @include('admin/nvoice.editmodalxx')
 @endsection
 @section('scripts')
-    @include('admin/Invoice.script_edit')
-    @include('admin/Invoice.script_pay_edit')
+    @include('admin/invoice.script_editxx')
+    @include('admin/invoice.script_pay_editxx')
 @endsection
