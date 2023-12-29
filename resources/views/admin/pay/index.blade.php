@@ -32,10 +32,10 @@
                             <th>Tercero</th>
                             <th>Sede</th>
                             <th>Responsable</th>
-                            <th>V/Factura.</th>-->
+                            <th>V/Factura.</th>
                             <th>Abono</th>
                             <th>Saldo</th>
-                            <th>Acciones</th>
+                            <th>Acciones</th>-->
                         </tr>
                     </thead>
                 </table>
@@ -69,10 +69,10 @@
                         {data: 'third'},
                         {data: 'branch'},
                         {data: 'user'},
-                        {data: 'total_pay', render: $.fn.dataTable.render.number( '.', ',', 2)},*/
+                        {data: 'total_pay', render: $.fn.dataTable.render.number( '.', ',', 2)},
                         {data: 'pay', render: $.fn.dataTable.render.number( '.', ',', 2) },
                         {data: 'balance', render: $.fn.dataTable.render.number( '.', ',', 2)},
-                        {data: 'btn'},
+                        {data: 'btn'},*/
                     ],
                     dom: 'Blfrtip',
                     lengthMenu: [

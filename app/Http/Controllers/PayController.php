@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\pay;
+use App\Models\Paybb;
 use App\Http\Requests\StorepayRequest;
 use App\Http\Requests\UpdatepayRequest;
 use App\Models\Advance;
@@ -41,10 +41,10 @@ class PayController extends Controller
             $user = $users->Roles[0]->name;
             if ($user == 'superAdmin'||$user == 'admin') {
                 //Consulta para mostrar todas las pagos a admin y superadmin
-                $pays = pay::get();
+                $pays = Paybb::get();
             } else {
                 //Consulta para mostrar pagos de los demas roles
-                $pays = pay::where('user_id', $users->id)->get();
+                $pays = Paybb::where('user_id', $users->id)->get();
             }
             return DataTables::of($pays)
             /*
@@ -79,9 +79,9 @@ class PayController extends Controller
             })
             ->editColumn('created_at', function(Pay $pay){
                 return $pay->created_at->format('Y-m-d: h:m');
-            })*/
+            })
             ->addColumn('btn', 'admin/pay/actions')
-            ->rawColumns(['btn'])
+            ->rawColumns(['btn'])*/
             ->make(true);
         }
         return view('admin.pay.index');
