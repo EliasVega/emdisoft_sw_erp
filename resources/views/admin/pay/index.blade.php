@@ -34,7 +34,8 @@
                             <th>V/Factura.</th>
                             <th>Abono</th>
                             <th>Saldo</th>
-                            <th>Acciones</th>
+                            <!--
+                            <th>Acciones</th>-->
                         </tr>
                     </thead>
                 </table>
@@ -71,7 +72,7 @@
                         {data: 'total_pay', render: $.fn.dataTable.render.number( '.', ',', 2)},
                         {data: 'pay', render: $.fn.dataTable.render.number( '.', ',', 2) },
                         {data: 'balance', render: $.fn.dataTable.render.number( '.', ',', 2)},
-                        {data: 'btn'},
+                        /*{data: 'btn'},*/
                     ],
                     dom: 'Blfrtip',
                     lengthMenu: [
@@ -81,13 +82,13 @@
                         {
                             extend: 'copy',
                             exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
                             }
                         },
                         {
                             extend: 'excel',
                             exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
                             }
                         },
                         {
@@ -96,13 +97,13 @@
                             orientation: 'landscape',
                             pageSize: 'LEGAL',
                             exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
                             }
                         },
                         {
                             extend: 'print',
                             exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
                             }
                         },
                     ],
