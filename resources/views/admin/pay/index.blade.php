@@ -34,8 +34,7 @@
                             <th>V/Factura.</th>
                             <th>Abono</th>
                             <th>Saldo</th>
-                            <!--
-                            <th>Acciones</th> -->
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                 </table>
