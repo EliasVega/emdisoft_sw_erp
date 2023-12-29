@@ -71,7 +71,7 @@
         </div>
     </div>
     @if ($indicator->barcode == 'on')
-        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 mt-5 suitchBarcode">
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 mt-5 switchBarcode">
             <div class="form-group">
                 <div class="custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input" id="switch_barcode" checked>

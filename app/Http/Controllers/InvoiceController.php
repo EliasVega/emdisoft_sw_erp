@@ -157,7 +157,15 @@ class InvoiceController extends Controller
             ->where('pro.status', '=', 'active')
             ->get();
         } else {
-            $products = Product::where('status', 'active')->get();
+            $products = Product::from('products as pro')
+            ->join('categories as cat', 'pro.category_id', 'cat.id')
+            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+            ->join('percentages as per', 'ct.percentage_id', 'per.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('pro.id', 'pro.code', 'pro.stock', 'pro.sale_price', 'pro.name', 'per.percentage', 'tt.id as tt')
+            ->where('pro.stock', '>=', 0)
+            ->where('pro.status', '=', 'active')
+            ->get();
         }
         $companyTaxes = CompanyTax::from('company_taxes', 'ct')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
@@ -326,44 +334,46 @@ class InvoiceController extends Controller
             taxesLines($document, $taxes, $typeDocument);
             retentions($request, $document, $typeDocument);
 
-            if ($indicator->pos == 'on') {
-                $paymentMethod = $request->payment_method_id;
-                $bank = 1;
-                $card = 1;
-                $advance_id = null;
-                $payment = $request->pay;
-                $transaction = 00;
-                $payAdvance = 0;
-                $return = $payment - $totalpay;
-                    //Metodo para crear un nuevo pago y su realcion polimorfica dependiendo del tipo de documento
-                $pay = new Pay();
-                $pay->user_id = current_user()->id;
-                $pay->branch_id = current_user()->branch_id;
-                $pay->pay = $totalpay;
-                $pay->balance = $document->balance;
-                $pay->type = $typeDocument;
+            if ($indicator->pos == 'on' ) {
 
-                $invoice = $document;
-                $invoice->pays()->save($pay);
+                if ($totalpay > 0) {
+                    $paymentMethod = $request->payment_method_id;
+                    $bank = 1;
+                    $card = 1;
+                    $advance_id = null;
+                    $payment = $request->pay;
+                    $transaction = 00;
+                    $payAdvance = 0;
+                    $return = $payment - $totalpay;
+                        //Metodo para crear un nuevo pago y su realcion polimorfica dependiendo del tipo de documento
+                    $pay = new Pay();
+                    $pay->user_id = current_user()->id;
+                    $pay->branch_id = current_user()->branch_id;
+                    $pay->pay = $totalpay;
+                    $pay->balance = $document->balance;
+                    $pay->type = $typeDocument;
 
-                //Metodo para registrar la relacion entre pago y metodo de pago
-                $pay_paymentMethod = new PayPaymentMethod();
-                $pay_paymentMethod->pay_id = $pay->id;
-                $pay_paymentMethod->payment_method_id = $paymentMethod;
-                $pay_paymentMethod->bank_id = $bank;
-                $pay_paymentMethod->card_id = $card;
-                $pay_paymentMethod->pay = $payment;
-                $pay_paymentMethod->transaction = $transaction;
-                $pay_paymentMethod->save();
+                    $invoice = $document;
+                    $invoice->pays()->save($pay);
 
-                //metodo para actualizar la caja
-                $cashRegister->in_invoice_cash += $totalpay;
-                $cashRegister->cash_in_total += $totalpay;
+                    //Metodo para registrar la relacion entre pago y metodo de pago
+                    $pay_paymentMethod = new PayPaymentMethod();
+                    $pay_paymentMethod->pay_id = $pay->id;
+                    $pay_paymentMethod->payment_method_id = $paymentMethod;
+                    $pay_paymentMethod->bank_id = $bank;
+                    $pay_paymentMethod->card_id = $card;
+                    $pay_paymentMethod->pay = $payment;
+                    $pay_paymentMethod->transaction = $transaction;
+                    $pay_paymentMethod->save();
 
-                $cashRegister->in_invoice += $totalpay;
-                $cashRegister->in_total += $totalpay;
-                $cashRegister->update();
+                    //metodo para actualizar la caja
+                    $cashRegister->in_invoice_cash += $totalpay;
+                    $cashRegister->cash_in_total += $totalpay;
 
+                    $cashRegister->in_invoice += $totalpay;
+                    $cashRegister->in_total += $totalpay;
+                    $cashRegister->update();
+                }
                 $paymentReturn = new paymentReturn();
                 $paymentReturn->payment = $request->pay;
                 $paymentReturn->return = $return;
@@ -956,6 +966,5 @@ class InvoiceController extends Controller
                 return response()->json($products);
             }
         }
-
     }
 }

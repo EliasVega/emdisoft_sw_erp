@@ -73,6 +73,7 @@
                     //title: 'Oops...',
                     text: 'Abono supera el saldo del Pedido',
                 });
+                window.location.reload()
             }
         } else {
             //alert("Rellene todos los campos del detalle de la venta");
@@ -307,6 +308,7 @@
             )
             $("#pay").val(ttp);
             $("#returned").val(0);
+            window.location.reload()
             payment();
         }
     }
@@ -383,9 +385,11 @@
                 text: 'El abono supera el valor de la compra',
                 })
                 $("#payment").val(0)
+                window.location.reload()
                 prepaid();
             } else {
                 $("#payment").val(0)
+                window.location.reload()
                 prepaid();
             }
 
