@@ -299,9 +299,15 @@ class ProductController extends Controller
 
     public function getProduct(Request $request)
     {
-        return response()->json('mi producto');
         if ($request->ajax()) {
-            $products = Product::where('code', $request->code)->first();
+            $products = Product::from('products as pro')
+            ->join('categories as cat', 'pro.category_id', 'cat.id')
+            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+            ->join('percentages as per', 'ct.percentage_id', 'per.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('pro.id', 'pro.name', 'pro.stock', 'pro.price', 'pro.sale_price', 'per.percentage', 'tt.id as tt')
+            ->where('pro.code', $request->code)
+            ->first();
             if ($products) {
                 return response()->json($products);
             }

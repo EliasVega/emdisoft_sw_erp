@@ -951,7 +951,7 @@ class InvoiceController extends Controller
         //return $pdf->download("$invoicepdf.pdf");
     }
 
-    public function getProduct(Request $request)
+    public function getProductInvoice(Request $request)
     {
         if ($request->ajax()) {
             $products = Product::from('products as pro')

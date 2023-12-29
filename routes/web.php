@@ -223,7 +223,7 @@ Route::get('indicator/restaurantStatus/{id}', [IndicatorController::class, 'rest
 Route::get('indicator/barcodeStatus/{id}', [IndicatorController::class, 'barcodeStatus'])->name('barcodeStatus');
 
 Route::get('invoice/create/{id}', [InvoiceController::class, 'getMunicipalities']);
-Route::get('getProduct', [InvoiceController::class, 'getProduct'])->name('getProduct');
+Route::get('getProductInvoice', [InvoiceController::class, 'getProductInvoice'])->name('getProductInvoice');
 Route::get('invoice/InvoicePay/{id}', [InvoiceController::class, 'invoicePay'])->name('invoicePay');
 Route::get('invoice/InvoicePdf/{id}', [InvoiceController::class, 'invoicePdf'])->name('invoicePdf');
 Route::get('invoice/InvoicePos/{id}', [InvoiceController::class, 'invoicePos'])->name('invoicePos');
@@ -261,6 +261,8 @@ Route::get('percentage/status/{id}', [PercentageController::class, 'status'])->n
 Route::get('permission/status/{id}', [PermissionController::class, 'status'])->name('permissionStatus');
 
 Route::get('postalCode/municipality/{id}', [PostalCodeController::class, 'getMunicipalities']);
+
+Route::get('getProduct', [ProductController::class, 'getProduct'])->name('getProduct');
 
 Route::get('getProductPurchase', [PurchaseController::class, 'getProductPurchase'])->name('getProductPurchase');
 Route::get('purchaseOrder/invoice/{id}', [PurchaseOrderController::class, 'invoice'])->name('purchaseOrderInvoice');

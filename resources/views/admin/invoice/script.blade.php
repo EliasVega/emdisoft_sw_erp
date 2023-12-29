@@ -98,7 +98,7 @@
     //$(obtener_registro());
     function obtener_registro(code){
         $.ajax({
-            url: "{{ route('getProduct') }}",
+            url: "{{ route('getProductInvoice') }}",
             type: 'GET',
             dataType: 'json',
             data: {

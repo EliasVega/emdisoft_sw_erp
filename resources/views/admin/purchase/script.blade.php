@@ -98,8 +98,6 @@
             $("#addProductId").show();
         }
     });
-    //seleccionar de acuerdo al producto
-    $("#product_id").change(productValue);
 
     $("#switch_barcode").change(function(){
 
