@@ -34,8 +34,8 @@
                             <th>V/Factura.</th>
                             <th>Abono</th>
                             <th>Saldo</th>
-                            <th>Fecha</th>
-                            <th>Acciones</th>
+                            <!--
+                            <th>Acciones</th> -->
                         </tr>
                     </thead>
                 </table>
@@ -72,7 +72,6 @@
                         {data: 'total_pay', render: $.fn.dataTable.render.number( '.', ',', 2)},
                         {data: 'pay', render: $.fn.dataTable.render.number( '.', ',', 2) },
                         {data: 'balance', render: $.fn.dataTable.render.number( '.', ',', 2)},
-                        {data: 'created_at'},
                         {data: 'btn'},
                     ],
                     dom: 'Blfrtip',
