@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Paybb;
+use App\Models\Pay;
 use App\Http\Requests\StorepayRequest;
 use App\Http\Requests\UpdatepayRequest;
 use App\Models\Advance;
@@ -41,10 +41,10 @@ class PayController extends Controller
             $user = $users->Roles[0]->name;
             if ($user == 'superAdmin'||$user == 'admin') {
                 //Consulta para mostrar todas las pagos a admin y superadmin
-                $pays = Paybb::get();
+                $pays = Pay::get();
             } else {
                 //Consulta para mostrar pagos de los demas roles
-                $pays = Paybb::where('user_id', $users->id)->get();
+                $pays = Pay::where('user_id', $users->id)->get();
             }
             return DataTables::of($pays)
             /*
