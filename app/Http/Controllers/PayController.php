@@ -47,7 +47,6 @@ class PayController extends Controller
                 $pays = Pay::where('user_id', $users->id)->get();
             }
             return DataTables::of($pays)
-            /*
             ->addIndexColumn()
             ->addColumn('document', function (Pay $pay) {
                 return $pay->payable->document;
@@ -81,7 +80,7 @@ class PayController extends Controller
                 return $pay->created_at->format('Y-m-d: h:m');
             })
             ->addColumn('btn', 'admin/pay/actions')
-            ->rawColumns(['btn'])*/
+            ->rawColumns(['btn'])
             ->make(true);
         }
         return view('admin.pay.index');

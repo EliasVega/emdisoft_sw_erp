@@ -26,7 +26,6 @@
                     <thead>
                         <tr class="bg-info">
                             <th>ID</th>
-                            <!--
                             <th>Documento</th>
                             <th>Tipo</th>
                             <th>Tercero</th>
@@ -35,7 +34,8 @@
                             <th>V/Factura.</th>
                             <th>Abono</th>
                             <th>Saldo</th>
-                            <th>Acciones</th>-->
+                            <th>Fecha</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                 </table>
@@ -63,7 +63,7 @@
                     order: [[0, "desc"]],
                     columns:
                     [
-                        {data: 'id'},/*
+                        {data: 'id'},
                         {data: 'document'},
                         {data: 'type'},
                         {data: 'third'},
@@ -72,7 +72,8 @@
                         {data: 'total_pay', render: $.fn.dataTable.render.number( '.', ',', 2)},
                         {data: 'pay', render: $.fn.dataTable.render.number( '.', ',', 2) },
                         {data: 'balance', render: $.fn.dataTable.render.number( '.', ',', 2)},
-                        {data: 'btn'},*/
+                        {data: 'created_at'},
+                        {data: 'btn'},
                     ],
                     dom: 'Blfrtip',
                     lengthMenu: [
@@ -82,13 +83,13 @@
                         {
                             extend: 'copy',
                             exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
                             }
                         },
                         {
                             extend: 'excel',
                             exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
                             }
                         },
                         {
@@ -97,13 +98,13 @@
                             orientation: 'landscape',
                             pageSize: 'LEGAL',
                             exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
                             }
                         },
                         {
                             extend: 'print',
                             exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
                             }
                         },
                     ],
