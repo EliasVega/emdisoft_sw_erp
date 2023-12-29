@@ -65,7 +65,7 @@ class InvoiceOrderController extends Controller
             })
             ->addColumn('status', function (InvoiceOrder $invoiceOrder) {
                 if ($invoiceOrder->status == 'active') {
-                    return $invoiceOrder->status == 'active' ? 'Orden Compra' : 'Facturado';
+                    return $invoiceOrder->status == 'active' ? 'Orden de Venta' : 'Facturado';
                 } elseif ($invoiceOrder->status == 'generated') {
                     return $invoiceOrder->status == 'generated' ? 'Facturado' : 'Cancelado';
                 } else {

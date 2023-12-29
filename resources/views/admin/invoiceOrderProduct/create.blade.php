@@ -48,9 +48,6 @@
         </div>
     </div>
 </div>
-<!--Inicio del modal cliente-->
-@include('admin/invoiceOrderProduct.editmodal')
-<!--Fin del modal-->
 @endsection
 @section('scripts')
 @include('admin/invoiceOrderProduct.script')

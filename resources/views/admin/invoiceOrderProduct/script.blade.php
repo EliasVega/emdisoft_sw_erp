@@ -73,16 +73,6 @@
         }
     });
 
-
-
-
-
-
-
-
-
-
-
     function totals(){
         var total_pay = total + total_tax;
 
@@ -151,7 +141,6 @@
         total_tax = total_tax - tax_cont[index];
         total_pay = total + total_tax;
 
-        /*
         $("#total_html").html("$ " + total.toFixed(2));
         $("#total").val(total.toFixed(2));
 
@@ -160,7 +149,7 @@
 
         $("#total_pay_html").html("$ " + total_pay.toFixed(2));
         $("#total_pay").val(total_pay.toFixed(2));
-        */
+
         $("#row" + index).remove();
 
         if (pos_on == 'on') {
@@ -169,10 +158,6 @@
 
         assess();
     }
-
-
-
-
 
     //function editing(){
         iop = {!! json_encode($invoiceOrderProducts) !!};
@@ -193,7 +178,7 @@
                     tax_cont[cont] = total_tax+ivita;
                     total_tax=total_tax+ivita;
 
-                    var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';
+                    var row= '<tr class="selected" id="row'+cont+'"><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';
                     cont++;
 
                     totals();
