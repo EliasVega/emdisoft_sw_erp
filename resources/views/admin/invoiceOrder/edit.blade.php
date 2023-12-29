@@ -32,12 +32,12 @@
     {!!Form::token()!!}
     <div class="row m-1">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            @include('admin/InvoiceOrder.form_edit')
+            @include('admin/invoiceOrder.form_editxx')
         </div>
     </div>
     {!!Form::close()!!}
-    @include('admin/InvoiceOrder.editmodal')
+    @include('admin/invoiceOrder.editmodalxx')
 @endsection
 @section('scripts')
-    @include('admin/InvoiceOrder.script_edit')
+    @include('admin/invoiceOrder.script_editxx')
 @endsection
