@@ -223,6 +223,7 @@ Route::get('indicator/restaurantStatus/{id}', [IndicatorController::class, 'rest
 Route::get('indicator/barcodeStatus/{id}', [IndicatorController::class, 'barcodeStatus'])->name('barcodeStatus');
 
 Route::get('invoice/create/{id}', [InvoiceController::class, 'getMunicipalities']);
+Route::get('getProduct', [InvoiceController::class, 'getProduct'])->name('getProduct');
 Route::get('invoice/InvoicePay/{id}', [InvoiceController::class, 'invoicePay'])->name('invoicePay');
 Route::get('invoice/InvoicePdf/{id}', [InvoiceController::class, 'invoicePdf'])->name('invoicePdf');
 Route::get('invoice/InvoicePos/{id}', [InvoiceController::class, 'invoicePos'])->name('invoicePos');
@@ -261,6 +262,7 @@ Route::get('permission/status/{id}', [PermissionController::class, 'status'])->n
 
 Route::get('postalCode/municipality/{id}', [PostalCodeController::class, 'getMunicipalities']);
 
+Route::get('getProductPurchase', [PurchaseController::class, 'getProductPurchase'])->name('getProductPurchase');
 Route::get('purchaseOrder/invoice/{id}', [PurchaseOrderController::class, 'invoice'])->name('purchaseOrderInvoice');
 Route::get('purchaseOrder/pdf/{id}', [PurchaseOrderController::class, 'purchaseOrderPdf'])->name('purchaseOrderPdf');
 Route::get('purchaseOrder/pos/{id}', [PurchaseOrderController::class, 'purchaseOrderPos'])->name('purchaseOrderPos');
@@ -268,7 +270,6 @@ Route::get('pdfPurchaseOrder', [PurchaseOrderController::class, 'pdfPurchaseOrde
 Route::get('posPurchaseOrder', [PurchaseOrderController::class, 'posPurchaseOrder'])->name('posPurchaseOrder');
 
 Route::get('product/status/{id}', [ProductController::class, 'status'])->name('productStatus');
-Route::get('getProduct', [InvoiceController::class, 'getProduct'])->name('getProduct');
 
 Route::get('provider/create/{id}', [ProviderController::class, 'getMunicipalities']);
 Route::get('provider/postalCode/{id}', [ProviderController::class, 'getPostalCode']);

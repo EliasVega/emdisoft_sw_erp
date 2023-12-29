@@ -109,6 +109,13 @@
             <input type="text" id="note" name="note" value="{{ old('note') }}" class="form-control" placeholder="Observaciones">
         </div>
     </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="posActive">
+        <div class="form-group">
+            <label class="form-control-label" for="pos_active">Post Activado</label>
+            <input type="text" id="pos_active" name="pos_active" value="{{ $indicator->pos }}" class="form-control"
+                placeholder="tope de pos">
+        </div>
+    </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="stock">Stock</label>
@@ -136,16 +143,51 @@
                 pattern="[0-9]{0,15}">
         </div>
     </div>
+    @if ($indicator->barcode == 'on')
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 mt-5 switchBarcode">
+            <div class="form-group">
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="switch_barcode" checked>
+                    <label class="custom-control-label" for="switch_barcode">Codigo de barras</label>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>
 <div class="box-body row">
+    @if ($indicator->barcode == 'on')
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" id="codeBarcode">
+            <div class="form-group">
+                <label for="code">Codigo</label>
+                <input type="text" name="code" id="code" value="" class="form-control"
+                    placeholder="" aria-describedby="helpId">
 
-    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" id="barcodeId">
+            <div class="form-group">
+                <label for="barcode_product_id">id Barcode</label>
+                <input type="number" name="barcode_product_id" id="barcode_product_id" value=""
+                    class="form-control" placeholder="">
+
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" id="productBarcode">
+            <div class="form-group">
+                <label for="product_barcode">Nombre</label>
+                <input type="text" name="product_barcode" id="product_barcode" value=""
+                    class="form-control" placeholder="">
+
+            </div>
+        </div>
+    @endif
+    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12" id="addProductId">
         <div class="form-group row">
             <label class="form-control-label" for="product_id">Producto</label>
                 <select name="product_id" class="form-control selectpicker" id="product_id" data-live-search="true">
                     <option value="0" disabled selected>Seleccionar</option>
                     @foreach($products as $product)
-                        <option value="{{ $product->id }}_{{ $product->stock }}_{{ $product->price }}_{{ $product->category->companyTax->percentage->percentage }}_{{ $product->category->companyTax->taxType->id }}">{{ $product->name }}</option>
+                        <option value="{{ $product->id }}_{{ $product->stock }}_{{ $product->price }}_{{ $product->percentage }}_{{ $product->tt }}">{{ $product->code }} -- {{ $product->name }}</option>
                     @endforeach
                 </select>
         </div>
