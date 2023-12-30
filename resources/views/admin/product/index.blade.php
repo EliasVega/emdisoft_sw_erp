@@ -36,18 +36,11 @@
                                 {{ $product->code }}
                             </td>
                             <td>
-                                @can('product.show')
-                                    <a href="{{ route('product.show', $product->id) }}" class="btn btn-primary" data-toggle="tooltip"
-                                        data-placement="top" title="Ingresar"><i class="fas fa-indent"></i></a>
-                                @endcan
-                            </td>
-                            <td>
                                 @can('product.edit')
                                     <a href="{{ route('product.edit', $product->id) }}" class="btn btn-warning" data-toggle="tooltip"
                                         data-placement="top" title="Editar"><i class="far fa-edit"></i></a>
                                 @endcan
                             </td>
-
                             <td>
                                 @can('product.productStatus')
                                     @if ($product->status == 'active')

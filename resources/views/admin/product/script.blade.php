@@ -43,38 +43,6 @@
             theme: "fa5",
         });
     });
-    /*
-    $(document).ready(function() {
-
-        let barcodestart = $(("#switch_barcode")).prop("checked"); // == true ? 1 : 0;
-        if (barcodestart == true) {
-            $("#addProductId").hide();
-            $("#codeBarcode").show();
-            $("#productBarcode").show();
-        } else if (barcodestart == false) {
-            $("#codeBarcode").hide();
-            $("#productBarcode").hide();
-            $("#addProductId").show();
-        }
-    });*/
-    //seleccionar de acuerdo al producto
-    /*
-    $("#product_id").change(productValue);
-
-    $("#switch_barcode").change(function() {
-
-        let barcode = $(this).prop("checked"); // == true ? 1 : 0;
-        if (barcode == true) {
-            $("#codeBarcode").show();
-            $("#addProductId").hide();
-            $("#productBarcode").show();
-        } else {
-            $("#codeBarcode").hide();
-            $("#productBarcode").hide();
-            $("#addProductId").show();
-        }
-    })*/
-
 
     //$(obtener_registro());
     function obtener_registro(code) {
