@@ -114,7 +114,7 @@ class InvoiceController extends Controller
             ->rawColumns(['btn'])
             ->make(true);
         }
-        return view('admin.invoice.index', compact('invoice', 'indicator', 'typeDocument', 'pos'));
+        return view('admin.invoice.index', compact('invoice', 'indicator', 'typeDocument'));
     }
 
     /**

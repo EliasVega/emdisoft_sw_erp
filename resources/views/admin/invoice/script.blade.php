@@ -359,7 +359,7 @@
         quantity = $("#quantityModal").val();
         price = $("#priceModal").val();
         tax_rate = $("#taxModal").val();
-        $('#priceModal').prop("readonly", true);
+        //$('#priceModal').prop("readonly", true);
 
         if(product_id !="" && quantity!="" && quantity>0 && price!="" && price>0){
             subtotal[cont]= parseFloat(quantity) * parseFloat(price);
