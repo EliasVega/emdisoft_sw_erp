@@ -22,6 +22,8 @@ use App\Traits\KardexCreate;
 use App\Traits\Taxes;
 use Illuminate\Support\Facades\Storage;
 
+use function PHPUnit\Framework\isNull;
+
 class PurchaseOrderProductController extends Controller
 {
     use InventoryPurchases, KardexCreate, Taxes;
@@ -53,19 +55,22 @@ class PurchaseOrderProductController extends Controller
         //dd($request->all());
         $company = Company::findOrFail(current_user()->company_id);
         $environment = Environment::where('code', 'SD')->first();
-        $indicator = Indicator::findOrFail(1);
+        $indicator = indicator();
         $purchaseOrder = PurchaseOrder::findOrFail($request->purchaseOrder);
-        $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
+        $cashRegister = cashregisterModel();
         $typeDocument = 'purchase';
-        $voucherType = 7;
-
+        $voucherType = 7;//Factura de compra nacional
+        $resolution_id = $request->resolution_id;
+        if (isNull($resolution_id)) {
+            $resolution_id = 1;
+        }
         //Variables del request
 
         $product_id = $request->product_id;
         $quantity = $request->quantity;
         $price = $request->price;
         $tax_rate = $request->tax_rate;
-        $branch = $purchaseOrder->branch_id;//variable de la sucursal de destino
+        $branch = $request->branch_id;//variable de la sucursal de destino
         $total_pay = $request->total_pay;
         $totalpay = $request->totalpay;
         $retention = 0;
@@ -74,7 +79,6 @@ class PurchaseOrderProductController extends Controller
         if ($request->total_retention != null) {
             $retention = $request->total_retention;
         }
-
 
         $documentType = $request->document_type_id;
         $store = false;
@@ -97,11 +101,11 @@ class PurchaseOrderProductController extends Controller
             $purchase->provider_id = $purchaseOrder->provider_id;
             $purchase->payment_form_id = $request->payment_form_id;
             $purchase->payment_method_id = $request->payment_method_id[0];
-            $purchase->resolution_id = $request->resolution_id;
+            $purchase->resolution_id = $resolution_id;
             $purchase->generation_type_id = $request->generation_type_id;
             $purchase->document_type_id = $documentType;
             if ($documentType == 11) {
-                $resolutions = Resolution::findOrFail($request->resolution_id);
+                $resolutions = Resolution::findOrFail($resolution_id);
                 $voucherTypes = VoucherType::findOrFail(12);
                 $purchase->document = $resolutions->prefix . '-' . $resolutions->consecutive;
                 $purchase->invoice_code = $voucherTypes->code . '-' . $voucherTypes->consecutive;

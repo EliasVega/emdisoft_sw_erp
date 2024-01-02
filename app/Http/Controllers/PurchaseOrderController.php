@@ -25,6 +25,7 @@ use App\Models\Resolution;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 
 class PurchaseOrderController extends Controller
@@ -58,8 +59,11 @@ class PurchaseOrderController extends Controller
             ->addColumn('provider', function (PurchaseOrder $purchaseOrder) {
                 return $purchaseOrder->third->name;
             })
-            ->addColumn('branch', function (PurchaseOrder $purchaseOrder) {
-                return $purchaseOrder->branch->name;
+            ->addColumn('user', function (PurchaseOrder $purchaseOrder) {
+                return $purchaseOrder->user->name;
+            })
+            ->addColumn('pos', function (PurchaseOrder $purchaseOrder) {
+                return $purchaseOrder->user->company->indicator->pos;
             })
             ->addColumn('status', function (PurchaseOrder $purchaseOrder) {
                 if ($purchaseOrder->status == 'active') {
@@ -86,14 +90,28 @@ class PurchaseOrderController extends Controller
      */
     public function create()
     {
+        $indicator = indicator();
+        $cashRegister = cashregisterModel();
+        if ($indicator->pos == 'on') {
+            if(is_null($cashRegister)){
+                Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
+                return redirect("branch");
+            }
+        }
         $providers = Provider::get();
-        $branchs = Branch::get();
-        $products = Product::where('status', 'active')->get();
+        $products = Product::from('products as pro')
+        ->join('categories as cat', 'pro.category_id', 'cat.id')
+        ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->select('pro.id', 'pro.code', 'pro.stock', 'pro.price', 'pro.name', 'per.percentage', 'tt.id as tt')
+        ->where('pro.status', '=', 'active')
+        ->get();
         return view('admin.purchaseOrder.create',
         compact(
             'providers',
-            'branchs',
-            'products'
+            'products',
+            'indicator'
         ));
     }
 
@@ -102,19 +120,19 @@ class PurchaseOrderController extends Controller
      */
     public function store(StorePurchaseOrderRequest $request)
     {
-        $indicator = Indicator::findOrFail(1);
-        $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
+        //dd($request->all());
+        $indicator = indicator();
+        $cashRegister = cashregisterModel();
         //Variables del request
         $product_id = $request->product_id;
-        $quantity   = $request->quantity;
-        $price      = $request->price;
-        $tax_rate   = $request->tax_rate;
+        $quantity = $request->quantity;
+        $price = $request->price;
+        $tax_rate = $request->tax_rate;
         $total_pay = $request->total_pay;
 
         //Crea un registro de compras
         $purchaseOrder = new PurchaseOrder();
         $purchaseOrder->user_id = current_user()->id;
-        $purchaseOrder->branch_id = current_user()->branch_id;
         $purchaseOrder->provider_id = $request->provider_id;
         $purchaseOrder->total = $request->total;
         $purchaseOrder->total_tax = $request->total_tax;
@@ -144,7 +162,7 @@ class PurchaseOrderController extends Controller
         }
         session()->forget('purchaseOrder');
         session(['purchaseOrder' => $purchaseOrder->id]);
-        toast('Pre Compra Generada con exito.','success');
+        toast('Orden de Compra Generada con exito.','success');
         return redirect('purchaseOrder');
     }
 
@@ -162,9 +180,16 @@ class PurchaseOrderController extends Controller
      */
     public function edit(PurchaseOrder $purchaseOrder)
     {
+        $indicator = indicator();
         $providers = Provider::get();
-        $branchs = Branch::get();
-        $products = Product::where('status', 'active')->get();
+        $products = Product::from('products as pro')
+        ->join('categories as cat', 'pro.category_id', 'cat.id')
+        ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->select('pro.id', 'pro.code', 'pro.stock', 'pro.price', 'pro.name', 'per.percentage', 'tt.id as tt')
+        ->where('pro.status', '=', 'active')
+        ->get();
         $purchaseOrderProducts = PurchaseOrderProduct::from('purchase_order_products as pop')
         ->join('products as pro', 'pop.product_id', 'pro.id')
         ->select('pro.id', 'pro.name', 'pro.stock', 'pop.quantity', 'pop.price', 'pop.tax_rate', 'pop.subtotal')
@@ -173,7 +198,6 @@ class PurchaseOrderController extends Controller
         return view('admin.purchaseOrder.edit',
         compact(
             'providers',
-            'branchs',
             'products',
             'purchaseOrder',
             'purchaseOrderProducts'
@@ -185,8 +209,9 @@ class PurchaseOrderController extends Controller
      */
     public function update(UpdatePurchaseOrderRequest $request, PurchaseOrder $purchaseOrder)
     {
-        $indicator = Indicator::findOrFail(1);
-        $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
+        //dd($request->all());
+        $indicator = indicator();
+        $cashRegister = cashregisterModel();
         //llamado a variables
         $product_id = $request->product_id;
         $quantity   = $request->quantity;
@@ -202,7 +227,6 @@ class PurchaseOrderController extends Controller
 
         //Actualizando un registro de compras
         $purchaseOrder->user_id = current_user()->id;
-        $purchaseOrder->branch_id = current_user()->branch_id;
         $purchaseOrder->provider_id = $request->provider_id;
         $purchaseOrder->total = $request->total;
         $purchaseOrder->total_tax = $request->total_tax;
@@ -289,6 +313,7 @@ class PurchaseOrderController extends Controller
 
     public function invoice($id)
     {
+        $indicator = indicator();
         $purchaseOrder = PurchaseOrder::findOrFail($id);
         //\Session()->put('purchaseOrder', $purchaseOrder->id, 60 * 24 * 365);
         $providers = Provider::get();
@@ -300,6 +325,7 @@ class PurchaseOrderController extends Controller
         $banks = Bank::get();
         $cards = Card::get();
         $branchs = Branch::get();
+        $countBranchs = count($branchs);
         $percentages = Percentage::get();
         $advances = Advance::where('status', '!=', 'aplicado')->get();
         $products = Product::where('status', 'active')->get();
@@ -317,7 +343,8 @@ class PurchaseOrderController extends Controller
         ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
         ->where('tt.type_tax', 'retention')->get();
 
-        return view('admin.purchase_order_product.create', compact(
+        return view('admin.purchaseOrderProduct.create',
+        compact(
             'purchaseOrder',
             'providers',
             'documentTypes',
@@ -328,24 +355,32 @@ class PurchaseOrderController extends Controller
             'banks',
             'cards',
             'branchs',
+            'countBranchs',
             'percentages',
             'advances',
             'products',
             'date',
             'purchaseOrderProducts',
-            'companyTaxes'
+            'companyTaxes',
+            'indicator'
         ));
     }
 
     public function purchaseOrderPdf(Request $request, $id)
     {
+        $indicator = indicator();
         $purchaseOrder = PurchaseOrder::findOrFail($id);
         $purchaseOrderProducts = PurchaseOrderProduct::where('purchase_order_id', $id)->where('quantity', '>', 0)->get();
         $company = Company::findOrFail(1);
         $indicator = Indicator::findOrFail(1);
         $purchaseOrderpdf = "COMP-". $purchaseOrder->id;
-        $logo = './imagenes/logos'.$company->logo;
-        $view = \view('admin.purchaseOrder.pdf', compact('purchaseOrder', 'purchaseOrderProducts', 'company', 'logo'));
+        $view = \view('admin.purchaseOrder.pdf',
+        compact(
+            'indicator',
+            'purchaseOrder',
+            'purchaseOrderProducts',
+            'company'
+        ));
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
         //$pdf->setPaper ( 'A7' , 'landscape' );
@@ -356,6 +391,7 @@ class PurchaseOrderController extends Controller
 
     public function pdfPurchaseOrder()
     {
+        $indicator = indicator();
         $purchaseOrders = session('purchaseOrder');
         $purchaseOrder = PurchaseOrder::findOrFail($purchaseOrders);
         session()->forget('purchaseOrder');
@@ -363,13 +399,11 @@ class PurchaseOrderController extends Controller
         $company = Company::findOrFail(1);
 
         $purchaseOrderpdf = "COMP-". $purchaseOrder->id;
-        $logo = './imagenes/logos'.$company->logo;
         $view = \view('admin.purchaseOrder.pdf', compact(
             'purchaseOrder',
             'purchaseOrderProducts',
             'company',
-            'indicator',
-            'logo'
+            'indicator'
         ));
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
@@ -384,15 +418,13 @@ class PurchaseOrderController extends Controller
         $purchaseOrder = PurchaseOrder::where('id', $id)->first();
         $purchaseOrderProducts = PurchaseOrderProduct::where('purchase_order_id', $id)->where('quantity', '>', 0)->get();
         $company = Company::where('id', 1)->first();
-        $indicator = Indicator::findOrFail(1);
+        $indicator = indicator();
         $purchaseOrderpdf = "FACT-". $purchaseOrder->document;
-        $logo = './imagenes/logos'.$company->logo;
         $view = \view('admin.purchaseOrder.pos', compact(
             'purchaseOrder',
             'purchaseOrderProducts',
             'company',
-            'indicator',
-            'logo',
+            'indicator'
         ))->render();
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
@@ -409,21 +441,39 @@ class PurchaseOrderController extends Controller
         session()->forget('purchaseOrder');
         $purchaseOrderProducts = PurchaseOrderProduct::where('purchase_order_id', $purchaseOrder->id)->where('quantity', '>', 0)->get();
         $company = Company::where('id', 1)->first();
-        $indicator = Indicator::findOrFail(1);
+        $indicator = indicator();
         $purchaseOrderpdf = "FACT-". $purchaseOrder->document;
-        $logo = './imagenes/logos'.$company->logo;
         $view = \view('admin.purchase_order.pos', compact(
             'purchaseOrder',
             'purchaseOrderProducts',
             'company',
-            'indicator',
-            'logo',
+            'indicator'
         ))->render();
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
         $pdf->setPaper (array(0,0,226.76,497.64), 'portrait');
 
         return $pdf->stream('vista-pdf', "$purchaseOrderpdf.pdf");
-        //return $pdf->download("$purchasepdf.pdf");
+        //
+
+        return $pdf->download("$purchaseOrderpdf.pdf");
+    }
+
+    public function getProductPurchaseOrder(Request $request)
+    {
+        if ($request->ajax()) {
+            $products = Product::from('products as pro')
+            ->join('categories as cat', 'pro.category_id', 'cat.id')
+            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+            ->join('percentages as per', 'ct.percentage_id', 'per.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('pro.id', 'pro.name', 'pro.stock', 'pro.price', 'per.percentage', 'tt.id as tt')
+            ->where('pro.code', $request->code)
+            ->first();
+            if ($products) {
+                return response()->json($products);
+            }
+        }
+
     }
 }

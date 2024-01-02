@@ -1,5 +1,5 @@
 <div class="box-body row">
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
         <label for="provider_id">Proveedor</label>
         <div class="select">
             <select id="provider_id" name="provider_id" class="form-control selectpicker" data-live-search="true" required>
@@ -14,37 +14,22 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        <label for="branch_id">Sucursal de Destino</label>
-        <div class="select">
-            <select id="branch_id" name="branch_id" class="form-control selectpicker" data-live-search="true" required>
-                <option {{ old('branch_id', $purchaseOrder->branch_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Sucursal</option>
-                @foreach($branchs as $branch)
-                    @if(old('branch_id', $purchaseOrder->branch_id ?? '') == $branch->id)
-                        <option value="{{ $branch->id }}" selected>{{ $branch->name }}</option>
-                    @else
-                        <option value="{{ $branch->id }}">{{ $branch->name }}</option>
-                    @endif
-                @endforeach
-            </select>
-        </div>
-    </div>
     <div class="clearfix"></div>
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="stock">Stock</label>
             <input type="number" id="stock" name="stock" value="{{ old('stock') }}" class="form-control"
                 placeholder="stock" disabled pattern="[0-9]{0,15}">
         </div>
     </div>
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="tax_rate">Imp%</label>
             <input type="number" id="tax_rate" name="tax_rate" class="form-control" placeholder="% Impuesto" disabled
                 pattern="[0-9]{0,15}">
         </div>
     </div>
-    <div class="col-lg-3 col-md-2 col-sm-4 col-xs-12">
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
             <label for="vprice">V/Actual</label>
             <input type="number" name="vprice" id="vprice"  class="form-control" readonly>
@@ -56,7 +41,7 @@
                 <select name="product_id" class="form-control selectpicker" id="product_id" data-live-search="true">
                     <option value="0" disabled selected>Seleccionar</option>
                     @foreach($products as $product)
-                        <option value="{{ $product->id }}_{{ $product->stock }}_{{ $product->price }}_{{ $product->category->companyTax->percentage->percentage }}_{{ $product->category->companyTax->taxType->id }}">{{ $product->name }}</option>
+                        <option value="{{ $product->id }}_{{ $product->stock }}_{{ $product->price }}_{{ $product->percentage }}_{{ $product->tt }}">{{ $product->name }}</option>
                     @endforeach
                 </select>
         </div>

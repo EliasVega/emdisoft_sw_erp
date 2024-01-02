@@ -29,13 +29,13 @@
             {!!Form::token()!!}
             <div class="row m-1">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    @include('admin/pre_purchase_product.form_pre_purchase')
+                    @include('admin/purchaseOrderProduct.form_purchaseOrder')
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 colorretentions">
-                    @include('admin/pre_purchase_product.form_retention')
+                <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 colorpay">
+                    @include('admin/purchaseOrderProduct.form_pay')
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 colorpay">
-                    @include('admin/pre_purchase_product.form_pay')
+                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 colorretentions">
+                    @include('admin/purchaseOrderProduct.form_retention')
                 </div>
             </div>
             {!!Form::close()!!}
@@ -44,7 +44,7 @@
 </div>
 @endsection
 @section('scripts')
-    @include('admin/pre_purchase_product.script')
-    @include('admin/pre_purchase_product.script_pay')
-    @include('admin/pre_purchase_product.script_retention')
+    @include('admin/purchaseOrderProduct.script')
+    @include('admin/purchaseOrderProduct.script_pay')
+    @include('admin/purchaseOrderProduct.script_retention')
 @endsection

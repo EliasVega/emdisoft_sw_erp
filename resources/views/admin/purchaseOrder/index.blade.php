@@ -27,6 +27,7 @@
                     <thead class="trdatacolor">
                         <tr>
                             <th>Id</th>
+                            <th>Responsable</th>
                             <th>Proveedor</th>
                             <th>Valor</th>
                             <th>Saldo</th>
@@ -70,6 +71,7 @@ $(document).ready(function ()
             columns:
             [
                 {data: 'id'},
+                {data: 'user'},
                 {data: 'provider'},
                 {data: 'total_pay', className: 'dt-body-right', render: $.fn.dataTable.render.number( '.', ',', 2, '$')},
                 {data: 'balance', className: 'dt-body-right', render: $.fn.dataTable.render.number( '.', ',', 2, '$')},

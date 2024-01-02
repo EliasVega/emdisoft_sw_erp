@@ -2,58 +2,6 @@
     /*$(document).ready(function(){
             alert('estoy funcionando correctamanete empresa');
         });*/
-
-        //Selecciona el municipio de acuerdo al departamento
-    $("#department_id").change(function(event){
-        $.get("create/" + event.target.value + "", function(response){
-            $("#municipality_id").empty();
-            $("#municipality_id").append("<option value = '#' disabled selected>Seleccionar ...</option>");
-            for(i = 0; i < response.length; i++){
-                $("#municipality_id").append("<option value = '" + response[i].id +"'>" + response[i].name + "</option>");
-            }
-            $("#municipality_id").selectpicker('refresh');
-        });
-    });
-    jQuery(document).ready(function($){
-        $(document).ready(function() {
-            $('#provider_id').select2({
-                theme: "classic",
-                width: "100%",
-            });
-        });
-    });
-    jQuery(document).ready(function($){
-        $(document).ready(function() {
-            $('#branch_id').select2({
-                theme: "classic",
-                width: "100%",
-            });
-        });
-    });
-    jQuery(document).ready(function($){
-        $(document).ready(function() {
-            $('#document_type_id').select2({
-                theme: "classic",
-                width: "100%",
-            });
-        });
-    });
-    jQuery(document).ready(function($){
-        $(document).ready(function() {
-            $('#resolution_id').select2({
-                theme: "classic",
-                width: "100%",
-            });
-        });
-    });
-    jQuery(document).ready(function($){
-        $(document).ready(function() {
-            $('#generation_type_id').select2({
-                theme: "classic",
-                width: "100%",
-            });
-        });
-    });
     var cont = 0;
     var total = 0;
     var subtotal = [];
@@ -71,27 +19,31 @@
     $("#generat").hide();
     $("#startd").hide();
     $("#resolution").hide();
-    $("#invoiceCode").hide();
+    //$("#invoiceCode").hide();
     $("#prepurch").hide();
+    $("#documentBis").hide();
     /*
     $("#percentage").val(0);
     */
 
     //Mostrar u ocultar elementos de acuerdo al tipo de documento
-    $(document).ready(function(){
-        $("#document_type_id").change(function(){
+    $(document).ready(function() {
+        $("#document_type_id").change(function() {
             var documentType = $("#document_type_id").val();
-            if(documentType == 11){
+            if (documentType == 11) {
                 $("#resolution").show();
                 $("#generat").show();
                 $("#startd").show();
                 $("#invoiceCode").hide();
                 $("#invoice_code").val(1);
-            }else if(documentType == 25){
+                //$("#noteDocument").show();
+            } else if (documentType == 25) {
                 $("#resolution").hide();
                 $("#generat").hide();
                 $("#startd").hide();
                 $("#invoiceCode").show();
+                $("#resolution_id").val(1);
+                //$("#noteDocument").show();
                 $("#resolution_id").val(1);
             } else {
                 $("#resolution").hide();
@@ -100,22 +52,6 @@
                 $("#invoiceCode").hide();
                 $("#resolution_id").val(1);
             }
-        });
-    });
-    //mostrar de acuerdo al retencion
-    $(document).ready(function(){
-        $("#rtfon").click(function(){
-            $("#percentagey").show();
-            $("#rtferase").show();
-            $("#percent").show();
-        });
-    });
-
-    $(document).ready(function(){
-        $("#rtfoff").click(function(){
-            $("#percentagey").hide();
-            $("#rtferase").hide();
-            $("#percent").hide();
         });
     });
 
@@ -130,7 +66,6 @@
             stock= value['stock'];
             tax_rate= value['tax_rate'];
             tax_type = value['tax_type_id'];
-
             if(product_id !="" && quantity!="" && quantity>0  && price!=""){
                 subtotal[cont]= parseFloat(quantity) * parseFloat(price);
                 total= total+subtotal[cont];
@@ -139,7 +74,7 @@
                 if(tax_type == 1){
                     tax_iva += ivita;
                 }
-                var fila= '<tr class="selected" id="fila'+cont+'"><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product_id+'">'+product+'</td> <td><input type="hidden" id="quantity" name="quantity[]" value="'+parseFloat(quantity).toFixed(2)+'">'+quantity+'</td> <td><input type="hidden" id="price" name="price[]" value="'+parseFloat(price).toFixed(2)+'">'+price+'</td> td> <td><input type="hidden" name="tax_rate[]" value="'+tax_rate+'">'+tax_rate+'</td>  <td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';
+                var fila= '<tr class="selected" id="fila'+cont+'"><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td> <td><input type="hidden" id="quantity" name="quantity[]" value="'+parseFloat(quantity).toFixed(2)+'">'+quantity+'</td> <td><input type="hidden" id="price" name="price[]" value="'+parseFloat(price).toFixed(2)+'">'+price+'</td> td> <td><input type="hidden" name="tax_rate[]" value="'+tax_rate+'">'+tax_rate+'</td>  <td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';
                 cont++;
 
                 totals();

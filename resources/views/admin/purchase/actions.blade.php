@@ -7,12 +7,15 @@
         <i class="fas fa-file-invoice-dollar"></i>
     </a>
 @endif
-<a href="{{ route('purchasePdf', $id) }}" class="btn btn-pdf btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="Compra pdf">
-    <i class="fas fa-file-pdf"></i>
-</a>
-<a href="{{ route('purchasePos', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="pdf pos" >
-    <i class="fas fa-receipt"></i>
-</a>
+@if ($pos == 'on')
+    <a href="{{ route('purchasePos', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="pdf pos" >
+        <i class="fas fa-receipt"></i>
+    </a>
+@else
+    <a href="{{ route('purchasePdf', $id) }}" class="btn btn-pdf btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="Compra pdf">
+        <i class="fas fa-file-pdf"></i>
+    </a>
+@endif
 @if ($status == 'purchase')
     <a href="{{ route('creditNotePurchase', $id) }}" class="btn btn-limon btn-sm" data-toggle="tooltip"
     data-placement="top" title="Nota Credito" ><i class="fas fa-notes-medical"></i></a>

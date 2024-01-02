@@ -19,7 +19,6 @@ use App\Models\DocumentType;
 use App\Models\Environment;
 use App\Models\GenerationType;
 use App\Models\Indicator;
-use App\Models\Municipality;
 use App\Models\Ncpurchase;
 use App\Models\Ndpurchase;
 use App\Models\PaymentForm;
@@ -64,7 +63,7 @@ class PurchaseController extends Controller
     public function index(Request $request)
     {
         $purchase = session('purchase');
-        $indicator = Indicator::findOrFail(1);
+        $indicator = indicator();
         $typeDocument = '';
         if ($indicator->pos == 'off') {
             $typeDocument = 'document';
@@ -108,6 +107,9 @@ class PurchaseController extends Controller
                     return $purchase->status == 'adjustment_note' ? 'Nota de Ajuste': 'Nota de Ajuste';
                 }
             })
+            ->addColumn('pos', function (Purchase $purchase) {
+                return $purchase->branch->company->indicator->pos;
+            })
             ->addColumn('role', function (Purchase $purchase) {
                 return $purchase->user->roles[0]->name;
             })
@@ -128,14 +130,15 @@ class PurchaseController extends Controller
      */
     public function create()
     {
-        $indicator = Indicator::findOrFail(1);
+        $indicator = indicator();
+        $pos = indicator()->pos;
         $cashRegister = CashRegister::select('id')
         ->where('user_id', '=', Auth::user()->id)
         ->where('status', '=', 'open')
         ->first();
-        if ($indicator->pos == 'on') {
+        if ($pos == 'on') {
             if(is_null($cashRegister)){
-                toast('Debes tener una caja Abierta para realizar Compras.','danger');
+                toast('Debes tener una caja Abierta para realizar Operaciones.','danger');
                 return redirect("branch");
             }
         }
@@ -157,7 +160,6 @@ class PurchaseController extends Controller
         ->join('percentages as per', 'ct.percentage_id', 'per.id')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
         ->select('pro.id', 'pro.code', 'pro.stock', 'pro.price', 'pro.name', 'per.percentage', 'tt.id as tt')
-        ->where('pro.stock', '>=', 0)
         ->where('pro.status', '=', 'active')
         ->get();
         //$products = Product::where('status', 'active')->where('type_product', 'product')->get();
@@ -167,10 +169,12 @@ class PurchaseController extends Controller
         ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
         ->where('tt.type_tax', 'retention')->get();
         $typeProduct = 1;
+
         $countBranchs = count($branchs);
         return view('admin.purchase.create',
         compact(
             'indicator',
+            'pos',
             'providers',
             'documentTypes',
             'resolutions',
@@ -192,11 +196,8 @@ class PurchaseController extends Controller
 
     public function createRawmaterial()
     {
-        $indicator = Indicator::findOrFail(1);
-        $cashRegister = CashRegister::select('id')
-        ->where('user_id', '=', current_user()->id)
-        ->where('status', '=', 'open')
-        ->first();
+        $indicator = indicator();
+        $cashRegister = cashregisterModel();
         if ($indicator->pos == 'on') {
             if(is_null($cashRegister)){
                 toast('Debes tener una caja Abierta para realizar Compras.','danger');
@@ -257,8 +258,8 @@ class PurchaseController extends Controller
         $resolution = $request->resolution_id;
         $company = Company::findOrFail(current_user()->company_id);
         $environment = Environment::where('id', 16)->first();
-        $indicator = Indicator::findOrFail(1);
-        $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
+        $indicator = indicator();
+        $cashRegister = cashregisterModel();
 
         //Variables del request
         $product_id = $request->product_id;

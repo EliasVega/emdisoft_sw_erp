@@ -73,7 +73,6 @@
             <input type="date" name="due_date" class="form-control" value="<?php echo date("Y-m-d");?>" placeholder="Fecha Vencimiento">
         </div>
     </div>
-    <div class="clearfix"></div>
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="resolution">
         <div class="form-group">
             <label class="form-control-label" for="resolution_id">Resolucion</label>
@@ -158,7 +157,7 @@
     @if ($indicator->barcode == 'on')
         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" id="codeBarcode">
             <div class="form-group">
-                <label class="form-control-label" for="provider_id">
+                <label class="form-control-label" for="code">
                     Codigo <a href="{{ route('product.create') }}" class="btn btn-lightBlueGrad btn-xs"
                     target="_blank" data-toggle="tooltip" data-placement="top">
                     <i class="fa fa-plus"> Agregar Producto</i></a>
@@ -187,7 +186,7 @@
     @endif
     <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12" id="addProductId">
         <div class="form-group row">
-            <label class="form-control-label" for="provider_id">
+            <label class="form-control-label" for="product_id">
                 Producto <a href="{{ route('product.create') }}" class="btn btn-lightBlueGrad btn-sm"
                 target="_blank" data-toggle="tooltip" data-placement="top">
                 <i class="fa fa-plus"> Agregar Producto</i></a>

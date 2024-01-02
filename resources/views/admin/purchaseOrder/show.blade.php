@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
             <div class="form-group">
-                <label class="form-control-label" for="id">PRE COMPRA #</label>
+                <label class="form-control-label" for="id">ORDEN DE COMPRA #</label>
                 <h6>{{ $purchaseOrder->id }}</h6>
             </div>
         </div>
@@ -32,7 +32,7 @@
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
             <div class="form-group">
                 <label class="form-control-label" for="company">SUCURSAL</label>
-                <h6>{{ $purchaseOrder->branch->name }}</h6>
+                <h6>{{ $purchaseOrder->user->branch->name }}</h6>
             </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">

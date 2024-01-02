@@ -22,7 +22,6 @@ class PurchaseOrder extends Model
         'balance',
         'status',
         'user_id',
-        'branch_id',
         'supplier_id',
     ];
 

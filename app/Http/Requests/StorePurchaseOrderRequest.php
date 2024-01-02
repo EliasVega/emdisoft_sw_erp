@@ -27,7 +27,6 @@ class StorePurchaseOrderRequest extends FormRequest
             'total_pay' => 'required|numeric',
             'balance' => 'numeric',
             'status' => 'in:active,generate,canceled',
-            'branch_id' => 'integer',
             'provider_id' => 'required|integer',
         ];
     }

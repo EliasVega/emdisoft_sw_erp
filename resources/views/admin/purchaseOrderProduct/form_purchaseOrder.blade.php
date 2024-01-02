@@ -6,6 +6,26 @@
             <input type="number" name="purchaseOrder" id="purchaseOrder" value="{{ $purchaseOrder->id }}" class="form-control">
         </div>
     </div>
+    @if ($countBranchs > 1)
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group">
+                <label class="form-control-label" for="branch_id">Sucursal Destino</label>
+                    <select name="branch_id" class="form-control selectpicker" id="branch_id" data-live-search="true" required>
+                        <option value="0" disabled selected>Seleccionar Sucursal</option>
+                        @foreach($branchs as $branch)
+                            <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                        @endforeach
+                    </select>
+            </div>
+        </div>
+    @else
+        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="sucursalBis">
+            <div class="form-group">
+                <label class="form-control-label" for="branch_id">Sucursal</label>
+                <input type="text" id="branch_id" name="branch_id" value="1" class="form-control" placeholder="Sucursal">
+            </div>
+        </div>
+    @endif
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <label for="provider_id">Proveedor </label>
         <div class="select">
@@ -21,36 +41,32 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs- mt-2">
-        <label for="branch_id">Sucursal Destino</label>
-        <div class="select">
-            <select id="branch_id" name="branch_id" class="form-control selectpicker" data-live-search="true" disabled>
-                <option {{ old('branch_id', $purchaseOrder->branch_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Sucursal</option>
-                @foreach($branchs as $branch)
-                    @if(old('branch_id', $purchaseOrder->branch->branch_id ?? '') == $branch->id)
-                        <option value="{{ $branch->id }}" selected>{{ $branch->name }}</option>
-                    @else
-                        <option value="{{ $branch->id }}">{{ $branch->name }}</option>
-                    @endif
-                @endforeach
-            </select>
+
+    @if ($indicator->dian == 'on')
+        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group">
+                <label class="form-control-label" for="document_type_id">Tipo de Documento</label>
+                    <select name="document_type_id" class="form-control selectpicker" id="document_type_id" data-live-search="true" required>
+                        <option value="0" disabled selected>Seleccionar Tipo de documento</option>
+                        @foreach($documentTypes as $documentType)
+                            <option value="{{ $documentType->id }}">{{ $documentType->name }}</option>
+                        @endforeach
+                    </select>
+            </div>
         </div>
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mt-2">
-        <div class="form-group">
-            <label class="form-control-label" for="document_type_id">Tipo de Documento</label>
-                <select name="document_type_id" class="form-control selectpicker" id="document_type_id" data-live-search="true" required>
-                    <option value="0" disabled selected>Seleccionar Tipo de documento</option>
-                    @foreach($documentTypes as $documentType)
-                        <option value="{{ $documentType->id }}">{{ $documentType->name }}</option>
-                    @endforeach
-                </select>
+    @else
+        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="documentBis">
+            <div class="form-group">
+                <label class="form-control-label" for="document_type_id">Typo Documento</label>
+                <input type="text" id="document_type_id" name="document_type_id" value="25"
+                class="form-control" placeholder="Tipo Documento" readonly>
+            </div>
         </div>
-    </div>
+    @endif
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="invoiceCode">
         <div class="form-group">
             <label class="form-control-label" for="invoice_code">N°Factura</label>
-            <input type="text" id="invoice_code" name="invoice_code" value="{{ old('invoice_code') }}" class="form-control" placeholder="Numero de la factura" required>
+            <input type="text" id="invoice_code" name="invoice_code" value="{{ 'N/A' }}" class="form-control" placeholder="Numero de la factura" required>
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
@@ -80,7 +96,7 @@
         <div class="form-group">
             <label class="form-control-label" for="generation_type_id">Tipo de generacion</label>
                 <select name="generation_type_id" class="form-control selectpicker" id="generation_type_id" data-live-search="true" required>
-                    <option value="0" disabled selected>Tipo de generacion</option>
+                    <option value="1" disabled selected>Tipo de generacion</option>
                     @foreach($generationTypes as $generationType)
                         <option value="{{ $generationType->id }}">{{ $generationType->description }}</option>
                     @endforeach

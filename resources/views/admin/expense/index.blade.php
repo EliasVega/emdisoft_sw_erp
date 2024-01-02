@@ -26,7 +26,7 @@
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-condensed table-hover" id="expenses">
                     <thead>
-                        <tr>
+                        <tr class="trdatacolor">
                             <th>Id</th>
                             <th>Sucursal</th>
                             <th>Proveedor</th>

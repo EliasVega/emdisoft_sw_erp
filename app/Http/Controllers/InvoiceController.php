@@ -61,7 +61,6 @@ class InvoiceController extends Controller
 
         $indicator = Indicator::findOrFail(1);
         $typeDocument = '';
-        $pos = $indicator->pos;
         if ($indicator->pos == 'off') {
             $typeDocument = 'document';
         } else {
@@ -123,11 +122,9 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        $indicator = Indicator::findOrFail(1);
-        $cashRegister = CashRegister::select('id')
-        ->where('user_id', '=', current_user()->id)
-        ->where('status', '=', 'open')
-        ->first();
+        $indicator = indicator();
+        $pos = indicator()->pos;
+        $cashRegister = cashregisterModel();
         if ($indicator->pos == 'on') {
             if(is_null($cashRegister)){
                 Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
