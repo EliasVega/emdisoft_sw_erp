@@ -10,8 +10,8 @@ use App\Models\PayPaymentMethod;
 if (! function_exists('pays')) {
     function pays($request, $document, $typeDocument)
     {
-        $indicator = Indicator::findOrFail(1);
-        $cashRegister = CashRegister::where('user_id', '=', $document->user_id)->where('status', '=', 'open')->first();
+        $indicator = indicator();
+        $cashRegister = cashregisterModel();
         //Variables del request
         $totalpay = $request->totalpay;
         //variables del request

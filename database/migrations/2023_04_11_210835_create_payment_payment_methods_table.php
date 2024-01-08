@@ -8,18 +8,16 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('pay_payment_methods', function (Blueprint $table) {
+        Schema::create('payment_payment_methods', function (Blueprint $table) {
             $table->id();
 
             $table->decimal('pay', 20,2);
             $table->string('transaction', 20);
 
-            $table->foreignId('pay_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('payment_id')->constrained()->onUpdate('cascade');
             $table->foreignId('payment_method_id')->constrained()->onUpdate('cascade');
             $table->foreignId('bank_id')->constrained()->onUpdate('cascade');
             $table->foreignId('card_id')->constrained()->onUpdate('cascade');
@@ -31,11 +29,9 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('pay_payment_methods');
+        Schema::dropIfExists('payment_payment_methods');
     }
 };

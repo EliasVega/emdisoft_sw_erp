@@ -45,6 +45,7 @@ use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\OvertimeController;
 use App\Http\Controllers\OvertimeTypeController;
 use App\Http\Controllers\PayController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentFormController;
 use App\Http\Controllers\PaymentFrecuencyController;
 use App\Http\Controllers\PaymentMethodController;
@@ -147,6 +148,7 @@ Route::resource('organization', OrganizationController::class);
 Route::resource('overtime', OvertimeController::class);
 Route::resource('overtimeType', OvertimeTypeController::class);
 Route::resource('pay', PayController::class);
+Route::resource('payment', PaymentController::class);
 Route::resource('paymentForm', PaymentFormController::class);
 Route::resource('paymentFrecuency', PaymentFrecuencyController::class);
 Route::resource('paymentMethod', PaymentMethodController::class);
@@ -200,6 +202,7 @@ Route::get('company/status/{id}', [CompanyController::class, 'status'])->name('c
 
 Route::get('customer/status/{id}', [CustomerController::class, 'status'])->name('customerStatus');
 Route::get('customer/create/{id}', [CustomerController::class, 'getMunicipalities']);
+Route::get('cuatomer/customerPay/{id}', [CustomerController::class, 'customerPay'])->name('customerPay');
 
 Route::get('employee/status/{id}', [EmployeeController::class, 'status'])->name('employeeStatus');
 Route::get('employee/create/{id}', [EmployeeController::class, 'getMunicipalities']);

@@ -5,11 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
+use App\Models\Advance;
+use App\Models\Bank;
+use App\Models\Card;
 use App\Models\Department;
 use App\Models\IdentificationType;
+use App\Models\Invoice;
 use App\Models\Liability;
 use App\Models\Municipality;
 use App\Models\Organization;
+use App\Models\PaymentMethod;
 use App\Models\Regime;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -275,5 +280,27 @@ class CustomerController extends Controller
         $customer->update();
 
         return redirect('customer');
+    }
+
+    public function customerPay($id)
+    {
+
+        $third = Customer::findOrFail($id);
+        $banks = Bank::get();
+        $paymentMethods = PaymentMethod::get();
+        $cards = Card::get();
+        $advances = Advance::where('status', '!=', 'applied')->where('advanceable_id', $id)->get();
+        $sumDocuments = Invoice::where('customer_id', $id)->sum('balance');
+        $typeThird = 'customer';
+
+        return view('admin.payment.create', compact(
+            'third',
+            'banks',
+            'paymentMethods',
+            'cards',
+            'advances',
+            'typeThird',
+            'sumDocuments'
+        ));
     }
 }

@@ -20,7 +20,8 @@ class Pay extends Model
         'balance',
         'type',
         'user_id',
-        'branch_id'
+        'branch_id',
+        'payment_id'
     ];
 
     protected $guarded = [
@@ -51,5 +52,9 @@ class Pay extends Model
     public function payPaymentMethods()
     {
         return $this->hasMany(PayPaymentMethod::class);
+    }
+
+    public function payment(){
+        return $this->belongsTo(Payment::class);
     }
 }

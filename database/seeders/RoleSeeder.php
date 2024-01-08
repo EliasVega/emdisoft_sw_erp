@@ -267,6 +267,10 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'pay.create', 'description' => 'Crear Pago y abonos', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
         Permission::create(['name' => 'pay.show', 'description' => 'Ver Pago y abonos', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
 
+        Permission::create(['name' => 'payment.index', 'description' => 'Listado Pago terceros', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
+        Permission::create(['name' => 'payment.create', 'description' => 'Crear Pago terceros', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
+        Permission::create(['name' => 'payment.show', 'description' => 'Ver Pago terceros', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
+
         Permission::create(['name' => 'paymentForm.index', 'description' => 'Listado formas de pago', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
         Permission::create(['name' => 'paymentForm.create', 'description' => 'Crear formas de pago', 'status' => 'locked'])->syncRoles([$superAdmin]);
         Permission::create(['name' => 'paymentForm.show', 'description' => 'Ver formas de pago', 'status' => 'locked'])->syncRoles([$superAdmin]);

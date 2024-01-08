@@ -51,6 +51,7 @@
             "app/Helpers/NcinvoiceSend.php",
             "app/Helpers/NdinvoiceSend.php",
             "app/Helpers/Pays.php",
+            "app/Helpers/PayThirds.php",
             "app/Helpers/RawMaterialComprobation.php",
             "app/Helpers/Retentions.php",
             "app/Helpers/SendDocuments.php",

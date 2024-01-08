@@ -6,6 +6,10 @@
     <a href="{{ route('customer.show', $id) }}" class="btn btn-success btn-sm" data-toggle="tooltip"
     data-placement="top" title="Ver Cliente"><i class="far fa-eye"></i></a>
 @endcan
+@can('customer.show')
+    <a href="{{ route('customerPay', $id) }}" class="btn btn-primary btn-sm" data-toggle="tooltip"
+    data-placement="top" title="Abonos"><i class="far fa-eye"></i></a>
+@endcan
 @can('customer.destroy')
     <a class="btn btn-danger btn-sm" href="" data-target="#modal-delete-{{ $id }}"
     data-toggle="modal" title="Eliminar"><i class="fas fa-trash fa-1x"></i></a>

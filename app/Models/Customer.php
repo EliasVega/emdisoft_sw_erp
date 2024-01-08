@@ -82,4 +82,9 @@ class Customer extends Model
     {
         return $this->hasMany(Ncinvoice::class,);
     }
+
+    public function payments()
+    {
+        return $this->morphMany(Payment::class, 'paymentable');
+    }
 }
