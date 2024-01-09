@@ -23,6 +23,12 @@
             <input type="text" name="type_third" value="{{ $typeThird }}" class="form-control" id="type_third">
         </div>
     </div>
+    <div class="col-lg-4 col-md-8 col-sm-8 col-xs-12" id="typeDocument">
+        <div class="form-group">
+            <label class="form-control-label" for="type_document">tipo</label>
+            <input type="text" name="type_document" value="{{ $typeDocument }}" class="form-control" id="type_document">
+        </div>
+    </div>
     <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
             <label class="form-control-label">Saldo pendiente</label>

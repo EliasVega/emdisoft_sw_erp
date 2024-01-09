@@ -6,6 +6,14 @@
     <a href="{{ route('provider.show', $id) }}" class="btn btn-success btn-sm" data-toggle="tooltip"
     data-placement="top" title="Ver Cliente"><i class="far fa-eye"></i></a>
 @endcan
+@can('provider.providerPay')
+    <a href="{{ route('providerPay', $id) }}" class="btn btn-ver btn-sm" data-toggle="tooltip"
+    data-placement="top" title="Abonos Compreas"><i class="fas fa-file-invoice-dollar"></i></a>
+@endcan
+@can('provider.expensePay')
+    <a href="{{ route('expensePay', $id) }}" class="btn btn-primary btn-sm" data-toggle="tooltip"
+    data-placement="top" title="Abonos Gastos"><i class="fas fa-file-invoice-dollar"></i></a>
+@endcan
 @can('provider.destroy')
     <a class="btn btn-danger btn-sm" href="" data-target="#modal-delete-{{ $id }}" data-toggle="modal" title="Eliminar">
         <i class="fas fa-trash fa-1x"></i></a>

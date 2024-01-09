@@ -101,6 +101,7 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'customer.edit', 'description' => 'Editar Cliente', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $sales]);
         Permission::create(['name' => 'customer.destroy', 'description' => 'Eliminar Cliente', 'status' => 'active'])->syncRoles([$superAdmin]);
         Permission::create(['name' => 'customer.customerStatus', 'description' => 'Estado cliente', 'status' => 'active'])->syncRoles([$superAdmin, $admin]);
+        Permission::create(['name' => 'customer.customerPay', 'description' => 'Pago de Facturas', 'status' => 'active'])->syncRoles([$superAdmin, $admin]);
 
         Permission::create(['name' => 'dashboard.index', 'description' => 'Dashboard', 'status' => 'active'])->syncRoles([$superAdmin, $admin]);
 
@@ -342,6 +343,8 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'provider.edit', 'description' => 'Editar proveedores', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
         Permission::create(['name' => 'provider.destroy', 'description' => 'Eliminar proveedores', 'status' => 'active'])->syncRoles([$superAdmin]);
         Permission::create(['name' => 'provider.providerStatus', 'description' => 'Editar estado proveedores', 'status' => 'active'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'provider.providerPay', 'description' => 'Pago a Compras', 'status' => 'active'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'provider.expensePay', 'description' => 'Pago a Gastos', 'status' => 'active'])->syncRoles([$superAdmin]);
 
         Permission::create(['name' => 'purchase.index', 'description' => 'Listado Compras', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
         Permission::create(['name' => 'purchase.create', 'description' => 'Crear compra', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);

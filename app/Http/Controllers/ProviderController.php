@@ -5,15 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Provider;
 use App\Http\Requests\StoreProviderRequest;
 use App\Http\Requests\UpdateProviderRequest;
+use App\Models\Advance;
 use App\Models\Bank;
 use App\Models\Card;
 use App\Models\Department;
+use App\Models\Expense;
 use App\Models\IdentificationType;
 use App\Models\Liability;
 use App\Models\Municipality;
 use App\Models\Organization;
 use App\Models\PaymentMethod;
 use App\Models\PostalCode;
+use App\Models\Purchase;
 use App\Models\Regime;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -298,5 +301,57 @@ class ProviderController extends Controller
 
             return response()->json($postalCodes);
         }
+    }
+
+    public function providerPay($id)
+    {
+
+        $third = Provider::findOrFail($id);
+        $banks = Bank::get();
+        $paymentMethods = PaymentMethod::get();
+        $cards = Card::get();
+        $advances = Advance::where('status', '!=', 'applied')->where('advanceable_id', $id)->get();
+        $documents = Purchase::where('provider_id', $id)->where('balance', '>', 0)->get();
+        $sumDocuments = Purchase::where('provider_id', $id)->sum('balance');
+        $typeThird = 'provider';
+        $typeDocument = 'purchase';
+
+        return view('admin.payment.create', compact(
+            'third',
+            'banks',
+            'paymentMethods',
+            'cards',
+            'advances',
+            'typeThird',
+            'sumDocuments',
+            'documents',
+            'typeDocument'
+        ));
+    }
+
+    public function expensePay($id)
+    {
+
+        $third = Provider::findOrFail($id);
+        $banks = Bank::get();
+        $paymentMethods = PaymentMethod::get();
+        $cards = Card::get();
+        $advances = Advance::where('status', '!=', 'applied')->where('advanceable_id', $id)->get();
+        $documents = Expense::where('provider_id', $id)->where('balance', '>', 0)->get();
+        $sumDocuments = Expense::where('provider_id', $id)->sum('balance');
+        $typeThird = 'provider';
+        $typeDocument = 'expense';
+
+        return view('admin.payment.create', compact(
+            'third',
+            'banks',
+            'paymentMethods',
+            'cards',
+            'advances',
+            'typeThird',
+            'sumDocuments',
+            'documents',
+            'typeDocument'
+        ));
     }
 }

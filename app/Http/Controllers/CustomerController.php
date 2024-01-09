@@ -290,9 +290,16 @@ class CustomerController extends Controller
         $paymentMethods = PaymentMethod::get();
         $cards = Card::get();
         $advances = Advance::where('status', '!=', 'applied')->where('advanceable_id', $id)->get();
+        /*
+        $documents = Invoice::from('invoices as inv')
+        ->select('inv.id', 'inv.document', 'inv.total_pay', 'inv.balance', 'inv.created_at')
+        ->where('inv.customer_id', $id)
+        ->where('inv.balance', '>', 0)
+        ->get();*/
+        $documents = Invoice::where('customer_id', $id)->where('balance', '>', 0)->get();
         $sumDocuments = Invoice::where('customer_id', $id)->sum('balance');
         $typeThird = 'customer';
-
+        $typeDocument = 'invoice';
         return view('admin.payment.create', compact(
             'third',
             'banks',
@@ -300,7 +307,9 @@ class CustomerController extends Controller
             'cards',
             'advances',
             'typeThird',
-            'sumDocuments'
+            'sumDocuments',
+            'documents',
+            'typeDocument'
         ));
     }
 }

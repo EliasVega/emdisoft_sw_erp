@@ -29,6 +29,7 @@
     $("#balancy").hide();
     $("#total_p").hide();
     $("#typeThird").hide();
+    $("#typeDocument").hide();
 
     /*
     $("#abadvance").hide();

@@ -28,11 +28,12 @@
             {!!Form::open(array('url'=>'payment', 'method'=>'POST', 'autocomplete'=>'off'))!!}
             {!!Form::token()!!}
             <div class="row m-1">
-                <div class="col-12 col-md-12">
+                <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
                     @include('admin/payment.form')
-                </div>
-                <div class="col-12 col-md-12">
                     @include('admin/payment.form_payment')
+                </div>
+                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                    @include('admin/payment.form_documents')
                 </div>
             </div>
             {!!Form::close()!!}
@@ -42,4 +43,5 @@
 @endsection
 @section('scripts')
     @include('admin/payment.script')
+    @include('admin/payment.script_documents')
 @endsection

@@ -272,6 +272,8 @@ Route::get('provider/create/{id}', [ProviderController::class, 'getMunicipalitie
 Route::get('provider/postalCode/{id}', [ProviderController::class, 'getPostalCode']);
 Route::get('provider/advance/{id}', [ProviderController::class, 'advance'])->name('advanceProvider');
 Route::get('provider/status/{id}', [ProviderController::class, 'status'])->name('providerStatus');
+Route::get('provider/providerPay/{id}', [ProviderController::class, 'providerPay'])->name('providerPay');
+Route::get('provider/expensePay/{id}', [ProviderController::class, 'expensePay'])->name('expensePay');
 
 Route::get('getProductPurchaseOrder', [PurchaseOrderController::class, 'getProductPurchaseOrder'])->name('getProductPurchaseOrder');
 Route::get('purchaseOrder/invoice/{id}', [PurchaseOrderController::class, 'invoice'])->name('purchaseOrderInvoice');

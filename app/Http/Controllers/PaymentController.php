@@ -6,6 +6,7 @@ use App\Models\Payment;
 use App\Http\Requests\StorePaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
 use App\Models\Customer;
+use App\Models\Expense;
 use App\Models\Invoice;
 use App\Models\Provider;
 use App\Models\Purchase;
@@ -87,29 +88,28 @@ class PaymentController extends Controller
         $documents = '';
         $payPartial = $request->totalpay;
         $payDocument = 0;
-        $typeDocument = '';
+        $typeDocument = $request->type_document;
         $document = '';
         $payment = new Payment();
         $payment->pay = $totalPay;
         $payment->note = $request->note;
         $payment->type_third = $typeThird;
         $payment->user_id = current_user()->id;
-        switch($typeThird) {
-            case 'customer':
+        switch($typeDocument) {
+            case 'invoice':
                 $customer = Customer::findOrFail($third_id);
                 $customer->payments()->save($payment);
-
                 $documents = Invoice::where('customer_id', $customer->id)->where('balance', '>', 0)->get();
-                $sumDocuments = Invoice::where('customer_id', $customer->id)->where('balance', '>', 0)->sum('balance');
-                $typeDocument = 'invoice';
             break;
-            case 'provider':
+            case 'purchase':
                 $provider = Provider::findOrFail($third_id);
                 $provider->payments()->save($payment);
-
                 $documents = Purchase::where('provider_id', $provider->id)->where('balance', '>', 0)->get();
-                $sumDocuments = Purchase::where('provider_id', $provider->id)->where('balance', '>', 0)->sum('balance');
-                $typeDocument = 'purchase';
+            break;
+            case 'expense':
+                $provider = Provider::findOrFail($third_id);
+                $provider->payments()->save($payment);
+                $documents = Expense::where('provider_id', $provider->id)->where('balance', '>', 0)->get();
             break;
             default:
                 $msg = 'No has seleccionado voucher.';
