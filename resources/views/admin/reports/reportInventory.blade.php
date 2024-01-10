@@ -28,6 +28,7 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Codigo</th>
+                                <!--
                                 <th>Nombre</th>
                                 <th>Stock</th>
                                 <th>Tipo</th>
@@ -39,12 +40,12 @@
                                 <th>P/venta</th>
                                 <th>V/inventario</th>
                                 <th>V/comercial</th>
-
+                                -->
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th colspan="12" style="text-align:right">Totales:</th>
+                                <th colspan="1" style="text-align:right">Totales:</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -76,7 +77,7 @@
                             },
                             {
                                 data: 'code'
-                            },
+                            },/*
                             {
                                 data: 'nombre'
                             },
@@ -117,7 +118,7 @@
                                 data: 'comercialValue',
                                 className: 'dt-body-right',
                                 render: $.fn.dataTable.render.number('.', ',', 2, '$')
-                            },
+                            },*/
 
                         ],
                         dom: 'Bfltip',
@@ -128,13 +129,13 @@
                         buttons: [{
                                 extend: 'copy',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                                    columns: [0, 1]
                                 }
                             },
                             {
                                 extend: 'excel',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                                    columns: [0, 1]
                                 }
                             },
                             {
@@ -143,52 +144,16 @@
                                 orientation: 'landscape',
                                 pageSize: 'LEGAL',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                                    columns: [0, 1]
                                 }
                             },
                             {
                                 extend: 'print',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                                    columns: [0, 1]
                                 }
                             },
                         ],
-                        footerCallback: function(row, data, start, end, display) {
-                            var api = this.api(),
-                                data;
-
-                            var intVal = function(i) {
-                                return typeof i === 'string' ?
-                                    i.replace(/[\$]/g, '').replace(/,/g, '.') * 1 :
-                                    typeof i === 'number' ?
-                                    i : 0;
-                            };
-
-                            var total = api
-                                .column(12)
-                                .data()
-                                .reduce(function(a, b) {
-                                    return intVal(a) + intVal(b);
-                                }, 0);
-
-                            var totalPage = api
-                                .column(12, {
-                                    page: 'current'
-                                })
-                                .data()
-                                .reduce(function(a, b) {
-                                    return intVal(a) + intVal(b);
-                                }, 0);
-                            var formatNumberData = $.fn.dataTable.render.number(',', '.', 0, '').display;
-                            $(api.column(12).footer()).html(
-                                `$ ${formatNumberData(totalPage)} ($ ${formatNumberData( total )})`
-                            )
-                        }
-                    });
-                    $("a.toggle-vis").on("click", function(e) {
-                        e.preventDefault();
-                        var column = products.column($(this).data("column"));
-                        column.visible(!column.visible());
                     });
                 });
             </script>

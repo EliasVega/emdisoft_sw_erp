@@ -267,6 +267,7 @@ Route::get('permission/status/{id}', [PermissionController::class, 'status'])->n
 
 Route::get('postalCode/municipality/{id}', [PostalCodeController::class, 'getMunicipalities']);
 
+Route::get('indexMin', [ProductController::class, 'indexMin'])->name('indexMin');
 Route::get('getProduct', [ProductController::class, 'getProduct'])->name('getProduct');
 Route::get('product/status/{id}', [ProductController::class, 'status'])->name('productStatus');
 

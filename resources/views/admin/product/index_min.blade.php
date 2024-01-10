@@ -30,16 +30,13 @@
                     <thead class="trdatacolor">
                         <tr>
                             <th>Id</th>
-                            <th>Imagen</th>
                             <th>Tipo</th>
                             <th>Categoria</th>
                             <th>Codigo</th>
                             <th>Nombre</th>
-                            <th>Prcio</th>
-                            <th>Precio_Venta</th>
-                            <th>% IVA</th>
+                            <th>Precio</th>
                             <th>stock</th>
-                            <th>Editar</th>
+                            <th>Minimo</th>
                         </tr>
                     </thead>
                 </table>
@@ -63,31 +60,18 @@ $(document).ready(function ()
             language: {
                 url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
             },
-            ajax: '{{ route('product.index') }}',
+            ajax: '{{ route('indexMin') }}',
             order: [[0, "desc"]],
             columns:
             [
                 { data: 'id'},
-                {data: 'image',
-                    'sortable': false,
-                    'searchable': false,
-                    'render': function (image) {
-                    if (!image) {
-                        return 'N/A';
-                    } else {
-                        var img = image;
-                        return '<img src="' + img + '" height="50px" width="50px" />';
-                    }
-                }},
                 { data: 'type_product'},
                 { data: 'category'},
                 { data: 'code'},
                 { data: 'name'},
                 { data: 'price'},
-                { data: 'sale_price'},
-                { data: 'tax_rate'},
                 { data: 'stock'},
-                { data: 'edit'},
+                { data: 'stock_min'},
             ],
             dom: 'Bfltip',
             lengthMenu: [

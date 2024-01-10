@@ -29,7 +29,7 @@
         <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="sucursalBis">
             <div class="form-group">
                 <label class="form-control-label" for="branch_id">Sucursal</label>
-                <input type="text" id="branch_id" name="branch_id" value="1" class="form-control" placeholder="Sucursal">
+                <input type="text" id="branch_id" name="branch_id" value="1" class="form-control" placeholder="Sucursal" required>
             </div>
         </div>
     @endif

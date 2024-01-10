@@ -116,7 +116,7 @@ class ReportsController extends Controller
 
             return DataTables::of($products)
             ->addIndexColumn()
-
+            /*
             ->addColumn('inventoryValue', function (Product $product) {
                 return $product->stock * $product->price;
             })
@@ -131,7 +131,7 @@ class ReportsController extends Controller
             })
             ->editColumn('created_at', function(Product $product){
                 return $product->created_at->format('Y-m-d: h:m');
-            })
+            })*/
             ->make(true);
         }
         return view('admin.reports.reportInventory');

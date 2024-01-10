@@ -34,13 +34,13 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function indexBarcode()
     {
         $products = Product::get();
         return view('admin.product.index', compact('products'));
     }
 
-    public function indexDatatable(Request $request)
+    public function index(Request $request)
     {
         if ($request->ajax()) {
             $products = Product::get();
@@ -57,6 +57,33 @@ class ProductController extends Controller
             ->toJson();
         }
         return view('admin.product.index');
+    }
+
+    public function indexMin(Request $request)
+    {
+        if ($request->ajax()) {
+            $prods = Product::get();
+            $products = '';
+            $cont = 0;
+            foreach ($prods as $key => $prod) {
+                if ($prod->stock >= $prod->stoct_min) {
+                    $products[$cont] = $prod;
+                    $cont++;
+                }
+            }
+            return DataTables::of($products)
+            ->addIndexColumn()
+            ->addColumn('category', function (Product $product) {
+                return $product->category->name;
+            })
+            ->addColumn('tax_rate', function (Product $product) {
+                return $product->category->companyTax->percentage->percentage;
+            })
+            ->addColumn('edit', 'admin/product/actions')
+            ->rawcolumns(['edit'])
+            ->toJson();
+        }
+        return view('admin.product.index_min');
     }
 
     /**
@@ -91,7 +118,8 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->sale_price = $request->sale_price;
         $product->type_product = $request->type_product;
-        $product->stock = 0;
+        $product->stock = $request->stock;
+        $product->stock_min = $request->stock_min;
         //Handle File Upload
         if($request->hasFile('image')){
             //Get filename with the extension
@@ -202,7 +230,7 @@ class ProductController extends Controller
         $product->sale_price = $request->sale_price;
         $product->type_product = $request->type_product;
         $product->stock = $product->stock;
-
+        $product->stock_min = $request->stock_min;
         $currentImage = $product->imageName;
         //Handle File Upload
         if($request->hasFile('image')){
