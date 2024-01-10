@@ -441,6 +441,32 @@
                                             <p>Impuestos</p>
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="{{ url('reportInvoice') }}" class="nav-link">
+                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <p>Ventas</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ url('reportPurchase') }}" class="nav-link">
+                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <p>Compras</p>
+                                        </a>
+                                    </li>
+                                    @if (current_user()->company->indicator->restaurant == 'on')
+                                        <li class="nav-item">
+                                            <a href="{{ url('restaurantOrder') }}" class="nav-link">
+                                                <i class="far fa-dot-circle nav-icon"></i>
+                                                <p>Comandas</p>
+                                            </a>
+                                        </li>
+                                    @endif
+                                    <li class="nav-item">
+                                        <a href="{{ url('reportInventory') }}" class="nav-link">
+                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <p>Inventario</p>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>
@@ -491,7 +517,13 @@
                                 <li class="nav-item">
                                     <a href="{{ url('pay') }}" class="nav-link">
                                         <i class="far fa-dot-circle nav-icon"></i>
-                                        <p>Pagos</p>
+                                        <p>Pagos Documentos</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ url('payment') }}" class="nav-link">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>Pagos Terceros</p>
                                     </a>
                                 </li>
                             </ul>

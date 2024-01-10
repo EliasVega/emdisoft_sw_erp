@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Payment;
 use App\Http\Requests\StorePaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
+use App\Models\Company;
 use App\Models\Customer;
 use App\Models\Expense;
 use App\Models\Invoice;
+use App\Models\PaymentPaymentMethod;
 use App\Models\Provider;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 
@@ -224,7 +227,8 @@ class PaymentController extends Controller
      */
     public function show(Payment $payment)
     {
-        //
+        $paymentPaymentMethods = PaymentPaymentMethod::where('payment_id', $payment->id)->get();
+        return view('admin.payment.show', compact('payment', 'paymentPaymentMethods'));
     }
 
     /**
@@ -249,5 +253,23 @@ class PaymentController extends Controller
     public function destroy(Payment $payment)
     {
         //
+    }
+
+    public function paymentPdf(Request $request, $id)
+    {
+        $indicator = indicator();
+        $payment = Payment::findOrFail($id);
+        $paymentPaymentMethods = PaymentPaymentMethod::where('payment_id', $id)->get();
+        $company = Company::findOrFail(1);
+        $users = current_user();
+
+        $payPdf = "PAGO-". $payment->id;
+        $view = \view('admin.payment.pdf', compact('payment', 'paymentPaymentMethods', 'company', 'users', 'indicator'));
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        //$pdf->setPaper ( 'A7' , 'landscape' );
+
+        return $pdf->stream('vista-pdf', "$payPdf.pdf");
+        //return $pdf->download("$purchasepdf.pdf");*/
     }
 }

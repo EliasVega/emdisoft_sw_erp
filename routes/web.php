@@ -257,6 +257,8 @@ Route::get('pdfNdpurchase', [NdpurchaseController::class, 'pdfNdpurchase'])->nam
 
 Route::get('pay/pdf/{id}', [PayController::class, 'payPdf'])->name('payPdf');
 
+Route::get('payment/paymentPdf/{id}', [PaymentController::class, 'paymentPdf'])->name('paymentPdf');
+
 Route::get('paymentMethod/status/{id}', [PaymentMethodController::class, 'status'])->name('paymentMethodStatus');
 
 Route::get('percentage/status/{id}', [PercentageController::class, 'status'])->name('percentageStatus');
@@ -299,6 +301,7 @@ Route::get('rawMaterial/kardexRawMaterial/{id}', [RawMaterialController::class, 
 Route::get('reportInvoice', [ReportsController::class, 'reportInvoice'])->name('reportInvoice');
 Route::get('reportPurchase', [ReportsController::class, 'reportPurchase'])->name('reportPurchase');
 Route::get('reportRestaurantOrder', [ReportsController::class, 'reportRestaurantOrder'])->name('reportRestaurantOrder');
+Route::get('reportInventory', [ReportsController::class, 'reportInventory'])->name('reportInventory');
 
 Route::get('restaurantOrder/generateInvoice/{id}', [RestaurantOrderController::class, 'generateInvoice'])->name('generateInvoice');
 Route::get('restaurantOrder/restaurantOrderPdf/{id}', [RestaurantOrderController::class, 'restaurantOrderPdf'])->name('restaurantOrderPdf');

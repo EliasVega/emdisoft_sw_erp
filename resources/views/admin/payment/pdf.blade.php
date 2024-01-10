@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="stylesheet" href="{{ asset('css/voucher.css') }}">
-        <title>ANTICIPO</title>
+        <title>PAGO TERCEROS</title>
 
     </head>
     <header id="header">
@@ -25,7 +25,7 @@
             </div>
             <!--DATOS FACTURA -->
             <div id="voucher">
-                <p>COMPROBANTE <br> DE PAGO <br> <strong id="numbervoucher">N°. {{ $pay->id }}</strong></p>
+                <p>COMPROBANTE <br> DE PAGO <br> <strong id="numbervoucher">N°. {{ $payment->id }}</strong></p>
 
             </div>
         </div>
@@ -42,10 +42,10 @@
                 <p>Fecha</p>
             </div>
             <div class="description2">
-                <p>{{ date('d-m-Y', strtotime($pay->created_at)) }}</p>
+                <p>{{ date('d-m-Y', strtotime($payment->created_at)) }}</p>
             </div>
             <div class="description3">
-                <p>$ {{ number_format($pay->pay, 2) }}</p>
+                <p>$ {{ number_format($payment->pay, 2) }}</p>
             </div>
 
             <div class="clearfix"></div>
@@ -53,33 +53,33 @@
                 <p>Direccion:</p>
             </div>
             <div class="description4">
-                <p>{{  $pay->payable->advanceable->address  }}</p>
+                <p>{{  $payment->paymentable->address  }}</p>
             </div>
             <div class="title">
                 <p>Telefono:</p>
             </div>
             <div class="description2">
-                <p>{{  $pay->payable->advanceable->phone  }}</p>
+                <p>{{  $payment->paymentable->phone  }}</p>
             </div>
             <div class="clearfix"></div>
             <div class="title">
                 <p>Recibo de:</p>
             </div>
             <div class="description5">
-                <p>{{  $pay->payable->advanceable->name  }}</p>
+                <p>{{  $payment->paymentable->name  }}</p>
             </div>
             <div class="clearfix"></div>
             <div class="title">
                 <p>Concepto de::</p>
             </div>
             <div class="description4">
-                <p>Abono a Compra # {{ $pay->payable->id }} </p>
+                <p>Pago Documentos  </p>
             </div>
             <div class="title">
                 <p>Comprobante</p>
             </div>
             <div class="description2">
-                <p>{{ $pay->id }}</p>
+                <p>{{ $payment->id }}</p>
             </div>
         </div>
         <div class="content">
@@ -95,11 +95,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($payPaymentMethods as $payPaymentMethod)
+                            @foreach ($paymentPaymentMethods as $paymentPaymentMethod)
                             <tr>
-                                <td>{{ $payPaymentMethod->transaction }}</td>
-                                <td>{{ $payPaymentMethod->paymentMethod->name }}</td>
-                                <td class="tdder">$ {{ number_format($payPaymentMethod->pay, 2) }}</td>
+                                <td>{{ $paymentPaymentMethod->transaction }}</td>
+                                <td>{{ $paymentPaymentMethod->paymentMethod->name }}</td>
+                                <td class="tdder">$ {{ number_format($paymentPaymentMethod->pay, 2) }}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -107,7 +107,7 @@
                             <!--DATOS FTOTALES -->
                             <tr>
                                 <th colspan="2" class="tdRight">TOTAL:</th>
-                                <td class="tdRight"><strong>${{number_format($pay->pay,2)}}</strong></td>
+                                <td class="tdRight"><strong>${{number_format($payment->pay,2)}}</strong></td>
                              </tr>
                         </tfoot>
                     </table>

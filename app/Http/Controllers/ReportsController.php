@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
+use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\RestaurantOrder;
 use Carbon\Carbon;
@@ -106,5 +107,33 @@ class ReportsController extends Controller
             ->make(true);
         }
         return view('admin.reports.reportRestaurantOrder');
+    }
+
+    public function reportInventory(Request $request)
+    {
+        if ($request->ajax()) {
+                $products = Product::get();
+
+            return DataTables::of($products)
+            ->addIndexColumn()
+
+            ->addColumn('inventoryValue', function (Product $product) {
+                return $product->stock * $product->price;
+            })
+            ->addColumn('comercialValue', function (Product $product) {
+                return $product->stock * $product->sale_price;
+            })
+            ->addColumn('category', function (Product $product) {
+                return $product->category->name;
+            })
+            ->addColumn('measure_unit', function (Product $product) {
+                return $product->measureUnit->name;
+            })
+            ->editColumn('created_at', function(Product $product){
+                return $product->created_at->format('Y-m-d: h:m');
+            })
+            ->make(true);
+        }
+        return view('admin.reports.reportInventory');
     }
 }

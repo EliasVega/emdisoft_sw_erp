@@ -332,7 +332,7 @@ class InvoiceController extends Controller
             retentions($request, $document, $typeDocument);
 
             if ($indicator->pos == 'on' ) {
-
+                $reuturn = 0;
                 if ($totalpay > 0) {
                     $paymentMethod = $request->payment_method_id;
                     $bank = 1;

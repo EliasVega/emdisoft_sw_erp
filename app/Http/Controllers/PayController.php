@@ -8,7 +8,6 @@ use App\Http\Requests\UpdatepayRequest;
 use App\Models\Advance;
 use App\Models\Bank;
 use App\Models\Card;
-use App\Models\CashRegister;
 use App\Models\Company;
 use App\Models\Expense;
 use App\Models\Invoice;
@@ -16,8 +15,8 @@ use App\Models\PaymentMethod;
 use App\Models\PayPaymentMethod;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 
@@ -219,20 +218,20 @@ class PayController extends Controller
     }
 
     public function payPdf(Request $request, $id)
-   {
-       $pay = pay::findOrFail($id);
-       $payPaymentMethods = PayPaymentMethod::where('pay_id', $id)->get();
-       $company = Company::findOrFail(1);
-       $users = Auth::user();
+    {
+        $pay = Pay::findOrFail($id);
+        $payPaymentMethods = PayPaymentMethod::where('pay_id', $id)->get();
+        $company = Company::findOrFail(1);
+        $users = Auth::user();
 
-       $payPdf = "PAGO-". $pay->id;
-       $logo = './imagenes/logos'.$company->logo;
-       $view = \view('admin.pay.pdf', compact('pay', 'payPaymentMethods', 'company', 'logo', 'users'));
-       $pdf = \App::make('dompdf.wrapper');
-       $pdf->loadHTML($view);
-       //$pdf->setPaper ( 'A7' , 'landscape' );
+        $payPdf = "PAGO-". $pay->id;
+        $logo = './imagenes/logos'.$company->logo;
+        $view = \view('admin.pay.pdf', compact('pay', 'payPaymentMethods', 'company', 'logo', 'users'));
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        //$pdf->setPaper ( 'A7' , 'landscape' );
 
-       return $pdf->stream('vista-pdf', "$payPdf.pdf");
-       //return $pdf->download("$purchasepdf.pdf");*/
-   }
+        return $pdf->stream('vista-pdf', "$payPdf.pdf");
+        //return $pdf->download("$purchasepdf.pdf");*/
+    }
 }

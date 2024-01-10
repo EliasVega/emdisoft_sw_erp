@@ -39,4 +39,9 @@ class Payment extends Model
         public function pays(){
             return $this->hasMany(Pay::class);
         }
+
+        public function paymentPaymentMethods()
+    {
+        return $this->hasMany(PaymentPaymentMethod::class);
+    }
 }
