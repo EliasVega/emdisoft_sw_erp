@@ -3,7 +3,6 @@
 use App\Models\Advance;
 use App\Models\Pay;
 use App\Models\PaymentPaymentMethod;
-use App\Models\PayPaymentMethod;
 
 if (! function_exists('payThirds')) {
     function payThirds($request, $document, $typeDocument, $payDocument, $payment_id, $cont)
