@@ -20,9 +20,6 @@ if (! function_exists('payThirds')) {
         $payment = $request->pay;
         $payAdvance = $request->payment;
 
-
-
-
         //Metodo para crear un nuevo pago y su realcion polimorfica dependiendo del tipo de documento
         $pay = new Pay();
         $pay->pay = $totalpay;
