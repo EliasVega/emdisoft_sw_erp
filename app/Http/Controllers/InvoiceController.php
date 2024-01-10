@@ -10,7 +10,6 @@ use App\Models\Bank;
 use App\Models\Branch;
 use App\Models\BranchProduct;
 use App\Models\Card;
-use App\Models\CashRegister;
 use App\Models\Company;
 use App\Models\CompanyTax;
 use App\Models\Customer;
