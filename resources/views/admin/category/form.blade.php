@@ -30,7 +30,7 @@
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="utility_rate">Utilidad</label>
-            <input type="number" name="utility_rate" value="{{ old('utility_rate', $category->utility_rate ?? '') }}" class="form-control" placeholder="Porcentage de Utilidad">
+            <input type="number" name="utility_rate" value="{{ old('utility_rate', $category->utility_rate ?? '') }}" class="form-control" placeholder="Porcentage de Utilidad" step="any">
         </div>
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

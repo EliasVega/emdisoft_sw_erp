@@ -4,6 +4,7 @@
 @endsection
 @section('content')
     <main class="main">
+
         <div class="text-center py-3">
             <a class="toggle-vis btn btn-sm btn-info" data-column="0">Id</a>
             <a class="toggle-vis btn btn-sm btn-info" data-column="1">Codigo</a>
@@ -28,7 +29,6 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Codigo</th>
-                                <!--
                                 <th>Nombre</th>
                                 <th>Stock</th>
                                 <th>Tipo</th>
@@ -40,12 +40,11 @@
                                 <th>P/venta</th>
                                 <th>V/inventario</th>
                                 <th>V/comercial</th>
-                                -->
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th colspan="1" style="text-align:right">Totales:</th>
+                                <th colspan="13" style="text-align:right">Totales:</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -77,15 +76,15 @@
                             },
                             {
                                 data: 'code'
-                            },/*
+                            },
                             {
-                                data: 'nombre'
+                                data: 'name'
                             },
                             {
                                 data: 'stock'
                             },
                             {
-                                data: 'type'
+                                data: 'type_product'
                             },
                             {
                                 data: 'status'
@@ -118,7 +117,7 @@
                                 data: 'comercialValue',
                                 className: 'dt-body-right',
                                 render: $.fn.dataTable.render.number('.', ',', 2, '$')
-                            },*/
+                            },
 
                         ],
                         dom: 'Bfltip',
@@ -129,13 +128,13 @@
                         buttons: [{
                                 extend: 'copy',
                                 exportOptions: {
-                                    columns: [0, 1]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
                                 }
                             },
                             {
                                 extend: 'excel',
                                 exportOptions: {
-                                    columns: [0, 1]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
                                 }
                             },
                             {
@@ -144,16 +143,47 @@
                                 orientation: 'landscape',
                                 pageSize: 'LEGAL',
                                 exportOptions: {
-                                    columns: [0, 1]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
                                 }
                             },
                             {
                                 extend: 'print',
                                 exportOptions: {
-                                    columns: [0, 1]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
                                 }
                             },
                         ],
+                        footerCallback: function(row, data, start, end, display) {
+                            var api = this.api(),
+                                data;
+
+                            var intVal = function(i) {
+                                return typeof i === 'string' ?
+                                    i.replace(/[\$]/g, '').replace(/,/g, '.') * 1 :
+                                    typeof i === 'number' ?
+                                    i : 0;
+                            };
+
+                            var total = api
+                                .column(10)
+                                .data()
+                                .reduce(function(a, b) {
+                                    return intVal(a) + intVal(b);
+                                }, 0);
+
+                            var totalPage = api
+                                .column(10, {
+                                    page: 'current'
+                                })
+                                .data()
+                                .reduce(function(a, b) {
+                                    return intVal(a) + intVal(b);
+                                }, 0);
+                            var formatNumberData = $.fn.dataTable.render.number(',', '.', 0, '').display;
+                            $(api.column(10).footer()).html(
+                                `$ ${formatNumberData(totalPage)} ($ ${formatNumberData( total )})`
+                            )
+                        }
                     });
                 });
             </script>

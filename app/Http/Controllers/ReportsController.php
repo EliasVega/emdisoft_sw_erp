@@ -115,14 +115,8 @@ class ReportsController extends Controller
                 $products = Product::get();
 
             return DataTables::of($products)
+
             ->addIndexColumn()
-            /*
-            ->addColumn('inventoryValue', function (Product $product) {
-                return $product->stock * $product->price;
-            })
-            ->addColumn('comercialValue', function (Product $product) {
-                return $product->stock * $product->sale_price;
-            })
             ->addColumn('category', function (Product $product) {
                 return $product->category->name;
             })
@@ -130,8 +124,14 @@ class ReportsController extends Controller
                 return $product->measureUnit->name;
             })
             ->editColumn('created_at', function(Product $product){
-                return $product->created_at->format('Y-m-d: h:m');
-            })*/
+                return $product->created_at->format('Y-m-d');
+            })
+            ->addColumn('inventoryValue', function (Product $product) {
+                return $product->stock * $product->price;
+            })
+            ->addColumn('comercialValue', function (Product $product) {
+                return $product->stock * $product->sale_price;
+            })
             ->make(true);
         }
         return view('admin.reports.reportInventory');
