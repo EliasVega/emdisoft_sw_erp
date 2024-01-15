@@ -70,18 +70,6 @@ $(document).ready(function ()
             columns:
             [
                 { data: 'id'},
-                /*
-                {data: 'image',
-                    'sortable': false,
-                    'searchable': false,
-                    'render': function (image) {
-                    if (!image) {
-                        return 'N/A';
-                    } else {
-                        var img = image;
-                        return '<img src="' + img + '" height="50px" width="50px" />';
-                    }
-                }},*/
                 { data: 'type_product'},
                 { data: 'category'},
                 { data: 'code'},
@@ -100,13 +88,13 @@ $(document).ready(function ()
                 {
                     extend: 'copy',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
                     }
                 },
                 {
                     extend: 'excel',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
                     }
                 },
                 {
@@ -115,13 +103,13 @@ $(document).ready(function ()
                     orientation: 'landscape',
                     pageSize: 'LEGAL',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
                     }
                 },
                 {
                     extend: 'print',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
                     }
                 },
             ],
