@@ -27,6 +27,8 @@ class Company extends Model
         'emailfe',
         'imageName',
         'logo',
+        'pos_invoice',
+        'pos_purchase',
         'status',
         'department_id',
         'municipaliy_id',

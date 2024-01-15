@@ -26,6 +26,8 @@ return new class extends Migration
             $table->string('emailfe', 50)->unique();
             $table->string('imageName', 20);
             $table->string('logo', 255)->nullable();
+            $table->string('pos_invoice', 20)->default('POS');
+            $table->string('pos_purchase', 20)->default('POS');
             $table->enum('status', ['active', 'inactive'])->default('active');
             //$table->enum('cash_register', ['active', 'inactive'])->default('active');
 

@@ -33,6 +33,8 @@ class CompaniesTableSeeder extends Seeder
                 'emailfe' => 'kevinsofiaplus@gmail.com',
                 'imageName' => 'noimage.jpg',
                 'logo' => '/storage/images/logos/noimage.jpg',
+                'pos_invoice' => 'POS',
+                'pos_purchase' => 'POS',
                 'department_id' => 21,
                 'municipality_id' => 878,
                 'identification_type_id' => 3,

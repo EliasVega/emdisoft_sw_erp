@@ -33,6 +33,8 @@ class StoreCompanyRequest extends FormRequest
             'emailfe' => 'required',
             'imageName' => '',
             'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'pos_invoice' => 'string|max:20',
+            'pos_purchase' => 'string|max:20',
             'status' => 'in:activo,inactivo',
             'department_id' => 'required',
             'municipality_id' => 'required',

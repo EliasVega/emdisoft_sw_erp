@@ -97,6 +97,8 @@ class CompanyController extends Controller
         $company->api_token = $request->api_token;
         $company->email = $request->email;
         $company->emailfe = $request->emailfe;
+        $company->pos_invoice = $request->pos_invoice;
+        $company->pos_purchase = $request->pos_purchase;
         //Handle File Upload
         if($request->hasFile('logo')){
             //Get filename with the extension
@@ -191,6 +193,8 @@ class CompanyController extends Controller
         $company->api_token = $request->api_token;
         $company->email = $request->email;
         $company->emailfe = $request->emailfe;
+        $company->pos_invoice = $request->pos_invoice;
+        $company->pos_purchase = $request->pos_purchase;
 
         $currentImage = $company->imageName;
         //Handle File Upload

@@ -139,6 +139,18 @@
             <input type="email" name="emailfe" value="{{ old('emailfe', $company->emailfe ?? '') }}" class="form-control" placeholder="Ingrese el email FE">
         </div>
     </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="form-group">
+            <label for="pos_invoice">Ventas POS</label>
+            <input type="text" name="pos_invoice" value="{{ old('pos_invoice', $company->pos_invoice ?? '') }}" class="form-control" placeholder="Ingrese el email FE">
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="form-group">
+            <label for="pos_purchase">Compras POS</label>
+            <input type="text" name="pos_purchase" value="{{ old('pos_purchase', $company->pos_purchase ?? '') }}" class="form-control" placeholder="Ingrese el email FE">
+        </div>
+    </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="logo">Logo</label>

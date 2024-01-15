@@ -32,7 +32,7 @@
             </div>
             <!--DATOS FACTURA -->
             <div id="document">
-                <p> POST: <strong id="numfact">N°.{{ $invoice->id }}</strong> <br>
+                <p> {{ $company->pos_invoice }}: <strong id="numfact">N°.{{ $invoice->id }}</strong> <br>
                     FECHA DE EMISION: <strong id="datfact">{{ date('d-m-Y', strtotime($invoice->generation_date)) }}</strong>
                 </p>
             </div>
