@@ -56,7 +56,7 @@ $(document).ready(function ()
             responsive: true,
             autoWidth: true,
             processing: true,
-            serverSide: false,
+            serverSide: true,
             language: {
                 url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
             },

@@ -2,6 +2,10 @@
     <a href="{{ route('product.edit', $id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip"
     data-placement="top" title="Editar"><i class="far fa-edit"></i></a>
 @endcan
+@can('product.show')
+    <a href="{{ route('product.show', $id) }}" class="btn btn-success btn-sm" data-toggle="tooltip"
+    data-placement="top" title="ver"><i class="far fa-eye"></i></a>
+@endcan
 @can('product.productStatus')
     @if ($status == 'active')
         <a href="{{ route('productStatus', $id) }}" class="btn btn-verde btn-sm" data-toggle="tooltip"

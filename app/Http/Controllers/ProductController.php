@@ -47,13 +47,6 @@ class ProductController extends Controller
         if ($request->ajax()) {
             $products = Product::get();
             return DataTables::of($products)
-            ->addIndexColumn()
-            ->addColumn('category', function (Product $product) {
-                return $product->category->name;
-            })
-            ->addColumn('tax_rate', function (Product $product) {
-                return $product->category->companyTax->percentage->percentage;
-            })
             ->addColumn('edit', 'admin/product/actions')
             ->rawcolumns(['edit'])
             ->toJson();
