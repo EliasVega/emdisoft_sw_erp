@@ -20,6 +20,9 @@
                 @can('kardex.index')
                     <a href="{{ route('kardex.index') }}" class="btn btn-greenGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Kardex</a>
                 @endcan
+                @can('superAdmin')
+                    <a href="productImport" class="btn btn-blueGrad btn-sm"><i class="fa fa-plus"></i> Importar Productos</a>
+                @endcan
             </h5>
         </div>
     </div>
@@ -37,7 +40,7 @@
                             <th>Nombre</th>
                             <th>Precio</th>
                             <th>Precio_Venta</th>
-                            <th>% IVA</th>
+                            <th>% IMP</th>
                             <th>stock</th>
                             <th>Editar</th>
                         </tr>
@@ -97,13 +100,13 @@ $(document).ready(function ()
                 {
                     extend: 'copy',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
                     }
                 },
                 {
                     extend: 'excel',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
                     }
                 },
                 {
@@ -112,13 +115,13 @@ $(document).ready(function ()
                     orientation: 'landscape',
                     pageSize: 'LEGAL',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
                     }
                 },
                 {
                     extend: 'print',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
                     }
                 },
             ],

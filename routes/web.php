@@ -270,6 +270,8 @@ Route::get('postalCode/municipality/{id}', [PostalCodeController::class, 'getMun
 Route::get('indexMin', [ProductController::class, 'indexMin'])->name('indexMin');
 Route::get('getProduct', [ProductController::class, 'getProduct'])->name('getProduct');
 Route::get('product/status/{id}', [ProductController::class, 'status'])->name('productStatus');
+Route::get('productImport', [ProductController::class, 'productImport'])->name('productImport');
+Route::post('productStore', [ProductController::class, 'productStore'])->name('productStore');
 
 Route::get('provider/create/{id}', [ProviderController::class, 'getMunicipalities']);
 Route::get('provider/postalCode/{id}', [ProviderController::class, 'getPostalCode']);

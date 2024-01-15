@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
-use App\Imports\CategoryImport;
+use App\Imports\CategoriesImport;
 use App\Models\CompanyTax;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -68,7 +68,7 @@ class CategoryController extends Controller
 
     public function createImport()
     {
-        return view('admin.category.category_import');
+        return view('admin.category.categories_import');
     }
 
     /**
@@ -93,14 +93,15 @@ class CategoryController extends Controller
 
     public function storeCategory(Request $request)
     {
-        $category = $request->file('category_file');
-        //Excel::import(new CategoryImport, $category);
+        Excel::import(new CategoriesImport, request()->file('categories'));
 
+        return redirect('category')->with('success', 'All good!');
+        /*
         $message = 'Importacion de Categorias realizada con exito';
         //Alert::success('Categoria', $message);
         toast($message,'success');
         //Alert::success('Categoria','Creada Satisfactoriamente.');
-        return redirect('category');
+        return redirect('category');*/
     }
 
     /**

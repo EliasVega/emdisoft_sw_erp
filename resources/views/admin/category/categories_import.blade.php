@@ -26,9 +26,9 @@
                     </ul>
                 </div>
             @endif
-            {!!Form::open(array('url'=>'storeCategory', 'method'=>'POST', 'autocomplete'=>'off', 'files' => 'true'))!!}
+            {!!Form::open(array('url'=>'storeCategory', 'method'=>'POST', 'autocomplete'=>'off', 'files' => true))!!}
             {!!Form::token()!!}
-                <input type="file" name="category_file"/>
+                <input type="file" name="categories"/>
                 <button class="btn btn-primary" type="submit">Importar</button>
             {!!Form::close()!!}
         </div>

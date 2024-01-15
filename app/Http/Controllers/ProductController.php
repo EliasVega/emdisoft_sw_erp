@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Imports\ProductsImport;
 use App\Models\BranchProduct;
 use App\Models\Category;
 use App\Models\Indicator;
@@ -18,6 +19,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -98,6 +100,22 @@ class ProductController extends Controller
         $categories = Category::get();
         $measureUnits = MeasureUnit::where('status', 'active')->get();
         return view('admin.product.create', compact('categories', 'measureUnits', 'rawMaterials', 'indicator'));
+    }
+
+    public function productImport()
+    {
+        return view('admin.product.products_import');
+    }
+
+    public function productStore(Request $request)
+    {
+        Excel::import(new ProductsImport, request()->file('products'));
+
+        $message = 'Importacion de Categorias realizada con exito';
+        //Alert::success('Categoria', $message);
+        toast($message,'success');
+        //Alert::success('Categoria','Creada Satisfactoriamente.');
+        return redirect('product');
     }
 
     /**
