@@ -39,7 +39,6 @@
                             <th>Nombre</th>
                             <th>Precio</th>
                             <th>Precio_Venta</th>
-                            <th>% IMP</th>
                             <th>stock</th>
                             <th>Editar</th>
                         </tr>
@@ -61,7 +60,6 @@ $(document).ready(function ()
             responsive: true,
             autoWidth: true,
             processing: true,
-            serverSide: true,
             language: {
                 url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
             },
@@ -76,7 +74,6 @@ $(document).ready(function ()
                 { data: 'name'},
                 { data: 'price'},
                 { data: 'sale_price'},
-                { data: 'tax_rate'},
                 { data: 'stock'},
                 { data: 'edit'},
             ],
@@ -88,13 +85,13 @@ $(document).ready(function ()
                 {
                     extend: 'copy',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
                     }
                 },
                 {
                     extend: 'excel',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
                     }
                 },
                 {
@@ -103,13 +100,13 @@ $(document).ready(function ()
                     orientation: 'landscape',
                     pageSize: 'LEGAL',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
                     }
                 },
                 {
                     extend: 'print',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
                     }
                 },
             ],

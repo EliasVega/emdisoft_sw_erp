@@ -64,10 +64,16 @@
                 pattern="[0-9]{0,15}">
         </div>
     </div>
-    <div class="col-lg-4 col-md-2 col-sm-4 col-xs-12">
+    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
         <div class="form-group">
             <label for="vprice">V/Actual</label>
             <input type="number" name="vprice" id="vprice" class="form-control" readonly>
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+        <div class="form-group">
+            <label for="utility">% Utilidad</label>
+            <input type="number" name="utility" id="utility" class="form-control" readonly>
         </div>
     </div>
     @if ($indicator->barcode == 'on')
@@ -116,7 +122,7 @@
                 <option value="0" disabled selected>Seleccionar</option>
                 @foreach ($products as $product)
                     <option
-                        value="{{ $product->id }}_{{ $product->stock }}_{{ $product->sale_price }}_{{ $product->percentage }}_{{ $product->tt }}">
+                        value="{{ $product->id }}_{{ $product->stock }}_{{ $product->sale_price }}_{{ $product->percentage }}_{{ $product->tt }}_{{ $product->utility_rate }}">
                         {{ $product->code }} -- {{ $product->name }}</option>
                 @endforeach
             </select>

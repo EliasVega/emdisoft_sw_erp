@@ -110,6 +110,7 @@
             $("#price").val(data.sale_price);
             $("#stock").val(data.stock);
             $("#quantityadd").val(1);
+            $("#utility").val(data.utility_rate);
             $("#tax_rate").val(data.percentage);
             $("#tax_type").val(data.tt);
             addBarcode();
@@ -175,6 +176,7 @@
         $("#vprice").val(dataProduct[2]);
         $("#tax_rate").val(dataProduct[3]);
         $("#tax_type").val(dataProduct[4]);
+        $("#utility").val(dataProduct[5]);
         $("#price").val(dataProduct[2]);
     }
 
