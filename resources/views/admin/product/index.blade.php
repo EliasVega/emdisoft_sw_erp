@@ -33,7 +33,6 @@
                     <thead class="trdatacolor">
                         <tr>
                             <th>Id</th>
-                            <th>Imagen</th>
                             <th>Tipo</th>
                             <th>Categoria</th>
                             <th>Codigo</th>
@@ -71,6 +70,7 @@ $(document).ready(function ()
             columns:
             [
                 { data: 'id'},
+                /*
                 {data: 'image',
                     'sortable': false,
                     'searchable': false,
@@ -81,7 +81,7 @@ $(document).ready(function ()
                         var img = image;
                         return '<img src="' + img + '" height="50px" width="50px" />';
                     }
-                }},
+                }},*/
                 { data: 'type_product'},
                 { data: 'category'},
                 { data: 'code'},
