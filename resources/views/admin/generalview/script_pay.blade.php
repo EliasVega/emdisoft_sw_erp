@@ -388,7 +388,7 @@
             Swal.fire({
             type: 'error',
             //title: 'Oops...',
-            text: 'Rellene todos los campos del detalle del Apago',
+            text: 'Rellene todos los campos del detalle del pago',
             });
         }
     }
