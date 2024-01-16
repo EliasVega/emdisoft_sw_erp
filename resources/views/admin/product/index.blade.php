@@ -20,6 +20,7 @@
                 @can('kardex.index')
                     <a href="{{ route('kardex.index') }}" class="btn btn-greenGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Kardex</a>
                 @endcan
+                <a href="{{ route('indexMin') }}" class="btn btn-greenGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Agotados</a>
                 @can('superAdmin')
                     <a href="productImport" class="btn btn-blueGrad btn-sm"><i class="fa fa-plus"></i> Importar Productos</a>
                 @endcan

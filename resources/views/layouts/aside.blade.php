@@ -467,6 +467,12 @@
                                             <p>Inventario</p>
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="{{ url('indexMin') }}" class="nav-link">
+                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <p>Inventario Min</p>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>

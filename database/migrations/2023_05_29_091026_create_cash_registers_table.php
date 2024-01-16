@@ -67,6 +67,8 @@ return new class extends Migration
             $table->string('verification_code_open',12);//codigo verif apertura de caja
             $table->string('verification_code_close',12)->nullable();//cod verif cierre de caja
             $table->enum('status', ['open', 'close'])->default('open');
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
 
             $table->foreignId('branch_id')->constrained();
             $table->foreignId('user_id')->constrained()->onUpdate('cascade');

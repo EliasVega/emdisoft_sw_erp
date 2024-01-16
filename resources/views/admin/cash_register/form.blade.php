@@ -1,5 +1,12 @@
 <div class="box-body row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label class="form-control-label" for="start_date">Fecha Apertura</label>
+            <input type="date" name="start_date" id="start_date" class="form-control"
+                value="<?php echo date('Y-m-d'); ?>" placeholder="Fecha Apertura de caja">
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group" id="valorcito">
             <label class="form-control-label" for="cash_initial">Efectivo Inicial</label>
             <input type="number" id="cash_initial" name="cash_initial" value="" class="form-control"

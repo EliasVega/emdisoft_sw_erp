@@ -58,10 +58,10 @@ class ProductController extends Controller
     {
         if ($request->ajax()) {
             $prods = Product::get();
-            $products = '';
+            $products = [];
             $cont = 0;
             foreach ($prods as $key => $prod) {
-                if ($prod->stock >= $prod->stoct_min) {
+                if ($prod->stock <= $prod->stoct_min) {
                     $products[$cont] = $prod;
                     $cont++;
                 }
@@ -70,9 +70,6 @@ class ProductController extends Controller
             ->addIndexColumn()
             ->addColumn('category', function (Product $product) {
                 return $product->category->name;
-            })
-            ->addColumn('tax_rate', function (Product $product) {
-                return $product->category->companyTax->percentage->percentage;
             })
             ->addColumn('edit', 'admin/product/actions')
             ->rawcolumns(['edit'])

@@ -46,6 +46,8 @@ class CashRegister extends Model
         'verification_code_open',
         'verification_code_close',
         'status',
+        'start_date',
+        'end_date',
         'branch_id',
         'user_id',
         'user_open',

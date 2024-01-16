@@ -156,6 +156,8 @@ class CashRegisterController extends Controller
             $cashRegister->out_advance = 0;
             $cashRegister->verification_code_open  = $request->verification_code_open;
             $cashRegister->verification_code_close = null;
+            $cashRegister->start_date = $request->start_date;
+            $cashRegister->start_date = null;
             $cashRegister->branch_id = $branch;
             $cashRegister->user_id = $user->id;
             $cashRegister->user_open_id = $request->user_open_id;
@@ -414,6 +416,7 @@ class CashRegisterController extends Controller
             $cashRegister->user_close_id = $userClose;
             $cashRegister->verification_code_close = $verific;
             $cashRegister->status = 'close';
+            $cashRegister->end_date = $request->end_date;
             $cashRegister->update();
         }
         return redirect("cashRegister")->with('success', 'Caja cerrada Satisfactoriamente');

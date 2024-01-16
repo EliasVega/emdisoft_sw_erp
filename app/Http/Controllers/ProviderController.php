@@ -142,7 +142,48 @@ class ProviderController extends Controller
      */
     public function store(StoreProviderRequest $request)
     {
+        $department = $request->department_id;
+        $municipality = $request->municipality_id;
+        $postalCode = $request->postal_code_id;
+        $liability = $request->liability_id;
+        $organization = $request->organization_id;
+        $regime = $request->regime_id;
+        $address = $request->address;
+        $phone = $request->phone;
 
+        if ($department == null) {
+            $department = current_user()->branch->department_id;
+        }
+        if ($municipality == null) {
+            $municipality = current_user()->branch->municipality_id;
+        }
+        if ($postalCode == null) {
+            $local = current_user()->branch->municipality->id;
+            $postals = PostalCode::where('municipality_id', $local)->get();
+            $contpostal = 0;
+            foreach ($postals as $key => $postal) {
+                if ($contpostal == 0) {
+                    $postalCode = $postal->id;
+                    $contpostal++;
+                }
+            }
+        }
+        if ($liability == null) {
+            $liability = 117;
+        }
+        if ($organization == null) {
+            $organization = 2;
+        }
+        if ($regime == null) {
+            $regime = 2;
+        }
+        if ($address == null) {
+            $address = current_user()->branch->municipality->name;
+        }
+        if ($phone == null) {
+            $phone = 316555;
+        }
+        dd($department . '-' . $municipality . '-' . $postalCode);
         $provider = new Provider();
         $provider->department_id = $request->department_id;
         $provider->municipality_id = $request->municipality_id;
