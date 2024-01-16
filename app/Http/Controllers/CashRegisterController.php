@@ -157,7 +157,7 @@ class CashRegisterController extends Controller
             $cashRegister->verification_code_open  = $request->verification_code_open;
             $cashRegister->verification_code_close = null;
             $cashRegister->start_date = $request->start_date;
-            $cashRegister->start_date = null;
+            $cashRegister->end_date = null;
             $cashRegister->branch_id = $branch;
             $cashRegister->user_id = $user->id;
             $cashRegister->user_open_id = $request->user_open_id;
@@ -387,6 +387,10 @@ class CashRegisterController extends Controller
      */
     public function edit(CashRegister $cashRegister)
     {
+        if ($cashRegister->status == 'close') {
+            toast('Esta caja ya se encuentra cerrada.','warning');
+            return redirect("cashRegister");
+        }
         $users = User::where('id', '!=', 1)->get();
         return view('admin.cash_register.edit', compact('cashRegister', 'users'));
     }

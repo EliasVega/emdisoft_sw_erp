@@ -24,6 +24,7 @@
                 <table class="table table-striped table-bordered table-condensed table-hover" id="cashRegisters">
                     <thead>
                         <tr class="bg-info">
+                            <th>Id</th>
                             <th>Usuario</th>
                             <th>Sucursal</th>
                             <th>Abre</th>
@@ -60,6 +61,7 @@ $(document).ready(function ()
             order: [[0, "desc"]],
             columns:
             [
+                {data: 'id'},
                 {data: 'user'},
                 {data: 'branch'},
                 {data: 'cash_initial'},

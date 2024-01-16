@@ -30,6 +30,13 @@
                 <div class="box-body row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group">
+                            <label class="form-control-label" for="end_date">Fecha Cierre</label>
+                            <input type="date" name="end_date" id="end_date" class="form-control"
+                                value="<?php echo date('Y-m-d'); ?>" placeholder="Fecha cierre caja">
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
                             <label for="user_close_id">Autorizando Cierre sale_box</label>
                             <select name="user_close_id" class="form-control selectpicker" id="user_close_id"
                                 data-live-search="true">

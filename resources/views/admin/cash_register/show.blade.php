@@ -26,7 +26,7 @@
         <div class="col-12 col-md-4 col-sm-6">
             <div class="form-group">
                 <label class="form-control-label" for="open">fecha de apertura</label>
-                <p>{{ $cashRegister->created_at }}</p>
+                <p>{{ $cashRegister->start_date }}</p>
             </div>
         </div>
 
@@ -34,7 +34,7 @@
             <div class="form-group">
                 <label class="form-control-label" for="close"> fecha de Cierre</label>
                 @if ($cashRegister->status == 'close')
-                    <p>{{ $cashRegister->updated_at }}</p>
+                    <p>{{ $cashRegister->end_date }}</p>
                 @endif
 
             </div>
