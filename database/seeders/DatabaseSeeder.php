@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
         $this->call(IndicatorTableSeeder::class);
         $this->call(BranchesTableSeeder::class);
         $this->call(UsersTableSeeder::class);
-        $this->call(VerificationCodeTableSeeder::class);
+        $this->call(VerificationCodeSeeder::class);
         $this->call(TaxTypeSeeder::class);
         $this->call(PercentagesTableSeeder::class);
         $this->call(CompanyTaxSeeder::class);
@@ -49,7 +49,7 @@ class DatabaseSeeder extends Seeder
         //$this->call(CustomersTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
         $this->call(ProductsSeeder::class);
-        $this->call(BranchProductsTableSeeder::class);
+        //$this->call(BranchProductsTableSeeder::class);
 
 
         $this->call(GenerationTypeTableSeeder::class);
@@ -59,11 +59,11 @@ class DatabaseSeeder extends Seeder
         $this->call(PaymentMethodsTableSeeder::class);
 
 
-        //$this->call(EmployeesTableSeeder::class);
-        //$this->call(RestaurantTableSeeder::class);
-        //$this->call(RawMaterialSeeder::class);
-        //$this->call(ProductRawmaterialSeeder::class);
-        //$this->call(BranchRawmaterialsTableSeeder::class);
-        //$this->call(OvertimeTypeSeeder::class);
+        $this->call(EmployeesTableSeeder::class);
+        $this->call(RestaurantTableSeeder::class);
+        $this->call(RawMaterialSeeder::class);
+        $this->call(ProductRawmaterialSeeder::class);
+        $this->call(BranchRawmaterialsTableSeeder::class);
+        $this->call(OvertimeTypeSeeder::class);
     }
 }

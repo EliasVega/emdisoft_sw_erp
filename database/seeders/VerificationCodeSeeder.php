@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class GenerationTypeTableSeeder extends Seeder
+class VerificationCodeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,18 +15,16 @@ class GenerationTypeTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('generation_types')->delete();
+        DB::table('verification_codes')->delete();
 
-        DB::table('generation_types')->insert(array (
+        DB::table('verification_codes')->insert(array (
             0 =>
             array (
                 'id' => 1,
-                'description' => 'Por operación',
-            ),
-            1 =>
-            array (
-                'id' => 2,
-                'description' => 'Acumulado semanal',
+                'user_id' => 2,
+                'code' => '901286970',
+                'created_at' => '2024-01-12 21:07:43',
+                'updated_at' => '2024-01-12 21:07:43'
             ),
         ));
     }
