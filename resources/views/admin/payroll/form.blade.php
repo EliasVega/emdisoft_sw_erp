@@ -23,6 +23,12 @@
         </div>
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
+        <div class="col">
+            <label for="month">Nomina mes</label>
+            <input type="month" name="month" id="month" class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="start_date">F/Inicio</label>
             <input type="date" name="start_date" id="start_date"  class="form-control"  placeholder="Fecha Inicio">

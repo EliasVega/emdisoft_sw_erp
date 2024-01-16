@@ -21,11 +21,11 @@ class IndicatorTableSeeder extends Seeder
             0 =>
             array (
                 'id' => 1,
-                'smlv' => 1160000,
-                'transport_assistance' => 140606,
+                'smlv' => 1300000,
+                'transport_assistance' => 162000,
                 'weekly_hours' => 47,
-                'uvt' => 42412,
-                'plastic_bag_tax' => 60,
+                'uvt' => 47065,
+                'plastic_bag_tax' => 66,
                 'dian' => 'off',
                 'pos' => 'off',
                 'payroll' => 'on',

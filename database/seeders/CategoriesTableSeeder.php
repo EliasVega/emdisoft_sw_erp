@@ -18,149 +18,74 @@ class CategoriesTableSeeder extends Seeder
         DB::table('categories')->delete();
 
         DB::table('categories')->insert(array (
-            0=>
+            0 =>
             array (
                 'id' => 1,
-                'name' => 'ASEO',
-                'description' => 'ASEO',
-                'utility_rate' => '20.00',
+                'name' => 'Electricos',
+                'description' => 'Todo lo relacionado con insumos electricos',
+                'utility_rate' => '30.00',
                 'status' => 'active',
-                'company_tax_id' => 1,
-                'created_at' => '2024-01-14 12:00:00',
-                'updated_at' => '2024-01-14 12:00:00'
+                'company_tax_id' => 2,
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43',
             ),
-            1=>
+            1 =>
             array (
                 'id' => 2,
-                'name' => 'ASEO PERSONAL',
-                'description' => 'ASEO PERSONAL',
-                'utility_rate' => '20.00',
+                'name' => 'Ferreteria',
+                'description' => 'Todo lo relacionado con Herramientas de Ferreteria',
+                'utility_rate' => '30.00',
                 'status' => 'active',
-                'company_tax_id' => 1,
-                'created_at' => '2024-01-14 12:00:00',
-                'updated_at' => '2024-01-14 12:00:00'
+                'company_tax_id' => 2,
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43',
             ),
-            2=>
+            2 =>
             array (
                 'id' => 3,
-                'name' => 'Abarrotes',
-                'description' => 'Abarrotes',
-                'utility_rate' => '20.00',
+                'name' => 'Computadores',
+                'description' => 'Todo lo relacionado con Computacion',
+                'utility_rate' => '30.00',
                 'status' => 'active',
-                'company_tax_id' => 1,
-                'created_at' => '2024-01-14 12:00:00',
-                'updated_at' => '2024-01-14 12:00:00'
+                'company_tax_id' => 11,
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43',
             ),
-            3=>
+            3 =>
             array (
                 'id' => 4,
-                'name' => 'Bebidas',
-                'description' => 'Bebidas',
-                'utility_rate' => '20.00',
+                'name' => 'tablet',
+                'description' => 'Todo lo relacionado con tablets',
+                'utility_rate' => '30.00',
                 'status' => 'active',
-                'company_tax_id' => 1,
-                'created_at' => '2024-01-14 12:00:00',
-                'updated_at' => '2024-01-14 12:00:00'
+                'company_tax_id' => 2,
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43',
             ),
-            4=>
+            4 =>
             array (
                 'id' => 5,
-                'name' => 'MEDICAMENTOS',
-                'description' => 'MEDICAMENTOS',
-                'utility_rate' => '20.00',
+                'name' => 'Productos gravados con INC',
+                'description' => 'Gastos de la empresa',
+                'utility_rate' => '0.00',
                 'status' => 'active',
-                'company_tax_id' => 1,
-                'created_at' => '2024-01-14 12:00:00',
-                'updated_at' => '2024-01-14 12:00:00'
+                'company_tax_id' => 3,
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43',
             ),
-            5=>
+            5 =>
             array (
                 'id' => 6,
-                'name' => 'Papeleria',
-                'description' => 'Papeleria',
-                'utility_rate' => '20.00',
+                'name' => 'Excentos',
+                'description' => 'Gastos de la empresa',
+                'utility_rate' => '0.00',
                 'status' => 'active',
                 'company_tax_id' => 1,
-                'created_at' => '2024-01-14 12:00:00',
-                'updated_at' => '2024-01-14 12:00:00'
-            ),
-            6=>
-            array (
-                'id' => 7,
-                'name' => 'Desechables',
-                'description' => 'Desechables',
-                'utility_rate' => '20.00',
-                'status' => 'active',
-                'company_tax_id' => 1,
-                'created_at' => '2024-01-14 12:00:00',
-                'updated_at' => '2024-01-14 12:00:00'
-            ),
-            7=>
-            array (
-                'id' => 8,
-                'name' => 'Snacks',
-                'description' => 'Snacks',
-                'utility_rate' => '20.00',
-                'status' => 'active',
-                'company_tax_id' => 1,
-                'created_at' => '2024-01-14 12:00:00',
-                'updated_at' => '2024-01-14 12:00:00'
-            ),
-            8=>
-            array (
-                'id' => 9,
-                'name' => 'Lacteos',
-                'description' => 'Lacteos',
-                'utility_rate' => '20.00',
-                'status' => 'active',
-                'company_tax_id' => 1,
-                'created_at' => '2024-01-14 12:00:00',
-                'updated_at' => '2024-01-14 12:00:00'
-            ),
-            9=>
-            array (
-                'id' => 10,
-                'name' => 'Confiteria',
-                'description' => 'Confiteria',
-                'utility_rate' => '20.00',
-                'status' => 'active',
-                'company_tax_id' => 1,
-                'created_at' => '2024-01-14 12:00:00',
-                'updated_at' => '2024-01-14 12:00:00'
-            ),
-            10=>
-            array (
-                'id' => 11,
-                'name' => 'Granos',
-                'description' => 'Granos',
-                'utility_rate' => '20.00',
-                'status' => 'active',
-                'company_tax_id' => 1,
-                'created_at' => '2024-01-14 12:00:00',
-                'updated_at' => '2024-01-14 12:00:00'
-            ),
-            11=>
-            array (
-                'id' => 12,
-                'name' => 'SERVICIOS',
-                'description' => 'SERVICIOS',
-                'utility_rate' => '20.00',
-                'status' => 'active',
-                'company_tax_id' => 1,
-                'created_at' => '2024-01-14 12:00:00',
-                'updated_at' => '2024-01-14 12:00:00'
-            ),
-            12=>
-            array (
-                'id' => 13,
-                'name' => 'CARNES FRIAS',
-                'description' => 'CARNES FRIAS',
-                'utility_rate' => '20.00',
-                'status' => 'active',
-                'company_tax_id' => 1,
-                'created_at' => '2024-01-14 12:00:00',
-                'updated_at' => '2024-01-14 12:00:00'
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43',
             ),
         ));
+
+
     }
 }

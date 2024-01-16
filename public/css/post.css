@@ -129,7 +129,7 @@ body {
 
 .table tbody tr td {
     text-align: left;
-    font-size: 0.6em;
+    font-size: 0.8em;
 }
 .table tbody tr .tdRight {
     text-align: right;
@@ -137,7 +137,7 @@ body {
 }
 
 .table tfoot tr {
-    font-size: 0.6em;
+    font-size: 0.8em;
 }
 
 .footRight {

@@ -31,6 +31,11 @@
     $("#start_date").change(dateProp);
     $("#end_date").change(timeValue);
 
+    $("#month").change(prueba);
+    function prueba(){
+        $('#end_date').prop("readonly", false)
+    }
+
     function dateProp(){
         $('#end_date').prop("readonly", false)
     }
