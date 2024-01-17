@@ -25,8 +25,6 @@ class Product extends Model
         'stock_min',
         'type_product',
         'status',
-        'image',
-        'imageName',
         'category_id',
         'unit_measure_id'
     ];

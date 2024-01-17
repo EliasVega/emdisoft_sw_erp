@@ -24,8 +24,6 @@ return new class extends Migration
             $table->decimal('stock_min',10,2)->nullable()->default(0);
             $table->enum('type_product', ['product', 'service', 'consumer']);
             $table->enum('status', ['active', 'inactive'])->default('active');
-            $table->string('imageName', 45);
-            $table->string('image', 255);
 
             $table->foreignId('category_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('measure_unit_id')->constrained()->onUpdate('cascade');

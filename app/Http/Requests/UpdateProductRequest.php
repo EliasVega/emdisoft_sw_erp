@@ -32,8 +32,6 @@ class UpdateProductRequest extends FormRequest
             'stock_min' => 'nullable',
             'type_product' => 'required|in:product,service,consumer',
             'status' => 'in:active,inactive',
-            'image' => 'image|mimes:jpeg,png|max:1000',
-            'imageName' => '',
             'category_id' => 'required|integer',
             'measure_unit_id' => 'required|integer'
         ];
