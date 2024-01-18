@@ -60,8 +60,7 @@ $(document).ready(function ()
             autoWidth: true,
             processing: true,
             serverSide: true,
-            ajax: "xhr.php",
-            ajax: '/get_data.php',
+            ajax: "../server_side/scripts/server_processing.php",
             language: {
                 url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
             },

@@ -183,7 +183,6 @@ class ProviderController extends Controller
         if ($phone == null) {
             $phone = 316555;
         }
-        dd($department . '-' . $municipality . '-' . $postalCode);
         $provider = new Provider();
         $provider->department_id = $request->department_id;
         $provider->municipality_id = $request->municipality_id;
