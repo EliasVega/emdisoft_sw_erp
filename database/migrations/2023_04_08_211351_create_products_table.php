@@ -27,6 +27,8 @@ return new class extends Migration
 
             $table->foreignId('category_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('measure_unit_id')->constrained()->onUpdate('cascade');
+
+            $table->timestamps();
         });
     }
 
