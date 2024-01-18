@@ -27,8 +27,11 @@
             <div class="company">
                 <p><strong id="companyName">{{  $company->name  }}</strong></p>
 
-                <p id="companyData">Nit: {{ $company->nit }} - {{ $company->dv }} - {{ $company->regime->name }} - {{ $company->nameO }}  {{ $purchase->branch->address }} - {{ $company->municipality->name }} {{ $company->department->name }} <br> Email: {{ $purchase->branch->email }}
-                    </p>
+                <p id="companyData">Nit: {{ $company->nit }} - {{ $company->dv }} <br> - {{ $purchase->branch->address }} - {{ $purchase->branch->municipality->name }} -{{ $purchase->branch->department->name }} - Email: {{ $purchase->branch->email }}
+                @if ($indicator->dian == 'on')
+                    - {{ $company->regime->name }} - {{ $company->nameO }}
+                @endif
+                <br></p>
             </div>
             <!--DATOS FACTURA -->
             <div id="document">
@@ -49,17 +52,11 @@
                     <div id="thirdHeader">
                         <span id="rowHeader">CC o NIT: </span><br>
                         <span id="rowHeader">NOMBRE:   </span><br>
-                        <span id="rowHeader">DIRECCION:</span><br>
-                        <span id="rowHeader">CIUDAD:   </span><br>
-                        <span id="rowHeader">TELEFONO: </span><br>
                         <span id="rowHeader">EMAIL:    </span><br>
                     </div>
                     <div id="thirdData">
                         <span id="rowData">{{ $purchase->third->identification }}</span><br>
                         <span id="rowData">{{ $purchase->third->name }}</span><br>
-                        <span id="rowData">{{ $purchase->third->address }}</span><br>
-                        <span id="rowData">{{ $purchase->third->municipality->name }}</span><br>
-                        <span id="rowData">{{ $purchase->third->phone }}</span><br>
                         <span id="rowData">{{ $purchase->third->email }}</span><br>
                     </div>
                 </div>
@@ -70,14 +67,14 @@
                     <span id="title">Compra modificada con la Nota debito {{ $debitNote->document }}</span>
                 </div>
             </div>
-        @endif
-        @if ($creditNote != null)
-            <div class="center">
-                <div id="thirdTitle">
-                    <span id="title">Compra modificada con la Nota credito {{ $creditNote->document }}</span>
+            @endif
+            @if ($creditNote != null)
+                <div class="center">
+                    <div id="thirdTitle">
+                        <span id="title">Compra modificada con la Nota credito {{ $creditNote->document }}</span>
+                    </div>
                 </div>
-            </div>
-        @endif
+            @endif
             <div class="clearfix"></div>
             <table class="table">
                 <!--DETALLE DE VENTA -->
@@ -163,11 +160,20 @@
                          </tr>
                      @endif
                     <tr>
-                        <th colspan="3" class="footRight">SALDO A PAGAR</th>
+                        <th colspan="3" class="footRight">A PAGAR</th>
                         <td class="footRight"><strong>$ {{number_format($purchase->total_pay -  $purchase->pay - $debitNote - $retentionsum + $creditNote + $retentionnd - $retentionnc,2)}}</strong></td>
                     </tr>
                 </tfoot>
             </table>
+            <div class="center">
+                <div id="third">
+                    <!--DATOS CLIENTE -->
+                    <div>
+                        <span id="rowHeader"><strong>Elaborado por:</strong></span><br>
+                        <span id="rowData"><strong>{{ $user }}</strong></span><br>
+                    </div>
+                </div>
+            </div>
         </div>
         <br>
         <br>

@@ -27,7 +27,7 @@
             <div class="company">
                 <p><strong id="companyName">{{  $company->name  }}</strong></p>
 
-                <p id="companyData">Nit: {{ $company->nit }} - {{ $company->dv }} - {{ $company->regime->name }} - {{ $company->nameO }}  {{ $purchaseOrder->user->branch->address }} - {{ $company->municipality->name }} {{ $company->department->name }} <br> Email: {{ $purchaseOrder->user->branch->email }}
+                <p id="companyData">Nit: {{ $company->nit }} - {{ $company->dv }} - {{ $purchaseOrder->user->branch->address }} -  <br> Email: {{ $purchaseOrder->user->branch->email }}
                     </p>
             </div>
             <!--DATOS FACTURA -->
@@ -49,17 +49,11 @@
                     <div id="thirdHeader">
                         <span id="rowHeader">CC o NIT: </span><br>
                         <span id="rowHeader">NOMBRE:   </span><br>
-                        <span id="rowHeader">DIRECCION:</span><br>
-                        <span id="rowHeader">CIUDAD:   </span><br>
-                        <span id="rowHeader">TELEFONO: </span><br>
                         <span id="rowHeader">EMAIL:    </span><br>
                     </div>
                     <div id="thirdData">
                         <span id="rowData">{{ $purchaseOrder->third->identification }}</span><br>
                         <span id="rowData">{{ $purchaseOrder->third->name }}</span><br>
-                        <span id="rowData">{{ $purchaseOrder->third->address }}</span><br>
-                        <span id="rowData">{{ $purchaseOrder->third->municipality->name }}</span><br>
-                        <span id="rowData">{{ $purchaseOrder->third->phone }}</span><br>
                         <span id="rowData">{{ $purchaseOrder->third->email }}</span><br>
                     </div>
                 </div>

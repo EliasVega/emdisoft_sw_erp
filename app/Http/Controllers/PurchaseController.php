@@ -1263,6 +1263,7 @@ class PurchaseController extends Controller
         } else {
             $productPurchases = PurchaseRawmaterial::where('purchase_id', $purchase->id)->where('quantity', '>', 0)->get();
         }
+        $user = current_user()->name;
         $company = Company::findOrFail(1);
         $indicator = Indicator::findOrFail(1);
         $debitNotes = Ndpurchase::where('purchase_id', $id)->first();
@@ -1303,6 +1304,7 @@ class PurchaseController extends Controller
             'purchase',
             'days',
             'productPurchases',
+            'user',
             'company',
             'indicator',
             'logo',
@@ -1317,7 +1319,7 @@ class PurchaseController extends Controller
         ))->render();
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
-        $pdf->setPaper ('b7', 'portrait');
+        $pdf->setPaper (array(0,0,226.76,1846.64), 'portrait');
 
         return $pdf->stream('vista-pdf', "$purchasepdf.pdf");
         //return $pdf->download("$purchasepdf.pdf");

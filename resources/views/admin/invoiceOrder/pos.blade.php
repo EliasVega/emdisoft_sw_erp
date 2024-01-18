@@ -27,7 +27,7 @@
             <div class="company">
                 <p><strong id="companyName">{{  $company->name  }}</strong></p>
 
-                <p id="companyData">Nit: {{ $company->nit }} - {{ $company->dv }} - {{ $company->regime->name }} - {{ $company->nameO }}  {{ $invoiceOrder->branch->address }} - {{ $company->municipality->name }} {{ $company->department->name }} <br> Email: {{ $invoiceOrder->branch->email }}
+                <p id="companyData">Nit: {{ $company->nit }} - {{ $company->dv }} - {{ $invoiceOrder->branch->address }} - <br> Email: {{ $invoiceOrder->branch->email }}
                     </p>
             </div>
             <!--DATOS FACTURA -->

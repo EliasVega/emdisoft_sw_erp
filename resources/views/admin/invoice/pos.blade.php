@@ -27,8 +27,11 @@
             <div class="company">
                 <p><strong id="companyName">{{  $company->name  }}</strong></p>
 
-                <p id="companyData">Nit: {{ $company->nit }} - {{ $company->dv }} - {{ $company->regime->name }} - {{ $company->nameO }}  {{ $invoice->branch->address }} - {{ $company->municipality->name }} {{ $company->department->name }} <br> Email: {{ $invoice->branch->email }}
-                    </p>
+                <p id="companyData">Nit: {{ $company->nit }} - {{ $company->dv }} <br> - {{ $invoice->branch->address }} - {{ $invoice->branch->municipality->name }} - {{ $invoice->branch->department->name }} - Email: {{ $invoice->branch->email }}
+                @if ($indicator->dian == 'on')
+                    {{ $company->regime->name }} - {{ $company->nameO }}
+                @endif
+                <br></p>
             </div>
             <!--DATOS FACTURA -->
             <div id="document">
@@ -119,6 +122,15 @@
                 @endif
             </tfoot>
         </table>
+        <div class="center">
+            <div id="third">
+                <!--DATOS CLIENTE -->
+                <div>
+                    <span id="rowHeader"><strong>Elaborado por:</strong></span><br>
+                    <span id="rowData"><strong>{{ $user }}</strong></span><br>
+                </div>
+            </div>
+        </div>
     </div>
     @if ($restaurantOrder != null)
         @if ($restaurantOrder->restaurant_table_id == 1 && $homeOrder->type == 'home')
