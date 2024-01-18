@@ -184,18 +184,18 @@ class ProviderController extends Controller
             $phone = 316555;
         }
         $provider = new Provider();
-        $provider->department_id = $request->department_id;
-        $provider->municipality_id = $request->municipality_id;
+        $provider->department_id = $department;
+        $provider->municipality_id = $municipality;
         $provider->identification_type_id = $request->identification_type_id;
-        $provider->liability_id = $request->liability_id;
-        $provider->organization_id = $request->organization_id;
-        $provider->regime_id = $request->regime_id;
-        $provider->postal_code_id = $request->postal_code_id;
+        $provider->liability_id = $liability;
+        $provider->organization_id = $organization;
+        $provider->regime_id = $regime;
+        $provider->postal_code_id = $postalCode;
         $provider->name = $request->name;
         $provider->identification = $request->identification;
         $provider->dv = $request->dv;
-        $provider->address = $request->address;
-        $provider->phone = $request->phone;
+        $provider->address = $address;
+        $provider->phone = $phone;
         $provider->email = $request->email;
         $provider->merchant_registration = $request->merchant_registration;
         $provider->contact = $request->contact;
