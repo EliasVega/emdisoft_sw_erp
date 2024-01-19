@@ -1342,6 +1342,7 @@ class PurchaseController extends Controller
         $days = $purchase->created_at->diffInDays($purchase->due_date);
         $purchasepdf = "COMP-". $purchase->document;
         $logo = './imagenes/logos'.$company->logo;
+        $user = current_user()->name;
         $retentions = Tax::from('taxes as tax')
         ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
@@ -1385,7 +1386,8 @@ class PurchaseController extends Controller
             'debitNote',
             'creditNote',
             'retentionnd',
-            'retentionnc'
+            'retentionnc',
+            'user'
         ))->render();
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);

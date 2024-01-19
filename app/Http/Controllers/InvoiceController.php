@@ -810,6 +810,7 @@ class InvoiceController extends Controller
         $creditNotes = Ncinvoice::where('invoice_id', $id)->first();
         $days = $invoice->created_at->diffInDays($invoice->due_date);
         $invoicepdf = $invoice->document;
+        $user = current_user()->name;
         $logo = './imagenes/logos'.$company->logo;
         $retention = Tax::where('type', 'invoice')->where('taxable_id', $invoice->id)->get();
         $retentions = Tax::from('taxes as tax')
@@ -858,7 +859,8 @@ class InvoiceController extends Controller
             'creditNote',
             'retentionnd',
             'retentionnc',
-            'paymentReturns'
+            'paymentReturns',
+            'user'
         ))->render();
             $pdf = App::make('dompdf.wrapper');
             $pdf->loadHTML($view);
@@ -883,7 +885,7 @@ class InvoiceController extends Controller
         }
         $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->where('quantity', '>', 0)->get();
         $company = Company::findOrFail(1);
-
+        $user = current_user()->name;
         $debitNotes = Ndinvoice::where('invoice_id', $invoice->id)->first();
         $creditNotes = Ncinvoice::where('invoice_id', $invoice->id)->first();
         $days = $invoice->created_at->diffInDays($invoice->due_date);
@@ -937,7 +939,8 @@ class InvoiceController extends Controller
             'creditNote',
             'retentionnd',
             'retentionnc',
-            'paymentReturns'
+            'paymentReturns',
+            'user'
         ))->render();
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
