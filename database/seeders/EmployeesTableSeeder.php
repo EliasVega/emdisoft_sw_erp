@@ -57,7 +57,7 @@ class EmployeesTableSeeder extends Seeder
                 'phone' => '3014109204',
                 'email' => 'comercial.ecounts@gmail.com',
                 'code' => '91343991',
-                'salary' => '1600000.00',
+                'salary' => '1300000.00',
                 'admission_date' => '2023-01-12',
                 'account_type' => 'ahorros',
                 'account_number' => '123456785',

@@ -59,11 +59,11 @@ class DatabaseSeeder extends Seeder
         $this->call(PaymentMethodsTableSeeder::class);
 
 
-        //$this->call(EmployeesTableSeeder::class);
-        //$this->call(RestaurantTableSeeder::class);
-        //$this->call(RawMaterialSeeder::class);
-        //$this->call(ProductRawmaterialSeeder::class);
-        //$this->call(BranchRawmaterialsTableSeeder::class);
-        //$this->call(OvertimeTypeSeeder::class);
+        $this->call(EmployeesTableSeeder::class);
+        $this->call(RestaurantTableSeeder::class);
+        $this->call(RawMaterialSeeder::class);
+        $this->call(ProductRawmaterialSeeder::class);
+        $this->call(BranchRawmaterialsTableSeeder::class);
+        $this->call(OvertimeTypeSeeder::class);
     }
 }
