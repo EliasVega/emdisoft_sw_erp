@@ -23,8 +23,7 @@ class InvoiceProduct extends Model
         'iva_subtotal',
 
         'invoice_id',
-        'product_id',
-        'employee_id'
+        'product_id'
     ];
     public function invoice(){
         return $this->belongsTo(Invoice::class);
@@ -32,9 +31,5 @@ class InvoiceProduct extends Model
 
     public function product(){
         return $this->belongsTo(Product::class);
-    }
-
-    public function employee(){
-        return $this->belongsTo(Employee::class);
     }
 }

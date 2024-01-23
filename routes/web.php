@@ -20,6 +20,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DiscrepancyController;
 use App\Http\Controllers\DocumentTypeController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\EmployeeInvoiceProductController;
 use App\Http\Controllers\EmployeeSubtypeController;
 use App\Http\Controllers\EmployeeTypeController;
 use App\Http\Controllers\EnvironmentController;
@@ -123,6 +124,7 @@ Route::resource('department', DepartmentController::class);
 Route::resource('discrepancy', DiscrepancyController::class);
 Route::resource('documentType', DocumentTypeController::class);
 Route::resource('employee', EmployeeController::class);
+Route::resource('employeeInvoiceProduct', EmployeeInvoiceProductController::class);
 Route::resource('employeeSubtype', EmployeeSubtypeController::class);
 Route::resource('employeeType', EmployeeTypeController::class);
 Route::resource('environment', EnvironmentController::class);
@@ -206,6 +208,11 @@ Route::get('cuatomer/customerPay/{id}', [CustomerController::class, 'customerPay
 
 Route::get('employee/status/{id}', [EmployeeController::class, 'status'])->name('employeeStatus');
 Route::get('employee/create/{id}', [EmployeeController::class, 'getMunicipalities']);
+Route::get('employee/paymentCommission/{id}', [EmployeeController::class, 'paymentCommission'])->name('paymentCommission');
+Route::put('updateCommission', [EmployeeController::class, 'updateCommission'])->name('updateCommission');
+
+Route::get('indexCanceled', [EmployeeInvoiceProductController::class, 'indexCanceled'])->name('indexCanceled');
+Route::get('indexPendient', [EmployeeInvoiceProductController::class, 'indexPendient'])->name('indexPendient');
 
 Route::get('expense/create/{id}', [ExpenseController::class, 'getMunicipalities']);
 Route::get('expense/expensePay/{id}', [ExpenseController::class, 'expensePay'])->name('expensePay');

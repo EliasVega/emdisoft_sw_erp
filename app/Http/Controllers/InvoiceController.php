@@ -15,6 +15,7 @@ use App\Models\CompanyTax;
 use App\Models\Customer;
 use App\Models\Discrepancy;
 use App\Models\Employee;
+use App\Models\EmployeeInvoiceProduct;
 use App\Models\Environment;
 use App\Models\HomeOrder;
 use App\Models\Indicator;
@@ -194,7 +195,7 @@ class InvoiceController extends Controller
      */
     public function store(StoreInvoiceRequest $request)
     {
-        dd($request->all());
+        //dd($request->all());
         $company = Company::findOrFail(current_user()->company_id);
         $environment = Environment::where('id', 11)->first();
         $indicator = Indicator::findOrFail(1);
@@ -230,7 +231,7 @@ class InvoiceController extends Controller
         $tax_rate = $request->tax_rate;
         $branch = current_user()->branch_id;
         $total_pay = $request->total_pay;
-
+        $employee_id = $request->employee_id;
         $paymentForm = $request->payment_form_id;
 
         if ($indicator->pos == 'on'  && $paymentForm == 1) {
@@ -325,6 +326,23 @@ class InvoiceController extends Controller
                 $quantityLocal = $quantity[$i];
                 $this->inventoryInvoices($product, $branchProducts, $quantityLocal, $branch);//trait para actualizar inventario
                 $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
+
+                //metodo para comisiones de empleados
+                $subtotal = $quantity[$i] * $price[$i];
+                $commission = $product->commission;
+                $valueCommission = ($subtotal/100) * $commission;
+                if ($employee_id[$i] != 'null') {
+                    $employeeInvoiceProduct = new EmployeeInvoiceProduct();
+                    $employeeInvoiceProduct->invoice_product_id = $invoiceProduct->id;
+                    $employeeInvoiceProduct->employee_id = $employee_id[$i];
+                    $employeeInvoiceProduct->quantity = $quantity[$i];
+                    $employeeInvoiceProduct->price = $price[$i];
+                    $employeeInvoiceProduct->subtotal = $subtotal;
+                    $employeeInvoiceProduct->commission = $commission;
+                    $employeeInvoiceProduct->value_commission =$valueCommission;
+                    $employeeInvoiceProduct->status = 'pendient';
+                    $employeeInvoiceProduct->save();
+                }
 
             }
 

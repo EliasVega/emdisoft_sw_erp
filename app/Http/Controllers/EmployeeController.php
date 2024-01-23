@@ -10,6 +10,7 @@ use App\Models\Branch;
 use App\Models\charge;
 use App\Models\ContratType;
 use App\Models\Department;
+use App\Models\EmployeeInvoiceProduct;
 use App\Models\EmployeeSubtype;
 use App\Models\EmployeeType;
 use App\Models\IdentificationType;
@@ -246,5 +247,52 @@ class EmployeeController extends Controller
 
             return response()->json($municipalities);
         }
+    }
+
+    public function paymentCommission(Request $request, $id)
+    {
+        $employee = Employee::findOrFail($id);
+        $employeeInvoiceProduct = EmployeeInvoiceProduct::from('employee_invoice_products as eip')
+        ->join('employees as emp', 'eip.employee_id', 'emp.id')
+        ->join('invoice_products as ip', 'eip.invoice_product_id', 'ip.id')
+        ->join('products as pro', 'ip.product_id', 'pro.id')
+        ->select('eip.id', 'eip.quantity', 'eip.price', 'eip.subtotal', 'eip.commission', 'eip.value_commission', 'eip.status', 'eip.created_at', 'pro.name')
+        ->where('emp.id', $id)
+        ->where('eip.status', 'pendient')
+        ->get();
+        return view('admin.employee.paymentCommission', compact(
+            'employee',
+            'employeeInvoiceProduct'
+        ));
+    }
+
+    public function updateCommission(UpdateEmployeeRequest $request, Employee $employee)
+    {
+        $employee->branch_id = $request->branch_id;
+        $employee->department_id = $request->department_id;
+        $employee->municipality_id = $request->municipality_id;
+        $employee->identification_type_id = $request->identification_type_id;
+        $employee->employee_type_id = $request->employee_type_id;
+        $employee->employee_subtype_id = $request->employee_subtype_id;
+        $employee->payment_frecuency_id = $request->payment_frecuency_id;
+        $employee->contrat_type_id = $request->contrat_type_id;
+        $employee->charge_id = $request->charge_id;
+        $employee->payment_method_id = $request->payment_method_id;
+        $employee->bank_id = $request->bank_id;
+        $employee->name = $request->name;
+        $employee->identification = $request->identification;
+        $employee->address = $request->address;
+        $employee->phone = $request->phone;
+        $employee->email = $request->email;
+        $employee->code = $request->code;
+        $employee->salary = $request->salary;
+        $employee->admission_date = $request->admission_date;
+        $employee->account_type = $request->account_type;
+        $employee->account_number = $request->account_number;
+        $employee->status = $request->status;
+        $employee->update();
+
+        Alert::success('Empleado','Editado Satisfactoriamente.');
+        return redirect("employee");
     }
 }

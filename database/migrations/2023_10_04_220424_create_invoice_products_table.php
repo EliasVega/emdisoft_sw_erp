@@ -22,7 +22,6 @@ return new class extends Migration
 
             $table->foreignId('invoice_id')->constrained()->onUpdate('cascade');
             $table->foreignId('product_id')->constrained()->onUpdate('cascade');
-            //$table->foreignId('employee_id')->nullable()->constrained()->onUpdate('cascade');
 
             $table->timestamps();
         });
