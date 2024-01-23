@@ -117,6 +117,10 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         //dd($request->all());
+        $commission = $request->commission;
+        if ($commission == null) {
+            $commission = '0.00';
+        }
         $indicator = Indicator::findOrFail(1);
         $product = new Product();
         $product->category_id = $request->category_id;
@@ -125,6 +129,7 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->price = $request->price;
         $product->sale_price = $request->sale_price;
+        $product->commission = $commission;
         $product->type_product = $request->type_product;
         $product->stock = $request->stock;
         $product->stock_min = $request->stock_min;
@@ -206,12 +211,14 @@ class ProductController extends Controller
     public function update(UpdateProductRequest $request, Product $product)
     {
         //dd($request->all());
+
         $product->category_id = $request->category_id;
         $product->measure_unit_id = $request->measure_unit_id;
         $product->code = $request->code;
         $product->name = $request->name;
         $product->price = $request->price;
         $product->sale_price = $request->sale_price;
+        $product->commission = $request->commission;
         $product->type_product = $request->type_product;
         $product->stock = $product->stock;
         $product->stock_min = $request->stock_min;

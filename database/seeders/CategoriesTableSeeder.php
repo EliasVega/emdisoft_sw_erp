@@ -84,6 +84,28 @@ class CategoriesTableSeeder extends Seeder
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43',
             ),
+            6 =>
+            array (
+                'id' => 7,
+                'name' => 'Mantenimiento',
+                'description' => 'Servicio de Mantnimiento',
+                'utility_rate' => '30.00',
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43',
+            ),
+            6 =>
+            array (
+                'id' => 7,
+                'name' => 'Mecanica',
+                'description' => 'Servicio de Mecanica',
+                'utility_rate' => '40.00',
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43',
+            )
         ));
 
 

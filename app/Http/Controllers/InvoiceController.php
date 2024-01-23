@@ -14,6 +14,7 @@ use App\Models\Company;
 use App\Models\CompanyTax;
 use App\Models\Customer;
 use App\Models\Discrepancy;
+use App\Models\Employee;
 use App\Models\Environment;
 use App\Models\HomeOrder;
 use App\Models\Indicator;
@@ -131,6 +132,7 @@ class InvoiceController extends Controller
             }
         }
         $customers = Customer::get();
+        $employees = Employee::get();
         $resolutions = Resolution::where('document_type_id', 1)->where('status', 'active')->get();
         $paymentForms = PaymentForm::get();
         $paymentMethods = PaymentMethod::get();
@@ -171,6 +173,7 @@ class InvoiceController extends Controller
         return view('admin.invoice.create',
         compact(
             'customers',
+            'employees',
             'resolutions',
             'paymentForms',
             'paymentMethods',
@@ -191,7 +194,7 @@ class InvoiceController extends Controller
      */
     public function store(StoreInvoiceRequest $request)
     {
-        //dd($request->all());
+        dd($request->all());
         $company = Company::findOrFail(current_user()->company_id);
         $environment = Environment::where('id', 11)->first();
         $indicator = Indicator::findOrFail(1);

@@ -12,12 +12,13 @@ class IndicatorController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:indicator.index|indicator.edit|indicator.dianStatus|indicator.posStatus|indicator.logoStatus|indicator.payrollStatus|indicator.accountingStatus|indicator.inventoryStatus|indicator.productPrice|indicator.materialStatus|indicator.restaurantStatus|indicator.barcodeStatus', ['only'=>['index']]);
+        $this->middleware('permission:indicator.index|indicator.edit|indicator.dianStatus|indicator.posStatus|indicator.logoStatus|indicator.payrollStatus|indicator.workLaborStatus|indicator.accountingStatus|indicator.inventoryStatus|indicator.productPrice|indicator.materialStatus|indicator.restaurantStatus|indicator.barcodeStatus', ['only'=>['index']]);
         $this->middleware('permission:indicator.edit', ['only'=>['edit', 'update']]);
         $this->middleware('permission:indicator.dianStatus', ['only'=>['dianStstus']]);
         $this->middleware('permission:indicator.posStatus', ['only'=>['posStstus']]);
         $this->middleware('permission:indicator.logoStatus', ['only'=>['logoStstus']]);
         $this->middleware('permission:indicator.payrollStatus', ['only'=>['payrollStatus']]);
+        $this->middleware('permission:indicator.workLaborStatus', ['only'=>['workLaborStatus']]);
         $this->middleware('permission:indicator.accountingStatus', ['only'=>['accountingStatus']]);
         $this->middleware('permission:indicator.inventoryStatus', ['only'=>['inventoryStatus']]);
         $this->middleware('permission:indicator.productPrice', ['only'=>['productPrice']]);
@@ -41,13 +42,14 @@ class IndicatorController extends Controller
             ->addColumn('pos', 'admin/indicator/pos')
             ->addColumn('logo', 'admin/indicator/logo')
             ->addColumn('payroll', 'admin/indicator/payroll')
+            ->addColumn('workLabor', 'admin/indicator/workLabor')
             ->addColumn('accounting', 'admin/indicator/accounting')
             ->addColumn('inventory', 'admin/indicator/inventory')
             ->addColumn('productPrice', 'admin/indicator/productPrice')
             ->addColumn('rawMaterial', 'admin/indicator/rawMaterial')
             ->addColumn('restaurant', 'admin/indicator/restaurant')
             ->addColumn('barcode', 'admin/indicator/codebar')
-            ->rawColumns(['edit', 'dian', 'pos', 'logo', 'payroll', 'accounting', 'productPrice', 'inventory', 'rawMaterial', 'restaurant', 'barcode'])
+            ->rawColumns(['edit', 'dian', 'pos', 'logo', 'payroll', 'workLabor', 'accounting', 'productPrice', 'inventory', 'rawMaterial', 'restaurant', 'barcode'])
             ->make(true);
         }
 
@@ -176,6 +178,20 @@ class IndicatorController extends Controller
             $indicator->payroll = 'off';
         } else {
             $indicator->payroll = 'on';
+        }
+        $indicator->update();
+
+        return redirect('indicator');
+    }
+
+    public function workLaborStatus($id)
+    {
+        $indicator = Indicator::findOrFail($id);
+
+        if ($indicator->workLabor == 'on') {
+            $indicator->workLabor = 'off';
+        } else {
+            $indicator->workLabor = 'on';
         }
         $indicator->update();
 

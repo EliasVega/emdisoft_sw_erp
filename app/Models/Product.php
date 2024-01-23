@@ -21,6 +21,7 @@ class Product extends Model
         'name',
         'price',
         'sale_price',
+        'commission',
         'stock',
         'stock_min',
         'type_product',

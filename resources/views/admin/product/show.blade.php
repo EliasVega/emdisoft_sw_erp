@@ -36,6 +36,9 @@
             <strong>P/venta</strong>: <p><h4>{{ $product->sale_price }}</h4></p>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+            <strong>Comision</strong>: <p><h4>{{ $product->commission }}%</h4></p>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
             <strong>Stock</strong>: <p><h4>{{ $product->stock }}</h4></p>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
@@ -48,7 +51,7 @@
             <strong>U/medida</strong>: <p><h4>{{ $product->measureUnit->name }}</h4></p>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-            <strong>Utilidad</strong>: <p><h4>{{ $product->category->utility_rate }}</h4></p>
+            <strong>Utilidad</strong>: <p><h4>{{ $product->category->utility_rate }}%</h4></p>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
             <strong>Impuesto</strong>: <p><h4>{{ $product->category->companyTax->name }}</h4></p>

@@ -165,6 +165,7 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'indicator.posStatus', 'description' => 'Activar Post', 'status' => 'locked'])->syncRoles([$superAdmin]);
         Permission::create(['name' => 'indicator.logoStatus', 'description' => 'Activar Logo', 'status' => 'locked'])->syncRoles([$superAdmin]);
         Permission::create(['name' => 'indicator.payrollStatus', 'description' => 'Activar Nomina', 'status' => 'locked'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'indicator.workLaborStatus', 'description' => 'Activar Obra labor', 'status' => 'locked'])->syncRoles([$superAdmin]);
         Permission::create(['name' => 'indicator.accountingStatus', 'description' => 'Activar contabilidad', 'status' => 'locked'])->syncRoles([$superAdmin]);
         Permission::create(['name' => 'indicator.inventoryStatus', 'description' => 'Manejo inventario', 'status' => 'locked'])->syncRoles([$superAdmin]);
         Permission::create(['name' => 'indicator.productPrice', 'description' => 'Manejo Precio Producto', 'status' => 'locked'])->syncRoles([$superAdmin]);

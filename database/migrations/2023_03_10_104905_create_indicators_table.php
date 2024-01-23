@@ -25,6 +25,7 @@ return new class extends Migration
             $table->enum('pos', ['on', 'off'])->default('on');//si o no habilitacion pos
             $table->enum('logo', ['on', 'off'])->default('on');//si o no maneja logo
             $table->enum('payroll', ['on', 'off'])->default('off');//si o no manejo de nomina
+            $table->enum('work_labor', ['on', 'off'])->default('off');//pagos por obra labor
             $table->enum('accounting', ['on', 'off'])->default('off');//si o no manejo de contabilidad
             $table->enum('inventory', ['on', 'off'])->default('on');//si o no manejo de inventarios
             $table->enum('product_price', ['automatic', 'manual'])->default('automatic');//si o no manejo de precio de productos automatico

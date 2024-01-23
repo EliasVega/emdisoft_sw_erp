@@ -149,6 +149,33 @@
             <input type="number" id="price" name="price" class="form-control" placeholder="Precio">
         </div>
     </div>
+    @if ($indicator->work_labor == 'on')
+        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12" id="addEmployeeId">
+            <div class="form-group row">
+                <label class="form-control-label" for="employee_id">Operario</label>
+                <select name="employee_id" class="form-control selectpicker" id="employee_id" data-live-search="true">
+                    <option value="0" disabled selected>Seleccionar</option>
+                    @foreach ($employees as $employee)
+                        <option
+                            value="{{ $employee->id }}">{{ $employee->identification }} -- {{ $employee->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+    @else
+        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12" id="addEid">
+            <div class="form-group row">
+                <label class="form-control-label" for="employee_id">Operario</label>
+                <select name="employee_id" class="form-control selectpicker" id="employee_id" data-live-search="true">
+                    <option value="0" disabled selected>Seleccionar</option>
+                    @foreach ($employees as $employee)
+                        <option
+                            value="{{ $employee->id }}">{{ $employee->identification }} -- {{ $employee->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+    @endif
     <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">
         <div class="form-group">
             <label class="form-control-label">Add</label><br>
@@ -229,6 +256,7 @@
                     <tr>
                         <th>Eliminar</th>
                         <th>Editar</th>
+                        <th>Eid</th>
                         <th>Id</th>
                         <th>Producto</th>
                         <th>Cantidad</th>
@@ -239,19 +267,19 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <th colspan="7" class="rightfoot">TOTAL:</th>
+                        <th colspan="8" class="rightfoot">TOTAL:</th>
                         <td class="rightfoot thfoot"><strong id="total_html">$ 0.00</strong>
                             <input type="hidden" name="total" id="total">
                         </td>
                     </tr>
                     <tr>
-                        <th colspan="7" class="rightfoot">IMPUESTO:</th>
+                        <th colspan="8" class="rightfoot">IMPUESTO:</th>
                         <td class="rightfoot thfoot"><strong id="total_tax_html">$ 0.00</strong>
                             <input type="hidden" name="total_tax" id="total_tax">
                         </td>
                     </tr>
                     <tr>
-                        <th colspan="7" class="rightfoot">TOTAL VENTA:</th>
+                        <th colspan="8" class="rightfoot">TOTAL VENTA:</th>
                         <td class="rightfoot thfoot"><strong id="total_pay_html">$ 0.00</strong>
                             <input type="hidden" name="total_pay" id="total_pay">
                         </td>

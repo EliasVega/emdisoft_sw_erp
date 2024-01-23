@@ -33,6 +33,7 @@ class UpdateIndicatorRequest extends FormRequest
             'pos' => 'in:on,off',
             'logo' => 'in:on,off',
             'payroll' => 'in:on,off',
+            'work_labor' => 'in:on,off',
             'accounting' => 'in:on,off',
             'inventory' => 'in:on,off',
             'product_price' => 'in:automatic,manual',

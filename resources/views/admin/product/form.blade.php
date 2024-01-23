@@ -42,6 +42,12 @@
             </select>
         </div>
     </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for="name">Nombre del product</label>
+            <input type="text" name="name" id="name" value="{{ old('name', $product->name ?? '') }}" class="form-control" placeholder="Nombre del producto">
+        </div>
+    </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="code">Codigo</label>
@@ -49,7 +55,7 @@
         </div>
     </div>
     @if ($indicator->barcode == 'on')
-        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 mt-5 switchBarcode">
+        <div class="col-lg-4 col-md-2 col-sm-6 col-xs-12 mt-5 switchBarcode">
             <div class="form-group">
                 <div class="custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input" id="switch_barcode" checked>
@@ -58,37 +64,40 @@
             </div>
         </div>
     @endif
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
-            <label for="name">Nombre del product</label>
-            <input type="text" name="name" id="name" value="{{ old('name', $product->name ?? '') }}" class="form-control" placeholder="Nombre del producto">
+            <label for="price">P/Compra</label>
+            <input type="number" name="price" id="price" value="{{ old('price', $product->price ?? '') }}"  class="form-control" placeholder="P/compra" step="any">
         </div>
     </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="form-group">
+            <label for="sale_price">P/Venta</label>
+            <input type="number" name="sale_price" id="sale_price" value="{{ old('sale_price', $product->sale_price ?? '') }}" class="form-control" placeholder="P/Venta" step="any">
+        </div>
+    </div>
+    @if ($indicator->work_labor == 'on')
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <label for="commission">Comision</label>
+                <input type="number" name="commission" id="commission" value="{{ old('commission', $product->commission ?? '') }}" class="form-control" placeholder="comision" step="any">
+            </div>
+        </div>
+    @endif
 
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="stock">Stock</label>
             <input type="number" name="stock" id="stock" value="{{ old('stock', $product->stock ?? '') }}" class="form-control" placeholder="Stock">
         </div>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="stock_min">Stock minimo</label>
             <input type="number" name="stock_min" id="stock_min" value="{{ old('stock_min', $product->stock ?? '') }}" class="form-control" placeholder="Stock minimo">
         </div>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        <div class="form-group">
-            <label for="price">P/Compra</label>
-            <input type="number" name="price" id="price" value="{{ old('price', $product->price ?? '') }}"  class="form-control" placeholder="P/compra">
-        </div>
-    </div>
-    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-        <div class="form-group">
-            <label for="sale_price">P/Venta</label>
-            <input type="number" name="sale_price" id="sale_price" value="{{ old('sale_price', $product->sale_price ?? '') }}" class="form-control" placeholder="P/Venta">
-        </div>
-    </div>
+
 
     @if ($indicator->raw_material == 'off')
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

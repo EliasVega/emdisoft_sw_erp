@@ -33,6 +33,7 @@ class StoreIndicatorRequest extends FormRequest
             'pos' => 'required|in:on,off',
             'logo' => 'required|in:on,off',
             'payroll' => 'required|in:on,off',
+            'work_labor' => 'in:on,off',
             'accounting' => 'required|in:on,off',
             'inventory' => 'in:on,off',
             'product_price' => 'in:automatic,manual',

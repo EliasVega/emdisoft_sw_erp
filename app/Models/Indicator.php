@@ -25,6 +25,7 @@ class Indicator extends Model
         'pos',
         'logo',
         'payroll',
+        'work_labor',
         'accounting',
         'inventory',
         'product_price',

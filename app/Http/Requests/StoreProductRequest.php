@@ -28,6 +28,7 @@ class StoreProductRequest extends FormRequest
             'name' => 'required|string|max:100',
             'price' => 'required|numeric',
             'sale_price' => '',
+            'commission' => 'nullable',
             'stock' => '',
             'stock_min' => 'nullable',
             'type_product' => 'required|in:product,service,consumer',

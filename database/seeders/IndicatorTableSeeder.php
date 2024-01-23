@@ -29,6 +29,7 @@ class IndicatorTableSeeder extends Seeder
                 'dian' => 'off',
                 'pos' => 'off',
                 'payroll' => 'on',
+                'work_labor' => 'on',
                 'accounting' => 'off',
                 'inventory' => 'on',
                 'product_price' => 'automatic',

@@ -32,6 +32,7 @@
                             <th>Pos</th>
                             <th>Logo</th>
                             <th>Nom</th>
+                            <th>W/Lab</th>
                             <th>Cont.</th>
                             <th>Inv.</th>
                             <th>P/Prod</th>
@@ -73,6 +74,7 @@ $(document).ready(function ()
                 {data: 'pos'},
                 {data: 'logo'},
                 {data: 'payroll'},
+                {data: 'workLabor'},
                 {data: 'accounting'},
                 {data: 'inventory'},
                 {data: 'productPrice'},

@@ -77,6 +77,35 @@ class EmployeesTableSeeder extends Seeder
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43',
             ),
+            2 =>
+            array (
+                'id' => 3,
+                'name' => 'ARNULFO VALDIVIESO REY',
+                'identification' => '91283760',
+                'address' => 'CR 5 48 13',
+                'phone' => '3152689929',
+                'email' => 'arnulfov@gmail.com',
+                'code' => '91283760',
+                'salary' => '0.00',
+                'admission_date' => '2023-01-12',
+                'account_type' => 'ahorros',
+                'account_number' => '123456786',
+                'status' => 'active',
+
+                'branch_id' => 1,
+                'department_id' => 21,
+                'municipality_id' => 846,
+                'identification_type_id' => 3,
+                'employee_type_id' => 1,
+                'employee_subtype_id' => 1,
+                'payment_frecuency_id' => 5,
+                'contrat_type_id' => 1,
+                'charge_id' => 1,
+                'payment_method_id' => 47,
+                'bank_id' => 5,
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43',
+            ),
         ));
     }
 }

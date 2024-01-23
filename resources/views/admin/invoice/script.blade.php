@@ -55,6 +55,7 @@
     $("#save").hide();
     $("#posavtivity").hide();
     $("#barcodeId").hide();
+    $("#addEid").hide();
 
 
     $(document).ready(function(){
@@ -178,6 +179,7 @@
         $("#tax_type").val(dataProduct[4]);
         $("#utility").val(dataProduct[5]);
         $("#price").val(dataProduct[2]);
+        $("#employee_id").val(0);
     }
 
     $(document).ready(function(){
@@ -197,6 +199,7 @@
         tax_rate= $("#tax_rate").val();
         tax_type = $("#tax_type").val();
         uvt = $("#uvtmax").val();
+        employee_id = $("#employee_id").val();
         pos_on = $("#pos_active").val();
         if(product_id !="" && quantity!="" && quantity>0  && price!=""){
             subtotal[cont] = parseFloat(quantity) * parseFloat(price);
@@ -207,7 +210,7 @@
             if(tax_type == 1){
                 tax_iva += ivita;
             }
-            var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';
+            var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';
             cont++;
             totals();
             assess();
@@ -228,7 +231,8 @@
     }
 
     function clean(){
-        $("#product_id").val("");
+        $('#product_id').val(null).trigger('change');
+        //$("#product_id").val("");
         $("#barcode_product_id").val("");
         $("#product_barcode").val("");
         $("#code").val("");

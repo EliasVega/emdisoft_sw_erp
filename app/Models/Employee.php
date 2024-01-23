@@ -110,4 +110,8 @@ class Employee extends Model
     {
         return $this->hasMany(Payroll::class);
     }
+
+    public function invoiceProducts(){
+        return $this->hasMany(InvoiceProduct::class);
+    }
 }

@@ -218,6 +218,7 @@ Route::get('indicator/dianStatus/{id}', [IndicatorController::class, 'dianStatus
 Route::get('indicator/posStatus/{id}', [IndicatorController::class, 'posStatus'])->name('posStatus');
 Route::get('indicator/logoStatus/{id}', [IndicatorController::class, 'logoStatus'])->name('logoStatus');
 Route::get('indicator/payrollStatus/{id}', [IndicatorController::class, 'payrollStatus'])->name('payrollStatus');
+Route::get('indicator/workLaborStatus/{id}', [IndicatorController::class, 'workLaborStatus'])->name('workLaborStatus');
 Route::get('indicator/accountingStatus/{id}', [IndicatorController::class, 'accountingStatus'])->name('accountingStatus');
 Route::get('indicator/inventoryStatus/{id}', [IndicatorController::class, 'inventoryStatus'])->name('inventoryStatus');
 Route::get('indicator/productPrice/{id}', [IndicatorController::class, 'productPrice'])->name('productPrice');
