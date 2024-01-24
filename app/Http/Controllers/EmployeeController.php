@@ -266,33 +266,18 @@ class EmployeeController extends Controller
         ));
     }
 
-    public function updateCommission(UpdateEmployeeRequest $request, Employee $employee)
+    public function updateCommission(Request $request, Employee $employee)
     {
-        $employee->branch_id = $request->branch_id;
-        $employee->department_id = $request->department_id;
-        $employee->municipality_id = $request->municipality_id;
-        $employee->identification_type_id = $request->identification_type_id;
-        $employee->employee_type_id = $request->employee_type_id;
-        $employee->employee_subtype_id = $request->employee_subtype_id;
-        $employee->payment_frecuency_id = $request->payment_frecuency_id;
-        $employee->contrat_type_id = $request->contrat_type_id;
-        $employee->charge_id = $request->charge_id;
-        $employee->payment_method_id = $request->payment_method_id;
-        $employee->bank_id = $request->bank_id;
-        $employee->name = $request->name;
-        $employee->identification = $request->identification;
-        $employee->address = $request->address;
-        $employee->phone = $request->phone;
-        $employee->email = $request->email;
-        $employee->code = $request->code;
-        $employee->salary = $request->salary;
-        $employee->admission_date = $request->admission_date;
-        $employee->account_type = $request->account_type;
-        $employee->account_number = $request->account_number;
-        $employee->status = $request->status;
-        $employee->update();
+        //dd($request->all());
+        $id = $request->id;
+        for ($i=0; $i < count($id); $i++) {
+            $employeeInvoiceProduct = EmployeeInvoiceProduct::findOrFail($id[$i]);
+            $employeeInvoiceProduct->status = 'canceled';
+            $employeeInvoiceProduct->update();
+        }
 
-        Alert::success('Empleado','Editado Satisfactoriamente.');
+
+        Alert::success('Pago Empleado','Realizado con exito.');
         return redirect("employee");
     }
 }

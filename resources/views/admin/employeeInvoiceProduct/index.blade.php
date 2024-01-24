@@ -23,8 +23,8 @@
                                         class="fa-solid fa-magnifying-glass ml-md-1"></i></a>
                             </div>
                             <div class="col-12 col-md-2">
-                                <a id="show_all_button" class="btn btn-secondary btn-block">Todos los registros <i
-                                        class="fa-solid fa-list ml-md-1"></i></a>
+                                <a id="show_all_button" class="btn btn-secondary btn-block">Refrescar <i
+                                    class="fas fa-undo-alt mr-2"></i></a>
                             </div>
                         </div>
                     </div>
@@ -40,18 +40,17 @@
             </div>
         </div>
         <div class="text-center py-3">
-            <a class="toggle-vis btn btn-sm btn-info" data-column="0">Id</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="1">Fecha</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="2">Factura</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="3">Estado</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="4">Identificacion</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="5">Tercero</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="6">Nombre Item</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="7">Cantidad</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="8">Valor</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="9">Subtotal</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="10">%</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="11">Comision</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="0">Tercero</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="1">Identificacion</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="2">Fecha</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="3">Factura</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="4">Estado</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="5">Nombre Item</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="6">Cantidad</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="7">Valor</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="8">Subtotal</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="9">%</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="10">Comision</a>
         </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -59,12 +58,11 @@
                     <table class="table table-striped table-bordered table-condensed table-hover" id="employeeInvoices">
                         <thead class="trdatacolor">
                             <tr>
-                                <th>Id</th>
+                                <th>Tercero</th>
+                                <th>CC-NIT</th>
                                 <th>Fecha</th>
                                 <th>Factura</th>
                                 <th>Estado</th>
-                                <th>CC-NIT</th>
-                                <th>Tercero</th>
                                 <th>Nombre Item</th>
                                 <th>Cant.</th>
                                 <th>Valor</th>
@@ -75,7 +73,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <th colspan="12" style="text-align:right">Totales:</th>
+                                <th colspan="11" style="text-align:right">Totales:</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -100,10 +98,13 @@
                         },
                         ajax: '{{ route('employeeInvoiceProduct.index') }}',
                         order: [
-                            [0, "desc"]
+                            [0, "asc"]
                         ],
                         columns: [{
-                                data: 'id'
+                                data: 'employee'
+                            },
+                            {
+                                data: 'identification'
                             },
                             {
                                 data: 'created_at'
@@ -113,12 +114,6 @@
                             },
                             {
                                 data: 'status',
-                            },
-                            {
-                                data: 'identification'
-                            },
-                            {
-                                data: 'employee'
                             },
                             {
                                 data: 'product'
@@ -145,6 +140,19 @@
                                 render: $.fn.dataTable.render.number('.', ',', 2, '$')
                             },
                         ],
+                        columnDefs: [
+                            {targets: 0, visible: false},
+                            {targets: 1},
+                            {targets: 2},
+                            {targets: 3},
+                            {targets: 4},
+                            {targets: 5},
+                            {targets: 6},
+                            {targets: 7},
+                            {targets: 8},
+                            {targets: 9},
+                            {targets: 10},
+                        ],
                         dom: 'Bfltip',
                         lengthMenu: [
                             [10, 20, 50, 100, 500, -1],
@@ -153,13 +161,13 @@
                         buttons: [{
                                 extend: 'copy',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                                 }
                             },
                             {
                                 extend: 'excel',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                                 }
                             },
                             {
@@ -168,29 +176,26 @@
                                 orientation: 'landscape',
                                 pageSize: 'LEGAL',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                                 }
                             },
                             {
                                 extend: 'print',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                                 }
                             },
                         ],
-                        drawCallback: function(settings) {
+                        drawCallback: function (settings) {
                             var api = this.api();
-                            var rows = api.rows({
-                                page: 'current'
-                            }).nodes();
+                            var rows = api.rows({page: 'current'}).nodes();
                             var last = null;
-                            api.column(5, {
-                                page: 'current'
-                            }).data().each(function(group, i) {
+                            api.column(0, {page: 'current'}).data().each(function (group, i) {
                                 if (last !== group) {
                                     $(rows).eq(i).before(
-                                        `<tr class="bg-secondary"><td colspan="100">${group}</td></tr>`
+                                        `<tr class="highlight"><td colspan="11">${group}</td></tr>`
                                     );
+
                                     last = group;
                                 }
                             });
@@ -207,14 +212,14 @@
                             };
 
                             var total = api
-                                .column(11)
+                                .column(10)
                                 .data()
                                 .reduce(function(a, b) {
                                     return intVal(a) + intVal(b);
                                 }, 0);
 
                             var totalPage = api
-                                .column(11, {
+                                .column(10, {
                                     page: 'current'
                                 })
                                 .data()
@@ -222,7 +227,7 @@
                                     return intVal(a) + intVal(b);
                                 }, 0);
                             var formatNumberData = $.fn.dataTable.render.number(',', '.', 0, '').display;
-                            $(api.column(11).footer()).html(
+                            $(api.column(10).footer()).html(
                                 `$ ${formatNumberData(totalPage)} ($ ${formatNumberData( total )})`
                             )
                         }

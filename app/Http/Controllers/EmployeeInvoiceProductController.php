@@ -7,6 +7,7 @@ use App\Http\Requests\StoreEmployeeInvoiceProductRequest;
 use App\Http\Requests\UpdateEmployeeInvoiceProductRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 
 class EmployeeInvoiceProductController extends Controller
@@ -192,7 +193,14 @@ class EmployeeInvoiceProductController extends Controller
      */
     public function update(UpdateEmployeeInvoiceProductRequest $request, EmployeeInvoiceProduct $employeeInvoiceProduct)
     {
-        //
+        //dd($request->all());
+        $id = $request->id;
+        $employeeInvoiceProduct = EmployeeInvoiceProduct::findOrFail($id);
+        $employeeInvoiceProduct->status = 'canceled';
+        $employeeInvoiceProduct->update();
+
+        Alert::success('Pago Empleado','Realizado con exito.');
+        return redirect("employee");
     }
 
     /**

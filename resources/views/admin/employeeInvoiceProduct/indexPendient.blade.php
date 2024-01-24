@@ -101,7 +101,7 @@
                         },
                         ajax: '{{ route('indexPendient') }}',
                         order: [
-                            [0, "desc"]
+                            [5, "desc"]
                         ],
                         columns: [{
                                 data: 'id'

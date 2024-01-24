@@ -17,7 +17,7 @@
                     </ul>
                 </div>
             @endif
-            {!!Form::model($employee, ['method'=>'PATCH','route'=>['updateCommission', $employee->id]])!!}
+            {!!Form::model($employee, ['method'=>'PUT','route'=>['updateCommission', $employee->id]])!!}
             {!!Form::token()!!}
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     @include('admin/employee.form_commission')
