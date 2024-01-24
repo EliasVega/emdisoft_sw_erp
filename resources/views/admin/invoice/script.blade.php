@@ -52,7 +52,7 @@
     $("#documentType").hide();
     $("#uvt5").hide();
     $("#posActive").hide();
-    $("#save").hide();
+    //$("#save").hide();
     $("#posavtivity").hide();
     $("#barcodeId").hide();
     $("#addEid").hide();
@@ -155,7 +155,7 @@
             var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';
             cont++;
             totals();
-            assess();
+            //assess();
 
             $('#details').append(row);
             clean();
@@ -213,7 +213,7 @@
             var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';
             cont++;
             totals();
-            assess();
+            //assess();
 
             $('#details').append(row);
             //$('#product_id option:selected').remove();
@@ -320,7 +320,7 @@
             pos();
         }
 
-        assess();
+        //assess();
     }
 
     function editrow(index) {
@@ -379,7 +379,7 @@
 
             deleterow(contedit);
             totals();
-            assess();
+            //assess();
             $('#details').append(row);
             $('#editModal').modal('hide');
 

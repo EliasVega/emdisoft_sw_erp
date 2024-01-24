@@ -1,6 +1,6 @@
 
 @can('indicator.workLaborStatus')
-    @if ($payroll == 'on')
+    @if ($work_labor == 'on')
         <a href="{{ route('workLaborStatus', $id) }}" class="btn btn-success btn-sm" data-toggle="tooltip"
         data-placement="top" title="Activa"><i class="far fa-edit"></i></a>
     @else

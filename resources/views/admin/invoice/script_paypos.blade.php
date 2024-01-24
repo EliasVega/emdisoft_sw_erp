@@ -21,6 +21,9 @@
     $("#methodPay").hide();
     $("#totalPayValue").hide();
     $("#payment_method_id").val(2);
+    $("#returnedBalance").hide();
+    $("#valuePay").hide();
+    $("#save").hide();
 
     /*
     $("#percentage").val(0);
@@ -30,13 +33,21 @@
         $("#payment_form_id").change(function(){
             form = $("#payment_form_id").val();
             if(form == 1){
+                $("#save").hide();
                 $("#returnedBalance").show();
                 $("#valuePay").show();
                 $("#payment_method_id").val(10);
+                $("#pay").val(0);
+                $("#returned").val(0);
+                $('#pay').prop("required", true);
             }else{
                 $("#returnedBalance").hide();
                 $("#valuePay").hide();
                 $("#payment_method_id").val(1);
+                $("#pay").val(0);
+                $("#returned").val(0);
+                $('#pay').prop("required", false);
+                $("#save").show();
             }
         });
     });
@@ -54,10 +65,22 @@
         abn = parseFloat($("#pay").val())
         balancey = ttp - abn;
         $("#returned").val(balancey);
+        assesspayment();
+    }
+
+    function assesspayment(){
+        invoice = $("#returned").val();
+        if(invoice <= 0){
+            $("#save").show();
+
+        } else{
+            $("#save").hide();
+        }
     }
 
     var contpay=0;
     totalpay=0;
+    /*
     $(document).ready(function(){
         $("#paying").click(function(){
             paying();
@@ -105,31 +128,23 @@
             text: 'Rellene todos los campos del detalle del pago',
             });
         }
-    }
+    }*/
+    /*
     function clearpay(){
-            $("#payment_method_id").val("");
-            $("#bank_id").val("");
-            $("#card_id").val("");
-            $("#pay").val("");
-            $("#transaction").val("");
-        }
-        function totalpayment(){
-
-            $("#totalpay_html").html("$ " + totalpay.toFixed(2));
-            $("#totalpay").val(totalpay.toFixed(2));
-            $("#pendient").val(rbalance);
-        }
-        function assesspayment(){
-
-            if(totalpay>0){
-
-            $("#save").show();
-
-        } else{
-
-            $("#save").hide();
-        }
+        $("#payment_method_id").val("");
+        $("#bank_id").val("");
+        $("#card_id").val("");
+        $("#pay").val("");
+        $("#transaction").val("");
     }
+    function totalpayment(){
+
+        $("#totalpay_html").html("$ " + totalpay.toFixed(2));
+        $("#totalpay").val(totalpay.toFixed(2));
+        $("#pendient").val(rbalance);
+    }*/
+
+    /*
     function deletepay(index){
         paydelete = paycont[index];
         pendient = $("#pendient").val();
@@ -143,5 +158,5 @@
         $("#pendient").val(newpendient);
         $("#rowpay" + index).remove();
         assesspayment();
-    }
+    }*/
 </script>

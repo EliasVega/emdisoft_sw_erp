@@ -188,10 +188,10 @@ class IndicatorController extends Controller
     {
         $indicator = Indicator::findOrFail($id);
 
-        if ($indicator->workLabor == 'on') {
-            $indicator->workLabor = 'off';
+        if ($indicator->work_labor == 'on') {
+            $indicator->work_labor = 'off';
         } else {
-            $indicator->workLabor = 'on';
+            $indicator->work_labor = 'on';
         }
         $indicator->update();
 
