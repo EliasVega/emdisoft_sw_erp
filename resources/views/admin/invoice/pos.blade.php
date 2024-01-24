@@ -27,7 +27,7 @@
             <div class="company">
                 <p><strong id="companyName">{{  $company->name  }}</strong></p>
 
-                <p id="companyData">Nit: {{ $company->nit }} - {{ $company->dv }} <br> - {{ $invoice->branch->address }} - {{ $invoice->branch->municipality->name }} - {{ $invoice->branch->department->name }} - Email: {{ $invoice->branch->email }}
+                <p id="companyData">Nit: {{ $company->nit }} - {{ $company->dv }} <br> - {{ $invoice->branch->address }} - {{ $invoice->branch->municipality->name }} - {{ $invoice->branch->department->name }} <br>- Email: {{ $invoice->branch->email }}
                 @if ($indicator->dian == 'on')
                     {{ $company->regime->name }} - {{ $company->nameO }}
                 @endif
@@ -83,7 +83,7 @@
                     <th>Descripcion</th>
                     <th>Cant.</th>
                     <th>Valor</th>
-                    <th>SubTotal</th>
+                    <th style="width:80px">SubTotal</th>
                 </tr>
             </thead>
             <tbody>

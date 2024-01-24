@@ -82,7 +82,7 @@ body {
     float: left;
     width: 100%;
     text-align: left;
-    font-size: 0.7em;
+    font-size: 0.75em;
 }
 
 #thirdHeader {
@@ -107,7 +107,7 @@ body {
 }
 
 .table {
-    width: 100%;
+    width: 95%;
 }
 
 .table thead{
@@ -117,11 +117,12 @@ body {
 }
 .table thead tr {
     text-align: left;
-    font-size: 0.8em;
+    font-size: 0.75em;
     text-align: center;
 }
 
 .table tbody{
+    width: 100%;
     border-bottom: 2px solid #c0c0c0;
 }
 
@@ -136,7 +137,7 @@ body {
 }
 
 .table tfoot tr {
-    font-size: 0.8em;
+    font-size: 0.75em;
 }
 
 .footRight {
