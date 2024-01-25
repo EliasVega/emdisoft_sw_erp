@@ -1319,7 +1319,7 @@ class PurchaseController extends Controller
         ))->render();
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
-        $pdf->setPaper (array(0,0,216.76,1846.64), 'portrait');
+        $pdf->setPaper (array(0,0,226.76,1246.64), 'portrait');
 
         return $pdf->stream('vista-pdf', "$purchasepdf.pdf");
         //return $pdf->download("$purchasepdf.pdf");
@@ -1391,8 +1391,8 @@ class PurchaseController extends Controller
         ))->render();
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
-        $pdf->setPaper ('b7', 'portrait');
-
+        //$pdf->setPaper ('b7', 'portrait');
+        $pdf->setPaper (array(0,0,226.76,1246.64), 'portrait');
         return $pdf->stream('vista-pdf', "$purchasepdf.pdf");
         //return $pdf->download("$purchasepdf.pdf");
    }

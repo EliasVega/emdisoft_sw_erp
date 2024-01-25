@@ -1,67 +1,77 @@
+<?php
+$medidaTicket = 180;
+
+?>
 <!DOCTYPE>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet" href="{{ 'css/post.css' }}">
-        <title>Documento Equivalente de compra</title>
 
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ 'css/post.css' }}">
+    <title>Documento Equivalente de compra</title>
 
-    <header id="header">
-        <!-- LOGGO -->
-        <div class="center">
-            @if ($indicator->logo == 'on')
-                <div class="center">
-                    <div id="logo">
-                        <img src="{{ asset($company->logo) }}" alt="{{ $company->name }}">
-                    </div>
+</head>
+
+<header id="header">
+    <!-- LOGGO -->
+    <div class="center">
+        @if ($indicator->logo == 'on')
+            <div class="center">
+                <div id="logo">
+                    <img src="{{ asset($company->logo) }}" alt="{{ $company->name }}">
                 </div>
-            @endif
-        </div>
+            </div>
+        @endif
+    </div>
 
-        <div class="clearfix"></div>
-        <div class="center">
+    <div class="clearfix"></div>
+    <div class="center">
         <!--DATOS company -->
-            <div class="company">
-                <p><strong id="companyName">{{  $company->name  }}</strong></p>
+        <div class="company">
+            <p><strong id="companyName">{{ $company->name }}</strong></p>
 
-                <p id="companyData">Nit: {{ $company->nit }} - {{ $company->dv }} <br> - {{ $invoice->branch->address }} - {{ $invoice->branch->municipality->name }} - {{ $invoice->branch->department->name }} <br>- Email: {{ $invoice->branch->email }}
+            <p id="companyData">Nit: {{ $company->nit }} - {{ $company->dv }} <br> - {{ $invoice->branch->address }} -
+                {{ $invoice->branch->municipality->name }} - {{ $invoice->branch->department->name }} <br>- Email:
+                {{ $invoice->branch->email }}
                 @if ($indicator->dian == 'on')
                     {{ $company->regime->name }} - {{ $company->nameO }}
                 @endif
-                <br></p>
-            </div>
-            <!--DATOS FACTURA -->
-            <div id="document">
-                <p> {{ $company->pos_invoice }}: <strong id="numfact">N°.{{ $invoice->id }}</strong> <br>
-                    FECHA DE EMISION: <strong id="datfact">{{ date('d-m-Y', strtotime($invoice->generation_date)) }}</strong>
-                </p>
-            </div>
+                <br>
+            </p>
         </div>
-    </header>
-    <div class="clearfix"></div>
-    <body>
-        <div class="content">
-            <!--DATOS CLIENTE -->
-            <p id="title">DATOS DEL CLIENTE</p>
-            <div class="center">
-                <div id="third">
-                    <!--DATOS CLIENTE -->
-                    <div id="thirdHeader">
-                        <span id="rowHeader">CC o NIT: </span><br>
-                        <span id="rowHeader">NOMBRE:   </span><br>
-                        <span id="rowHeader">EMAIL:    </span><br>
-                    </div>
-                    <div id="thirdData">
-                        <span id="rowData">{{ $invoice->third->identification }}</span><br>
-                        <span id="rowData">{{ $invoice->third->name }}</span><br>
-                        <span id="rowData">{{ $invoice->third->email }}</span><br>
-                    </div>
+        <!--DATOS FACTURA -->
+        <div id="document">
+            <p> {{ $company->pos_invoice }}: <strong id="numfact">N°.{{ $invoice->id }}</strong> <br>
+                FECHA DE EMISION: <strong
+                    id="datfact">{{ date('d-m-Y', strtotime($invoice->generation_date)) }}</strong>
+            </p>
+        </div>
+    </div>
+</header>
+<div class="clearfix"></div>
+
+<body>
+    <div class="content">
+        <!--DATOS CLIENTE -->
+        <p id="title">DATOS DEL CLIENTE</p>
+        <div class="center">
+            <div id="third">
+                <!--DATOS CLIENTE -->
+                <div id="thirdHeader">
+                    <span id="rowHeader">CC o NIT: </span><br>
+                    <span id="rowHeader">NOMBRE: </span><br>
+                    <span id="rowHeader">EMAIL: </span><br>
+                </div>
+                <div id="thirdData">
+                    <span id="rowData">{{ $invoice->third->identification }}</span><br>
+                    <span id="rowData">{{ $invoice->third->name }}</span><br>
+                    <span id="rowData">{{ $invoice->third->email }}</span><br>
                 </div>
             </div>
-            @if ($debitNote != null)
+        </div>
+        @if ($debitNote != null)
             <div class="center">
                 <div id="thirdTitle">
                     <span id="title">Venta modificada con la Nota debito {{ $debitNote->document }}</span>
@@ -88,36 +98,41 @@
             </thead>
             <tbody>
                 @foreach ($invoiceProducts as $invoiceProduct)
-                <tr>
-                    <td>{{ $invoiceProduct->product->name }}</td>
-                    <td id="tdcenter">{{ number_format($invoiceProduct->quantity) }}</td>
-                    <td class="tdRight">${{ number_format($invoiceProduct->price)}}</td>
-                    <td class="tdRight">${{number_format($invoiceProduct->quantity * $invoiceProduct->price)}}</td>
-                </tr>
+                    <tr>
+                        <td>{{ $invoiceProduct->product->name }}</td>
+                        <td id="tdcenter">{{ number_format($invoiceProduct->quantity) }}</td>
+                        <td class="tdRight">${{ number_format($invoiceProduct->price) }}</td>
+                        <td class="tdRight">${{ number_format($invoiceProduct->quantity * $invoiceProduct->price) }}
+                        </td>
+                    </tr>
                 @endforeach
             </tbody>
             <tfoot>
                 <!--DATOS FTOTALES -->
                 <tr>
                     <th colspan="3" class="footRight">TOTAL:</th>
-                    <td colspan="3" class="footRight"><strong>${{number_format($invoice->total,2)}}</strong></td>
+                    <td colspan="3" class="footRight"><strong>${{ number_format($invoice->total, 2) }}</strong></td>
                 </tr>
                 <tr>
                     <th colspan="3" class="footRight">IMPUESTOS:</th>
-                    <td colspan="3" class="footRight"><strong>${{number_format($invoice->total_tax,2)}}</strong> </td>
+                    <td colspan="3" class="footRight"><strong>${{ number_format($invoice->total_tax, 2) }}</strong>
+                    </td>
                 </tr>
                 <tr>
                     <th colspan="3" class="footRight">TOTAL PAGAR:</th>
-                    <td colspan="3" class="footRight"><strong>${{number_format($invoice->total_pay,2)}}</strong></td>
+                    <td colspan="3" class="footRight"><strong>${{ number_format($invoice->total_pay, 2) }}</strong>
+                    </td>
                 </tr>
                 @if ($paymentReturns != null)
                     <tr>
-                        <th  colspan="3" class="footRight">EFECTIVO</th>
-                        <td colspan="3" class="footRight"><strong>$ {{number_format($paymentReturns->payment,2)}}</strong></td>
+                        <th colspan="3" class="footRight">EFECTIVO</th>
+                        <td colspan="3" class="footRight"><strong>$
+                                {{ number_format($paymentReturns->payment, 2) }}</strong></td>
                     </tr>
                     <tr>
-                        <th  colspan="3" class="footRight">CAMBIO</th>
-                        <td colspan="3" class="footRight"><strong>$ {{number_format($paymentReturns->return,2)}}</strong></td>
+                        <th colspan="3" class="footRight">CAMBIO</th>
+                        <td colspan="3" class="footRight"><strong>$
+                                {{ number_format($paymentReturns->return, 2) }}</strong></td>
                     </tr>
                 @endif
             </tfoot>
@@ -148,18 +163,12 @@
                 <p> TELEFONO: <strong class="numfact">{{ $restaurantOrder->homeOrder->phone }}</strong></p>
             </div>
             <div id="document">
-                <p> DOMICILIO: <strong class="numfact">${{ number_format($restaurantOrder->homeOrder->domicile_value,2) }}</strong></p>
+                <p> DOMICILIO: <strong
+                        class="numfact">${{ number_format($restaurantOrder->homeOrder->domicile_value, 2) }}</strong>
+                </p>
             </div>
         @endif
     @endif
-    <br>
-    <br>
-    <footer>
-        Impreso por Emdisoft S.A.S. derechos reservados
-    </footer>
-    </body>
+</body>
 
 </html>
-
-
-
