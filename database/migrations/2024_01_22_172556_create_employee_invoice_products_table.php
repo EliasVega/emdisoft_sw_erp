@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('value_commission', 11, 2);
             $table->enum('status',['pendient', 'canceled'])->default('pendient');
 
+            $table->foreignId('work_labor_id')->nullable()->constrained()->onUpdate('cascade');
             $table->foreignId('invoice_product_id')->constrained()->onUpdate('cascade');
             $table->foreignId('employee_id')->constrained()->onUpdate('cascade');
 

@@ -62,6 +62,8 @@ class PayController extends Controller
                     $third = $pay->payable->third->name;
                 } elseif ($pay->type == 'invoice') {
                     $third = $pay->payable->third->name;
+                } elseif ($pay->type == 'work_labor') {
+                    $third = $pay->payable->third->name;
                 }
 
                 return $third;

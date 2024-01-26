@@ -11,16 +11,19 @@
 
     function totaledit(){
 
-        $("#total_html").html("$ " + total.toFixed(2));
-        $("#total").val(total.toFixed(2));
+        $("#total_pay_html").html("$ " + total.toFixed(2));
+        $("#total_pay").val(total.toFixed(2));
+
+        $("#balance").val(total);
+        $("#pendient").val(total);
     }
 
     function deleterow(index){
 
         total = total-subtotal[index];
 
-        $("#total_html").html("$ " + total.toFixed(2));
-        $("#total").val(total.toFixed(2));
+        $("#total_pay_html").html("$ " + total.toFixed(2));
+        $("#total_pay").val(total.toFixed(2));
         $("#row" + index).remove();
         assess();
     }

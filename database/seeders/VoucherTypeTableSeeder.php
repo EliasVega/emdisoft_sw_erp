@@ -239,6 +239,16 @@ class VoucherTypeTableSeeder extends Seeder
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43'
             ),
+            22 =>
+            array (
+                'id' => 23,
+                'consecutive' => 1,
+                'code' => 'PWL',
+                'name' => 'Pagos obra labor',
+                'status' => 'active',
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43'
+            ),
         ));
     }
 }

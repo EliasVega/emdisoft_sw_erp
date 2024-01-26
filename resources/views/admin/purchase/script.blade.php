@@ -82,11 +82,6 @@
     $("#posActive").hide();
     $("#barcodeId").hide();
 
-
-
-
-
-
     $(document).ready(function() {
 
         let barcodestart = $(("#switch_barcode")).prop("checked"); // == true ? 1 : 0;

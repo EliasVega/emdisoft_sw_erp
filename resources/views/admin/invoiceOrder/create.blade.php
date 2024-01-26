@@ -43,7 +43,7 @@
 <!--Fin del modal-->
 @endsection
 @section('scripts')
-@include('admin/invoice.script')
+@include('admin/invoiceOrder.script')
     @if ($indicator->pos == 'on')
         @include('admin/invoice.script_paypos')
     @else

@@ -3,7 +3,7 @@
     data-toggle="tooltip" data-placement="top" title="Editar"><i class="far fa-edit"></i></a>
 @endcan
 <a href="{{ route('paymentCommission', $id) }}" class="btn btn-primary btn-sm" data-toggle="tooltip"
-data-placement="top" title="pago comisiones"><i class="far fa-eye"></i></a>
+data-placement="top" title="pago comisiones"><i class="fas fa-file-invoice-dollar"></i></a>
 @can('employee.show')
     <a href="{{ route('employee.show', $id) }}" class="btn btn-success btn-sm" data-toggle="tooltip"
     data-placement="top" title="Ver Empleado"><i class="far fa-eye"></i></a>

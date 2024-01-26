@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Employee;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
+use App\Models\Advance;
 use App\Models\Bank;
 use App\Models\Branch;
+use App\Models\Card;
 use App\Models\charge;
 use App\Models\ContratType;
 use App\Models\Department;
@@ -15,8 +17,11 @@ use App\Models\EmployeeSubtype;
 use App\Models\EmployeeType;
 use App\Models\IdentificationType;
 use App\Models\Municipality;
+use App\Models\Pay;
 use App\Models\PaymentFrecuency;
 use App\Models\PaymentMethod;
+use App\Models\PayPaymentMethod;
+use App\Models\WorkLabor;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
@@ -252,6 +257,10 @@ class EmployeeController extends Controller
     public function paymentCommission(Request $request, $id)
     {
         $employee = Employee::findOrFail($id);
+        $paymentMethods = PaymentMethod::get();
+        $banks = Bank::get();
+        $cards = Card::get();
+        $advances = Advance::where('status', '!=', 'aplicado')->where('advanceable_id', $id)->get();
         $employeeInvoiceProduct = EmployeeInvoiceProduct::from('employee_invoice_products as eip')
         ->join('employees as emp', 'eip.employee_id', 'emp.id')
         ->join('invoice_products as ip', 'eip.invoice_product_id', 'ip.id')
@@ -262,6 +271,10 @@ class EmployeeController extends Controller
         ->get();
         return view('admin.employee.paymentCommission', compact(
             'employee',
+            'paymentMethods',
+            'banks',
+            'cards',
+            'advances',
             'employeeInvoiceProduct'
         ));
     }
@@ -269,14 +282,81 @@ class EmployeeController extends Controller
     public function updateCommission(Request $request, Employee $employee)
     {
         //dd($request->all());
+        //variables del request
+        $paymentMethod = $request->payment_method_id;
+        $bank = $request->bank_id;
+        $card = $request->card_id;
+        $advance_id = $request->advance_id;
+        $payment = $request->pay;
+        $transaction = $request->transaction;
+        $payAdvance = $request->payment;
+
+        //registro nuevo pago obra labor
+        $workLabor = new WorkLabor();
+        $workLabor->generation_date = $request->generation_date;
+        $workLabor->total_pay = $request->total_pay;
+        $workLabor->user_id = current_user()->id;
+        $workLabor->employee_id = $request->employee_id;
+        $workLabor->voucher_type_id = 23;
+        $workLabor->save();
+
+        //registro de un nuevo pago
+        $pay = new Pay();
+        $pay->user_id = current_user()->id;
+        $pay->branch_id = current_user()->branch_id;
+        $pay->pay = $request->totalpay;
+        $pay->balance = 0;
+        $pay->type = 'work_labor';
+        $workLabor->pays()->save($pay);
+
+
+        for ($i=0; $i < count($payment); $i++) {
+
+            //Metodo que descuenta el valor del pago de un anticipo
+            if ($payAdvance > 0) {
+
+                $advance = Advance::findOrFail( $request->advance_id);
+                    //si el pago es utilizado en su totalidad agregar el destino aplicado
+                    if ($advance->pay > $advance->balance) {
+                        $advance->destination = $advance->destination . '<->' . 'Comision' . '-' . $workLabor->id;
+                    } else {
+                        $advance->destination = 'Comision' . '-' . $workLabor->id;
+                    }
+                    //variable si hay saldo en el pago anticipado
+                    $payAdvance_total = $advance->balance - $payAdvance;
+                    //cambiar el status del pago anticipado
+                    if ($payAdvance_total == 0) {
+                        $advance->status      = 'applied';
+                    } else {
+                        $advance->status      = 'partial';
+                    }
+                    //actualizar el saldo del pago anticipado
+                    $advance->balance = $payAdvance_total;
+                    $advance->update();
+            }
+
+            //Metodo para registrar la relacion entre pago y metodo de pago
+            $pay_paymentMethod = new PayPaymentMethod();
+            $pay_paymentMethod->pay_id = $pay->id;
+            $pay_paymentMethod->payment_method_id = $paymentMethod[$i];
+            $pay_paymentMethod->bank_id = $bank[$i];
+            $pay_paymentMethod->card_id = $card[$i];
+            if (isset($advance_id[$i])){
+                $pay_paymentMethod->advance_id = $advance_id[$i];
+            }
+            $pay_paymentMethod->pay = $payment[$i];
+            $pay_paymentMethod->transaction = $transaction[$i];
+            $pay_paymentMethod->save();
+
+        }
+
         $id = $request->id;
         for ($i=0; $i < count($id); $i++) {
             $employeeInvoiceProduct = EmployeeInvoiceProduct::findOrFail($id[$i]);
             $employeeInvoiceProduct->status = 'canceled';
+            $employeeInvoiceProduct->work_labor_id = $workLabor->id;
             $employeeInvoiceProduct->update();
         }
-
-
         Alert::success('Pago Empleado','Realizado con exito.');
         return redirect("employee");
     }

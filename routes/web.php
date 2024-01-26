@@ -76,6 +76,7 @@ use App\Http\Controllers\TransferController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerificationCodeController;
 use App\Http\Controllers\VoucherTypeController;
+use App\Http\Controllers\WorkLaborController;
 use FontLib\Table\Type\name;
 use Illuminate\Support\Facades\Route;
 
@@ -179,6 +180,7 @@ Route::resource('transfer', TransferController::class);
 Route::resource('user', UserController::class);
 Route::resource('verificationCode', VerificationCodeController::class);
 Route::resource('voucherType', VoucherTypeController::class);
+Route::resource('workLabor', WorkLaborController::class);
 
 
 Route::get('advance/advancePdf/{id}', [AdvanceController::class, 'advancePdf'])->name('advancePdf');

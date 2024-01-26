@@ -24,6 +24,7 @@ class EmployeeInvoiceProduct extends Model
         'commission',
         'value>_commission',
         'status',
+        'work_labor_id',
         'invoice_product_id',
         'employee_id',
     ];

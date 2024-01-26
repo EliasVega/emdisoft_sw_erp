@@ -78,8 +78,6 @@
             $("#addProductId").show();
         }
     });
-    //seleccionar de acuerdo al producto
-    $("#product_id").change(productValue);
 
     $("#switch_barcode").change(function(){
 
@@ -170,6 +168,9 @@
             })
         }
     }
+
+    //seleccionar de acuerdo al producto
+    $("#product_id").change(productValue);
 
     function productValue(){
         dataProduct = document.getElementById('product_id').value.split('_');

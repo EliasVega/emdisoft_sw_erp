@@ -131,10 +131,6 @@
             total = total + subtotal[cont];
             ivita = subtotal[cont] * tax_rate / 100;
             tax_cont[cont] = ivita;
-            total_tax = total_tax + ivita;
-            if (tax_type == 1) {
-                tax_iva += ivita;
-            }
             var row = '<tr class="selected" id="row' + cont +
                 '"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow(' + cont +
                 ');"><i class="fas fa-trash"></i></button></td><td><input type="hidden" name="product_id[]"  value="' +
@@ -203,8 +199,7 @@
             subtotal[cont] = parseFloat(quantity) * parseFloat(price);
             total = total + subtotal[cont];
             ivita = subtotal[cont] * tax_rate / 100;
-            total_tax = total_tax + ivita;
-
+            tax_cont[cont] = ivita;
             var row = '<tr class="selected" id="row' + cont +
                 '"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow(' + cont +
                 ');"><i class="fas fa-trash"></i></button></td><td><input type="hidden" name="product_id[]"  value="' +
@@ -214,11 +209,10 @@
                 '</td> <td><input type="hidden" name="tax_rate[]"  value="' + tax_rate + '">' + tax_rate +
                 '</td><td> $' + parseFloat(subtotal[cont]).toFixed(2) + '</td></tr>';
             cont++;
-
             totals();
             assess();
-            $('#details').append(fila);
-            //$('#product_id option:selected').remove();
+
+            $('#details').append(row);
             clean();
 
 
