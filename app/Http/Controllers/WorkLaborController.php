@@ -5,15 +5,36 @@ namespace App\Http\Controllers;
 use App\Models\WorkLabor;
 use App\Http\Requests\StoreWorkLaborRequest;
 use App\Http\Requests\UpdateWorkLaborRequest;
+use App\Models\Company;
+use App\Models\EmployeeInvoiceProduct;
+use App\Models\Indicator;
+use App\Models\Pay;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Yajra\DataTables\DataTables;
 
 class WorkLaborController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $workLabors = WorkLabor::get();
+            return DataTables::of($workLabors)
+            ->addIndexColumn()
+            ->addColumn('employee', function (WorkLabor $workLabor) {
+                return $workLabor->employee->id;
+            })
+            ->addColumn('user', function (WorkLabor $workLabor) {
+                return $workLabor->user->name;
+            })
+            ->addColumn('btn', 'admin/workLabor/actions')
+            ->rawColumns(['btn'])
+            ->make(true);
+        }
+        return view('admin.workLabor.index');
     }
 
     /**
@@ -37,7 +58,9 @@ class WorkLaborController extends Controller
      */
     public function show(WorkLabor $workLabor)
     {
-        //
+        $employeeInvoiceProducts = EmployeeInvoiceProduct::where('work_labor_id', $workLabor->id)->get();
+
+        return view('admin.workLabor.show', compact('workLabor', 'employeeInvoiceProducts'));
     }
 
     /**
@@ -62,5 +85,24 @@ class WorkLaborController extends Controller
     public function destroy(WorkLabor $workLabor)
     {
         //
+    }
+
+    public function workLaborPdf(Request $request, $id)
+    {
+        $indicator = Indicator::findOrFail(1);
+        $workLabor = WorkLabor::findOrFail($id);
+        $pay = Pay::findOrFail($workLabor->pay_id);
+        $company = Company::findOrFail(1);
+        $employeeInvoiceProducts = EmployeeInvoiceProduct::where('work_labor_id', $workLabor->id)->get();
+
+        $workLaborPdf = "PAGO-". $workLabor->id;
+        $logo = './imagenes/logos'.$company->logo;
+        $view = \view('admin.workLabor.pdf', compact('workLabor', 'employeeInvoiceProducts', 'pay', 'company', 'logo', 'indicator'));
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        //$pdf->setPaper ( 'A7' , 'landscape' );
+
+        return $pdf->stream('vista-pdf', "$workLaborPdf.pdf");
+        //return $pdf->download("$purchasepdf.pdf");*/
     }
 }

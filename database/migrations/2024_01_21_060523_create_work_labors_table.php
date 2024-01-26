@@ -20,6 +20,7 @@ return new class extends Migration
 
             $table->foreignId('user_id')->constrained()->onUpdate('cascade');
             $table->foreignId('employee_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('pay_id')->nullable()->default(null)->constrained()->onUpdate('cascade');
             $table->foreignId('voucher_type_id')->constrained()->onUpdate('cascade');
 
             $table->timestamps();

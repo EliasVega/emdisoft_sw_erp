@@ -327,3 +327,5 @@ Route::get('user/status/{id}', [UserController::class, 'status'])->name('status'
 Route::get('inactive', [UserController::class, 'inactive'])->name('inactive');
 Route::patch('user/logout', [UserController::class, 'logout'])->name('logout_user');
 
+Route::get('workLabor/workLaborPdf/{id}', [WorkLaborController::class, 'workLaborPdf'])->name('workLaborPdf');
+

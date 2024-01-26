@@ -295,6 +295,7 @@ class EmployeeController extends Controller
         $workLabor = new WorkLabor();
         $workLabor->generation_date = $request->generation_date;
         $workLabor->total_pay = $request->total_pay;
+        $workLabor->note = $request->note;
         $workLabor->user_id = current_user()->id;
         $workLabor->employee_id = $request->employee_id;
         $workLabor->voucher_type_id = 23;
@@ -308,6 +309,10 @@ class EmployeeController extends Controller
         $pay->balance = 0;
         $pay->type = 'work_labor';
         $workLabor->pays()->save($pay);
+
+        $work = WorkLabor::findOrFail($workLabor->id);
+        $work->pay_id = $pay->id;
+        $work->update();
 
 
         for ($i=0; $i < count($payment); $i++) {

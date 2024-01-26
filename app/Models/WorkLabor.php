@@ -22,6 +22,7 @@ class WorkLabor extends Model
 
         'user_id',
         'employee_id',
+        'pay_id',
         'voucher_type_id',
     ];
 

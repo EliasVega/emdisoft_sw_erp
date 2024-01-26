@@ -18,6 +18,13 @@
             </select>
         </div>
     </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="noteDocument">
+        <div class="form-group">
+            <label class="form-control-label" for="note">Observaciones</label>
+            <input type="text" id="note" name="note" value="{{ old('note') }}" class="form-control"
+                placeholder="Observaciones">
+        </div>
+    </div>
 </div>
 <div class="box-body row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="payPayment">

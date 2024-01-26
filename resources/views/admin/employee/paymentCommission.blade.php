@@ -7,7 +7,14 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="box-danger">
             <div class="box-header with-border">
-                <h5 class="box-title">pago comisiones: </h5>
+                <h5 class="box-title">pago comisiones:
+
+                        <a href="{{ route('workLabor.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
+
+                    @can('branch.index')
+                        <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
+                    @endcan
+                </h5>
             @if (count($errors)>0)
                 <div class="alert alert-danger">
                     <ul>
