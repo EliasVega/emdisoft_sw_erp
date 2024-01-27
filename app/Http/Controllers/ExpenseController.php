@@ -464,6 +464,7 @@ class ExpenseController extends Controller
         $view = \view('admin.expense.pdf', compact(
             'expense',
             'expenseProducts',
+            'indicator',
             'company',
             'logo'
         ));
@@ -478,6 +479,7 @@ class ExpenseController extends Controller
    {
         $expenses = session('expense');
         $expense = Expense::findOrFail($expenses);
+        $indicator = Indicator::findOrFail(1);
         session()->forget('expense');
         $expenseProducts = ExpenseProduct::where('expense_id', $expense->id)->where('quantity', '>', 0)->get();
         $company = Company::findOrFail(1);

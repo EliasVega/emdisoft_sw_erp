@@ -312,7 +312,9 @@ Route::get('rawMaterial/status/{id}', [RawMaterialController::class, 'status'])-
 Route::get('rawMaterial/kardexRawMaterial/{id}', [RawMaterialController::class, 'kardexRawMaterial'])->name('kardexRawMaterial');
 
 Route::get('reportInvoice', [ReportsController::class, 'reportInvoice'])->name('reportInvoice');
+Route::get('invoiceCredit', [ReportsController::class, 'invoiceCredit'])->name('invoiceCredit');
 Route::get('reportPurchase', [ReportsController::class, 'reportPurchase'])->name('reportPurchase');
+Route::get('purchaseCredit', [ReportsController::class, 'purchaseCredit'])->name('purchaseCredit');
 Route::get('reportRestaurantOrder', [ReportsController::class, 'reportRestaurantOrder'])->name('reportRestaurantOrder');
 Route::get('reportInventory', [ReportsController::class, 'reportInventory'])->name('reportInventory');
 

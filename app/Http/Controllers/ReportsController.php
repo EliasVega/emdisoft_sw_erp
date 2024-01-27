@@ -38,6 +38,32 @@ class ReportsController extends Controller
         return view('admin.reports.reportInvoice');
     }
 
+    public function invoiceCredit(Request $request)
+    {
+        if ($request->ajax()) {
+            $startDate = $request->get('start_date');
+            $endDate = $request->get('end_date');
+            if ($startDate && $endDate) {
+                $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $startDate . ' 00:00:00');
+                $endDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $endDate . ' 23:59:59');
+
+                $invoices = Invoice::where('balance', '>', 0)->whereBetween('created_at', [$startDateTime, $endDateTime])->get();
+            } else {
+                $invoices = Invoice::where('balance', '>', 0)->get();
+            }
+            return DataTables::of($invoices)
+            ->addIndexColumn()
+            ->addColumn('customer', function (Invoice $invoice) {
+                return $invoice->third->name;
+            })
+            ->addColumn('identification', function (Invoice $invoice) {
+                return $invoice->third->identification;
+            })
+            ->make(true);
+        }
+        return view('admin.reports.invoiceCredit');
+    }
+
     public function reportPurchase(Request $request)
     {
         if ($request->ajax()) {
@@ -62,6 +88,32 @@ class ReportsController extends Controller
             ->make(true);
         }
         return view('admin.reports.reportPurchase');
+    }
+
+    public function purchaseCredit(Request $request)
+    {
+        if ($request->ajax()) {
+            $startDate = $request->get('start_date');
+            $endDate = $request->get('end_date');
+            if ($startDate && $endDate) {
+                $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $startDate . ' 00:00:00');
+                $endDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $endDate . ' 23:59:59');
+
+                $purchases = Purchase::where('balance', '>', 0)->whereBetween('created_at', [$startDateTime, $endDateTime])->get();
+            } else {
+                $purchases = Purchase::where('balance', '>', 0)->get();
+            }
+            return DataTables::of($purchases)
+            ->addIndexColumn()
+            ->addColumn('customer', function (Purchase $purchase) {
+                return $purchase->third->name;
+            })
+            ->addColumn('identification', function (Purchase $purchase) {
+                return $purchase->third->identification;
+            })
+            ->make(true);
+        }
+        return view('admin.reports.purchaseCredit');
     }
 
     public function reportRestaurantOrder(Request $request)

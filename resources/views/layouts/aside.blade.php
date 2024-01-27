@@ -473,9 +473,21 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
+                                        <a href="{{ url('invoiceCredit') }}" class="nav-link">
+                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <p>Cartera</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a href="{{ url('reportPurchase') }}" class="nav-link">
                                             <i class="far fa-dot-circle nav-icon"></i>
                                             <p>Compras</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ url('purchaseCredit') }}" class="nav-link">
+                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <p>Cuentas por pagar</p>
                                         </a>
                                     </li>
                                     @if (current_user()->company->indicator->restaurant == 'on')
