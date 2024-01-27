@@ -48,51 +48,6 @@ class BranchesTableSeeder extends Seeder
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43',
             ),
-            2 =>
-            array (
-                'id' => 3,
-                'name' => 'Giron',
-                'address' => 'Calle 45 # 31-47',
-                'phone' => '6706271',
-                'mobile' => '3172166789',
-                'email' => 'discom.principal@gmail.com',
-                'manager' => 'Adriana santana',
-                'department_id' => 21,
-                'municipality_id' => 881,
-                'company_id' => 1,
-                'created_at' => '2023-01-12 21:07:43',
-                'updated_at' => '2023-01-12 21:07:43',
-            ),
-            3 =>
-            array (
-                'id' => 4,
-                'name' => 'Discom Medellin',
-                'address' => 'Calle 60 # 28-47',
-                'phone' => '6556250',
-                'mobile' => '3172485789',
-                'email' => 'discom.medellin@gmail.com',
-                'manager' => 'Carlos arturo sierra',
-                'department_id' => 1,
-                'municipality_id' => 1,
-                'company_id' => 1,
-                'created_at' => '2023-01-12 21:07:43',
-                'updated_at' => '2023-01-12 21:07:43',
-            ),
-            4 =>
-            array (
-                'id' => 5,
-                'name' => 'Discom Bogota',
-                'address' => 'Calle 60 # 28-47',
-                'phone' => '6556258',
-                'mobile' => '3172485712',
-                'email' => 'discom.bogota@gmail.com',
-                'manager' => 'Carlos arturo s',
-                'department_id' => 3,
-                'municipality_id' => 149,
-                'company_id' => 1,
-                'created_at' => '2023-01-12 21:07:43',
-                'updated_at' => '2023-01-12 21:07:43',
-            ),
         ));
     }
 }
