@@ -21,7 +21,7 @@ class ProductsSeeder extends Seeder
             0 =>
             array (
                 'id' => 1,
-                'code' => '18409',
+                'code' => '786654',
                 'name' => 'CAMBIO DE ACEITE',
                 'price' => '0.00',
                 'sale_price' => '10000.00',

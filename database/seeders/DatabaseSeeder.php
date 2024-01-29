@@ -45,11 +45,11 @@ class DatabaseSeeder extends Seeder
         $this->call(EmployeeTypesTableSeeder::class);
         $this->call(PaymentFrecuenciesTableSeeder::class);
 
-        $this->call(ProvidersTableSeeder::class);
-        $this->call(CustomersTableSeeder::class);
-        $this->call(CategoriesTableSeeder::class);
-        $this->call(ProductsSeeder::class);
-        $this->call(BranchProductsTableSeeder::class);
+        //$this->call(ProvidersTableSeeder::class);
+        //$this->call(CustomersTableSeeder::class);
+        //$this->call(CategoriesTableSeeder::class);
+        //$this->call(ProductsSeeder::class);
+        //$this->call(BranchProductsTableSeeder::class);
 
 
         $this->call(GenerationTypeTableSeeder::class);

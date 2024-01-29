@@ -38,7 +38,14 @@
             }
         }).done(function(data) { // imprimimos la respuesta
             $("#name").val(data.name);
-            productexits();
+            $("#price").val(data.price);
+            $("#sale_price").val(data.sale_price);
+            $("#stock").val(data.stock);
+            $("#stock_min").val(data.stock_min);
+            $("#category_id").val(data.category_id);
+            $("#measure_unit_id").val(data.measure_unit_id);
+            $("#type_product").val(data.type_product);
+            //productexits();
         }).fail(function() {
             //alert("Algo salió mal");
         }).always(function() {

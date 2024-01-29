@@ -296,7 +296,7 @@ class ProductController extends Controller
             ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
             ->join('percentages as per', 'ct.percentage_id', 'per.id')
             ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-            ->select('pro.id', 'pro.name', 'pro.stock', 'pro.price', 'pro.sale_price', 'per.percentage', 'tt.id as tt')
+            ->select('pro.id', 'pro.name', 'pro.stock', 'pro.stock_min', 'pro.price', 'pro.sale_price', 'per.percentage', 'tt.id as tt')
             ->where('pro.code', $request->code)
             ->first();
             if ($products) {
