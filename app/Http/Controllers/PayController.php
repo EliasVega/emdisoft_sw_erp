@@ -10,6 +10,7 @@ use App\Models\Bank;
 use App\Models\Card;
 use App\Models\Company;
 use App\Models\Expense;
+use App\Models\Indicator;
 use App\Models\Invoice;
 use App\Models\PaymentMethod;
 use App\Models\PayPaymentMethod;
@@ -224,16 +225,38 @@ class PayController extends Controller
         $pay = Pay::findOrFail($id);
         $payPaymentMethods = PayPaymentMethod::where('pay_id', $id)->get();
         $company = Company::findOrFail(1);
+        $indicator = indicator();
         $users = Auth::user();
 
         $payPdf = "PAGO-". $pay->id;
         $logo = './imagenes/logos'.$company->logo;
-        $view = \view('admin.pay.pdf', compact('pay', 'payPaymentMethods', 'company', 'logo', 'users'));
+        $view = \view('admin.pay.pdf', compact('pay', 'payPaymentMethods', 'company', 'logo', 'users', 'indicator'));
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
         //$pdf->setPaper ( 'A7' , 'landscape' );
 
         return $pdf->stream('vista-pdf', "$payPdf.pdf");
         //return $pdf->download("$purchasepdf.pdf");*/
+    }
+
+    public function payPos($id)
+    {
+        $pay = Pay::findOrFail($id);
+        $payPaymentMethods = PayPaymentMethod::where('pay_id', $id)->get();
+        $company = Company::where('id', 1)->first();
+        $indicator = indicator();
+        $payPos = "Comision-". $pay->id;
+        $view = \view('admin.pay.pos', compact(
+            'pay',
+            'payPaymentMethods',
+            'company',
+            'indicator'
+        ))->render();
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        $pdf->setPaper (array(0,0,226.76,1246.64), 'portrait');
+
+        return $pdf->stream('vista-pdf', "$payPos.pdf");
+        //return $pdf->download("$invoicepdf.pdf");
     }
 }

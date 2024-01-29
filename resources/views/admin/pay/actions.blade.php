@@ -3,4 +3,8 @@
     data-placement="top" title="Ver Abono" ><i class="far fa-eye"></i></a>
 @endcan
 <a href="{{ route('payPdf', $id) }}" class="btn btn-pdf btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="nota debito pdf">
-    <i class="fas fa-file-pdf"></i></a>
+    <i class="fas fa-file-pdf"></i>
+</a>
+<a href="{{ route('payPos', $id) }}" class="btn btn-primary btn-sm" target="_blank"
+    data-toggle="tooltip" data-placement="top" title="pdf pos" ><i class="fas fa-receipt"></i>
+</a>

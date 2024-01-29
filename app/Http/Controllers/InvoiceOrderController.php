@@ -14,6 +14,8 @@ use App\Models\Company;
 use App\Models\CompanyTax;
 use App\Models\Customer;
 use App\Models\DocumentType;
+use App\Models\Employee;
+use App\Models\EmployeeInvoiceOrderProduct;
 use App\Models\GenerationType;
 use App\Models\Indicator;
 use App\Models\InvoiceOrderProduct;
@@ -26,8 +28,10 @@ use Carbon\Carbon;
 use Illuminate\Http\Client\Request as ClientRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Validation\Rules\Exists;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Arr;
 
 class InvoiceOrderController extends Controller
 {
@@ -99,6 +103,7 @@ class InvoiceOrderController extends Controller
             }
         }
         $customers = Customer::get();
+        $employees = Employee::get();
         $branchs = Branch::get();
         $uvtmax = $indicator->uvt * 5;
         $advances = Advance::where('status', '!=', 'aplicado')->get();
@@ -126,6 +131,7 @@ class InvoiceOrderController extends Controller
         return view('admin.invoiceOrder.create',
         compact(
             'customers',
+            'employees',
             'branchs',
             'advances',
             'products',
@@ -151,6 +157,7 @@ class InvoiceOrderController extends Controller
         $price      = $request->price;
         $tax_rate   = $request->tax_rate;
         $total_pay = $request->total_pay;
+        $employee_id = $request->employee_id;
 
         //Crea un registro de orden de venta
         $invoiceOrder = new InvoiceOrder();
@@ -173,6 +180,8 @@ class InvoiceOrderController extends Controller
 
         //Ingresa los productos que vienen en el array
         for ($i=0; $i < count($product_id); $i++) {
+
+            $id = $product_id[$i];
             //Metodo para registrar la relacion entre producto y compra
             $invoiceOrderProduct = new InvoiceOrderProduct();
             $invoiceOrderProduct->invoice_order_id = $invoiceOrder->id;
@@ -183,6 +192,25 @@ class InvoiceOrderController extends Controller
             $invoiceOrderProduct->subtotal = $quantity[$i] * $price[$i];
             $invoiceOrderProduct->tax_subtotal =($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
             $invoiceOrderProduct->save();
+
+            $product = Product::findOrFail($id);
+
+            //metodo para comisiones de empleados
+            $subtotal = $quantity[$i] * $price[$i];
+            $commission = $product->commission;
+            $valueCommission = ($subtotal/100) * $commission;
+            if ($employee_id[$i] != 'null') {
+                $employeeInvoiceOrderProduct = new EmployeeInvoiceOrderProduct();
+                $employeeInvoiceOrderProduct->invoice_order_product_id = $invoiceOrderProduct->id;
+                $employeeInvoiceOrderProduct->employee_id = $employee_id[$i];
+                $employeeInvoiceOrderProduct->quantity = $quantity[$i];
+                $employeeInvoiceOrderProduct->price = $price[$i];
+                $employeeInvoiceOrderProduct->subtotal = $subtotal;
+                $employeeInvoiceOrderProduct->commission = $commission;
+                $employeeInvoiceOrderProduct->value_commission =$valueCommission;
+                $employeeInvoiceOrderProduct->status = 'pendient';
+                $employeeInvoiceOrderProduct->save();
+            }
         }
 
         session()->forget('invoiceOrder');
@@ -214,6 +242,7 @@ class InvoiceOrderController extends Controller
             }
         }
         $customers = Customer::get();
+        $employees = Employee::get();
         $branchs = Branch::get();
         $uvtmax = $indicator->uvt * 5;
         $advances = Advance::where('status', '!=', 'aplicado')->get();
@@ -239,7 +268,7 @@ class InvoiceOrderController extends Controller
         ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
         ->where('tt.type_tax', 'retention')->get();
 
-        $invoiceOrderProducts = InvoiceOrderProduct::from('invoice_order_products as iop')
+        $iops = InvoiceOrderProduct::from('invoice_order_products as iop')
         ->join('products as pro', 'iop.product_id', 'pro.id')
         ->join('categories as cat', 'pro.category_id', 'cat.id')
         ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
@@ -248,10 +277,25 @@ class InvoiceOrderController extends Controller
         ->select('iop.id', 'iop.quantity', 'iop.price', 'iop.tax_rate', 'pro.id as idP', 'pro.stock', 'pro.name', 'per.percentage', 'tt.id as tt')
         ->where('iop.invoice_order_id', $invoiceOrder->id)
         ->get();
+
+        $invoiceOrderProducts = [];
+
+        for ($i=0; $i < count($iops); $i++) {
+            $eiop = EmployeeInvoiceOrderProduct::where('invoice_order_product_id', $iops[$i]->id)->first();
+
+            if (is_null($eiop)) {
+                //$ioparray = Arr::add($iops[$i], 'employee', 'null');
+                $invoiceOrderProducts[$i] = Arr::add($iops[$i], 'employee', 'null');
+            } else {
+                $invoiceOrderProducts[$i] = Arr::add($iops[$i], 'employee', $eiop->employee_id);
+            }
+
+        }
         return view('admin.invoiceOrder.edit',
         compact(
             'invoiceOrder',
             'customers',
+            'employees',
             'branchs',
             'advances',
             'products',
@@ -277,6 +321,7 @@ class InvoiceOrderController extends Controller
         $price      = $request->price;
         $tax_rate   = $request->tax_rate;
         $total_pay = $request->total_pay;
+        $employee_id = $request->employee_id;
 
         if ($indicator->pos == 'on') {
             //actualizar la caja
@@ -311,10 +356,23 @@ class InvoiceOrderController extends Controller
             $invoiceOrderProduct->tax_subtotal = 0;
             $invoiceOrderProduct->update();
 
+            $employeeInvoiceOrderProduct = EmployeeInvoiceOrderProduct::where('invoice_order_product_id', $invoiceOrderProduct->id)->get();
+
+            if ($employeeInvoiceOrderProduct) {
+                $employeeInvoiceOrderProduct->quantity = 0;
+                $employeeInvoiceOrderProduct->price = 0;
+                $employeeInvoiceOrderProduct->subtotal = 0;
+                $employeeInvoiceOrderProduct->commission = 0;
+                $employeeInvoiceOrderProduct->value_commission = 0;
+                $employeeInvoiceOrderProduct->status = 'canceled';
+                $invoiceOrderProduct->update();
+
+            }
         }
 
         //Toma el Request del array
         for ($i=0; $i < count($product_id); $i++) {
+            $id = $product_id[$i];
             $invoiceOrderProduct = InvoiceOrderProduct::where('invoice_order_id', $invoiceOrder->id)
             ->where('product_id', $product_id[$i])->first();
 
@@ -325,13 +383,30 @@ class InvoiceOrderController extends Controller
 
                 $invoiceOrderProduct = new InvoiceOrderProduct();
                 $invoiceOrderProduct->invoice_order_id = $invoiceOrder->id;
-                $invoiceOrderProduct->product_id  = $product_id[$i];
+                $invoiceOrderProduct->product_id  = $id;
                 $invoiceOrderProduct->quantity    = $quantity[$i];
                 $invoiceOrderProduct->price       = $price[$i];
                 $invoiceOrderProduct->tax_rate    = $tax_rate[$i];
                 $invoiceOrderProduct->subtotal    = $subtotal;
                 $invoiceOrderProduct->tax_subtotal     = $tax_subtotal;
                 $invoiceOrderProduct->save();
+
+                //metodo para comisiones de empleados
+                $product = Product::findOrFail($id);
+                $commission = $product->commission;
+                $valueCommission = ($subtotal/100) * $commission;
+                if ($employee_id[$i] != 'null') {
+                    $employeeInvoiceOrderProduct = new EmployeeInvoiceOrderProduct();
+                    $employeeInvoiceOrderProduct->invoice_order_product_id = $invoiceOrderProduct->id;
+                    $employeeInvoiceOrderProduct->employee_id = $employee_id[$i];
+                    $employeeInvoiceOrderProduct->quantity = $quantity[$i];
+                    $employeeInvoiceOrderProduct->price = $price[$i];
+                    $employeeInvoiceOrderProduct->subtotal = $subtotal;
+                    $employeeInvoiceOrderProduct->commission = $commission;
+                    $employeeInvoiceOrderProduct->value_commission = $valueCommission;
+                    $employeeInvoiceOrderProduct->status = 'pendient';
+                    $employeeInvoiceOrderProduct->save();
+                }
 
             } else {
                 if ($quantity[$i] > 0) {
@@ -345,6 +420,32 @@ class InvoiceOrderController extends Controller
                     $invoiceOrderProduct->subtotal    += $subtotal;
                     $invoiceOrderProduct->tax_subtotal     += $tax_subtotal;
                     $invoiceOrderProduct->update();
+
+                    $employeeInvoiceOrderProduct = EmployeeInvoiceOrderProduct::where('invoice_order_product_id', $invoiceOrderProduct->id)->get();
+                    $product = Product::findOrFail($id);
+                    $commission = $product->commission;
+                    $valueCommission = ($subtotal/100) * $commission;
+                    if ($employeeInvoiceOrderProduct) {
+                        $employeeInvoiceOrderProduct->quantity = $quantity[$i];
+                        $employeeInvoiceOrderProduct->price = $price[$i];
+                        $employeeInvoiceOrderProduct->subtotal = $subtotal;
+                        $employeeInvoiceOrderProduct->commission = $commission;
+                        $employeeInvoiceOrderProduct->value_commission = $valueCommission;
+                        $employeeInvoiceOrderProduct->status = 'pendient';
+                        $invoiceOrderProduct->update();
+
+                    } else {
+                        $employeeInvoiceOrderProduct = new EmployeeInvoiceOrderProduct();
+                        $employeeInvoiceOrderProduct->invoice_order_product_id = $invoiceOrderProduct->id;
+                        $employeeInvoiceOrderProduct->employee_id = $employee_id[$i];
+                        $employeeInvoiceOrderProduct->quantity = $quantity[$i];
+                        $employeeInvoiceOrderProduct->price = $price[$i];
+                        $employeeInvoiceOrderProduct->subtotal = $subtotal;
+                        $employeeInvoiceOrderProduct->commission = $commission;
+                        $employeeInvoiceOrderProduct->value_commission = $valueCommission;
+                        $employeeInvoiceOrderProduct->status = 'pendient';
+                        $employeeInvoiceOrderProduct->save();
+                    }
 
                 }
             }
@@ -405,7 +506,7 @@ class InvoiceOrderController extends Controller
         ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
         ->where('tt.type_tax', 'retention')->get();
 
-        $invoiceOrderProducts = InvoiceOrderProduct::from('invoice_order_products as iop')
+        $iops = InvoiceOrderProduct::from('invoice_order_products as iop')
         ->join('products as pro', 'iop.product_id', 'pro.id')
         ->join('categories as cat', 'pro.category_id', 'cat.id')
         ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
@@ -414,6 +515,20 @@ class InvoiceOrderController extends Controller
         ->select('iop.id', 'iop.quantity', 'iop.price', 'iop.tax_rate', 'pro.id as idP', 'pro.stock', 'pro.name', 'per.percentage', 'tt.id as tt')
         ->where('iop.invoice_order_id', $invoiceOrder->id)
         ->get();
+
+        $invoiceOrderProducts = [];
+
+        for ($i=0; $i < count($iops); $i++) {
+            $eiop = EmployeeInvoiceOrderProduct::where('invoice_order_product_id', $iops[$i]->id)->first();
+
+            if (is_null($eiop)) {
+                //$ioparray = Arr::add($iops[$i], 'employee', 'null');
+                $invoiceOrderProducts[$i] = Arr::add($iops[$i], 'employee', 'null');
+            } else {
+                $invoiceOrderProducts[$i] = Arr::add($iops[$i], 'employee', $eiop->employee_id);
+            }
+
+        }
 
         return view('admin.invoiceOrderProduct.create',
         compact(

@@ -6,6 +6,7 @@ use App\Models\WorkLabor;
 use App\Http\Requests\StoreWorkLaborRequest;
 use App\Http\Requests\UpdateWorkLaborRequest;
 use App\Models\Company;
+use App\Models\EmployeeInvoiceOrderProduct;
 use App\Models\EmployeeInvoiceProduct;
 use App\Models\Indicator;
 use App\Models\Pay;
@@ -104,5 +105,29 @@ class WorkLaborController extends Controller
 
         return $pdf->stream('vista-pdf', "$workLaborPdf.pdf");
         //return $pdf->download("$purchasepdf.pdf");*/
+    }
+
+    public function workLaborPos($id)
+    {
+        $workLabor = WorkLabor::findOrFail($id);
+        $employeeInvoiceProducts = EmployeeInvoiceProduct::where('work_labor_id', $workLabor->id)
+        ->where('quantity', '>', 0)->get();
+        $company = Company::where('id', 1)->first();
+        $indicator = Indicator::findOrFail(1);
+        $workLaborPos = "Comision-". $workLabor->id;
+        $logo = './imagenes/logos'.$company->logo;
+        $view = \view('admin.workLabor.pos', compact(
+            'workLabor',
+            'employeeInvoiceProducts',
+            'company',
+            'indicator',
+            'logo',
+        ))->render();
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        $pdf->setPaper (array(0,0,226.76,1246.64), 'portrait');
+
+        return $pdf->stream('vista-pdf', "$workLaborPos.pdf");
+        //return $pdf->download("$invoicepdf.pdf");
     }
 }

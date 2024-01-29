@@ -26,12 +26,14 @@
             @endif
             {!!Form::model($employee, ['method'=>'PUT','route'=>['updateCommission', $employee->id]])!!}
             {!!Form::token()!!}
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="row m-1">
+                <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
                     @include('admin/employee.form_commission')
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                     @include('admin/employee.form_pay')
                 </div>
+            </div>
             {!!Form::close()!!}
         </div>
     </div>

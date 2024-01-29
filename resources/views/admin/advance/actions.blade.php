@@ -6,3 +6,6 @@
 <a href="{{ route('advancePdf', $id) }}" class="btn btn-pdf btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="PDF">
     <i class="fas fa-file-pdf"></i>
 </a>
+<a href="{{ route('advancePos', $id) }}" class="btn btn-primary btn-sm" target="_blank"
+    data-toggle="tooltip" data-placement="top" title="pdf pos" ><i class="fas fa-receipt"></i>
+</a>

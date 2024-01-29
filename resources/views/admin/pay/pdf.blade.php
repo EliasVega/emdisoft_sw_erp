@@ -53,28 +53,37 @@
                 <p>Direccion:</p>
             </div>
             <div class="description4">
-                <p>{{  $pay->payable->advanceable->address  }}</p>
+                <p>{{  $pay->payable->third->address  }}</p>
             </div>
             <div class="title">
                 <p>Telefono:</p>
             </div>
             <div class="description2">
-                <p>{{  $pay->payable->advanceable->phone  }}</p>
+                <p>{{  $pay->payable->third->phone  }}</p>
             </div>
             <div class="clearfix"></div>
             <div class="title">
                 <p>Recibo de:</p>
             </div>
             <div class="description5">
-                <p>{{  $pay->payable->advanceable->name  }}</p>
+                <p>{{  $pay->payable->third->name  }}</p>
             </div>
             <div class="clearfix"></div>
             <div class="title">
                 <p>Concepto de::</p>
             </div>
             <div class="description4">
-                <p>Abono a Compra # {{ $pay->payable->id }} </p>
+                @if ($pay->type == 'purchase')
+                    <span>Abono a Compra # {{ $pay->payable->id }}</span><br>
+                @elseif ($pay->type == 'invoice')
+                    <span>Abono a Factura # {{ $pay->payable->id }}</span><br>
+                @elseif ($pay->type == 'advance')
+                    <span>Abono a Anticipo # {{ $pay->payable->id }}</span><br>
+                @elseif ($pay->type == 'work_labor')
+                    <span>Abono a Comision # {{ $pay->payable->id }}</span><br>
+                @endif
             </div>
+
             <div class="title">
                 <p>Comprobante</p>
             </div>

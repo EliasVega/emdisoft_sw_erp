@@ -184,6 +184,7 @@ Route::resource('workLabor', WorkLaborController::class);
 
 
 Route::get('advance/advancePdf/{id}', [AdvanceController::class, 'advancePdf'])->name('advancePdf');
+Route::get('advance/advancePos/{id}', [AdvanceController::class, 'advancePos'])->name('advancePos');
 
 Route::get('branch/create/{id}', [BranchController::class, 'getMunicipalities']);
 Route::post('branch/logout', [BranchController::class, 'logout'])->name('logout_branch');
@@ -266,6 +267,7 @@ Route::get('ndpurchase/ndpurchasePdf/{id}', [NdpurchaseController::class, 'ndpur
 Route::get('pdfNdpurchase', [NdpurchaseController::class, 'pdfNdpurchase'])->name('pdfNdpurchase');
 
 Route::get('pay/pdf/{id}', [PayController::class, 'payPdf'])->name('payPdf');
+Route::get('pay/payPos/{id}', [PayController::class, 'payPos'])->name('payPos');
 
 Route::get('payment/paymentPdf/{id}', [PaymentController::class, 'paymentPdf'])->name('paymentPdf');
 
@@ -330,4 +332,5 @@ Route::get('inactive', [UserController::class, 'inactive'])->name('inactive');
 Route::patch('user/logout', [UserController::class, 'logout'])->name('logout_user');
 
 Route::get('workLabor/workLaborPdf/{id}', [WorkLaborController::class, 'workLaborPdf'])->name('workLaborPdf');
+Route::get('workLabor/workLaborPos/{id}', [WorkLaborController::class, 'workLaborPos'])->name('workLaborPos');
 

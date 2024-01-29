@@ -37,6 +37,33 @@
             <input type="number" name="priceModal" id="priceModal" class="form-control" placeholder="precio">
         </div>
     </div>
+    @if ($indicator->work_labor == 'on')
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="addEmployeeId">
+            <div class="form-group row">
+                <label class="form-control-label" for="employee_idModal">Operario</label>
+                <select name="employee_idModal" class="form-control selectpicker" id="employee_idModal" data-live-search="true">
+                    <option value="0" disabled selected>Seleccionar</option>
+                    @foreach ($employees as $employee)
+                        <option
+                            value="{{ $employee->id }}">{{ $employee->identification }} -- {{ $employee->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+    @else
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="addEid">
+            <div class="form-group row">
+                <label class="form-control-label" for="employee_idModal">Operario</label>
+                <select name="employee_idModal" class="form-control selectpicker" id="employee_idModal" data-live-search="true">
+                    <option value="0" disabled selected>Seleccionar</option>
+                    @foreach ($employees as $employee)
+                        <option
+                            value="{{ $employee->id }}">{{ $employee->identification }} -- {{ $employee->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+    @endif
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="subtotalMod">
         <div class="form-group">
             <label for="subtotalModal">Subtotal</label>

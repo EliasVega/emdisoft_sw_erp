@@ -122,6 +122,7 @@
             <table id="details" class="table table-striped table-bordered table-condensed table-hover">
                 <thead class="bg-info">
                     <tr>
+                        <th>Eid</th>
                         <th>Id</th>
                         <th>Producto</th>
                         <th>Cantidad</th>
@@ -132,19 +133,19 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <th colspan="5" class="rightfoot">TOTAL:</th>
+                        <th colspan="6" class="rightfoot">TOTAL:</th>
                         <td class="rightfoot thfoot"><strong id="total_html">$ 0.00</strong>
                             <input type="hidden" name="total" id="total">
                         </td>
                     </tr>
                     <tr>
-                        <th colspan="5" class="rightfoot">IMPUESTO:</th>
+                        <th colspan="6" class="rightfoot">IMPUESTO:</th>
                         <td class="rightfoot thfoot"><strong id="total_tax_html">$ 0.00</strong>
                             <input type="hidden" name="total_tax" id="total_tax">
                         </td>
                     </tr>
                     <tr>
-                        <th colspan="5" class="rightfoot">TOTAL VENTA:</th>
+                        <th colspan="6" class="rightfoot">TOTAL VENTA:</th>
                         <td class="rightfoot thfoot"><strong id="total_pay_html">$ 0.00</strong>
                             <input type="hidden" name="total_pay" id="total_pay">
                         </td>

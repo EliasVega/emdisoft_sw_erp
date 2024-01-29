@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateInvoiceOrderProductRequest;
 use App\Models\BranchProduct;
 use App\Models\CashRegister;
 use App\Models\Company;
+use App\Models\EmployeeInvoiceProduct;
 use App\Models\Environment;
 use App\Models\Indicator;
 use App\Models\Invoice;
@@ -92,6 +93,7 @@ class InvoiceOrderProductController extends Controller
         $tax_rate = $request->tax_rate;
         $branch = current_user()->branch_id;
         $total_pay = $request->total_pay;
+        $employee_id = $request->employee_id;
         $paymentForm = $request->payment_form_id;
 
         if ($indicator->pos == 'on'  && $paymentForm == 1) {
@@ -190,6 +192,22 @@ class InvoiceOrderProductController extends Controller
                 $this->inventoryInvoices($product, $branchProducts, $quantityLocal, $branch);//trait para actualizar inventario
                 $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
 
+                //metodo para comisiones de empleados
+                $subtotal = $quantity[$i] * $price[$i];
+                $commission = $product->commission;
+                $valueCommission = ($subtotal/100) * $commission;
+                if ($employee_id[$i] != 'null') {
+                    $employeeInvoiceProduct = new EmployeeInvoiceProduct();
+                    $employeeInvoiceProduct->invoice_product_id = $invoiceProduct->id;
+                    $employeeInvoiceProduct->employee_id = $employee_id[$i];
+                    $employeeInvoiceProduct->quantity = $quantity[$i];
+                    $employeeInvoiceProduct->price = $price[$i];
+                    $employeeInvoiceProduct->subtotal = $subtotal;
+                    $employeeInvoiceProduct->commission = $commission;
+                    $employeeInvoiceProduct->value_commission =$valueCommission;
+                    $employeeInvoiceProduct->status = 'pendient';
+                    $employeeInvoiceProduct->save();
+                }
             }
 
             $taxes = $this->getTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC

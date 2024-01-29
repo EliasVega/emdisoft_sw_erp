@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EmployeeInvoiceProduct extends Model
+class EmployeeInvoiceOrderProduct extends Model
 {
     use HasFactory;
 
-    public $table = 'employee_invoice_products';
+    public $table = 'employee_invoice_order_products';
 
     protected $primaryKey = 'id';
 
@@ -23,11 +23,11 @@ class EmployeeInvoiceProduct extends Model
         'value_commission',
         'status',
         'work_labor_id',
-        'invoice_product_id',
+        'invoice_order_product_id',
         'employee_id',
     ];
-    public function invoiceProduct(){
-        return $this->belongsTo(InvoiceProduct::class);
+    public function invoiceOrderProduct(){
+        return $this->belongsTo(InvoiceOrderProduct::class);
     }
 
     public function employee(){

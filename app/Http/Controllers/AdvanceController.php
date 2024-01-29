@@ -20,6 +20,7 @@ use App\Models\VoucherType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 
 class AdvanceController extends Controller
@@ -91,6 +92,15 @@ class AdvanceController extends Controller
      */
     public function create()
     {
+        $indicator = indicator();
+        $pos = indicator()->pos;
+        $cashRegister = cashregisterModel();
+        if ($indicator->pos == 'on') {
+            if(is_null($cashRegister)){
+                Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
+                return redirect("branch");
+            }
+        }
         $banks = Bank::get();
         $paymentMethods = PaymentMethod::where('status', 'active')->get();
         $cards = Card::get();
@@ -296,6 +306,33 @@ class AdvanceController extends Controller
         //$pdf->setPaper ( 'A7' , 'landscape' );
 
         return $pdf->stream('vista-pdf', "$advancepdf.pdf");
+        //return $pdf->download("$invoicepdf.pdf");
+    }
+
+    public function advancePos($id)
+    {
+        $advance = Advance::findOrFail($id);
+        $payPaymentMethods = PayPaymentMethod::where('pay_id', $id)->get();
+        $company = Company::where('id', 1)->first();
+        $indicator = indicator();
+        $pay = Pay::where('type', 'advance')->where('payable_id', $advance->id)->first();
+        if ($pay) {
+            $payPaymentMethods = PayPaymentMethod::where('pay_id', $pay->id)->get();
+        } else {
+            $payPaymentMethods = null;
+        }
+        $advancePos = "Comision-". $advance->id;
+        $view = \view('admin.advance.pos', compact(
+            'advance',
+            'payPaymentMethods',
+            'company',
+            'indicator'
+        ))->render();
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        $pdf->setPaper (array(0,0,226.76,1246.64), 'portrait');
+
+        return $pdf->stream('vista-pdf', "$advancePos.pdf");
         //return $pdf->download("$invoicepdf.pdf");
     }
 }
