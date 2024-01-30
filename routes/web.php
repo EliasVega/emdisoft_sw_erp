@@ -291,11 +291,9 @@ Route::get('provider/postalCode/{id}', [ProviderController::class, 'getPostalCod
 Route::get('provider/advance/{id}', [ProviderController::class, 'advance'])->name('advanceProvider');
 Route::get('provider/status/{id}', [ProviderController::class, 'status'])->name('providerStatus');
 Route::get('provider/providerPay/{id}', [ProviderController::class, 'providerPay'])->name('providerPay');
-Route::get('provider/expensePay/{id}', [ProviderController::class, 'expensePay'])->name('expensePay');
 
 Route::get('getProductPurchaseOrder', [PurchaseOrderController::class, 'getProductPurchaseOrder'])->name('getProductPurchaseOrder');
 Route::get('purchaseOrder/invoice/{id}', [PurchaseOrderController::class, 'invoice'])->name('purchaseOrderInvoice');
-Route::get('purchaseOrder/purchaseOrderPay/{id}', [PurchaseOrderController::class, 'purchaseOrderPay'])->name('purchaseOrderPay');
 Route::get('purchaseOrder/pdf/{id}', [PurchaseOrderController::class, 'purchaseOrderPdf'])->name('purchaseOrderPdf');
 Route::get('purchaseOrder/pos/{id}', [PurchaseOrderController::class, 'purchaseOrderPos'])->name('purchaseOrderPos');
 Route::get('pdfPurchaseOrder', [PurchaseOrderController::class, 'pdfPurchaseOrder'])->name('pdfPurchaseOrder');

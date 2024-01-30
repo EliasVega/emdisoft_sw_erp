@@ -52,7 +52,18 @@ class PayController extends Controller
                 return $pay->payable->document;
             })
             ->addColumn('type', function (Pay $pay) {
-                return $pay->type;
+                if ($pay->type == 'purchase') {
+                    $type = 'Compra';
+                } elseif ($pay->type == 'advance') {
+                    $type = 'Anticipo';
+                } elseif ($pay->type == 'expense') {
+                    $type = 'Gasto';
+                } elseif ($pay->type == 'invoice') {
+                    $type = 'Venta';
+                } elseif ($pay->type == 'work_labor') {
+                    $type = 'Obra_labor';
+                }
+                return $type;
             })
             ->addColumn('third', function (Pay $pay) {
                 if ($pay->type == 'purchase') {

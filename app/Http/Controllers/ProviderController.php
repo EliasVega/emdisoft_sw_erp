@@ -368,7 +368,7 @@ class ProviderController extends Controller
             'typeDocument'
         ));
     }
-
+    /*
     public function expensePay($id)
     {
 
@@ -393,5 +393,5 @@ class ProviderController extends Controller
             'documents',
             'typeDocument'
         ));
-    }
+    }*/
 }

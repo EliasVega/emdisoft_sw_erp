@@ -6,11 +6,6 @@
     <a href="{{ route('purchaseOrder.show', $id) }}" class="btn btn-success btn-sm" data-toggle="tooltip"
     data-placement="top" title="Ver Compra"><i class="far fa-eye"></i></a>
 @endcan
-@if ($balance > 0)
-    <a href="{{ route('purchaseOrderPay', $id) }}" class="btn btn-ver btn-sm" data-toggle="tooltip" data-placement="top" title="Agregar Abono" >
-        <i class="fas fa-file-invoice-dollar"></i>
-    </a>
-@endif
 @if ($pos == 'on')
     <a href="{{ route('purchaseOrderPos', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="precompra pos" >
         <i class="fas fa-receipt"></i>
