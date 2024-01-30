@@ -28,7 +28,6 @@ trait InventoryPurchases {
                     //Actualizar stock y precio del producto
                     $product->stock += $quantity; //reempazando triguer
                     $product->price = $price;
-                    $product->sale_price = $price;
                     $product->update();
                 }
 
@@ -52,7 +51,6 @@ trait InventoryPurchases {
                 //Actualizar stock y precio del producto
                 $product->stock += $quantity;
                 $product->price = $price;
-                $product->sale_price = $price;
                 $product->update();
 
                 //Actualizando o creando productos en determinada sucursal

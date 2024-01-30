@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('price', 10,2); //precio de compra
             $table->decimal('sale_price', 11,2);
             $table->decimal('commission', 10,2)->default(0);
-            $table->decimal('stock', 11,2)->nullable()->default(0);
+            $table->decimal('stock', 11,2)->default(0);
             $table->decimal('stock_min',10,2)->default(1);
             $table->enum('type_product', ['product', 'service', 'consumer']);
             $table->enum('status', ['active', 'inactive'])->default('active');

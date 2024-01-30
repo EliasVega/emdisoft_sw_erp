@@ -51,7 +51,7 @@
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="code">Codigo</label>
-            <input type="text" name="code" id="code" value="{{ old('code', $product->code ?? '') }}" class="form-control" placeholder="Codigo" aria-describedby="helpId">
+            <input type="text" name="code" id="code" value="{{ old('code', $product->code ?? '') }}" class="form-control" placeholder="Codigo" aria-describedby="helpId" required>
         </div>
     </div>
     @if ($indicator->barcode == 'on')
@@ -67,13 +67,13 @@
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="price">P/Compra</label>
-            <input type="number" name="price" id="price" value="{{ old('price', $product->price ?? '') }}"  class="form-control" placeholder="P/compra" step="any">
+            <input type="number" name="price" id="price" value="{{ old('price', $product->price ?? '0.00') }}"  class="form-control" placeholder="P/compra" step="any">
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="sale_price">P/Venta</label>
-            <input type="number" name="sale_price" id="sale_price" value="{{ old('sale_price', $product->sale_price ?? '') }}" class="form-control" placeholder="P/Venta" step="any">
+            <input type="number" name="sale_price" id="sale_price" value="{{ old('sale_price', $product->sale_price ?? '0.00') }}" class="form-control" placeholder="P/Venta" step="any">
         </div>
     </div>
     @if ($indicator->work_labor == 'on')
@@ -88,13 +88,13 @@
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="stock">Stock</label>
-            <input type="number" name="stock" id="stock" value="{{ old('stock', $product->stock ?? '') }}" class="form-control" placeholder="Stock">
+            <input type="number" name="stock" id="stock" value="{{ old('stock', $product->stock ?? '0.00') }}" class="form-control" placeholder="Stock">
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="stock_min">Stock minimo</label>
-            <input type="number" name="stock_min" id="stock_min" value="{{ old('stock_min', $product->stock ?? '') }}" class="form-control" placeholder="Stock minimo">
+            <input type="number" name="stock_min" id="stock_min" value="{{ old('stock_min', $product->stock ?? '0.00') }}" class="form-control" placeholder="Stock minimo">
         </div>
     </div>
 
