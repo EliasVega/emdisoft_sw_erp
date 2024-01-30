@@ -161,7 +161,7 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
         <label for="payment_frecuency_id">Frecuencia de Pago</label>
         <div class="select">
             <select id="payment_frecuency_id" name="payment_frecuency_id" class="form-control selectpicker" data-live-search="true" required>
@@ -176,7 +176,7 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
         <label for="charge_id">Cargo</label>
         <div class="select">
             <select id="charge_id" name="charge_id" class="form-control selectpicker" data-live-search="true" required>
@@ -191,7 +191,7 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="admission_date">Fecha de Admision</label>
             <input type="date" name="admission_date" value="{{ old('admission_date', $employee->admission_date ?? '') }}" class="form-control" placeholder="Admision">
@@ -203,6 +203,14 @@
             <input type="number" name="salary" value="{{ old('salary', $employee->salary ?? '') }}" class="form-control" placeholder="Salario">
         </div>
     </div>
+    @if ($indicator->work_labor == 'on')
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <label for="commission">Comision</label>
+                <input type="number" name="commission" id="commission" value="{{ old('commission', $product->commission ?? '') }}" class="form-control" placeholder="comision" step="any">
+            </div>
+        </div>
+    @endif
     <div class="clearfix"></div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">

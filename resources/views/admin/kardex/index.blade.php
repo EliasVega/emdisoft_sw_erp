@@ -11,7 +11,7 @@
                         <div class="row input-daterange input-group" id="datepicker">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3">
                                 @can('product.index')
-                                    <a href="{{ route('branch.index') }}" class="btn btn-lightBlueGrad ml-3"><i
+                                    <a href="{{ route('product.index') }}" class="btn btn-lightBlueGrad ml-3"><i
                                             class="fas fa-undo-alt mr-3"></i>Regresar </a>
                                 @endcan
                                 @can('branch.index')
@@ -53,8 +53,8 @@
                                 <th>Sucursal</th>
                                 <th>Operacion</th>
                                 <th>Fecha</th>
-                                <th>Oper.#</th>
                                 <th>Producto</th>
+                                <th>Tipo</th>
                                 <th>Cantidad</th>
                                 <th>Stock</th>
                             </tr>
@@ -98,10 +98,10 @@
                                 data: 'created_at'
                             },
                             {
-                                data: 'document'
+                                data: 'product'
                             },
                             {
-                                data: 'product'
+                                data: 'type'
                             },
                             {
                                 data: 'quantity'

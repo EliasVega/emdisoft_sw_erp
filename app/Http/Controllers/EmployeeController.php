@@ -81,6 +81,7 @@ class EmployeeController extends Controller
         $charges = charge::get();
         $paymentMethods = PaymentMethod::get();
         $banks = Bank::get();
+        $indicator = indicator();
         return view('admin.employee.create', compact(
             'branchs',
             'departments',
@@ -92,7 +93,8 @@ class EmployeeController extends Controller
             'contratTypes',
             'charges',
             'paymentMethods',
-            'banks'
+            'banks',
+            'indicator'
         ));
     }
 
@@ -123,6 +125,7 @@ class EmployeeController extends Controller
         $employee->email = $request->email;
         $employee->code = $request->code;
         $employee->salary = $request->salary;
+        $employee->commission = $request->commission;
         $employee->admission_date = $request->admission_date;
         $employee->account_type = $request->account_type;
         $employee->account_number = $request->account_number;
@@ -206,6 +209,7 @@ class EmployeeController extends Controller
         $employee->email = $request->email;
         $employee->code = $request->code;
         $employee->salary = $request->salary;
+        $employee->commission = $request->commission;
         $employee->admission_date = $request->admission_date;
         $employee->account_type = $request->account_type;
         $employee->account_number = $request->account_number;

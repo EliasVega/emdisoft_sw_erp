@@ -4,6 +4,8 @@ data-placement="top" title="Editar"><i class="far fa-edit"></i></a>
 
 <a href="{{ route('product.show', $id) }}" class="btn btn-success btn-sm" data-toggle="tooltip"
 data-placement="top" title="ver"><i class="far fa-eye"></i></a>
+<a href="{{ route('kardexPro', $id) }}" class="btn btn-primary btn-sm" data-toggle="tooltip"
+data-placement="top" title="KPro"><i class="far fa-eye"></i></a>
 
 @if ($status == 'active')
     <a href="{{ route('productStatus', $id) }}" class="btn btn-verde btn-sm" data-toggle="tooltip"

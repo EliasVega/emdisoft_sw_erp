@@ -252,7 +252,7 @@ Route::get('invoiceOrder/pos/{id}', [InvoiceOrderController::class, 'invoiceOrde
 Route::get('pdfInvoiceOrder', [InvoiceOrderController::class, 'pdfInvoiceOrder'])->name('pdfInvoiceOrder');
 Route::get('posInvoiceOrder', [InvoiceOrderController::class, 'posInvoiceOrder'])->name('posInvoiceOrder');
 
-//Route::get('rawMaterial/kardexRawMaterial/{id}', [KardexController::class, 'kardexRawMaterial'])->name('kardexRawMaterial');
+Route::get('kardexProduct', [KardexController::class, 'kardexProduct'])->name('kardexProduct');
 
 Route::get('ncinvoice/ncinvoicePdf/{id}', [NcinvoiceController::class, 'ncinvoicePdf'])->name('ncinvoicePdf');
 Route::get('pdfNcinvoice', [NcinvoiceController::class, 'pdfNcinvoice'])->name('pdfNcinvoice');
@@ -284,6 +284,7 @@ Route::get('getProduct', [ProductController::class, 'getProduct'])->name('getPro
 Route::get('product/status/{id}', [ProductController::class, 'status'])->name('productStatus');
 Route::get('productImport', [ProductController::class, 'productImport'])->name('productImport');
 Route::post('productStore', [ProductController::class, 'productStore'])->name('productStore');
+Route::get('product/kardexPro/{id}', [ProductController::class, 'kardexPro'])->name('kardexPro');
 
 Route::get('provider/create/{id}', [ProviderController::class, 'getMunicipalities']);
 Route::get('provider/postalCode/{id}', [ProviderController::class, 'getPostalCode']);

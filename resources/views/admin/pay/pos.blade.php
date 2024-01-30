@@ -70,12 +70,19 @@
                         @elseif ($pay->type == 'work_labor')
                             <span id="rowHeader">Abono a Comision</span><br>
                         @endif
+                        <span id="rowHeader">Saldo Pendiente:</span><br>
 
                     </div>
                     <div id="thirdData">
                         <span id="rowData">{{  $pay->branch->municipality->name  }}</span><br>
                         <span id="rowData">{{  $pay->pay  }}</span><br>
                         <span id="rowData">#-{{  $pay->payable->id  }}</span><br>
+                        @if ($pay->type == 'work_labor')
+                            <span id="rowData"> $ 0.00</span><br>
+                        @else
+                            <span id="rowData"> ${{  $pay->payable->balance  }}</span><br>
+                        @endif
+
                     </div>
                 </div>
             </div>

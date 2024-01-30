@@ -37,6 +37,7 @@
                 <table class="table table-striped table-bordered table-condensed table-hover" id="kardexproducts">
                     <thead>
                         <tr>
+                            <th>Id</th>
                             <th>Doc.</th>
                             <th>Pro.ID</th>
                             <th>Sucursal</th>
@@ -53,71 +54,114 @@
         </div>
     </div>
     @push('scripts')
-<script type="text/javascript">
-$(document).ready(function ()
-    {
-        $('#kardexproducts').DataTable(
-        {
-            info: true,
-            paging: true,
-            ordering: true,
-            searching: true,
-            responsive: true,
-            autoWidth: true,
-            processing: true,
-            serverSide: true,
-            language: {
-                url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
-            },
-            ajax: '{{ route('kardexProductico') }}',
-            columns:
-            [
-                { data: 'document'},
-                { data: 'product_id'},
-                { data: 'branch'},
-                { data: 'operation'},
-                { data: 'created_at'},
-                { data: 'document'},
-                { data: 'product'},
-                { data: 'quantity'},
-                { data: 'stock'},
-            ],
-            dom: 'Blfrtip',
-            lengthMenu: [
-                [10, 20, 50, 100, 500, -1], [10, 20, 50, 100, 500, 'Todos']
-            ],
-            buttons: [
-                {
-                    extend: 'copy',
-                    exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5 ]
-                    }
-                },
-                {
-                    extend: 'excel',
-                    exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5 ]
-                    }
-                },
-                {
-                    extend: 'pdf',
-                    extend: 'pdfHtml5',
-                    orientation: 'landscape',
-                    pageSize: 'LEGAL',
-                    exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5 ]
-                    }
-                },
-                {
-                    extend: 'print',
-                    exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5 ]
-                    }
-                },
-            ],
-        });
-    });
-</script>
-@endpush
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    var table = $('#kardexproducts').DataTable({
+                        info: true,
+                        paging: true,
+                        ordering: true,
+                        searching: true,
+                        responsive: true,
+                        autoWidth: true,
+                        processing: true,
+                        serverSide: true,
+                        language: {
+                            url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                        },
+                        ajax: '{{ route('kardexProduct') }}',
+                        order: [
+                            [0, "desc"]
+                        ],
+                        columns: [
+                            {
+                                data: 'id'
+                            },
+
+                            {
+                                data: 'document'
+                            },
+                            {
+                                data: 'product_id'
+                            },
+                            {
+                                data: 'branch'
+                            },
+                            {
+                                data: 'operation'
+                            },
+                            {
+                                data: 'created_at'
+                            },
+                            {
+                                data: 'document'
+                            },
+                            {
+                                data: 'product'
+                            },
+                            {
+                                data: 'quantity'
+                            },
+                            {
+                                data: 'stock'
+                            },
+                        ],
+                        dom: 'Blfrtip',
+                        lengthMenu: [
+                            [10, 20, 50, 100, 500, -1],
+                            [10, 20, 50, 100, 500, 'Todos']
+                        ],
+                        buttons: [{
+                                extend: 'copy',
+                                exportOptions: {
+                                    columns: [0, ]
+                                }
+                            },
+                            {
+                                extend: 'excel',
+                                exportOptions: {
+                                    columns: [0, ]
+                                }
+                            },
+                            {
+                                extend: 'pdf',
+                                extend: 'pdfHtml5',
+                                orientation: 'landscape',
+                                pageSize: 'LEGAL',
+                                exportOptions: {
+                                    columns: [0, ]
+                                }
+                            },
+                            {
+                                extend: 'print',
+                                exportOptions: {
+                                    columns: [0, ]
+                                }
+                            },
+                        ],
+                    });
+                    $('#search_button').click(function() {
+                        var startDate = $('#start_date').val();
+                        var endDate = $('#end_date').val();
+
+                        if (endDate < startDate) {
+                            alert('La fecha de fin debe ser mayor que la fecha de inicio');
+                            return;
+                        }
+
+                        if (startDate != null && endDate != null) {
+                            table.ajax.url("{{ route('kardexProduct') }}" + "?start_date=" +
+                                startDate + "&end_date=" + endDate).load();
+                        }
+                    });
+
+                    $(document).on('click', '#show_all_button', function() {
+                        $('#start_date').val('');
+                        $('#end_date').val('');
+
+                        table.ajax.url("{{ route('kardexProduct') }}").load();
+                    });
+                });
+            </script>
+        @endpush
 </main>
 @endsection

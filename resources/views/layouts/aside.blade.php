@@ -351,6 +351,12 @@
                                             <p>Permisos</p>
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="{{ url('charge') }}" class="nav-link">
+                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <p>Cargos</p>
+                                        </a>
+                                    </li>
                                     @if (current_user()->Roles[0]->name == 'superAdmin' || current_user()->Roles[0]->name == 'admin')
                                         <li class="nav-item">
                                             <a href="{{ url('verificationCode') }}" class="nav-link">
@@ -443,12 +449,14 @@
                                             <p>Impuestos</p>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a href="{{ url('restaurantTable') }}" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Mesas</p>
-                                        </a>
-                                    </li>
+                                    @if (current_user()->company->indicator->restaurant == 'on')
+                                        <li class="nav-item">
+                                            <a href="{{ url('restaurantTable') }}" class="nav-link">
+                                                <i class="far fa-dot-circle nav-icon"></i>
+                                                <p>Mesas</p>
+                                            </a>
+                                        </li>
+                                    @endif
                                 </ul>
                             </li>
                             <li class="nav-item has-treeview">

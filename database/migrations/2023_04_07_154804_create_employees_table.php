@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('email', 100);
             $table->string('code', 20);
             $table->decimal('salary', 10,2);
+            $table->decimal('commission', 10,2)->nullable();
             $table->date('admission_date');
             $table->string('account_type', 20);
             $table->string('account_number', 20);

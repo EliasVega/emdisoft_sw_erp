@@ -328,10 +328,12 @@ class InvoiceController extends Controller
                 $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
 
                 //metodo para comisiones de empleados
-                $subtotal = $quantity[$i] * $price[$i];
-                $commission = $product->commission;
-                $valueCommission = ($subtotal/100) * $commission;
                 if ($employee_id[$i] != 'null') {
+                    $employee = Employee::findOrFail($employee_id[$i]);
+                    $subtotal = $quantity[$i] * $price[$i];
+                    $commission = $employee->commission;
+                    $valueCommission = ($subtotal/100) * $commission;
+
                     $employeeInvoiceProduct = new EmployeeInvoiceProduct();
                     $employeeInvoiceProduct->invoice_product_id = $invoiceProduct->id;
                     $employeeInvoiceProduct->employee_id = $employee_id[$i];

@@ -25,6 +25,7 @@ class Employee extends Model
         'email',
         'code',
         'salary',
+        'commision',
         'admission_date',
         'account_type',
         'account_number',

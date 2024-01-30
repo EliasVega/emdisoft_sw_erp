@@ -31,6 +31,7 @@ class UpdateEmployeeRequest extends FormRequest
             'email' => 'required|email|max:100',
             'code' => 'required|string|max:20',
             'salary' => 'required|numeric',
+            'commission' => 'nullable',
             'admission_date' => 'required|date',
             'account_type' => 'required|string|max:20',
             'account_number' => 'required|string|max:20',

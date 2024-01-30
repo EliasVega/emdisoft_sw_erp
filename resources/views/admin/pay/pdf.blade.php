@@ -90,6 +90,21 @@
             <div class="description2">
                 <p>{{ $pay->id }}</p>
             </div>
+            <div class="clearfix"></div>
+            <div class="title">
+                <p>Saldo Pendiente:</p>
+            </div>
+            <div class="description4">
+                @if ($pay->type == 'purchase')
+                    <span>Despues de este abono $ {{ $pay->payable->balance }}</span><br>
+                @elseif ($pay->type == 'invoice')
+                    <span>Despues de este abono $ {{ $pay->payable->balance }}</span><br>
+                @elseif ($pay->type == 'advance')
+                    <span>Despues de este abono $ {{ $pay->payable->balance }}</span><br>
+                @elseif ($pay->type == 'work_labor')
+                    <span>Despues de este abono $ 0.00</span><br>
+                @endif
+            </div>
         </div>
         <div class="content">
             <div class="center">
