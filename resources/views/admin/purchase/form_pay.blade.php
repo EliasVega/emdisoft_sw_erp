@@ -177,9 +177,9 @@
             <table id="payments" class="table table-striped table-bordered table-condensed table-hover">
                 <thead class="bg-info">
                     <tr>
-                        <th>Eliminar</th>
+                        <th>Elim</th>
                         <th>Medio</th>
-                        <th>T. card</th>
+                        <th>Tarjeta</th>
                         <th>Entidad</th>
                         <th>Transaccion</th>
                         <th>Valor</th>

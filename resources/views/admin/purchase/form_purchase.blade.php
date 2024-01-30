@@ -238,13 +238,13 @@
             <table id="details" class="table table-striped table-bordered table-condensed table-hover">
                 <thead class="bg-info">
                     <tr>
-                        <th>Eliminar</th>
-                        <th>Editar</th>
+                        <th>Elim</th>
+                        <th>Edit</th>
                         <th>Id</th>
                         <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>precio ($)</th>
-                        <th>imp (%)</th>
+                        <th>Cant</th>
+                        <th>precio</th>
+                        <th>imp(%)</th>
                         <th>SubTotal ($)</th>
                     </tr>
                 </thead>
