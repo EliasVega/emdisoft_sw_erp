@@ -83,18 +83,27 @@
                 <!--DATOS FTOTALES -->
                 <tr>
                     <th colspan="3" class="footRight">TOTAL:</th>
-                    <td colspan="3" class="footRight"><strong>${{number_format($invoiceOrder->total,2)}}</strong></td>
+                    <td colspan="3" class="footRight"><strong>${{number_format($invoiceOrder->total)}}</strong></td>
                 </tr>
                 <tr>
                     <th colspan="3" class="footRight">IMPUESTOS:</th>
-                    <td colspan="3" class="footRight"><strong>${{number_format($invoiceOrder->total_tax,2)}}</strong> </td>
+                    <td colspan="3" class="footRight"><strong>${{number_format($invoiceOrder->total_tax)}}</strong> </td>
                 </tr>
                 <tr>
                     <th colspan="3" class="footRight">TOTAL PAGAR:</th>
-                    <td colspan="3" class="footRight"><strong>${{number_format($invoiceOrder->total_pay,2)}}</strong></td>
+                    <td colspan="3" class="footRight"><strong>${{number_format($invoiceOrder->total_pay)}}</strong></td>
                 </tr>
             </tfoot>
         </table>
+        <div class="center">
+            <div id="third">
+                <!--DATOS CLIENTE -->
+                <div>
+                    <span id="rowHeader"><strong>Elaborado por:</strong></span><br>
+                    <span id="rowData"><strong>{{ $invoiceOrder->user->name }}</strong></span><br>
+                </div>
+            </div>
+        </div>
     </div>
     <br>
     <br>

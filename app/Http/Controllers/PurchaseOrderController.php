@@ -44,6 +44,13 @@ class PurchaseOrderController extends Controller
     public function index(Request $request)
     {
         $purchaseOrder = session('purchaseOrder');
+        $indicator = indicator();
+        $typeDocument = '';
+        if ($indicator->pos == 'off') {
+            $typeDocument = 'document';
+        } else {
+            $typeDocument = 'pos';
+        }
         if ($request->ajax()) {
             //Muestra todas las pre compras de la empresa
             $user = current_user()->Roles[0]->name;
@@ -82,7 +89,7 @@ class PurchaseOrderController extends Controller
             ->rawColumns(['btn'])
             ->make(true);
         }
-        return view('admin.purchaseOrder.index', compact('purchaseOrder'));
+        return view('admin.purchaseOrder.index', compact('purchaseOrder', 'typeDocument'));
     }
 
     /**

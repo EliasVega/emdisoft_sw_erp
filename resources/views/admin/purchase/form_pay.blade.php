@@ -181,7 +181,7 @@
                         <th>Medio</th>
                         <th>Tarjeta</th>
                         <th>Entidad</th>
-                        <th>Transaccion</th>
+                        <th>Trans.</th>
                         <th>Valor</th>
                     </tr>
                 </thead>

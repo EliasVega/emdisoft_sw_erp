@@ -44,14 +44,29 @@
 <script type="text/javascript">
 $(document).ready(function ()
     {
-        function print(){
-            var purchaseOrder = "{{ $purchaseOrder ?? '' }}";
-            if (purchaseOrder != '') {
-                var imprimir = "{{ route('pdfPurchaseOrder', ['purchaseOrder' => ':purchaseOrder']) }}";
-                imprimir = imprimir.replace(':purchaseOrder', purchaseOrder);
-                window.open(imprimir, "_blank");
+
+
+        var typeDocument = "{{ $typeDocument ?? '' }}";
+            if (typeDocument == 'document') {
+                function print(){
+                    var purchaseOrder = "{{ $purchaseOrder ?? '' }}";
+                    if (purchaseOrder != '') {
+                        var imprimir = "{{ route('pdfPurchaseOrder', ['purchaseOrder' => ':purchaseOrder']) }}";
+                        imprimir = imprimir.replace(':purchaseOrder', purchaseOrder);
+                        window.open(imprimir, "_blank");
+                    }
+                }
+            } else {
+                function print(){
+                    var purchaseOrder = "{{ $purchaseOrder ?? '' }}";
+                    if (purchaseOrder != '') {
+                        var imprimir = "{{ route('posPurchaseOrder', ['purchaseOrder' => ':purchaseOrder']) }}";
+                        imprimir = imprimir.replace(':purchaseOrder', purchaseOrder);
+                        window.open(imprimir, "_blank");
+                    }
+                }
             }
-        }
+
         print();
         $('#purchaseOrders').DataTable(
         {

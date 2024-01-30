@@ -188,7 +188,7 @@ $medidaTicket = 180;
                 <!--DATOS CLIENTE -->
                 <div>
                     <span id="rowHeader"><strong>Elaborado por:</strong></span><br>
-                    <span id="rowData"><strong>{{ $user }}</strong></span><br>
+                    <span id="rowData"><strong>{{ $invoice->user->name }}</strong></span><br>
                 </div>
             </div>
         </div>
