@@ -175,7 +175,7 @@ class AdvanceController extends Controller
         }
 
         //Metodo para crear un nuevo pago y su relacion polimorfica con el tipo de documento
-        $pay = new Payamnt();
+        $pay = new Pay();
         $pay->user_id    = Auth::user()->id;
         $pay->branch_id  = Auth::user()->branch_id;
         $pay->pay        = $total;
