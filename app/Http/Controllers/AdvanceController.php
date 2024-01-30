@@ -12,7 +12,7 @@ use App\Models\Company;
 use App\Models\Customer;
 use App\Models\Employee;
 use App\Models\Indicator;
-use App\Models\pay;
+use App\Models\Pay;
 use App\Models\PaymentMethod;
 use App\Models\PayPaymentMethod;
 use App\Models\Provider;
@@ -175,7 +175,7 @@ class AdvanceController extends Controller
         }
 
         //Metodo para crear un nuevo pago y su relacion polimorfica con el tipo de documento
-        $pay = new pay();
+        $pay = new Payamnt();
         $pay->user_id    = Auth::user()->id;
         $pay->branch_id  = Auth::user()->branch_id;
         $pay->pay        = $total;

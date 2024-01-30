@@ -90,7 +90,7 @@ class EmployeeInvoiceProductController extends Controller
                 return $employeeInvoiceProduct->employee->identification;
             })
             ->addColumn('product', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
-                return $employeeInvoiceProduct->invoiceProduct->product->name;
+                return $employeeInvoiceProduct->employee->name;
             })
             ->addColumn('percentage', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
                 return $employeeInvoiceProduct->invoiceProduct->product->commission;
