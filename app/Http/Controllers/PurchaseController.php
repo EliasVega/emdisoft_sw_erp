@@ -1072,7 +1072,7 @@ class PurchaseController extends Controller
     }
 
     //Metodo para registrar pago o abono de factura de compra
-    public function purchase_pay($id)
+    public function purchasePay($id)
     {
         $document = Purchase::findOrFail($id);
         $banks = Bank::get();

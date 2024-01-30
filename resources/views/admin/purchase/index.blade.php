@@ -11,15 +11,15 @@
                     <a href="purchase/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Compra Productos</a>
                 @endcan
                 @can('purchaseOrder.create')
-                    <a href="purchaseOrder/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Orden de Compra</a>
+                    <a href="purchaseOrder" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Orden de Compra</a>
                 @endcan
                 @if ($indicator->raw_material == 'on')
                     @can('purchase.create')
                         <a href="createRawmaterial" class="btn btn-orangeGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Compra Materia Prima</a>
                     @endcan
                 @endif
-                @can('expense.create')
-                    <a href="expense/create" class="btn btn-lightBlueGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Gastos</a>
+                @can('expense.index')
+                    <a href="expense.index" class="btn btn-lightBlueGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Gastos</a>
                 @endcan
                 @can('branch.index')
                     <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>

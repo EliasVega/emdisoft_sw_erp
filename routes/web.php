@@ -295,6 +295,7 @@ Route::get('provider/expensePay/{id}', [ProviderController::class, 'expensePay']
 
 Route::get('getProductPurchaseOrder', [PurchaseOrderController::class, 'getProductPurchaseOrder'])->name('getProductPurchaseOrder');
 Route::get('purchaseOrder/invoice/{id}', [PurchaseOrderController::class, 'invoice'])->name('purchaseOrderInvoice');
+Route::get('purchaseOrder/purchaseOrderPay/{id}', [PurchaseOrderController::class, 'purchaseOrderPay'])->name('purchaseOrderPay');
 Route::get('purchaseOrder/pdf/{id}', [PurchaseOrderController::class, 'purchaseOrderPdf'])->name('purchaseOrderPdf');
 Route::get('purchaseOrder/pos/{id}', [PurchaseOrderController::class, 'purchaseOrderPos'])->name('purchaseOrderPos');
 Route::get('pdfPurchaseOrder', [PurchaseOrderController::class, 'pdfPurchaseOrder'])->name('pdfPurchaseOrder');
@@ -302,7 +303,7 @@ Route::get('posPurchaseOrder', [PurchaseOrderController::class, 'posPurchaseOrde
 
 Route::get('getProductPurchase', [PurchaseController::class, 'getProductPurchase'])->name('getProductPurchase');
 Route::get('purchase/create/{id}', [PurchaseController::class, 'getMunicipalities']);
-Route::get('purchase/purchase_pay/{id}', [PurchaseController::class, 'purchase_pay'])->name('purchase_pay');
+Route::get('purchase/purchasePay/{id}', [PurchaseController::class, 'purchasePay'])->name('purchasePay');
 Route::get('purchase/purchasePdf/{id}', [PurchaseController::class, 'purchasePdf'])->name('purchasePdf');
 Route::get('purchase/purchasePos/{id}', [PurchaseController::class, 'purchasePos'])->name('purchasePos');
 Route::get('purchase/creditNotePurchase/{id}', [PurchaseController::class, 'creditNote'])->name('creditNotePurchase');

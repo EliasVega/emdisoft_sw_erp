@@ -373,6 +373,25 @@ class PurchaseOrderController extends Controller
         ));
     }
 
+    public function purchaseOrderPay($id)
+    {
+        $document = PurchaseOrder::findOrFail($id);
+        $banks = Bank::get();
+        $paymentMethods = PaymentMethod::get();
+        $cards = Card::get();
+        $advances = Advance::where('status', '!=', 'applied')->where('advanceable_id', $document->third->id)->get();
+        $tipeDocument = 'Compra';
+
+        return view('admin.pay.create', compact(
+            'document',
+            'banks',
+            'paymentMethods',
+            'cards',
+            'advances',
+            'tipeDocument'
+        ));
+    }
+
     public function purchaseOrderPdf(Request $request, $id)
     {
         $indicator = indicator();
@@ -450,7 +469,7 @@ class PurchaseOrderController extends Controller
         $company = Company::where('id', 1)->first();
         $indicator = indicator();
         $purchaseOrderpdf = "FACT-". $purchaseOrder->document;
-        $view = \view('admin.purchase_order.pos', compact(
+        $view = \view('admin.purchaseOrder.pos', compact(
             'purchaseOrder',
             'purchaseOrderProducts',
             'company',

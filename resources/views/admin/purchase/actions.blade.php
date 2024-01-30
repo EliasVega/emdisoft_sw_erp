@@ -3,7 +3,7 @@
     data-placement="top" title="Ver Compra"><i class="far fa-eye"></i></a>
 @endcan
 @if ($balance > 0)
-    <a href="{{ route('purchase_pay', $id) }}" class="btn btn-ver btn-sm" data-toggle="tooltip" data-placement="top" title="Agregar Abono" >
+    <a href="{{ route('purchasePay', $id) }}" class="btn btn-ver btn-sm" data-toggle="tooltip" data-placement="top" title="Agregar Abono" >
         <i class="fas fa-file-invoice-dollar"></i>
     </a>
 @endif

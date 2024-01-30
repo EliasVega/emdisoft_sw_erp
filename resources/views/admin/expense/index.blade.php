@@ -11,6 +11,9 @@
                 <a href="expense/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Agregar Gasto</a>
             @endcan
             @can('branch.index')
+                <a href="{{ route('purchase.index') }}" class="btn btn-lightBlueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
+            @endcan
+            @can('branch.index')
                 <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
             @endcan
             @can('provider.index')
