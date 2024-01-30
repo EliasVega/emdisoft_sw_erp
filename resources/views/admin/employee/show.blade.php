@@ -57,6 +57,9 @@
             <strong class="titulo-show">Salario</strong>: <p class="vista">{{ number_format($employee->salary,2) }}</p>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+            <strong class="titulo-show">Comision</strong>: <p class="vista">{{ number_format($employee->commission,2) }}</p>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
             <strong class="titulo-show">Tipo de Empleado</strong>: <p class="vista">{{ $employee->employeeType->name }}</p>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
