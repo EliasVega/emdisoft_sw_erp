@@ -166,6 +166,7 @@ class EmployeeController extends Controller
         $charges = charge::get();
         $paymentMethods = PaymentMethod::get();
         $banks = Bank::get();
+        $indicator = indicator();
         return view('admin.employee.edit', compact(
             'employee',
             'branchs',
@@ -178,7 +179,8 @@ class EmployeeController extends Controller
             'contratTypes',
             'charges',
             'paymentMethods',
-            'banks'
+            'banks',
+            'indicator'
         ));
     }
 
