@@ -42,32 +42,17 @@
             $("#sale_price").val(data.sale_price);
             $("#stock").val(data.stock);
             $("#stock_min").val(data.stock_min);
-            $("#category_id").val(data.category_id);
-            $("#measure_unit_id").val(data.measure_unit_id);
-            $("#type_product").val(data.type_product);
-            //productexits();
         }).fail(function() {
-            //alert("Algo salió mal");
+            clean();
         }).always(function() {
             //alert("Siempre se ejecuta")
         });
 
     }
-    function productexits() {
-        prod = $("#name").val();
-        if (prod != '') {
-            //alert("Rellene todos los campos del detalle para esta compra");
-            Swal.fire({
-            type: 'error',
-            //title: 'Oops...',
-            text: 'Este producto ya existe --' + prod,
-            })
-            clean();
-        }
-    }
     $(document).on('keyup', '#code', function() {
         let barcodepurchase = $(("#switch_barcode")).prop("checked");
         if (barcodepurchase == true) {
+            clean();
             var codes = $(this).val();
             if (codes != "") {
                 obtener_registro(codes);
@@ -78,7 +63,10 @@
     })
 
     function clean(){
-        $("#name").val("");
-        $("#code").val("");
+        $("#name").val('');
+        $("#price").val('0.00');
+        $("#sale_price").val('0.00');
+        $("#stock").val('0.00');
+        $("#stock_min").val('0.00');
     }
 </script>

@@ -56,6 +56,5 @@
 <!--Fin del modal-->
 @endsection
 @section('scripts')
-    @include('admin/product.script')
     @include('admin/product.script_editRawMaterial')
 @endsection

@@ -192,11 +192,6 @@
         }
     }
 
-
-
-
-
-
     //Mostrar u ocultar elementos de acuerdo al tipo de documento
     $(document).ready(function() {
         $("#document_type_id").change(function() {
