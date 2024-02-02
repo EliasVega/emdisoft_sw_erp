@@ -2,7 +2,7 @@
 
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="prepurch">
         <div class="form-group">
-            <label for="purchaseOrder">Pre Compra </label>
+            <label for="purchaseOrder">O/P </label>
             <input type="number" name="purchaseOrder" id="purchaseOrder" value="{{ $purchaseOrder->id }}" class="form-control">
         </div>
     </div>
@@ -26,13 +26,13 @@
             </div>
         </div>
     @endif
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        <label for="provider_id">Proveedor </label>
+    <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12">
+        <label for="customer_id">Cliente</label>
         <div class="select">
-            <select id="provider_id" name="provider_id" class="form-control selectpicker" data-live-search="true" disabled>
-                <option {{ old('provider_id', $purchaseOrder->provider_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Proveedor</option>
+            <select id="provider_id" name="provider_id" class="form-control selectpicker" data-live-search="true">
+                <option {{ old('provider_id', $purchaseOrder->provider_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Cliente</option>
                 @foreach($providers as $provider)
-                    @if(old('branch_id', $purchaseOrder->provider->provider_id ?? '') == $provider->id)
+                    @if(old('provider_id', $purchaseOrder->provider_id ?? '') == $provider->id)
                         <option value="{{ $provider->id }}" selected>{{ $provider->name }}</option>
                     @else
                         <option value="{{ $provider->id }}">{{ $provider->name }}</option>

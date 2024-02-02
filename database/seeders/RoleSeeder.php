@@ -78,8 +78,8 @@ class RoleSeeder extends Seeder
 
         Permission::create(['name' => 'company.index', 'description' => 'Listado Compañias', 'status' => 'active'])->syncRoles([$superAdmin, $admin]);
         Permission::create(['name' => 'company.create', 'description' => 'Crear Compañia', 'status' => 'locked'])->syncRoles([$superAdmin]);
-        Permission::create(['name' => 'company.show', 'description' => 'Ver Compañia', 'status' => 'active'])->syncRoles([$superAdmin, $admin]);
-        Permission::create(['name' => 'company.edit', 'description' => 'Editar Compañia', 'status' => 'locked'])->syncRoles([$superAdmin, $admin]);
+        Permission::create(['name' => 'company.show', 'description' => 'Ver Compañia', 'status' => 'active'])->syncRoles([$superAdmin]);
+        Permission::create(['name' => 'company.edit', 'description' => 'Editar Compañia', 'status' => 'locked'])->syncRoles([$superAdmin]);
         Permission::create(['name' => 'company.destroy', 'description' => 'Eliminar Compañia', 'status' => 'locked'])->syncRoles([$superAdmin]);
         Permission::create(['name' => 'company.companyStatus', 'description' => 'Estado Compañia', 'status' => 'locked'])->syncRoles([$superAdmin]);
 

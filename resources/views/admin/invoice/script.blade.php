@@ -101,7 +101,6 @@
         }
     })
 
-
     //$(obtener_registro());
     function obtener_registro(code){
         $.ajax({
@@ -120,6 +119,7 @@
             $("#utility").val(data.utility_rate);
             $("#tax_rate").val(data.percentage);
             $("#tax_type").val(data.tt);
+            $("#employee_id").val(0);
             addBarcode();
         }).fail(function() {
             //alert("Algo salió mal");
@@ -148,6 +148,7 @@
         tax_rate= $("#tax_rate").val();
         tax_type = $("#tax_type").val();
         uvt = $("#uvtmax").val();
+        employee_id = $("#employee_id").val();
         pos_on = $("#pos_active").val();
         if(product_id !="" && quantity!="" && quantity>0  && price!=""){
             subtotal[cont] = parseFloat(quantity) * parseFloat(price);
@@ -158,7 +159,7 @@
             if(tax_type == 1){
                 tax_iva += ivita;
             }
-            var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';
+            var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';
             cont++;
             totals();
             //assess();
@@ -346,13 +347,13 @@
             // Buscar datos en la row y asignar a campos del formulario:
             // Primera columna (0) tiene ID, segunda (1) tiene nombre, tercera (2) capacidad
             $("#contModal").val(index);
-            $("#idModal").val(row.find("td:eq(2)").text());
-            $("#product_idModal").val(row.find("td:eq(2)").text());
-            $("#productModal").val(row.find("td:eq(3)").text());
-            $("#quantityModal").val(row.find("td:eq(4)").text());
-            $("#priceModal").val(row.find("td:eq(5)").text());
-            $("#taxModal").val(row.find("td:eq(6)").text());
-            $("#subtotalModal").val(row.find("td:eq(7)").text());
+            $("#idModal").val(row.find("td:eq(3)").text());
+            $("#product_idModal").val(row.find("td:eq(3)").text());
+            $("#productModal").val(row.find("td:eq(4)").text());
+            $("#quantityModal").val(row.find("td:eq(5)").text());
+            $("#priceModal").val(row.find("td:eq(6)").text());
+            $("#taxModal").val(row.find("td:eq(7)").text());
+            $("#subtotalModal").val(row.find("td:eq(8)").text());
 
             // Mostrar modal
             $('#editModal').modal('show');

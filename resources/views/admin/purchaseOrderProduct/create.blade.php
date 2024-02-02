@@ -28,13 +28,13 @@
             {!!Form::open(array('url'=>'purchaseOrderProduct', 'method'=>'POST', 'autocomplete'=>'off'))!!}
             {!!Form::token()!!}
             <div class="row m-1">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
                     @include('admin/purchaseOrderProduct.form_purchaseOrder')
                 </div>
-                <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 colorpay">
+                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 colorpay">
                     @include('admin/purchaseOrderProduct.form_pay')
                 </div>
-                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 colorretentions">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 colorretentions">
                     @include('admin/purchaseOrderProduct.form_retention')
                 </div>
             </div>

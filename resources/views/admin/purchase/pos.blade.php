@@ -83,7 +83,7 @@
                         <th>Descripcion</th>
                         <th>Cant.</th>
                         <th>Valor</th>
-                        <th>SubTotal</th>
+                        <th style="width:80px">SubTotal</th>
                     </tr>
                 </thead>
                 <tbody>
