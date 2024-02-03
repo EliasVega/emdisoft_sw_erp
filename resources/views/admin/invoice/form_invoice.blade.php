@@ -235,14 +235,6 @@
             </div>
         @endif
     @endif
-
-    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-        <div class="form-group">
-            <label class="form-control-label" for="bags">Bolsas</label>
-            <input type="number" id="bags" name="bags" value="0" class="form-control"
-                placeholder="Bolsas">
-        </div>
-    </div>
     @if ($indicator->cvpinvoice == 'on')
         <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mt-3" id="addcvp">
             <div class="form-check">
@@ -259,6 +251,13 @@
             </div>
         </div>
     @endif
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+        <div class="form-group">
+            <label class="form-control-label" for="bags">Bolsas</label>
+            <input type="number" id="bags" name="bags" value="0" class="form-control"
+                placeholder="Bolsas">
+        </div>
+    </div>
     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="noteDocument">
         <div class="form-group">
             <label class="form-control-label" for="note">Observaciones</label>
