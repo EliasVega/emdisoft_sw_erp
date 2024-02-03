@@ -1,5 +1,5 @@
 
-@if ($cvpinvoice == 'on')
+@if ($cvpinvoicessss == 'on')
     <a href="{{ route('cvpinvoiceStatus', $id) }}" class="btn btn-success btn-sm" data-toggle="tooltip"
     data-placement="top" title="Activa"><i class="far fa-edit"></i></a>
 @else
