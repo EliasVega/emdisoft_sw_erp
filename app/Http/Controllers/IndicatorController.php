@@ -35,7 +35,6 @@ class IndicatorController extends Controller
     {
         if ($request->ajax()) {
             $indicators = Indicator::get();
-
             return DataTables::of($indicators)
             ->addColumn('edit', 'admin/indicator/actions')
             ->addColumn('dian', 'admin/indicator/dian')
