@@ -37,6 +37,22 @@
             <input type="number" name="priceModal" id="priceModal" class="form-control" placeholder="precio">
         </div>
     </div>
+    @if ($indicator->cvpinvoice == 'on')
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-3">
+            <div class="form-check">
+                <input class="form-check-input cvpinvoice" type="radio" name="cvpinvoice" value="1" id="cvpinvoice1">
+                <label class="form-check-label" for="cvpinvoice1">
+                    Guardar Precio producto
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input cvpinvoice" type="radio" name="cvpinvoice" value="2" id="cvpinvoice2" checked>
+                <label class="form-check-label" for="cvpinvoice2">
+                    No guardar Precio producto
+                </label>
+            </div>
+        </div>
+    @endif
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="subtotalMod">
         <div class="form-group">
             <label for="subtotalModal">Subtotal</label>

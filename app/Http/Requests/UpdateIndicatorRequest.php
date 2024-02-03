@@ -38,7 +38,9 @@ class UpdateIndicatorRequest extends FormRequest
             'inventory' => 'in:on,off',
             'product_price' => 'in:automatic,manual',
             'raw_material' => 'in:on,off',
-            'restaurant' => 'in:on,off'
+            'restaurant' => 'in:on,off',
+            'barcode' => 'in:on,off',
+            'cvpinvoice' => 'in:on,off'
         ];
     }
 }

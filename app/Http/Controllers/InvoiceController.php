@@ -233,6 +233,7 @@ class InvoiceController extends Controller
         $total_pay = $request->total_pay;
         $employee_id = $request->employee_id;
         $paymentForm = $request->payment_form_id;
+        $cvp = $request->cv;
 
         if ($indicator->pos == 'on'  && $paymentForm == 1) {
             $totalpay = $request->total_pay;
@@ -318,6 +319,11 @@ class InvoiceController extends Controller
 
                 //selecciona el producto que viene del array
                 $product = Product::findOrFail($id);
+
+                if ($indicator->cvpinvoice == 'on' && $cvp[$i] == 1) {
+                    $product->sale_price = $price[$i];
+                    $product->update();
+                }
                 //selecciona el producto de la sucursal que sea el mismo del array
                 $branchProducts = BranchProduct::where('product_id', '=', $id)
                 ->where('branch_id', '=', $branch)

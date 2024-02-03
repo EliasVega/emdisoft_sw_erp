@@ -39,7 +39,7 @@
     $("#rtftotal").hide();
     $("#advance").hide();
     //$("#addDocument").hide();
-
+    /*
     $(document).ready(function(){
         $("#rtfon").click(function(){
             $("#editPercentageId").show();
@@ -74,7 +74,7 @@
         $("#rtfon").attr('disabled','disabled');
         $("#rtfoff").attr('disabled','disabled');
 
-    }
+    }*/
 
     $("#product_id").change(productValue);
 

@@ -32,7 +32,7 @@ return new class extends Migration
             $table->enum('raw_material', ['on', 'off'])->default('off');//si o  oo manejo de materias primas
             $table->enum('restaurant',['on', 'off'])->default('off');//si o no manejo de restaurantes
             $table->enum('barcode', ['on', 'off'])->default('off'); //si o no manejo codigo de barras
-
+            $table->enum('cvpinvoice', ['on', 'off'])->default('off'); //Cambio de precio en venta
 
             $table->foreignId('company_id')->constrained();
 

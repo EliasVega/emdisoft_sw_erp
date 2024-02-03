@@ -235,6 +235,7 @@ Route::get('indicator/productPrice/{id}', [IndicatorController::class, 'productP
 Route::get('indicator/materialStatus/{id}', [IndicatorController::class, 'materialStatus'])->name('materialStatus');
 Route::get('indicator/restaurantStatus/{id}', [IndicatorController::class, 'restaurantStatus'])->name('restaurantStatus');
 Route::get('indicator/barcodeStatus/{id}', [IndicatorController::class, 'barcodeStatus'])->name('barcodeStatus');
+Route::get('indicator/cvpinvoiceStatus/{id}', [IndicatorController::class, 'cvpinvoiceStatus'])->name('cvpinvoiceStatus');
 
 Route::get('invoice/create/{id}', [InvoiceController::class, 'getMunicipalities']);
 Route::get('getProductInvoice', [InvoiceController::class, 'getProductInvoice'])->name('getProductInvoice');

@@ -30,7 +30,9 @@ class Indicator extends Model
         'inventory',
         'product_price',
         'raw_material',
-        'restaurant'
+        'restaurant',
+        'barcode',
+        'cvpinvoice'
     ];
 
     protected $guarded = [

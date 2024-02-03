@@ -49,7 +49,8 @@ class IndicatorController extends Controller
             ->addColumn('rawMaterial', 'admin/indicator/rawMaterial')
             ->addColumn('restaurant', 'admin/indicator/restaurant')
             ->addColumn('barcode', 'admin/indicator/codebar')
-            ->rawColumns(['edit', 'dian', 'pos', 'logo', 'payroll', 'workLabor', 'accounting', 'productPrice', 'inventory', 'rawMaterial', 'restaurant', 'barcode'])
+            ->addColumn('cvpinvoice', 'admin/indicator/cvpinvoice')
+            ->rawColumns(['edit', 'dian', 'pos', 'logo', 'payroll', 'workLabor', 'accounting', 'productPrice', 'inventory', 'rawMaterial', 'restaurant', 'barcode', 'cvpinvoice'])
             ->make(true);
         }
 
@@ -276,6 +277,20 @@ class IndicatorController extends Controller
             $indicator->barcode = 'off';
         } else {
             $indicator->barcode = 'on';
+        }
+        $indicator->update();
+
+        return redirect('indicator');
+    }
+
+    public function cvpinvoiceStatus($id)
+    {
+        $indicator = Indicator::findOrFail($id);
+
+        if ($indicator->cvpinvoice == 'on') {
+            $indicator->cvpinvoice = 'off';
+        } else {
+            $indicator->cvpinvoice = 'on';
         }
         $indicator->update();
 

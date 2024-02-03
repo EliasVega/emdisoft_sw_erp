@@ -77,7 +77,7 @@
         </div>
     </div>
     @if ($indicator->barcode == 'on')
-        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 mt-5 switchBarcode">
+        <div class="col-lg-2 col-md-6 col-sm-8 col-xs-12 mt-5 switchBarcode">
             <div class="form-group">
                 <div class="custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input" id="switch_barcode" checked>
@@ -106,9 +106,9 @@
 
             </div>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" id="productBarcode">
+        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="productBarcode">
             <div class="form-group">
-                <label for="product_barcode">Nombre</label>
+                <label for="product_barcode">Producto</label>
                 <input type="text" name="product_barcode" id="product_barcode" value=""
                     class="form-control" placeholder="">
 
@@ -176,14 +176,14 @@
             </div>
         </div>
     @endif
-    <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
         <div class="form-group">
             <label class="form-control-label">Add</label><br>
             <button class="btn btn-lightBlueGrad" type="button" id="add" data-toggle="tooltip"
                 data-placement="top" title="Add"><i class="fas fa-check"></i>&nbsp; </button>
         </div>
     </div>
-    <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
         <div class="form-group">
             <label class="form-control-label">Canc</label><br>
             <a href="{{ url('invoice') }}" class="btn btn-blueGrad" data-toggle="tooltip" data-placement="top"
@@ -235,13 +235,7 @@
             </div>
         @endif
     @endif
-    <div class="col-lg-6 col-md-6 col-sm-10 col-xs-12" id="noteDocument">
-        <div class="form-group">
-            <label class="form-control-label" for="note">Observaciones</label>
-            <input type="text" id="note" name="note" value="{{ old('note') }}" class="form-control"
-                placeholder="Observaciones">
-        </div>
-    </div>
+
     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="bags">Bolsas</label>
@@ -249,13 +243,37 @@
                 placeholder="Bolsas">
         </div>
     </div>
+    @if ($indicator->cvpinvoice == 'on')
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mt-3" id="addcvp">
+            <div class="form-check">
+                <input class="form-check-input cvp" type="radio" name="cvp" value="1" id="cvp1">
+                <label class="form-check-label" for="cvpinvoice1">
+                    Guardar Precio producto
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input cvp" type="radio" name="cvp" value="2" id="cvp2" checked>
+                <label class="form-check-label" for="cvpinvoice2">
+                    No guardar Precio producto
+                </label>
+            </div>
+        </div>
+    @endif
+    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="noteDocument">
+        <div class="form-group">
+            <label class="form-control-label" for="note">Observaciones</label>
+            <input type="text" id="note" name="note" value="{{ old('note') }}" class="form-control"
+                placeholder="Observaciones">
+        </div>
+    </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="table-responsive">
             <table id="details" class="table table-striped table-bordered table-condensed table-hover">
                 <thead class="bg-info">
                     <tr>
-                        <th>Eliminar</th>
-                        <th>Editar</th>
+                        <th>Elim</th>
+                        <th>Edit</th>
+                        <th>CV</th>
                         <th>Eid</th>
                         <th>Id</th>
                         <th>Producto</th>
@@ -267,19 +285,19 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <th colspan="8" class="rightfoot">TOTAL:</th>
+                        <th colspan="9" class="rightfoot">TOTAL:</th>
                         <td class="rightfoot thfoot"><strong id="total_html">$ 0.00</strong>
                             <input type="hidden" name="total" id="total">
                         </td>
                     </tr>
                     <tr>
-                        <th colspan="8" class="rightfoot">IMPUESTO:</th>
+                        <th colspan="9" class="rightfoot">IMPUESTO:</th>
                         <td class="rightfoot thfoot"><strong id="total_tax_html">$ 0.00</strong>
                             <input type="hidden" name="total_tax" id="total_tax">
                         </td>
                     </tr>
                     <tr>
-                        <th colspan="8" class="rightfoot">TOTAL VENTA:</th>
+                        <th colspan="9" class="rightfoot">TOTAL VENTA:</th>
                         <td class="rightfoot thfoot"><strong id="total_pay_html">$ 0.00</strong>
                             <input type="hidden" name="total_pay" id="total_pay">
                         </td>
