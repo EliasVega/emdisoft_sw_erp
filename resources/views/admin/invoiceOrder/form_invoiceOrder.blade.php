@@ -236,16 +236,18 @@
                 placeholder="Observaciones">
         </div>
     </div>
-    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
-        <div class="form-group">
-            <label for="actualizar">Actualizar</label>
-            <select name="actualizar" class="form-control selectpicker" id="actualizar" data-live-search="true" required>
-                <option value="" disabled selected>Seleccionar</option>
-                <option value="1">Actualizar</option>
-                <option value="2">No actualizar</option>
-            </select>
+    @if ($indicator->barcode == 'on')
+        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
+            <div class="form-group">
+                <label for="actualizar">Actualizar</label>
+                <select name="actualizar" class="form-control selectpicker" id="actualizar" data-live-search="true" required>
+                    <option value="" disabled selected>Seleccionar</option>
+                    <option value="1">Actualizar</option>
+                    <option value="2">No actualizar</option>
+                </select>
+            </div>
         </div>
-    </div>
+    @endif
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="table-responsive">
             <table id="details" class="table table-striped table-bordered table-condensed table-hover">
