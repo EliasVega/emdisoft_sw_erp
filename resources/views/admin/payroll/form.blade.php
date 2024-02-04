@@ -1,4 +1,18 @@
 <div class="box-body row">
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addSalary">
+        <div class="form-group">
+            <label class="form-control-label" for="salary">Salario</label>
+            <input type="number" id="salary" name="salary" value="" class="form-control" placeholder="salario" readonly required>
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addtraspotAssistance">
+        <div class="form-group">
+            <label class="form-control-label" for="transport_assistance">A.Transporte</label>
+            <input type="number" id="transport_assistance" name="transport_assistance" value="0" class="form-control" placeholder="Aux Transp" readonly required>
+        </div>
+    </div>
+</div>
+<div class="box-body row">
     <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group row">
             <label class="form-control-label" for="employee_id">Colaborador</label>
@@ -10,18 +24,7 @@
                 </select>
         </div>
     </div>
-    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addSalary">
-        <div class="form-group">
-            <label class="form-control-label" for="salary">Salario</label>
-            <input type="number" id="salary" name="salary" value="" class="form-control" placeholder="salario" readonly required>
-        </div>
-    </div>
-    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addtraspotAssistance">
-        <div class="form-group">
-            <label class="form-control-label" for="transport_assistance">A.T.</label>
-            <input type="number" id="transport_assistance" name="transport_assistance" value="0" class="form-control" placeholder="Aux Transp" readonly required>
-        </div>
-    </div>
+
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="col">
             <label for="month">Nomina mes</label>
@@ -31,13 +34,13 @@
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="start_date">F/Inicio</label>
-            <input type="date" name="start_date" id="start_date"  class="form-control"  placeholder="Fecha Inicio">
+            <input type="date" name="start_date" id="start_date" value=""  class="form-control"  placeholder="Fecha Inicio">
         </div>
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="end_date">F/Fin</label>
-            <input type="date" name="end_date" id="end_date"  class="form-control"  placeholder="Fecha Fin">
+            <input type="date" name="end_date" id="end_date" value=""  class="form-control"  placeholder="Fecha Fin">
         </div>
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">

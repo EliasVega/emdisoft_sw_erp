@@ -49,7 +49,6 @@
     $("#barcodeId").hide();
     $("#addEid").hide();
 
-
     $(document).ready(function(){
         typeInvoice = $("#pos_active").val();
         if (typeInvoice == 'off') {

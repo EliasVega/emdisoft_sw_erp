@@ -29,6 +29,7 @@
     <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 mt-4">
         <div class="form-group">
             <button class="btn btn-lightBlueGrad" type="button" id="add"><i class="fa fa-save"></i> Agregar</button>
+            <button class="btn btn-darkBlueGrad" type="button" id="canc_he"><i class="fa fa-save"></i> Cancelar</button>
         </div>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" id="addPercentage">

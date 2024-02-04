@@ -19,51 +19,99 @@
             });
         });
     });
-
+    let contDate = 0;
     $("#addSmlv").hide();
     $("#formButtons").hide();
     $("#formOvertime").hide();
 
-    let contDate = 0;
-
     $('#start_date').prop("readonly", true)
     $('#end_date').prop("readonly", true)
-    $("#start_date").change(dateProp);
-    $("#end_date").change(timeValue);
 
-    $("#month").change(prueba);
-    function prueba(){
-        $('#end_date').prop("readonly", false)
+    $("#month").change(getDate);
+    //obtener fechas a partir del mes
+    function getDate(){
+        let monthDate = new Date($("#month").val());
+        //addicionar horas para hora colombia
+        let addHours = 5;
+        //obtener horas del mes seleccionado
+        let hours = monthDate.getHours();
+        monthDate.setHours(hours + addHours);
+        let firstDay = new Date(monthDate.getFullYear(), monthDate.getMonth(), 1);
+        let lastDay = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0);
+
+        startDateWork(firstDay);
+        endDateWork(lastDay);
+        timeValue();
+
+        $('#end_date').prop("readonly", false);
     }
 
+    function startDateWork(firstDay) {
+        let date1 = new Date(firstDay); //Fecha actual
+        let month1 = date1.getMonth()+1; //obteniendo mes
+        let day1 = date1.getDate(); //obteniendo dia
+        let year1 = date1.getFullYear(); //obteniendo año
+        if(day1<10)
+            day1='0'+day1; //agrega cero si el menor de 10
+        if(month1<10)
+            month1='0'+month1 //agrega cero si el menor de 10
+        document.getElementById('start_date').value=year1+"-"+month1+"-"+day1;
+
+    }
+
+    function endDateWork(lastDay) {
+        let date2 = new Date(lastDay); //Fecha actual
+        let month2 = date2.getMonth()+1; //obteniendo mes
+        let day2 = date2.getDate(); //obteniendo dia
+        let year2 = date2.getFullYear(); //obteniendo año
+        if(day2<10)
+            day2='0'+day2; //agrega cero si el menor de 10
+        if(month2<10)
+            month2='0'+month2 //agrega cero si el menor de 10
+        document.getElementById('end_date').value=year2+"-"+month2+"-"+day2;
+
+    }
+
+    $("#start_date").change(dateProp);
+    //desabilitando fecha final
     function dateProp(){
         $('#end_date').prop("readonly", false)
     }
+
+    $("#end_date").change(timeValue);
 
     function timeValue(){
         let startDate = $("#start_date").val();
         let endDate = $("#end_date").val();
         let startTime = moment(startDate);
         let endTime = moment(endDate);
+
+        let startYear = moment(startTime).year();
+        let startMonth = moment(startTime).month();
+        let startDay = moment(startTime).day();
+        let endYear = moment(endTime).year();
+        let endMonth = moment(endTime).month();
+        let endDay = moment(endTime).day();
         let days = endTime.diff(startTime, 'days');
-        var startYear = moment(startTime).year();
-        var startMonth = moment(startTime).month();
-        var startDay = moment(startTime).day();
-        var endYear = moment(endTime).year();
-        var endMonth = moment(endTime).month();
-        var endDay = moment(endTime).day();
 
         if (days >= 0) {
             if (startYear == endYear && startMonth == endMonth) {
-                $("#days").val(days + 1);
-                daysMonth = days + 1;
-
+                if (startMonth == 1 && days >= 28) {
+                    $("#days").val(30);
+                    days = 30;
+                } else if(days >= 30){
+                    $("#days").val(30);
+                    days = 30;
+                } else {
+                    $("#days").val(days + 1);
+                    days = $("#days").val();
+                }
                 smlv = $("#smlv").val();
                 twoSalary = parseFloat(smlv) * 2;
                 salaryEmployee = $("#salary").val();
                 transportAssistance = $("#transport_assistance").val();
-                salaryAcrued = (salaryEmployee/30)*daysMonth;
-                ta_acrued = (transportAssistance/30)*daysMonth;
+                salaryAcrued = (parseFloat(salaryEmployee)/30)*(parseFloat(days));
+                ta_acrued = (parseFloat(transportAssistance)/30)*(parseFloat(days));
                 if (salaryEmployee > twoSalary) {
                     $("#transport_acrued").val(0);
                     $("#salary_acrued").val(salaryAcrued);
@@ -92,10 +140,11 @@
         $('#start_date').prop("readonly", false);
         $('#employee_id').prop("disabled", true);
         $("#formButtons").show();
-        transportAssistance(daysMonth)
+        $("#days").val(30);
+        salaryMonth(daysMonth)
     }
 
-    function transportAssistance(daysMonth){
+    function salaryMonth(daysMonth){
         indicator = {!! json_encode($indicators) !!};
         indicator.forEach((value, i) => {
             salary = value['smlv'];
@@ -122,6 +171,10 @@
 
     $(document).on("click", "#addExtras", function () {
         $("#formOvertime").show();
+
+    });
+    $(document).on("click", "#canc_he", function () {
+        $("#formOvertime").hide();
 
     });
 
