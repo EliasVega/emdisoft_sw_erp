@@ -18,13 +18,13 @@
         <div class="form-group">
             <label class="form-control-label" for="generation_date">Fecha Generacion</label>
             <input type="date" name="generation_date" id="generation_date" class="form-control"
-                value="<?php echo date('Y-m-d'); ?>" placeholder="Fecha Vencimiento">
+                value="{{ $invoiceOrder->generation_date }}" placeholder="Fecha Vencimiento">
         </div>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="due_date">Vencimiento</label>
-            <input type="date" name="due_date" id="due_date" class="form-control" value="<?php echo date('Y-m-d'); ?>"
+            <input type="date" name="due_date" id="due_date" class="form-control" value="{{ $invoiceOrder->due_date }}"
                 placeholder="Fecha Vencimiento">
         </div>
     </div>

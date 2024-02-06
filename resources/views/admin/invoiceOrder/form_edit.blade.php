@@ -18,13 +18,13 @@
         <div class="form-group">
             <label class="form-control-label" for="generation_date">Fecha Generacion</label>
             <input type="date" name="generation_date" id="generation_date" class="form-control"
-                value="<?php echo date('Y-m-d'); ?>" placeholder="Fecha Vencimiento">
+                value="{{ $invoiceOrder->generation_date }}" placeholder="Fecha Vencimiento">
         </div>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="due_date">Vencimiento</label>
-            <input type="date" name="due_date" id="due_date" class="form-control" value="<?php echo date('Y-m-d'); ?>"
+            <input type="date" name="due_date" id="due_date" class="form-control" value="{{ $invoiceOrder->due_date }}"
                 placeholder="Fecha Vencimiento">
         </div>
     </div>
@@ -64,7 +64,7 @@
                 pattern="[0-9]{0,15}">
         </div>
     </div>
-    <div class="col-lg-4 col-md-2 col-sm-4 col-xs-12">
+    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
         <div class="form-group">
             <label for="vprice">V/Actual</label>
             <input type="number" name="vprice" id="vprice" class="form-control" readonly>
@@ -80,6 +80,12 @@
             </div>
         </div>
     @endif
+    <div class="col-lg-4 col-md-2 col-sm-4 col-xs-12">
+        <div class="form-group">
+            <label for="totalPartial">Total</label>
+            <input type="number" name="totalPartial" id="totalPartial" class="form-control" readonly>
+        </div>
+    </div>
 </div>
 
 <div class="box-body row">
@@ -117,7 +123,7 @@
                 @foreach ($products as $product)
                     <option
                         value="{{ $product->id }}_{{ $product->stock }}_{{ $product->sale_price }}_{{ $product->percentage }}_{{ $product->tt }}">
-                        {{ $product->code }} -- {{ $product->name }}</option>
+                        {{ $product->code }} -- {{ $product->name }} -- {{ $product->sale_price }}</option>
                 @endforeach
             </select>
         </div>

@@ -114,7 +114,7 @@
             $("#product_barcode").val(data.name);
             $("#price").val(data.sale_price);
             $("#stock").val(data.stock);
-            $("#quantityadd").val(1);
+            $("#quantityadd").val();
             $("#tax_rate").val(data.percentage);
             $("#tax_type").val(data.tt);
             $("#employee_id").val(0);
@@ -170,6 +170,13 @@
             assess();
 
             $('#details').append(row);
+            $("#totalPartial").val(total);
+            swal.fire({
+                icon: 'success',
+                text: product + '--' + 'Agregado correctamente',
+                showConfirmButton: false,
+                timer: 1000 // es ms (mili-segundos)
+            });
             //$('#product_id option:selected').remove();
             clean();
 
@@ -211,8 +218,14 @@
             assess();
 
             $('#details').append(row);
+            $("#totalPartial").val(total);
             clean();
-
+            swal.fire({
+                icon: 'success',
+                text: product + '--' + 'Agregado correctamente',
+                showConfirmButton: false,
+                timer: 1000 // es ms (mili-segundos)
+            });
 
         }else{
             //alert("Rellene todos los campos del detalle para esta compra");
@@ -224,13 +237,22 @@
         }
     }
 
+    function notificacion() {
+            swal({
+                type: 'error',
+                title: 'La contraseña es incorrecta',
+                showConfirmButton: false,
+                timer: 3000 // es ms (mili-segundos)
+            })
+        }
+
     function clean(){
         $('#product_id').val(null).trigger('change');
         $('#employee_id').val(null).trigger('change');
         $("#barcode_product_id").val("");
         $("#product_barcode").val("");
         $("#code").val("");
-        $("#quantityadd").val("");
+        $("#quantityadd").val(1);
         $("#price").val("");
     }
     function totals(){
@@ -365,10 +387,10 @@
 
     jQuery(document).on("click", "#updateInvoiceOrder", function () {
         updaterow();
+
     });
 
     function updaterow() {
-
         // Buscar datos en la row y asignar a campos del formulario:
         // Primera columna (0) tiene ID, segunda (1) tiene nombre, tercera (2) capacidad
         contedit = $("#contModal").val();
@@ -396,6 +418,13 @@
             assess();
             $('#details').append(row);
             $('#editModal').modal('hide');
+            $("#totalPartial").val(total);
+            swal.fire({
+                icon: 'success',
+                text: product + '--' + 'Editado correctamente',
+                showConfirmButton: false,
+                timer: 1000 // es ms (mili-segundos)
+            });
 
             //$('#product_id option:selected').remove();
         }else{

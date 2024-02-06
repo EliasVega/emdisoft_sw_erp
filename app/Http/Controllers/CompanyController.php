@@ -159,6 +159,7 @@ class CompanyController extends Controller
         $organizations  = Organization::get();
         $regimes        = Regime::get();
         $identificationTypes = IdentificationType::get();
+        $userRole = current_user()->Roles[0]->name;
         return view("admin.company.edit", compact(
             'company',
             'departments',
@@ -166,7 +167,8 @@ class CompanyController extends Controller
             'liabilities',
             'organizations',
             'regimes',
-            'identificationTypes'
+            'identificationTypes',
+            'userRole'
         ));
     }
 

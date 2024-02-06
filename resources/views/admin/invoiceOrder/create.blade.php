@@ -39,15 +39,9 @@
     </div>
 </div>
 <!--Inicio del modal cliente-->
-@include('admin/invoice.editmodal')
+@include('admin/invoiceOrder.editmodal')
 <!--Fin del modal-->
 @endsection
 @section('scripts')
 @include('admin/invoiceOrder.script')
-    @if ($indicator->pos == 'on')
-        @include('admin/invoice.script_paypos')
-    @else
-        @include('admin/generalview.script_pay')
-        @include('admin/invoice.script_retention')
-    @endif
 @endsection

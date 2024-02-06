@@ -44,7 +44,7 @@
                             </td>
                             <td>
                                 @can('branch.index')
-                                    <a href="{{ route('company.show', $company->id) }}" class="btn btn-primary" data-toggle="tooltip"
+                                    <a href="{{ route('branch.index', $company->id) }}" class="btn btn-primary" data-toggle="tooltip"
                                         data-placement="top" title="Ingresar"><i class="fas fa-indent"></i></a>
                                 @endcan
                             </td>

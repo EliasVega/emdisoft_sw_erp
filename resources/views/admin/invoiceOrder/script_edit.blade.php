@@ -178,7 +178,14 @@
             assess();
 
             $('#details').append(row);
-            $('#product_id option:selected').remove();
+            //$('#product_id option:selected').remove();
+            $("#totalPartial").val(total);
+            swal.fire({
+                icon: 'success',
+                text: product + '--' + 'Agregado correctamente',
+                showConfirmButton: false,
+                timer: 1000 // es ms (mili-segundos)
+            });
             clean();
 
 
@@ -219,6 +226,13 @@
             assess();
 
             $('#details').append(row);
+            $("#totalPartial").val(total);
+            swal.fire({
+                icon: 'success',
+                text: product + '--' + 'Editado correctamente',
+                showConfirmButton: false,
+                timer: 1000 // es ms (mili-segundos)
+            });
             clean();
 
 
@@ -404,7 +418,13 @@
             assess();
             $('#details').append(row);
             $('#editModal').modal('hide');
-
+            $("#totalPartial").val(total);
+            swal.fire({
+                icon: 'success',
+                text: product + '--' + 'Editado correctamente',
+                showConfirmButton: false,
+                timer: 1000 // es ms (mili-segundos)
+            });
             //$('#product_id option:selected').remove();
         }else{
             // alert("Rellene todos los campos del detalle de la compra, revise los datos del producto");
@@ -443,8 +463,8 @@
                     totals();
                     assess();
                     $('#details').append(row);
-
-                    $('#product_id option:selected').remove();
+                    $("#totalPartial").val(total);
+                    //$('#product_id option:selected').remove();
                     clean();
                 }else{
                     //alert("Rellene todos los campos del detalle para esta compra");

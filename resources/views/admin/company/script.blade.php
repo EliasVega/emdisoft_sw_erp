@@ -16,5 +16,22 @@
                 theme: "fa5",
             });
         });
+
+        $("#rolUser").hide();
+
+        $(document).ready(function(){
+        userRol = $("#userRole").val();
+        if (userRol == 'admin') {
+            $('#nit').prop("readonly", true);
+            $('#dv').prop("readonly", true);
+            $('#api_token').prop("readonly", true);
+
+        } else {
+            $('#nit').prop("readonly", false);
+            $('#dv').prop("readonly", false);
+            $('#api_token').prop("readonly", false);
+
+        }
+    });
     </script>
 @endpush

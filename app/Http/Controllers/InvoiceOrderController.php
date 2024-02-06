@@ -165,6 +165,8 @@ class InvoiceOrderController extends Controller
         $invoiceOrder->branch_id = current_user()->branch_id;
         $invoiceOrder->invoice_id = null;
         $invoiceOrder->customer_id = $request->customer_id;
+        $invoiceOrder->generation_date = $request->generation_date;
+        $invoiceOrder->due_date = $request->due_date;
         $invoiceOrder->total = $request->total;
         $invoiceOrder->total_tax = $request->total_tax;
         $invoiceOrder->total_pay = $total_pay;
@@ -247,6 +249,7 @@ class InvoiceOrderController extends Controller
         $uvtmax = $indicator->uvt * 5;
         $advances = Advance::where('status', '!=', 'aplicado')->get();
         $date = Carbon::now();
+        $generation = $invoiceOrder->generation_date;
         if ($indicator->inventory == 'on') {
             $products = BranchProduct::from('branch_products as bp')
             ->join('products as pro', 'bp.product_id', 'pro.id')
@@ -334,6 +337,8 @@ class InvoiceOrderController extends Controller
         $invoiceOrder->branch_id = current_user()->branch_id;
         $invoiceOrder->customer_id = $request->customer_id;
         $invoiceOrder->invoice_id = null;
+        $invoiceOrder->generation_date = $request->generation_date;
+        $invoiceOrder->due_date = $request->due_date;
         $invoiceOrder->total = $request->total;
         $invoiceOrder->total_tax = $request->total_tax;
         $invoiceOrder->total_pay = $total_pay;

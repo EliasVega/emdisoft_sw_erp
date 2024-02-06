@@ -10,8 +10,8 @@
         <div class="form-group">
             <label for="payment_form_id">F/Pago</label>
             <select name="payment_form_id" class="form-control selectpicker" id="payment_form_id"
-                data-live-search="true">
-                <option value="1" selected>contado.</option>
+                data-live-search="true" required>
+                <option value="" selected>seleccionar....</option>
                 @foreach($paymentForms as $paymentForm)
                 <option value="{{ $paymentForm->id }}">{{ $paymentForm->name }}</option>
                 @endforeach
@@ -48,7 +48,7 @@
         <div class="form-group">
             <label class="form-control-label requerido" for="pay">Abono</label>
             <input type="number" id="pay" name="pay" value="0"
-                class="form-control form-control-lg text-white bg-info font-weight-bold" placeholder="pay" pattern="[0-9]{0,15}">
+                class="form-control form-control-lg text-white bg-info font-weight-bold" placeholder="pay" pattern="[0-9]{0,15}" required>
         </div>
     </div>
     <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12" id="returnedBalance">
@@ -58,7 +58,6 @@
                 class="form-control form-control-lg font-weight-bold text-white bg-primary" disabled pattern="[0-9]{0,15}">
         </div>
     </div>
-
     <div class="modal-footer" id="save">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="form-group">

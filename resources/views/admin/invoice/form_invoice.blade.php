@@ -50,34 +50,34 @@
         </div>
     </div>
 
-    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="stock">Stock</label>
             <input type="number" id="stock" name="stock" value="{{ old('stock') }}" class="form-control"
                 placeholder="stock" disabled pattern="[0-9]{0,15}">
         </div>
     </div>
-    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="tax_rate">Imp %</label>
             <input type="number" id="tax_rate" name="tax_rate" class="form-control" placeholder="%" disabled
                 pattern="[0-9]{0,15}">
         </div>
     </div>
-    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+    <div class="col-lg-3 col-md-2 col-sm-4 col-xs-12">
         <div class="form-group">
             <label for="vprice">V/Actual</label>
             <input type="number" name="vprice" id="vprice" class="form-control" readonly>
         </div>
     </div>
-    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+    <div class="col-lg-3 col-md-2 col-sm-4 col-xs-12">
         <div class="form-group">
             <label for="utility">% Utilidad</label>
             <input type="number" name="utility" id="utility" class="form-control" readonly>
         </div>
     </div>
     @if ($indicator->barcode == 'on')
-        <div class="col-lg-2 col-md-6 col-sm-8 col-xs-12 mt-5 switchBarcode">
+        <div class="col-lg-3 col-md-6 col-sm-8 col-xs-12 mt-5 switchBarcode">
             <div class="form-group">
                 <div class="custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input" id="switch_barcode" checked>
@@ -86,6 +86,12 @@
             </div>
         </div>
     @endif
+    <div class="col-lg-3 col-md-2 col-sm-4 col-xs-12">
+        <div class="form-group">
+            <label for="totalPartial">Total</label>
+            <input type="number" name="totalPartial" id="totalPartial" class="form-control" readonly>
+        </div>
+    </div>
 </div>
 
 <div class="box-body row">

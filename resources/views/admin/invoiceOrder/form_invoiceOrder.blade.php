@@ -64,7 +64,7 @@
                 pattern="[0-9]{0,15}">
         </div>
     </div>
-    <div class="col-lg-4 col-md-2 col-sm-4 col-xs-12">
+    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
         <div class="form-group">
             <label for="vprice">V/Actual</label>
             <input type="number" name="vprice" id="vprice" class="form-control" readonly>
@@ -80,6 +80,12 @@
             </div>
         </div>
     @endif
+    <div class="col-lg-4 col-md-2 col-sm-4 col-xs-12">
+        <div class="form-group">
+            <label for="totalPartial">Total</label>
+            <input type="number" name="totalPartial" id="totalPartial" class="form-control" readonly>
+        </div>
+    </div>
 </div>
 
 <div class="box-body row">
@@ -117,7 +123,7 @@
                 @foreach ($products as $product)
                     <option
                         value="{{ $product->id }}_{{ $product->stock }}_{{ $product->sale_price }}_{{ $product->percentage }}_{{ $product->tt }}">
-                        {{ $product->code }} -- {{ $product->name }}</option>
+                        {{ $product->code }} -- {{ $product->name }} -- {{ $product->sale_price }}</option>
                 @endforeach
             </select>
         </div>
@@ -133,7 +139,7 @@
     <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="quantityadd">Cantidad</label>
-            <input type="number" id="quantityadd" name="quantityadd" class="form-control" placeholder="Cant."
+            <input type="number" id="quantityadd" name="quantityadd" value="1" class="form-control" placeholder="Cant."
                 pattern="[0-9]{0,15}">
         </div>
     </div>

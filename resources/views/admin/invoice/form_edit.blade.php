@@ -48,6 +48,7 @@
             <input type="date" name="due_date" value="{{ $Invoice->due_date }}" class="form-control" placeholder="Fecha Vencimiento">
         </div>
     </div>
+    <!--
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="editRadio">
         <div class="form-check">
             <input class="form-check-input" type="radio" name="percentage" value="1" id="rtfon">
@@ -61,7 +62,7 @@
                 No Retenciones
             </label>
         </div>
-    </div>
+    </div> -->
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="editPercentageId">
         <div class="form-group row">
             <label class="form-control-label" for="percentage_id">Porcentaje</label>

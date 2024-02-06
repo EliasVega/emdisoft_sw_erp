@@ -1,4 +1,10 @@
 <div class="box-body row">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="rolUser">
+        <div class="form-group">
+            <label for="userRole">Usuario</label>
+            <input type="text" name="userRole" id="userRole" value="{{ $userRole }}" class="form-control">
+        </div>
+    </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <label for="identification_type_id">Tipo de identificacion</label>
         <div class="select">
@@ -17,13 +23,13 @@
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="nit">Nit</label>
-            <input type="text" name="nit" value="{{ old('nit', $company->nit ?? '') }}" class="form-control" placeholder="Nit" required>
+            <input type="text" name="nit" id="nit" value="{{ old('nit', $company->nit ?? '') }}" class="form-control" placeholder="Nit" required>
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="dv">DV</label>
-            <input type="text" name="dv" value="{{ old('dv', $company->dv ?? '') }}" class="form-control" placeholder="DV" required>
+            <input type="text" name="dv" id="dv" value="{{ old('dv', $company->dv ?? '') }}" class="form-control" placeholder="DV" required>
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
@@ -47,7 +53,7 @@
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="api_token">Api Token</label>
-            <input type="text" name="api_token" value="{{ old('api_token', $company->api_token ?? '') }}" class="form-control" placeholder="Api_token" required>
+            <input type="text" name="api_token" id="api_token" value="{{ old('api_token', $company->api_token ?? '') }}" class="form-control" placeholder="Api_token" required>
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">

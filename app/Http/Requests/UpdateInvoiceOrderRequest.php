@@ -22,6 +22,8 @@ class UpdateInvoiceOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'generation_date' => 'date',
+            'due_date' => 'date',
             'total' => 'required|numeric',
             'total_tax' => 'required|numeric',
             'total_pay' => 'required|numeric',

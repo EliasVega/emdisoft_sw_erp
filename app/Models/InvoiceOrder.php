@@ -16,6 +16,8 @@ class InvoiceOrder extends Model
     public $timestamps = true;
 
     protected $fillable = [
+        'generation_date',
+        'due_date',
         'total',
         'total_tax',
         'total_pay',

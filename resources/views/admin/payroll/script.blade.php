@@ -20,6 +20,7 @@
         });
     });
     let contDate = 0;
+    let totalAcrued = 0;
     $("#addSmlv").hide();
     $("#formButtons").hide();
     $("#formOvertime").hide();
@@ -115,9 +116,14 @@
                 if (salaryEmployee > twoSalary) {
                     $("#transport_acrued").val(0);
                     $("#salary_acrued").val(salaryAcrued);
+                    totalAcrued += salaryAcrued;
+                    $("#total_acrued").val(totalAcrued);
                 } else {
                     $("#transport_acrued").val(ta_acrued);
                     $("#salary_acrued").val(salaryAcrued);
+                    totalAcrued += ta_acrued;
+                    totalAcrued += salaryAcrued;
+                    $("#total_acrued").val(totalAcrued);
                 }
             } else {
                 Swal.fire("las fechas no crresponden al mismo periodo");
@@ -160,10 +166,15 @@
                 $("#transport_assistance").val(0);
                 $("#transport_acrued").val(0);
                 $("#salary_acrued").val(salaryAcrued);
+                totalAcrued += salaryAcrued;
+                $("#total_acrued").val(totalAcrued);
             } else {
                 $("#transport_assistance").val(transportAssistance);
                 $("#transport_acrued").val(ta_acrued);
                 $("#salary_acrued").val(salaryAcrued);
+                totalAcrued += ta_acrued;
+                totalAcrued += salaryAcrued;
+                $("#total_acrued").val(totalAcrued);
             }
 
         });

@@ -11,6 +11,12 @@
             <input type="number" id="transport_assistance" name="transport_assistance" value="0" class="form-control" placeholder="Aux Transp" readonly required>
         </div>
     </div>
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addTotalAcrued">
+        <div class="form-group">
+            <label class="form-control-label" for="total_acrued">total Devengado</label>
+            <input type="number" id="total_acrued" name="total_acrued" value="0" class="form-control" placeholder="total devengado" readonly required>
+        </div>
+    </div>
 </div>
 <div class="box-body row">
     <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
