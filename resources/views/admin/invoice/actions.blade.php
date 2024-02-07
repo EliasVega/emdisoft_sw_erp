@@ -4,10 +4,9 @@
         data-placement="top" title="Editar"><i class="far fa-edit"></i></a>
     @endif
 @endcan
-@can('invoice.show')
     <a href="{{ route('invoice.show', $id) }}" class="btn btn-success btn-sm" data-toggle="tooltip"
     data-placement="top" title="Ver Venta"><i class="far fa-eye"></i></a>
-@endcan
+
 @if ($balance > 0)
     <a href="{{ route('invoicePay', $id) }}" class="btn btn-ver btn-sm" data-toggle="tooltip" data-placement="top" title="Agregar Abono" >
         <i class="fas fa-file-invoice-dollar"></i>

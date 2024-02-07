@@ -40,6 +40,18 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
+                                        <a href="{{ url('roles') }}" class="nav-link">
+                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <p>Roles</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ url('permission') }}" class="nav-link">
+                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <p>Permisos</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a href="{{ url('environment') }}" class="nav-link">
                                             <i class="far fa-dot-circle nav-icon"></i>
                                             <p>Urls envios</p>
@@ -337,18 +349,6 @@
                                         <a href="{{ url('user') }}" class="nav-link">
                                             <i class="far fa-dot-circle nav-icon"></i>
                                             <p>Usuarios</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ url('roles') }}" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Roles</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ url('permission') }}" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Permisos</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">

@@ -12,7 +12,7 @@
             @endcan
             @can('invoice.index')
                 <a href="{{ route('invoice.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Ventas</a>
-                @endcan
+            @endcan
         </div>
     </div>
     <div class="row">

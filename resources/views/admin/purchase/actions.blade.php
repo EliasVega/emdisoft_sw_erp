@@ -1,7 +1,7 @@
-@can('purchase.show')
+
     <a href="{{ route('purchase.show', $id) }}" class="btn btn-success btn-sm" data-toggle="tooltip"
     data-placement="top" title="Ver Compra"><i class="far fa-eye"></i></a>
-@endcan
+
 @if ($balance > 0)
     <a href="{{ route('purchasePay', $id) }}" class="btn btn-ver btn-sm" data-toggle="tooltip" data-placement="top" title="Agregar Abono" >
         <i class="fas fa-file-invoice-dollar"></i>

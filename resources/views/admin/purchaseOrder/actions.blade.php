@@ -1,11 +1,11 @@
-@can('purchaseOrder.edit')
+
     <a href="{{ route('purchaseOrder.edit', $id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip"
     data-placement="top" title="Editar"><i class="far fa-edit"></i></a>
-@endcan
-@can('purchaseOrder.show')
+
+
     <a href="{{ route('purchaseOrder.show', $id) }}" class="btn btn-success btn-sm" data-toggle="tooltip"
     data-placement="top" title="Ver Compra"><i class="far fa-eye"></i></a>
-@endcan
+
 @if ($pos == 'on')
     <a href="{{ route('purchaseOrderPos', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="precompra pos" >
         <i class="fas fa-receipt"></i>

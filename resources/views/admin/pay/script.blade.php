@@ -28,12 +28,6 @@
     $("#returny").hide();
     $("#balancy").hide();
     $("#total_p").hide();
-    //$("#document_id").hide();
-    /*
-    $("#abadvance").hide();
-    $("#order").val();
-
-    */
 
     $(document).ready(function(){
         $("#add").click(function(){
@@ -351,14 +345,14 @@
     }
     function prepaidnew(){
         ttp = parseFloat($("#balance").val())
-        abn = parseFloat($("#abpayment").val())
+        abn = parseFloat($("#payment").val())
         balancey = ttp - abn;
         if (ttp >= abn) {
             $("#returned").val(balancey);
             $("#pay").val(abn);
             $("#payment").val(abn);
         } else {
-            $("#abadvance").show();
+            $("#advanceId").show();
             //prepaid()
         }
     }
