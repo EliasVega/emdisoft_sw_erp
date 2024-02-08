@@ -221,7 +221,7 @@ class ProductController extends Controller
         $product->sale_price = $request->sale_price;
         $product->commission = $request->commission;
         $product->type_product = $request->type_product;
-        $product->stock = $product->stock;
+        $product->stock = $request->stock;
         $product->stock_min = $request->stock_min;
         $product->update();
 

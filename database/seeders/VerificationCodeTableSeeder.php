@@ -22,17 +22,17 @@ class VerificationCodeTableSeeder extends Seeder
             array (
                 'id' => 1,
                 'user_id' => 1,
-                'code' => 'emdisoft2024',
-                'created_at' => '2024-01-01 21:07:43',
-                'updated_at' => '2023-01-01 21:07:43'
+                'code' => 'matrix2012',
+                'created_at' => '2023-05-12 21:07:43',
+                'updated_at' => '2023-05-12 21:07:43'
             ),
             1 =>
             array (
                 'id' => 2,
                 'user_id' => 2,
-                'code' => '901286970',
-                'created_at' => '2024-01-12 21:07:43',
-                'updated_at' => '2024-01-12 21:07:43'
+                'code' => '91343991',
+                'created_at' => '2023-05-12 21:07:43',
+                'updated_at' => '2023-05-12 21:07:43'
             ),
         ));
     }
