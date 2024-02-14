@@ -20,7 +20,6 @@ return new class extends Migration
             $table->integer('days');//dias trabajados
 
             $table->foreignId('employee_id')->constrained();
-            $table->foreignId('payment_frecuency_id')->constrained();
             $table->timestamps();
         });
     }

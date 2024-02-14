@@ -5,35 +5,29 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Overtime extends Model
+class Vacation extends Model
 {
     use HasFactory;
 
-    public $table = 'overtimes';
+    public $table = 'vacations';
 
     protected $primaryKey = 'id';
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
-        'year_month',
-        'total',
-
-        'employee_id',
-        'payroll_id'
+        'start_date',
+        'end_date',
+        'value',
+        'type',
+        'payroll_acrued_id'
     ];
 
     protected $guarded = [
         'id'
     ];
 
-    public function employee()
-    {
-        return $this->belongsTo(Employee::class);
-    }
-
-    public function payrollAcrued()
-    {
+    public function payrollAcrued(){
         return $this->belongsTo(PayrollAcrued::class);
     }
 }

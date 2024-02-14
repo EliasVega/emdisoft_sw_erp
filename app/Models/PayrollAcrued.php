@@ -41,4 +41,12 @@ class PayrollAcrued extends Model
     protected $guarded = [
         'id'
     ];
+
+    public function vacations() {
+        return $this->hasMany(Vacation::class);
+    }
+
+    public function overtimes() {
+        return $this->hasMany(Overtime::class);
+    }
 }

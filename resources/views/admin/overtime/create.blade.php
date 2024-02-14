@@ -34,6 +34,7 @@
         </div>
     </div>
 </div>
+@include('admin/overtime.editmodal')
 @endsection
 @section('scripts')
     @include('admin/overtime.script')

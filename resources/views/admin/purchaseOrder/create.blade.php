@@ -36,6 +36,9 @@
         </div>
     </div>
 </div>
+<!--Inicio del modal cliente-->
+@include('admin/purchaseOrder.editmodal')
+<!--Fin del modal-->
 @endsection
 @section('scripts')
     @include('admin/purchaseOrder.script')

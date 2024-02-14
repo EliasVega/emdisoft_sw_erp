@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('overtimes', function (Blueprint $table) {
+        Schema::create('vacations', function (Blueprint $table) {
             $table->id();
 
-            $table->string('year_month',10);
-            $table->decimal('total',10,2);//valor de este tipo de hora
+            $table->date('start_date');//fecha inicio vacaciones
+            $table->date('end_date');//fecha fin de vacaciones
+            $table->decimal('value', 10, 2);
+            $table->enum('type',['taken', 'compensated'])->default('taken');
 
-            $table->foreignId('employee_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('payroll_acrued_id')->constrained();
 
             $table->timestamps();
         });
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('overtimes');
+        Schema::dropIfExists('vacations');
     }
 };

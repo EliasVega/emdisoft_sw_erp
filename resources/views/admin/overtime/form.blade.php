@@ -73,6 +73,7 @@
                     <tr>
                         <th>Eliminar</th>
                         <th>Editar</th>
+                        <th>IdTH</th>
                         <th>T/hora</th>
                         <th>Inicio</th>
                         <th>Fin</th>
@@ -84,7 +85,7 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <th colspan="8">
+                        <th colspan="9">
                             <p align="right">TOTAL:</p>
                         </th>
                         <th class="thfoot">

@@ -33,6 +33,7 @@ return new class extends Migration
             $table->decimal('legal_strikes',10,2)->default(0);//huelgas legales
             $table->decimal('optionales',10,2)->default(0);//huelgas
 
+            $table->foreignId('employee_id')->constrained();
             $table->foreignId('payroll_id')->constrained();
             $table->foreignId('payroll_partial_id')->constrained();
 

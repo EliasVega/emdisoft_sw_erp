@@ -148,7 +148,7 @@
                 subtotal[cont] = parseFloat(hours) * parseFloat(value_hour);
                 total = total + subtotal[cont];
 
-                var row = '<tr class="selected" id="row' + cont + '"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow(' + cont + ');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow(' + cont +');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="overtime_type_id[]"  value="'+overtime_type_id + '">' + overtimeType + '</td><td><input type="hidden" name="start_time[]" value="' + startTime + '">' + startTime + '</td> <td><input type="hidden" name="end_time[]" value="' + endTime + '">' + endTime + '</td> <td><input type="hidden" name="percentage[]"  value="' + percentage + '">' + percentage + '</td> <td><input type="hidden" name="hours[]" value="' + hours.toFixed(2) + '">' + hours + '</td> <td><input type="hidden" name="value_hour[]"  value="' + value_hour + '">' + value_hour.toFixed(2) + '</td> <td>$' + subtotal[cont].toFixed(2) + ' </td></tr>';
+                var row = '<tr class="selected" id="row' + cont + '"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow(' + cont + ');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow(' + cont +');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="overtime_type_id[]"  value="'+overtime_type_id + '">' + overtime_type_id + '</td><td><input type="hidden" name="overtimeType[]"  value="'+overtimeType + '">' + overtimeType + '</td><td><input type="hidden" name="start_time[]" value="' + startTime + '">' + startTime + '</td> <td><input type="hidden" name="end_time[]" value="' + endTime + '">' + endTime + '</td> <td><input type="hidden" name="percentage[]"  value="' + percentage + '">' + percentage + '</td> <td><input type="hidden" name="hours[]" value="' + hours.toFixed(2) + '">' + hours + '</td> <td><input type="hidden" name="value_hour[]"  value="' + value_hour + '">' + value_hour.toFixed(2) + '</td> <td>$' + subtotal[cont].toFixed(2) + ' </td></tr>';
                 cont++;
                 totals();
                 assess();
@@ -196,14 +196,152 @@
         }
     }
 
-    function eliminar(index) {
-
-        total = total - pay[index];
-
+    function deleterow(index) {
+        total = total - subtotal[index];
         $("#total_html").html("$ " + total.toFixed(2));
         $("#total").val(total.toFixed(2));
 
         $("#row" + index).remove();
         assess();
+    }
+
+    jQuery(document).on("click", "#editrow", function () {
+        editrow();
+    });
+
+    function editrow(index) {
+
+        $("#idMod").hide();
+        //$("#overtimeIdMod").hide();
+        $("#contMod").hide();
+        $("#percentageMod").hide();
+        $("#subtotalMod").hide();
+        $("#contMod").hide();
+
+        // Obtener la fila
+        var row = $("#row" + index);
+        // Solo si la fila existe
+        if(row) {
+
+            // Buscar datos en la fila y asignar a campos del formulario:
+            // Primera columna (0) tiene ID, segunda (1) tiene nombre, tercera (2) capacidad
+            $("#contModal").val(index);
+            $("#overtime_type_idModal").val(row.find("td:eq(2)").text());
+            $("#overtimeTypeModal").val(row.find("td:eq(3)").text());
+            $("#start_timeModal").val(row.find("td:eq(4)").text());
+            $("#end_timeModal").val(row.find("td:eq(5)").text());
+            $("#percentageModal").val(row.find("td:eq(6)").text());
+            $("#hoursModal").val(row.find("td:eq(7)").text());
+            $("#value_hourModal").val(row.find("td:eq(8)").text());
+            $("#subtotalModal").val(row.find("td:eq(9)").text());
+
+            // Mostrar modal
+            $('#editModal').modal('show');
+        }
+        }
+
+        jQuery(document).on("click", "#updateOvertime", function () {
+        updaterow();
+        });
+
+        function updaterow() {
+
+        //let startTime = document.getElementById("start_time").value;
+        //let endTime = document.getElementById("end_time").value;
+        let startTime = $("#start_timeModal").val();
+        let endTime = $("#end_timeModal").val();
+        let startHour = startTime.substring(11);
+        let endHour =  endTime.substring(11);
+        let milliseconds = 0;
+        let seconds = 0;
+        let minutes = 0;
+        let hours = 0;
+
+        //id = $("#idModal").val();
+        overtime_type_id = $("#overtime_type_idModal").val();
+        overtimeType = $("#overtimeTypeModal").val();
+        percentage = $("#percentageModal").val();
+        value_hour = $("#value_hourModal").val();
+        contedit = $("#contModal").val();
+        //console.log("Hoy es el día " + diaSemana + " de la semana.");
+
+        //si tipo de hora es igual a 1 4 5
+        if (overtime_type_id == 1 || overtime_type_id == 4 || overtime_type_id == 5) {
+            //si esta entre este rango de horas
+            if (startHour >= '06:00' && startHour <= '21:00' && endHour >= '06:00' && endHour <= '21:00') {
+                //metodo para obtener diferencia en milisegundos de las dos fechas
+                start = new Date($("#start_timeModal").val());
+                end = new Date($("#end_timeModal").val());
+
+                //obteniendo variables tiempo
+                milliseconds = end - start;
+                seconds = milliseconds/1000;
+                minutes = seconds/60;
+                hours = minutes/60;
+            } else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: 'tienes error en las horas para este typo de hora diurna',
+                });
+            }
+        } else {
+            let startHourVerification = 0;
+            let endHourVerification = 0;
+            if (startHour >= '06:00' && startHour <= '21:00') {
+                startHourVerification = 1;
+            }
+            if (endHour >= '06:00' && endHour <= '21:00') {
+                startHourVerification = 1;
+            }
+            //si esta entre este rango de horas
+            if (startHourVerification == 0 && endHourVerification == 0) {
+                //metodo para obtener diferencia en milisegundos de las dos fechas
+                start = new Date($("#start_timeModal").val());
+                end = new Date($("#end_timeModal").val());
+                //obteniendo variables tiempo
+                milliseconds = end - start;
+                seconds = milliseconds/1000;
+                minutes = seconds/60;
+                hours = minutes/60;
+            } else {
+                //alert("Rellene todos los campos del detalle para esta compra");
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: 'tienes error en las horas para este typo de hora nocturna',
+                });
+            }
+        }
+        if (Date.parse(startTime) <= Date.parse(endTime)) {
+            if (overtime_type_id != "" && percentage > 0 && hours > 0) {
+                subtotal[cont] = parseFloat(hours) * parseFloat(value_hour);
+                total = total + subtotal[cont];
+
+                var row = '<tr class="selected" id="row' + cont + '"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow(' + cont + ');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow(' + cont +');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="overtime_type_id[]"  value="'+overtime_type_id + '">' + overtime_type_id + '</td><td><input type="hidden" name="overtimeType[]"  value="'+overtimeType + '">' + overtimeType + '</td><td><input type="hidden" name="start_time[]" value="' + startTime + '">' + startTime + '</td> <td><input type="hidden" name="end_time[]" value="' + endTime + '">' + endTime + '</td> <td><input type="hidden" name="percentage[]"  value="' + percentage + '">' + percentage + '</td> <td><input type="hidden" name="hours[]" value="' + hours + '">' + hours + '</td> <td><input type="hidden" name="value_hour[]"  value="' + value_hour + '">' + value_hour + '</td> <td>$' + subtotal[cont].toFixed(2) + ' </td></tr>';
+                cont++;
+                totals();
+                assess();
+                alert(contedit);
+                deleterow(contedit);
+                $('#overtimes').append(row);
+                $('#editModal').modal('hide');
+                //$('#product_id option:selected').remove();
+            } else {
+                //alert("Rellene todos los campos del detalle para esta compra");
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: 'Datos faltantes o incorrectos para asignar hora extra',
+                });
+            }
+        } else {
+            Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: 'fecha final debe ser mayor a fecha inicial',
+            });
+        }
+
     }
 </script>

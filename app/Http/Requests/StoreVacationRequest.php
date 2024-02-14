@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateOvertimeRequest extends FormRequest
+class StoreVacationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,10 @@ class UpdateOvertimeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'year_month' => '',
-            'total' => '',
-
-            'employee_id' => '',
-            'payroll_acrued_id' => 'nullable'
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+            'value' => 'required|numeric',
+            'type' => 'in:taken,compensated'
         ];
     }
 }

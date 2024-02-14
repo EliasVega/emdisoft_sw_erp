@@ -26,6 +26,7 @@ class StoreOvertimeRequest extends FormRequest
             'total' => '',
 
             'employee_id' => 'required',
+            'payroll_acrued_id' => 'nullable'
         ];
     }
 }

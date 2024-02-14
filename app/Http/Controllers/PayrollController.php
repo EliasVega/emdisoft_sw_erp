@@ -9,6 +9,8 @@ use App\Models\Employee;
 use App\Models\Indicator;
 use App\Models\OvertimeType;
 use App\Models\PaymentFrecuency;
+use App\Models\PayrollAcrued;
+use App\Models\PayrollDeduction;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -66,7 +68,57 @@ class PayrollController extends Controller
      */
     public function store(StorePayrollRequest $request)
     {
-        //
+        dd($request->all());
+        $payroll = new Payroll();
+        $payroll->start_date = $request->start_date;//fecha inicio de Liquidacion
+        $payroll->end_date = $request->end_date;//fecha fin de liquidacion
+        $payroll->payment_date = $request->payment_date;//fecha de pago a empleado
+        $payroll->generation_date = $request->generation_date;//fecha generacion nomina
+        $payroll->days = $request->days;//dias laborados por el empleado
+        $payroll->employee_id = $request->employee_id;//empleado
+        $payroll->save();
+
+        $payrollAcrued = new PayrollAcrued();
+        $payrollAcrued->salary = 0;//salario asignado
+        $payrollAcrued->transport_assistance = 0;//auxilio de trasporte
+        $payrollAcrued->overtime = 0;//horas extras
+        $payrollAcrued->vacations = 0;//vacaciones
+        $payrollAcrued->bonus = 0;//prima
+        $payrollAcrued->layoffs = 0;//cesantias
+        $payrollAcrued->disabilities = 0;//incapacidades
+        $payrollAcrued->licenses = 0;//licencias
+        $payrollAcrued->bonuses = 0;//bonificaciones
+        $payrollAcrued->aids  = 0;//ayudas
+        $payrollAcrued->commissions = 0;//comisiones
+        $payrollAcrued->payment_thirds = 0;//pagos a terceros
+        $payrollAcrued->advances = 0;//anticipos
+        $payrollAcrued->compensations = 0;//compensaciones
+        $payrollAcrued->bonuses_EPCTV = 0;//bonOS EPCTV
+        $payrollAcrued->other_concepts = 0;//otros conceptos
+        $payrollAcrued->legal_strikes = 0;//huelgas legales
+        $payrollAcrued->optionales = 0;//huelgas
+
+        $payrollAcrued->employee_id = 0;
+        $payrollAcrued->payroll_id = 0;
+        $payrollAcrued->payroll_partial_id = 0;
+        $payrollAcrued->save();
+
+        $payrollDeduction = new PayrollDeduction();
+        $payrollDeduction->eps = 0;//empres promotora de salud
+        $payrollDeduction->pension = 0;//aportes a pension
+        $payrollDeduction->fsp = 0;//fondo de solidaridad pensional
+        $payrollDeduction->subsistence_fund = 0;//fondo de subsistencia
+        $payrollDeduction->unions = 0;//sindicatos
+        $payrollDeduction->sanctions = 0;//sanciones
+        $payrollDeduction->advances = 0;//anticipos
+        $payrollDeduction->payment_thirds = 0;//pagos a terceros
+        $payrollDeduction->other_deductions = 0;//otras deducciones
+        $payrollDeduction->releases = 0;//libranzas
+        $payrollDeduction->optionales = 0;//huelgas legales
+
+        $payrollDeduction->employee_id = 0;
+        $payrollDeduction->payroll_id = 0;
+        $payrollDeduction->save();
     }
 
     /**
