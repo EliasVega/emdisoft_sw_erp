@@ -88,7 +88,7 @@ class EmployeesTableSeeder extends Seeder
                 'phone' => '3152689929',
                 'email' => 'arnulfov@gmail.com',
                 'code' => '91283760',
-                'salary' => '0.00',
+                'salary' => '1300000.00',
                 'commission' => null,
                 'admission_date' => '2023-01-12',
                 'account_type' => 'ahorros',

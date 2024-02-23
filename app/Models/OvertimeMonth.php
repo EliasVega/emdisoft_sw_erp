@@ -17,13 +17,14 @@ class OvertimeMonth extends Model
 
     protected $fillable = [
         'year_month',
-        'percentage',
         'quantity',
         'value_hour',
         'subtotal',
+        'status',
 
         'overtime_type_id',
-        'overtime_id'
+        'overtime_id',
+        'employee_id'
     ];
 
     protected $guarded = [

@@ -28,8 +28,8 @@ class UpdatePayrollRequest extends FormRequest
             'generation_date' => 'required|date',
             'days' => '',
 
-            'employee_id' => 'required|integer',
-            'payment_frecuency_id' => 'required|integer',
+            'employee_id' => '',
+            'payment_frecuency_id' => '',
         ];
     }
 }

@@ -115,4 +115,8 @@ class Employee extends Model
     public function invoiceProducts(){
         return $this->hasMany(InvoiceProduct::class);
     }
+
+    public function payrollPartials(){
+        return $this->hasMany(PayrollPartial::class);
+    }
 }

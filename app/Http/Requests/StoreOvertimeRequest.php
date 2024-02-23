@@ -24,9 +24,8 @@ class StoreOvertimeRequest extends FormRequest
         return [
             'year_month' => '',
             'total' => '',
-
-            'employee_id' => 'required',
-            'payroll_acrued_id' => 'nullable'
+            'payroll_acrued_id' => 'nullable',
+            'payroll_partial_acrued_id' => 'nullable'
         ];
     }
 }

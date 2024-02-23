@@ -24,9 +24,8 @@ class UpdateOvertimeRequest extends FormRequest
         return [
             'year_month' => '',
             'total' => '',
-
-            'employee_id' => '',
-            'payroll_acrued_id' => 'nullable'
+            'payroll_acrued_id' => 'nullable',
+            'payroll_partial_acrued_id' => 'nullable'
         ];
     }
 }

@@ -6,6 +6,7 @@ use App\Models\Invoice;
 use App\Models\Purchase;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class DashboardController extends Controller
 {
@@ -101,6 +102,13 @@ class DashboardController extends Controller
             'invoiceTotalMonth',
             'purchaseTotalMonth'
         ));
+    }
+
+    public function indexpay()
+    {
+        Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
+        toast('Nuestro sistema aun no registra su pago.','danger');
+        return view('indexpay');
     }
 
     /**

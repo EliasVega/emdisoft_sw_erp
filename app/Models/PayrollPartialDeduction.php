@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PayrollDeduction extends Model
+class PayrollPartialDeduction extends Model
 {
     use HasFactory;
 
-    public $table = 'payroll_deductions';
+    public $table = 'payroll_partial_deductions';
 
     protected $primaryKey = 'id';
 

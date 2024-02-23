@@ -17,15 +17,26 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    @if ($userito = Auth::user()->roles[0]->name == 'superAdmin' || $userito = Auth::user()->roles[0]->name == 'admin')
-                    <x-nav-link href="{{ route('dashboardGraphic.index') }}" :active="request()->routeIs('Emdisoft')">
-                        {{ __('Emdisoft_erp') }}
-                    </x-nav-link>
+                    @if (Auth::user()->company->status == 'active')
+                        @if (Auth::user()->roles[0]->name == 'superAdmin' || Auth::user()->roles[0]->name == 'admin')
+                            <x-nav-link href="{{ route('dashboardGraphic.index') }}" :active="request()->routeIs('Emdisoft')">
+                                {{ __('Emdisoft_erp') }}
+                            </x-nav-link>
+                        @else
+                            <x-nav-link href="{{ route('branch.index') }}" :active="request()->routeIs('Emdisoft')">
+                                {{ __('Emdisoft_erp') }}
+                            </x-nav-link>
+                        @endif
+                    @elseif (Auth::user()->company->status == 'inactive' && Auth::user()->roles[0]->name == 'superAdmin')
+                        <x-nav-link href="{{ route('dashboardGraphic.index') }}" :active="request()->routeIs('Emdisoft')">
+                            {{ __('Emdisoft_erp') }}
+                        </x-nav-link>
                     @else
-                    <x-nav-link href="{{ route('branch.index') }}" :active="request()->routeIs('Emdisoft')">
-                        {{ __('Emdisoft_erp') }}
-                    </x-nav-link>
+                        <x-nav-link href="{{ route('indexpay') }}" :active="request()->routeIs('Emdisoft')">
+                            {{ __('Emdisoft_erp') }}
+                        </x-nav-link>
                     @endif
+
                 </div>
             </div>
 

@@ -7,10 +7,13 @@ use App\Http\Requests\StorePayrollRequest;
 use App\Http\Requests\UpdatePayrollRequest;
 use App\Models\Employee;
 use App\Models\Indicator;
+use App\Models\Overtime;
+use App\Models\OvertimeMonth;
 use App\Models\OvertimeType;
 use App\Models\PaymentFrecuency;
 use App\Models\PayrollAcrued;
 use App\Models\PayrollDeduction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -68,6 +71,56 @@ class PayrollController extends Controller
      */
     public function store(StorePayrollRequest $request)
     {
+        $startDate = $request->start_date;
+        $startDateT = Carbon::parse($startDate);
+        $yearMonth = $startDateT->format('Y-m');
+
+        $employee_id = $request->employee_id;
+        $overtime_type_id = $request->overtime_type_id;
+        $percentage = $request->percentage;
+        $quantity = $request->quantity;
+        $valueHour = $request->value_hour;
+        //$days = array('Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo');
+        //$dia = $days[(date('N', strtotime($startDate))) - 1];
+        $day = date('N', strtotime($startDate));
+        $startDateTime = '';
+        $endDateTime = '';
+
+        for ($i=0; $i < count($overtime_type_id); $i++) {
+            $subtotal = $quantity[$i] * $valueHour[$i];
+            if ($overtime_type_id[$i] == 1 || $overtime_type_id[$i] == 4 || $overtime_type_id[$i] == 5) {
+                $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $startDate . '06:00:00');
+                $endDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $startDate . '21:00:00');
+            } else {
+                $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $startDate . '21:00:00');
+                $endDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $startDate . '06:00:00');
+            }
+
+            $overtime = Overtime::where('year_month', $yearMonth)->first();
+
+            if ($overtime) {
+                $overtime->total += $subtotal;
+                $overtime->update();
+            } else {
+                $overtime = new Overtime();
+                $overtime->year_month = $yearMonth;
+                $overtime->total = $subtotal;
+                $overtime->save();
+            }
+
+            $overtimeMonth = new OvertimeMonth();
+            $overtimeMonth->year_month = $yearMonth;
+            $overtimeMonth->percentage = $percentage[$i];
+            $overtimeMonth->quantity = $quantity[$i];
+            $overtimeMonth->value_hour = $valueHour[$i];
+            $overtimeMonth->subtotal = $subtotal;
+            $overtimeMonth->status = 'pendient';
+            $overtimeMonth->overtime_type_id = $overtime_type_id[$i];
+            $overtimeMonth->overtime_id = $overtime->id;
+            $overtimeMonth->save();
+
+        }
+        dd($startDateTime . '---' . $endDateTime);
         dd($request->all());
         $payroll = new Payroll();
         $payroll->start_date = $request->start_date;//fecha inicio de Liquidacion

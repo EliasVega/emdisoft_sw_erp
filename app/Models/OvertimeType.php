@@ -30,4 +30,14 @@ class OvertimeType extends Model
     {
         return $this->hasMany(Overtime::class);
     }
+
+    public function overtimeDays()
+    {
+        return $this->hasMany(OvertimeDay::class);
+    }
+
+    public function overtimeMonths()
+    {
+        return $this->hasMany(OvertimeMonth::class);
+    }
 }

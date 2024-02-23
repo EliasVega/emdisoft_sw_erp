@@ -14,14 +14,16 @@ return new class extends Migration
         Schema::create('payroll_partials', function (Blueprint $table) {
             $table->id();
 
+            $table->string('year_month',7);//año y mes de liquidacion
             $table->date('start_date');//fecha inicio liquidacion
             $table->date('end_date');//fecha fin de liquidacion
             $table->date('payment_date');//fecha de realizacion de los pagos
             $table->date('generation_date');//fecha generacion nomina
             $table->integer('days');//dias trabajados
+            $table->enum('fortnight', ['first', 'second'])->default('first');//diferenciacion de nomina
 
             $table->foreignId('employee_id')->constrained();
-            $table->foreignId('payment_frecuency_id')->constrained();
+            $table->foreignId('payroll_id')->constrained();
 
             $table->timestamps();
         });

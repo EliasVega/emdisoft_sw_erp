@@ -16,13 +16,14 @@ return new class extends Migration
             $table->id();
 
             $table->string('year_month',10);//año y mes de liquidacion
-            $table->decimal('percentage',10,2);//porcentage que se aplica por tipo de hora
             $table->decimal('quantity',10,2);//cantidad de horas del mes de este tipo
             $table->decimal('value_hour',10,2);//valor que corresponde a este tipo de hora
             $table->decimal('subtotal',10,2);//cantidad por valor de hora
+            $table->enum('status',['pendient', 'canceled'])->default('pendient');//esado de pendiente o cancelada
 
             $table->foreignId('overtime_type_id')->constrained()->onUpdate('cascade');
             $table->foreignId('overtime_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('employee_id')->constrained()->onUpdate('cascade');
 
             $table->timestamps();
         });

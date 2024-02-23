@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePayrollRequest extends FormRequest
+class UpdatePayrollPartialDeductionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,14 +22,7 @@ class StorePayrollRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
-            'payment_date' => 'required|date',
-            'generation_date' => 'required|date',
-            'days' => '',
-
-            'employee_id' => '',
-            'payment_frecuency_id' => '',
+            //
         ];
     }
 }

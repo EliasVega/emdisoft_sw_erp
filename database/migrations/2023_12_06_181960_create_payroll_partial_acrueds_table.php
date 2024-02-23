@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payroll_acrueds', function (Blueprint $table) {
+        Schema::create('payroll_partial_acrueds', function (Blueprint $table) {
             $table->id();
 
             $table->decimal('salary', 10,2);//salario asignado
@@ -33,7 +33,7 @@ return new class extends Migration
             $table->decimal('legal_strikes',10,2)->default(0);//huelgas legales
             $table->decimal('optionales',10,2)->default(0);//huelgas
 
-            $table->foreignId('payroll_id')->constrained();
+            $table->foreignId('payroll_partial_id')->constrained();
 
             $table->timestamps();
         });
@@ -44,6 +44,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payroll_acrueds');
+        Schema::dropIfExists('payroll_partial_acrueds');
     }
 };

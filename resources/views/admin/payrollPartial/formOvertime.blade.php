@@ -1,20 +1,5 @@
 <div class="box-body row">
-    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-        <label for="employee_id">Colaborador</label>
-        <div class="select">
-            <select id="employee_id" name="employee_id" class="form-control selectpicker" data-live-search="true" required>
-                <option {{ ($overtime->employee_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Colaborador</option>
-                @foreach($employees as $employee)
-                    @if($employee->id == ($overtime->employee_id ?? ''))
-                        <option value="{{ $employee->id }}" selected>{{ $employee->name }}</option>
-                    @else
-                        <option value="{{ $employee->id }}_{{ $employee->salary }}">{{ $employee->name }}</option>
-                    @endif
-                @endforeach
-            </select>
-        </div>
-    </div>
-    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
         <label for="department_id">Tipo de hora</label>
         <div class="select">
             <select id="overtime_type_id" name="overtime_type_id" class="form-control selectpicker" data-live-search="true">
@@ -29,41 +14,34 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+    <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12" id="addquantity">
         <div class="form-group">
-            <label class="form-control-label" for="start_time">Inicia</label>
-            <input type="datetime-local" name="start_time" id="start_time" class="form-control">
+            <label for="quantity">C/horas</label>
+            <input type="text" name="quantity" value="" id="quantity" class="form-control"  placeholder="Cantidad">
         </div>
     </div>
-
-    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+    <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12" id="addTotalValue">
         <div class="form-group">
-            <label class="form-control-label" for="end_time">Finaliza</label>
-            <input type="datetime-local" name="end_time" id="end_time" class="form-control">
+            <label for="totalValue">V/total</label>
+            <input type="text" name="totalValue" value="0" id="totalValue" class="form-control"  placeholder="valor total">
         </div>
     </div>
     <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 mt-4">
         <div class="form-group">
             <button class="btn btn-lightBlueGrad" type="button" id="add"><i class="fa fa-save"></i> Agregar</button>
-            <a href="{{url('overtime')}}" class="btn btn-blueGrad"><i class="fa fa-window-close"></i> Cancelar</a>
-        </div>
-    </div>
-    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" id="addSalary">
-        <div class="form-group">
-            <label for="salary">Salario</label>
-            <input type="text" name="salary" value="" id="salary" class="form-control"  placeholder="Salario">
+            <button class="btn btn-darkBlueGrad" type="button" id="canc_he"><i class="fa fa-save"></i> Cancelar</button>
         </div>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" id="addPercentage">
         <div class="form-group">
             <label for="percentage">Porcentage</label>
-            <input type="text" name="percentage" value="" id="percentage" class="form-control"  placeholder="Porcentage hora">
+            <input type="number" name="percentage" value="" id="percentage" class="form-control"  placeholder="Porcentage hora">
         </div>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" id="addWeeklyHours">
         <div class="form-group">
             <label for="weekly_hours">Horas semanales</label>
-            <input type="text" name="weekly_hours" value="{{ $indicator->weekly_hours }}" id="weekly_hours" class="form-control"  placeholder="Porcentage hora">
+            <input type="number" name="weekly_hours" value="" id="weekly_hours" class="form-control"  placeholder="Porcentage hora">
         </div>
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -73,11 +51,8 @@
                     <tr>
                         <th>Eliminar</th>
                         <th>Editar</th>
-                        <th>IdTH</th>
+                        <th>idTH</th>
                         <th>T/hora</th>
-                        <th>Inicio</th>
-                        <th>Fin</th>
-                        <th>%</th>
                         <th>Horas</th>
                         <th>V/hora</th>
                         <th>Total</th>
@@ -85,7 +60,7 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <th colspan="9">
+                        <th colspan="6">
                             <p align="right">TOTAL:</p>
                         </th>
                         <th class="thfoot">
@@ -98,15 +73,6 @@
 
                 </tbody>
             </table>
-        </div>
-    </div>
-    <div class="modal-footer" id="save">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="form-group">
-                <input type="hidden" name="_token" value="{{csrf_token()}}">
-                <button class="btn btn-lightBlueGrad" type="submit"><i class="fa fa-save"></i>&nbsp;
-                    Registrar</button>
-            </div>
         </div>
     </div>
 </div>

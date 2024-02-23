@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('payrolls', function (Blueprint $table) {
             $table->id();
+
+            $table->string('year_month',7);//año y mes de liquidacion
             $table->date('start_date');//fecha inicio liquidacion
             $table->date('end_date');//fecha fin de liquidacion
             $table->date('payment_date');//fecha de realizacion de los pagos

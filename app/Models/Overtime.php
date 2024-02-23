@@ -13,7 +13,7 @@ class Overtime extends Model
 
     protected $primaryKey = 'id';
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'year_month',

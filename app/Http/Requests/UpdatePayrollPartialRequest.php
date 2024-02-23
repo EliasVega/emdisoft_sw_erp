@@ -11,7 +11,7 @@ class UpdatePayrollPartialRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,16 @@ class UpdatePayrollPartialRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'year_month' => '',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+            'payment_date' => 'required|date',
+            'generation_date' => 'required|date',
+            'days' => '',
+            'fortnight' => 'required|in:first,second',
+
+            'employee_id' => '',
+            'payroll_id' => '',
         ];
     }
 }

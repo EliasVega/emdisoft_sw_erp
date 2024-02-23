@@ -52,6 +52,7 @@ use App\Http\Controllers\PaymentFrecuencyController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PaymentReturnController;
 use App\Http\Controllers\PayrollController;
+use App\Http\Controllers\PayrollPartialController;
 use App\Http\Controllers\PercentageController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PostalCodeController;
@@ -157,6 +158,7 @@ Route::resource('paymentFrecuency', PaymentFrecuencyController::class);
 Route::resource('paymentMethod', PaymentMethodController::class);
 Route::resource('paymentReturn', PaymentReturnController::class);
 Route::resource('payroll', PayrollController::class);
+Route::resource('payrollPartial', PayrollPartialController::class);
 Route::resource('percentage', PercentageController::class);
 Route::resource('permission', PermissionController::class);
 Route::resource('postalCode', PostalCodeController::class);
@@ -208,6 +210,8 @@ Route::get('company/status/{id}', [CompanyController::class, 'status'])->name('c
 Route::get('customer/status/{id}', [CustomerController::class, 'status'])->name('customerStatus');
 Route::get('customer/create/{id}', [CustomerController::class, 'getMunicipalities']);
 Route::get('cuatomer/customerPay/{id}', [CustomerController::class, 'customerPay'])->name('customerPay');
+
+Route::get('indexpay', [DashboardController::class, 'indexpay'])->name('indexpay');
 
 Route::get('employee/status/{id}', [EmployeeController::class, 'status'])->name('employeeStatus');
 Route::get('employee/create/{id}', [EmployeeController::class, 'getMunicipalities']);

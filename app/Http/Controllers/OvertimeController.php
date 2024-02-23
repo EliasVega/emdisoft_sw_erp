@@ -92,7 +92,7 @@ class OvertimeController extends Controller
                 $overtime = new Overtime();
                 $overtime->year_month = $yearMonth;
                 $overtime->total = $subtotal;
-                $overtime->employee_id = $employee->id;
+                $overtime->payroll_acrued_id;
                 $overtime->save();
             }
 
@@ -112,6 +112,7 @@ class OvertimeController extends Controller
                 $overtimeMonth->quantity = $quantity[$i];
                 $overtimeMonth->value_hour = $valueHour[$i];
                 $overtimeMonth->subtotal = $subtotal;
+                $overtimeMonth->status = 'pendient';
                 $overtimeMonth->overtime_type_id = $overtime_tipe_id[$i];
                 $overtimeMonth->overtime_id = $overtime->id;
                 $overtimeMonth->save();
@@ -125,6 +126,7 @@ class OvertimeController extends Controller
             $overtimeDay->quantity = $quantity[$i];
             $overtimeDay->value_hour = $valueHour[$i];
             $overtimeDay->subtotal = $subtotal;
+            $overtimeMonth->status = 'pendient';
             $overtimeDay->overtime_id = $overtime->id;
             $overtimeDay->overtime_month_id = $overtimeMonth->id;
             $overtimeDay->save();

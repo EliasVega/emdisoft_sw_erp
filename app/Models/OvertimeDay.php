@@ -19,12 +19,12 @@ class OvertimeDay extends Model
         'year_month',
         'start_time',
         'end_time',
-        'percentage',
         'quantity',
         'value_hour',
         'subtotal',
+        'status',
 
-        'overtime_id',
+        'overtime_Type_id',
         'overtime_month_id'
     ];
 
