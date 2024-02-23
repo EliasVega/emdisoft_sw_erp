@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->date('start_date');//fecha inicio vacaciones
             $table->date('end_date');//fecha fin de vacaciones
-            $table->decimal('value', 10, 2);
+            $table->decimal('value', 10, 2);//valor de vacaciones
             $table->enum('type',['taken', 'compensated'])->default('taken');
 
             $table->foreignId('payroll_acrued_id')->constrained();

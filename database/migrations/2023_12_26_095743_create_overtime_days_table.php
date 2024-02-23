@@ -22,7 +22,7 @@ return new class extends Migration
             $table->decimal('subtotal',10,2);//cantidad por precio
             $table->enum('status',['pendient', 'canceled'])->default('pendient');//esado de pendiente o cancelada
 
-            $table->foreignId('overtime_Type_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('overtime_type_id')->constrained()->onUpdate('cascade');
             $table->foreignId('overtime_month_id')->constrained()->onUpdate('cascade');
 
             $table->timestamps();
