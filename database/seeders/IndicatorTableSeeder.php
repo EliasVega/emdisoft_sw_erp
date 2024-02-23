@@ -36,6 +36,7 @@ class IndicatorTableSeeder extends Seeder
                 'raw_material' => 'off',
                 'restaurant' => 'off',
                 'barcode' => 'off',
+                'cvpinvoice' => 'off',
                 'company_id' => 1,
                 'created_at' => '2023-01-01 00:00:00',
                 'updated_at' => '2023-01-01 00:00:00',
