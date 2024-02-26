@@ -74,6 +74,33 @@ class BranchProductsTableSeeder extends Seeder
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43',
             ),
+            6 =>
+            array (
+                'id' => 7,
+                'stock' => 1000,
+                'branch_id' => 1,
+                'product_id' => 7,
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43',
+            ),
+            7 =>
+            array (
+                'id' => 8,
+                'stock' => 0,
+                'branch_id' => 1,
+                'product_id' => 8,
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43',
+            ),
+            8 =>
+            array (
+                'id' => 9,
+                'stock' => 0,
+                'branch_id' => 1,
+                'product_id' => 9,
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43',
+            ),
         ));
 
 

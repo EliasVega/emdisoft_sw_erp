@@ -43,8 +43,17 @@ class EmployeeInvoiceProductController extends Controller
             ->addColumn('product', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
                 return $employeeInvoiceProduct->invoiceProduct->product->name;
             })
+            ->addColumn('type', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
+                if ($employeeInvoiceProduct->invoiceProduct->product->type_product == 'product') {
+                    return $employeeInvoiceProduct->invoiceProduct->product->type_product == 'product' ? 'Producto' : 'Producto';
+                } elseif ($employeeInvoiceProduct->invoiceProduct->product->type_product == 'service') {
+                    return $employeeInvoiceProduct->status == 'service' ? 'Servicio' : 'Servicio';
+                } elseif ($employeeInvoiceProduct->invoiceProduct->product->type_product == 'consumer') {
+                    return $employeeInvoiceProduct->status == 'consumer' ? 'Consumo' : 'Consumo';
+                }
+            })
             ->addColumn('percentage', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
-                return $employeeInvoiceProduct->invoiceProduct->product->commission;
+                return $employeeInvoiceProduct->employee->commission;
             })
             ->editColumn('created_at', function(EmployeeInvoiceProduct $employeeInvoiceProduct){
                 return $employeeInvoiceProduct->created_at->format('yy-m-d');
@@ -92,8 +101,17 @@ class EmployeeInvoiceProductController extends Controller
             ->addColumn('product', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
                 return $employeeInvoiceProduct->employee->name;
             })
+            ->addColumn('type', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
+                if ($employeeInvoiceProduct->invoiceProduct->product->type_product == 'product') {
+                    return $employeeInvoiceProduct->invoiceProduct->product->type_product == 'product' ? 'Producto' : 'Producto';
+                } elseif ($employeeInvoiceProduct->invoiceProduct->product->type_product == 'service') {
+                    return $employeeInvoiceProduct->status == 'service' ? 'Servicio' : 'Servicio';
+                } elseif ($employeeInvoiceProduct->invoiceProduct->product->type_product == 'consumer') {
+                    return $employeeInvoiceProduct->status == 'consumer' ? 'Consumo' : 'Consumo';
+                }
+            })
             ->addColumn('percentage', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
-                return $employeeInvoiceProduct->invoiceProduct->product->commission;
+                return $employeeInvoiceProduct->employee->commission;
             })
             ->editColumn('created_at', function(EmployeeInvoiceProduct $employeeInvoiceProduct){
                 return $employeeInvoiceProduct->created_at->format('yy-m-d');
@@ -138,8 +156,17 @@ class EmployeeInvoiceProductController extends Controller
             ->addColumn('product', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
                 return $employeeInvoiceProduct->invoiceProduct->product->name;
             })
+            ->addColumn('type', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
+                if ($employeeInvoiceProduct->invoiceProduct->product->type_product == 'product') {
+                    return $employeeInvoiceProduct->invoiceProduct->product->type_product == 'product' ? 'Producto' : 'Producto';
+                } elseif ($employeeInvoiceProduct->invoiceProduct->product->type_product == 'service') {
+                    return $employeeInvoiceProduct->status == 'service' ? 'Servicio' : 'Servicio';
+                } elseif ($employeeInvoiceProduct->invoiceProduct->product->type_product == 'consumer') {
+                    return $employeeInvoiceProduct->status == 'consumer' ? 'Consumo' : 'Consumo';
+                }
+            })
             ->addColumn('percentage', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
-                return $employeeInvoiceProduct->invoiceProduct->product->commission;
+                return $employeeInvoiceProduct->employee->commission;
             })
             ->editColumn('created_at', function(EmployeeInvoiceProduct $employeeInvoiceProduct){
                 return $employeeInvoiceProduct->created_at->format('yy-m-d');

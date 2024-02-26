@@ -139,7 +139,7 @@ class ProductController extends Controller
         $branchProduct = new BranchProduct();
         $branchProduct->branch_id = 1;
         $branchProduct->product_id = $product->id;
-        $branchProduct->stock = 0;
+        $branchProduct->stock = $request->stock;
         $branchProduct->save();
 
         if ($indicator->raw_material == 'on') {
@@ -224,6 +224,10 @@ class ProductController extends Controller
         $product->stock = $request->stock;
         $product->stock_min = $request->stock_min;
         $product->update();
+
+        $branchProduct = BranchProduct::where('branch_id', 1)->where('product_id', $product->id)->first();
+        $branchProduct->stock = $request->stock;
+        $branchProduct->save();
 
         $indicator = Indicator::findOrFail(1);
         if ($indicator->raw_material == 'on') {
