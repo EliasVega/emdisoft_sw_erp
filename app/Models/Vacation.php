@@ -16,11 +16,12 @@ class Vacation extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'start_date',
-        'end_date',
+        'start_vacations',
+        'end_vacations',
         'value',
         'type',
-        'payroll_acrued_id'
+        'payroll_acrued_id',
+        'payroll_partial_acrued_id'
     ];
 
     protected $guarded = [

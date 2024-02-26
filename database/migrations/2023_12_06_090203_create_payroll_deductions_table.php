@@ -26,7 +26,6 @@ return new class extends Migration
             $table->decimal('releases',10,2)->default(0);//libranzas
             $table->decimal('optionales',10,2)->default(0);//huelgas legales
 
-            $table->foreignId('employee_id')->constrained();
             $table->foreignId('payroll_id')->constrained();
 
             $table->timestamps();

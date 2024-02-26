@@ -21,6 +21,8 @@
     });
     let contDate = 0;
     let totalAcrued = 0;
+    let salaryEmployee = 0;
+    let transportAssistance = 0;
     $("#addSmlv").hide();
     $("#formButtons").hide();
     $("#formOvertime").hide();
@@ -210,6 +212,12 @@
 
     $(document).on("click", "#addExtras", function () {
         $("#formOvertime").show();
+        $("#formVacations").hide();
+
+    });
+    $(document).on("click", "#addVacations", function () {
+        $("#formVacations").show();
+        $("#formOvertime").hide();
 
     });
     $(document).on("click", "#canc_he", function () {

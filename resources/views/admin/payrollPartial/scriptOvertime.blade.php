@@ -47,12 +47,7 @@
         normal_time_value = salary / month_hours;
         value_hour = normal_time_value * percentage;
     }
-    $(document).ready(function() {
 
-        $("#add").click(function() {
-            add();
-        });
-    });
 
     $(document).ready(function() {
         $("#quantity").keyup(function() {
@@ -66,6 +61,12 @@
         valuehours = partialQuantity * value_hour;
         $("#totalValue").val(valuehours);
     }
+
+    $(document).ready(function() {
+        $("#add").click(function() {
+            add();
+        });
+    });
 
     //adicionar productos a la compra
     function add() {

@@ -350,7 +350,3 @@
     }
 </script>
 
-<script>
-
-</script>
-

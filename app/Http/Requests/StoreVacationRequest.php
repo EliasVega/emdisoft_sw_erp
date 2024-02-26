@@ -22,10 +22,10 @@ class StoreVacationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
+            'start_vacations' => 'required|date',
+            'end_vacations' => 'required|date',
             'value' => 'required|numeric',
-            'type' => 'in:taken,compensated'
+            'type' => 'in:enjoyed,compensated'
         ];
     }
 }

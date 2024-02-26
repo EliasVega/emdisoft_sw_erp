@@ -98,7 +98,7 @@
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addtransportAcrued">
         <div class="form-group">
             <label class="form-control-label" for="transport_acrued">Aux Trasporte</label>
-            <input type="number" id="transport_acrued" name="transport_acrued" value="" class="form-control" placeholder="Aux Transp" required>
+            <input type="number" id="transport_acrued" name="transport_acrued" value="0" class="form-control" placeholder="Aux Transp" required>
         </div>
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addSmlv">

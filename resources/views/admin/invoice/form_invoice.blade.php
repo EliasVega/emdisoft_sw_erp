@@ -123,7 +123,11 @@
     @endif
     <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12" id="addProductId">
         <div class="form-group row">
-            <label class="form-control-label" for="product_id">Producto</label>
+            <label class="form-control-label" for="product_id">
+                Producto <a href="{{ route('product.create') }}" class="btn btn-lightBlueGrad btn-sm"
+                target="_blank" data-toggle="tooltip" data-placement="top">
+                <i class="fa fa-plus"> Agregar Producto</i></a>
+            </label>
             <select name="product_id" class="form-control selectpicker" id="product_id" data-live-search="true">
                 <option value="0" disabled selected>Seleccionar</option>
                 @foreach ($products as $product)

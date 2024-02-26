@@ -77,13 +77,19 @@ class PayrollPartialController extends Controller
      */
     public function store(StorePayrollPartialRequest $request)
     {
-        //dd($request->all());
-        $startDate = $request->start_date;//fecha de inicio de liquidacion
+        dd($request->all());
         $yearMonth = $request->month;//tomando año y mes de fecha inicio liquidacion
+        $startDate = $request->start_date;//fecha de inicio de liquidacion
+        $endDate = $request->end_date;
+        $generationDate = $request->generation_date;
+        $paymentDate = $request->payment_date;
         $empled = $request->employee_id;
         $emp = explode("_", $empled);
         $employee = Employee::where('id', $emp)->first();
         $fortnight = $request->fortnight;
+
+        $salary = $request->salary_acrued;
+        $transportAssistance = $request->transport_acrued;
 
         //$employee_id = $request->employee_id;//id del empleado
         $overtime_type_id = $request->overtime_type_id;//id del tipo de hora
@@ -164,18 +170,19 @@ class PayrollPartialController extends Controller
         }
 
         $payrollExits = Payroll::where('year_month', $yearMonth)->where('employee_id', $emp)->first();
+
         if ($payrollExits) {
             $payroll = Payroll::findOrFail($payrollExits->id);
-            $payroll->end_date = $request->end_date;//fecha fin de liquidacion
-            $payroll->payment_date = $request->payment_date;//fecha de pago a empleado
-            $payroll->generation_date = $request->generation_date;//fecha generacion nomina
+            $payroll->end_date = $endDate;//fecha fin de liquidacion
+            $payroll->payment_date = $paymentDate;//fecha de pago a empleado
+            $payroll->generation_date = $generationDate;//fecha generacion nomina
             $payroll->days += $request->days;//dias laborados por el empleado
             $payroll->update();
 
             $payrollAcrued = PayrollAcrued::where('payroll_id', $payroll->id)->first();
-            $payrollAcrued->salary += 0;//salario asignado
-            $payrollAcrued->transport_assistance += 0;//auxilio de trasporte
-            $payrollAcrued->overtime += 0;//horas extras
+            $payrollAcrued->salary += $salary;//salario asignado
+            $payrollAcrued->transport_assistance += $transportAssistance;//auxilio de trasporte
+            $payrollAcrued->overtime += $overtimeTotal;//horas extras
             $payrollAcrued->vacations += 0;//vacaciones
             $payrollAcrued->bonus += 0;//prima
             $payrollAcrued->layoffs += 0;//cesantias
@@ -210,18 +217,18 @@ class PayrollPartialController extends Controller
         } else {
             $payroll = new Payroll();
             $payroll->year_month = $yearMonth;
-            $payroll->start_date = $request->start_date;//fecha inicio de Liquidacion
-            $payroll->end_date = $request->end_date;//fecha fin de liquidacion
-            $payroll->payment_date = $request->payment_date;//fecha de pago a empleado
-            $payroll->generation_date = $request->generation_date;//fecha generacion nomina
+            $payroll->start_date = $startDate;//fecha inicio de Liquidacion
+            $payroll->end_date = $endDate;//fecha fin de liquidacion
+            $payroll->payment_date = $paymentDate;//fecha de pago a empleado
+            $payroll->generation_date = $generationDate;//fecha generacion nomina
             $payroll->days = $request->days;//dias laborados por el empleado
-            $payroll->employee_id = $request->employee_id;//empleado
+            $payroll->employee_id = $employee->id;//empleado
             $payroll->save();
 
             $payrollAcrued = new PayrollAcrued();
-            $payrollAcrued->salary = 0;//salario asignado
-            $payrollAcrued->transport_assistance = 0;//auxilio de trasporte
-            $payrollAcrued->overtime = 0;//horas extras
+            $payrollAcrued->salary = $salary;//salario asignado
+            $payrollAcrued->transport_assistance = $transportAssistance;//auxilio de trasporte
+            $payrollAcrued->overtime = $overtimeTotal;//horas extras
             $payrollAcrued->vacations = 0;//vacaciones
             $payrollAcrued->bonus = 0;//prima
             $payrollAcrued->layoffs = 0;//cesantias
@@ -237,7 +244,6 @@ class PayrollPartialController extends Controller
             $payrollAcrued->other_concepts = 0;//otros conceptos
             $payrollAcrued->legal_strikes = 0;//huelgas legales
             $payrollAcrued->optionales = 0;//huelgas
-
             $payrollAcrued->payroll_id = $payroll->id;
             $payrollAcrued->save();
 
@@ -253,17 +259,16 @@ class PayrollPartialController extends Controller
             $payrollDeduction->other_deductions = 0;//otras deducciones
             $payrollDeduction->releases = 0;//libranzas
             $payrollDeduction->optionales = 0;//huelgas legales
-
             $payrollDeduction->payroll_id = $payroll->id;
             $payrollDeduction->save();
         }
 
         $payrollPartial = new PayrollPartial();
         $payrollPartial->year_month = $yearMonth;
-        $payrollPartial->start_date = $request->start_date;//fecha inicio de Liquidacion
-        $payrollPartial->end_date = $request->end_date;//fecha fin de liquidacion
-        $payrollPartial->payment_date = $request->payment_date;//fecha de pago a empleado
-        $payrollPartial->generation_date = $request->generation_date;//fecha generacion nomina
+        $payrollPartial->start_date = $startDate;//fecha inicio de Liquidacion
+        $payrollPartial->end_date = $endDate;//fecha fin de liquidacion
+        $payrollPartial->payment_date = $paymentDate;//fecha de pago a empleado
+        $payrollPartial->generation_date = $generationDate;//fecha generacion nomina
         $payrollPartial->days = $request->days;//dias laborados por el empleado
         $payrollPartial->fortnight = $request->fortnight;
         $payrollPartial->employee_id = $employee->id;//empleado
@@ -271,8 +276,8 @@ class PayrollPartialController extends Controller
         $payrollPartial->save();
 
         $payrollPartialAcrued = new PayrollPartialAcrued();
-        $payrollPartialAcrued->salary = $request->salary_acrued;//salario asignado
-        $payrollPartialAcrued->transport_assistance = $request->transport_acrued;//auxilio de trasporte
+        $payrollPartialAcrued->salary = $salary;//salario asignado
+        $payrollPartialAcrued->transport_assistance = $transportAssistance;//auxilio de trasporte
         $payrollPartialAcrued->overtime = $overtimeTotal;//horas extras
         $payrollPartialAcrued->vacations = 0;//vacaciones
         $payrollPartialAcrued->bonus = 0;//prima
@@ -289,7 +294,6 @@ class PayrollPartialController extends Controller
         $payrollPartialAcrued->other_concepts = 0;//otros conceptos
         $payrollPartialAcrued->legal_strikes = 0;//huelgas legales
         $payrollPartialAcrued->optionales = 0;//huelgas
-
         $payrollPartialAcrued->payroll_partial_id = $payrollPartial->id;
         $payrollPartialAcrued->save();
 
@@ -305,7 +309,6 @@ class PayrollPartialController extends Controller
         $payrollPartialDeduction->other_deductions = 0;//otras deducciones
         $payrollPartialDeduction->releases = 0;//libranzas
         $payrollPartialDeduction->optionales = 0;//huelgas legales
-
         $payrollPartialDeduction->payroll_partial_id = $payrollPartial->id;
         $payrollPartialDeduction->save();
 

@@ -65,7 +65,7 @@
                         </th>
                         <th class="thfoot">
                             <p align="right"><span id="total_html">$ 0.00</span>
-                                <input type="hidden" name="total" id="total"> </p>
+                                <input type="hidden" name="total" value="0" id="total"> </p>
                         </th>
                     </tr>
                 </tfoot>

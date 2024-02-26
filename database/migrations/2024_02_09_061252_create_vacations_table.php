@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('vacations', function (Blueprint $table) {
             $table->id();
 
-            $table->date('start_date');//fecha inicio vacaciones
-            $table->date('end_date');//fecha fin de vacaciones
+            $table->date('start_vacations');//fecha inicio vacaciones
+            $table->date('end_vacations');//fecha fin de vacaciones
             $table->decimal('value', 10, 2);//valor de vacaciones
-            $table->enum('type',['taken', 'compensated'])->default('taken');
+            $table->enum('type',['enjoyed', 'compensated'])->default('enjoyed');
 
             $table->foreignId('payroll_acrued_id')->constrained();
+            $table->foreignId('payroll_partial_acrued_id')->nullable()->constrained();
 
             $table->timestamps();
         });

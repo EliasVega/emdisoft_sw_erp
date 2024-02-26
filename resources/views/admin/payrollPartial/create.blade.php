@@ -38,6 +38,9 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="formOvertime">
                     @include('admin/payrollPartial.formOvertime')
                 </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="formVacations">
+                    @include('admin/payrollPartial.formVacations')
+                </div>
             {!!Form::close()!!}
         </div>
     </div>
@@ -47,5 +50,6 @@
 @section('scripts')
     @include('admin/payrollPartial.script')
     @include('admin/payrollPartial.scriptOvertime')
+    @include('admin/payrollPartial.scriptVacations')
 @endsection
 
