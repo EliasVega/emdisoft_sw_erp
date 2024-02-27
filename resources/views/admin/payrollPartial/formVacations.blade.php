@@ -1,8 +1,8 @@
 <div class="box-body row">
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-        <label for="type_vacations">Tipo</label>
+        <label for="typeVacations">Tipo</label>
         <div class="select">
-            <select id="type_vacations" name="type_vacations" class="form-control selectpicker" data-live-search="true" required>
+            <select id="typeVacations" name="typeVacations" class="form-control selectpicker" data-live-search="true" required>
                 <option value="{{ old('type', $vacations->type ?? '') }}" disabled>Seleccionar Tipo</option>
                     <option value="emjoyed">DISFRUTADAS</option>
                     <option value="compensated">COMPENSADAS</option>
@@ -11,20 +11,20 @@
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
-            <label class="form-control-label" for="start_vacations">F/Inicio</label>
-            <input type="date" name="start_vacations" id="start_vacations" value=""  class="form-control"  placeholder="Fecha Inicio">
+            <label class="form-control-label" for="startVacations">F/Inicio</label>
+            <input type="date" name="startVacations" id="startVacations" value=""  class="form-control"  placeholder="Fecha Inicio">
         </div>
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
-            <label class="form-control-label" for="end_vacations">F/Fin</label>
-            <input type="date" name="end_vacations" id="end_vacations" value=""  class="form-control"  placeholder="Fecha Fin">
+            <label class="form-control-label" for="endVacations">F/Fin</label>
+            <input type="date" name="endVacations" id="endVacations" value=""  class="form-control"  placeholder="Fecha Fin" readonly>
         </div>
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addVacationDays">
         <div class="form-group">
             <label class="form-control-label" for="vacationDays">N° dias</label>
-            <input type="number" id="vacationDays" name="vacationDays" value="" class="form-control" placeholder="dias">
+            <input type="number" id="vacationDays" name="vacationDays" value="0" class="form-control" placeholder="dias">
         </div>
     </div>
     <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 mt-4">
@@ -39,11 +39,11 @@
                 <thead class="bg-info">
                     <tr>
                         <th>Eliminar</th>
-                        <th>Editar</th>
                         <th>Tipo</th>
                         <th>F/Inicio</th>
                         <th>F/Fin</th>
                         <th>Dias</th>
+                        <th>V/dia</th>
                         <th>Subtotal</th>
                     </tr>
                 </thead>

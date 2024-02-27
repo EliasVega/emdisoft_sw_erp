@@ -1,19 +1,23 @@
 <script>
     /*$(document).ready(function(){
-            alert('estoy funcionando correctamanete colegio');
-        });*/
-    let subtotal = [];
-    let cont = 0;
+        alert('estoy funcionando correctamanete colegio');
+    });*/
+    let subtotalVacations = [];
+    let contVacations = 0;
     let totalVacations = 0;
-    $("#save").hide();
+    $('#endVacations').prop("readonly", true);
 
-    $('#end_vacations').prop("readonly", true)
+    $("#startVacations").change(activeEndVacations);
 
-    $("#end_vacations").change(getDateVacations);
+    function activeEndVacations(){
+        $('#endVacations').prop("readonly", false)
+    }
 
-    function timeValue(){
-        let startVacations = $("#start_vacations").val();
-        let endVacations = $("#end_vacations").val();
+    $("#endVacations").change(timeVacations);
+
+    function timeVacations(){
+        let startVacations = $("#startVacations").val();
+        let endVacations = $("#endVacations").val();
         let startTimeVacations = moment(startVacations);
         let endTimeVacations = moment(endVacations);
 
@@ -23,11 +27,10 @@
         let endYearVacations = moment(endTimeVacations).year();
         let endMonthVacations = moment(endTimeVacations).month();
         let endDayVacations = moment(endTimeVacations).day();
-        let vacationDays = endTimeVacations.diff(startTimeVacations, 'vacationDays');
-
-        if (days >= 0) {
-            if (startYear == endYear && startMonth == endMonth) {
-                $("#vacationDays").val(days + 1);
+        let vacationDays = endTimeVacations.diff(startTimeVacations, 'days');
+        if (vacationDays >= 0) {
+            if (startYearVacations == endYearVacations && startMonthVacations == endMonthVacations) {
+                $("#vacationDays").val(vacationDays + 1);
                 vacationDays = $("#vacationDays").val();
                 salaryEmployee = $("#salary").val();
                 totalVacations = (parseFloat(salaryEmployee)/30)*(parseFloat(vacationDays));
@@ -52,33 +55,24 @@
     //adicionar productos a la compra
     function addVacations() {
 
-        let startVacations = $("#start_vacations").val();
-        let endVacations = $("#end_vacations").val();
-        type_id = $("#type_vacations").val();
-        type = $("#type_vacations option:selected").text();
+        startVacations = $("#startVacations").val();
+        endVacations = $("#endVacations").val();
+        type_id = $("#typeVacations").val();
+        type = $("#typeVacations option:selected").text();
         quantity = $("#vacationDays").val();
-
-
-        if (Date.parse(startDate) <= Date.parse(endDate)) {
-            if (overtime_type_id != "" && percentage > 0 && quantity > 0 && value_hour > 0) {
-                subtotal[cont] = parseFloat(quantity) * parseFloat(value_hour);
-                total = total + subtotal[cont];
-                var row = '<tr class="selected" id="row' + cont +
-                    '"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow(' + cont +
-                    ');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow(' +
-                    cont +
-                    ');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="overtime_type_id[]"  value="' +
-                    overtime_type_id + '">' + overtime_type_id +
-                    '</td><td><input type="hidden" name="overtimeType[]"  value="' + overtimeType + '">' +
-                    overtimeType + '</td> <td><input type="hidden" name="quantity[]" value="' + quantity + '">' +
-                    quantity + '</td> <td><input type="hidden" name="value_hour[]"  value="' + value_hour + '">' +
-                    value_hour.toFixed(2) + '</td> <td>$' + subtotal[cont].toFixed(2) + ' </td></tr>';
-                cont++;
-                totals();
-                assess();
-                $('#overtimes').append(row);
-                $('#overtime_type_id option:selected').remove();
-                clean();
+        salaryEmployee = $("#salary").val();
+        value_day = salaryEmployee/30;
+        alert(totalVacations);
+        if (Date.parse(startVacations) <= Date.parse(endVacations)) {
+            if (type_id != "" && type != "" && quantity > 0 && value_day > 0) {
+                subtotalVacations[contVacations] = parseFloat(quantity) * parseFloat(value_day);
+                alert(subtotalVacations);
+                totalVacations = totalVacations + subtotalVacations[contVacations];
+                var rowVacations = '<tr class="selected" id="rowVacations'+contVacations+'"><td><button type="button" class="btn btn-danger btn-sm btndelete"onclick="deleterowVacations('+contVacations+');"><i class="fas fa-trash"></i></button></td><td><input type="hidden" name="vacation_type[]"  value="'+type_id+'">'+type+'</td><td><input type="hidden" name="start_vacations[]" value="'+startVacations+'">'+startVacations+'</td><td><input type="hidden" name="end_vacations[]" value="'+endVacations+'">'+endVacations+'</td> <td><input type="hidden" name="vacation_days[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="value_day[]"  value="'+value_day+'">'+value_day.toFixed(2)+'</td> <td>$'+subtotalVacations[contVacations].toFixed(2)+'</td></tr>';
+                contVacations++;
+                totalVac();
+                $('#vacations').append(rowVacations);
+                cleanVacations();
 
 
             } else {
@@ -99,118 +93,25 @@
 
     }
 
-    function clean() {
-        //$('#employee_id').val(null).trigger('change');
-        $('#overtime_type_id').val(null).trigger('change');
-        $("#quantity").val("");
-        $("#totalValue").val("");
+    function cleanVacations() {
+        $("#startVacations").val("");
+        $("#endVacations").val("");
+        $("#vacationDays").val("");
     }
 
-    function totals() {
+    function totalVac() {
 
-        $("#total_html").html("$ " + total.toFixed(2));
-        $("#total").val(total.toFixed(2));
+        $("#total_vacations_html").html("$ " + totalVacations.toFixed(2));
+        $("#total_vacations").val(totalVacations.toFixed(2));
     }
 
-    function assess() {
-        if (total > 0) {
-            $("#save").show();
-        } else {
-            $("#save").hide();
-        }
-    }
+    function deleterowVacations(index) {
 
-    function eliminar(index) {
+        totalVacations -= subtotalVacations[index];
 
-        total = total - pay[index];
+        $("#total_vacations_html").html("$ " + totalVacations.toFixed(2));
+        $("#total_vacations").val(totalVacations.toFixed(2));
 
-        $("#total_html").html("$ " + total.toFixed(2));
-        $("#total").val(total.toFixed(2));
-
-        $("#row" + index).remove();
-        assess();
-    }
-
-    jQuery(document).on("click", "#editrow", function () {
-        editrow();
-    });
-
-    function editrow(index) {
-
-        $("#contMod").hide();
-        $("#subtotalMod").hide();
-        //$("#idMod").hide();
-
-        // Obtener la row
-        var row = $("#row" + index);
-        // Solo si la row existe
-        if (row) {
-
-            // Buscar datos en la row y asignar a campos del formulario:
-            // Primera columna (0) tiene ID, segunda (1) tiene nombre, tercera (2) capacidad
-            $("#contModal").val(index);
-            $("#overtime_type_idModal").val(row.find("td:eq(2)").text());
-            $("#overtimeTypeModal").val(row.find("td:eq(3)").text());
-            $("#quantityModal").val(row.find("td:eq(4)").text());
-            $("#valueHourModal").val(row.find("td:eq(5)").text());
-            $("#subtotalModal").val(row.find("td:eq(6)").text());
-
-            // Mostrar modal
-            $('#overtimeModal').modal('show');
-        }
-    }
-
-    jQuery(document).on("click", "#updateOvertime", function() {
-        updaterow();
-    });
-
-    function updaterow() {
-
-        // Buscar datos en la row y asignar a campos del formulario:
-        // Primera columna (0) tiene ID, segunda (1) tiene nombre, tercera (2) capacidad
-        contedit = $("#contModal").val();
-        overtime_type_id = $("#overtime_type_idModal").val();
-        overtimeType = $("#overtimeTypeModal").val();
-        quantity = $("#quantityModal").val();
-        value_hour = $("#valueHourModal").val();
-        if (overtime_type_id != "" && quantity > 0 && value_hour > 0) {
-            subtotal[cont] = parseFloat(quantity) * parseFloat(value_hour);
-            total = total + subtotal[cont];
-            var row = '<tr class="selected" id="row' + cont +
-                '"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow(' + cont +
-                ');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow(' +
-                cont +
-                ');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="overtime_type_id[]"  value="' +
-                overtime_type_id + '">' + overtime_type_id +
-                '</td><td><input type="hidden" name="overtimeType[]"  value="' + overtimeType + '">' + overtimeType +
-                '</td> <td><input type="hidden" name="quantity[]" value="' + quantity + '">' + quantity +
-                '</td> <td><input type="hidden" name="value_hour[]"  value="' + value_hour + '">' + value_hour + '</td> <td>$' + subtotal[cont].toFixed(2) + ' </td></tr>';
-            cont++;
-            deleterow(contedit);
-            totals();
-            assess();
-            $('#overtimes').append(row);
-            $('#overtimeModal').modal('hide');
-            //$('#product_id option:selected').remove();
-
-        } else {
-            //alert("Rellene todos los campos del detalle para esta compra");
-            Swal.fire({
-                type: 'error',
-                title: 'Oops...',
-                text: 'Datos faltantes o incorrectos para asignar hora extra',
-            });
-        }
-    }
-
-    function deleterow(index) {
-
-        total = total - subtotal[index];
-
-        $("#total_html").html("$ " + total.toFixed(2));
-        $("#total").val(total.toFixed(2));
-
-        $("#row" + index).remove();
-        assess();
+        $("#rowVacations" + index).remove();
     }
 </script>

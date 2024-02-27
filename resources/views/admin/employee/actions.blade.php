@@ -17,4 +17,9 @@ data-placement="top" title="pago comisiones"><i class="fas fa-file-invoice-dolla
         data-placement="top" title="Activar"><i class="fas fa-icons"></i></a>
     @endif
 @endcan
+@can('superAdmin')
+    <a class="btn btn-danger btn-sm" href="" data-target="#modal-delete-{{ $id }}" data-toggle="modal" title="Eliminar">
+    <i class="fas fa-trash fa-fw"></i></a>
+@endcan
+@include('admin.employee.delete', ['id' => $id])
 
