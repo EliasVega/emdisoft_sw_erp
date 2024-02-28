@@ -16,6 +16,16 @@
     $("#endVacations").change(timeVacations);
 
     function timeVacations(){
+        startDate = $("#start_date").val();
+        endDate = $("#end_date").val();
+        startTime = moment(startDate);
+        endTime = moment(endDate);
+
+        startYear = moment(startTime).year();
+        startMonth = moment(startTime).month();
+        endYear = moment(endTime).year();
+        endMonth = moment(endTime).month();
+
         let startVacations = $("#startVacations").val();
         let endVacations = $("#endVacations").val();
         let startTimeVacations = moment(startVacations);
@@ -29,14 +39,19 @@
         let endDayVacations = moment(endTimeVacations).day();
         let vacationDays = endTimeVacations.diff(startTimeVacations, 'days');
         if (vacationDays >= 0) {
-            if (startYearVacations == endYearVacations && startMonthVacations == endMonthVacations) {
+            if (startYearVacations == endYearVacations && startMonthVacations == endMonthVacations
+            && startYear == startYearVacations && startMonth == startMonthVacations) {
                 $("#vacationDays").val(vacationDays + 1);
-                vacationDays = $("#vacationDays").val();
-                salaryEmployee = $("#salary").val();
-                totalVacations = (parseFloat(salaryEmployee)/30)*(parseFloat(vacationDays));
             } else {
-                Swal.fire("las fechas no crresponden al mismo periodo");
-                window.location.reload()
+                Swal.fire({
+                    icon: 'error',
+                    text: 'las fechas no crresponden al mismo periodo de nomina',
+                    showConfirmButton: false,
+                    timer: 2000 // es ms (mili-segundos)
+
+                });
+                cleanVacations();
+                //window.location.reload()
             }
         } else {
             Swal.fire("Fecha de Inicio no puede ser mayor a fecha de fin");
@@ -62,11 +77,9 @@
         quantity = $("#vacationDays").val();
         salaryEmployee = $("#salary").val();
         value_day = salaryEmployee/30;
-        alert(totalVacations);
         if (Date.parse(startVacations) <= Date.parse(endVacations)) {
             if (type_id != "" && type != "" && quantity > 0 && value_day > 0) {
                 subtotalVacations[contVacations] = parseFloat(quantity) * parseFloat(value_day);
-                alert(subtotalVacations);
                 totalVacations = totalVacations + subtotalVacations[contVacations];
                 var rowVacations = '<tr class="selected" id="rowVacations'+contVacations+'"><td><button type="button" class="btn btn-danger btn-sm btndelete"onclick="deleterowVacations('+contVacations+');"><i class="fas fa-trash"></i></button></td><td><input type="hidden" name="vacation_type[]"  value="'+type_id+'">'+type+'</td><td><input type="hidden" name="start_vacations[]" value="'+startVacations+'">'+startVacations+'</td><td><input type="hidden" name="end_vacations[]" value="'+endVacations+'">'+endVacations+'</td> <td><input type="hidden" name="vacation_days[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="value_day[]"  value="'+value_day+'">'+value_day.toFixed(2)+'</td> <td>$'+subtotalVacations[contVacations].toFixed(2)+'</td></tr>';
                 contVacations++;

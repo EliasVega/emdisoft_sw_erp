@@ -1,5 +1,5 @@
 <div class="box-body row">
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+    <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
         <label for="typeVacations">Tipo</label>
         <div class="select">
             <select id="typeVacations" name="typeVacations" class="form-control selectpicker" data-live-search="true" required>

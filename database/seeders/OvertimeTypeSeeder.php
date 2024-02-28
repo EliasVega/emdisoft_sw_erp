@@ -21,7 +21,7 @@ class OvertimeTypeSeeder extends Seeder
                 'id' => 1,
                 'code' => 'HED',
                 'hour_type' => 'Hora Extra Diurna',
-                'apply_time' => 'de 6:00 am a 9:00 pm + 25%',
+                'apply_time' => 'desde las 6:00 am hasta las 9:00 pm + 25%',
                 'percentage' => '25.00'
             ),
             1 =>
@@ -29,7 +29,7 @@ class OvertimeTypeSeeder extends Seeder
                 'id' => 2,
                 'code' => 'HEN',
                 'hour_type' => 'Hora Extra Nocturna',
-                'apply_time' => 'de 9:00 pm a 6:00 am + 75%',
+                'apply_time' => 'desde las 9:00 pm hasta las 6:00 am + 75%',
                 'percentage' => '75.00'
             ),
             2 =>
@@ -37,7 +37,7 @@ class OvertimeTypeSeeder extends Seeder
                 'id' => 3,
                 'code' => 'HRN',
                 'hour_type' => 'Hora Recargo Nocturno',
-                'apply_time' => 'de 9:00 pm a 6:00 am + 35%',
+                'apply_time' => 'desde las 9:00 pm hasta las 6:00 am + 35%',
                 'percentage' => '35.00'
             ),
             3 =>
@@ -45,7 +45,7 @@ class OvertimeTypeSeeder extends Seeder
                 'id' => 4,
                 'code' => 'HEDDF',
                 'hour_type' => 'Hora Extra Diurna Dominical y Festivos',
-                'apply_time' => 'de 6:00 am a 9:00 pm + 100%',
+                'apply_time' => 'domingos o dias festivos 75% + 25%',
                 'percentage' => '100.00'
             ),
             4 =>
@@ -53,7 +53,7 @@ class OvertimeTypeSeeder extends Seeder
                 'id' => 5,
                 'code' => 'HRDDF',
                 'hour_type' => 'Hora Recargo Diurno Dominical y Festivos',
-                'apply_time' => 'de 6:00 am a 9:00 pm + 75%',
+                'apply_time' => 'domingos o dias festivos 75%',
                 'percentage' => '75.00'
             ),
             5 =>
@@ -61,7 +61,7 @@ class OvertimeTypeSeeder extends Seeder
                 'id' => 6,
                 'code' => 'HENDF',
                 'hour_type' => 'Hora Extra Nocturna Dominical y Festivos',
-                'apply_time' => 'de 9:00 pm a 6:00 am + 150%',
+                'apply_time' => 'domingos o dias festivos 75% + 75%',
                 'percentage' => '150.00'
             ),
             6 =>
@@ -69,7 +69,7 @@ class OvertimeTypeSeeder extends Seeder
                 'id' => 7,
                 'code' => 'HRNDF',
                 'hour_type' => 'Hora Recargo Nocturno Dominical y Festivos',
-                'apply_time' => 'de 9:00 pm a 6:00 am + 110%',
+                'apply_time' => 'domingos o dias festivos 75% + 35%',
                 'percentage' => '110.00'
             ),
         ));

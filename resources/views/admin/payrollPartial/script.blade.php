@@ -26,6 +26,7 @@
     $("#addSmlv").hide();
     $("#formButtons").hide();
     $("#formOvertime").hide();
+    $("#formVacations").hide();
     $("#addFortnight").hide();
     $("#addEmployee").hide();
     $("#addMonth").hide();

@@ -17,6 +17,7 @@ use App\Models\PayrollAcrued;
 use App\Models\PayrollDeduction;
 use App\Models\PayrollPartialAcrued;
 use App\Models\PayrollPartialDeduction;
+use App\Models\Vacation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -91,13 +92,20 @@ class PayrollPartialController extends Controller
         $salary = $request->salary_acrued;
         $transportAssistance = $request->transport_acrued;
 
-        //$employee_id = $request->employee_id;//id del empleado
+        //request de horas extras
         $overtime_type_id = $request->overtime_type_id;//id del tipo de hora
         $quantity = $request->quantity;//request de la cantidad de horas para este tipo
         $valueHour = $request->value_hour;//valor que corresponde segun el salario
         $overtimeTotal = $request->total;
         //$days = array('Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo');
         //$dia = $days[(date('N', strtotime($startDate))) - 1];
+
+        //request de vacaciones
+        $vacations_type = $request->vacation_type;
+        $total_vacations = 0;
+        if ($vacations_type) {
+            $total_vacations = $request->total_vacations;
+        }
 
         $comprobation = PayrollPartial::where('year_month', $yearMonth)
         ->where('employee_id', $emp)
@@ -183,7 +191,7 @@ class PayrollPartialController extends Controller
             $payrollAcrued->salary += $salary;//salario asignado
             $payrollAcrued->transport_assistance += $transportAssistance;//auxilio de trasporte
             $payrollAcrued->overtime += $overtimeTotal;//horas extras
-            $payrollAcrued->vacations += 0;//vacaciones
+            $payrollAcrued->vacations += $total_vacations;//vacaciones
             $payrollAcrued->bonus += 0;//prima
             $payrollAcrued->layoffs += 0;//cesantias
             $payrollAcrued->disabilities += 0;//incapacidades
@@ -229,7 +237,7 @@ class PayrollPartialController extends Controller
             $payrollAcrued->salary = $salary;//salario asignado
             $payrollAcrued->transport_assistance = $transportAssistance;//auxilio de trasporte
             $payrollAcrued->overtime = $overtimeTotal;//horas extras
-            $payrollAcrued->vacations = 0;//vacaciones
+            $payrollAcrued->vacations = $total_vacations;//vacaciones
             $payrollAcrued->bonus = 0;//prima
             $payrollAcrued->layoffs = 0;//cesantias
             $payrollAcrued->disabilities = 0;//incapacidades
@@ -279,7 +287,7 @@ class PayrollPartialController extends Controller
         $payrollPartialAcrued->salary = $salary;//salario asignado
         $payrollPartialAcrued->transport_assistance = $transportAssistance;//auxilio de trasporte
         $payrollPartialAcrued->overtime = $overtimeTotal;//horas extras
-        $payrollPartialAcrued->vacations = 0;//vacaciones
+        $payrollPartialAcrued->vacations = $total_vacations;//vacaciones
         $payrollPartialAcrued->bonus = 0;//prima
         $payrollPartialAcrued->layoffs = 0;//cesantias
         $payrollPartialAcrued->disabilities = 0;//incapacidades
@@ -311,6 +319,24 @@ class PayrollPartialController extends Controller
         $payrollPartialDeduction->optionales = 0;//huelgas legales
         $payrollPartialDeduction->payroll_partial_id = $payrollPartial->id;
         $payrollPartialDeduction->save();
+
+        if ($vacations_type) {
+            for ($i=0; $i < count($vacations_type); $i++) {
+                $vacations = new Vacation();
+                $vacations->start_vacations = $request->start_vacations[$i];
+                $vacations->end_vacations = $request->end_vacations[$i];
+                $vacations->vacation_days = $request->vacation_days[$i];
+                $vacations->value_day = $request->value_day[$i];
+                $vacations->value = $request->value[$i];
+                $vacations->type = $request->type[$i];
+
+                $vacations->payroll_acrued_id = $payrollAcrued->id;
+                $vacations->payroll_acrued_id = $payrollPartialAcrued->id;
+                $vacations->save();
+            }
+        } else {
+            # code...
+        }
 
         toast('Nomina Registrada satisfactoriamente.','success');
         return redirect("payrollPartial");

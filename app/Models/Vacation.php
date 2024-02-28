@@ -18,6 +18,8 @@ class Vacation extends Model
     protected $fillable = [
         'start_vacations',
         'end_vacations',
+        'vacation_days',
+        'value_day',
         'value',
         'type',
         'payroll_acrued_id',

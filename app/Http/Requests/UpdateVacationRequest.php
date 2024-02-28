@@ -24,6 +24,8 @@ class UpdateVacationRequest extends FormRequest
         return [
             'start_vacations' => 'required|date',
             'end_vacations' => 'required|date',
+            'vacation_days' => 'required',
+            'value_day' => 'required',
             'value' => 'required|numeric',
             'type' => 'in:enjoyed,compensated',
         ];
