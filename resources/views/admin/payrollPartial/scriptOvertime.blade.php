@@ -129,6 +129,10 @@
 
         $("#total_html").html("$ " + total.toFixed(2));
         $("#total").val(total.toFixed(2));
+        tp = $("#total_acrued").val();
+        tpnew = parseFloat(tp) + parseFloat(total);
+
+        $("#total_acrued").val(tpnew.toFixed(2));
     }
 
     function assess() {
@@ -138,7 +142,7 @@
             $("#save").hide();
         }
     }
-
+    /*
     function eliminar(index) {
 
         total = total - pay[index];
@@ -148,7 +152,7 @@
 
         $("#row" + index).remove();
         assess();
-    }
+    }*/
 
     jQuery(document).on("click", "#editrow", function () {
         editrow();
@@ -228,6 +232,11 @@
 
         $("#total_html").html("$ " + total.toFixed(2));
         $("#total").val(total.toFixed(2));
+
+        tp = $("#total_acrued").val();
+        tpnew = parseFloat(tp) - parseFloat(subtotal[index]);
+
+        $("#total_acrued").val(tpnew.toFixed(2));
 
         $("#row" + index).remove();
         assess();

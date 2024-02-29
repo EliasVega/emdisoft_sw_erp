@@ -140,6 +140,7 @@ class InvoiceOrderProductController extends Controller
             $invoice->document = $resolutions->prefix . '-' . $resolutions->consecutive;
             $invoice->voucher_type_id = $voucherType;
             $invoice->status = 'invoice';
+            $invoice->note = $request->note;
             $invoice->generation_date = $request->generation_date;
             $invoice->due_date = $request->due_date;
             $invoice->retention = $retention;

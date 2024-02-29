@@ -72,6 +72,12 @@
                 <h6>{{ $invoice->user->name }}</h6>
             </div>
         </div>
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group">
+                <label class="form-control-label" for="company">OBSERVACIONES</label>
+                <h6>{{ $invoice->note }}</h6>
+            </div>
+        </div>
     </div><br>
     <div class="box-body row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

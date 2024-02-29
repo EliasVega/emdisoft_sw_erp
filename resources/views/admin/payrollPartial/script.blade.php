@@ -193,19 +193,19 @@
             if (salaryEmployee > twoSalary) {
                 $("#transport_assistance").val(0);
                 $("#transport_acrued").val(0);
-                $("#salary_acrued").val(salaryAcrued);
+                $("#salary_acrued").val(salaryAcrued.toFixed(2));
                 totalAcrued = 0;
                 totalAcrued = salaryAcrued;
                 totalAcrued += salaryAcrued;
-                $("#total_acrued").val(totalAcrued);
+                $("#total_acrued").val(totalAcrued.toFixed(2));
             } else {
                 $("#transport_assistance").val(transportAssistance);
-                $("#transport_acrued").val(ta_acrued);
-                $("#salary_acrued").val(salaryAcrued);
+                $("#transport_acrued").val(ta_acrued.toFixed(2));
+                $("#salary_acrued").val(salaryAcrued.toFixed(2));
                 totalAcrued = 0;
                 totalAcrued += salaryAcrued;
                 totalAcrued += ta_acrued;
-                $("#total_acrued").val(totalAcrued);
+                $("#total_acrued").val(totalAcrued.toFixed(2));
             }
 
         });

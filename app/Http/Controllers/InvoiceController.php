@@ -109,7 +109,7 @@ class InvoiceController extends Controller
                 return $invoice->branch->company->indicator->pos;
             })
             ->editColumn('created_at', function(Invoice $invoice){
-                return $invoice->created_at->format('yy-m-d: h:m');
+                return $invoice->generation_date;
             })
             ->addColumn('btn', 'admin/invoice/actions')
             ->rawColumns(['btn'])
@@ -278,6 +278,7 @@ class InvoiceController extends Controller
             $invoice->document = $resolutions->prefix . '-' . $resolutions->consecutive;
             $invoice->voucher_type_id = $voucherType;
             $invoice->status = 'invoice';
+            $invoice->note = $request->note;
             $invoice->generation_date = $request->generation_date;
             $invoice->due_date = $request->due_date;
             $invoice->retention = $retention;

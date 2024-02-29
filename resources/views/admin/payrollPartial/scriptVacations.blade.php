@@ -116,6 +116,10 @@
 
         $("#total_vacations_html").html("$ " + totalVacations.toFixed(2));
         $("#total_vacations").val(totalVacations.toFixed(2));
+
+        tp = $("#total_acrued").val();
+        tpnew = parseFloat(tp) + parseFloat(totalVacations);
+        $("#total_acrued").val(tpnew.toFixed(2));
     }
 
     function deleterowVacations(index) {
