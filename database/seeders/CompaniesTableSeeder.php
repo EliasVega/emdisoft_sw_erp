@@ -23,7 +23,7 @@ class CompaniesTableSeeder extends Seeder
             0 =>
             array (
                 'id' => 1,
-                'name' => 'ASOCIACION DE RECUPERADORES AMBIENTALES DE OCAÑA, LA PROVINCIA Y SUR DEL CESAR',
+                'name' => 'ASOCIACION ARECUPERAR',
                 'nit' => '901292970',
                 'dv' => '1',
                 'address' => 'CA KDX 217 300',
