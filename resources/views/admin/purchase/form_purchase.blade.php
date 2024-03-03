@@ -163,7 +163,7 @@
                     <i class="fa fa-plus"> Agregar Producto</i></a>
                 </label>
                 <input type="text" name="code" id="code" value="" class="form-control"
-                    placeholder="" aria-describedby="helpId">
+                    placeholder="" aria-describedby="helpId" class="gui-input" autofocus>
 
             </div>
         </div>

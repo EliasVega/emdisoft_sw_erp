@@ -334,8 +334,6 @@ class PayrollPartialController extends Controller
                 $vacations->payroll_acrued_id = $payrollPartialAcrued->id;
                 $vacations->save();
             }
-        } else {
-            # code...
         }
 
         toast('Nomina Registrada satisfactoriamente.','success');

@@ -9,7 +9,7 @@ export default defineConfig({
                 'resources/css/card.css',
                 'resources/css/button.css',
                 'resources/css/main.css',
-                'resources/css/rdb.css',
+                'resources/css/rdbs.css',
                 'resources/js/app.js',
             ],
             refresh: [

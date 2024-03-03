@@ -27,10 +27,10 @@
     "isEntry": true,
     "src": "resources/css/main.css"
   },
-  "resources/css/rdb.css": {
-    "file": "assets/rdb-70702d77.css",
+  "resources/css/rdbs.css": {
+    "file": "assets/rdbs-ee46a0cf.css",
     "isEntry": true,
-    "src": "resources/css/rdb.css"
+    "src": "resources/css/rdbs.css"
   },
   "resources/js/app.js": {
     "file": "assets/app-dbe23e4c.js",

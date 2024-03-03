@@ -33,4 +33,9 @@ class Vacation extends Model
     public function payrollAcrued(){
         return $this->belongsTo(PayrollAcrued::class);
     }
+
+    public function payrollPartialAcrued()
+    {
+        return $this->belongsTo(PayrollPartialAcrued::class);
+    }
 }

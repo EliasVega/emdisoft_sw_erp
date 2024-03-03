@@ -49,4 +49,8 @@ class PayrollAcrued extends Model
     public function overtimes() {
         return $this->hasMany(Overtime::class);
     }
+
+    public function bonuses() {
+        return $this->hasMany(Bonus::class);
+    }
 }

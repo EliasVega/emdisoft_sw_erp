@@ -42,7 +42,7 @@
                     @include('admin/payrollPartial.formVacations')
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="bonusLayoffs">
-                    @include('admin/payrollPartial.bonusLayoffs')
+                    @include('admin/payrollPartial.formBonusLayoffs')
                 </div>
             {!!Form::close()!!}
         </div>
@@ -54,5 +54,6 @@
     @include('admin/payrollPartial.script')
     @include('admin/payrollPartial.scriptOvertime')
     @include('admin/payrollPartial.scriptVacations')
+    @include('admin/payrollPartial.scriptBonusLayoffs')
 @endsection
 

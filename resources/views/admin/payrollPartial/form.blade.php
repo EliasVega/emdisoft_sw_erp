@@ -1,6 +1,6 @@
 <div class="box-body row">
     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="addPeriod">
-        <div class="formulario">
+        <div class="inputBtn">
             <div class="checkbox">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 checkbox">
                     <input type="checkbox" name="period" class="period" value="0" id="checkbox1">

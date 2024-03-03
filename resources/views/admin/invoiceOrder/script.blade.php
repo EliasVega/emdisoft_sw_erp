@@ -84,7 +84,6 @@
 
 
     $("#switch_barcode").change(function(){
-
         let barcode = $(this).prop("checked");// == true ? 1 : 0;
         if (barcode == true) {
             $("#codeBarcode").show();
@@ -242,7 +241,7 @@
                 type: 'error',
                 title: 'La contraseña es incorrecta',
                 showConfirmButton: false,
-                timer: 3000 // es ms (mili-segundos)
+                timer: 2000 // es ms (mili-segundos)
             })
         }
 
@@ -401,7 +400,6 @@
         price = $("#priceModal").val();
         tax_rate = $("#taxModal").val();
         employee_id = $("#employee_idModal").val();
-        $('#priceModal').prop("readonly", true);
 
         if(product_id !="" && quantity!="" && quantity>0 && price!="" && price>0){
             subtotal[cont]= parseFloat(quantity) * parseFloat(price);

@@ -36,4 +36,9 @@ class Overtime extends Model
     {
         return $this->belongsTo(PayrollAcrued::class);
     }
+
+    public function payrollPartialAcrued()
+    {
+        return $this->belongsTo(PayrollPartialAcrued::class);
+    }
 }
