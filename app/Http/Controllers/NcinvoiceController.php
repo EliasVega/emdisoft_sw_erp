@@ -9,6 +9,8 @@ use App\Models\BranchProduct;
 use App\Models\CashInflow;
 use App\Models\CashRegister;
 use App\Models\Company;
+use App\Models\Employee;
+use App\Models\EmployeeInvoiceProduct;
 use App\Models\Environment;
 use App\Models\Indicator;
 use App\Models\Invoice;
@@ -201,6 +203,23 @@ class NcinvoiceController extends Controller
                             $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
                         }
                     }
+                    for ($i=0; $i < count($invoiceProducts); $i++) {
+                        $ideip = $invoiceProducts[$i]->id;
+
+                        $employeeInvoiceProduct = EmployeeInvoiceProduct::where('invoice_product_id', $ideip)->first();
+                        if ($employeeInvoiceProduct) {
+                            $idEmployee = $employeeInvoiceProduct->employee_id;
+                            $employee = Employee::findOrFail($idEmployee);
+                            $subtotal = $quantity[$i] * $price[$i];
+                            $commission = $employee->commission;
+                            $valueCommission = ($subtotal/100) * $commission;
+
+                            $employeeInvoiceProduct->quantity -= $quantity[$i];
+                            $employeeInvoiceProduct->subtotal -= $subtotal;
+                            $employeeInvoiceProduct->value_commission -= $valueCommission;
+                            $employeeInvoiceProduct->update();
+                        }
+                    }
                     break;
                 case(2):
                     //$invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->get();
@@ -238,6 +257,19 @@ class NcinvoiceController extends Controller
                                 $quantityLocal = $quantity[$i];
                                 $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
                             }
+
+                                $ideip = $invoiceProducts[$i]->id;
+
+                                $employeeInvoiceProduct = EmployeeInvoiceProduct::where('invoice_product_id', $ideip)->first();
+                                if ($employeeInvoiceProduct) {
+
+                                    $employeeInvoiceProduct->quantity = 0;
+                                    $employeeInvoiceProduct->price = 0;
+                                    $employeeInvoiceProduct->subtotal = 0;
+                                    $employeeInvoiceProduct->value_commission = 0;
+                                    $employeeInvoiceProduct->status = 'canceled';
+                                    $employeeInvoiceProduct->update();
+                                }
                         }
                     }
                     break;
@@ -260,6 +292,23 @@ class NcinvoiceController extends Controller
                         }
                     }
                     $this->ncinvoiceProductCreate($request, $document);//crear ncinvoiceProduct
+                    for ($i=0; $i < count($invoiceProducts); $i++) {
+                        $ideip = $invoiceProducts[$i]->id;
+
+                        $employeeInvoiceProduct = EmployeeInvoiceProduct::where('invoice_product_id', $ideip)->first();
+                        if ($employeeInvoiceProduct) {
+                            $idEmployee = $employeeInvoiceProduct->employee_id;
+                            $employee = Employee::findOrFail($idEmployee);
+                            $subtotal = $quantity[$i] * $price[$i];
+                            $commission = $employee->commission;
+                            $valueCommission = ($subtotal/100) * $commission;
+
+                            $employeeInvoiceProduct->price -= $price[$i];
+                            $employeeInvoiceProduct->subtotal -= $subtotal;
+                            $employeeInvoiceProduct->value_commission -= $valueCommission;
+                            $employeeInvoiceProduct->update();
+                        }
+                    }
                     break;
                 case(4):
                     if ($total_pay <= 0) {
@@ -280,6 +329,23 @@ class NcinvoiceController extends Controller
                         }
                     }
                     $this->ncinvoiceProductCreate($request, $document);//crear ncinvoiceProduct
+                    for ($i=0; $i < count($invoiceProducts); $i++) {
+                        $ideip = $invoiceProducts[$i]->id;
+
+                        $employeeInvoiceProduct = EmployeeInvoiceProduct::where('invoice_product_id', $ideip)->first();
+                        if ($employeeInvoiceProduct) {
+                            $idEmployee = $employeeInvoiceProduct->employee_id;
+                            $employee = Employee::findOrFail($idEmployee);
+                            $subtotal = $quantity[$i] * $price[$i];
+                            $commission = $employee->commission;
+                            $valueCommission = ($subtotal/100) * $commission;
+
+                            $employeeInvoiceProduct->price -= $price[$i];
+                            $employeeInvoiceProduct->subtotal -= $subtotal;
+                            $employeeInvoiceProduct->value_commission -= $valueCommission;
+                            $employeeInvoiceProduct->update();
+                        }
+                    }
                     break;
                 default:
                     $msg = 'No has seleccionado voucher.';

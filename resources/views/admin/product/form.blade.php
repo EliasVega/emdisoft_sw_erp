@@ -42,7 +42,7 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="code">Codigo</label>
             <input type="text" name="code" id="code" value="{{ old('code', $product->code ?? '') }}" class="form-control" placeholder="Codigo" aria-describedby="helpId" required>
@@ -56,7 +56,7 @@
     </div>
 
     @if ($indicator->barcode == 'on')
-        <div class="col-lg-4 col-md-2 col-sm-6 col-xs-12 mt-5 switchBarcode">
+        <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12 mt-5 switchBarcode">
             <div class="form-group">
                 <div class="custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input" id="switch_barcode" checked>
@@ -65,20 +65,20 @@
             </div>
         </div>
     @endif
-    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="price">P/Compra</label>
             <input type="number" name="price" id="price" value="{{ old('price', $product->price ?? '0.00') }}"  class="form-control" placeholder="P/compra" step="any">
         </div>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="sale_price">P/Venta</label>
             <input type="number" name="sale_price" id="sale_price" value="{{ old('sale_price', $product->sale_price ?? '0.00') }}" class="form-control" placeholder="P/Venta" step="any">
         </div>
     </div>
     @if ($indicator->work_labor == 'on')
-        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
             <div class="form-group">
                 <label for="commission">Comision</label>
                 <input type="number" name="commission" id="commission" value="{{ old('commission', $product->commission ?? '') }}" class="form-control" placeholder="comision" step="any">
@@ -86,13 +86,13 @@
         </div>
     @endif
 
-    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="stock">Stock</label>
             <input type="number" name="stock" id="stock" value="{{ old('stock', $product->stock ?? '0.00') }}" class="form-control" placeholder="Stock">
         </div>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="stock_min">Stock minimo</label>
             <input type="number" name="stock_min" id="stock_min" value="{{ old('stock_min', $product->stock_min ?? '0.00') }}" class="form-control" placeholder="Stock minimo">

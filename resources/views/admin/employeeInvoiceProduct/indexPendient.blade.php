@@ -219,7 +219,7 @@
                             };
 
                             var total = api
-                                .column(10)
+                                .column(11)
                                 .data()
                                 .reduce(function(a, b) {
                                     return intVal(a) + intVal(b);

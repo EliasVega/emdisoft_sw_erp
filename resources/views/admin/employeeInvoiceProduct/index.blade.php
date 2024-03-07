@@ -76,7 +76,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <th colspan="12" style="text-align:right">Totales:</th>
+                                <th colspan="12" style="text-align:right">Total:</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -140,6 +140,7 @@
                             {
                                 data: 'percentage',
                             },
+
                             {
                                 data: 'value_commission',
                                 className: 'dt-body-right',
@@ -213,13 +214,13 @@
 
                             var intVal = function(i) {
                                 return typeof i === 'string' ?
-                                    i.replace(/[\$]/g, '').replace(/,/g, '.') * 1 :
+                                    i.replace(/[\$]/g, '').replace(/./g, '').replace(/,/g, '.') * 1 :
                                     typeof i === 'number' ?
                                     i : 0;
                             };
 
                             var total = api
-                                .column(10)
+                                .column(11)
                                 .data()
                                 .reduce(function(a, b) {
                                     return intVal(a) + intVal(b);
@@ -233,7 +234,7 @@
                                 .reduce(function(a, b) {
                                     return intVal(a) + intVal(b);
                                 }, 0);
-                            var formatNumberData = $.fn.dataTable.render.number(',', '.', 0, '').display;
+                            //var formatNumberData = $.fn.dataTable.render.number(',', '.', 0, '').display;
                             $(api.column(11).footer()).html(
                                 `$ ${formatNumberData(totalPage)} ($ ${formatNumberData( total )})`
                             )
