@@ -52,20 +52,21 @@
     $(document).ready(function(){
         typeInvoice = $("#pos_active").val();
         if (typeInvoice == 'off') {
+            $("#resolution").show();
             $("#addFe").hide();
             $(".fe_true").val(1);
-        } else {
+        }
 
-            let barcodestart = $(("#switch_barcode")).prop("checked");// == true ? 1 : 0;
-            if (barcodestart == true) {
-                $("#addProductId").hide();
-                $("#codeBarcode").show();
-                $("#productBarcode").show();
-            } else if(barcodestart == false){
-                $("#codeBarcode").hide();
-                $("#productBarcode").hide();
-                $("#addProductId").show();
-            }
+        let barcodestart = $(("#switch_barcode")).prop("checked");// == true ? 1 : 0;
+        if (barcodestart == true) {
+            $("#addProductId").hide();
+            $("#codeBarcode").show();
+            $("#productBarcode").show();
+        } else if(barcodestart == false){
+            $("#codeBarcode").hide();
+            $("#productBarcode").hide();
+            $("#addProductId").show();
+
         }
     });
     //seleccionar de acuerdo al producto
@@ -98,6 +99,15 @@
         }
     })
 
+    $(document).on('keyup', '#code', function(){
+        var codes = $(this).val();
+        if (codes != "") {
+            obtener_registro(codes);
+        } else {
+            console.log('no hay codigo');
+        }
+    })
+
 
     //$(obtener_registro());
     function obtener_registro(code){
@@ -125,15 +135,6 @@
         });
 
     }
-
-    $(document).on('keyup', '#code', function(){
-        var codes = $(this).val();
-        if (codes != "") {
-            obtener_registro(codes);
-        } else {
-            console.log('no hay codigo');
-        }
-    })
 
     $(document).ready(function(){
         $("#add").click(function(){

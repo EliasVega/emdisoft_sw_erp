@@ -105,6 +105,15 @@
         }
     })
 
+    $(document).on('keyup', '#code', function(){
+        var codes = $(this).val();
+        if (codes != "") {
+            obtener_registro(codes);
+        } else {
+            console.log('no hay codigo');
+        }
+    })
+
     //$(obtener_registro());
     function obtener_registro(code){
         $.ajax({
@@ -119,7 +128,7 @@
             $("#product_barcode").val(data.name);
             $("#price").val(data.sale_price);
             $("#stock").val(data.stock);
-            $("#quantityadd").val(1);
+            $("#quantityadd").val();
             $("#utility").val(data.utility_rate);
             $("#tax_rate").val(data.percentage);
             $("#tax_type").val(data.tt);
@@ -132,15 +141,6 @@
         });
 
     }
-
-    $(document).on('keyup', '#code', function(){
-        var codes = $(this).val();
-        if (codes != "") {
-            obtener_registro(codes);
-        } else {
-            console.log('no hay codigo');
-        }
-    })
 
     //adicionar productos a la compra
     function addBarcode(){
@@ -266,7 +266,7 @@
         $("#barcode_product_id").val("");
         $("#product_barcode").val("");
         $("#code").val("");
-        $("#quantityadd").val("");
+        $("#quantityadd").val(1);
         $("#price").val("");
     }
     function totals(){

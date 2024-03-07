@@ -149,7 +149,7 @@
     <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="quantityadd">Cantidad</label>
-            <input type="number" id="quantityadd" name="quantityadd" class="form-control" placeholder="Cant."
+            <input type="number" id="quantityadd" name="quantityadd" value="1" class="form-control" placeholder="Cant."
                 pattern="[0-9]{0,15}">
         </div>
     </div>

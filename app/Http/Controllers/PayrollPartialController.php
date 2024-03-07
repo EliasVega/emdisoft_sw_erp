@@ -17,6 +17,8 @@ use App\Models\PayrollAcrued;
 use App\Models\PayrollDeduction;
 use App\Models\PayrollPartialAcrued;
 use App\Models\PayrollPartialDeduction;
+use App\Models\Provision;
+use App\Models\ProvisionPartial;
 use App\Models\Vacation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -319,6 +321,43 @@ class PayrollPartialController extends Controller
         $payrollPartialDeduction->optionales = 0;//huelgas legales
         $payrollPartialDeduction->payroll_partial_id = $payrollPartial->id;
         $payrollPartialDeduction->save();
+
+        $provisions = Provision::where('employe_id', $employee->id)->first();
+        if ($provisions) {
+            $pps = ProvisionPartial::where('provision_id', $provisions->id)->where('status', 'pendient')->get();
+            $ppq = count($pps) + 1;
+            $intLayoffOld = $provisions->layoff_interest;
+            $intLayoffNew =
+
+            $provisions->vacations = 0;
+            $provisions->bonus = 0;
+            $provisions->layoff = 0;
+            $provisions->layoff_interest = 0;
+            $provisions->employee_id = $employee->id;
+            $provisions->update();
+
+        } else {
+            $provisions = new Provision();
+            $provisions->vacations = 0;
+            $provisions->bonus = 0;
+            $provisions->layoff = 0;
+            $provisions->layoff_interest = 0;
+            $provisions->employee_id = $employee->id;
+            $provisions->save();
+        }
+
+        $provisionParials = new ProvisionPartial();
+        $provisionParials->start_period = $startDate;
+        $provisionParials->end_period = $endDate;
+        $provisionParials->vacations = 0;
+        $provisionParials->bonus = 0;
+        $provisionParials->layoffs = 0;
+        $provisionParials->layoff_interest = 0;
+        $provisionParials->vacation_adjustment = 0;
+        $provisionParials->status = 'pendient';
+        $provisionParials->provision_id = 0;
+        $provisionParials->payroll_id = 0;
+        $provisionParials->payroll_partial_id = 0;
 
         if ($vacations_type) {
             for ($i=0; $i < count($vacations_type); $i++) {

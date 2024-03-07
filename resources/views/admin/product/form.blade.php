@@ -42,18 +42,19 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        <div class="form-group">
-            <label for="name">Nombre del product</label>
-            <input type="text" name="name" id="name" value="{{ old('name', $product->name ?? '') }}" class="form-control" placeholder="Nombre del producto">
-        </div>
-    </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="code">Codigo</label>
             <input type="text" name="code" id="code" value="{{ old('code', $product->code ?? '') }}" class="form-control" placeholder="Codigo" aria-describedby="helpId" required>
         </div>
     </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for="name">Nombre del product</label>
+            <input type="text" name="name" id="name" value="{{ old('name', $product->name ?? '') }}" class="form-control" placeholder="Nombre del producto">
+        </div>
+    </div>
+
     @if ($indicator->barcode == 'on')
         <div class="col-lg-4 col-md-2 col-sm-6 col-xs-12 mt-5 switchBarcode">
             <div class="form-group">
@@ -94,7 +95,7 @@
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="stock_min">Stock minimo</label>
-            <input type="number" name="stock_min" id="stock_min" value="{{ old('stock_min', $product->stock ?? '0.00') }}" class="form-control" placeholder="Stock minimo">
+            <input type="number" name="stock_min" id="stock_min" value="{{ old('stock_min', $product->stock_min ?? '0.00') }}" class="form-control" placeholder="Stock minimo">
         </div>
     </div>
 

@@ -119,4 +119,8 @@ class Employee extends Model
     public function payrollPartials(){
         return $this->hasMany(PayrollPartial::class);
     }
+
+    public function provision(){
+        return $this->belongsTo(Provision::class);
+    }
 }

@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bonuses', function (Blueprint $table) {
+        Schema::create('layoffs', function (Blueprint $table) {
             $table->id();
 
-            $table->date('start_period');//fecha inicio Periodo prima
-            $table->date('end_period');//fecha fin Periodo prima
-            $table->integer('bonus_days');//Numero de dias de prima
-            $table->decimal('bonus_value');//Valor devengado de prima
-            $table->enum('type',['salary', 'non-salary'])->default('salary');//typo de prima salarial o no salarial
+            $table->date('start_period');//fecha inicio Periodo Liquidacion
+            $table->date('end_period');//fecha fin Periodo Liquidacion
+            $table->integer('layoff_days');//Numero de dias de Liquidacion
+            $table->decimal('layoff_value');//Valor devengado de Cesantias
+            $table->decimal('layoff_interest', 10,2);//Intereses de Cesantias
 
             $table->foreignId('payroll_acrued_id')->constrained();
             $table->foreignId('payroll_partial_acrued_id')->constrained();
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bonuses');
+        Schema::dropIfExists('layoffs');
     }
 };

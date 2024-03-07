@@ -57,4 +57,12 @@ class PayrollPartialAcrued extends Model
     public function bonuses() {
         return $this->hasMany(Bonus::class);
     }
+
+    public function layoff() {
+        return $this->hasOne(Layoff::class);
+    }
+
+    public function provisionPartial() {
+        return $this->hasOne(Layoff::class);
+    }
 }
