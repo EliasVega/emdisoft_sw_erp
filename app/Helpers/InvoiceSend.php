@@ -22,7 +22,7 @@ if (! function_exists('invoiceSend')) {
         $expirationTime = Carbon::parse($generationDate)->diffInDays(Carbon::parse($dueDate));
 
         //Variables request
-        $product_id = $request->id;//Array de productos
+        $product_id = $request->product_id;//Array de productos
         $quantity = $request->quantity;//Array de cantidades
         $price = $request->price;//Array de precios
         $taxRate = $request->tax_rate;//Array de tasa de cada producto

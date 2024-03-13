@@ -98,4 +98,9 @@
                 placeholder="estado" readonly>
         </div>
     </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <button class="btn btn-lightBlueGrad btn-md" type="submit"><i class="fa fa-save"></i>Guardar</button>
+        </div>
+    </div>
 </div>

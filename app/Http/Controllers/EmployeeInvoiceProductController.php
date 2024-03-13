@@ -251,11 +251,11 @@ class EmployeeInvoiceProductController extends Controller
         //dd($request->all());
         $employeeInvoiceProduct->commission = $request->commission;
         $employeeInvoiceProduct->value_commission = $request->value_commission;
-        $employeeInvoiceProduct->employee_id = $employee;
+        $employeeInvoiceProduct->employee_id = $employee->id;
         $employeeInvoiceProduct->update();
 
         Alert::success('Pago Empleado','Realizado con exito.');
-        return redirect("employee");
+        return redirect("employeeInvoiceProduct");
     }
 
     public function updateEmployee(UpdateEmployeeInvoiceProductRequest $request, EmployeeInvoiceProduct $employeeInvoiceProduct)

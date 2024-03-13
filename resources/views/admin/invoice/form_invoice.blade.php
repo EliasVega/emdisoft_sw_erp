@@ -283,7 +283,7 @@
                         <th>Elim</th>
                         <th>Edit</th>
                         <th>CV</th>
-                        <th>Eid</th>
+                        <th>Oper.</th>
                         <th>Id</th>
                         <th>Producto</th>
                         <th>Cantidad</th>
