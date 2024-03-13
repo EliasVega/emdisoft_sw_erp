@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\EmployeeInvoiceProduct;
 use App\Http\Requests\StoreEmployeeInvoiceProductRequest;
 use App\Http\Requests\UpdateEmployeeInvoiceProductRequest;
+use App\Models\Employee;
+use App\Models\Invoice;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -31,6 +33,9 @@ class EmployeeInvoiceProductController extends Controller
 
             return DataTables::of($employeeInvoiceProducts)
             ->addIndexColumn()
+            ->addColumn('observations', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
+                return $employeeInvoiceProduct->invoiceProduct->invoice->note;
+            })
             ->addColumn('document', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
                 return $employeeInvoiceProduct->invoiceProduct->invoice->document;
             })
@@ -55,8 +60,8 @@ class EmployeeInvoiceProductController extends Controller
             ->addColumn('percentage', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
                 return $employeeInvoiceProduct->employee->commission;
             })
-            ->editColumn('created_at', function(EmployeeInvoiceProduct $employeeInvoiceProduct){
-                return $employeeInvoiceProduct->created_at->format('yy-m-d');
+            ->editColumn('generation_date', function(EmployeeInvoiceProduct $employeeInvoiceProduct){
+                return $employeeInvoiceProduct->invoiceProduct->invoice->generation_date;
             })
             ->addColumn('status', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
                 if ($employeeInvoiceProduct->status == 'pendient') {
@@ -89,6 +94,9 @@ class EmployeeInvoiceProductController extends Controller
 
             return DataTables::of($employeeInvoiceProducts)
             ->addIndexColumn()
+            ->addColumn('observations', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
+                return $employeeInvoiceProduct->invoiceProduct->invoice->note;
+            })
             ->addColumn('document', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
                 return $employeeInvoiceProduct->invoiceProduct->invoice->document;
             })
@@ -112,6 +120,9 @@ class EmployeeInvoiceProductController extends Controller
             })
             ->addColumn('percentage', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
                 return $employeeInvoiceProduct->employee->commission;
+            })
+            ->editColumn('generation_date', function(EmployeeInvoiceProduct $employeeInvoiceProduct){
+                return $employeeInvoiceProduct->invoiceProduct->invoice->generation_date;
             })
             ->editColumn('created_at', function(EmployeeInvoiceProduct $employeeInvoiceProduct){
                 return $employeeInvoiceProduct->created_at->format('yy-m-d');
@@ -144,6 +155,9 @@ class EmployeeInvoiceProductController extends Controller
 
             return DataTables::of($employeeInvoiceProducts)
             ->addIndexColumn()
+            ->addColumn('observations', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
+                return $employeeInvoiceProduct->invoiceProduct->invoice->note;
+            })
             ->addColumn('document', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
                 return $employeeInvoiceProduct->invoiceProduct->invoice->document;
             })
@@ -167,6 +181,9 @@ class EmployeeInvoiceProductController extends Controller
             })
             ->addColumn('percentage', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
                 return $employeeInvoiceProduct->employee->commission;
+            })
+            ->editColumn('generation_date', function(EmployeeInvoiceProduct $employeeInvoiceProduct){
+                return $employeeInvoiceProduct->invoiceProduct->invoice->generation_date;
             })
             ->editColumn('created_at', function(EmployeeInvoiceProduct $employeeInvoiceProduct){
                 return $employeeInvoiceProduct->created_at->format('yy-m-d');
@@ -212,13 +229,36 @@ class EmployeeInvoiceProductController extends Controller
      */
     public function edit(EmployeeInvoiceProduct $employeeInvoiceProduct)
     {
-        //
+        //dd($employeeInvoiceProduct);
+        $id = $employeeInvoiceProduct->invoiceProduct->invoice_id;
+        $invoice = Invoice::findOrFail($id);
+        $employees = Employee::get();
+        return view('admin.employeeInvoiceProduct.edit', compact(
+            'employeeInvoiceProduct',
+            'invoice',
+            'employees'
+        ));
     }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(UpdateEmployeeInvoiceProductRequest $request, EmployeeInvoiceProduct $employeeInvoiceProduct)
+    {
+        $empled = $request->employee_id;
+        $emp = explode("_", $empled);
+        $employee = Employee::where('id', $emp)->first();
+        //dd($request->all());
+        $employeeInvoiceProduct->commission = $request->commission;
+        $employeeInvoiceProduct->value_commission = $request->value_commission;
+        $employeeInvoiceProduct->employee_id = $employee;
+        $employeeInvoiceProduct->update();
+
+        Alert::success('Pago Empleado','Realizado con exito.');
+        return redirect("employee");
+    }
+
+    public function updateEmployee(UpdateEmployeeInvoiceProductRequest $request, EmployeeInvoiceProduct $employeeInvoiceProduct)
     {
         //dd($request->all());
         $id = $request->id;

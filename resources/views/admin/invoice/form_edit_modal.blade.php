@@ -27,14 +27,14 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="quantityModal">Cantidad</label>
-            <input type="number" name="quantityModal" id="quantityModal" class="form-control" placeholder="Cantidad">
+            <input type="number" name="quantityModal" id="quantityModal" class="form-control" placeholder="Cantidad" readonly>
         </div>
     </div>
 
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="priceModal">Precio</label>
-            <input type="number" name="priceModal" id="priceModal" class="form-control" placeholder="precio">
+            <input type="number" name="priceModal" id="priceModal" class="form-control" placeholder="precio" readonly>
         </div>
     </div>
     @if ($indicator->work_labor == 'on')
@@ -45,7 +45,7 @@
                     <option value="0" disabled selected>Seleccionar</option>
                     @foreach ($employees as $employee)
                         <option
-                            value="{{ $employee->id }}">{{ $employee->identification }} -- {{ $employee->name }}</option>
+                            value="{{ $employee->id }}">{{ $employee->name }}</option>
                     @endforeach
                 </select>
             </div>

@@ -220,6 +220,7 @@ Route::put('updateCommission', [EmployeeController::class, 'updateCommission'])-
 
 Route::get('indexCanceled', [EmployeeInvoiceProductController::class, 'indexCanceled'])->name('indexCanceled');
 Route::get('indexPendient', [EmployeeInvoiceProductController::class, 'indexPendient'])->name('indexPendient');
+Route::put('updateEmployee', [EmployeeInvoiceProductController::class, 'updateEmployee'])->name('updateEmployee');
 
 Route::get('expense/create/{id}', [ExpenseController::class, 'getMunicipalities']);
 Route::get('expense/expensePay/{id}', [ExpenseController::class, 'expensePay'])->name('expensePay');
@@ -277,6 +278,8 @@ Route::get('pay/payPos/{id}', [PayController::class, 'payPos'])->name('payPos');
 Route::get('payment/paymentPdf/{id}', [PaymentController::class, 'paymentPdf'])->name('paymentPdf');
 
 Route::get('paymentMethod/status/{id}', [PaymentMethodController::class, 'status'])->name('paymentMethodStatus');
+
+Route::get('getProvisionEmployee', [PayrollPartialController::class, 'getProvisionEmployee'])->name('getProvisionEmployee');
 
 Route::get('percentage/status/{id}', [PercentageController::class, 'status'])->name('percentageStatus');
 

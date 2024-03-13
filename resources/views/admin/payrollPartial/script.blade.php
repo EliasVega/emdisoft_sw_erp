@@ -170,12 +170,14 @@
     function employeeValue(){
         dataEmployee = document.getElementById('employee_id').value.split('_');
         $("#salary").val(dataEmployee[1]);
+        let empId = dataEmployee[0];
         daysMonth = 15;
         $('#start_date').prop("readonly", false);
         //$('#employee_id').prop("disabled", true);
         $("#formButtons").show();
         $("#days").val(15);
-        salaryMonth(daysMonth)
+        salaryMonth(daysMonth);
+        provisionEmployee(empId);
     }
 
     function salaryMonth(daysMonth){
@@ -211,6 +213,37 @@
         });
     }
 
+    //seleccionar de acuerdo al empleado
+    $("#days").change(salaryManual);
+
+    function salaryManual() {
+        daysManual = $("#days").val();
+        acruedManual = (salaryEmployee/30)*daysManual;
+        ta_acruedManual = (transportAssistance/30)*daysManual;
+        $("#salary_acrued").val(acruedManual);
+        totalAcruedManual = 0;
+        totalAcruedManual += acruedManual;
+        totalAcruedManual += ta_acruedManual;
+        $("#total_acrued").val(totalAcruedManual.toFixed(2));
+    }
+
+    function provisionEmployee(empId){
+        $.ajax({
+            url: "{{ route('getProvisionEmployee') }}",
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                employee_id: empId,
+            }
+        }).done(function(data){ // imprimimos la respuesta
+            $("#provision_vacations").val(data.vacations);
+        }).fail(function() {
+            //alert("Algo salió mal");
+        }).always(function() {
+            //alert("Siempre se ejecuta")
+        });
+    }
+
     $(document).on("click", "#addExtras", function () {
         $("#formOvertime").show();
         $("#formVacations").hide();
@@ -223,6 +256,10 @@
     });
     $(document).on("click", "#canc_he", function () {
         $("#formOvertime").hide();
+
+    });
+    $(document).on("click", "#canc_vacations", function () {
+        $("#formVacations").hide();
 
     });
 

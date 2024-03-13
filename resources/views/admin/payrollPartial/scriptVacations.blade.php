@@ -5,6 +5,49 @@
     let subtotalVacations = [];
     let contVacations = 0;
     let totalVacations = 0;
+    let type_id = '';
+
+    $('#end_period').prop("readonly", true);
+
+    $("#start_period").change(activeEndPeriod);
+
+    function activeEndPeriod(){
+        $('#end_period').prop("readonly", false)
+    }
+
+    $("#end_period").change(totalDaysPeriod);
+
+    function totalDaysPeriod(){
+        startPeriod = $("#start_period").val();
+        endPeriod = $("#end_period").val();
+        startPeriodTime = moment(startPeriod);
+        endPeriodTime = moment(endPeriod);
+
+        vacationDaysPeriod = endPeriodTime.diff(startPeriodTime, 'days');
+
+        if (vacationDaysPeriod >= 0) {
+            if (startPeriod < endPeriod) {
+                $("#days_period").val(vacationDaysPeriod);
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    text: 'fecha Inicial no puede ser superior a fecha fin',
+                    showConfirmButton: false,
+                    timer: 5000 // es ms (mili-segundos)
+
+                });
+                cleanVacations();
+                //window.location.reload()
+            }
+        } else {
+            Swal.fire("Fecha de Inicio no puede ser mayor a fecha de fin");
+            window.location.reload()
+        }
+
+    }
+
+
+
     $('#endVacations').prop("readonly", true);
 
     $("#startVacations").change(activeEndVacations);
@@ -42,6 +85,11 @@
             if (startYearVacations == endYearVacations && startMonthVacations == endMonthVacations
             && startYear == startYearVacations && startMonth == startMonthVacations) {
                 $("#vacationDays").val(vacationDays + 1);
+                vacationDayThis = $("#vacationDays").val();
+                salaryEmployeeThis = $("#salary").val();
+                valueDayThis = salaryEmployeeThis/30;
+                vacationAcruedThis = parseFloat(vacationDayThis) * parseFloat(valueDayThis);
+                $("#vacation_acrued").val(vacationAcruedThis);
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -81,9 +129,16 @@
             if (type_id != "" && type != "" && quantity > 0 && value_day > 0) {
                 subtotalVacations[contVacations] = parseFloat(quantity) * parseFloat(value_day);
                 totalVacations = totalVacations + subtotalVacations[contVacations];
+
+                if (type_id == 'compensated') {
+                    tp = $("#total_acrued").val();
+                    tpnew = parseFloat(tp) + parseFloat(subtotalVacations[contVacations]);
+                    $("#total_acrued").val(tpnew.toFixed(2));
+                }
+
                 var rowVacations = '<tr class="selected" id="rowVacations'+contVacations+'"><td><button type="button" class="btn btn-danger btn-sm btndelete"onclick="deleterowVacations('+contVacations+');"><i class="fas fa-trash"></i></button></td><td><input type="hidden" name="vacation_type[]"  value="'+type_id+'">'+type+'</td><td><input type="hidden" name="start_vacations[]" value="'+startVacations+'">'+startVacations+'</td><td><input type="hidden" name="end_vacations[]" value="'+endVacations+'">'+endVacations+'</td> <td><input type="hidden" name="vacation_days[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="value_day[]"  value="'+value_day+'">'+value_day.toFixed(2)+'</td> <td>$'+subtotalVacations[contVacations].toFixed(2)+'</td></tr>';
                 contVacations++;
-                totalVac();
+                totalVacation();
                 $('#vacations').append(rowVacations);
                 cleanVacations();
 
@@ -110,16 +165,16 @@
         $("#startVacations").val("");
         $("#endVacations").val("");
         $("#vacationDays").val("");
+        $("#vacation_acrued").val("");
     }
 
-    function totalVac() {
+    function totalVacation() {
+        provisionVacation = $("#provision_vacations").val();
+        vacationAdjustment = parseFloat(totalVacations) - parseFloat(provisionVacation);
+        $("#vacation_adjustment").val(vacationAdjustment);
 
         $("#total_vacations_html").html("$ " + totalVacations.toFixed(2));
         $("#total_vacations").val(totalVacations.toFixed(2));
-
-        tp = $("#total_acrued").val();
-        tpnew = parseFloat(tp) + parseFloat(totalVacations);
-        $("#total_acrued").val(tpnew.toFixed(2));
     }
 
     function deleterowVacations(index) {

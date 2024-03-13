@@ -89,10 +89,13 @@ class PayrollPartialController extends Controller
         $empled = $request->employee_id;
         $emp = explode("_", $empled);
         $employee = Employee::where('id', $emp)->first();
-        $fortnight = $request->fortnight;
+        $fortnight = $request->fortnight;//quincena del periodo
 
-        $salary = $request->salary_acrued;
-        $transportAssistance = $request->transport_acrued;
+        $salary = $employee->salary;//salario del empleado
+        $salaryAcrued = $request->salary_acrued;
+        $totalAcrued = $request->total_acrued;//total devengado del periodo
+        $transportAssistance = $request->transport_acrued;//auxilio de transporte
+        $workedDays = $request->days;//dias trabajados por el empleado
 
         //request de horas extras
         $overtime_type_id = $request->overtime_type_id;//id del tipo de hora
@@ -110,11 +113,11 @@ class PayrollPartialController extends Controller
         }
 
         $comprobation = PayrollPartial::where('year_month', $yearMonth)
-        ->where('employee_id', $emp)
+        ->where('employee_id', $employee->id)
         ->where('fortnight', $fortnight)
         ->first();
         if ($comprobation) {
-            toast('Nomina ya existe para este colaborador. Es la #' . ' ' . $comprobation->id,'success');
+            toast('Nomina ya existe para este colaborador. Es la #' . ' ' . $comprobation->id,'error');
             return redirect("payrollPartial");
         }
         if ($overtime_type_id) {
@@ -186,11 +189,12 @@ class PayrollPartialController extends Controller
             $payroll->end_date = $endDate;//fecha fin de liquidacion
             $payroll->payment_date = $paymentDate;//fecha de pago a empleado
             $payroll->generation_date = $generationDate;//fecha generacion nomina
-            $payroll->days += $request->days;//dias laborados por el empleado
+            $payroll->days += $workedDays;//dias laborados por el empleado
+            $payroll->total_acrued += $totalAcrued;//total devengado mes
             $payroll->update();
 
             $payrollAcrued = PayrollAcrued::where('payroll_id', $payroll->id)->first();
-            $payrollAcrued->salary += $salary;//salario asignado
+            $payrollAcrued->salary += $salaryAcrued;//salario asignado
             $payrollAcrued->transport_assistance += $transportAssistance;//auxilio de trasporte
             $payrollAcrued->overtime += $overtimeTotal;//horas extras
             $payrollAcrued->vacations += $total_vacations;//vacaciones
@@ -232,11 +236,12 @@ class PayrollPartialController extends Controller
             $payroll->payment_date = $paymentDate;//fecha de pago a empleado
             $payroll->generation_date = $generationDate;//fecha generacion nomina
             $payroll->days = $request->days;//dias laborados por el empleado
+            $payroll->total_acrued = $totalAcrued;//total devengado mes
             $payroll->employee_id = $employee->id;//empleado
             $payroll->save();
 
             $payrollAcrued = new PayrollAcrued();
-            $payrollAcrued->salary = $salary;//salario asignado
+            $payrollAcrued->salary = $salaryAcrued;//salario asignado
             $payrollAcrued->transport_assistance = $transportAssistance;//auxilio de trasporte
             $payrollAcrued->overtime = $overtimeTotal;//horas extras
             $payrollAcrued->vacations = $total_vacations;//vacaciones
@@ -280,13 +285,14 @@ class PayrollPartialController extends Controller
         $payrollPartial->payment_date = $paymentDate;//fecha de pago a empleado
         $payrollPartial->generation_date = $generationDate;//fecha generacion nomina
         $payrollPartial->days = $request->days;//dias laborados por el empleado
-        $payrollPartial->fortnight = $request->fortnight;
+        $payrollPartial->total_acrued = $totalAcrued;//total devengado
+        $payrollPartial->fortnight = $fortnight;//periodo de liquidacion
         $payrollPartial->employee_id = $employee->id;//empleado
         $payrollPartial->payroll_id = $payroll->id;
         $payrollPartial->save();
 
         $payrollPartialAcrued = new PayrollPartialAcrued();
-        $payrollPartialAcrued->salary = $salary;//salario asignado
+        $payrollPartialAcrued->salary = $salaryAcrued;//salario asignado
         $payrollPartialAcrued->transport_assistance = $transportAssistance;//auxilio de trasporte
         $payrollPartialAcrued->overtime = $overtimeTotal;//horas extras
         $payrollPartialAcrued->vacations = $total_vacations;//vacaciones
@@ -322,51 +328,70 @@ class PayrollPartialController extends Controller
         $payrollPartialDeduction->payroll_partial_id = $payrollPartial->id;
         $payrollPartialDeduction->save();
 
-        $provisions = Provision::where('employe_id', $employee->id)->first();
-        if ($provisions) {
-            $pps = ProvisionPartial::where('provision_id', $provisions->id)->where('status', 'pendient')->get();
-            $ppq = count($pps) + 1;
-            $intLayoffOld = $provisions->layoff_interest;
-            $intLayoffNew =
+        $provisions = Provision::where('employee_id', $employee->id)->first();
 
-            $provisions->vacations = 0;
-            $provisions->bonus = 0;
-            $provisions->layoff = 0;
-            $provisions->layoff_interest = 0;
-            $provisions->employee_id = $employee->id;
+        $calculateVacation = 0;
+        $calculateBonusLayoffs = 0;
+        $layoffNew = 0;
+        $calculateLayoffInterest = 0;
+
+        if ($provisions) {
+            //encuentra todas las parciales pendientes
+            $pps = ProvisionPartial::where('provision_id', $provisions->id)->where('status', 'pendient')->get();
+            $ppq = count($pps) + 1 / 2;
+            //intereses que hay provisionado
+            $layoffOld = $provisions->layoff;
+            $calculateVacation = $salary * $workedDays / 720;
+            $calculateBonusLayoffs = ($salary + $transportAssistance) * $workedDays / 360;
+            $layoffNew = $layoffOld + $calculateBonusLayoffs;
+            $calculateLayoffInterest = $layoffNew * $ppq / 100;
+
+            $provisions->vacations += $calculateVacation;
+            $provisions->bonus += $calculateBonusLayoffs;
+            $provisions->layoffs += $calculateBonusLayoffs;
+            $provisions->layoff_interest += $calculateLayoffInterest;
             $provisions->update();
 
         } else {
+            $ppq = '0.5';
+            $calculateVacation = $salary * $workedDays / 720;
+            $calculateBonusLayoffs = ($salary + $transportAssistance) * $workedDays / 360;
+            $calculateLayoffInterest = $calculateBonusLayoffs * $ppq / 100;
+
             $provisions = new Provision();
-            $provisions->vacations = 0;
-            $provisions->bonus = 0;
-            $provisions->layoff = 0;
-            $provisions->layoff_interest = 0;
+            $provisions->vacations = $calculateVacation;
+            $provisions->bonus = $calculateBonusLayoffs;
+            $provisions->layoffs = $calculateBonusLayoffs;
+            $provisions->layoff_interest = $calculateLayoffInterest;
             $provisions->employee_id = $employee->id;
             $provisions->save();
-        }
 
-        $provisionParials = new ProvisionPartial();
-        $provisionParials->start_period = $startDate;
-        $provisionParials->end_period = $endDate;
-        $provisionParials->vacations = 0;
-        $provisionParials->bonus = 0;
-        $provisionParials->layoffs = 0;
-        $provisionParials->layoff_interest = 0;
-        $provisionParials->vacation_adjustment = 0;
-        $provisionParials->status = 'pendient';
-        $provisionParials->provision_id = 0;
-        $provisionParials->payroll_id = 0;
-        $provisionParials->payroll_partial_id = 0;
+        }
+        $provisionPartials = new ProvisionPartial();
+        $provisionPartials->start_period = $startDate;
+        $provisionPartials->end_period = $endDate;
+        $provisionPartials->vacations = $calculateVacation;
+        $provisionPartials->bonus = $calculateBonusLayoffs;
+        $provisionPartials->layoffs = $calculateBonusLayoffs;
+        $provisionPartials->layoff_interest = $calculateLayoffInterest;
+        $provisionPartials->vacation_adjustment = 0;
+        $provisionPartials->status = 'pendient';
+        $provisionPartials->provision_id = $provisions->id;
+        $provisionPartials->payroll_acrued_id = $payrollAcrued->id;
+        $provisionPartials->payroll_partial_acrued_id = $payrollPartialAcrued->id;
+        $provisionPartials->save();
 
         if ($vacations_type) {
             for ($i=0; $i < count($vacations_type); $i++) {
                 $vacations = new Vacation();
+                $vacations->start_period = $request->start_period;
+                $vacations->end_period = $request->end_period;
                 $vacations->start_vacations = $request->start_vacations[$i];
                 $vacations->end_vacations = $request->end_vacations[$i];
                 $vacations->vacation_days = $request->vacation_days[$i];
                 $vacations->value_day = $request->value_day[$i];
                 $vacations->value = $request->value[$i];
+                $vacations->pay_mode = $request->pay_mode;
                 $vacations->type = $request->type[$i];
 
                 $vacations->payroll_acrued_id = $payrollAcrued->id;
@@ -409,5 +434,18 @@ class PayrollPartialController extends Controller
     public function destroy(PayrollPartial $payrollPartial)
     {
         //
+    }
+
+    public function getProvisionEmployee(Request $request)
+    {
+        if ($request->ajax()) {
+            $provisions = Provision::from('provisions as pro')
+            ->select('pro.id', 'pro.vacations')
+            ->where('pro.employee_id', $request->employee_id)
+            ->first();
+            if ($provisions) {
+                return response()->json($provisions);
+            }
+        }
     }
 }

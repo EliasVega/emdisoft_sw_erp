@@ -9,7 +9,9 @@
             <div class="box-header with-border">
                 <h5 class="box-title">pago comisiones:
 
-                        <a href="{{ route('workLabor.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
+                        <a href="{{ route('workLabor.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Comisiones</a>
+
+                        <a href="{{ route('employee.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Operarios</a>
 
                     @can('branch.index')
                         <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>

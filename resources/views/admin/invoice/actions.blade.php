@@ -1,5 +1,5 @@
 @can('invoice.edit')
-    @if ($role == 'superAdmin')
+    @if ($status == 'invoice')
         <a href="{{ route('invoice.edit', $id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip"
         data-placement="top" title="Editar"><i class="far fa-edit"></i></a>
     @endif

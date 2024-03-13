@@ -42,6 +42,7 @@ use App\Traits\KardexCreate;
 use App\Traits\Taxes;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Arr;
 
 class InvoiceController extends Controller
 {
@@ -457,6 +458,7 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
+        $indicator = indicator();
         $voucher = VoucherType::findOrFail(1);
         $debitNotes = Ndinvoice::where('invoice_id', $invoice->id)->first();
         $creditNotes = Ncinvoice::where('invoice_id', $invoice->id)->first();
@@ -533,6 +535,7 @@ class InvoiceController extends Controller
 
         $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->where('quantity', '>', 0)->get();
         return view('admin.invoice.show', compact(
+            'indicator',
             'invoice',
             'debitNotes',
             'creditNotes',
@@ -553,7 +556,75 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
-        //
+        $indicator = Indicator::findOrFail(1);
+        $cashRegister = cashregisterModel();
+        if ($indicator->pos == 'on') {
+            if(is_null($cashRegister)){
+                Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
+                return redirect("branch");
+            }
+        }
+        $customers = Customer::get();
+        $employees = Employee::get();
+        $branchs = Branch::get();
+        $uvtmax = $indicator->uvt * 5;
+        $advances = Advance::where('status', '!=', 'aplicado')->get();
+        $date = Carbon::now();
+        if ($indicator->inventory == 'on') {
+            $products = BranchProduct::from('branch_products as bp')
+            ->join('products as pro', 'bp.product_id', 'pro.id')
+            ->join('categories as cat', 'pro.category_id', 'cat.id')
+            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+            ->join('percentages as per', 'ct.percentage_id', 'per.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('pro.id', 'pro.code', 'pro.stock', 'pro.sale_price', 'pro.name', 'per.percentage', 'tt.id as tt')
+            ->where('bp.branch_id', current_user()->branch_id)
+            ->where('bp.stock', '>=', 0)
+            ->where('pro.status', '=', 'active')
+            ->get();
+        } else {
+            $products = Product::where('status', 'active')->get();
+        }
+        $companyTaxes = CompanyTax::from('company_taxes', 'ct')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
+        ->where('tt.type_tax', 'retention')->get();
+
+        $iops = InvoiceProduct::from('invoice_products as ip')
+        ->join('products as pro', 'ip.product_id', 'pro.id')
+        ->join('categories as cat', 'pro.category_id', 'cat.id')
+        ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->select('ip.id', 'ip.quantity', 'ip.price', 'ip.tax_rate', 'pro.id as idP', 'pro.stock', 'pro.name', 'per.percentage', 'tt.id as tt')
+        ->where('ip.invoice_id', $invoice->id)
+        ->get();
+
+        $invoiceProducts = [];
+
+        for ($i=0; $i < count($iops); $i++) {
+            $eiop = EmployeeInvoiceProduct::where('invoice_product_id', $iops[$i]->id)->first();
+
+            if (is_null($eiop)) {
+                //$ioparray = Arr::add($iops[$i], 'employee', 'null');
+                $invoiceProducts[$i] = Arr::add($iops[$i], 'employee', 'null');
+                $invoiceProducts[$i] = Arr::add($iops[$i], 'employeeName', 'null');
+            } else {
+                $invoiceProducts[$i] = Arr::add($iops[$i], 'employee', $eiop->employee_id);
+                $invoiceProducts[$i] = Arr::add($iops[$i], 'employeeName', $eiop->employee->name);
+            }
+
+        }
+        return view('admin.invoice.edit',
+        compact(
+            'invoice',
+            'customers',
+            'employees',
+            'date',
+            'indicator',
+            'invoiceProducts'
+        ));
     }
 
     /**
@@ -561,7 +632,24 @@ class InvoiceController extends Controller
      */
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
     {
-        //
+        //dd($request->all());
+        $invoiceProduct = InvoiceProduct::where('invoice_id', $invoice->id)->get();
+        for ($i=0; $i < count($invoiceProduct); $i++) {
+            $employee_id = $request->employee_id[$i];
+            $employeeInvoiceProduct = EmployeeInvoiceProduct::where('invoice_product_id', $invoiceProduct[$i]->id)->first();
+            $employee = Employee::findOrFail($employee_id);
+            $commission = $employee->commission;
+            $subtotal = $invoiceProduct[$i]->subtotal;
+
+            if ($employeeInvoiceProduct) {
+                $employeeInvoiceProduct->commission = $commission;
+                $employeeInvoiceProduct->value_commission = $subtotal * $commission / 100;
+                $employeeInvoiceProduct->employee_id = $employee_id;
+                $employeeInvoiceProduct->update();
+            }
+        }
+        toast('Operario Actualizado satisfactoriamente.','success');
+            return redirect('invoice');
     }
 
     /**

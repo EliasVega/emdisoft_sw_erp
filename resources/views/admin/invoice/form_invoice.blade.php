@@ -197,7 +197,7 @@
         <div class="form-group">
             <label class="form-control-label">Canc</label><br>
             <a href="{{ url('invoice') }}" class="btn btn-blueGrad" data-toggle="tooltip" data-placement="top"
-                title="Cancelar"><i class="fa fa-window-close"></i>&nbsp; </a>
+                title="Cancelar"><i class="fa fa-window-close"></i></a>
         </div>
     </div>
     @if ($indicator->dian == 'on')

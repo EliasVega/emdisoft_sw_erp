@@ -23,7 +23,6 @@
                 <h6>{{ $invoice->id }}</h6>
             </div>
         </div>
-
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
             <div class="form-group">
                 <label class="form-control-label" for="company">SUCURSAL</label>
@@ -78,13 +77,18 @@
                 <h6>{{ $invoice->note }}</h6>
             </div>
         </div>
-    </div><br>
+    </div>
     <div class="box-body row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-condensed table-hover">
                     <thead>
                         <tr class="bg-info">
+                            @if ($indicator->work_labor == 'on')
+                                <th>Operario</th>
+                            @else
+                                <th>ID</th>
+                            @endif
                             <th>Producto</th>
                             <th>Precio ($)</th>
                             <th>Cantidad</th>
@@ -93,61 +97,61 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th colspan="3" class="rightfoot">TOTAL:</th>
+                            <th colspan="4" class="rightfoot">TOTAL:</th>
                             <td class="rightfoot thfoot"><strong>${{number_format($invoice->total,2)}}</strong></td>
                          </tr>
                          @if ($taxLinesum > 0)
                             @foreach ($taxLines as $taxLine)
                                 <tr>
-                                    <th colspan="3" class="rightfoot">{{ $taxLine->name }}:</th>
+                                    <th colspan="4" class="rightfoot">{{ $taxLine->name }}:</th>
                                     <td class="rightfoot thfoot"><strong>${{number_format($taxLine->tax_value,2)}}</strong> </td>
                                 </tr>
                             @endforeach
                          @endif
                          <tr>
-                             <th  colspan="3" class="rightfoot">TOTAL PAGAR:</th>
+                             <th  colspan="4" class="rightfoot">TOTAL PAGAR:</th>
                              <td class="rightfoot thfoot"><strong id="total">${{number_format($invoice->total_pay,2)}}</strong></td>
                          </tr>
                          @if ($retentionsum > 0)
                             @foreach ($retentions as $retention)
                                 <tr>
-                                    <th colspan="3" class="rightfoot">{{ $retention->name }}:</th>
+                                    <th colspan="4" class="rightfoot">{{ $retention->name }}:</th>
                                     <td class="rightfoot thfoot"><strong>-${{number_format($retention->tax_value,2)}}</strong> </td>
                                 </tr>
                             @endforeach
                         @endif
                         @if ($invoice->pay > 0)
                             <tr>
-                                <th  colspan="3" class="rightfoot">ABONOS</th>
+                                <th  colspan="4" class="rightfoot">ABONOS</th>
                                 <td  class="rightfoot thfoot"><strong>-${{number_format($invoice->pay,2)}}</strong></td>
                             </tr>
                         @endif
                         @if ($debitNote > 0)
                             <tr>
-                                <th  colspan="3" class="rightfoot">NOTA DEBITO:</th>
+                                <th  colspan="4" class="rightfoot">NOTA DEBITO:</th>
                                 <td class="rightfoot thfoot"><strong id="total">${{number_format($debitNote,2)}}</strong></td>
                             </tr>
                         @endif
                         @if ($retentionnd > 0)
                             <tr>
-                                <th  colspan="3" class="rightfoot">RET ND:</th>
+                                <th  colspan="4" class="rightfoot">RET ND:</th>
                                 <td class="rightfoot thfoot"><strong id="total">-${{number_format($retentionnd,2)}}</strong></td>
                             </tr>
                         @endif
                         @if ($creditNote > 0)
                             <tr>
-                                <th  colspan="3" class="rightfoot">NOTA CREDITO:</th>
+                                <th  colspan="4" class="rightfoot">NOTA CREDITO:</th>
                                 <td class="rightfoot thfoot"><strong id="total">-${{number_format($creditNote,2)}}</strong></td>
                             </tr>
                         @endif
                         @if ($retentionnc > 0)
                             <tr>
-                                <th  colspan="3" class="rightfoot">RET NC:</th>
+                                <th  colspan="4" class="rightfoot">RET NC:</th>
                                 <td class="rightfoot thfoot"><strong id="total">${{number_format($retentionnc,2)}}</strong></td>
                             </tr>
                         @endif
                         <tr>
-                            <th  colspan="3" class="rightfoot">SALDO A PAGAR:</th>
+                            <th  colspan="4" class="rightfoot">SALDO A PAGAR:</th>
                             <td class="rightfoot thfoot"><strong id="total">$ {{number_format($invoice->total_pay -  $invoice->pay - $creditNote - $retentionsum + $debitNote + $retentionnc - $retentionnd,2)}}</strong></td>
                         </tr>
 
@@ -155,6 +159,14 @@
                     <tbody>
                         @foreach($invoiceProducts as $invoiceProduct)
                             <tr>
+                                @if ($indicator->work_labor == 'on')
+                                    <<td>{{ $invoiceProduct->employeeInvoiceProduct->employee->name }}</td>
+                                @else
+                                <td>{{ $invoiceProduct->id }}</td>
+                                @endif
+                                @if ($indicator->work_labor == 'on')
+
+                                @endif
                                 <td>{{ $invoiceProduct->product->name }}</td>
                                 <td class="rightfoot">${{ number_format($invoiceProduct->price,2) }}</td>
                                 <td class="rightfoot">{{ number_format($invoiceProduct->quantity,2) }}</td>

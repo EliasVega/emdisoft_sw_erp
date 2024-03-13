@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('payment_date');//fecha de realizacion de los pagos
             $table->date('generation_date');//fecha generacion nomina
             $table->integer('days');//dias trabajados
+            $table->decimal('total_acrued', 10,2);//total devengado
             $table->enum('fortnight', ['first', 'second'])->default('first');//diferenciacion de nomina
 
             $table->foreignId('employee_id')->constrained();

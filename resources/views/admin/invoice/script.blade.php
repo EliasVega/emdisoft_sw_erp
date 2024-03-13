@@ -139,7 +139,6 @@
         }).always(function() {
             //alert("Siempre se ejecuta")
         });
-
     }
 
     //adicionar productos a la compra

@@ -41,25 +41,26 @@
             </div>
         </div>
         <div class="text-center py-3">
-            <a class="toggle-vis btn btn-sm btn-info" data-column="0">Tercero</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="1">Identificacion</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="2">Fecha</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="3">Factura</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="4">Estado</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="5">Nombre Item</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="6">Tipo</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="7">Cantidad</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="8">Valor</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="9">Subtotal</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="10">%</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="11">Comision</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="1">Tercero</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="2">Identificacion</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="3">Fecha</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="4">Factura</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="5">Estado</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="6">Nombre Item</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="7">Tipo</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="8">Cantidad</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="9">Valor</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="10">Subtotal</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="11">%</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="12">Comision</a>
         </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-condensed table-hover" id="employeeInvoices">
+                    <table class="table table-striped table-bordered table-condensed table-hover" id="commissionCanceled">
                         <thead class="trdatacolor">
                             <tr>
+                                <th></th>
                                 <th>Tercero</th>
                                 <th>CC-NIT</th>
                                 <th>Fecha</th>
@@ -76,7 +77,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <th colspan="12" style="text-align:right">Totales:</th>
+                                <th colspan="13" style="text-align:right">Totales:</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -85,8 +86,18 @@
         </div>
         @push('scripts')
             <script type="text/javascript">
+            function format(d) {
+                return `
+                    <table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">
+                        <tr>
+                            <td>Observaciones</td>
+                            <td>${d.observations}</td>
+                        </tr>
+                    </table>
+                `;
+            }
                 $(document).ready(function() {
-                    var invoices = $('#employeeInvoices').DataTable({
+                    let invoices = $('#commissionCanceled').DataTable({
                         info: true,
                         paging: true,
                         ordering: true,
@@ -103,14 +114,21 @@
                         order: [
                             [0, "asc"]
                         ],
-                        columns: [{
+                        columns: [
+                            {
+                                className: 'details-control',
+                                orderable: false,
+                                data: null,
+                                defaultContent: ''
+                            },
+                            {
                                 data: 'employee'
                             },
                             {
                                 data: 'identification'
                             },
                             {
-                                data: 'created_at'
+                                data: 'generation_date'
                             },
                             {
                                 data: 'document'
@@ -147,7 +165,7 @@
                             },
                         ],
                         columnDefs: [
-                            {targets: 0, visible: false},
+                            {targets: 0},
                             {targets: 1},
                             {targets: 2},
                             {targets: 3},
@@ -159,6 +177,7 @@
                             {targets: 9},
                             {targets: 10},
                             {targets: 11},
+                            {targets: 12},
                         ],
                         dom: 'Bfltip',
                         lengthMenu: [
@@ -168,13 +187,13 @@
                         buttons: [{
                                 extend: 'copy',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
                                 }
                             },
                             {
                                 extend: 'excel',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
                                 }
                             },
                             {
@@ -183,13 +202,13 @@
                                 orientation: 'landscape',
                                 pageSize: 'LEGAL',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
                                 }
                             },
                             {
                                 extend: 'print',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
                                 }
                             },
                         ],
@@ -197,10 +216,10 @@
                             var api = this.api();
                             var rows = api.rows({page: 'current'}).nodes();
                             var last = null;
-                            api.column(0, {page: 'current'}).data().each(function (group, i) {
+                            api.column(1, {page: 'current'}).data().each(function (group, i) {
                                 if (last !== group) {
                                     $(rows).eq(i).before(
-                                        `<tr class="highlight"><td colspan="11">${group}</td></tr>`
+                                        `<tr class="highlight"><td colspan="13">${group}</td></tr>`
                                     );
 
                                     last = group;
@@ -219,14 +238,14 @@
                             };
 
                             var total = api
-                                .column(11)
+                                .column(12)
                                 .data()
                                 .reduce(function(a, b) {
                                     return intVal(a) + intVal(b);
                                 }, 0);
 
                             var totalPage = api
-                                .column(11, {
+                                .column(12, {
                                     page: 'current'
                                 })
                                 .data()
@@ -234,11 +253,25 @@
                                     return intVal(a) + intVal(b);
                                 }, 0);
                             var formatNumberData = $.fn.dataTable.render.number(',', '.', 0, '').display;
-                            $(api.column(11).footer()).html(
+                            $(api.column(12).footer()).html(
                                 `$ ${formatNumberData(totalPage)} ($ ${formatNumberData( total )})`
                             )
                         }
                     });
+
+                    $('#commissionCanceled tbody').on('click', 'td.details-control', function () {
+                        let tr = $(this).closest('tr');
+                        let row = invoices.row(tr);
+
+                        if (row.child.isShown()) {
+                            row.child.hide();
+                            tr.removeClass('shown');
+                        } else {
+                            row.child(format(row.data())).show();
+                            tr.addClass('shown');
+                        }
+                    });
+
                     $("a.toggle-vis").on("click", function(e) {
                         e.preventDefault();
                         var column = invoices.column($(this).data("column"));

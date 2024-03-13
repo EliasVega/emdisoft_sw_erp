@@ -32,4 +32,8 @@ class InvoiceProduct extends Model
     public function product(){
         return $this->belongsTo(Product::class);
     }
+
+    public function employeeInvoiceProduct(){
+        return $this->hasOne(EmployeeInvoiceProduct::class);
+    }
 }

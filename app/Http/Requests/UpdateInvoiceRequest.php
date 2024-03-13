@@ -22,6 +22,7 @@ class UpdateInvoiceRequest extends FormRequest
     public function rules(): array
     {
         return [
+            /*
             'document' => 'string|max:20',
             'generation_date' => 'date',
             'due_date' => 'date',
@@ -42,7 +43,7 @@ class UpdateInvoiceRequest extends FormRequest
             'payment_method_id' => 'required|integer',
             'resolution_id' => 'integer',
             'voucher_type_id' => 'integer',
-            'document_type_id' => 'integer'
+            'document_type_id' => 'integer'*/
         ];
     }
 }

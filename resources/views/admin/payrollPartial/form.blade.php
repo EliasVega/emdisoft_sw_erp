@@ -21,7 +21,7 @@
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addSalary">
         <div class="form-group">
             <label class="form-control-label" for="salary">Salario</label>
-            <input type="number" id="salary" name="salary" value="" class="form-control" placeholder="salario" readonly required>
+            <input type="number" id="salary" name="salary" value="0" class="form-control" placeholder="salario" readonly required>
         </div>
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addtraspotAssistance">
@@ -91,7 +91,7 @@
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addSalaryAcrued">
         <div class="form-group">
-            <label class="form-control-label" for="salary_acrued">Dev. Mes</label>
+            <label class="form-control-label" for="salary_acrued">Salario</label>
             <input type="number" id="salary_acrued" name="salary_acrued" value="" class="form-control" placeholder="salario" required>
         </div>
     </div>
