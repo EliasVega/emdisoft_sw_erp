@@ -254,7 +254,7 @@ class EmployeeInvoiceProductController extends Controller
         $employeeInvoiceProduct->employee_id = $employee->id;
         $employeeInvoiceProduct->update();
 
-        Alert::success('Pago Empleado','Realizado con exito.');
+        Alert::success('Edicion Operario','Realizado con exito.');
         return redirect("employeeInvoiceProduct");
     }
 
