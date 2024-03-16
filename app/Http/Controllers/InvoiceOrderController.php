@@ -227,7 +227,8 @@ class InvoiceOrderController extends Controller
     public function show(InvoiceOrder $invoiceOrder)
     {
         $invoiceOrderProducts = InvoiceOrderProduct::where('invoice_order_id', $invoiceOrder->id)->get();
-        return view('admin.invoiceOrder.show', compact('invoiceOrder', 'invoiceOrderProducts'));
+        $indicator = indicator();
+        return view('admin.invoiceOrder.show', compact('invoiceOrder', 'invoiceOrderProducts', 'indicator'));
     }
 
     /**

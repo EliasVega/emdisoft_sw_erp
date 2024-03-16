@@ -160,7 +160,11 @@
                         @foreach($invoiceProducts as $invoiceProduct)
                             <tr>
                                 @if ($indicator->work_labor == 'on')
-                                    <<td>{{ $invoiceProduct->employeeInvoiceProduct->employee->name }}</td>
+                                    @if ($invoiceProduct->employeeInvoiceProduct == null)
+                                        <td><p>No aplica</p></td>
+                                    @else
+                                        <td>{{ $invoiceProduct->employeeInvoiceProduct->employee->name }}</td>
+                                    @endif
                                 @else
                                 <td>{{ $invoiceProduct->id }}</td>
                                 @endif

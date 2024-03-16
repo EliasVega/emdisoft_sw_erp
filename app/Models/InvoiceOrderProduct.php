@@ -26,10 +26,14 @@ class InvoiceOrderProduct extends Model
         'product_id'
     ];
     public function invoiceOrder(){
-        return $this->belongsTo(PurchaseOrder::class);
+        return $this->belongsTo(InvoiceOrder::class);
     }
 
     public function product(){
         return $this->belongsTo(Product::class);
+    }
+
+    public function employeeInvoiceOrderProduct(){
+        return $this->hasOne(EmployeeInvoiceOrderProduct::class);
     }
 }

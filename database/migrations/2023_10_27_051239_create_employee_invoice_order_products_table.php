@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('employee_invoice_order_products', function (Blueprint $table) {
             $table->id();
 
+            $table->date('generation_date');//fecha de generacion
             $table->decimal('quantity', 10, 2);
             $table->decimal('price', 11, 2);
             $table->decimal('subtotal', 11, 2);

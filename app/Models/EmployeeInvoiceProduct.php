@@ -16,6 +16,7 @@ class EmployeeInvoiceProduct extends Model
     public $timestamps = true;
 
     protected $fillable = [
+        'generation_date',
         'quantity',
         'price',
         'subtotal',

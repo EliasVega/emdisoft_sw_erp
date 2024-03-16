@@ -345,6 +345,7 @@ class InvoiceController extends Controller
                     $employeeInvoiceProduct = new EmployeeInvoiceProduct();
                     $employeeInvoiceProduct->invoice_product_id = $invoiceProduct->id;
                     $employeeInvoiceProduct->employee_id = $employee_id[$i];
+                    $employeeInvoiceProduct->generation_date = $request->generation_date;
                     $employeeInvoiceProduct->quantity = $quantity[$i];
                     $employeeInvoiceProduct->price = $price[$i];
                     $employeeInvoiceProduct->subtotal = $subtotal;

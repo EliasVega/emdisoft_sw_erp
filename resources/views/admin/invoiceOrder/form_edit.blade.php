@@ -238,7 +238,7 @@
     <div class="col-lg-10 col-md-8 col-sm-8 col-xs-12" id="noteDocument">
         <div class="form-group">
             <label class="form-control-label" for="note">Observaciones</label>
-            <input type="text" id="note" name="note" value="{{ old('note') }}" class="form-control"
+            <input type="text" id="note" name="note" value="{{ $invoiceOrder->note }}" class="form-control"
                 placeholder="Observaciones">
         </div>
     </div>

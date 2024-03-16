@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\EmployeeInvoiceOrderProduct;
 use App\Http\Requests\StoreEmployeeInvoiceOrderProductRequest;
 use App\Http\Requests\UpdateEmployeeInvoiceOrderProductRequest;
+use App\Models\Employee;
+use App\Models\InvoiceOrder;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class EmployeeInvoiceOrderProductController extends Controller
 {
@@ -45,7 +48,15 @@ class EmployeeInvoiceOrderProductController extends Controller
      */
     public function edit(EmployeeInvoiceOrderProduct $employeeInvoiceOrderProduct)
     {
-        //
+        //dd($employeeInvoiceProduct);
+        $id = $employeeInvoiceOrderProduct->invoiceOrderProduct->invoice_order_id;
+        $invoiceOrder = InvoiceOrder::findOrFail($id);
+        $employees = Employee::get();
+        return view('admin.employeeInvoiceOrderProduct.edit', compact(
+            'employeeInvoiceOrderProduct',
+            'invoiceOrder',
+            'employees'
+        ));
     }
 
     /**

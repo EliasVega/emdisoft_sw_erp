@@ -36,7 +36,7 @@
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addVacationAdjustment">
         <div class="form-group">
             <label class="form-control-label" for="vacation_adjustment">Ajuste vacacional</label>
-            <input type="number" id="vacation_adjustment" name="vacation_adjustment" value="" class="form-control" placeholder="ajuste vacacional" step="any">
+            <input type="number" id="vacation_adjustment" name="vacation_adjustment" value="0" class="form-control" placeholder="ajuste vacacional" step="any">
         </div>
     </div>
 </div>

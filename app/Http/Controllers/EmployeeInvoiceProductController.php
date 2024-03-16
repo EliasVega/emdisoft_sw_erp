@@ -26,7 +26,7 @@ class EmployeeInvoiceProductController extends Controller
                 $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $startDate . ' 00:00:00');
                 $endDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $endDate . ' 23:59:59');
 
-                $employeeInvoiceProducts = EmployeeInvoiceProduct::whereBetween('created_at', [$startDateTime, $endDateTime])->get();
+                $employeeInvoiceProducts = EmployeeInvoiceProduct::whereBetween('generation_date', [$startDateTime, $endDateTime])->get();
             } else {
                 $employeeInvoiceProducts = EmployeeInvoiceProduct::get();
             }
@@ -87,7 +87,7 @@ class EmployeeInvoiceProductController extends Controller
                 $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $startDate . ' 00:00:00');
                 $endDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $endDate . ' 23:59:59');
 
-                $employeeInvoiceProducts = EmployeeInvoiceProduct::where('status', 'pendient')->whereBetween('created_at', [$startDateTime, $endDateTime])->get();
+                $employeeInvoiceProducts = EmployeeInvoiceProduct::where('status', 'pendient')->whereBetween('generation_date', [$startDateTime, $endDateTime])->get();
             } else {
                 $employeeInvoiceProducts = EmployeeInvoiceProduct::where('status', 'pendient')->get();
             }
@@ -148,7 +148,7 @@ class EmployeeInvoiceProductController extends Controller
                 $startDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $startDate . ' 00:00:00');
                 $endDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $endDate . ' 23:59:59');
 
-                $employeeInvoiceProducts = EmployeeInvoiceProduct::where('status', 'canceled')->whereBetween('created_at', [$startDateTime, $endDateTime])->get();
+                $employeeInvoiceProducts = EmployeeInvoiceProduct::where('status', 'canceled')->whereBetween('generation_date', [$startDateTime, $endDateTime])->get();
             } else {
                 $employeeInvoiceProducts = EmployeeInvoiceProduct::where('status', 'canceled')->get();
             }

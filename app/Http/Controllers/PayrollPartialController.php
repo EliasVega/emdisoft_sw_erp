@@ -80,7 +80,7 @@ class PayrollPartialController extends Controller
      */
     public function store(StorePayrollPartialRequest $request)
     {
-        dd($request->all());
+        //dd($request->all());
         $yearMonth = $request->month;//tomando año y mes de fecha inicio liquidacion
         $startDate = $request->start_date;//fecha de inicio de liquidacion
         $endDate = $request->end_date;
@@ -383,20 +383,27 @@ class PayrollPartialController extends Controller
 
         if ($vacations_type) {
             for ($i=0; $i < count($vacations_type); $i++) {
+                $vacationDays = $request->vacation_days[$i];
+                $valueDay = $request->value_day[$i];
+
                 $vacations = new Vacation();
                 $vacations->start_period = $request->start_period;
                 $vacations->end_period = $request->end_period;
                 $vacations->start_vacations = $request->start_vacations[$i];
                 $vacations->end_vacations = $request->end_vacations[$i];
-                $vacations->vacation_days = $request->vacation_days[$i];
-                $vacations->value_day = $request->value_day[$i];
-                $vacations->value = $request->value[$i];
+                $vacations->vacation_days = $vacationDays;
+                $vacations->value_day = $valueDay;
+                $vacations->value = $vacationDays * $valueDay;
                 $vacations->pay_mode = $request->pay_mode;
                 $vacations->type = $request->type[$i];
 
                 $vacations->payroll_acrued_id = $payrollAcrued->id;
-                $vacations->payroll_acrued_id = $payrollPartialAcrued->id;
+                $vacations->payroll_partial_acrued_id = $payrollPartialAcrued->id;
                 $vacations->save();
+
+                $provisionPartials = ProvisionPartial::findOrFail($provisionPartials->id);
+                $provisionPartials->vacation_adjustment = $request->vacation_adjustment;
+                $provisionPartials->update();
             }
         }
 
