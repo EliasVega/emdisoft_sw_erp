@@ -68,6 +68,8 @@ class EmployeeInvoiceProductController extends Controller
                     return $employeeInvoiceProduct->status == 'pendient' ? 'Pendiente' : 'Pendiente';
                 } elseif ($employeeInvoiceProduct->status == 'canceled') {
                     return $employeeInvoiceProduct->status == 'canceled' ? 'Cancelado' : 'Cancelado';
+                } elseif ($employeeInvoiceProduct->status == 'credit_note') {
+                    return $employeeInvoiceProduct->status == 'credit_note' ? 'Nota Credito' : 'Nota Credito';
                 }
             })
 
@@ -132,6 +134,8 @@ class EmployeeInvoiceProductController extends Controller
                     return $employeeInvoiceProduct->status == 'pendient' ? 'Pendiente' : 'Pendiente';
                 } elseif ($employeeInvoiceProduct->status == 'canceled') {
                     return $employeeInvoiceProduct->status == 'canceled' ? 'Cancelado' : 'Cancelado';
+                } elseif ($employeeInvoiceProduct->status == 'credit_note') {
+                    return $employeeInvoiceProduct->status == 'credit_note' ? 'Nota Credito' : 'Nota Credito';
                 }
             })
             ->make(true);
@@ -193,6 +197,8 @@ class EmployeeInvoiceProductController extends Controller
                     return $employeeInvoiceProduct->status == 'pendient' ? 'Pendiente' : 'Pendiente';
                 } elseif ($employeeInvoiceProduct->status == 'canceled') {
                     return $employeeInvoiceProduct->status == 'canceled' ? 'Cancelado' : 'Cancelado';
+                } elseif ($employeeInvoiceProduct->status == 'credit_note') {
+                    return $employeeInvoiceProduct->status == 'credit_note' ? 'Nota Credito' : 'Nota Credito';
                 }
             })
             ->make(true);

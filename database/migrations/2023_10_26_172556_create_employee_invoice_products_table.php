@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('subtotal', 11, 2);
             $table->decimal('commission', 10, 2);
             $table->decimal('value_commission', 11, 2);
-            $table->enum('status',['pendient', 'canceled'])->default('pendient');
+            $table->enum('status',['pendient', 'canceled', 'credit_note'])->default('pendient');
 
             $table->foreignId('work_labor_id')->nullable()->constrained()->onUpdate('cascade');
             $table->foreignId('invoice_product_id')->constrained()->onUpdate('cascade');

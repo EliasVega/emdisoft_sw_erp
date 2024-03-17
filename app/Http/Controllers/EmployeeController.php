@@ -275,6 +275,16 @@ class EmployeeController extends Controller
         ->where('emp.id', $id)
         ->where('eip.status', 'pendient')
         ->get();
+        $sumCommissions = EmployeeInvoiceProduct::from('employee_invoice_products as eip')
+        ->join('employees as emp', 'eip.employee_id', 'emp.id')
+        ->select('eip.id',  'eip.subtotal')
+        ->where('emp.id', $id)
+        ->where('eip.status', 'pendient')
+        ->sum('subtotal');
+        if ($sumCommissions == 0) {
+            toast('Operario no tiene pagos pendientes.','success');
+            return redirect('employee');
+        }
         return view('admin.employee.paymentCommission', compact(
             'employee',
             'paymentMethods',

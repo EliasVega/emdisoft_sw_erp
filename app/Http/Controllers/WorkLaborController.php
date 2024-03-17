@@ -26,7 +26,7 @@ class WorkLaborController extends Controller
             return DataTables::of($workLabors)
             ->addIndexColumn()
             ->addColumn('employee', function (WorkLabor $workLabor) {
-                return $workLabor->employee->id;
+                return $workLabor->employee->name;
             })
             ->addColumn('user', function (WorkLabor $workLabor) {
                 return $workLabor->user->name;

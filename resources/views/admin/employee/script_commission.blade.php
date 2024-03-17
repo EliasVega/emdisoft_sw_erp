@@ -8,6 +8,7 @@
     var subtotal = [];
     //form purchase
     $("#save").hide();
+    $("#methodPay").hide();
 
     function totaledit(){
 

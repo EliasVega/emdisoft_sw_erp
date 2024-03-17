@@ -114,8 +114,8 @@ class NcinvoiceController extends Controller
             $resolution = Resolution::findOrFail(8);
             $voucherTypes = VoucherType::findOrFail(5);
         } else {
-            $resolution = Resolution::findOrFail(5);
-            $voucherTypes = VoucherType::findOrFail(21);
+            $resolution = Resolution::findOrFail(4);
+            $voucherTypes = VoucherType::findOrFail(5);
         }
         //variables del request
         $quantity = $request->quantity;
