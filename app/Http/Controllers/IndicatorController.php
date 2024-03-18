@@ -49,7 +49,7 @@ class IndicatorController extends Controller
             ->addColumn('restaurant', 'admin/indicator/restaurant')
             ->addColumn('barcode', 'admin/indicator/codebar')
             ->addColumn('cvpinvoice', 'admin/indicator/cvpinvoice')
-            ->addColumn('sqio', 'admin/indicator/cvpinvoice')
+            ->addColumn('sqio', 'admin/indicator/sqio')
             ->rawColumns(['edit', 'dian', 'pos', 'logo', 'payroll', 'workLabor', 'accounting', 'productPrice', 'inventory', 'rawMaterial', 'restaurant', 'barcode', 'cvpinvoice', 'sqio'])
             ->make(true);
         }
@@ -296,6 +296,7 @@ class IndicatorController extends Controller
 
         return redirect('indicator');
     }
+
     public function sqioStatus($id)
     {
         $indicator = Indicator::findOrFail($id);

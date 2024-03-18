@@ -40,6 +40,7 @@
                             <th>Rest.</th>
                             <th>Bcod</th>
                             <th>Cvpi</th>
+                            <th>Sqio</th>
                         </tr>
                     </thead>
                 </table>
@@ -83,6 +84,7 @@ $(document).ready(function ()
                 {data: 'restaurant'},
                 {data: 'barcode'},
                 {data: 'cvpinvoice'},
+                {data: 'sqio'},
             ],
             dom: 'Blfrtip',
             lengthMenu: [
