@@ -13,22 +13,17 @@ use App\Models\Card;
 use App\Models\Company;
 use App\Models\CompanyTax;
 use App\Models\Customer;
-use App\Models\DocumentType;
 use App\Models\Employee;
 use App\Models\EmployeeInvoiceOrderProduct;
-use App\Models\GenerationType;
 use App\Models\Indicator;
 use App\Models\InvoiceOrderProduct;
 use App\Models\PaymentForm;
 use App\Models\PaymentMethod;
-use App\Models\Percentage;
 use App\Models\Product;
 use App\Models\Resolution;
 use Carbon\Carbon;
-use Illuminate\Http\Client\Request as ClientRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Illuminate\Validation\Rules\Exists;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Arr;
@@ -179,42 +174,43 @@ class InvoiceOrderController extends Controller
                 $cashRegister->invoice_order += $total_pay;
                 $cashRegister->update();
         }
-
         //Ingresa los productos que vienen en el array
         for ($i=0; $i < count($product_id); $i++) {
-
+            $subtotal = $quantity[$i] * $price[$i];
             $id = $product_id[$i];
             //Metodo para registrar la relacion entre producto y compra
             $invoiceOrderProduct = new InvoiceOrderProduct();
             $invoiceOrderProduct->invoice_order_id = $invoiceOrder->id;
-            $invoiceOrderProduct->product_id = $product_id[$i];
+            $invoiceOrderProduct->product_id = $id;
             $invoiceOrderProduct->quantity = $quantity[$i];
             $invoiceOrderProduct->price = $price[$i];
             $invoiceOrderProduct->tax_rate = $tax_rate[$i];
-            $invoiceOrderProduct->subtotal = $quantity[$i] * $price[$i];
-            $invoiceOrderProduct->tax_subtotal =($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
+            $invoiceOrderProduct->subtotal = $subtotal;
+            $invoiceOrderProduct->tax_subtotal =($subtotal * $tax_rate[$i])/100;
             $invoiceOrderProduct->save();
 
-            $product = Product::findOrFail($id);
+            //$product = Product::findOrFail($id);
 
             //metodo para comisiones de empleados
-            $subtotal = $quantity[$i] * $price[$i];
-            $commission = $product->commission;
-            $valueCommission = ($subtotal/100) * $commission;
-            if ($employee_id[$i] != 'null') {
-                $employeeInvoiceOrderProduct = new EmployeeInvoiceOrderProduct();
-                $employeeInvoiceOrderProduct->invoice_order_product_id = $invoiceOrderProduct->id;
-                $employeeInvoiceOrderProduct->employee_id = $employee_id[$i];
-                $employeeInvoiceOrderProduct->quantity = $quantity[$i];
-                $employeeInvoiceOrderProduct->price = $price[$i];
-                $employeeInvoiceOrderProduct->subtotal = $subtotal;
-                $employeeInvoiceOrderProduct->commission = $commission;
-                $employeeInvoiceOrderProduct->value_commission =$valueCommission;
-                $employeeInvoiceOrderProduct->status = 'pendient';
-                $employeeInvoiceOrderProduct->save();
+            if ($indicator->work_labor == 'on') {
+                if ($employee_id[$i] != 'null') {
+                    $employee = Employee::findOrFail($employee_id[$i]);
+                    $commission = $employee->commission;
+                    $valueCommission = ($subtotal/100) * $commission;
+
+                    $employeeInvoiceOrderProduct = new EmployeeInvoiceOrderProduct();
+                    $employeeInvoiceOrderProduct->invoice_order_product_id = $invoiceOrderProduct->id;
+                    $employeeInvoiceOrderProduct->employee_id = $employee_id[$i];
+                    $employeeInvoiceOrderProduct->quantity = $quantity[$i];
+                    $employeeInvoiceOrderProduct->price = $price[$i];
+                    $employeeInvoiceOrderProduct->subtotal = $subtotal;
+                    $employeeInvoiceOrderProduct->commission = $commission;
+                    $employeeInvoiceOrderProduct->value_commission =$valueCommission;
+                    $employeeInvoiceOrderProduct->status = 'pendient';
+                    $employeeInvoiceOrderProduct->save();
+                }
             }
         }
-
         session()->forget('invoiceOrder');
         session(['invoiceOrder' => $invoiceOrder->id]);
         toast('Orden de Venta Generada con exito.','success');
