@@ -271,7 +271,7 @@ class EmployeeController extends Controller
         ->join('employees as emp', 'eip.employee_id', 'emp.id')
         ->join('invoice_products as ip', 'eip.invoice_product_id', 'ip.id')
         ->join('products as pro', 'ip.product_id', 'pro.id')
-        ->select('eip.id', 'eip.quantity', 'eip.price', 'eip.subtotal', 'eip.commission', 'eip.value_commission', 'eip.status', 'eip.created_at', 'pro.name')
+        ->select('eip.id', 'eip.quantity', 'eip.price', 'eip.subtotal', 'eip.commission', 'eip.value_commission', 'eip.status', 'eip.generation_date', 'pro.name')
         ->where('emp.id', $id)
         ->where('eip.status', 'pendient')
         ->get();

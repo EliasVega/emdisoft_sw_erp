@@ -217,8 +217,12 @@
     $("#days").change(salaryManual);
 
     function salaryManual() {
+        fortnight = $(#"fortnight"). val();
         daysManual = $("#days").val();
         acruedManual = (salaryEmployee/30)*daysManual;
+        if (fortnight == ) {
+
+        }
         ta_acruedManual = (transportAssistance/30)*daysManual;
         $("#salary_acrued").val(acruedManual);
         totalAcruedManual = 0;

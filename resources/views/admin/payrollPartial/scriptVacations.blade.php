@@ -6,6 +6,7 @@
     let contVacations = 0;
     let totalVacations = 0;
     let type_id = '';
+    let vacationDays = 0;
 
     $('#end_period').prop("readonly", true);
 
@@ -23,11 +24,16 @@
         startPeriodTime = moment(startPeriod);
         endPeriodTime = moment(endPeriod);
 
-        vacationDaysPeriod = endPeriodTime.diff(startPeriodTime, 'days');
+        vacationDaysPeriod = endPeriodTime.diff(startPeriodTime, 'days' + 1);
 
         if (vacationDaysPeriod >= 0) {
             if (startPeriod < endPeriod) {
-                $("#days_period").val(vacationDaysPeriod);
+                if (vacationDaysPeriod > 360) {
+                    $("#days_period").val(360);
+                } else {
+                    $("#days_period").val(vacationDaysPeriod);
+                }
+
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -80,7 +86,7 @@
         let endYearVacations = moment(endTimeVacations).year();
         let endMonthVacations = moment(endTimeVacations).month();
         let endDayVacations = moment(endTimeVacations).day();
-        let vacationDays = endTimeVacations.diff(startTimeVacations, 'days');
+        vacationDays = endTimeVacations.diff(startTimeVacations, 'days');
         if (vacationDays >= 0) {
             if (startYearVacations == endYearVacations && startMonthVacations == endMonthVacations
             && startYear == startYearVacations && startMonth == startMonthVacations) {
@@ -120,8 +126,8 @@
 
         startVacations = $("#startVacations").val();
         endVacations = $("#endVacations").val();
-        type_id = $("#typeVacations").val();
-        type = $("#typeVacations option:selected").text();
+        type_id = $("#vacation_type").val();
+        type = $("#vacation_type option:selected").text();
         quantity = $("#vacationDays").val();
         salaryEmployee = $("#salary").val();
         value_day = salaryEmployee/30;

@@ -43,7 +43,7 @@
             if (value['quantity'] > 0) {
 
                 id = value['id'];
-                date = value['created_at'];
+                date = value['generation_date'];
                 product = value['name']
                 quantity = value['quantity'];
                 price = value['price'];

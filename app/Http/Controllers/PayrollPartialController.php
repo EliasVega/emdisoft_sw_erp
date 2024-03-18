@@ -80,7 +80,7 @@ class PayrollPartialController extends Controller
      */
     public function store(StorePayrollPartialRequest $request)
     {
-        //dd($request->all());
+        dd($request->all());
         $yearMonth = $request->month;//tomando año y mes de fecha inicio liquidacion
         $startDate = $request->start_date;//fecha de inicio de liquidacion
         $endDate = $request->end_date;
@@ -106,10 +106,10 @@ class PayrollPartialController extends Controller
         //$dia = $days[(date('N', strtotime($startDate))) - 1];
 
         //request de vacaciones
-        $vacations_type = $request->vacation_type;
-        $total_vacations = 0;
-        if ($vacations_type) {
-            $total_vacations = $request->total_vacations;
+        $vacationType = $request->vacation_type;
+        $totalVacations = 0;
+        if ($vacationType) {
+            $totalVacations = $request->total_vacations;
         }
 
         $comprobation = PayrollPartial::where('year_month', $yearMonth)
@@ -197,7 +197,7 @@ class PayrollPartialController extends Controller
             $payrollAcrued->salary += $salaryAcrued;//salario asignado
             $payrollAcrued->transport_assistance += $transportAssistance;//auxilio de trasporte
             $payrollAcrued->overtime += $overtimeTotal;//horas extras
-            $payrollAcrued->vacations += $total_vacations;//vacaciones
+            $payrollAcrued->vacations += $totalVacations;//vacaciones
             $payrollAcrued->bonus += 0;//prima
             $payrollAcrued->layoffs += 0;//cesantias
             $payrollAcrued->disabilities += 0;//incapacidades
@@ -244,7 +244,7 @@ class PayrollPartialController extends Controller
             $payrollAcrued->salary = $salaryAcrued;//salario asignado
             $payrollAcrued->transport_assistance = $transportAssistance;//auxilio de trasporte
             $payrollAcrued->overtime = $overtimeTotal;//horas extras
-            $payrollAcrued->vacations = $total_vacations;//vacaciones
+            $payrollAcrued->vacations = $totalVacations;//vacaciones
             $payrollAcrued->bonus = 0;//prima
             $payrollAcrued->layoffs = 0;//cesantias
             $payrollAcrued->disabilities = 0;//incapacidades
@@ -295,7 +295,7 @@ class PayrollPartialController extends Controller
         $payrollPartialAcrued->salary = $salaryAcrued;//salario asignado
         $payrollPartialAcrued->transport_assistance = $transportAssistance;//auxilio de trasporte
         $payrollPartialAcrued->overtime = $overtimeTotal;//horas extras
-        $payrollPartialAcrued->vacations = $total_vacations;//vacaciones
+        $payrollPartialAcrued->vacations = $totalVacations;//vacaciones
         $payrollPartialAcrued->bonus = 0;//prima
         $payrollPartialAcrued->layoffs = 0;//cesantias
         $payrollPartialAcrued->disabilities = 0;//incapacidades
@@ -381,8 +381,8 @@ class PayrollPartialController extends Controller
         $provisionPartials->payroll_partial_acrued_id = $payrollPartialAcrued->id;
         $provisionPartials->save();
 
-        if ($vacations_type) {
-            for ($i=0; $i < count($vacations_type); $i++) {
+        if ($totalVacations > 0) {
+            for ($i=0; $i < count($vacationType); $i++) {
                 $vacationDays = $request->vacation_days[$i];
                 $valueDay = $request->value_day[$i];
 
@@ -393,9 +393,9 @@ class PayrollPartialController extends Controller
                 $vacations->end_vacations = $request->end_vacations[$i];
                 $vacations->vacation_days = $vacationDays;
                 $vacations->value_day = $valueDay;
-                $vacations->value = $vacationDays * $valueDay;
+                $vacations->vacation_value = $vacationDays * $valueDay;
                 $vacations->pay_mode = $request->pay_mode;
-                $vacations->type = $request->type[$i];
+                $vacations->type = $request->vacation_type[$i];
 
                 $vacations->payroll_acrued_id = $payrollAcrued->id;
                 $vacations->payroll_partial_acrued_id = $payrollPartialAcrued->id;

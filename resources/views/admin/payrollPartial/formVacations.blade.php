@@ -42,9 +42,9 @@
 </div>
 <div class="box-body row">
     <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
-        <label for="typeVacations">Tipo</label>
+        <label for="vacation_type">Tipo</label>
         <div class="select">
-            <select id="typeVacations" name="typeVacations" class="form-control selectpicker" data-live-search="true" required>
+            <select id="vacation_type" name="vacation_type" class="form-control selectpicker" data-live-search="true" required>
                 <option value="{{ old('type', $vacations->type ?? '') }}" disabled>Seleccionar Tipo</option>
                     <option value="emjoyed">Disfrutadas</option>
                     <option value="compensated">Compensadas</option>
