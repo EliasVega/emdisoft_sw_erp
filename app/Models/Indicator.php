@@ -32,7 +32,8 @@ class Indicator extends Model
         'raw_material',
         'restaurant',
         'barcode',
-        'cvpinvoice'
+        'cvpinvoice',
+        'sqio'
     ];
 
     protected $guarded = [
