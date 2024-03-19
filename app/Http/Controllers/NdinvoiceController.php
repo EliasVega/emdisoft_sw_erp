@@ -8,9 +8,12 @@ use App\Http\Requests\UpdateNdinvoiceRequest;
 use App\Models\BranchProduct;
 use App\Models\CashRegister;
 use App\Models\Company;
+use App\Models\Employee;
+use App\Models\EmployeeInvoiceProduct;
 use App\Models\Environment;
 use App\Models\Indicator;
 use App\Models\Invoice;
+use App\Models\InvoiceProduct;
 use App\Models\NdinvoiceProduct;
 use App\Models\NdinvoiceResponse;
 use App\Models\Pay;
@@ -154,7 +157,7 @@ class NdinvoiceController extends Controller
         $service = '';
         $errorMessages = '';
         $store = false;
-        if ($indicator->dian == 'off') {
+        if ($indicator->dian == 'on') {
             $data = ndinvoiceSend($request, $invoice);
             $requestResponse = sendDocuments($company, $environment, $data);
             $store = $requestResponse['store'];
@@ -216,8 +219,28 @@ class NdinvoiceController extends Controller
                         $ndinvoiceProduct->subtotal = $quantity[$i] * $price[$i];
                         $ndinvoiceProduct->tax_subtotal = ($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
                         $ndinvoiceProduct->save();
+                        if ($indicator->work_labor == 'on') {
+                            //obtenemos los productos de esta factura que se hace ND
+                            $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->get();
 
-                        //selecciona el impuesto que tiene la categoria IVA o INC
+                            for ($i=0; $i < count($invoiceProducts); $i++) {
+                                $ideip = $invoiceProducts[$i]->id;
+
+                                $employeeInvoiceProduct = EmployeeInvoiceProduct::where('invoice_product_id', $ideip)->first();
+                                if ($employeeInvoiceProduct) {
+                                    $idEmployee = $employeeInvoiceProduct->employee_id;
+                                    $employee = Employee::findOrFail($idEmployee);
+                                    $subtotal = $quantity[$i] * $price[$i];
+                                    $commission = $employee->commission;
+                                    $valueCommission = ($subtotal/100) * $commission;
+
+                                    $employeeInvoiceProduct->price += $price[$i];
+                                    $employeeInvoiceProduct->subtotal += $subtotal;
+                                    $employeeInvoiceProduct->value_commission += $valueCommission;
+                                    $employeeInvoiceProduct->update();
+                                }
+                            }
+                        }
                     }
                 break;
             }

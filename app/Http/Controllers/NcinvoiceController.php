@@ -282,9 +282,9 @@ class NcinvoiceController extends Controller
                     $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->get();
 
                     for ($i=0; $i < count($price); $i++) {
-                        foreach ($invoiceProducts as $key => $productPurchase) {
-                            if ($productPurchase->product_id == $product_id[$i]) {
-                                if ($productPurchase->price < $price[$i]) {
+                        foreach ($invoiceProducts as $key => $invoiceProduct) {
+                            if ($invoiceProduct->product_id == $product_id[$i]) {
+                                if ($invoiceProduct->price < $price[$i]) {
                                     toast(' precio de uno de los items no debe ser mayor al inicial en la compra','warning');
                                     return redirect("invoice");
                                 }

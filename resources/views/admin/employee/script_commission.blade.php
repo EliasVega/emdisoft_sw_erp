@@ -43,7 +43,7 @@
             if (value['quantity'] > 0) {
 
                 id = value['id'];
-                date = value['generation_date'];
+                datedoc = value['generation_date'];
                 product = value['name']
                 quantity = value['quantity'];
                 price = value['price'];
@@ -51,7 +51,6 @@
                 commission = value['commission'];
                 value_commission = value['value_commission'];
 
-                datedoc = new Date(date).toLocaleDateString();
                 if(quantity!="" && quantity>0  && price!="" && price>0){
                     subtotal[cont] = parseFloat(value_commission);
                     total= total+parseFloat(value_commission);
