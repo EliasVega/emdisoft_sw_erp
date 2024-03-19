@@ -104,11 +104,11 @@ class NdinvoiceController extends Controller
         $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
         $resolution = '';
         if ($invoice->document_type_id == 1) {
-            $resolution = Resolution::findOrFail(9);
-            $voucherTypes = VoucherType::findOrFail(6);
+            $resolution = Resolution::findOrFail(9);//resolucion ND venta
+            $voucherTypes = VoucherType::findOrFail(6);//ND factura de venta
         } else {
-            $resolution = Resolution::findOrFail(6);
-            $voucherTypes = VoucherType::findOrFail(22);
+            $resolution = Resolution::findOrFail(6);//ND de post
+            $voucherTypes = VoucherType::findOrFail(22);// ND factura post
         }
 
         $typeDocument = 'ndinvoice';

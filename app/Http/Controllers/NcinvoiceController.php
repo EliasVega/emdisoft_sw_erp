@@ -111,11 +111,11 @@ class NcinvoiceController extends Controller
         $voucherTypes = '';
         $resolution = '';
         if ($invoice->document_type_id == 1) {
-            $resolution = Resolution::findOrFail(8);
-            $voucherTypes = VoucherType::findOrFail(5);
+            $resolution = Resolution::findOrFail(8);//NC factura de venta
+            $voucherTypes = VoucherType::findOrFail(5);//NC factura de venta
         } else {
-            $resolution = Resolution::findOrFail(4);
-            $voucherTypes = VoucherType::findOrFail(5);
+            $resolution = Resolution::findOrFail(5);//ND favtura de post
+            $voucherTypes = VoucherType::findOrFail(21);// NC factura post
         }
         //variables del request
         $quantity = $request->quantity;
@@ -135,15 +135,15 @@ class NcinvoiceController extends Controller
         }
 
         //gran total de la compra
-        $grandTotalold = $invoice->grand_total;
-        $grandTotalNd = $total_pay - $retention;
-        $newGrandTotal = $grandTotalold - $grandTotalNd;
+        $grandTotalold = $invoice->grand_total;//total de la factura antes de NC
+        $grandTotalNc = $total_pay - $retention;//total NC - retenciones
+        $newGrandTotal = $grandTotalold - $grandTotalNc;//total factura - esta NC
 
         $date1 = Carbon::now()->toDateString();
         $date2 = $invoice->created_at->toDateString();
 
         $reverse = $request->reverse;//1 si desea volver valor a caja 2 si desea crear un avance
-        $advancePay = $invoice->pay - $newGrandTotal;
+        $advancePay = $invoice->pay - $newGrandTotal;//abonos de factura  - NC
         $documentOrigin = $invoice;
         $voucherType = $voucherTypes->id;
         $service = '';
@@ -163,12 +163,12 @@ class NcinvoiceController extends Controller
             $ncinvoice = new Ncinvoice();
             $ncinvoice->document = $resolution->prefix . '-' . $resolution->consecutive;
             $ncinvoice->user_id = current_user()->id;
-            $ncinvoice->branch_id = current_user()->branch_id;
+            $ncinvoice->branch_id = $branch;
             $ncinvoice->invoice_id = $invoice->id;
             $ncinvoice->resolution_id = $resolution->id;
             $ncinvoice->customer_id = $invoice->customer_id;
             $ncinvoice->discrepancy_id = $discrepancy;
-            $ncinvoice->voucher_type_id = $voucherType;
+            $ncinvoice->voucher_type_id = 5;
             $ncinvoice->retention = $retention;
             $ncinvoice->total = $request->total;
             $ncinvoice->total_tax = $request->total_tax;
@@ -179,10 +179,13 @@ class NcinvoiceController extends Controller
             $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->get();
             switch($discrepancy) {
                 case(1):
+                    /*
                     if ($total_pay <= 0) {
                         toast(' Nota debito no debe ser menor o igual a 0.','warning');
                         return redirect("invoice");
-                    }
+                    }*/
+
+                    //creando registro de ncinvoice productos
                     $this->ncinvoiceProductCreate($request, $document);//crear ncinvoiceProduct
                     for ($i=0; $i < count($product_id); $i++) {
                         $id = $product_id[$i];
@@ -203,21 +206,23 @@ class NcinvoiceController extends Controller
                             $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
                         }
                     }
-                    for ($i=0; $i < count($invoiceProducts); $i++) {
-                        $ideip = $invoiceProducts[$i]->id;
+                    if ($indicator->work_labor == 'on') {
+                        for ($i=0; $i < count($invoiceProducts); $i++) {
+                            $ideip = $invoiceProducts[$i]->id;
 
-                        $employeeInvoiceProduct = EmployeeInvoiceProduct::where('invoice_product_id', $ideip)->first();
-                        if ($employeeInvoiceProduct) {
-                            $idEmployee = $employeeInvoiceProduct->employee_id;
-                            $employee = Employee::findOrFail($idEmployee);
-                            $subtotal = $quantity[$i] * $price[$i];
-                            $commission = $employee->commission;
-                            $valueCommission = ($subtotal/100) * $commission;
+                            $employeeInvoiceProduct = EmployeeInvoiceProduct::where('invoice_product_id', $ideip)->first();
+                            if ($employeeInvoiceProduct) {
+                                $idEmployee = $employeeInvoiceProduct->employee_id;
+                                $employee = Employee::findOrFail($idEmployee);
+                                $subtotal = $quantity[$i] * $price[$i];
+                                $commission = $employee->commission;
+                                $valueCommission = ($subtotal/100) * $commission;
 
-                            $employeeInvoiceProduct->quantity -= $quantity[$i];
-                            $employeeInvoiceProduct->subtotal -= $subtotal;
-                            $employeeInvoiceProduct->value_commission -= $valueCommission;
-                            $employeeInvoiceProduct->update();
+                                $employeeInvoiceProduct->quantity -= $quantity[$i];
+                                $employeeInvoiceProduct->subtotal -= $subtotal;
+                                $employeeInvoiceProduct->value_commission -= $valueCommission;
+                                $employeeInvoiceProduct->update();
+                            }
                         }
                     }
                     break;
@@ -230,7 +235,7 @@ class NcinvoiceController extends Controller
                             $id = $invoiceProducts[$i]->product_id;
                             $product = Product::findOrFail($id);
 
-                            //registrando nota debito productos
+                            //creando registro de ncinvoice productos
                             $ncinvoiceProduct = new NcinvoiceProduct();
                             $ncinvoiceProduct->ncinvoice_id = $ncinvoice->id;
                             $ncinvoiceProduct->product_id = $id;
@@ -241,7 +246,6 @@ class NcinvoiceController extends Controller
                             $ncinvoiceProduct->tax_subtotal = $invoiceProducts[$i]->tax_subtotal;
                             $ncinvoiceProduct->save();
 
-                            $product = Product::findOrFail($id);
                             if ($product->type_product == 'product') {
                                 //devolviendo productos al inventario
                                 if ($indicator->inventory == 'on') {
@@ -253,11 +257,12 @@ class NcinvoiceController extends Controller
                                     $branchProduct->stock -= $invoiceProducts[$i]->quantity;
                                     $branchProduct->update();
                                 }
-
+                                //registrando el kardex
                                 $quantityLocal = $quantity[$i];
                                 $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
                             }
 
+                            if ($indicator->work_labor == 'on') {
                                 $ideip = $invoiceProducts[$i]->id;
 
                                 $employeeInvoiceProduct = EmployeeInvoiceProduct::where('invoice_product_id', $ideip)->first();
@@ -270,14 +275,16 @@ class NcinvoiceController extends Controller
                                     $employeeInvoiceProduct->status = 'canceled';
                                     $employeeInvoiceProduct->update();
                                 }
+                            }
                         }
                     }
                     break;
                 case(3):
+                    /*
                     if ($total_pay <= 0) {
                         toast(' Nota debito no debe ser menor o igual a 0.','warning');
                         return redirect("invoice");
-                    }
+                    }*/
 
                     $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->get();
 
@@ -291,22 +298,26 @@ class NcinvoiceController extends Controller
                             }
                         }
                     }
+                    //creando registro ncinvoice productos
                     $this->ncinvoiceProductCreate($request, $document);//crear ncinvoiceProduct
-                    for ($i=0; $i < count($invoiceProducts); $i++) {
-                        $ideip = $invoiceProducts[$i]->id;
 
-                        $employeeInvoiceProduct = EmployeeInvoiceProduct::where('invoice_product_id', $ideip)->first();
-                        if ($employeeInvoiceProduct) {
-                            $idEmployee = $employeeInvoiceProduct->employee_id;
-                            $employee = Employee::findOrFail($idEmployee);
-                            $subtotal = $quantity[$i] * $price[$i];
-                            $commission = $employee->commission;
-                            $valueCommission = ($subtotal/100) * $commission;
+                    if ($indicator->work_labor == 'on') {
+                        for ($i=0; $i < count($invoiceProducts); $i++) {
+                            $ideip = $invoiceProducts[$i]->id;
 
-                            $employeeInvoiceProduct->price -= $price[$i];
-                            $employeeInvoiceProduct->subtotal -= $subtotal;
-                            $employeeInvoiceProduct->value_commission -= $valueCommission;
-                            $employeeInvoiceProduct->update();
+                            $employeeInvoiceProduct = EmployeeInvoiceProduct::where('invoice_product_id', $ideip)->first();
+                            if ($employeeInvoiceProduct) {
+                                $idEmployee = $employeeInvoiceProduct->employee_id;
+                                $employee = Employee::findOrFail($idEmployee);
+                                $subtotal = $quantity[$i] * $price[$i];
+                                $commission = $employee->commission;
+                                $valueCommission = ($subtotal/100) * $commission;
+
+                                $employeeInvoiceProduct->price -= $price[$i];
+                                $employeeInvoiceProduct->subtotal -= $subtotal;
+                                $employeeInvoiceProduct->value_commission -= $valueCommission;
+                                $employeeInvoiceProduct->update();
+                            }
                         }
                     }
                     break;
@@ -328,22 +339,26 @@ class NcinvoiceController extends Controller
                             }
                         }
                     }
+                    //creando registro ncinvoice productos
                     $this->ncinvoiceProductCreate($request, $document);//crear ncinvoiceProduct
-                    for ($i=0; $i < count($invoiceProducts); $i++) {
-                        $ideip = $invoiceProducts[$i]->id;
 
-                        $employeeInvoiceProduct = EmployeeInvoiceProduct::where('invoice_product_id', $ideip)->first();
-                        if ($employeeInvoiceProduct) {
-                            $idEmployee = $employeeInvoiceProduct->employee_id;
-                            $employee = Employee::findOrFail($idEmployee);
-                            $subtotal = $quantity[$i] * $price[$i];
-                            $commission = $employee->commission;
-                            $valueCommission = ($subtotal/100) * $commission;
+                    if ($indicator->work_labor == 'on') {
+                        for ($i=0; $i < count($invoiceProducts); $i++) {
+                            $ideip = $invoiceProducts[$i]->id;
 
-                            $employeeInvoiceProduct->price -= $price[$i];
-                            $employeeInvoiceProduct->subtotal -= $subtotal;
-                            $employeeInvoiceProduct->value_commission -= $valueCommission;
-                            $employeeInvoiceProduct->update();
+                            $employeeInvoiceProduct = EmployeeInvoiceProduct::where('invoice_product_id', $ideip)->first();
+                            if ($employeeInvoiceProduct) {
+                                $idEmployee = $employeeInvoiceProduct->employee_id;
+                                $employee = Employee::findOrFail($idEmployee);
+                                $subtotal = $quantity[$i] * $price[$i];
+                                $commission = $employee->commission;
+                                $valueCommission = ($subtotal/100) * $commission;
+
+                                $employeeInvoiceProduct->price -= $price[$i];
+                                $employeeInvoiceProduct->subtotal -= $subtotal;
+                                $employeeInvoiceProduct->value_commission -= $valueCommission;
+                                $employeeInvoiceProduct->update();
+                            }
                         }
                     }
                     break;
@@ -377,6 +392,7 @@ class NcinvoiceController extends Controller
                         $cashRegister->update();
                     }
                 } else {
+                    //creando registro d avance a clientes
                     $this->advanceCreate($voucherTypes, $documentOrigin, $advancePay, $typeDocument);
 
                     if ($indicator->pos == 'on') {
@@ -388,10 +404,11 @@ class NcinvoiceController extends Controller
                     }
                 }
                 $invoice->balance = 0;
+                $invoice->grand_total = $newGrandTotal;
                 $invoice->update();
             } else {
 
-                $invoice->balance -= $grandTotalNd;
+                $invoice->balance -= $grandTotalNc;
                 $invoice->grand_total = $newGrandTotal;
                 $invoice->update();
             }
