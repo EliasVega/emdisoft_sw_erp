@@ -21,7 +21,6 @@ class Vacation extends Model
         'vacation_days',
         'value_day',
         'vacation_value',
-        'vacation_adjustment',
         'pay_mode',
         'type',
         'payroll_acrued_id',

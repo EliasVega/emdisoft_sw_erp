@@ -80,7 +80,7 @@ class PayrollPartialController extends Controller
      */
     public function store(StorePayrollPartialRequest $request)
     {
-        dd($request->all());
+        //dd($request->all());
         $yearMonth = $request->month;//tomando año y mes de fecha inicio liquidacion
         $startDate = $request->start_date;//fecha de inicio de liquidacion
         $endDate = $request->end_date;
@@ -416,7 +416,7 @@ class PayrollPartialController extends Controller
      */
     public function show(PayrollPartial $payrollPartial)
     {
-        //
+        return view('admin.payrollPartial.show', compact('payrollPartial'));
     }
 
     /**

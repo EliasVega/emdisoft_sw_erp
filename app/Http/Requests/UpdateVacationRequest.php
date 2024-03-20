@@ -27,7 +27,6 @@ class UpdateVacationRequest extends FormRequest
             'vacation_days' => 'required',
             'value_day' => 'required',
             'value' => 'required|numeric',
-            'vacation_adjustment' => '',
             'pay_mode' => 'in:pay,causation',
             'type' => 'in:enjoyed,compensated',
         ];

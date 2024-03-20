@@ -17,7 +17,7 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="table-responsive">
-                <table class="table table-striped table-bordered table-condensed table-hover" id="payrolls">
+                <table class="table table-striped table-bordered table-condensed table-hover" id="payrollPartials">
                     <thead>
                         <tr class="bg-info">
                             <!--<th>O.P</th>-->
@@ -27,6 +27,7 @@
                             <th>F/fin</th>
                             <th>F/pago</th>
                             <th>F/generacion</th>
+                            <th>Devengados</th>
                             <th>acciones</th>
                         </tr>
                     </thead>
@@ -38,7 +39,7 @@
 <script type="text/javascript">
 $(document).ready(function ()
     {
-        $('#payrolls').DataTable(
+        $('#payrollPartials').DataTable(
         {
             responsive: true,
             info: true,
@@ -61,6 +62,7 @@ $(document).ready(function ()
                 {data: 'end_date'},
                 {data: 'payment_date'},
                 {data: 'generation_date'},
+                {data: 'total_acrued'},
                 {data: 'btn'},
             ],
             dom: 'Blfrtip',

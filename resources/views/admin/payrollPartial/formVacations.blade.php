@@ -3,7 +3,7 @@
         <label for="pay_mode">Modo pago</label>
         <div class="select">
             <select id="pay_mode" name="pay_mode" class="form-control selectpicker" data-live-search="true" required>
-                <option value="{{ old('type', $vacations->type ?? '') }}" disabled>Seleccionar Tipo</option>
+                <option value="{{ old('pay_mode', $vacations->pay_mode ?? '') }}" disabled>pagadas o causadas</option>
                     <option value="pay">Pagadas</option>
                     <option value="causation">Causadas</option>
             </select>
@@ -46,7 +46,7 @@
         <div class="select">
             <select id="vacation_type" name="vacation_type" class="form-control selectpicker" data-live-search="true" required>
                 <option value="{{ old('type', $vacations->type ?? '') }}" disabled>Seleccionar Tipo</option>
-                    <option value="emjoyed">Disfrutadas</option>
+                    <option value="enjoyed">Disfrutadas</option>
                     <option value="compensated">Compensadas</option>
             </select>
         </div>

@@ -131,12 +131,13 @@
         quantity = $("#vacationDays").val();
         salaryEmployee = $("#salary").val();
         value_day = salaryEmployee/30;
+        payMode = $(#"pay_mode").val();
         if (Date.parse(startVacations) <= Date.parse(endVacations)) {
             if (type_id != "" && type != "" && quantity > 0 && value_day > 0) {
                 subtotalVacations[contVacations] = parseFloat(quantity) * parseFloat(value_day);
                 totalVacations = totalVacations + subtotalVacations[contVacations];
 
-                if (type_id == 'compensated') {
+                if (type_id == 'compensated' && payMode == 'pay') {
                     tp = $("#total_acrued").val();
                     tpnew = parseFloat(tp) + parseFloat(subtotalVacations[contVacations]);
                     $("#total_acrued").val(tpnew.toFixed(2));

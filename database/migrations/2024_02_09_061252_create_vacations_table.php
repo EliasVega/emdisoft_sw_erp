@@ -21,7 +21,6 @@ return new class extends Migration
             $table->integer('vacation_days');//cantidad de dias para esta typo
             $table->decimal('value_day', 10,2);//valor del dia
             $table->decimal('vacation_value', 10,2);//valor de vacaciones
-            $table->decimal('vacation_adjustment', 10,2);//ajuste del valor de vacaciones
             $table->enum('pay_mode', ['pay', 'causation'])->default('pay'); //modo de pago
             $table->enum('type',['enjoyed', 'compensated'])->default('enjoyed');//typo de vacaciones disfrutadas o compensadas
 

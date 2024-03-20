@@ -200,11 +200,11 @@ class NdinvoiceController extends Controller
                     }
                 break;
                 case(8):
-
+                    /*
                     if ($total_pay <= 0) {
                         toast(' Nota debito no debe ser menor o igual a 0 en ningun item.','warning');
                         return redirect("invoice");
-                    }
+                    }*/
                     for ($i=0; $i < count($product_id); $i++) {
                         $id = $product_id[$i];
 
