@@ -8,30 +8,30 @@
     let type_id = '';
     let vacationDays = 0;
 
-    $('#end_period').prop("readonly", true);
+    $('#end_vaction_period').prop("readonly", true);
 
-    $("#start_period").change(activeEndPeriod);
+    $("#start_vaction_period").change(activeEndPeriod);
 
     function activeEndPeriod(){
-        $('#end_period').prop("readonly", false)
+        $('#end_vaction_period').prop("readonly", false)
     }
 
-    $("#end_period").change(totalDaysPeriod);
+    $("#end_vaction_period").change(totalDaysPeriod);
 
     function totalDaysPeriod(){
-        startPeriod = $("#start_period").val();
-        endPeriod = $("#end_period").val();
+        startPeriod = $("#start_vaction_period").val();
+        endPeriod = $("#end_vaction_period").val();
         startPeriodTime = moment(startPeriod);
         endPeriodTime = moment(endPeriod);
 
-        vacationDaysPeriod = endPeriodTime.diff(startPeriodTime, 'days' + 1);
-
+        vacationDaysPeriod = endPeriodTime.diff(startPeriodTime, 'days');
+        vacationDaysPeriod++;
         if (vacationDaysPeriod >= 0) {
             if (startPeriod < endPeriod) {
                 if (vacationDaysPeriod > 360) {
-                    $("#days_period").val(360);
+                    $("#days_vaction_period").val(360);
                 } else {
-                    $("#days_period").val(vacationDaysPeriod);
+                    $("#days_vaction_period").val(vacationDaysPeriod);
                 }
 
             } else {
@@ -131,13 +131,13 @@
         quantity = $("#vacationDays").val();
         salaryEmployee = $("#salary").val();
         value_day = salaryEmployee/30;
-        payMode = $(#"pay_mode").val();
+        vacationPaymentMode = $("#vacation_payment_mode").val();
         if (Date.parse(startVacations) <= Date.parse(endVacations)) {
             if (type_id != "" && type != "" && quantity > 0 && value_day > 0) {
                 subtotalVacations[contVacations] = parseFloat(quantity) * parseFloat(value_day);
                 totalVacations = totalVacations + subtotalVacations[contVacations];
 
-                if (type_id == 'compensated' && payMode == 'pay') {
+                if (type_id == 'compensated' && vacationPaymentMode == 'paid') {
                     tp = $("#total_acrued").val();
                     tpnew = parseFloat(tp) + parseFloat(subtotalVacations[contVacations]);
                     $("#total_acrued").val(tpnew.toFixed(2));

@@ -23,7 +23,6 @@ return new class extends Migration
 
             $table->foreignId('overtime_type_id')->constrained()->onUpdate('cascade');
             $table->foreignId('overtime_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('employee_id')->constrained()->onUpdate('cascade');
 
             $table->timestamps();
         });

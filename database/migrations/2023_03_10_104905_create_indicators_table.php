@@ -33,7 +33,7 @@ return new class extends Migration
             $table->enum('restaurant',['on', 'off'])->default('off');//si o no manejo de restaurantes
             $table->enum('barcode', ['on', 'off'])->default('off'); //si o no manejo codigo de barras
             $table->enum('cvpinvoice', ['on', 'off'])->default('off'); //Cambio de precio en venta
-            $table->enum('sqio', ['on', 'off'])->default('off'); //Cambio de precio en venta
+            $table->enum('sqio', ['on', 'off'])->default('off'); //si no tiene cantidad la orden de venta
 
             $table->foreignId('company_id')->constrained();
 

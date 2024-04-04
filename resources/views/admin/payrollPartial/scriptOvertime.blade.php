@@ -12,7 +12,7 @@
     });
     let subtotal = [];
     let cont = 0;
-    let total = 0;
+    let totalOvertime = 0;
     let salary = 0;
     let percentage = 0;
     let value_hour = 0;
@@ -50,16 +50,16 @@
 
 
     $(document).ready(function() {
-        $("#quantity").keyup(function() {
-            $("#quantity").val();
+        $("#quantity_overt").keyup(function() {
+            $("#quantity_overt").val();
             hoursValue();
         });
     });
 
     function hoursValue() {
-        partialQuantity = parseFloat($("#quantity").val())
+        partialQuantity = parseFloat($("#quantity_overt").val())
         valuehours = partialQuantity * value_hour;
-        $("#totalValue").val(valuehours);
+        $("#totalValueOvertime").val(valuehours.toFixed(2));
     }
 
     $(document).ready(function() {
@@ -75,13 +75,13 @@
         dataOvertimeType = document.getElementById('overtime_type_id').value.split('_');
         overtime_type_id = dataOvertimeType[0];
         overtimeType = $("#overtime_type_id option:selected").text();
-        quantity = $("#quantity").val();
-
+        quantityOvert = $("#quantity_overt").val();
 
         if (Date.parse(startDate) <= Date.parse(endDate)) {
-            if (overtime_type_id != "" && percentage > 0 && quantity > 0 && value_hour > 0) {
-                subtotal[cont] = parseFloat(quantity) * parseFloat(value_hour);
-                total = total + subtotal[cont];
+            if (overtime_type_id != "" && percentage > 0 && quantityOvert > 0 && value_hour > 0) {
+                subtotal[cont] = parseFloat(quantityOvert) * parseFloat(value_hour);
+                totalOvertime = totalOvertime + subtotal[cont];
+
                 var row = '<tr class="selected" id="row' + cont +
                     '"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow(' + cont +
                     ');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow(' +
@@ -89,8 +89,8 @@
                     ');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="overtime_type_id[]"  value="' +
                     overtime_type_id + '">' + overtime_type_id +
                     '</td><td><input type="hidden" name="overtimeType[]"  value="' + overtimeType + '">' +
-                    overtimeType + '</td> <td><input type="hidden" name="quantity[]" value="' + quantity + '">' +
-                    quantity + '</td> <td><input type="hidden" name="value_hour[]"  value="' + value_hour + '">' +
+                    overtimeType + '</td> <td><input type="hidden" name="quantity_overtime[]" value="' + quantityOvert + '">' +
+                    quantityOvert + '</td> <td><input type="hidden" name="value_hour[]"  value="' + value_hour + '">' +
                     value_hour.toFixed(2) + '</td> <td>$' + subtotal[cont].toFixed(2) + ' </td></tr>';
                 cont++;
                 totals();
@@ -121,38 +121,27 @@
     function clean() {
         //$('#employee_id').val(null).trigger('change');
         $('#overtime_type_id').val(null).trigger('change');
-        $("#quantity").val("");
-        $("#totalValue").val("");
+        $("#quantity_overt").val("");
+        $("#totalValueOvertime").val("");
     }
 
     function totals() {
+        contPartial = cont - 1;
+        $("#total_overtime_html").html("$ " + totalOvertime.toFixed(2));
+        $("#total_overtime").val(totalOvertime.toFixed(2));
 
-        $("#total_html").html("$ " + total.toFixed(2));
-        $("#total").val(total.toFixed(2));
-        tp = $("#total_acrued").val();
-        tpnew = parseFloat(tp) + parseFloat(total);
-
-        $("#total_acrued").val(tpnew.toFixed(2));
+        tAcrued = $("#total_acrued").val();
+        totalAcrued = parseFloat(tAcrued) + subtotal[contPartial];
+        $("#total_acrued").val(totalAcrued.toFixed(2));
     }
 
     function assess() {
-        if (total > 0) {
+        if (totalOvertime > 0) {
             $("#save").show();
         } else {
             $("#save").hide();
         }
     }
-    /*
-    function eliminar(index) {
-
-        total = total - pay[index];
-
-        $("#total_html").html("$ " + total.toFixed(2));
-        $("#total").val(total.toFixed(2));
-
-        $("#row" + index).remove();
-        assess();
-    }*/
 
     jQuery(document).on("click", "#editrow", function () {
         editrow();
@@ -174,7 +163,7 @@
             $("#contModal").val(index);
             $("#overtime_type_idModal").val(row.find("td:eq(2)").text());
             $("#overtimeTypeModal").val(row.find("td:eq(3)").text());
-            $("#quantityModal").val(row.find("td:eq(4)").text());
+            $("#quantity_overtModal").val(row.find("td:eq(4)").text());
             $("#valueHourModal").val(row.find("td:eq(5)").text());
             $("#subtotalModal").val(row.find("td:eq(6)").text());
 
@@ -194,11 +183,11 @@
         contedit = $("#contModal").val();
         overtime_type_id = $("#overtime_type_idModal").val();
         overtimeType = $("#overtimeTypeModal").val();
-        quantity = $("#quantityModal").val();
+        quantityOvert = $("#quantityOvertModal").val();
         value_hour = $("#valueHourModal").val();
-        if (overtime_type_id != "" && quantity > 0 && value_hour > 0) {
-            subtotal[cont] = parseFloat(quantity) * parseFloat(value_hour);
-            total = total + subtotal[cont];
+        if (overtime_type_id != "" && quantityOvert > 0 && value_hour > 0) {
+            subtotal[cont] = parseFloat(quantityOvert) * parseFloat(value_hour);
+            totalOvertime = totalOvertime + subtotal[cont];
             var row = '<tr class="selected" id="row' + cont +
                 '"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow(' + cont +
                 ');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow(' +
@@ -206,7 +195,7 @@
                 ');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="overtime_type_id[]"  value="' +
                 overtime_type_id + '">' + overtime_type_id +
                 '</td><td><input type="hidden" name="overtimeType[]"  value="' + overtimeType + '">' + overtimeType +
-                '</td> <td><input type="hidden" name="quantity[]" value="' + quantity + '">' + quantity +
+                '</td> <td><input type="hidden" name="quantity_overtime[]" value="' + quantityOvert + '">' + quantityOvert +
                 '</td> <td><input type="hidden" name="value_hour[]"  value="' + value_hour + '">' + value_hour + '</td> <td>$' + subtotal[cont].toFixed(2) + ' </td></tr>';
             cont++;
             deleterow(contedit);
@@ -228,10 +217,10 @@
 
     function deleterow(index) {
 
-        total = total - subtotal[index];
+        totalOvertime = totalOvertime - subtotal[index];
 
-        $("#total_html").html("$ " + total.toFixed(2));
-        $("#total").val(total.toFixed(2));
+        $("#total_overtime_html").html("$ " + totalOvertime.toFixed(2));
+        $("#total_overtime").val(totalOvertime.toFixed(2));
 
         tp = $("#total_acrued").val();
         tpnew = parseFloat(tp) - parseFloat(subtotal[index]);

@@ -23,8 +23,7 @@ class OvertimeMonth extends Model
         'status',
 
         'overtime_type_id',
-        'overtime_id',
-        'employee_id'
+        'overtime_id'
     ];
 
     protected $guarded = [

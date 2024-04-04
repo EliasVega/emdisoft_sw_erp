@@ -1,36 +1,36 @@
 <div class="box-body row">
     <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
-        <label for="pay_mode">Modo pago</label>
+        <label for="vacation_payment_mode">Modo pago</label>
         <div class="select">
-            <select id="pay_mode" name="pay_mode" class="form-control selectpicker" data-live-search="true" required>
-                <option value="{{ old('pay_mode', $vacations->pay_mode ?? '') }}" disabled>pagadas o causadas</option>
-                    <option value="pay">Pagadas</option>
-                    <option value="causation">Causadas</option>
+            <select id="vacation_payment_mode" name="vacation_payment_mode" class="form-control selectpicker" data-live-search="true" required>
+                <option value="{{ old('payment_mode', $vacations->payment_mode ?? '') }}" disabled>pagar o causar</option>
+                    <option value="paid">Pagadas</option>
+                    <option value="caused">Causadas</option>
             </select>
         </div>
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
-            <label class="form-control-label" for="start_period">Periodo desde</label>
-            <input type="date" name="start_period" id="start_period" value=""  class="form-control"  placeholder="Periodo desde">
+            <label class="form-control-label" for="start_vaction_period">Periodo desde</label>
+            <input type="date" name="start_vaction_period" id="start_vaction_period" value=""  class="form-control"  placeholder="Periodo desde">
         </div>
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
-            <label class="form-control-label" for="end_period">Periodo hasta</label>
-            <input type="date" name="end_period" id="end_period" value=""  class="form-control"  placeholder="Periodo hasta" readonly>
+            <label class="form-control-label" for="end_vaction_period">Periodo hasta</label>
+            <input type="date" name="end_vaction_period" id="end_vaction_period" value=""  class="form-control"  placeholder="Periodo hasta" readonly>
         </div>
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
-            <label class="form-control-label" for="days_period">N° dias</label>
-            <input type="number" id="days_period" name="days_period" value="0" class="form-control" placeholder="dias">
+            <label class="form-control-label" for="days_vaction_period">N° dias</label>
+            <input type="number" id="days_vaction_period" name="days_vaction_period" value="0" class="form-control" placeholder="dias">
         </div>
     </div>
-    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addProvision">
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addProvisionVacations">
         <div class="form-group">
             <label class="form-control-label" for="provision_vacations">Provision</label>
-            <input type="number" id="provision_vacations" name="provision_vacations" value="" class="form-control" placeholder="provision" step="any">
+            <input type="number" id="provision_vacations" name="provision_vacations" value="0" class="form-control" placeholder="provision" step="any">
         </div>
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addVacationAdjustment">
@@ -45,7 +45,7 @@
         <label for="vacation_type">Tipo</label>
         <div class="select">
             <select id="vacation_type" name="vacation_type" class="form-control selectpicker" data-live-search="true" required>
-                <option value="{{ old('type', $vacations->type ?? '') }}" disabled>Seleccionar Tipo</option>
+                <option value="{{ old('vacation_type', $vacations->type ?? '') }}" disabled>Seleccionar Tipo</option>
                     <option value="enjoyed">Disfrutadas</option>
                     <option value="compensated">Compensadas</option>
             </select>
@@ -60,7 +60,7 @@
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="endVacations">F/Fin</label>
-            <input type="date" name="endVacations" id="endVacations" value=""  class="form-control"  placeholder="Fecha Fin" readonly>
+            <input type="date" name="endVacations" id="endVacations" value=""  class="form-control"  placeholder="Fecha Fin"readonly>
         </div>
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addVacationDays">

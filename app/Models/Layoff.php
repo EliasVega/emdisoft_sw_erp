@@ -21,6 +21,7 @@ class Layoff extends Model
         'layoff_days',
         'layoff_value',
         'layoff_interest',
+        'pay_layoffs',
 
         'payroll_acrued_id',
         'payroll_partial_acrued_id'

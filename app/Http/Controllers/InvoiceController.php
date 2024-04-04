@@ -124,6 +124,7 @@ class InvoiceController extends Controller
      */
     public function create()
     {
+        $company = Company::findOrFail(1);
         $indicator = indicator();
         $pos = indicator()->pos;
         $cashRegister = cashregisterModel();
@@ -133,6 +134,14 @@ class InvoiceController extends Controller
                 return redirect("branch");
             }
         }
+        $cols = 9;
+        if ($indicator->cvpinvoice == 'off') {
+            $cols--;
+        }
+        if ($indicator->work_labor == 'off') {
+            $cols--;
+        }
+
         $customers = Customer::get();
         $employees = Employee::get();
         $resolutions = Resolution::where('document_type_id', 1)->where('status', 'active')->get();
@@ -187,7 +196,9 @@ class InvoiceController extends Controller
             'date',
             'companyTaxes',
             'uvtmax',
-            'indicator'
+            'indicator',
+            'company',
+            'cols'
         ));
     }
 
@@ -336,7 +347,7 @@ class InvoiceController extends Controller
                 $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
 
                 //metodo para comisiones de empleados
-                if ($employee_id[$i] != 'null') {
+                if (isset($employee_id[$i])) {
                     $employee = Employee::findOrFail($employee_id[$i]);
                     $subtotal = $quantity[$i] * $price[$i];
                     $commission = $employee->commission;

@@ -14,6 +14,14 @@
                     @can('branch.index')
                         <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
                     @endcan
+                    <a href="{{ route('product.create') }}" class="btn btn-lightBlueGrad btn-sm"
+                        target="_blank" data-toggle="tooltip" data-placement="top">
+                        <i class="fa fa-plus"> Agregar Producto</i>
+                    </a>
+                    <a href="{{ route('customer.create') }}" class="btn btn-lightBlueGrad btn-sm"
+                        target="_blank" data-toggle="tooltip" data-placement="top">
+                        <i class="fa fa-plus"> Agregar Cliente</i>
+                    </a>
                 </h5>
             </div>
             @if (count($errors)>0)
@@ -29,10 +37,10 @@
             {!!Form::token()!!}
             <div class="row m-1">
                 @if ($indicator->pos == 'on')
-                    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
-                        @include('admin/invoice.form_invoice')
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        @include('admin/invoice.form_pos')
                     </div>
-                    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 colorpay">
+                    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12" id="payposorigin">
                         @include('admin/invoice.form_paypos')
                     </div>
                 @else
@@ -53,14 +61,17 @@
 </div>
 <!--Inicio del modal cliente-->
 @include('admin/invoice.editmodal')
+@include('admin/invoice.modal_pay_pos')
 <!--Fin del modal-->
 @endsection
 @section('scripts')
-@include('admin/invoice.script')
+
     @if ($indicator->pos == 'on')
         @include('admin/invoice.script_paypos')
+        @include('admin/invoice.script_pos')
     @else
         @include('admin/generalview.script_pay')
         @include('admin/invoice.script_retention')
+        @include('admin/invoice.script')
     @endif
 @endsection

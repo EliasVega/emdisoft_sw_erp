@@ -31,7 +31,7 @@
                     }
                     totalRetention[contRetention] = taxValue;
                     total_retention = parseFloat(total_retention)  + parseFloat(totalRetention[contRetention]);
-                    var rowretention= '<tr class="selected" id="rowretention'+contRetention+'"><td><button type="button" class="btn btn-danger btn-sm" onclick="deleterow('+contRetention+');"><i class="fa fa-times"></i></button></td><td><input type="hidden" name="company_tax_id[]" value="'+companyTaxId+'">'+companyTaxId+'</td><td><input type="hidden" name="tax[]" value="'+taxName+'">'+taxName+'</td><td> $'+parseFloat(totalRetention[contRetention]).toFixed(2)+'</td></tr>';
+                    var rowretention= '<tr class="selected" id="rowretention'+contRetention+'"><td><button type="button" class="btn btn-danger btn-xs" onclick="deleterow('+contRetention+');"><i class="fa fa-times"></i></button></td><td><input type="hidden" name="company_tax_id[]" value="'+companyTaxId+'">'+companyTaxId+'</td><td><input type="hidden" name="tax[]" value="'+taxName+'">'+taxName+'</td><td> $'+parseFloat(totalRetention[contRetention]).toFixed(2)+'</td></tr>';
                     contRetention++;
 
                     retentionTotals();
@@ -70,7 +70,7 @@
                     }
                     //totalRetention[contRetention] = taxValue;
                     total_retention = parseFloat(total_retention)  + parseFloat(totalRetention[contRetention]);
-                    var rowretention= '<tr class="selected" id="rowretention'+contRetention+'"><td><button type="button" class="btn btn-danger btn-sm" onclick="deleterow('+contRetention+');"><i class="fa fa-times"></i></button></td><td><input type="hidden" name="company_tax_id[]" value="'+companyTaxId+'">'+companyTaxId+'</td><td><input type="hidden" name="tax[]" value="'+taxName+'">'+taxName+'</td><td> $'+parseFloat(totalRetention[contRetention]).toFixed(2)+'</td></tr>';
+                    var rowretention= '<tr class="selected" id="rowretention'+contRetention+'"><td><button type="button" class="btn btn-danger btn-xs" onclick="deleterow('+contRetention+');"><i class="fa fa-times"></i></button></td><td><input type="hidden" name="company_tax_id[]" value="'+companyTaxId+'">'+companyTaxId+'</td><td><input type="hidden" name="tax[]" value="'+taxName+'">'+taxName+'</td><td> $'+parseFloat(totalRetention[contRetention]).toFixed(2)+'</td></tr>';
                     contRetention++;
 
                     retentionTotals();
@@ -155,7 +155,7 @@
                 totalRetention[contRetention] = total_ncpurchase * percentage/100;
             }
             total_retention = total_retention+totalRetention[contRetention];
-            var row= '<tr class="selected" id="row'+contRetention+'"><td><button type="button" class="btn btn-danger btn-sm" onclick="deleterow('+contRetention+');"><i class="fa fa-times"></i></button></td><td><input type="hidden" name="company_tax_id[]" value="'+company_tax_id+'">'+companyTax+'</td><td> $'+parseFloat(totalRetention[contRetention]).toFixed(2)+'</td></tr>';
+            var row= '<tr class="selected" id="row'+contRetention+'"><td><button type="button" class="btn btn-danger btn-xs" onclick="deleterow('+contRetention+');"><i class="fa fa-times"></i></button></td><td><input type="hidden" name="company_tax_id[]" value="'+company_tax_id+'">'+companyTax+'</td><td> $'+parseFloat(totalRetention[contRetention]).toFixed(2)+'</td></tr>';
             contRetention++;
 
             retentionTotals();

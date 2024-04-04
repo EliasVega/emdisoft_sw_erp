@@ -16,6 +16,7 @@ class ProvisionPartial extends Model
     public $timestamps = true;
 
     protected $fillable = [
+        'year_month',
         'start_period',
         'end_period',
         'vacations',
@@ -27,7 +28,7 @@ class ProvisionPartial extends Model
 
         'provision_id',
         'payroll_acrued_id',
-        'payroll_partial_acrued_id',
+        'employee_id'
     ];
 
     protected $guarded = [

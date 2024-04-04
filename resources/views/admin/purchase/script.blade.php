@@ -165,8 +165,8 @@
                 tax_iva += ivita;
             }
             var row = '<tr class="selected" id="row' + cont +
-                '"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow(' + cont +
-                ');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow(' +
+                '"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow(' + cont +
+                ');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow(' +
                 cont +
                 ');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="product_id[]"  value="' +
                 product_id + '">' + product_id + '</td><td><input type="hidden" name="product[]" value="' + product +
@@ -264,8 +264,8 @@
                 tax_iva += ivita;
             }
             var row = '<tr class="selected" id="row' + cont +
-                '"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow(' + cont +
-                ');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow(' +
+                '"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow(' + cont +
+                ');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow(' +
                 cont +
                 ');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="product_id[]"  value="' +
                 product_id + '">' + product_id + '</td><td><input type="hidden" name="product[]" value="' + product +
@@ -396,8 +396,8 @@
             ivita = subtotal[cont] * tax_rate / 10
 
             var row = '<tr class="selected" id="row' + cont +
-                '"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow(' + cont +
-                ');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow(' +
+                '"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow(' + cont +
+                ');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow(' +
                 cont +
                 ');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="product_id[]"  value="' +
                 product_id + '">' + product_id + '</td><td><input type="hidden" name="product[]" value="' + product +

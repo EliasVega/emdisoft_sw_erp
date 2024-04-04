@@ -16,8 +16,14 @@ class Provision extends Model
     public $timestamps = true;
 
     protected $fillable = [
+        'start_period_vacations',
+        'vacation_days',
         'vacations',
+        'start_period_bonus',
+        'bonus_days',
         'bonus',
+        'start_period_layoffs',
+        'layoff_days',
         'layoffs',
         'layoff_interest',
 

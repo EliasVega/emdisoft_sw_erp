@@ -23,9 +23,11 @@ class PayrollPartial extends Model
         'generation_date',
         'days',
         'fortnight',
+        'note',
 
         'employee_id',
-        'payroll_id'
+        'payroll_id',
+        'user_id'
     ];
 
     protected $guarded = [

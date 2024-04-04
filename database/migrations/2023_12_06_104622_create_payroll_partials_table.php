@@ -22,9 +22,11 @@ return new class extends Migration
             $table->integer('days');//dias trabajados
             $table->decimal('total_acrued', 10,2);//total devengado
             $table->enum('fortnight', ['first', 'second'])->default('first');//diferenciacion de nomina
+            $table->string('note')->nullable();//observaciones
 
             $table->foreignId('employee_id')->constrained();
             $table->foreignId('payroll_id')->constrained();
+            $table->foreignId('user_id')->constrained();
 
             $table->timestamps();
         });

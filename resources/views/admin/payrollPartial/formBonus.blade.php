@@ -1,12 +1,12 @@
 <div class="box-body row">
-    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="addPeriod">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="addBonusPeriod">
         <div class="inputBtn">
             <div class="checkbox">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 checkbox">
-                    <input type="checkbox" name="bonusperiod" class="bonusperiod" value="0" id="bonus1">
+                    <input type="checkbox" name="bonusPeriod" class="bonusPeriod" value="0" id="bonus1">
                     <label for="bonus1">Periodo 1</label>
 
-                    <input type="checkbox" name="bonusperiod" class="bonusperiod" value="1" id="bonus2">
+                    <input type="checkbox" name="bonusPeriod" class="bonusPeriod" value="1" id="bonus2">
                     <label for="bonus2">Periodo 2</label>
                 </div>
             </div>
@@ -15,8 +15,8 @@
     <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
         <label for="typeBonus">Tipo</label>
         <div class="select">
-            <select id="typeBonus" name="typeBonus" class="form-control selectpicker" data-live-search="true" required>
-                <option value="{{ old('type', $bonus->type ?? '') }}" disabled>Seleccionar Tipo</option>
+            <select id="type_bonus" name="type_bonus" class="form-control selectpicker" data-live-search="true" required>
+                <option disabled>Seleccionar Tipo</option>
                     <option value="salary">SALARIAL</option>
                     <option value="non-salary">NO SALARIAL</option>
             </select>
@@ -31,7 +31,7 @@
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="endBonus">F/Fin</label>
-            <input type="date" name="endBonus" id="endBonus" value=""  class="form-control"  placeholder="Fecha Fin" readonly>
+            <input type="date" name="endBonus" id="endBonus" value=""  class="form-control"  placeholder="Fecha Fin">
         </div>
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addBonusDays">
@@ -40,10 +40,38 @@
             <input type="number" id="bonusDays" name="bonusDays" value="0" class="form-control" placeholder="dias">
         </div>
     </div>
-    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 mt-4">
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-lightBlueGrad" type="button" id="add_bonus"><i class="fa fa-save"></i> Agregar</button>
-            <button class="btn btn-darkBlueGrad" type="button" id="canc_bonus"><i class="fa fa-save"></i> Cancelar</button>
+            <label class="form-control-label" for="valueBonus">V/prima</label>
+            <input type="number" id="valueBonus" name="valueBonus" value="0" class="form-control" placeholder="valor" step="any">
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addProvisionBonus">
+        <div class="form-group">
+            <label class="form-control-label" for="provision_bonus">Provision</label>
+            <input type="number" id="provision_bonus" name="provision_bonus" value="0" class="form-control" placeholder="provision" step="any">
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addBonusAdjustment">
+        <div class="form-group">
+            <label class="form-control-label" for="bonus_adjustment">Ajuste Prima Salarial</label>
+            <input type="number" id="bonus_adjustment" name="bonus_adjustment" value="0" class="form-control" placeholder="ajuste vacacional" step="any">
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addBonusDays">
+        <div class="form-group">
+            <label class="form-control-label" for="daysProBonus">N° dias</label>
+            <input type="number" id="daysProBonus" name="daysProBonus" value="0" class="form-control" placeholder="dias">
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mt-4">
+        <div class="form-group">
+            <button class="btn btn-lightBlueGrad" type="button" id="add_bonus" data-toggle="tooltip"
+                data-placement="top" title="Agregar"><i class="fas fa-check"></i></button>
+
+
+            <button class="btn btn-blueGrad" type="button" id="canc_bonus" data-toggle="tooltip"
+                data-placement="top" title="Cancelar"><i class="fa fa-window-close"></i></button>
         </div>
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

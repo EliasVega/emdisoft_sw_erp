@@ -16,20 +16,24 @@
     </div>
     <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12" id="addquantity">
         <div class="form-group">
-            <label for="quantity">C/horas</label>
-            <input type="text" name="quantity" value="" id="quantity" class="form-control"  placeholder="Cantidad">
+            <label for="quantity_overt">C/horas</label>
+            <input type="text" name="quantity_overt" value="" id="quantity_overt" class="form-control"  placeholder="Cantidad">
         </div>
     </div>
     <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12" id="addTotalValue">
         <div class="form-group">
-            <label for="totalValue">V/total</label>
-            <input type="text" name="totalValue" value="0" id="totalValue" class="form-control"  placeholder="valor total">
+            <label for="totalValueOvertime">V/total</label>
+            <input type="text" name="totalValueOvertime" value="0" id="totalValueOvertime" class="form-control"  placeholder="valor total">
         </div>
     </div>
-    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 mt-4">
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mt-4">
         <div class="form-group">
-            <button class="btn btn-lightBlueGrad" type="button" id="add"><i class="fa fa-save"></i> Agregar</button>
-            <button class="btn btn-darkBlueGrad" type="button" id="canc_he"><i class="fa fa-save"></i> Cancelar</button>
+            <button class="btn btn-lightBlueGrad" type="button" id="add" data-toggle="tooltip"
+                data-placement="top" title="Agregar"><i class="fas fa-check"></i></button>
+
+
+            <button class="btn btn-blueGrad" type="button" id="canc_he" data-toggle="tooltip"
+                data-placement="top" title="Cancelar"><i class="fa fa-window-close"></i></button>
         </div>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" id="addPercentage">
@@ -64,8 +68,8 @@
                             <p align="right">TOTAL:</p>
                         </th>
                         <th class="thfoot">
-                            <p align="right"><span id="total_html">$ 0.00</span>
-                                <input type="hidden" name="total" value="0" id="total"> </p>
+                            <p align="right"><span id="total_overtime_html">$ 0.00</span>
+                                <input type="hidden" name="total_overtime" value="0" id="total_overtime"> </p>
                         </th>
                     </tr>
                 </tfoot>

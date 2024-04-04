@@ -13,8 +13,8 @@
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
-            <label for="quantityModal">Cantidad</label>
-            <input type="number" name="quantityModal" id="quantityModal" class="form-control" placeholder="Cantidad">
+            <label for="quantityOvertModal">Cantidad</label>
+            <input type="number" name="quantityOvertModal" id="quantityOvertModal" class="form-control" placeholder="Cantidad">
         </div>
     </div>
 

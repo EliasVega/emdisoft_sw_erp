@@ -17,59 +17,60 @@
 
     //$("#valuePay").hide();
     $("#types").hide();
-    $("#pendadd").hide();
-    $("#methodPay").hide();
-    $("#totalPayValue").hide();
-    $("#payment_method_id").val(2);
-    $("#returnedBalance").hide();
-    $("#valuePay").hide();
+    $("#pendaddModal").hide();
+    $("#methodPayModal").hide();
+    $("#payposorigin").hide();
+    $("#payment_method_modal").val(2);
+    $("#returnedBalanceModal").hide();
+    $("#valuePayModal").hide();
     $("#save").hide();
-
+    $("#vpayadd").hide();
+    $("#rbadd").hide();
     /*
     $("#percentage").val(0);
     */
 
     $(document).ready(function(){
-        $("#payment_form_id").change(function(){
-            form = $("#payment_form_id").val();
+        $("#payment_form_modal").change(function(){
+            form = $("#payment_form_modal").val();
             if(form == 1){
                 $("#save").hide();
-                $("#returnedBalance").show();
-                $("#valuePay").show();
-                $("#payment_method_id").val(10);
-                $("#pay").val(0);
-                $("#returned").val(0);
-                $('#pay').prop("required", true);
+                $("#returnedBalanceModal").show();
+                $("#valuePayModal").show();
+                $("#payment_method_modal").val(10);
+                $("#payModal").val(0);
+                $("#returnedModal").val(0);
+                $('#payModal').prop("required", true);
             }else{
-                $("#returnedBalance").hide();
-                $("#valuePay").hide();
-                $("#payment_method_id").val(1);
-                $("#pay").val(0);
-                $("#returned").val(0);
-                $('#pay').prop("required", false);
+                $("#returnedBalanceModal").hide();
+                $("#valuePayModal").hide();
+                $("#payment_method_modal").val(1);
+                $("#payModal").val(0);
+                $("#returnedModal").val(0);
+                $('#payModal').prop("required", false);
                 $("#save").show();
             }
         });
     });
 
     $(document).ready(function(){
-        $("#pay").keyup(function(){
-            $("#pay").val();
-            $("#returned").val();
+        $("#payModal").keyup(function(){
+            $("#payModal").val();
+            $("#returnedModal").val();
             paymentor();
         });
     });
 
     function paymentor(){
-        ttp = parseFloat($("#pendient").val())
-        abn = parseFloat($("#pay").val())
+        ttp = parseFloat($("#pendientModal").val())
+        abn = parseFloat($("#payModal").val())
         balancey = ttp - abn;
-        $("#returned").val(balancey);
+        $("#returnedModal").val(balancey);
         assesspayment();
     }
 
     function assesspayment(){
-        invoice = $("#returned").val();
+        invoice = $("#returnedModal").val();
         if(invoice <= 0){
             $("#save").show();
 
@@ -80,83 +81,29 @@
 
     var contpay=0;
     totalpay=0;
-    /*
-    $(document).ready(function(){
-        $("#paying").click(function(){
-            paying();
-        });
+
+    jQuery(document).on("click", "#savePayment", function () {
+        updatePayPos();
+        $('#payPos').modal('hide');
     });
-    function paying(){
 
-        payment_method_id = $("#payment_method_id").val();
-        payment_method = $("#payment_method_id option:selected").text();
-        bank_id = $("#bank_id").val();
-        bank = $("#bank_id option:selected").text();
-        card_id = $("#card_id").val();
-        card = $("#card_id option:selected").text();
-        pay = $("#pay").val();
-        transaction = $("#transaction").val();
-        pendient = parseFloat($("#pendient").val());
-
-        if(payment_method_id !="" && bank_id!="" && card_id!=""  && pay!="" && pay>0 && transaction!=""){
-            totalpay = parseFloat(totalpay) + parseFloat(pay);
-            rbalance = parseFloat(pendient) - parseFloat(pay);
-            paycont[contpay] = pay;
-
-            if (pendient >= pay) {
-                var rowpay= '<tr class="selected" id="rowpay'+contpay+'"><td><button type="button" class="btn btn-danger btn-sm" onclick="deletepay('+contpay+');"><i class="fa fa-times"></i></button></td> <td><input type="hidden" name="payment_method_id[]" value="'+payment_method_id+'">'+payment_method+'</td> <td><input type="hidden" name="card_id[]" value="'+card_id+'">'+card+'</td> <td><input type="hidden" name="bank_id[]" value="'+bank_id+'">'+bank+'</td> <td><input type="hidden" name="transaction[]" value="'+transaction+'">'+transaction+'</td> <td><input type="hidden" name="pay[]" value="'+pay+'">'+pay+'</td>  </tr>';
-                contpay++;
-
-                totalpayment();
-                assesspayment();
-                $('#payments').append(rowpay);
-                clearpay();
-            } else {
-                totalpay = parseFloat(totalpay) - parseFloat(pay);
-                //alert("Rellene todos los campos del detalle de la venta");
-                Swal.fire({
-                    type: 'error',
-                    //title: 'Oops...',
-                    text: 'Abono supera el saldo del Pedido',
-                });
-            }
-        } else {
-            //alert("Rellene todos los campos del detalle de la venta");
-            Swal.fire({
-            type: 'error',
-            //title: 'Oops...',
-            text: 'Rellene todos los campos del detalle del pago',
-            });
-        }
-    }*/
-    /*
-    function clearpay(){
-        $("#payment_method_id").val("");
-        $("#bank_id").val("");
-        $("#card_id").val("");
-        $("#pay").val("");
-        $("#transaction").val("");
+    function updatePayPos() {
+        pfModal = $("#payment_form_modal").val();
+        pmModal = $("#payment_method_modal").val();
+        balanceMod = $("#balanceModal").val();
+        pendientMod = $("#pendientModal").val();
+        payMod = $("#payModal").val();
+        returnedMod = $("#returnedModal").val();
+        $("#payment_form_id").val(pfModal);
+        $("#payment_method_id").val(pmModal);
+        $("#balance").val(balanceMod);
+        $("#pendient").val(pendientMod);
+        $("#pay").val(payMod);
+        $("#returned").val(returnedMod);
+        $("#vpay").val(payMod);
+        $("#rbal").val(returnedMod);
+        $("#vpayadd").show();
+        $("#rbadd").show();
+        $("#payposadd").hide();
     }
-    function totalpayment(){
-
-        $("#totalpay_html").html("$ " + totalpay.toFixed(2));
-        $("#totalpay").val(totalpay.toFixed(2));
-        $("#pendient").val(rbalance);
-    }*/
-
-    /*
-    function deletepay(index){
-        paydelete = paycont[index];
-        pendient = $("#pendient").val();
-        newpendient = parseFloat(pendient) + parseFloat(paydelete);
-
-
-        totalpay = totalpay-paycont[index];
-        $("#totalpay_html").html("$ " + totalpay.toFixed(2));
-        $("#totalpay").val(totalpay.toFixed(2));
-
-        $("#pendient").val(newpendient);
-        $("#rowpay" + index).remove();
-        assesspayment();
-    }*/
 </script>

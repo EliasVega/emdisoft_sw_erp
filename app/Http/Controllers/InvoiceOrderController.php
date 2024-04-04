@@ -384,7 +384,7 @@ class InvoiceOrderController extends Controller
                 ->where('product_id', $id)->first();
             }
 
-            //Inicia proceso actualizacio pre compra producto si no existe
+            //Inicia proceso actualizacion pre Venta producto si no existe
             if (is_null($invoiceOrderProduct)) {
                 $subtotal = $quantity[$i] * $price[$i];
                 $tax_subtotal = $subtotal * $tax_rate[$i]/100;

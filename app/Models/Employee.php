@@ -121,6 +121,6 @@ class Employee extends Model
     }
 
     public function provision(){
-        return $this->belongsTo(Provision::class);
+        return $this->hasOne(Provision::class);
     }
 }

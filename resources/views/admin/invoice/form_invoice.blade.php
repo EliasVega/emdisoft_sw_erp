@@ -100,7 +100,7 @@
             <div class="form-group">
                 <label for="code">Codigo</label>
                 <input type="text" name="code" id="code" value="" class="form-control"
-                    placeholder="" aria-describedby="helpId" class="gui-input" autofocus>
+                    placeholder="" aria-describedby="helpId" class="gui-input">
 
             </div>
         </div>

@@ -20,7 +20,7 @@ class Overtime extends Model
         'total',
 
         'employee_id',
-        'payroll_id'
+        'payroll_acrued_id'
     ];
 
     protected $guarded = [
@@ -32,13 +32,15 @@ class Overtime extends Model
         return $this->belongsTo(Employee::class);
     }
 
+    public function overtimeMonths()
+    {
+        return $this->hasMany(OvertimeMonth::class);
+    }
+
     public function payrollAcrued()
     {
         return $this->belongsTo(PayrollAcrued::class);
     }
 
-    public function payrollPartialAcrued()
-    {
-        return $this->belongsTo(PayrollPartialAcrued::class);
-    }
+
 }

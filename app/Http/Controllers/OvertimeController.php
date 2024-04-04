@@ -63,43 +63,46 @@ class OvertimeController extends Controller
     public function store(StoreOvertimeRequest $request)
     {
         //dd($request->all());
-
-        $overtime_tipe_id = $request->overtime_type_id;
+        $overtime_type_id = $request->overtime_type_id;
         $startTime = $request->start_time;
         $endTime = $request->end_time;
-        $percentage = $request->percentage;
         $quantity = $request->hours;
         $valueHour = $request->value_hour;
+        $total = $request->total;
 
-        $emp = $request->employee_id;
-        //dd(intval(explode("_", $emp[0])));
-        $employee = Employee::findOrFail(intval(explode("_", $emp[0])));
+        $empled = $request->employee_id;
+        $emp = explode("_", $empled);
+        $employee = Employee::where('id', $emp[0])->first();
+        $employee_id = $employee->id;
+
+        $dateTime = Carbon::parse($startTime[0]);
+        $month = $dateTime->format('Y-m');
+
+        $overtime = Overtime::where('year_month', $month)->where('employee_id', $employee_id)->first();
+
+        if ($overtime) {
+            $overtime->total += $total;
+            $overtime->update();
+        } else {
+            $overtime = new Overtime();
+            $overtime->year_month = $month;
+            $overtime->total = $total;
+            $overtime->employee_id = $employee_id;
+            $overtime->payroll_acrued_id = null;
+            $overtime->save();
+        }
 
 
-
-        for ($i=0; $i < count($overtime_tipe_id); $i++) {
+        for ($i=0; $i < count($overtime_type_id); $i++) {
 
             $subtotal = $quantity[$i] * $valueHour[$i];
             $startDateTime = Carbon::parse($startTime[$i]);
             $yearMonth = $startDateTime->format('Y-m');
 
-            $overtime = Overtime::where('year_month', $yearMonth)->first();
-
-            if ($overtime) {
-                $overtime->total += $subtotal;
-                $overtime->update();
-            } else {
-                $overtime = new Overtime();
-                $overtime->year_month = $yearMonth;
-                $overtime->total = $subtotal;
-                $overtime->payroll_acrued_id;
-                $overtime->save();
-            }
-
             //crear registro overtime_month
             $overtimeMonth = OvertimeMonth::where('overtime_id', $overtime->id)
             ->where('year_month', $yearMonth)
-            ->where('overtime_type_id', $overtime_tipe_id[$i])->first();
+            ->where('overtime_type_id', $overtime_type_id[$i])->first();
 
             if ($overtimeMonth) {
                 $overtimeMonth->quantity += $quantity[$i];
@@ -108,12 +111,11 @@ class OvertimeController extends Controller
             } else {
                 $overtimeMonth = new OvertimeMonth();
                 $overtimeMonth->year_month = $yearMonth;
-                $overtimeMonth->percentage = $percentage[$i];
                 $overtimeMonth->quantity = $quantity[$i];
                 $overtimeMonth->value_hour = $valueHour[$i];
                 $overtimeMonth->subtotal = $subtotal;
                 $overtimeMonth->status = 'pendient';
-                $overtimeMonth->overtime_type_id = $overtime_tipe_id[$i];
+                $overtimeMonth->overtime_type_id = $overtime_type_id[$i];
                 $overtimeMonth->overtime_id = $overtime->id;
                 $overtimeMonth->save();
             }
@@ -122,12 +124,11 @@ class OvertimeController extends Controller
             $overtimeDay->year_month = $yearMonth;
             $overtimeDay->start_time = $startTime[$i];
             $overtimeDay->end_time = $endTime[$i];
-            $overtimeDay->percentage = $percentage[$i];
             $overtimeDay->quantity = $quantity[$i];
             $overtimeDay->value_hour = $valueHour[$i];
             $overtimeDay->subtotal = $subtotal;
             $overtimeMonth->status = 'pendient';
-            $overtimeDay->overtime_id = $overtime->id;
+            $overtimeDay->overtime_type_id = $overtime_type_id[$i];
             $overtimeDay->overtime_month_id = $overtimeMonth->id;
             $overtimeDay->save();
         }

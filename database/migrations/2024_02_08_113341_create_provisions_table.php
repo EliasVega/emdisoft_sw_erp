@@ -4,6 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+use function Laravel\Prompts\table;
+
 return new class extends Migration
 {
     /**
@@ -14,8 +16,14 @@ return new class extends Migration
         Schema::create('provisions', function (Blueprint $table) {
             $table->id();
 
+            $table->date('start_period_vacations');//fecha inicio periodo de vacaciones
+            $table->integer('vacation_days');//dias de vacaciones
             $table->decimal('vacations', 10,2);//Vacaciones
+            $table->date('start_period_bonus');//fecha inicio periodo de Prima
+            $table->integer('bonus_days');//dias de prima
             $table->decimal('bonus', 10,2);//Primas
+            $table->date('start_period_layoffs');//fecha inicio periodo de Cesantias
+            $table->integer('layoff_days');//dias de cesantias
             $table->decimal('layoffs', 10,2);//Cesantias
             $table->decimal('layoff_interest', 10,2);//Intereses de Cesantias
 

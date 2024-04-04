@@ -29,9 +29,11 @@ class StorePayrollPartialRequest extends FormRequest
             'generation_date' => 'required|date',
             'days' => '',
             'fortnight' => 'required|in:first,second',
+            'note' => 'string|nullable',
 
             'employee_id' => '',
             'payroll_id' => '',
+            'user_id' => ''
         ];
     }
 }

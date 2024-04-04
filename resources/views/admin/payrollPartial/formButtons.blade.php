@@ -3,7 +3,8 @@
         <div class="form-group">
             <button class="btn btn-darkBlueGrad" type="button" id="addExtras" data-toggle="tooltip" data-placement="top" title="H/extras"><i class="fas fa-check">H/extras</i></button>
             <button class="btn btn-darkBlueGrad" type="button" id="addVacations" data-toggle="tooltip" data-placement="top" title="Vacaciones"><i class="fas fa-check">Vacaciones</i></button>
-            <button class="btn btn-darkBlueGrad" type="button" id="addVacations" data-toggle="tooltip" data-placement="top" title="Vacaciones"><i class="fas fa-check">P/Sociales</i></button>
+            <button class="btn btn-darkBlueGrad" type="button" id="addBonus" data-toggle="tooltip" data-placement="top" title="P/sociales"><i class="fas fa-check">Primas</i></button>
+            <button class="btn btn-darkBlueGrad" type="button" id="addLayoffs" data-toggle="tooltip" data-placement="top" title="Cesantias"><i class="fas fa-check">Cesantias</i></button>
         </div>
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

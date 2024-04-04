@@ -27,7 +27,7 @@ class StoreVacationRequest extends FormRequest
             'vacation_days' => 'required',
             'value_day' => 'required',
             'value' => 'required|numeric',
-            'pay_mode' => 'in:pay,causation',
+            'payment_mode' => 'in:paid,caused',
             'type' => 'in:enjoyed,compensated',
         ];
     }
