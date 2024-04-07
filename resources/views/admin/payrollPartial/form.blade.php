@@ -87,7 +87,7 @@
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addDays">
         <div class="form-group">
             <label class="form-control-label" for="days">N° dias</label>
-            <input type="number" id="days" name="days" value="" class="form-control" placeholder="dias" required>
+            <input type="number" id="days" name="days" value="" class="form-control" placeholder="dias" readonly>
         </div>
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addSalaryAcrued">

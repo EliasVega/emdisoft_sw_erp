@@ -2,6 +2,9 @@
     /*$(document).ready(function(){
         alert('estoy funcionando correctamanete colegio');
     });*/
+
+    $("#addBonusAdjustment").hide();
+    $("#addProBonusDays").hide();
     let subtotalBonus = [];
     let contBonus = 0;
     let totalBonus = 0;
@@ -10,43 +13,45 @@
 
     function addBonusDate(){
         $("#addBonusPeriod").hide();
-        bonusProvision = $("#provision_bonus").val();
-        let bonusDate = new Date();
-            //addicionar horas para hora colombia
-            let addHours = 5;
-            //obtener horas del mes seleccionado
-            let hours = bonusDate.getHours();
-            bonusDate.setHours(hours + addHours);
-        let period1 = $("#bonus1").prop("checked");
-        if (period1 == true) {
-            let bonusStartDate = new Date(bonusDate.getFullYear(), 0, 1);
-            let bonusEndDate = new Date(bonusDate.getFullYear(), 5 + 1, 0);
-            startDateBonus(bonusStartDate);
-            endDateBonus(bonusEndDate);
-            salary = $("#salary").val();
-            bonus = salary/2;
+        provisionBonus = $("#provision_bonus").val();
+        bonusProvision = $("#bonus_provisions").val();
+        daysBonus = $("#daysProBonus").val();
+        startBonus = $("#startBonus").val();
+        endBonus = $("#end_date").val();
 
-            $("#bonusDays").val(180);
-            $("#valueBonus").val(bonus);
+        let bonusDateStart = new Date(startBonus);
+        let bonusDateEnd = new Date(endBonus);
+        //addicionar horas para hora colombia
+        let addHours = 5;
+        //obtener horas del mes seleccionado
+        let hoursStart = bonusDateStart.getHours();
+        let hoursEnd = bonusDateEnd.getHours();
+        bonusDateStart.setHours(hoursStart + addHours);
+        bonusDateEnd.setHours(hoursEnd + addHours);
+
+        let bonusStartDate = new Date(bonusDateStart);
+        let bonusEndDate = new Date(bonusDateEnd);
+        dateEndBonus = moment(bonusEndDate);
+        dayMonth = dateEndBonus.format('D');
+        month = dateEndBonus.format('M');
+        if (dayMonth >= 30) {
+            dayMonth = 30
+        } else if (month == 2 && dayMonth >= 28){
+            dayMonth = 30;
         }
-        let period2 = $("#bonus2").prop("checked");
-        if (period2 == true) {
-            let bonusStartDate = new Date(bonusDate.getFullYear(), 6, 1);
-            let bonusEndDate = new Date(bonusDate.getFullYear(), 11 + 1, 0);
-            startDateBonus(bonusStartDate);
-            endDateBonus(bonusEndDate);
-            salary = $("#salary").val();
-            bonus = salary/2;
-            $("#bonusDays").val(180);
-            $("#valueBonus").val(bonus);
-        }
+        bonusDaysPeriod = parseFloat(dayMonth) + parseFloat(daysBonus);
+        startDateBonus(bonusStartDate);
+        endDateBonus(bonusEndDate);
+        //bonus = parseFloat(provisionBonus) + parseFloat(bonusProvision);
+        $("#bonusDays").val(bonusDaysPeriod);
+        $("#valueBonus").val(provisionBonus);
     }
 
     function startDateBonus(startBonusDay) {
         let month1 = startBonusDay.getMonth()+1; //obteniendo mes
         let day1 = startBonusDay.getDate(); //obteniendo dia
         let year1 = startBonusDay.getFullYear(); //obteniendo año
-        let box1 = $("#bonus2").prop("checked");
+        //let box1 = $("#bonus2").prop("checked");
         if(day1<10)
             day1='0'+day1; //agrega cero si el menor de 10
         if(month1<10)
@@ -58,7 +63,7 @@
         let month2 = bonusEndDate.getMonth()+1; //obteniendo mes
         let day2 = bonusEndDate.getDate(); //obteniendo dia
         let year2 = bonusEndDate.getFullYear(); //obteniendo año
-        let box2 = $("#bonus1").prop("checked");
+        //let box2 = $("#bonus1").prop("checked");
         if(day2<10)
             day2='0'+day2; //agrega cero si el menor de 10
         if(month2<10)
@@ -71,70 +76,84 @@
     function changeTypeBonus(){
         typeBonus = $("#type_bonus").val();
         if (typeBonus == "salary") {
+            $("#addProvisionBonus").show();
             addBonusDate();
         } else {
+            $("#startBonus").prop('readonly', false);
             $("#startBonus").val("");
             $("#endBonus").val("");
             $("#bonusDays").val("");
             $("#valueBonus").val("");
+            $("#addProvisionBonus").hide();
         }
-
     }
 
-    //$('#endBonus').prop("readonly", true);
+    $('#startBonus').prop("readonly", true);
 
-    $("#startBonus").change(timeBonus);
+    //$("#startBonus").change(timeBonus);
 
     $("#endBonus").change(timeBonus);
 
     function timeBonus(){
+        endDate = $("#end_date").val();
+        endTime = moment(endDate);
+        endYear = moment(endTime).year();
+        endMonth = moment(endTime).month();
+
         startBonus = $("#startBonus").val();
         endBonus = $("#endBonus").val();
         startTimeBonus = moment(startBonus);
         endTimeBonus = moment(endBonus);
 
-        let startYearBonus = moment(startTimeBonus).year();
-        let startMonthBonus = moment(startTimeBonus).month();
-        let startDayBonus = moment(startTimeBonus).day();
-        let endYearBonus = moment(endTimeBonus).year();
-        let endMonthBonus = moment(endTimeBonus).month();
-        let endDayBonus = moment(endTimeBonus).day();
-        let bonusDays = endTimeBonus.diff(startTimeBonus, 'days');
-        let dayMonth = endTimeBonus.format('D');
-
+        endYearBonus = moment(endTimeBonus).year();
+        endMonthBonus = moment(endTimeBonus).month();
+        endDayBonus = moment(endTimeBonus).day();
+        bonusDays = endTimeBonus.diff(startTimeBonus, 'days');
+        dayMonth = endTimeBonus.format('D');
         if (bonusDays >= 0) {
             typeBonus = $("#type_bonus").val();
             if (typeBonus == "salary") {
-                fortnight = $("#fortnight").val();
-                if (fortnight == 'first') {
-                    dataEmployee = document.getElementById('employee_id').value.split('_');
-                    empId = dataEmployee[0];
-                    getBonusValue(empId, dayMonth);
-                    /*
-                    salary = $("#salary").val();
+                if (endYearBonus == endYear && endMonthBonus < endMonth) {
                     provisionBonus = $("#provision_bonus").val();
                     bonusProvision = $("#bonus_provisions").val();
-                    daysBonusPro = $("#daysProBonus").val();
+                    daysBonus = $("#daysProBonus").val();
 
-                    //bonusMonth = salary * dayMonth / 360;
-                    bonus = parseFloat(provisionBonus) + parseFloat(bonusProvision);
-                    bonusDays = parseInt(dayMonth) + parseInt(daysBonusPro);
-                    $("#bonusDays").val(bonusDays);
-                    $("#valueBonus").val(bonus.toFixed(2));*/
+                    bonusDate = new Date(endBonus);
+                    //addicionar horas para hora colombia
+                    addHours = 5;
+                    //obtener horas del mes seleccionado
+                    hours = bonusDate.getHours();
+                    bonusDate.setHours(hours + addHours);
+
+                    bonusEndDate = new Date(bonusDate);
+                    dateEndBonus = moment(bonusEndDate);
+                    dayMonth = dateEndBonus.format('D');
+                    month = dateEndBonus.format('M');
+                    if (dayMonth >= 30) {
+                        dayMonth = 30
+                    } else if (month == 2 && dayMonth >= 28){
+                        dayMonth = 30;
+                    }
+                    bonusDaysPeriod = parseFloat(dayMonth) + parseFloat(daysBonus);
+                    salaryEmployee = $("#salary").val();
+                    valueBonusPeriod = salaryEmployee * bonusDaysPeriod / 360;
+                    bonusAdjustment = parseFloat(valueBonusPeriod) - parseFloat(provisionBonus);
+                    $("#bonusDays").val(bonusDaysPeriod);
+                    $("#valueBonus").val(valueBonusPeriod.toFixed(2));
+                    if (parseInt(bonusAdjustment) > 0) {
+                        $("#bonus_adjustment").val(bonusAdjustment);
+                    } else {
+                        $("#bonus_adjustment").val(0);
+                    }
                 } else {
-                    dataEmployee = document.getElementById('employee_id').value.split('_');
-                    empId = dataEmployee[0];
-                    getBonusValue(empId, dayMonth);
-                    /*
-                    salary = $("#salary").val();
-                    provisionBonus = $("#provision_bonus").val();
-                    bonusProvision = $("#bonus_provision").val();
-                    daysBonusPro = $("#daysProBonus").val();
-                    //bonusMonth = salary * dayMonth / 360;
-                    bonus = parseFloat(provisionBonus) + parseFloat(bonusProvision);
-                    bonusDays = parseInt(dayMonth) + parseInt(daysBonusPro);
-                    $("#bonusDays").val(bonusDays);
-                    $("#valueBonus").val(bonus.toFixed(2));*/
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Fecha no corresponde a esta nomina",
+                    });
+                    $("#endBonus").val("");
+                    $("#valueBonus").val("");
+                    $("#bonusDays").val("");
                 }
             } else {
                 $("#bonusDays").val(bonusDays);
@@ -142,39 +161,16 @@
             }
 
         } else {
-            Swal.fire("Fecha de Inicio no puede ser mayor a fecha de fin");
-            window.location.reload()
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Fecha de Inicio no puede ser superior a la fecha fin",
+            });
+            $("#endBonus").val("");
+            $("#valueBonus").val("");
+            $("#bonusDays").val("");
         }
 
-    }
-
-    function getBonusValue(empId, dayMonth){
-        $.ajax({
-            url: "{{ route('getProvPartEmp') }}",
-            type: 'GET',
-            dataType: 'json',
-            data: {
-                employee: empId,
-            }
-        }).done(function(data){ // imprimimos la respuesta
-            salaryEmployee = $("#salary").val();
-            ppv = salaryEmployee * daysMonth / 720;
-            ppbl = salaryEmployee * daysMonth / 360;
-
-            provisionBonus = parseFloat(data.proBonus);
-            bonusProvision = $("#bonus_provisions").val();
-            daysBonusPro = $("#daysProBonus").val();
-
-            //bonusMonth = salary * dayMonth / 360;
-            bonus = parseFloat(provisionBonus) + parseFloat(bonusProvision);
-            bonusDays = parseInt(dayMonth) + parseInt(daysBonusPro);
-            $("#bonusDays").val(bonusDays);
-            $("#valueBonus").val(bonus.toFixed(2));
-        }).fail(function() {
-            //
-        }).always(function() {
-            //alert("Siempre se ejecuta")
-        });
     }
 
     $(document).ready(function() {
@@ -239,7 +235,7 @@
         if (typeBonusId == 'salary') {
             provisionBonus = $("#provision_bonus").val();
             bonusAdjustment = parseFloat(totalBonus) - parseFloat(provisionBonus);
-            $("#bonus_adjustment").val(bonusAdjustment.toFixed(2));
+            //$("#bonus_adjustment").val(bonusAdjustment.toFixed(2));
         }
 
 

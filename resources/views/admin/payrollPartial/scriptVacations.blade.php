@@ -39,7 +39,7 @@
                     icon: 'error',
                     text: 'fecha Inicial no puede ser superior a fecha fin',
                     showConfirmButton: false,
-                    timer: 5000 // es ms (mili-segundos)
+                    timer: 3000 // es ms (mili-segundos)
 
                 });
                 cleanVacations();
@@ -101,7 +101,7 @@
                     icon: 'error',
                     text: 'las fechas no crresponden al mismo periodo de nomina',
                     showConfirmButton: false,
-                    timer: 2000 // es ms (mili-segundos)
+                    timer: 3000 // es ms (mili-segundos)
 
                 });
                 cleanVacations();

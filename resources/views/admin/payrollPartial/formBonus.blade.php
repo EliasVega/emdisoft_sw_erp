@@ -22,43 +22,43 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12"> <!-- Fecha de Inicio liquidacion prima -->
         <div class="form-group">
             <label class="form-control-label" for="startBonus">F/Inicio</label>
             <input type="date" name="startBonus" id="startBonus" value=""  class="form-control"  placeholder="Fecha Inicio">
         </div>
     </div>
-    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12"> <!-- Fecha de Fin liquidacion prima -->
         <div class="form-group">
             <label class="form-control-label" for="endBonus">F/Fin</label>
             <input type="date" name="endBonus" id="endBonus" value=""  class="form-control"  placeholder="Fecha Fin">
         </div>
     </div>
-    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addBonusDays">
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addBonusDays"> <!-- Total de dias de liquidacion -->
         <div class="form-group">
             <label class="form-control-label" for="bonusDays">N° dias</label>
             <input type="number" id="bonusDays" name="bonusDays" value="0" class="form-control" placeholder="dias">
         </div>
     </div>
-    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12"> <!-- Valor total de la prima -->
         <div class="form-group">
             <label class="form-control-label" for="valueBonus">V/prima</label>
             <input type="number" id="valueBonus" name="valueBonus" value="0" class="form-control" placeholder="valor" step="any">
         </div>
     </div>
-    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addProvisionBonus">
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addProvisionBonus"> <!-- Valor de las proviciones acumuladas -->
         <div class="form-group">
             <label class="form-control-label" for="provision_bonus">Provision</label>
             <input type="number" id="provision_bonus" name="provision_bonus" value="0" class="form-control" placeholder="provision" step="any">
         </div>
     </div>
-    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addBonusAdjustment">
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addBonusAdjustment"> <!-- Ajuste de proviciones en caso de que sea mas -->
         <div class="form-group">
             <label class="form-control-label" for="bonus_adjustment">Ajuste Prima Salarial</label>
             <input type="number" id="bonus_adjustment" name="bonus_adjustment" value="0" class="form-control" placeholder="ajuste vacacional" step="any">
         </div>
     </div>
-    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addBonusDays">
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addProBonusDays"> <!-- Total de dias que van en provisiones acumulados -->
         <div class="form-group">
             <label class="form-control-label" for="daysProBonus">N° dias</label>
             <input type="number" id="daysProBonus" name="daysProBonus" value="0" class="form-control" placeholder="dias">

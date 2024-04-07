@@ -175,7 +175,7 @@
                 icon: 'success',
                 text: product + '--' + 'Agregado correctamente',
                 showConfirmButton: false,
-                timer: 1000 // es ms (mili-segundos)
+                timer: 3000 // es ms (mili-segundos)
             });
             //$('#product_id option:selected').remove();
             clean();
@@ -224,7 +224,7 @@
                 icon: 'success',
                 text: product + '--' + 'Agregado correctamente',
                 showConfirmButton: false,
-                timer: 1000 // es ms (mili-segundos)
+                timer: 3000 // es ms (mili-segundos)
             });
 
         }else{
@@ -242,7 +242,7 @@
                 type: 'error',
                 title: 'La contraseña es incorrecta',
                 showConfirmButton: false,
-                timer: 2000 // es ms (mili-segundos)
+                timer: 3000 // es ms (mili-segundos)
             })
         }
 
@@ -422,7 +422,7 @@
                 icon: 'success',
                 text: product + '--' + 'Editado correctamente',
                 showConfirmButton: false,
-                timer: 1000 // es ms (mili-segundos)
+                timer: 3000 // es ms (mili-segundos)
             });
 
             //$('#product_id option:selected').remove();

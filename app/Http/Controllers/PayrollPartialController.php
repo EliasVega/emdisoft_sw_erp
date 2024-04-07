@@ -539,6 +539,7 @@ class PayrollPartialController extends Controller
             ->select(
                 'pro.id',
                 'pro.vacations',
+                'pro.start_period_bonus',
                 'pro.bonus',
                 'pro.layoffs',
                 'pro.layoff_interest',
@@ -565,14 +566,21 @@ class PayrollPartialController extends Controller
                 'pp.bonus',
                 'pp.layoffs',
                 'pp.layoff_interest',
+
                 'pp.vacation_days',
                 'pp.bonus_days',
                 'pp.layoff_days',
+
                 'pro.id as proId',
                 'pro.vacations as proVacations',
                 'pro.bonus as proBonus',
                 'pro.layoffs as proLayoffs',
                 'pro.layoff_interest as proLayoff_interest',
+
+                'pro.start_period_vacations',
+                'pro.start_period_bonus',
+                'pro.start_period_layoffs',
+
                 'pro.vacation_days as proVacation_days',
                 'pro.bonus_days as proBonus_days',
                 'pro.layoff_days as proLayoff_days'

@@ -184,7 +184,7 @@
                 icon: 'success',
                 text: product + '--' + 'Agregado correctamente',
                 showConfirmButton: false,
-                timer: 1000 // es ms (mili-segundos)
+                timer: 3000 // es ms (mili-segundos)
             });
             clean();
 
@@ -231,7 +231,7 @@
                 icon: 'success',
                 text: product + '--' + 'Editado correctamente',
                 showConfirmButton: false,
-                timer: 1000 // es ms (mili-segundos)
+                timer: 3000 // es ms (mili-segundos)
             });
             clean();
 
@@ -423,7 +423,7 @@
                 icon: 'success',
                 text: product + '--' + 'Editado correctamente',
                 showConfirmButton: false,
-                timer: 1000 // es ms (mili-segundos)
+                timer: 3000 // es ms (mili-segundos)
             });
             //$('#product_id option:selected').remove();
         }else{

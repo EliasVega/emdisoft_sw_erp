@@ -8,7 +8,7 @@
     @endif
 
     @if (config('sweetalert.alwaysLoadJS') === false && config('sweetalert.neverLoadJS') === false)
-        <script src="{{ $cdn ?? asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
+        <script src="{{ $cdn ?? asset('vendor/sweetalert2/sweetalert2.all.js') }}"></script>
     @endif
     <script>
         @if (Session::has('alert.delete'))

@@ -11,8 +11,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" type="text/css"/>
     <!-- Sweetalert2  -->
-    <link rel="stylesheet" href="{{ asset('vendor/sweetalert2/sweetalert2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('vendor/sweetalert2/sweetalert2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/sweetalert2/sweetalert2.all.min.css') }}">
      <!-- Bootstrap -->
      <link rel="stylesheet" href="{{ asset('vendor/daterangepicker/daterangepicker.css') }}" />
      {{--  <link rel="stylesheet" href="{{ asset('vendor/bootstrap-datepicker/css/bootstrap-datepicker.standalone.css') }}">--}}
