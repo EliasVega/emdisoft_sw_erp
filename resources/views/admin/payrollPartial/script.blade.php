@@ -35,7 +35,7 @@
     $("#addEmployee").hide();
     $("#addMonth").hide();
     $("#addInformation").hide();
-    $("#addProvisions").hide();
+    //$("#addProvisions").hide();
 
 
     $('#start_date').prop("readonly", true)
@@ -69,14 +69,14 @@
     //$("#month").change(getDate);
     //obtener fechas a partir del mes
     function getDate(){
-        let monthDate = new Date($("#month").val());
+        monthDate = new Date($("#month").val());
         //addicionar horas para hora colombia
-        let addHours = 5;
+        addHours = 5;
         //obtener horas del mes seleccionado
-        let hours = monthDate.getHours();
+        hours = monthDate.getHours();
         monthDate.setHours(hours + addHours);
-        let firstDay = new Date(monthDate.getFullYear(), monthDate.getMonth(), 1);
-        let lastDay = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0);
+        firstDay = new Date(monthDate.getFullYear(), monthDate.getMonth(), 1);
+        lastDay = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0);
 
         startDateWork(firstDay);//fecha inicio automatica
         endDateWork(lastDay);//fecha de fin automatica
@@ -120,7 +120,6 @@
     $("#employee_id").change(employeeValue);
 
     function employeeValue(){
-
         dataEmployee = document.getElementById('employee_id').value.split('_');
         $("#salary").val(dataEmployee[1]);
         empId = dataEmployee[0];
@@ -129,10 +128,70 @@
         $("#addInformation").show();
         $("#formButtons").show();
         $("#days").val(15);
+
+        salaryMonth(daysMonth);
         timeValue();//salario devengado por los dias trabajados
         //provisionEmployee(empId);
-        salaryMonth(daysMonth);
+
     }
+    function salaryMonth(daysMonth){
+        indicator = {!! json_encode($indicators) !!};
+        indicator.forEach((value, i) => {
+            salary = value['smlv'];
+            transportAssistance = value['transport_assistance'];
+            weekly_hours = value['weekly_hours'];
+
+            $("#smlv").val(salary);
+            $("#weekly_hours").val(weekly_hours);
+            twoSalary = parseFloat(salary) * 2;
+            salaryEmployee = $("#salary").val();
+            salaryAcrued = (salaryEmployee/30)*daysMonth;
+            transportAssistance = parseFloat(transportAssistance);
+            $("#transport_assistance").val(transportAssistance);
+            //provisionMonth(daysMonth);
+
+            fortnight = $("#fortnight").val();
+            if (fortnight == 'first') {
+                if (salaryEmployee > twoSalary) {
+                    //$("#transport_assistance").val(0);
+                    $("#transport_acrued").val(0);
+                    $("#salary_acrued").val(salaryAcrued.toFixed(2));
+                    totalAcrued = 0;
+                    totalAcrued = salaryAcrued;
+                    //totalAcrued += salaryAcrued;
+                    $("#total_acrued").val(totalAcrued.toFixed(2));
+                } else {
+                    //$("#transport_assistance").val(0);
+                    $("#transport_acrued").val(0);
+                    $("#salary_acrued").val(salaryAcrued.toFixed(2));
+                    totalAcrued = 0;
+                    totalAcrued += salaryAcrued;
+                    //totalAcrued += transportAssistance;
+                    $("#total_acrued").val(totalAcrued.toFixed(2));
+                }
+            } else {
+                if (salaryEmployee > twoSalary) {
+                    //$("#transport_assistance").val(0);
+                    $("#transport_acrued").val(0);
+                    $("#salary_acrued").val(salaryAcrued.toFixed(2));
+                    totalAcrued = 0;
+                    totalAcrued = salaryAcrued;
+                    //totalAcrued += salaryAcrued;
+                    $("#total_acrued").val(totalAcrued.toFixed(2));
+                } else {
+
+                    //$("#transport_assistance").val(transportAssistance);
+                    $("#transport_acrued").val(transportAssistance);
+                    $("#salary_acrued").val(salaryAcrued.toFixed(2));
+                    totalAcrued = 0;
+                    totalAcrued += salaryAcrued;
+                    totalAcrued += transportAssistance;
+                    $("#total_acrued").val(totalAcrued.toFixed(2));
+                }
+            }
+        });
+    }
+
 
     function timeValue(){
         startDate = $("#start_date").val();
@@ -143,12 +202,16 @@
         startYear = moment(startTime).year();
         startMonth = moment(startTime).month();
         startDay = moment(startTime).day();
+
         endYear = moment(endTime).year();
         endMonth = moment(endTime).month();
         endDay = moment(endTime).day();
+
+        //Recuperando los dias del mes
         daysMonth = endTime.diff(startTime, 'days');
         dayMonthStart = endTime.format('D');
         dayMonthEnd = endTime.format('D');
+
         fortnight = $("#fortnight").val();
         if (daysMonth >= 0) {
             if (startYear == endYear && startMonth == endMonth) {
@@ -179,14 +242,14 @@
                 //ta_acrued = (parseFloat(transportAssistance)/30)*(parseFloat(days));
                 transportAssistance = parseFloat(transportAssistance);
                 //daysMonth = days;
-                ppv = smlv * daysMonth / 720;
-                ppbl = smlv * daysMonth / 360;
+                //ppv = smlv * daysMonth / 720;
+                //ppbl = smlv * daysMonth / 360;
 
                 provisionMonth(daysMonth);//provisiones por dias del mes
 
 
                 if (fortnight == 'first') {
-                    $("#transport_assistance").val(0);
+                    //$("#transport_assistance").val(0);
                     $("#transport_acrued").val(0);
                     $("#salary_acrued").val(salaryAcrued.toFixed(2));
                     totalAcrued = 0;
@@ -197,10 +260,10 @@
                     totalAcrued = 0;
                     totalAcrued += salaryAcrued;
                     if (salaryEmployee > twoSalary) {
-                        $("#transport_assistance").val(0);
+                        //$("#transport_assistance").val(0);
                         $("#transport_acrued").val(0);
                     } else {
-                        $("#transport_assistance").val(transportAssistance);
+                        //$("#transport_assistance").val(transportAssistance);
                         $("#transport_acrued").val(transportAssistance);
                         totalAcrued += transportAssistance;
                     }
@@ -225,20 +288,13 @@
             empId = dataEmployee[0];
             provisionPartialEmployee(empId, daysMonth);
         } else {
-            salaryEmployee = $("#salary").val();
-            ppv = salaryEmployee * daysMonth / 720;
-            ppbl = salaryEmployee * daysMonth / 360;
-
-            $("#vacation_provisions").val(ppv.toFixed(2));
-            $("#bonus_provisions").val(ppbl.toFixed(2));
-            $("#layoff_provisions").val(ppbl.toFixed(2));
-            $("#vp_days").val(daysMonth);
-            $("#bp_days").val(daysMonth);
-            $("#lp_days").val(daysMonth);
+            dataEmployee = document.getElementById('employee_id').value.split('_');
+            empId = dataEmployee[0];
+            provisionEmployee(empId, daysMonth);
         }
     }
-    /*
-    function provisionEmployee(empId){
+
+    function provisionEmployee(empId, daysMonth){
         $.ajax({
             url: "{{ route('getProvisionEmployee') }}",
             type: 'GET',
@@ -247,20 +303,81 @@
                 employee_id: empId,
             }
         }).done(function(data){ // imprimimos la respuesta
-            $("#provision_vacations").val(data.vacations);
-            $("#provision_bonus").val(data.bonus);
-            $("#provision_layoffs").val(data.layoffs);
-            $("#pro_lay_int").val(data.layoff_interest);
-            $("#startBonus").val(data.start_period_bonus);
+            salaryEmployee = $("#salary").val();
+            transportAssistance = $("#transport_assistance").val();
+            ppv = salaryEmployee * daysMonth / 720;
+            ppbl = (parseFloat(salaryEmployee) + parseFloat(transportAssistance)) * daysMonth / 360;
+
+            //proVacations = data.proVacations;
+            //proBonus = data.proBonus;
+            //proLayoffs = data.proLayoffs;
+            startPeriodVacations = data.start_period_vacations;
+            startPeriodBonus = data.start_period_bonus;
+            startPeriodLayoffs = data.start_period_layoffs;
+
+            totalBonus = parseFloat(data.bonus) + parseFloat(ppbl);
+            totalDaysBonus = parseFloat(data.bonus_days) + parseFloat(daysMonth);
+            daysBonus = parseInt(data.bonus_days);
+
+            totalLayoffs = parseFloat(data.layoffs) + parseFloat(ppbl);
+            totalDaysLayoffs = parseFloat(data.layoff_days) + parseFloat(daysMonth);
+            intLayoffTotal = (totalLayoffs * totalDaysLayoffs * 0.12) / 360;
+            daysLayoffs = parseInt(data.layoff_days) + parseInt(daysMonth);
+
+            totalDaysVacations = parseFloat(data.vacation_days) + parseFloat(daysMonth);
+
+            $("#provision_bonus").val(totalBonus.toFixed(2));
+            $("#bonus_provisions").val(ppbl.toFixed(2));
+            $("#daysProBonus").val(data.bonus_days);
+            $("#startBonus").val(startPeriodBonus);
+
+            $("#provision_layoffs").val(totalLayoffs.toFixed(2));
+            $("#layoff_provisions").val(ppbl.toFixed(2));
+            $("#pro_lay_int").val(intLayoffTotal.toFixed(2));
+            $("#layoff_interest_pro").val(intLayoffTotal.toFixed(2));
+            $("#layoff_interest").val(intLayoffTotal.toFixed(2));
+            $("#daysProLayoffs").val(daysLayoffs);
+            $("#daysLayoffProvision").val(data.layoff_days);
+            $("#startLayoffs").val(startPeriodLayoffs);
+
+            $("#vacation_provisions").val(ppv.toFixed(2));
+
+            $("#vp_days").val(daysMonth);
+            $("#bp_days").val(daysMonth);
+            $("#lp_days").val(daysMonth);
+
         }).fail(function() {
             $("#provision_vacations").val(0);
             $("#provision_bonus").val(0);
             $("#provision_layoffs").val(0);
             $("#pro_lay_int").val(0);
+
+            salaryEmployee = $("#salary").val();
+            transportAssistance = $("#transport_assistance").val();
+            ppv = salaryEmployee * daysMonth / 720;
+            ppbl = (parseFloat(salaryEmployee) + parseFloat(transportAssistance)) * daysMonth / 360;
+
+            intLayoffTotal = (ppbl * daysMonth * 0.12) / 360;
+
+
+            $("#provision_bonus").val(0);
+            $("#bonus_provisions").val(ppbl.toFixed(2));
+            $("#daysProBonus").val(daysMonth);
+
+            $("#provision_layoffs").val(0);
+            $("#layoff_provisions").val(ppbl.toFixed(2));
+            $("#layoff_interest_pro").val(intLayoffTotal.toFixed(2));
+            $("#daysProLayoffs").val(daysMonth);
+
+            $("#vacation_provisions").val(ppv.toFixed(2));
+
+            $("#vp_days").val(daysMonth);
+            $("#bp_days").val(daysMonth);
+            $("#lp_days").val(daysMonth);
         }).always(function() {
             //alert("Siempre se ejecuta")
         });
-    }*/
+    }
 
     function provisionPartialEmployee(empId, daysMonth){
         $.ajax({
@@ -272,40 +389,52 @@
             }
         }).done(function(data){ // imprimimos la respuesta
             salaryEmployee = $("#salary").val();
-            ppv = salaryEmployee * daysMonth / 720;
-            ppbl = salaryEmployee * daysMonth / 360;
+            transportAssistance = $("#transport_assistance").val();
 
+            ppv = salaryEmployee * daysMonth / 720;
+            ppbl = (parseFloat(salaryEmployee) + parseFloat(transportAssistance)) * daysMonth / 360;
             //proVacations = data.proVacations;
             //proBonus = data.proBonus;
             //proLayoffs = data.proLayoffs;
             startPeriodVacations = data.start_period_vacations;
             startPeriodBonus = data.start_period_bonus;
             startPeriodLayoffs = data.start_period_layoffs;
-
+            startTime = moment(startPeriodLayoffs);
             totalppv = parseFloat(data.vacations) + parseFloat(ppv);
             totalppb = parseFloat(data.bonus) + parseFloat(ppbl);
             totalppl = parseFloat(data.layoffs) + parseFloat(ppbl);
+
             totalBonusPro = parseFloat(data.proBonus) + parseFloat(data.bonus) + parseFloat(ppbl);
-            totalDaysVacations = parseFloat(data.proVacation_days) + parseFloat(data.vacation_days) + parseFloat(daysMonth);
             totalDaysBonus = parseFloat(data.proBonus_days) + parseFloat(data.bonus_days) + parseFloat(daysMonth);
+            daysProBonus = parseInt(data.proBonus_days);
+
+            totalLayoffsPro = parseFloat(data.proLayoffs) + parseFloat(totalppl);
             totalDaysLayoff = parseFloat(data.proLayoff_days) + parseFloat(data.layoff_days) + parseFloat(daysMonth);
-            totalProLayoff = parseFloat(data.proLayoffs) + parseFloat(totalppl);
-            intLayoffTotal = (totalProLayoff * totalDaysLayoff * 0.12) / 360;
-            daysProBonus = parseFloat(data.proBonus_days);
+            //totalProLayoff = parseFloat(data.proLayoffs) + parseFloat(totalppl);
+            intLayoffTotal = (totalLayoffsPro * totalDaysLayoff * 0.12) / 360;
+            daysProLayoffs = parseInt(data.proLayoff_days);
+            totalDaysVacations = parseFloat(data.proVacation_days) + parseFloat(data.vacation_days) + parseFloat(daysMonth);
 
             vpDays = parseInt(data.vacation_days) + parseInt(daysMonth);
             bpDays = parseInt(data.bonus_days) + parseInt(daysMonth);
             lpDays = parseInt(data.layoff_days) + parseInt(daysMonth);
 
             $("#provision_bonus").val(totalBonusPro.toFixed(2));
-            $("#pro_lay_int").val(data.proLlayoff_interest);
+            $("#bonus_provisions").val(totalppb.toFixed(2));
             $("#daysProBonus").val(data.proBonus_days);
             $("#startBonus").val(startPeriodBonus);
 
-            $("#vacation_provisions").val(totalppv.toFixed(2));
-            $("#bonus_provisions").val(totalppb.toFixed(2));
+            $("#provision_layoffs").val(totalLayoffsPro.toFixed(2));
             $("#layoff_provisions").val(totalppl.toFixed(2));
+            $("#pro_lay_int").val(data.proLayoff_interest);
             $("#layoff_interest_pro").val(intLayoffTotal.toFixed(2));
+            $("#layoff_interest").val(intLayoffTotal.toFixed(2));
+            $("#daysProLayoffs").val(totalDaysLayoff);
+            $("#startLayoffs").val(startPeriodLayoffs);
+            $("#daysLayoffProvision").val(daysProLayoffs);
+
+            $("#vacation_provisions").val(totalppv.toFixed(2));
+
             $("#vp_days").val(vpDays);
             $("#bp_days").val(bpDays);
             $("#lp_days").val(lpDays);
@@ -315,89 +444,24 @@
             ppv = salaryEmployee * daysMonth / 720;
             ppbl = salaryEmployee * daysMonth / 360;
 
-            totalppv = parseFloat(ppv);
-            totalppb = parseFloat(ppbl);
-            totalppl = parseFloat(ppbl);
-            totalBonusPro = parseFloat(ppbl);
-            totalDaysLayoff = parseFloat(daysMonth);
-            totalProLayoff = parseFloat(totalppl);
-            intLayoffTotal = (totalProLayoff * totalDaysLayoff * 0.12) / 360;
+            totalProLayoff = parseFloat(ppbl);
+            intLayoffTotal = (ppbl * daysMonth * 0.12) / 360;
 
-            vpDays = parseInt(daysMonth);
-            bpDays = parseInt(daysMonth);
-            lpDays = parseInt(daysMonth);
+            $("#provision_bonus").val(ppbl.toFixed(2));
 
-            $("#provision_bonus").val(totalBonusPro.toFixed(2));
-
-            $("#vacation_provisions").val(totalppv.toFixed(2));
-            $("#bonus_provisions").val(totalppb.toFixed(2));
-            $("#layoff_provisions").val(totalppl.toFixed(2));
+            $("#vacation_provisions").val(ppv.toFixed(2));
+            $("#bonus_provisions").val(ppbl.toFixed(2));
+            $("#layoff_provisions").val(ppbl.toFixed(2));
             $("#layoff_interest_pro").val(intLayoffTotal.toFixed(2));
-            $("#vp_days").val(vpDays);
-            $("#bp_days").val(bpDays);
-            $("#lp_days").val(lpDays);
+            $("#vp_days").val(daysMonth);
+            $("#bp_days").val(daysMonth);
+            $("#lp_days").val(daysMonth);
             //
         }).always(function() {
             //alert("Siempre se ejecuta")
         });
     }
 
-    function salaryMonth(daysMonth){
-        indicator = {!! json_encode($indicators) !!};
-        indicator.forEach((value, i) => {
-            salary = value['smlv'];
-            transportAssistance = value['transport_assistance'];
-            weekly_hours = value['weekly_hours'];
-            $("#smlv").val(salary);
-            $("#weekly_hours").val(weekly_hours);
-            twoSalary = parseFloat(salary) * 2;
-            salaryEmployee = $("#salary").val();
-            salaryAcrued = (salaryEmployee/30)*daysMonth;
-            transportAssistance = parseFloat(transportAssistance);
-
-            //provisionMonth(daysMonth);
-
-            fortnight = $("#fortnight").val();
-            if (fortnight == 'first') {
-                if (salaryEmployee > twoSalary) {
-                    $("#transport_assistance").val(0);
-                    $("#transport_acrued").val(0);
-                    $("#salary_acrued").val(salaryAcrued.toFixed(2));
-                    totalAcrued = 0;
-                    totalAcrued = salaryAcrued;
-                    //totalAcrued += salaryAcrued;
-                    $("#total_acrued").val(totalAcrued.toFixed(2));
-                } else {
-                    $("#transport_assistance").val(0);
-                    $("#transport_acrued").val(0);
-                    $("#salary_acrued").val(salaryAcrued.toFixed(2));
-                    totalAcrued = 0;
-                    totalAcrued += salaryAcrued;
-                    //totalAcrued += transportAssistance;
-                    $("#total_acrued").val(totalAcrued.toFixed(2));
-                }
-            } else {
-                if (salaryEmployee > twoSalary) {
-                    $("#transport_assistance").val(0);
-                    $("#transport_acrued").val(0);
-                    $("#salary_acrued").val(salaryAcrued.toFixed(2));
-                    totalAcrued = 0;
-                    totalAcrued = salaryAcrued;
-                    //totalAcrued += salaryAcrued;
-                    $("#total_acrued").val(totalAcrued.toFixed(2));
-                } else {
-
-                    $("#transport_assistance").val(transportAssistance);
-                    $("#transport_acrued").val(transportAssistance);
-                    $("#salary_acrued").val(salaryAcrued.toFixed(2));
-                    totalAcrued = 0;
-                    totalAcrued += salaryAcrued;
-                    totalAcrued += transportAssistance;
-                    $("#total_acrued").val(totalAcrued.toFixed(2));
-                }
-            }
-        });
-    }
 
     $("#start_date").change(dateProp);
     //desabilitando fecha final
@@ -453,8 +517,7 @@
         $("#formOvertime").hide();
         $("#formBonus").hide();
         $("#formLayoffs").show();
-        dateLayoff = $("#start_date").val();
-        addLayoffsDate(dateLayoff);
+        addLayoffsDate();
 
     });
     $(document).on("click", "#canc_he", function () {

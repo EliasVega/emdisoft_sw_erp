@@ -123,6 +123,9 @@ class PayrollPartialController extends Controller
         $bonusDays = $request->bp_days;
         $layoffDays = $request->lp_days;
 
+        if ($vacationAdjustment <= 0) {
+            $vacationAdjustment = 0;
+        }
         //request de vacaciones
         $vacationType = $request->vacation_type;
         $totalVacations = $request->total_vacations;
@@ -400,7 +403,7 @@ class PayrollPartialController extends Controller
                 $provisions->bonus += $bonusProvisions;
                 $provisions->layoff_days += $layoffDays;
                 $provisions->layoffs += $layoffProvisions;
-                $provisions->layoff_interest += $layoffInterest;
+                $provisions->layoff_interest = $layoffInterest;
                 $provisions->update();
 
                 $provisionPartials->status = 'caused';
@@ -424,7 +427,7 @@ class PayrollPartialController extends Controller
                 $provisions->bonus += $bonusProvisions;
                 $provisions->layoff_days += $layoffDays;
                 $provisions->layoffs += $layoffProvisions;
-                $provisions->layoff_interest += $layoffInterest;
+                $provisions->layoff_interest = $layoffInterest;
                 $provisions->update();
 
                 $provisionPartials->status = 'caused';
@@ -483,8 +486,8 @@ class PayrollPartialController extends Controller
 
         if ($totalLayoffs > 0) {
             $layoffs = new Layoff();
-            $layoffs->start_period = $request->start_layoffs;
-            $layoffs->end_period = $request->end_layoffs;
+            $layoffs->start_period = $request->startLayoffs;
+            $layoffs->end_period = $request->endLayoffs;
             $layoffs->layoff_days = $request->layoff_days;
             $layoffs->layoff_value = $request->value_layoffs;
             $layoffs->layoff_interest = $request->value_layoffs;
@@ -538,15 +541,19 @@ class PayrollPartialController extends Controller
             $provisions = Provision::from('provisions as pro')
             ->select(
                 'pro.id',
-                'pro.vacations',
-                'pro.start_period_bonus',
-                'pro.bonus',
-                'pro.layoffs',
-                'pro.layoff_interest',
+                'pro.start_period_vacations',
                 'pro.vacation_days',
+                'pro.vacations',
+
+                'pro.start_period_bonus',
                 'pro.bonus_days',
-                'pro.layoff_days'
-                )
+                'pro.bonus',
+
+                'pro.start_period_layoffs',
+                'pro.layoff_days',
+                'pro.layoffs',
+                'pro.layoff_interest'
+            )
             ->where('pro.employee_id', $request->employee_id)
             ->first();
             if ($provisions) {
@@ -572,19 +579,19 @@ class PayrollPartialController extends Controller
                 'pp.layoff_days',
 
                 'pro.id as proId',
-                'pro.vacations as proVacations',
-                'pro.bonus as proBonus',
-                'pro.layoffs as proLayoffs',
-                'pro.layoff_interest as proLayoff_interest',
-
                 'pro.start_period_vacations',
-                'pro.start_period_bonus',
-                'pro.start_period_layoffs',
-
                 'pro.vacation_days as proVacation_days',
+                'pro.vacations as proVacations',
+
+                'pro.start_period_bonus',
                 'pro.bonus_days as proBonus_days',
-                'pro.layoff_days as proLayoff_days'
-                )
+                'pro.bonus as proBonus',
+
+                'pro.start_period_layoffs',
+                'pro.layoff_days as proLayoff_days',
+                'pro.layoffs as proLayoffs',
+                'pro.layoff_interest as proLayoff_interest'
+            )
             ->where('pp.employee_id', $request->employee)
             ->where('pp.status', 'pendient')
             ->first();

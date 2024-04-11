@@ -60,7 +60,7 @@
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addProBonusDays"> <!-- Total de dias que van en provisiones acumulados -->
         <div class="form-group">
-            <label class="form-control-label" for="daysProBonus">N° dias</label>
+            <label class="form-control-label" for="daysProBonus">dias provision</label>
             <input type="number" id="daysProBonus" name="daysProBonus" value="0" class="form-control" placeholder="dias">
         </div>
     </div>

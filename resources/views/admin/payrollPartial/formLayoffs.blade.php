@@ -24,7 +24,7 @@
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addLayoffsDays">
         <div class="form-group">
             <label class="form-control-label" for="layoff_days">N° dias</label>
-            <input type="number" id="layoff_days" name="layoff_days" value="0" class="form-control" placeholder="dias">
+            <input type="number" id="layoff_days" name="layoff_days" value="0" class="form-control" placeholder="dias" readonly>
         </div>
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
@@ -51,12 +51,19 @@
             <input type="number" id="pro_lay_int" name="pro_lay_int" value="0" class="form-control" placeholder="provision" step="any">
         </div>
     </div>
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addProLayoffDays"> <!-- Total de dias que van en provisiones acumulados -->
+        <div class="form-group">
+            <label class="form-control-label" for="daysProLayoffs">dias provision</label>
+            <input type="number" id="daysProLayoffs" name="daysProLayoffs" value="0" class="form-control" placeholder="dias">
+        </div>
+    </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addProvisionTotal">
         <div class="form-group">
             <label class="form-control-label" for="provision_total">Total Provision</label>
             <input type="number" id="provision_total" name="provision_total" value="" class="form-control" placeholder="provision" step="any">
         </div>
     </div>
+
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="total_layoffs">Total Cesantias</label>
@@ -69,7 +76,12 @@
             <input type="number" id="layoffs_adjustment" name="layoffs_adjustment" value="0" class="form-control" placeholder="ajuste vacacional" step="any">
         </div>
     </div>
-
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addDLP"> <!-- Total de dias que van en provisiones acumulados -->
+        <div class="form-group">
+            <label class="form-control-label" for="daysLayoffProvision">dias provision causadas</label>
+            <input type="number" id="daysLayoffProvision" name="daysLayoffProvision" value="0" class="form-control" placeholder="dias">
+        </div>
+    </div>
     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mt-4">
         <div class="form-group">
             <button class="btn btn-lightBlueGrad" type="button" id="add_layoffs" data-toggle="tooltip"

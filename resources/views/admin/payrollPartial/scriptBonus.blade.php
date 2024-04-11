@@ -19,18 +19,18 @@
         startBonus = $("#startBonus").val();
         endBonus = $("#end_date").val();
 
-        let bonusDateStart = new Date(startBonus);
-        let bonusDateEnd = new Date(endBonus);
+        bonusDateStart = new Date(startBonus);
+        bonusDateEnd = new Date(endBonus);
         //addicionar horas para hora colombia
-        let addHours = 5;
+        addHours = 5;
         //obtener horas del mes seleccionado
-        let hoursStart = bonusDateStart.getHours();
-        let hoursEnd = bonusDateEnd.getHours();
+        hoursStart = bonusDateStart.getHours();
+        hoursEnd = bonusDateEnd.getHours();
         bonusDateStart.setHours(hoursStart + addHours);
         bonusDateEnd.setHours(hoursEnd + addHours);
 
-        let bonusStartDate = new Date(bonusDateStart);
-        let bonusEndDate = new Date(bonusDateEnd);
+        bonusStartDate = new Date(bonusDateStart);
+        bonusEndDate = new Date(bonusDateEnd);
         dateEndBonus = moment(bonusEndDate);
         dayMonth = dateEndBonus.format('D');
         month = dateEndBonus.format('M');
@@ -47,10 +47,10 @@
         $("#valueBonus").val(provisionBonus);
     }
 
-    function startDateBonus(startBonusDay) {
-        let month1 = startBonusDay.getMonth()+1; //obteniendo mes
-        let day1 = startBonusDay.getDate(); //obteniendo dia
-        let year1 = startBonusDay.getFullYear(); //obteniendo año
+    function startDateBonus(bonusStartDate) {
+        let month1 = bonusStartDate.getMonth()+1; //obteniendo mes
+        let day1 = bonusStartDate.getDate(); //obteniendo dia
+        let year1 = bonusStartDate.getFullYear(); //obteniendo año
         //let box1 = $("#bonus2").prop("checked");
         if(day1<10)
             day1='0'+day1; //agrega cero si el menor de 10
@@ -110,10 +110,11 @@
         endDayBonus = moment(endTimeBonus).day();
         bonusDays = endTimeBonus.diff(startTimeBonus, 'days');
         dayMonth = endTimeBonus.format('D');
+
         if (bonusDays >= 0) {
             typeBonus = $("#type_bonus").val();
             if (typeBonus == "salary") {
-                if (endYearBonus == endYear && endMonthBonus < endMonth) {
+                if (endYearBonus == endYear && endMonthBonus == endMonth) {
                     provisionBonus = $("#provision_bonus").val();
                     bonusProvision = $("#bonus_provisions").val();
                     daysBonus = $("#daysProBonus").val();
@@ -146,6 +147,7 @@
                         $("#bonus_adjustment").val(0);
                     }
                 } else {
+
                     Swal.fire({
                         icon: "error",
                         title: "Oops...",
