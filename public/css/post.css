@@ -56,33 +56,33 @@ body {
 #companyName {
     display: block;
     font-weight: 600;
-    font-size: 0.8em;
+    font-size: 0.9em;
     margin: auto;
 }
 
 #companyData {
     display: block;
     font-weight: 400;
-    font-size: 0.7em;
+    font-size: 0.8em;
 }
 
 #document {
     width: 100%;
     text-align: left;
-    font-size: 0.7em;
+    font-size: 0.8em;
 }
 
 #title {
     color: #000000;
     margin: auto;
-    font-size: 0.75em;
+    font-size: 0.8em;
 }
 
 #third {
     float: left;
     width: 100%;
     text-align: left;
-    font-size: 0.75em;
+    font-size: 0.8em;
 }
 
 #thirdHeader {
@@ -118,7 +118,7 @@ body {
 }
 .table thead tr {
     text-align: left;
-    font-size: 0.75em;
+    font-size: 0.8em;
     text-align: center;
 }
 
@@ -130,7 +130,7 @@ body {
 
 .table tbody tr td {
     text-align: left;
-    font-size: 0.8em;
+    font-size: 0.9em;
 }
 .table tbody tr .tdRight {
     text-align: right;
@@ -138,7 +138,7 @@ body {
 }
 
 .table tfoot tr {
-    font-size: 0.75em;
+    font-size: 0.8em;
 }
 
 .footRight {

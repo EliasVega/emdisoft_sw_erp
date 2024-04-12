@@ -64,6 +64,12 @@
             <input type="number" id="daysProBonus" name="daysProBonus" value="0" class="form-control" placeholder="dias">
         </div>
     </div>
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addDBP"> <!-- Total de dias que van en provisiones acumulados -->
+        <div class="form-group">
+            <label class="form-control-label" for="daysBonusProvision">dias prima causadas</label>
+            <input type="number" id="daysBonusProvision" name="daysBonusProvision" value="0" class="form-control" placeholder="dias">
+        </div>
+    </div>
     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mt-4">
         <div class="form-group">
             <button class="btn btn-lightBlueGrad" type="button" id="add_bonus" data-toggle="tooltip"

@@ -7,6 +7,7 @@
     $("#addProvisionInterest").hide();
     $("#addProLayoffDays").hide();
     $("#addDLP").hide();
+    $("#addLayoffsAdjustment").hide();
 
     //Iniciando fechas segun fecha inicio de nomina
     function addLayoffsDate(){
@@ -96,9 +97,7 @@
         layoffsDays = endTimeLayoffs.diff(startTimeLayoffs, 'days');
         dayMonth = endTimeLayoffs.format('D');
 
-        layoffsDays = endTimeLayoffs.diff(startTimeLayoffs, 'days');
         layoffsMonth = parseInt(endMonth) - parseInt(endMonthLayoffs);
-        dayMonth = endTimeLayoffs.format('D');
         provisionLayoffs = $("#provision_layoffs").val();
         layoffsProvision = $("#layoffs_provisions").val();
         daysLayoffs = $("#daysProLayoffs").val();
@@ -126,8 +125,7 @@
 
         if (layoffsDays >= 0) {
             if (endYearLayoffs == endYear && endMonthLayoffs == endMonth) {
-
-                layoffsDaysPeriod = parseFloat(dayMonth) + parseFloat(daysLayoffs);
+                layoffsDaysPeriod = parseInt(dayMonth) + parseInt(daysLayoffs);
 
                 valueLayoffsPeriod = (parseFloat(salaryEmployee) + parseFloat(transportAssistance)) * layoffsDaysPeriod / 360;
                 intLayoffTotal = (valueLayoffsPeriod * layoffsDaysPeriod * 0.12) / 360;

@@ -132,13 +132,13 @@
                         {
                             extend: 'copy',
                             exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
                             }
                         },
                         {
                             extend: 'excel',
                             exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
                             }
                         },
                         {
@@ -147,13 +147,13 @@
                             orientation: 'landscape',
                             pageSize: 'LEGAL',
                             exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
                             }
                         },
                         {
                             extend: 'print',
                             exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
                             }
                         },
                     ],

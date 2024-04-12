@@ -3,11 +3,12 @@
         alert('estoy funcionando correctamanete colegio');
     });*/
 
-    $("#addBonusAdjustment").hide();
-    $("#addProBonusDays").hide();
     let subtotalBonus = [];
     let contBonus = 0;
     let totalBonus = 0;
+    $("#addBonusAdjustment").hide();
+    $("#addProBonusDays").hide();
+    $("#addDBP").hide();
 
     $(".bonusPeriod").change(addBonusDate);
 
@@ -39,11 +40,11 @@
         } else if (month == 2 && dayMonth >= 28){
             dayMonth = 30;
         }
-        bonusDaysPeriod = parseFloat(dayMonth) + parseFloat(daysBonus);
+        //bonusDaysPeriod = parseFloat(dayMonth) + parseFloat(daysBonus);
         startDateBonus(bonusStartDate);
         endDateBonus(bonusEndDate);
         //bonus = parseFloat(provisionBonus) + parseFloat(bonusProvision);
-        $("#bonusDays").val(bonusDaysPeriod);
+        $("#bonusDays").val(daysBonus);
         $("#valueBonus").val(provisionBonus);
     }
 
@@ -95,6 +96,7 @@
     $("#endBonus").change(timeBonus);
 
     function timeBonus(){
+
         endDate = $("#end_date").val();
         endTime = moment(endDate);
         endYear = moment(endTime).year();
@@ -111,55 +113,56 @@
         bonusDays = endTimeBonus.diff(startTimeBonus, 'days');
         dayMonth = endTimeBonus.format('D');
 
+        bonusMonth = parseInt(endMonth) - parseInt(endMonthBonus);
+        provisionBonus = $("#provision_bonus").val();
+        bonusProvision = $("#bonus_provisions").val();
+        daysBonus = $("#daysProBonus").val();
+        dbp = $("#daysBonusProvision").val()//dias de prima causados
+
+        bonusDate = new Date(endBonus);
+        //addicionar horas para hora colombia
+        addHours = 5;
+        //obtener horas del mes seleccionado
+        hours = bonusDate.getHours();
+        bonusDate.setHours(hours + addHours);
+        bonusEndDate = new Date(bonusDate);
+        dateEndBonus = moment(bonusEndDate);
+        dayMonth = dateEndBonus.format('D');
+        month = dateEndBonus.format('M');
+        if (dayMonth >= 30) {
+            dayMonth = 30
+        } else if (month == 2 && dayMonth >= 28){
+            dayMonth = 30;
+        }
+        salaryEmployee = $("#salary").val();
+
         if (bonusDays >= 0) {
             typeBonus = $("#type_bonus").val();
             if (typeBonus == "salary") {
                 if (endYearBonus == endYear && endMonthBonus == endMonth) {
-                    provisionBonus = $("#provision_bonus").val();
-                    bonusProvision = $("#bonus_provisions").val();
-                    daysBonus = $("#daysProBonus").val();
-
-                    bonusDate = new Date(endBonus);
-                    //addicionar horas para hora colombia
-                    addHours = 5;
-                    //obtener horas del mes seleccionado
-                    hours = bonusDate.getHours();
-                    bonusDate.setHours(hours + addHours);
-
-                    bonusEndDate = new Date(bonusDate);
-                    dateEndBonus = moment(bonusEndDate);
-                    dayMonth = dateEndBonus.format('D');
-                    month = dateEndBonus.format('M');
-                    if (dayMonth >= 30) {
-                        dayMonth = 30
-                    } else if (month == 2 && dayMonth >= 28){
-                        dayMonth = 30;
-                    }
-                    bonusDaysPeriod = parseFloat(dayMonth) + parseFloat(daysBonus);
-                    salaryEmployee = $("#salary").val();
+                    bonusDaysPeriod = parseInt(dayMonth) + parseInt(daysBonus);
                     valueBonusPeriod = salaryEmployee * bonusDaysPeriod / 360;
                     bonusAdjustment = parseFloat(valueBonusPeriod) - parseFloat(provisionBonus);
+
                     $("#bonusDays").val(bonusDaysPeriod);
                     $("#valueBonus").val(valueBonusPeriod.toFixed(2));
                     if (parseInt(bonusAdjustment) > 0) {
-                        $("#bonus_adjustment").val(bonusAdjustment);
+                        $("#bonus_adjustment").val(bonusAdjustment.toFixed(2));
                     } else {
                         $("#bonus_adjustment").val(0);
                     }
                 } else {
-
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "Fecha no corresponde a esta nomina",
-                    });
-                    $("#endBonus").val("");
-                    $("#valueBonus").val("");
-                    $("#bonusDays").val("");
+                    daysLess = parseInt(bonusMonth) * 30;
+                    bonusDaysPeriod = parseInt(dayMonth) + parseInt(dbp) - parseInt(daysLess);
+                    valueBonusPeriod = (parseFloat(salaryEmployee) + parseFloat(transportAssistance)) * bonusDaysPeriod / 360;
+                    bonusAdjustment = parseFloat(valueBonusPeriod) - parseFloat(provisionBonus);
+                    $("#bonusDays").val(bonusDaysPeriod);
+                    $("#valueBonus").val(valueBonusPeriod.toFixed(2));
+                    $("#bonus_adjustment").val(bonusAdjustment.toFixed(2));
                 }
             } else {
+                bonusDays++;
                 $("#bonusDays").val(bonusDays);
-                $("#valueBonus").val("");
             }
 
         } else {
@@ -191,7 +194,6 @@
         type = $("#type_bonus option:selected").text();
         bonusDays = $("#bonusDays").val();
         valueBonus = $("#valueBonus").val();
-
         tp = $("#total_acrued").val();
         tpnew = parseFloat(tp) + parseFloat(valueBonus);
         $("#total_acrued").val(tpnew.toFixed(2));
@@ -239,8 +241,6 @@
             bonusAdjustment = parseFloat(totalBonus) - parseFloat(provisionBonus);
             //$("#bonus_adjustment").val(bonusAdjustment.toFixed(2));
         }
-
-
         $("#total_bonus_html").html("$ " + totalBonus.toFixed(2));
         $("#total_bonus").val(totalBonus.toFixed(2));
     }

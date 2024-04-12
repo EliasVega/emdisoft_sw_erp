@@ -60,7 +60,6 @@ class InvoiceController extends Controller
     public function index(Request $request)
     {
         $invoice = session('invoice');
-
         $indicator = Indicator::findOrFail(1);
         $typeDocument = '';
         if ($indicator->pos == 'off') {
@@ -347,7 +346,7 @@ class InvoiceController extends Controller
                 $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
 
                 //metodo para comisiones de empleados
-                if (isset($employee_id[$i])) {
+                if ($employee_id[$i] != "null") {
                     $employee = Employee::findOrFail($employee_id[$i]);
                     $subtotal = $quantity[$i] * $price[$i];
                     $commission = $employee->commission;
@@ -365,7 +364,6 @@ class InvoiceController extends Controller
                     $employeeInvoiceProduct->status = 'pendient';
                     $employeeInvoiceProduct->save();
                 }
-
             }
 
             $taxes = $this->getTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC

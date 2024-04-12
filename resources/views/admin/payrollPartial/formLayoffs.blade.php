@@ -78,7 +78,7 @@
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addDLP"> <!-- Total de dias que van en provisiones acumulados -->
         <div class="form-group">
-            <label class="form-control-label" for="daysLayoffProvision">dias provision causadas</label>
+            <label class="form-control-label" for="daysLayoffProvision">dias cesantias causadas</label>
             <input type="number" id="daysLayoffProvision" name="daysLayoffProvision" value="0" class="form-control" placeholder="dias">
         </div>
     </div>
