@@ -2,14 +2,17 @@
     <div class="col-md-4">
         <div class="card card-primary card-outline">
             <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-14 col-xs-12" id="codeBarcode">
-                    <div class="form-group">
-                        <label for="code">Codigo</label>
-                        <input type="text" name="code" id="code" value="" class="form-control"
-                            placeholder="" aria-describedby="helpId" class="gui-input" autofocus>
+                @if ($indicator->barcode == 'on')
+                    <div class="col-lg-12 col-md-12 col-sm-14 col-xs-12" id="codeBarcode">
+                        <div class="form-group">
+                            <label for="code">Codigo</label>
+                            <input type="text" name="code" id="code" value="" class="form-control"
+                                placeholder="" aria-describedby="helpId" class="gui-input" autofocus>
 
+                        </div>
                     </div>
-                </div>
+                @endif
+
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label class="form-control-label" for="product_id">Producto </label>

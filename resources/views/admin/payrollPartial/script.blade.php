@@ -86,10 +86,10 @@
     }
 
     function startDateWork(firstDay) {
-        let month1 = firstDay.getMonth()+1; //obteniendo mes
-        let day1 = firstDay.getDate(); //obteniendo dia
-        let year1 = firstDay.getFullYear(); //obteniendo año
-        let box1 = $("#checkbox2").prop("checked");
+        month1 = firstDay.getMonth()+1; //obteniendo mes
+        day1 = firstDay.getDate(); //obteniendo dia
+        year1 = firstDay.getFullYear(); //obteniendo año
+        box1 = $("#checkbox2").prop("checked");
         if (box1 == true) {
             day1 = 16
         }
@@ -102,10 +102,10 @@
     }
 
     function endDateWork(lastDay) {
-        let month2 = lastDay.getMonth()+1; //obteniendo mes
-        let day2 = lastDay.getDate(); //obteniendo dia
-        let year2 = lastDay.getFullYear(); //obteniendo año
-        let box2 = $("#checkbox1").prop("checked");
+        month2 = lastDay.getMonth()+1; //obteniendo mes
+        day2 = lastDay.getDate(); //obteniendo dia
+        year2 = lastDay.getFullYear(); //obteniendo año
+        box2 = $("#checkbox1").prop("checked");
         if (box2 == true) {
             day2 = 15
         }
@@ -319,12 +319,14 @@
             totalDaysBonus = parseFloat(data.bonus_days) + parseFloat(daysMonth);
             daysBonus = parseInt(data.bonus_days) + parseInt(daysMonth);
 
-            totalLayoffs = parseFloat(data.layoffs) + parseFloat(ppbl);
+            layoffsTotal = parseFloat(data.layoffs) + parseFloat(ppbl);
             totalDaysLayoffs = parseFloat(data.layoff_days) + parseFloat(daysMonth);
-            intLayoffTotal = (totalLayoffs * totalDaysLayoffs * 0.12) / 360;
+            intLayoffTotal = (layoffsTotal * totalDaysLayoffs * 0.12) / 360;
             daysLayoffs = parseInt(data.layoff_days) + parseInt(daysMonth);
 
+            vacationsTotal = parseFloat(data.vacations) + parseFloat(ppv);
             totalDaysVacations = parseFloat(data.vacation_days) + parseFloat(daysMonth);
+            daysVacations = parseInt(data.vacation_days) + parseInt(daysMonth);
 
             $("#provision_bonus").val(bonusTotal.toFixed(2));
             $("#bonus_provisions").val(ppbl.toFixed(2));
@@ -332,7 +334,7 @@
             $("#daysBonusProvision").val(data.bonus_days);
             $("#startBonus").val(startPeriodBonus);
 
-            $("#provision_layoffs").val(totalLayoffs.toFixed(2));
+            $("#provision_layoffs").val(layoffsTotal.toFixed(2));
             $("#layoff_provisions").val(ppbl.toFixed(2));
             $("#pro_lay_int").val(intLayoffTotal.toFixed(2));
             $("#layoff_interest_pro").val(intLayoffTotal.toFixed(2));
@@ -341,7 +343,13 @@
             $("#daysLayoffProvision").val(data.layoff_days);
             $("#startLayoffs").val(startPeriodLayoffs);
 
+            $("#provision_vacations").val(vacationsTotal.toFixed(2));
             $("#vacation_provisions").val(ppv.toFixed(2));
+            $("#daysProVacations").val(daysVacations);
+            $("#daysVacationProvision").val(data.vacation_days);
+            //$("#startVacations").val(startPeriodVacations);
+            $("#start_vacation_period").val(startPeriodVacations);
+            $("#days_vacation_period").val(data.vacation_days);
 
             $("#vp_days").val(daysMonth);
             $("#bp_days").val(daysMonth);
@@ -370,7 +378,9 @@
             $("#layoff_interest_pro").val(intLayoffTotal.toFixed(2));
             $("#daysProLayoffs").val(daysMonth);
 
+            $("#provision_vacations").val(0);
             $("#vacation_provisions").val(ppv.toFixed(2));
+            $("#daysProVacations").val(daysMonth);
 
             $("#vp_days").val(daysMonth);
             $("#bp_days").val(daysMonth);
@@ -394,12 +404,10 @@
 
             ppv = salaryEmployee * daysMonth / 720;
             ppbl = (parseFloat(salaryEmployee) + parseFloat(transportAssistance)) * daysMonth / 360;
-            //proVacations = data.proVacations;
-            //proBonus = data.proBonus;
-            //proLayoffs = data.proLayoffs;
             startPeriodVacations = data.start_period_vacations;
             startPeriodBonus = data.start_period_bonus;
             startPeriodLayoffs = data.start_period_layoffs;
+
             startTime = moment(startPeriodLayoffs);
             totalppv = parseFloat(data.vacations) + parseFloat(ppv);
             totalppb = parseFloat(data.bonus) + parseFloat(ppbl);
@@ -411,10 +419,12 @@
 
             totalLayoffsPro = parseFloat(data.proLayoffs) + parseFloat(totalppl);
             totalDaysLayoff = parseFloat(data.proLayoff_days) + parseFloat(data.layoff_days) + parseFloat(daysMonth);
-            //totalProLayoff = parseFloat(data.proLayoffs) + parseFloat(totalppl);
             intLayoffTotal = (totalLayoffsPro * totalDaysLayoff * 0.12) / 360;
             daysProLayoffs = parseInt(data.proLayoff_days);
+
+            totalVacationsPro = parseFloat(data.proVacations) + parseFloat(data.vacations) + parseFloat(ppv);
             totalDaysVacations = parseFloat(data.proVacation_days) + parseFloat(data.vacation_days) + parseFloat(daysMonth);
+            daysProVacations = parseInt(data.proVacations_days);
 
             vpDays = parseInt(data.vacation_days) + parseInt(daysMonth);
             bpDays = parseInt(data.bonus_days) + parseInt(daysMonth);
@@ -435,7 +445,13 @@
             $("#startLayoffs").val(startPeriodLayoffs);
             $("#daysLayoffProvision").val(daysProLayoffs);
 
+
+            $("#provision_vacations").val(totalVacationsPro.toFixed(2));
             $("#vacation_provisions").val(totalppv.toFixed(2));
+            $("#daysProVacations").val(totalDaysVacations);
+            $("#daysVacationsProvision").val(daysProVacations);
+            $("#start_vacation_period").val(startPeriodVacations);
+            $("#days_vacation_period").val(daysProVacations);
 
             $("#vp_days").val(vpDays);
             $("#bp_days").val(bpDays);
@@ -449,7 +465,7 @@
             totalProLayoff = parseFloat(ppbl);
             intLayoffTotal = (ppbl * daysMonth * 0.12) / 360;
 
-            $("#provision_bonus").val(ppbl.toFixed(2));
+            //$("#provision_bonus").val(ppbl.toFixed(2));
 
             $("#vacation_provisions").val(ppv.toFixed(2));
             $("#bonus_provisions").val(ppbl.toFixed(2));
@@ -505,6 +521,7 @@
         $("#formOvertime").hide();
         $("#formBonus").hide();
         $("#formLayoffs").hide();
+        addVacationPeriod();
 
     });
     $(document).on("click", "#addBonus", function () {
