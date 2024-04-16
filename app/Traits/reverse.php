@@ -5,7 +5,7 @@ use App\Models\CashInflow;
 use App\Models\VoucherType;
 use App\Traits\AdvanceCreate;
 
-trait reverse {
+trait Reverse {
     use AdvanceCreate;
     public function reverse($reverse, $advancePay, $cashRegister, $indicator, $documentOrigin, $typeDocument, $document, $date1, $date2){
 

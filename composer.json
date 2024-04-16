@@ -7,6 +7,8 @@
     "require": {
         "php": "^8.1",
         "barryvdh/laravel-dompdf": "^2.0",
+        "codedge/laravel-fpdf": "^1.12",
+        "endroid/qr-code": "^5.0",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",
         "jeroennoten/laravel-adminlte": "^3.9",
@@ -20,7 +22,9 @@
         "milon/barcode": "^10.0",
         "orangehill/iseed": "^3.0",
         "phpoffice/phpspreadsheet": "^1.29",
+        "picqer/php-barcode-generator": "^2.4",
         "realrashid/sweet-alert": "^7.1",
+        "setasign/fpdf": "^1.8",
         "spatie/laravel-permission": "^5.11",
         "yajra/laravel-datatables-oracle": "^10.8"
     },
@@ -59,8 +63,11 @@
             "app/Helpers/SendDocuments.php",
             "app/Helpers/SupportDocumentSend.php",
             "app/Helpers/TaxesGlobals.php",
-            "app/Helpers/TaxesLines.php"
+            "app/Helpers/TaxesLines.php",
 
+            "app/Helpers/Tickets/FormatText.php",
+            "app/Helpers/Tickets/Ticket.php",
+            "app/Helpers/Tickets/TicketHeight.php"
         ]
     },
     "scripts": {

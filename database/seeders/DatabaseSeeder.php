@@ -13,12 +13,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        //\App\Models\User::factory(10)->create();
         //$this->call(IndicatorsTableSeeder::class);
         $this->call(RoleSeeder::class);
         $this->call(DepartmentsTableSeeder::class);
         $this->call(MunicipalitiesTableSeeder::class);
-        $this->call(PostalCodeSeeder::class);
+        $this->call(PostalCodesSeeder::class);
         $this->call(BanksTableSeeder::class);
         $this->call(CardsTableSeeder::class);
         $this->call(IdentificationTypesTableSeeder::class);
@@ -38,7 +38,6 @@ class DatabaseSeeder extends Seeder
         $this->call(MeasureUnitsTableSeeder::class);
         $this->call(DiscrepanciesTableSeeder::class);
 
-
         $this->call(ContratTypesTableSeeder::class);
         $this->call(ChargesTableSeeder::class);
         $this->call(EmployeeSubtypesTableSeeder::class);
@@ -51,13 +50,11 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductsSeeder::class);
         $this->call(BranchProductsTableSeeder::class);
 
-
         $this->call(GenerationTypeTableSeeder::class);
         $this->call(VoucherTypeTableSeeder::class);
         $this->call(ResolutionSeeder::class);
         $this->call(PaymentFormsTableSeeder::class);
         $this->call(PaymentMethodsTableSeeder::class);
-
 
         $this->call(EmployeesTableSeeder::class);
         $this->call(RestaurantTableSeeder::class);

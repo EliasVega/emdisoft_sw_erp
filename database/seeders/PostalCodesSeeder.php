@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class PostalCodeSeeder extends Seeder
+class PostalCodesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -19,7 +19,6 @@ class PostalCodeSeeder extends Seeder
             0 =>
             array(
                 'id' => 1,
-
                 'municipality_id' => 1,
                 'postal_code' => '050001',
                 'created_at' => '2023-09-30 16:07:43',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Tickets\Ticket;
 use App\Models\Invoice;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
@@ -40,9 +41,16 @@ use Yajra\DataTables\DataTables;
 use App\Traits\InventoryInvoices;
 use App\Traits\KardexCreate;
 use App\Traits\Taxes;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
+use Picqer\Barcode\BarcodeGeneratorPNG;
+
+use function App\Helpers\Tickets\formatText;
+use function App\Helpers\Tickets\ticketHeight;
 
 class InvoiceController extends Controller
 {
@@ -245,6 +253,15 @@ class InvoiceController extends Controller
         $employee_id = $request->employee_id;
         $paymentForm = $request->payment_form_id;
         $cvp = $request->cv;
+
+        if (isset($employee_id)) {
+            $employee_id = $request->employee_id;
+        } else {
+            $employee_id = "null";
+        }
+
+
+        //dd($employee_id);
 
         if ($indicator->pos == 'on'  && $paymentForm == 1) {
             $totalpay = $request->total_pay;
@@ -1093,5 +1110,75 @@ class InvoiceController extends Controller
                 return response()->json($products);
             }
         }
+    }
+
+    public function posPdf(Request $request, Invoice $invoice)
+    {
+        $company = Company::findOrFail(Auth::user()->company->id);
+        $thirdPartyType = 'customer';
+
+        $pdfHeight = ticketHeight($company, $invoice, "invoice");
+
+        $pdf = new Ticket('P', 'mm', array(80, $pdfHeight), true, 'UTF-8');
+        $pdf->SetMargins(4, 10, 4);
+        $pdf->SetTitle($invoice->document);
+        $pdf->SetAutoPageBreak(false);
+        $pdf->addPage();
+
+        if ($company->logo != null) {
+            //$logo = asset('app/public' . $company->logo);
+            $logo = storage_path('app/public/images/logos/' . $company->imageName);
+            //dd($logo);
+            if (file_exists($logo)) {
+                $pdf->generateLogo($logo);
+            }
+        }
+        $pdf->generateCompanyInformation($company, $invoice);
+
+        $barcodeGenerator = new BarcodeGeneratorPNG();
+        $barcodeCode = $barcodeGenerator->getBarcode($invoice->id, $barcodeGenerator::TYPE_CODE_128);
+        $barcode = "data:image/png;base64," . base64_encode($barcodeCode);
+
+        $pdf->generateBarcode($barcode);
+        $pdf->generateBranchInformation($invoice);
+        $pdf->generateThirdPartyInformation($invoice->third, $thirdPartyType);
+        $pdf->generateProductsTable($invoice);
+        $pdf->generateSummaryInformation($invoice);
+        $pdf->generateInvoiceInformation($invoice);
+
+        $url = 'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=';
+        $data = [
+            'NumFac' => $invoice->document,
+            'FecFac' => $invoice->created_at->format('Y-m-d'),
+            'NitFac' => $company->nit,
+            'DocAdq' => $invoice->third->identification,
+            'ValFac' => $invoice->total,
+            'ValIva' => $invoice->total_tax,
+            'ValOtroIm' => '0.00',
+            'ValTotal' => $invoice->total_pay,
+            'CUFE' => 'dc3dd77f1bc516721c9f196bc225b68d6ab326f355139b23cde8c2a7b9149e4fe09ab2c3487f11375116f939ed8d4d52',
+            'URL' => $url . 'dc3dd77f1bc516721c9f196bc225b68d6ab326f355139b23cde8c2a7b9149e4fe09ab2c3487f11375116f939ed8d4d52',
+        ];
+
+        $writer = new PngWriter();
+        $qrCode = new QrCode(implode("\n", $data));
+        $qrCode->setSize(300);
+        $qrCode->setMargin(10);
+        $result = $writer->write($qrCode);
+
+        $qrCodeImage = $result->getString();
+        $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
+        $pdf->generateQr($qrImage);
+
+        //$confirmationCode = formatText("CUFE: " . $invoice->response->cufe);
+        $confirmationCode = formatText("CUFE: " . 'dc3dd77f1bc516721c9f196bc225b68d6ab326f355139b23cde8c2a7b9149e4fe09ab2c3487f11375116f939ed8d4d52');
+        $pdf->generateConfirmationCode($confirmationCode);
+
+        $refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
+        $pdf->generateDisclaimerInformation($refund);
+
+        $pdf->Output("I", $invoice->document . ".pdf", true);
+
+        exit;
     }
 }

@@ -1,3 +1,5 @@
+<a href="{{ route('posPdf', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip"
+    data-placement="top" title="Pos Venta"><i class="far fa-eye"></i></a>
 @can('invoice.edit')
     @if ($status == 'invoice')
         <a href="{{ route('invoice.edit', $id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip"

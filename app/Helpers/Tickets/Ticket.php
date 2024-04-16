@@ -1,0 +1,223 @@
+<?php
+
+namespace App\Helpers\Tickets;
+
+use App\Models\InvoiceProduct;
+use App\Models\Resolution;
+use FPDF;
+use Symfony\Polyfill\Mbstring\Mbstring;
+
+class Ticket extends FPDF
+{
+    public function generateLogo($logo)
+    {
+        $width = 25;
+        $height = 25;
+        $xPos = ($this->GetPageWidth() - $width) / 2;
+
+        $this->Image($logo, $xPos, 5, $width, $height);
+        $this->SetY($this->GetY() + $height);
+    }
+
+    public function generateCompanyInformation($company)
+    {
+        $identificationType = formatText($company->identificationType->initial);
+        $nit = formatText($company->nit);
+        $dv = formatText($company->dv);
+        $address = formatText('Dirección: ' . $company->address);
+        $phone = formatText('Teléfono: ' . $company->phone);
+        $email = formatText('Email: ' . $company->email);
+
+        $this->SetFont('Arial', 'B', 10);
+        $this->SetTextColor(0, 0, 0);
+        $this->MultiCell(0, 5, strtoupper($company->name), 0, 'C', false);
+        $this->SetFont('Arial', '', 9);
+        $this->MultiCell(0, 5, $identificationType . ":" . $nit . " - " . $dv, 0, 'C', false);
+        $this->MultiCell(0, 5, $address, 0, 'C', false);
+        $this->MultiCell(0, 5, $phone, 0, 'C', false);
+        $this->MultiCell(0, 5, $email, 0, 'C', false);
+        $this->ln(2);
+    }
+
+    public function generateBarcode($barcode)
+    {
+        $width = 25;
+        $height = 10;
+        $xPos = ($this->GetPageWidth() - $width) / 2;
+
+        $this->Image($barcode, $xPos, $this->GetY(), $width, $height, 'png');
+        $this->SetY($this->GetY() + $height);
+        $this->generateBreakLine(1, 'short', 5);
+    }
+
+    public function generateBranchInformation($document)
+    {
+        $date = formatText('Fecha: ' . $document->generation_date);
+        $branch = formatText('Sucursal: ' . $document->branch->name);
+        $number = formatText('Prefijo - Numero: ' . $document->document);
+
+        $this->MultiCell(0, 5, $date, 0, 'C', false);
+        $this->MultiCell(0, 5, $branch, 0, 'C', false);
+        $this->SetFont('Arial', 'B', 10);
+        $this->MultiCell(0, 5, $number, 0, 'C', false);
+        $this->SetFont('Arial', '', 9);
+        $this->generateBreakLine(1, 'short', 5);
+    }
+
+    /*
+    public function generateCashboxInformation($document)
+    {
+        $date = formatText('Fecha: ' . $document->created_at->format('Y-m-d'));
+        $cashbox = $document->cashbox;
+        $cashboxNumber = formatText('Caja Nro: ' . $cashbox->id);
+        $cashierName = formatText('Cajero: ' . $cashbox->manager->person->name);
+        $cashierLastName = formatText($cashbox->manager->person->last_name);
+        $ticketNumber = formatText('Ticket Nro: ' . $document->id);
+
+        $this->MultiCell(0, 5, $date, 0, 'C', false);
+        $this->MultiCell(0, 5, $cashboxNumber, 0, 'C', false);
+        $this->MultiCell(0, 5, $cashierName . ' ' . $cashierLastName, 0, 'C', false);
+        $this->SetFont('Arial', 'B', 10);
+        $this->MultiCell(0, 5, $ticketNumber, 0, 'C', false);
+        $this->SetFont('Arial', '', 9);
+        $this->generateBreakLine(1, 'short', 5);
+    }*/
+
+    public function generateThirdPartyInformation($thirdParty, $thirdPartyType)
+    {
+        if ($thirdPartyType == "provider") {
+            $name = formatText('Proveedor: ' . $thirdParty->name);
+        } elseif ($thirdPartyType == "customer") {
+            $name = formatText('Cliente: ' . $thirdParty->name);
+        }
+        $identificationType = $thirdParty->identificationType->initial;
+        $identification = formatText($thirdParty->identification);
+        $phone = formatText('Teléfono: ' . $thirdParty->phone);
+        $address = formatText('Dirección: ' . $thirdParty->address);
+
+        $this->MultiCell(0, 5, $name, 0, 'C', false);
+        $this->MultiCell(0, 5, $identificationType . ': ' . $identification, 0, 'C', false);
+        $this->MultiCell(0, 5, $phone, 0, 'C', false);
+        $this->MultiCell(0, 5, $address, 0, 'C', false);
+    }
+
+    public function generateProductsTable($invoice)
+    {
+        $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->get();
+
+        $this->SetFont('Arial', '', 9);
+        $this->generateBreakLine(1, 'long', 3);
+        $this->Cell(30, 5, formatText('Producto'), 0, 0, 'C');
+        $this->Cell(10, 5, formatText('Cant.'), 0, 0, 'C');
+        $this->Cell(15, 5, formatText('Precio'), 0, 0, 'C');
+        $this->Cell(20, 5, formatText('Subtotal'), 0, 0, 'C');
+        $this->generateBreakLine(3, 'long', 3);
+
+        foreach ($invoiceProducts as $invoiceProduct) {
+            $mia = strlen($invoiceProduct->product->name);
+
+            //$this->Multicell(30,5, formatText($invoiceProduct->product->name),'J',1);
+            //$this->MultiCell(0, 10, formatText($invoiceProduct->product->name), 0, 'L');
+            $this->SetFont('Arial', '', 7);
+            if ($mia > 20) {
+                $this->Multicell(50,5, formatText($invoiceProduct->product->name),'J',1);
+                $this->Cell(40, 5, $invoiceProduct->quantity, 0, 0, 'R');
+            } else {
+                $this->Cell(30, 5, formatText($invoiceProduct->product->name), 0, 0, 'L');
+                $this->Cell(10, 5, $invoiceProduct->quantity, 0, 0, 'R');
+            }
+            $this->Cell(15, 5, "$" . number_format($invoiceProduct->price), 0, 0, 'R');
+            $this->Cell(20, 5, "$" . number_format($invoiceProduct->price * $invoiceProduct->quantity,2), 0, 0, 'R');
+            if ($invoiceProducts->last() != $invoiceProduct) {
+                $this->Ln(4);
+            }
+        }
+        $this->generateBreakLine(3, 'long', 5);
+    }
+
+    public function generateSummaryInformation($document)
+    {
+        $this->Cell(21, 5, "", 0, 0, 'C');
+        $this->Cell(22, 5, formatText("SUBTOTAL"), 0, 0, 'R');
+        $this->Cell(32, 5, "$" . number_format($document->total,2), 0, 0, 'R');
+
+        $this->Ln(5);
+        $this->Cell(21, 5, "", 0, 0, 'C');
+        $this->Cell(22, 5, formatText("IMPUESTO"), 0, 0, 'R');
+        $this->Cell(32, 5, "$" . number_format($document->total_tax,2), 0, 0, 'R');
+        /*
+        foreach ($document->percentages as $percentage) {
+            $this->Ln(5);
+            $this->Cell(18, 5, "", 0, 0, 'C');
+            $this->Cell(22, 5, formatText("IMPUESTO"), 0, 0, 'C');
+            $this->Cell(32, 5, "$" . $document->total_tax, 0, 0, 'C');
+        }*/
+        $this->Ln(5);
+        $this->Cell(21, 5, "", 0, 0, 'C');
+        $this->Cell(22, 5, formatText("TOTAL"), 0, 0, 'R');
+        $this->Cell(32, 5, "$" . number_format($document->total_pay,2), 0, 0, 'R');
+        $this->Ln(10);
+    }
+
+    public function generateInvoiceInformation($invoice)
+    {
+        $resolution_id = $invoice->resolution_id;
+        $resolution = Resolution::findOrFail($resolution_id);
+        $startDate = $resolution->start_date;
+        $endDate = $resolution->end_date;
+        $invoiceInformation = formatText("Numeración habilitada por la DIAN.");
+        $prefix = formatText("Prefijo: " . $resolution->prefix);
+        $consecutive = formatText(" del No. " . $resolution->start_number . " al " . $resolution->end_number);
+        $resolution = formatText("Resolución: " . $resolution->resolution);
+        $resolutionDate = formatText(" del " . $startDate . " al " . $endDate);
+
+        $this->SetFont('Arial', 'B', 9);
+        $this->MultiCell(0, 5, $invoiceInformation, 0, 'C', false);
+        $this->SetFont('Arial', '', 9);
+        $this->MultiCell(0, 5, $prefix . $consecutive, 0, 'C', false);
+        $this->MultiCell(0, 5, $resolution . $resolutionDate, 0, 'C', false);
+    }
+
+    public function generateQr($qrCode)
+    {
+        $width = 50;
+        $height = 50;
+        $xPos = ($this->GetPageWidth() - $width) / 2;
+
+        $this->Image($qrCode, $xPos, $this->GetY(), $width, $height, 'png');
+        $this->SetY($this->GetY() + $height);
+    }
+
+    public function generateConfirmationCode($code)
+    {
+        $this->MultiCell(0, 5, $code, 0, 'C', false);
+        $this->Ln(5);
+    }
+
+    public function generateDisclaimerInformation($message)
+    {
+        $this->MultiCell(0, 5, $message, 0, 'C', false);
+        $this->SetFont('Arial', 'B', 9);
+        $this->Cell(0, 10, formatText("Gracias por su compra"), '', 0, 'C');
+
+    }
+
+    public function generateBreakLine($marginTop, $size, $marginBottom)
+    {
+        $this->Ln($marginTop);
+
+        if ($size == 'short') {
+            $this->Cell(0, 5, "-----------------------------------------------------------", 0, 0, 'C');
+        } elseif ($size == 'long') {
+            $this->Cell(72, 5, "------------------------------------------------------------------------", 0, 0, 'C');
+        }
+        $this->Ln($marginBottom);
+    }
+
+    public function footer()
+    {
+        $this->setY(-10);
+        $this->SetFont('Arial', '', 9);
+        $this->Cell(0, 10, formatText("Generado por emdisoft.sas"), '', 0, 'C');
+    }
+}

@@ -252,6 +252,7 @@ Route::get('invoice/creditNoteInvoice/{id}', [InvoiceController::class, 'creditN
 Route::get('invoice/debitNoteInvoice/{id}', [InvoiceController::class, 'debitNote'])->name('debitNoteInvoice');
 Route::get('pdfInvoice', [InvoiceController::class, 'pdfInvoice'])->name('pdfInvoice');
 Route::get('posInvoice', [InvoiceController::class, 'posInvoice'])->name('posInvoice');
+Route::get('invoice/posPdf/{invoice}', [InvoiceController::class, 'posPdf'])->name('posPdf');
 
 Route::get('invoiceOrder/invoice/{id}', [InvoiceOrderController::class, 'invoice'])->name('invoiceOrderInvoice');
 Route::get('invoiceOrder/pdf/{id}', [InvoiceOrderController::class, 'invoiceOrderPdf'])->name('invoiceOrderPdf');

@@ -25,6 +25,11 @@ class IdentificationType extends Model
         'id'
     ];
 
+    public function companies()
+    {
+        return $this->hasMany(Company::class);
+    }
+
     public function users()
     {
         return $this->hasMany(User::class);

@@ -38,6 +38,11 @@ class Company extends Model
         'regime_id'
     ];
 
+    public function identificationType()
+    {
+        return $this->belongsTo(IdentificationType::class);
+    }
+
     public function department()
     {
         return $this->belongsTo(Department::class);
