@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
-        <label for="typeBonus">Tipo</label>
+        <label for="type_bonus">Tipo</label>
         <div class="select">
             <select id="type_bonus" name="type_bonus" class="form-control selectpicker" data-live-search="true" required>
                 <option disabled>Seleccionar Tipo</option>

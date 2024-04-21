@@ -231,7 +231,7 @@
     function cleanBonus() {
         $("#startBonus").val("");
         $("#endBonus").val("");
-        $("#vacationDays").val("");
+        $("#bonusDays").val("");
     }
 
     function totalsBonus() {

@@ -248,13 +248,13 @@
     @if ($indicator->cvpinvoice == 'on')
         <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mt-3" id="addcvp">
             <div class="form-check">
-                <input class="form-check-input cvp" type="radio" name="cvp" value="1" id="cvp1">
+                <input class="form-check-input cvp" type="radio" name="cvp" value="1" id="cvpinvoice1">
                 <label class="form-check-label" for="cvpinvoice1">
                     Guardar Precio producto
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input cvp" type="radio" name="cvp" value="2" id="cvp2" checked>
+                <input class="form-check-input cvp" type="radio" name="cvp" value="2" id="cvpinvoice2" checked>
                 <label class="form-check-label" for="cvpinvoice2">
                     No guardar Precio producto
                 </label>

@@ -283,6 +283,7 @@ Route::get('paymentMethod/status/{id}', [PaymentMethodController::class, 'status
 
 Route::get('getProvisionEmployee', [PayrollPartialController::class, 'getProvisionEmployee'])->name('getProvisionEmployee');
 Route::get('getProvPartEmp', [PayrollPartialController::class, 'getProvPartEmp'])->name('getProvPartEmp');
+Route::get('getPayrollPartial', [PayrollPartialController::class, 'getPayrollPartial'])->name('getPayrollPartial');
 
 Route::get('percentage/status/{id}', [PercentageController::class, 'status'])->name('percentageStatus');
 

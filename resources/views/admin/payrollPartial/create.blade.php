@@ -47,6 +47,9 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="formLayoffs">
                     @include('admin/payrollPartial.formLayoffs')
                 </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="formNovelties">
+                    @include('admin/payrollPartial.formInabilities')
+                </div>
             {!!Form::close()!!}
         </div>
     </div>
@@ -59,5 +62,6 @@
     @include('admin/payrollPartial.scriptVacations')
     @include('admin/payrollPartial.scriptBonus')
     @include('admin/payrollPartial.scriptLayoffs')
+    @include('admin/payrollPartial.scriptInabilities')
 @endsection
 

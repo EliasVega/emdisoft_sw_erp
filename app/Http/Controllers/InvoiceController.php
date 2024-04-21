@@ -1138,7 +1138,7 @@ class InvoiceController extends Controller
         $barcodeGenerator = new BarcodeGeneratorPNG();
         $barcodeCode = $barcodeGenerator->getBarcode($invoice->id, $barcodeGenerator::TYPE_CODE_128);
         $barcode = "data:image/png;base64," . base64_encode($barcodeCode);
-
+        /*
         $pdf->generateBarcode($barcode);
         $pdf->generateBranchInformation($invoice);
         $pdf->generateThirdPartyInformation($invoice->third, $thirdPartyType);
@@ -1175,7 +1175,7 @@ class InvoiceController extends Controller
         $pdf->generateConfirmationCode($confirmationCode);
 
         $refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
-        $pdf->generateDisclaimerInformation($refund);
+        $pdf->generateDisclaimerInformation($refund);*/
 
         $pdf->Output("I", $invoice->document . ".pdf", true);
 

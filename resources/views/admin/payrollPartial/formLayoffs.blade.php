@@ -1,6 +1,6 @@
 <div class="box-body row">
     <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
-        <label for="pay_layoff">Modo pago</label>
+        <label for="pay_layoffs">Modo pago</label>
         <div class="select">
             <select id="pay_layoffs" name="pay_layoffs" class="form-control selectpicker" data-live-search="true" required>
                 <option value="{{ old('pay_layoffs', $layoffs->pay_layoffs ?? '') }}" disabled>pagar o causar</option>

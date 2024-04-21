@@ -69,15 +69,13 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="vpayadd">
                     <div class="form-group">
                         <label class="form-control-label requerido" for="vpay">Pago</label>
-                        <input type="number" id="vpay" value="0"
-                            class="form-control">
+                        <input type="number" id="vpay" value="0" class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="rbadd">
                     <div class="form-group">
                         <label class="form-control-label" for="rbal">Cambio</label>
-                        <input type="number" id="rbal" value="0"
-                            class="form-control">
+                        <input type="number" id="rbal" value="0" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer" id="save">
@@ -308,14 +306,14 @@
                 <div class="form-check">
                     <input class="form-check-input fe_true" type="radio" name="fe" value="1"
                         id="fe_on">
-                    <label class="form-check-label" for="fe">
+                    <label class="form-check-label" for="fe_on">
                         Generar Factura Electronica
                     </label>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input fe_true" type="radio" name="fe" value="2"
                         id="fe_off" checked>
-                    <label class="form-check-label" for="fe">
+                    <label class="form-check-label" for="fe_off">
                         Generar ticket POS
                     </label>
                 </div>
@@ -333,13 +331,13 @@
     @if ($indicator->cvpinvoice == 'on')
         <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mt-3" id="addcvp">
             <div class="form-check">
-                <input class="form-check-input cvp" type="radio" name="cvp" value="1" id="cvp1">
+                <input class="form-check-input cvp" type="radio" name="cvp" value="1" id="cvpinvoice1">
                 <label class="form-check-label" for="cvpinvoice1">
                     Guardar Precio producto
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input cvp" type="radio" name="cvp" value="2" id="cvp2" checked>
+                <input class="form-check-input cvp" type="radio" name="cvp" value="2" id="cvpinvoice2" checked>
                 <label class="form-check-label" for="cvpinvoice2">
                     No guardar Precio producto
                 </label>

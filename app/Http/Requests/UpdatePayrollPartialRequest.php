@@ -30,6 +30,9 @@ class UpdatePayrollPartialRequest extends FormRequest
             'days' => '',
             'fortnight' => 'required|in:first,second',
             'note' => 'string|nullable',
+            'vacation_days' => '',
+            'inability_days' => '',
+            'license_days' => '',
 
             'employee_id' => '',
             'payroll_id' => '',

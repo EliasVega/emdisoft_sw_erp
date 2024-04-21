@@ -23,6 +23,9 @@ return new class extends Migration
             $table->decimal('total_acrued', 10,2);//total devengado
             $table->enum('fortnight', ['first', 'second'])->default('first');//diferenciacion de nomina
             $table->string('note')->nullable();//observaciones
+            $table->integer('vacation_days');//dias vacaciones disfrutadas
+            $table->integer('inability_days');//dias de incapacidad
+            $table->integer('license_days');//dias de licencia
 
             $table->foreignId('employee_id')->constrained();
             $table->foreignId('payroll_id')->constrained();

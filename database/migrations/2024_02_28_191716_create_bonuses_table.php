@@ -21,7 +21,7 @@ return new class extends Migration
             $table->enum('type',['salary', 'non-salary'])->default('salary');//typo de prima salarial o no salarial
 
             $table->foreignId('payroll_acrued_id')->constrained();
-            $table->foreignId('payroll_partial_acrued_id')->constrained();
+            $table->foreignId('payroll_partial_acrued_id')->nullable()->constrained();
 
             $table->timestamps();
         });

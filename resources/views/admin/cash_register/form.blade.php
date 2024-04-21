@@ -6,8 +6,8 @@
                 value="<?php echo date('Y-m-d'); ?>" placeholder="Fecha Apertura de caja">
         </div>
     </div>
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="form-group" id="valorcito">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="valorcito">
+        <div class="form-group">
             <label class="form-control-label" for="cash_initial">Efectivo Inicial</label>
             <input type="number" id="cash_initial" name="cash_initial" value="" class="form-control"
                 placeholder="Efectivo" >
@@ -27,8 +27,8 @@
         </div>
     </div>
 
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="form-group" id="valorcito">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="valorcito">
+        <div class="form-group">
             <label class="form-control-label" for="verification_code_open">Codigo de verificacion</label>
             <input type="password" id="verification_code_open" name="verification_code_open" value="" class="form-control"
                 placeholder="Codigo Verificacion">

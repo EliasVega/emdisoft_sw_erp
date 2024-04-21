@@ -7,6 +7,7 @@ use App\Http\Requests\StorePayrollPartialRequest;
 use App\Http\Requests\UpdatePayrollPartialRequest;
 use App\Models\Bonus;
 use App\Models\Employee;
+use App\Models\Inability;
 use App\Models\Indicator;
 use App\Models\Layoff;
 use App\Models\Overtime;
@@ -104,7 +105,6 @@ class PayrollPartialController extends Controller
         $transportAssistance = $request->transport_acrued;//auxilio de transporte
         $workedDays = $request->days;//dias trabajados por el empleado
 
-
         //request de horas extras
         $overtime_type_id = $request->overtime_type_id;//id del tipo de hora
         $quantityOvertime = $request->quantity_overtime;//request de la cantidad de horas para este tipo
@@ -137,6 +137,10 @@ class PayrollPartialController extends Controller
         //request de cesantias
         $totalLayoffs = $request->total_layoffs;
 
+        //request de incapacidades
+        $totalInabilities = $request->total_inabilities;
+        $origin = $request->origin_id;
+        dd($totalInabilities);
         $comprobation = PayrollPartial::where('year_month', $yearMonth)
         ->where('employee_id', $employee->id)
         ->where('fortnight', $fortnight)
@@ -252,6 +256,9 @@ class PayrollPartialController extends Controller
         $payrollPartial->total_acrued = $totalAcrued;//total devengado
         $payrollPartial->fortnight = $fortnight;//periodo de liquidacion
         $payrollPartial->note = $request->note;
+        $payrollPartial->vacation_days = 0;
+        $payrollPartial->inability_days = 0;
+        $payrollPartial->license_days = 0;
         $payrollPartial->employee_id = $employee->id;//empleado
         $payrollPartial->payroll_id = $payroll->id;
         $payrollPartial->user_id = current_user()->id;
@@ -441,6 +448,7 @@ class PayrollPartialController extends Controller
                 $valueDay = $request->value_day[$i];
 
                 $vacations = new Vacation();
+                $vacations->year_month = $yearMonth;
                 $vacations->start_period = $request->start_period;
                 $vacations->end_period = $request->end_period;
                 $vacations->start_vacations = $request->start_vacations[$i];
@@ -449,11 +457,16 @@ class PayrollPartialController extends Controller
                 $vacations->value_day = $valueDay;
                 $vacations->vacation_value = $vacationDays * $valueDay;
                 $vacations->payment_mode = $request->payment_mode;
-                $vacations->type = $request->vacation_type[$i];
+                $vacations->type = $request->$vacationType[$i];
 
                 $vacations->payroll_acrued_id = $payrollAcrued->id;
                 $vacations->payroll_partial_acrued_id = $payrollPartialAcrued->id;
                 $vacations->save();
+
+                if ($vacationType[$i] == 'enjoye') {
+                    $payrollPartial->vacation_days += $request->vacationDays[$i];
+                    $payrollPartial->update();
+                }
             }
         }
 
@@ -497,6 +510,26 @@ class PayrollPartialController extends Controller
             $layoffs->payroll_partial_acrued_id = $payrollPartialAcrued->id;
             $layoffs->save();
 
+        }
+
+        if ($totalInabilities > 0) {
+            for ($i=0; $i < count($origin); $i++) {
+                $totalInab = $request->inability_days[$i] * $request->value_day_inability[$i];
+                $inabilities = new Inability();
+                $inabilities->start_inability = $request->start_inability[$i];
+                $inabilities->end_inability = $request->end_inability[$i];
+                $inabilities->days_inability = $request->inability_days[$i];
+                $inabilities->value_day = $request->value_day_inability[$i];
+                $inabilities->total_inability = $totalInab;
+                $inabilities->origin = $origin[$i];
+
+                $inabilities->payroll_acrued_id = $payrollAcrued->id;
+                $inabilities->payroll_partial_acrued_id = $payrollPartialAcrued->id;
+                $inabilities->save();
+
+                $payrollPartial->inability_days += $request->inability_days[$i];
+                $payrollPartial->update();
+            }
         }
 
         toast('Nomina Registrada satisfactoriamente.','success');
@@ -597,6 +630,21 @@ class PayrollPartialController extends Controller
             ->first();
             if ($provisionPartials) {
                 return response()->json($provisionPartials);
+            }
+        }
+    }
+
+    public function getPayrollPartial(Request $request)
+    {
+        if ($request->ajax()) {
+            $firstPayrollPartial = PayrollPartial::from('payroll_partials as pp')
+            ->select('pp.vacation_days', 'pp.inability_days', 'pp.license_days', 'pp.days')
+            ->where('pp.employee_id', $request->employee_id)
+            ->where('pp.year_month', $request->yearMonth)
+            ->first();
+
+            if ($firstPayrollPartial) {
+                return response()->json($firstPayrollPartial);
             }
         }
     }

@@ -31,11 +31,12 @@
     $("#formVacations").hide();
     $("#formBonus").hide();
     $("#formLayoffs").hide();
+    $("#formNovelties").hide();
     $("#addFortnight").hide();
     $("#addEmployee").hide();
     $("#addMonth").hide();
     $("#addInformation").hide();
-    //$("#addProvisions").hide();
+    $("#addProvisions").hide();
 
 
     $('#start_date').prop("readonly", true)
@@ -123,17 +124,17 @@
         dataEmployee = document.getElementById('employee_id').value.split('_');
         $("#salary").val(dataEmployee[1]);
         empId = dataEmployee[0];
+        fortnight = $("#fortnight").val();
         daysMonth = 15;
         $('#start_date').prop("readonly", false);
         $("#addInformation").show();
         $("#formButtons").show();
         $("#days").val(15);
 
-        salaryMonth(daysMonth);
+        salaryMonth(daysMonth);//obtiene valores del empleado bases de sueldo
         timeValue();//salario devengado por los dias trabajados
-        //provisionEmployee(empId);
-
     }
+
     function salaryMonth(daysMonth){
         indicator = {!! json_encode($indicators) !!};
         indicator.forEach((value, i) => {
@@ -148,39 +149,32 @@
             salaryAcrued = (salaryEmployee/30)*daysMonth;
             transportAssistance = parseFloat(transportAssistance);
             $("#transport_assistance").val(transportAssistance);
-            //provisionMonth(daysMonth);
 
             fortnight = $("#fortnight").val();
             if (fortnight == 'first') {
                 if (salaryEmployee > twoSalary) {
-                    //$("#transport_assistance").val(0);
+                    $("#transport_assistance").val(0);
                     $("#transport_acrued").val(0);
                     $("#salary_acrued").val(salaryAcrued.toFixed(2));
                     totalAcrued = 0;
                     totalAcrued = salaryAcrued;
-                    //totalAcrued += salaryAcrued;
                     $("#total_acrued").val(totalAcrued.toFixed(2));
                 } else {
-                    //$("#transport_assistance").val(0);
                     $("#transport_acrued").val(0);
                     $("#salary_acrued").val(salaryAcrued.toFixed(2));
                     totalAcrued = 0;
                     totalAcrued += salaryAcrued;
-                    //totalAcrued += transportAssistance;
                     $("#total_acrued").val(totalAcrued.toFixed(2));
                 }
             } else {
                 if (salaryEmployee > twoSalary) {
-                    //$("#transport_assistance").val(0);
+                    $("#transport_assistance").val(0);
                     $("#transport_acrued").val(0);
                     $("#salary_acrued").val(salaryAcrued.toFixed(2));
                     totalAcrued = 0;
                     totalAcrued = salaryAcrued;
-                    //totalAcrued += salaryAcrued;
                     $("#total_acrued").val(totalAcrued.toFixed(2));
                 } else {
-
-                    //$("#transport_assistance").val(transportAssistance);
                     $("#transport_acrued").val(transportAssistance);
                     $("#salary_acrued").val(salaryAcrued.toFixed(2));
                     totalAcrued = 0;
@@ -209,15 +203,19 @@
 
         //Recuperando los dias del mes
         daysMonth = endTime.diff(startTime, 'days');
-        dayMonthStart = endTime.format('D');
+        dayMonthStart = startTime.format('D');
         dayMonthEnd = endTime.format('D');
+
+        dataEmployee = document.getElementById('employee_id').value.split('_');
+        empId = dataEmployee[0];
+        yearMonth = $("#month").val();
 
         fortnight = $("#fortnight").val();
         if (daysMonth >= 0) {
             if (startYear == endYear && startMonth == endMonth) {
-                if (fortnight == 'first' && dayMonthStart <= 15 && dayMonthEnd <= 15) {
-                    $("#days").val(daysMonth + 1);
-                    daysMonth = $("#days").val();
+                daysMonth++;
+                if (fortnight == 'first' && dayMonthStart >= 1 && dayMonthStart <= 15 && dayMonthEnd >= 1 && dayMonthEnd <= 15) {
+                    $("#days").val(daysMonth);
                 } else if (fortnight == 'second' && dayMonthStart > 15 && dayMonthEnd > 15){
                     if (startMonth == 1 && daysMonth >= 12) {
                     $("#days").val(15);
@@ -226,46 +224,37 @@
                         $("#days").val(15);
                         daysMonth = 15;
                     } else {
-                        $("#days").val(daysMonth + 1);
-                        daysMonth = $("#days").val();
+                        $("#days").val(daysMonth);
                     }
                 } else {
                     Swal.fire("las fechas no crresponden al mismo periodo");
                     window.location.reload()
                 }
-
                 smlv = $("#smlv").val();
                 twoSalary = parseFloat(smlv) * 2;
                 salaryEmployee = $("#salary").val();
-                transportAssistance = $("#transport_assistance").val();
-                salaryAcrued = (parseFloat(salaryEmployee)/30)*(parseFloat(daysMonth));
-                //ta_acrued = (parseFloat(transportAssistance)/30)*(parseFloat(days));
-                transportAssistance = parseFloat(transportAssistance);
-                //daysMonth = days;
-                //ppv = smlv * daysMonth / 720;
-                //ppbl = smlv * daysMonth / 360;
+                transportAcrued = $("#transport_assistance").val();
+                salaryAcrued = (parseFloat(salaryEmployee)/30) * parseFloat(daysMonth);
+                if (transportAcrued > 0) {
+                    transportAcrued = (parseFloat(transportAcrued)/30) * parseFloat(daysMonth);
+                }
 
                 provisionMonth(daysMonth);//provisiones por dias del mes
 
-
                 if (fortnight == 'first') {
-                    //$("#transport_assistance").val(0);
                     $("#transport_acrued").val(0);
                     $("#salary_acrued").val(salaryAcrued.toFixed(2));
                     totalAcrued = 0;
                     totalAcrued = salaryAcrued;
-                    //totalAcrued += salaryAcrued;
                     $("#total_acrued").val(totalAcrued.toFixed(2));
                 } else {
                     totalAcrued = 0;
                     totalAcrued += salaryAcrued;
                     if (salaryEmployee > twoSalary) {
-                        //$("#transport_assistance").val(0);
                         $("#transport_acrued").val(0);
                     } else {
-                        //$("#transport_assistance").val(transportAssistance);
-                        $("#transport_acrued").val(transportAssistance);
-                        totalAcrued += transportAssistance;
+
+                        firstPayrollPartial(empId, yearMonth, daysMonth);//trae datos de dias para descontar aux transporte
                     }
                     $("#salary_acrued").val(salaryAcrued.toFixed(2));
                     $("#total_acrued").val(totalAcrued.toFixed(2));
@@ -282,6 +271,7 @@
     }
     //provisiones del mes por los dias trabajados mas la quincena anterior
     function provisionMonth(daysMonth) {
+        yearMonth = $("#month").val();
         fortnight = $("#fortnight").val();
         if (fortnight == 'second') {
             dataEmployee = document.getElementById('employee_id').value.split('_');
@@ -327,7 +317,7 @@
             vacationsTotal = parseFloat(data.vacations) + parseFloat(ppv);
             totalDaysVacations = parseFloat(data.vacation_days) + parseFloat(daysMonth);
             daysVacations = parseInt(data.vacation_days) + parseInt(daysMonth);
-
+            alert(data.vacation_days);
             $("#provision_bonus").val(bonusTotal.toFixed(2));
             $("#bonus_provisions").val(ppbl.toFixed(2));
             $("#daysProBonus").val(daysBonus);
@@ -365,7 +355,6 @@
             transportAssistance = $("#transport_assistance").val();
             ppv = salaryEmployee * daysMonth / 720;
             ppbl = (parseFloat(salaryEmployee) + parseFloat(transportAssistance)) * daysMonth / 360;
-
             intLayoffTotal = (ppbl * daysMonth * 0.12) / 360;
 
 
@@ -424,7 +413,7 @@
 
             totalVacationsPro = parseFloat(data.proVacations) + parseFloat(data.vacations) + parseFloat(ppv);
             totalDaysVacations = parseFloat(data.proVacation_days) + parseFloat(data.vacation_days) + parseFloat(daysMonth);
-            daysProVacations = parseInt(data.proVacations_days);
+            daysProVacations = parseInt(data.proVacation_days);
 
             vpDays = parseInt(data.vacation_days) + parseInt(daysMonth);
             bpDays = parseInt(data.bonus_days) + parseInt(daysMonth);
@@ -474,7 +463,34 @@
             $("#vp_days").val(daysMonth);
             $("#bp_days").val(daysMonth);
             $("#lp_days").val(daysMonth);
-            //
+        }).always(function() {
+            //alert("Siempre se ejecuta")
+        });
+    }
+
+    function firstPayrollPartial(empId, yearMonth, daysMonth){
+        $.ajax({
+            url: "{{ route('getPayrollPartial') }}",
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                employee_id: empId,
+                yearMonth: yearMonth,
+            }
+        }).done(function(data){ // imprimimos la respuesta
+            transportAcrued = $("#transport_assistance").val();
+            daysVacationOld = data.vacation_days;
+            daysInabilityOld = data.inability_days;
+            daysLicenseOld = data.license_days;
+
+            daysMonth = (parseInt(daysMonth) + parseFloat(data.days)) - (parseInt(data.vacation_days) + parseInt(data.inability_days) + parseInt(data.license_days));
+            if (transportAcrued > 0) {
+                transportAcrued = (transportAcrued/30) * daysMonth;
+                $("#transport_acrued").val(transportAcrued);
+            }
+
+        }).fail(function() {
+            //alert("algo fallo")
         }).always(function() {
             //alert("Siempre se ejecuta")
         });
@@ -514,34 +530,41 @@
         $("#formVacations").hide();
         $("#formBonus").hide();
         $("#formLayoffs").hide();
-
+        $("#formNovelties").hide();
     });
     $(document).on("click", "#addVacations", function () {
         $("#formVacations").show();
         $("#formOvertime").hide();
         $("#formBonus").hide();
         $("#formLayoffs").hide();
+        $("#formNovelties").hide();
         addVacationPeriod();
-
     });
     $(document).on("click", "#addBonus", function () {
         $("#formVacations").hide();
         $("#formOvertime").hide();
         $("#formBonus").show();
         $("#formLayoffs").hide();
-
+        $("#formNovelties").hide();
     });
     $(document).on("click", "#addLayoffs", function () {
         $("#formVacations").hide();
         $("#formOvertime").hide();
         $("#formBonus").hide();
         $("#formLayoffs").show();
+        $("#formNovelties").hide();
         addLayoffsDate();
-
+    });
+    $(document).on("click", "#addNovelties", function () {
+        $("#formVacations").hide();
+        $("#formOvertime").hide();
+        $("#formBonus").hide();
+        $("#formLayoffs").hide();
+        $("#formNovelties").show();
+        //addNoveltiesDate();
     });
     $(document).on("click", "#canc_he", function () {
         $("#formOvertime").hide();
-
     });
     $(document).on("click", "#canc_vacations", function () {
         $("#formVacations").hide();
@@ -549,11 +572,12 @@
     });
     $(document).on("click", "#canc_bonus", function () {
         $("#formBonus").hide();
-
     });
     $(document).on("click", "#canc_layoffs", function () {
         $("#formLayoffs").hide();
-
+    });
+    $(document).on("click", "#canc_novelties", function () {
+        $("#formNovelties").hide();
     });
 
     $("input:checkbox").on('click', function() {

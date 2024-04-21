@@ -6,8 +6,8 @@
                 placeholder="Efectivo" disabled pattern="[0-9]{0,15}">
         </div>
     </div>
-    <div class="col-12 col-md-6">
-        <div class="form-group" id="valorcito">
+    <div class="col-12 col-md-6" id="valorcito">
+        <div class="form-group">
             <label class="form-control-label" for="cash">Efectivo</label>
             <input type="number" id="cash" name="cash" value="{{ old('cash', $cashInflow->cash ?? '') }}" class="form-control"
                 placeholder="Efectivo" pattern="[0-9]{0,15}">

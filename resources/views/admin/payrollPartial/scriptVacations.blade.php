@@ -5,7 +5,6 @@
     let subtotalVacations = [];
     let contVacations = 0;
     let totalVacations = 0;
-    let type_id = '';
     let vacationDays = 0;
 
     /*
@@ -18,21 +17,22 @@
     }*/
 
     function addVacationPeriod() {
+
+        monthDate = new Date($("#month").val());
+        //addicionar horas para hora colombia
+        addHours = 5;
+        //obtener horas del mes seleccionado
+        hours = monthDate.getHours();
+        monthDate.setHours(hours + addHours);
+        lastDay = new Date(monthDate.getFullYear(), monthDate.getMonth() + 0, 0);
+        periodEndVac = moment(lastDay);
+        periodEndVac = periodEndVac.format('YYYY-MM-DD');
+        $("#end_vacation_period").val(periodEndVac);
+
         salaryAcrued = $("#salary_acrued").val();
         startDate = $("#start_date").val();
         endDate = $("#end_date").val();
         days = $("#days").val();
-        startTime = moment(startDate);
-
-        periodEndVac = startTime.subtract(1, 'days').format('YYYY-MM-DD');
-
-        $("#end_vacation_period").val(periodEndVac);
-
-        startPeriod = $("#start_vacation_period").val();
-        endPeriod = $("#end_vacation_period").val();
-        startPeriodTime = moment(startPeriod);
-        endPeriodTime = moment(endPeriod);
-        vacationDaysPeriod = endPeriodTime.diff(startPeriodTime, 'days');
 
         $("#startVacations").val(startDate);
         $("#endVacations").val(endDate);
@@ -56,6 +56,9 @@
         salaryEmployee = $("#salary").val();
         value_day = salaryEmployee/30;
         vacationPaymentMode = $("#vacation_payment_mode").val();
+        ta = $("#transport_assistance").val();
+        transportAcrued = $("#transport_acrued").val();
+
 
         if (Date.parse(startVacations) <= Date.parse(endVacations)) {
 
@@ -67,6 +70,12 @@
                     tp = $("#total_acrued").val();
                     tpnew = parseFloat(tp) + parseFloat(subtotalVacations[contVacations]);
                     $("#total_acrued").val(tpnew.toFixed(2));
+                } else {
+                    if (ta > 0) {
+                        transportDiscount = (parseFloat(ta)/30) * parseFloat(quantity);
+                        transportAcrued = parseFloat(transportAcrued) - parseFloat(transportDiscount);
+                        $("#transport_acrued").val(transportAcrued);
+                    }
                 }
 
                 var rowVacations = '<tr class="selected" id="rowVacations'+contVacations+'"><td><button type="button" class="btn btn-danger btn-sm btndelete"onclick="deleterowVacations('+contVacations+');"><i class="fas fa-trash"></i></button></td><td><input type="hidden" name="vacation_type[]"  value="'+type_id+'">'+type+'</td><td><input type="hidden" name="start_vacations[]" value="'+startVacations+'">'+startVacations+'</td><td><input type="hidden" name="end_vacations[]" value="'+endVacations+'">'+endVacations+'</td> <td><input type="hidden" name="vacation_days[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="value_day[]"  value="'+value_day+'">'+value_day.toFixed(2)+'</td> <td>$'+subtotalVacations[contVacations].toFixed(2)+'</td></tr>';
@@ -92,7 +101,6 @@
                 text: 'fecha final debe ser mayor a fecha inicial',
             });
         }
-
     }
 
     function cleanVacations() {
@@ -106,7 +114,11 @@
     function totalVacation() {
         provisionVacation = $("#provision_vacations").val();
         vacationAdjustment = parseFloat(totalVacations) - parseFloat(provisionVacation);
-        $("#vacation_adjustment").val(vacationAdjustment);
+        if (vacationAdjustment >= "0.00") {
+            $("#vacation_adjustment").val(vacationAdjustment.toFixed(2));
+        } else {
+            $("#vacation_adjustment").val("0.00");
+        }
 
         $("#total_vacations_html").html("$ " + totalVacations.toFixed(2));
         $("#total_vacations").val(totalVacations.toFixed(2));
@@ -119,27 +131,41 @@
         $("#total_vacations_html").html("$ " + totalVacations.toFixed(2));
         $("#total_vacations").val(totalVacations.toFixed(2));
 
+        provisionVacation = $("#provision_vacations").val();
+        vacationAdjustment = parseFloat(totalVacations) - parseFloat(provisionVacation);
+        if (vacationAdjustment >= "0.00") {
+            $("#vacation_adjustment").val(vacationAdjustment.toFixed(2));
+        } else {
+            $("#vacation_adjustment").val("0.00");
+        }
+
+
         deleteTotalAcrued(index);
         $("#rowVacations" + index).remove();
     }
 
     function deleteTotalAcrued(index) {
-
+        ta = $("#transport_assistance").val();
         subtotalThis = subtotalVacations[index];
         // Obtener la row
         var row = $("#rowVacations" + index);
         // Solo si la row existe
         if (row) {
             type = row.find("td:eq(1)").text();
+            qvac = row.find("td:eq(4)").text();
             if (type == "Compensadas") {
                 valueAcrued = $("#total_acrued").val();
                 totalAcruedNew = parseFloat(valueAcrued) - parseFloat(subtotalThis);
                 $("#total_acrued").val(totalAcruedNew.toFixed(2));
+            } else {
+                if (ta > 0) {
+                        transportDiscount = (parseFloat(ta)/30) * parseFloat(qvac);
+                        transportAcrued = parseFloat(transportAcrued) + parseFloat(transportDiscount);
+                        $("#transport_acrued").val(transportAcrued);
+                    }
             }
         }
     }
-
-
 
     $("#end_vacation_period").change(totalDaysPeriod);
 
@@ -159,8 +185,6 @@
         }
 
     }
-
-
 
     //$('#endVacations').prop("readonly", true);
 

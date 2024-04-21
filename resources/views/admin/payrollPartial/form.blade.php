@@ -6,7 +6,7 @@
         </div>
     </div>
     <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12" id="addEmployee">
-        <label for="empployee_id">Colaborador</label>
+        <label for="employee_id">Colaborador</label>
         <div class="select">
             <select id="employee_id" name="employee_id" class="form-control selectpicker" data-live-search="true" required>
                 <option {{ ($payrollPartial->employee_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Colaborador</option>
@@ -75,13 +75,13 @@
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addPaymentDate">
         <div class="form-group">
             <label class="form-control-label" for="payment_date">F/Pago</label>
-            <input type="date" name="payment_date" class="form-control" value="<?php echo date("Y-m-d");?>" placeholder="Fecha Pago">
+            <input type="date" name="payment_date" id="payment_date" class="form-control" value="<?php echo date("Y-m-d");?>" placeholder="Fecha Pago">
         </div>
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addGenerationDate">
         <div class="form-group">
             <label class="form-control-label" for="generation_date">F/Generacion</label>
-            <input type="date" name="generation_date" class="form-control" value="<?php echo date("Y-m-d");?>" placeholder="Fecha Vencimiento">
+            <input type="date" name="generation_date" id="generation_date" class="form-control" value="<?php echo date("Y-m-d");?>" placeholder="Fecha Vencimiento">
         </div>
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addDays">

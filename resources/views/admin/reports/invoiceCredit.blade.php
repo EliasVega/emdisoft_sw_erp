@@ -82,7 +82,7 @@
                         ordering: true,
                         searching: true,
                         responsive: true,
-                        autoWidth: true,
+                        //autoWidth: true,
                         processing: true,
                         serverSide: true,
                         stateSave: true,

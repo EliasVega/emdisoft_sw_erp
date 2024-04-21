@@ -25,7 +25,7 @@ return new class extends Migration
             $table->enum('type',['enjoyed', 'compensated'])->default('enjoyed');//typo de vacaciones disfrutadas o compensadas
 
             $table->foreignId('payroll_acrued_id')->constrained();
-            $table->foreignId('payroll_partial_acrued_id')->constrained();
+            $table->foreignId('payroll_partial_acrued_id')->nullable()->constrained();
 
             $table->timestamps();
         });

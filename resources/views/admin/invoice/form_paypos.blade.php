@@ -40,7 +40,7 @@
     </div>
     <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12" id="pendadd">
         <div class="form-group">
-            <label class="form-control-label">Pendiente</label>
+            <label class="form-control-label" for="pendient">Pendiente</label>
             <input type="number" id="pendient" value="0" class="form-control" disabled pattern="[0-9]{0,15}">
         </div>
     </div>

@@ -218,7 +218,7 @@
         </div>
     </div>
     <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
-        <label for="payment_id">Metodo de pago</label>
+        <label for="payment_method_id">Metodo de pago</label>
         <div class="select">
             <select id="payment_method_id" name="payment_method_id" class="form-control selectpicker" data-live-search="true" required>
                 <option {{ ($employee->payment_method_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar...</option>

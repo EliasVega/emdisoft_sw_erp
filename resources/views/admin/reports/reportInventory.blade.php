@@ -153,6 +153,23 @@
                                 }
                             },
                         ],
+                        drawCallback: function(settings) {
+                            var api = this.api();
+                            var rows = api.rows({
+                                page: 'current'
+                            }).nodes();
+                            var last = null;
+                            api.column(4, {
+                                page: 'current'
+                            }).data().each(function(group, i) {
+                                if (last !== group) {
+                                    $(rows).eq(i).before(
+                                        `<tr class="bg-secondary"><td colspan="100">${group}</td></tr>`
+                                    );
+                                    last = group;
+                                }
+                            });
+                        },
                         footerCallback: function(row, data, start, end, display) {
                             var api = this.api(),
                                 data;
@@ -165,14 +182,14 @@
                             };
 
                             var total = api
-                                .column(10)
+                                .column(11)
                                 .data()
                                 .reduce(function(a, b) {
                                     return intVal(a) + intVal(b);
                                 }, 0);
 
                             var totalPage = api
-                                .column(10, {
+                                .column(11, {
                                     page: 'current'
                                 })
                                 .data()
@@ -180,10 +197,15 @@
                                     return intVal(a) + intVal(b);
                                 }, 0);
                             var formatNumberData = $.fn.dataTable.render.number(',', '.', 0, '').display;
-                            $(api.column(10).footer()).html(
+                            $(api.column(11).footer()).html(
                                 `$ ${formatNumberData(totalPage)} ($ ${formatNumberData( total )})`
                             )
                         }
+                    });
+                    $("a.toggle-vis").on("click", function(e) {
+                        e.preventDefault();
+                        var column = products.column($(this).data("column"));
+                        column.visible(!column.visible());
                     });
                 });
             </script>

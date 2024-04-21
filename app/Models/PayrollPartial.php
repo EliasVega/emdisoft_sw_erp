@@ -24,6 +24,9 @@ class PayrollPartial extends Model
         'days',
         'fortnight',
         'note',
+        'vacation_days',
+        'inability_days',
+        'license_days',
 
         'employee_id',
         'payroll_id',

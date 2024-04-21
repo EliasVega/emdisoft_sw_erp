@@ -1,6 +1,6 @@
 <div class="box-body row">
     <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-        <label for="department_id">Tipo de hora</label>
+        <label for="overtime_type_id">Tipo de hora</label>
         <div class="select">
             <select id="overtime_type_id" name="overtime_type_id" class="form-control selectpicker" data-live-search="true">
                 <option {{ ($overtime->overtime_type_id ?? '') == '' ? "selected" : "" }} disabled>Tipo de Hora</option>

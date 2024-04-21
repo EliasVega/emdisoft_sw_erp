@@ -30,15 +30,15 @@ class Ticket extends FPDF
 
         $this->SetFont('Arial', 'B', 10);
         $this->SetTextColor(0, 0, 0);
-        $this->MultiCell(0, 5, strtoupper($company->name), 0, 'C', false);
+        $this->MultiCell(64, 5, strtoupper($company->name), 0, 'C', false);
         $this->SetFont('Arial', '', 9);
-        $this->MultiCell(0, 5, $identificationType . ":" . $nit . " - " . $dv, 0, 'C', false);
-        $this->MultiCell(0, 5, $address, 0, 'C', false);
-        $this->MultiCell(0, 5, $phone, 0, 'C', false);
-        $this->MultiCell(0, 5, $email, 0, 'C', false);
+        $this->MultiCell(64, 5, $identificationType . ":" . $nit . " - " . $dv, 0, 'C', false);
+        $this->MultiCell(64, 5, $address, 0, 'C', false);
+        $this->MultiCell(64, 5, $phone, 0, 'C', false);
+        $this->MultiCell(64, 5, $email, 0, 'C', false);
         $this->ln(2);
     }
-
+    /*
     public function generateBarcode($barcode)
     {
         $width = 25;
@@ -54,7 +54,7 @@ class Ticket extends FPDF
     {
         $date = formatText('Fecha: ' . $document->generation_date);
         $branch = formatText('Sucursal: ' . $document->branch->name);
-        $number = formatText('Prefijo - Numero: ' . $document->document);
+        $number = formatText('Consecutivo: ' . $document->document);
 
         $this->MultiCell(0, 5, $date, 0, 'C', false);
         $this->MultiCell(0, 5, $branch, 0, 'C', false);
@@ -62,7 +62,7 @@ class Ticket extends FPDF
         $this->MultiCell(0, 5, $number, 0, 'C', false);
         $this->SetFont('Arial', '', 9);
         $this->generateBreakLine(1, 'short', 5);
-    }
+    }*/
 
     /*
     public function generateCashboxInformation($document)
@@ -82,7 +82,7 @@ class Ticket extends FPDF
         $this->SetFont('Arial', '', 9);
         $this->generateBreakLine(1, 'short', 5);
     }*/
-
+    /*
     public function generateThirdPartyInformation($thirdParty, $thirdPartyType)
     {
         if ($thirdPartyType == "provider") {
@@ -107,27 +107,27 @@ class Ticket extends FPDF
 
         $this->SetFont('Arial', '', 9);
         $this->generateBreakLine(1, 'long', 3);
-        $this->Cell(30, 5, formatText('Producto'), 0, 0, 'C');
+        $this->Cell(29, 5, formatText('Producto'), 0, 0, 'C');
         $this->Cell(10, 5, formatText('Cant.'), 0, 0, 'C');
         $this->Cell(15, 5, formatText('Precio'), 0, 0, 'C');
         $this->Cell(20, 5, formatText('Subtotal'), 0, 0, 'C');
         $this->generateBreakLine(3, 'long', 3);
 
         foreach ($invoiceProducts as $invoiceProduct) {
-            $mia = strlen($invoiceProduct->product->name);
+            $length = strlen($invoiceProduct->product->name);
 
             //$this->Multicell(30,5, formatText($invoiceProduct->product->name),'J',1);
             //$this->MultiCell(0, 10, formatText($invoiceProduct->product->name), 0, 'L');
             $this->SetFont('Arial', '', 7);
-            if ($mia > 20) {
+            if ($length > 20) {
                 $this->Multicell(50,5, formatText($invoiceProduct->product->name),'J',1);
-                $this->Cell(40, 5, $invoiceProduct->quantity, 0, 0, 'R');
+                $this->Cell(38, 5, $invoiceProduct->quantity, 0, 0, 'R');
             } else {
-                $this->Cell(30, 5, formatText($invoiceProduct->product->name), 0, 0, 'L');
-                $this->Cell(10, 5, $invoiceProduct->quantity, 0, 0, 'R');
+                $this->Cell(29, 5, formatText($invoiceProduct->product->name), 0, 0, 'L');
+                $this->Cell(9, 5, $invoiceProduct->quantity, 0, 0, 'R');
             }
-            $this->Cell(15, 5, "$" . number_format($invoiceProduct->price), 0, 0, 'R');
-            $this->Cell(20, 5, "$" . number_format($invoiceProduct->price * $invoiceProduct->quantity,2), 0, 0, 'R');
+            $this->Cell(14, 5, "$" . number_format($invoiceProduct->price), 0, 0, 'R');
+            $this->Cell(19, 5, "$" . number_format($invoiceProduct->price * $invoiceProduct->quantity,2), 0, 0, 'R');
             if ($invoiceProducts->last() != $invoiceProduct) {
                 $this->Ln(4);
             }
@@ -137,25 +137,25 @@ class Ticket extends FPDF
 
     public function generateSummaryInformation($document)
     {
-        $this->Cell(21, 5, "", 0, 0, 'C');
+        $this->Cell(15, 5, "", 0, 0, 'C');
         $this->Cell(22, 5, formatText("SUBTOTAL"), 0, 0, 'R');
-        $this->Cell(32, 5, "$" . number_format($document->total,2), 0, 0, 'R');
+        $this->Cell(34, 5, "$" . number_format($document->total,2), 0, 0, 'R');
 
         $this->Ln(5);
-        $this->Cell(21, 5, "", 0, 0, 'C');
+        $this->Cell(15, 5, "", 0, 0, 'C');
         $this->Cell(22, 5, formatText("IMPUESTO"), 0, 0, 'R');
-        $this->Cell(32, 5, "$" . number_format($document->total_tax,2), 0, 0, 'R');
+        $this->Cell(34, 5, "$" . number_format($document->total_tax,2), 0, 0, 'R');*/
         /*
         foreach ($document->percentages as $percentage) {
             $this->Ln(5);
             $this->Cell(18, 5, "", 0, 0, 'C');
             $this->Cell(22, 5, formatText("IMPUESTO"), 0, 0, 'C');
             $this->Cell(32, 5, "$" . $document->total_tax, 0, 0, 'C');
-        }*/
+        }*//*
         $this->Ln(5);
-        $this->Cell(21, 5, "", 0, 0, 'C');
+        $this->Cell(15, 5, "", 0, 0, 'C');
         $this->Cell(22, 5, formatText("TOTAL"), 0, 0, 'R');
-        $this->Cell(32, 5, "$" . number_format($document->total_pay,2), 0, 0, 'R');
+        $this->Cell(34, 5, "$" . number_format($document->total_pay,2), 0, 0, 'R');
         $this->Ln(10);
     }
 
@@ -173,7 +173,7 @@ class Ticket extends FPDF
 
         $this->SetFont('Arial', 'B', 9);
         $this->MultiCell(0, 5, $invoiceInformation, 0, 'C', false);
-        $this->SetFont('Arial', '', 9);
+        $this->SetFont('Arial', '', 7);
         $this->MultiCell(0, 5, $prefix . $consecutive, 0, 'C', false);
         $this->MultiCell(0, 5, $resolution . $resolutionDate, 0, 'C', false);
     }
@@ -219,5 +219,5 @@ class Ticket extends FPDF
         $this->setY(-10);
         $this->SetFont('Arial', '', 9);
         $this->Cell(0, 10, formatText("Generado por emdisoft.sas"), '', 0, 'C');
-    }
+    }*/
 }
