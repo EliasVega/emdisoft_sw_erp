@@ -201,6 +201,7 @@ class InvoiceOrderController extends Controller
                     $employeeInvoiceOrderProduct = new EmployeeInvoiceOrderProduct();
                     $employeeInvoiceOrderProduct->invoice_order_product_id = $invoiceOrderProduct->id;
                     $employeeInvoiceOrderProduct->employee_id = $employee_id[$i];
+                    $employeeInvoiceOrderProduct->generation_date = $request->generation_date;
                     $employeeInvoiceOrderProduct->quantity = $quantity[$i];
                     $employeeInvoiceOrderProduct->price = $price[$i];
                     $employeeInvoiceOrderProduct->subtotal = $subtotal;
@@ -361,6 +362,7 @@ class InvoiceOrderController extends Controller
             $employeeInvoiceOrderProduct = EmployeeInvoiceOrderProduct::where('invoice_order_product_id', $invoiceOrderProduct->id)->get();
 
             if ($employeeInvoiceOrderProduct) {
+                $employeeInvoiceOrderProduct->generation_date = $request->generation_date;
                 $employeeInvoiceOrderProduct->quantity = 0;
                 $employeeInvoiceOrderProduct->price = 0;
                 $employeeInvoiceOrderProduct->subtotal = 0;
@@ -408,6 +410,7 @@ class InvoiceOrderController extends Controller
                         $employeeInvoiceOrderProduct = new EmployeeInvoiceOrderProduct();
                         $employeeInvoiceOrderProduct->invoice_order_product_id = $invoiceOrderProduct->id;
                         $employeeInvoiceOrderProduct->employee_id = $employee_id[$i];
+                        $employeeInvoiceOrderProduct->generation_date = $request->generation_date;
                         $employeeInvoiceOrderProduct->quantity = $quantity[$i];
                         $employeeInvoiceOrderProduct->price = $price[$i];
                         $employeeInvoiceOrderProduct->subtotal = $subtotal;
@@ -439,6 +442,7 @@ class InvoiceOrderController extends Controller
                         $valueCommission = ($subtotal/100) * $commission;
                         if ($employeeInvoiceOrderProduct) {
                             $employeeInvoiceOrderProduct->employee_id = $employee_id[$i];
+                            $employeeInvoiceOrderProduct->generation_date = $request->generation_date;
                             $employeeInvoiceOrderProduct->quantity = $quantity[$i];
                             $employeeInvoiceOrderProduct->price = $price[$i];
                             $employeeInvoiceOrderProduct->subtotal = $subtotal;
@@ -451,6 +455,7 @@ class InvoiceOrderController extends Controller
                             $employeeInvoiceOrderProduct = new EmployeeInvoiceOrderProduct();
                             $employeeInvoiceOrderProduct->invoice_order_product_id = $invoiceOrderProduct->id;
                             $employeeInvoiceOrderProduct->employee_id = $employee_id[$i];
+                            $employeeInvoiceOrderProduct->generation_date = $request->generation_date;
                             $employeeInvoiceOrderProduct->quantity = $quantity[$i];
                             $employeeInvoiceOrderProduct->price = $price[$i];
                             $employeeInvoiceOrderProduct->subtotal = $subtotal;

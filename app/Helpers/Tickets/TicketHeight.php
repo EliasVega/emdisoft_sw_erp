@@ -5,13 +5,13 @@ namespace App\Helpers\Tickets;
 use App\Models\InvoiceProduct;
 
 if (!function_exists('ticketHeight')) {
-    function ticketHeight($company, $document, $type)
+    function ticketHeight($logoHeight, $company, $document, $type)
     {
-        $logo = 25;
-        $companyInformation = 20;
+        $logo = $logoHeight;
+        $companyInformation = 17;
         $barcode = 25;
-        $complementaryInformation = 30;
-        $thirdPartyInformation = 25;
+        $complementaryInformation = 26;
+        $thirdPartyInformation = 16;
         $productHeader = 10;
         $productRow = 4;
         $productFooter = 4;
@@ -25,7 +25,7 @@ if (!function_exists('ticketHeight')) {
         $pdfHeight = 0;
 
         if ($company->logo != null) {
-            $image = storage_path('app/public/images/logos/' . $company->logo);
+            $image = storage_path('app/public/images/logos/' . $company->imageName);
 
             if (file_exists($image)) {
                 $pdfHeight += $logo;

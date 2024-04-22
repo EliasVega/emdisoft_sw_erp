@@ -1116,8 +1116,23 @@ class InvoiceController extends Controller
     {
         $company = Company::findOrFail(Auth::user()->company->id);
         $thirdPartyType = 'customer';
+        $logoHeight = 26;
 
-        $pdfHeight = ticketHeight($company, $invoice, "invoice");
+        if ($company->logo != null) {
+            //$logo = asset('app/public' . $company->logo);
+            $logo = storage_path('app/public/images/logos/' . $company->imageName);
+
+            $image = list($width, $height, $type, $attr) = getimagesize($logo);
+            $multiplier = $image[0]/$image[1];
+            $height = 26;
+            $width = $height * $multiplier;
+            if ($width > 60) {
+                $width = 60;
+                $height = 60/$multiplier;
+            }
+        }
+
+        $pdfHeight = ticketHeight($logoHeight, $company, $invoice, "invoice");
 
         $pdf = new Ticket('P', 'mm', array(80, $pdfHeight), true, 'UTF-8');
         $pdf->SetMargins(4, 10, 4);
@@ -1126,11 +1141,8 @@ class InvoiceController extends Controller
         $pdf->addPage();
 
         if ($company->logo != null) {
-            //$logo = asset('app/public' . $company->logo);
-            $logo = storage_path('app/public/images/logos/' . $company->imageName);
-            //dd($logo);
             if (file_exists($logo)) {
-                $pdf->generateLogo($logo);
+                $pdf->generateLogo($logo, $width, $height);
             }
         }
         $pdf->generateCompanyInformation($company, $invoice);
@@ -1138,12 +1150,12 @@ class InvoiceController extends Controller
         $barcodeGenerator = new BarcodeGeneratorPNG();
         $barcodeCode = $barcodeGenerator->getBarcode($invoice->id, $barcodeGenerator::TYPE_CODE_128);
         $barcode = "data:image/png;base64," . base64_encode($barcodeCode);
-        /*
+
         $pdf->generateBarcode($barcode);
         $pdf->generateBranchInformation($invoice);
         $pdf->generateThirdPartyInformation($invoice->third, $thirdPartyType);
         $pdf->generateProductsTable($invoice);
-        $pdf->generateSummaryInformation($invoice);
+        $pdf->generateSummaryInformation($invoice);/*
         $pdf->generateInvoiceInformation($invoice);
 
         $url = 'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=';

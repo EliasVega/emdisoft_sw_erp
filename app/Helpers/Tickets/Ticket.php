@@ -9,10 +9,8 @@ use Symfony\Polyfill\Mbstring\Mbstring;
 
 class Ticket extends FPDF
 {
-    public function generateLogo($logo)
+    public function generateLogo($logo, $width, $height)
     {
-        $width = 25;
-        $height = 25;
         $xPos = ($this->GetPageWidth() - $width) / 2;
 
         $this->Image($logo, $xPos, 5, $width, $height);
@@ -28,17 +26,17 @@ class Ticket extends FPDF
         $phone = formatText('Teléfono: ' . $company->phone);
         $email = formatText('Email: ' . $company->email);
 
-        $this->SetFont('Arial', 'B', 10);
+        $this->SetFont('Arial', 'B', 12);
         $this->SetTextColor(0, 0, 0);
-        $this->MultiCell(64, 5, strtoupper($company->name), 0, 'C', false);
+        $this->MultiCell(72, 5, strtoupper($company->name), 0, 'C', false);
         $this->SetFont('Arial', '', 9);
-        $this->MultiCell(64, 5, $identificationType . ":" . $nit . " - " . $dv, 0, 'C', false);
-        $this->MultiCell(64, 5, $address, 0, 'C', false);
-        $this->MultiCell(64, 5, $phone, 0, 'C', false);
-        $this->MultiCell(64, 5, $email, 0, 'C', false);
+        $this->MultiCell(72, 3, $identificationType . ":" . $nit . " - " . $dv, 0, 'C', false);
+        $this->MultiCell(72, 3, $address, 0, 'C', false);
+        $this->MultiCell(72, 3, $phone, 0, 'C', false);
+        $this->MultiCell(72, 3, $email, 0, 'C', false);
         $this->ln(2);
     }
-    /*
+
     public function generateBarcode($barcode)
     {
         $width = 25;
@@ -56,13 +54,13 @@ class Ticket extends FPDF
         $branch = formatText('Sucursal: ' . $document->branch->name);
         $number = formatText('Consecutivo: ' . $document->document);
 
-        $this->MultiCell(0, 5, $date, 0, 'C', false);
-        $this->MultiCell(0, 5, $branch, 0, 'C', false);
+        $this->MultiCell(0, 3, $date, 0, 'C', false);
+        $this->MultiCell(0, 3, $branch, 0, 'C', false);
         $this->SetFont('Arial', 'B', 10);
         $this->MultiCell(0, 5, $number, 0, 'C', false);
         $this->SetFont('Arial', '', 9);
         $this->generateBreakLine(1, 'short', 5);
-    }*/
+    }
 
     /*
     public function generateCashboxInformation($document)
@@ -82,7 +80,7 @@ class Ticket extends FPDF
         $this->SetFont('Arial', '', 9);
         $this->generateBreakLine(1, 'short', 5);
     }*/
-    /*
+
     public function generateThirdPartyInformation($thirdParty, $thirdPartyType)
     {
         if ($thirdPartyType == "provider") {
@@ -92,13 +90,13 @@ class Ticket extends FPDF
         }
         $identificationType = $thirdParty->identificationType->initial;
         $identification = formatText($thirdParty->identification);
-        $phone = formatText('Teléfono: ' . $thirdParty->phone);
-        $address = formatText('Dirección: ' . $thirdParty->address);
+        $email = formatText('Correo: ' . $thirdParty->email);
 
+        $this->SetFont('Arial', 'B', 10);
         $this->MultiCell(0, 5, $name, 0, 'C', false);
-        $this->MultiCell(0, 5, $identificationType . ': ' . $identification, 0, 'C', false);
-        $this->MultiCell(0, 5, $phone, 0, 'C', false);
-        $this->MultiCell(0, 5, $address, 0, 'C', false);
+        $this->SetFont('Arial', '', 9);
+        $this->MultiCell(0, 3, $identificationType . ': ' . $identification, 0, 'C', false);
+        $this->MultiCell(0, 3, $email, 0, 'C', false);
     }
 
     public function generateProductsTable($invoice)
@@ -132,7 +130,7 @@ class Ticket extends FPDF
                 $this->Ln(4);
             }
         }
-        $this->generateBreakLine(3, 'long', 5);
+        $this->generateBreakLine(3, 'long', 3);
     }
 
     public function generateSummaryInformation($document)
@@ -144,21 +142,21 @@ class Ticket extends FPDF
         $this->Ln(5);
         $this->Cell(15, 5, "", 0, 0, 'C');
         $this->Cell(22, 5, formatText("IMPUESTO"), 0, 0, 'R');
-        $this->Cell(34, 5, "$" . number_format($document->total_tax,2), 0, 0, 'R');*/
+        $this->Cell(34, 5, "$" . number_format($document->total_tax,2), 0, 0, 'R');
         /*
         foreach ($document->percentages as $percentage) {
             $this->Ln(5);
             $this->Cell(18, 5, "", 0, 0, 'C');
             $this->Cell(22, 5, formatText("IMPUESTO"), 0, 0, 'C');
             $this->Cell(32, 5, "$" . $document->total_tax, 0, 0, 'C');
-        }*//*
+        }*/
         $this->Ln(5);
         $this->Cell(15, 5, "", 0, 0, 'C');
         $this->Cell(22, 5, formatText("TOTAL"), 0, 0, 'R');
         $this->Cell(34, 5, "$" . number_format($document->total_pay,2), 0, 0, 'R');
         $this->Ln(10);
     }
-
+    /*
     public function generateInvoiceInformation($invoice)
     {
         $resolution_id = $invoice->resolution_id;
@@ -200,7 +198,7 @@ class Ticket extends FPDF
         $this->SetFont('Arial', 'B', 9);
         $this->Cell(0, 10, formatText("Gracias por su compra"), '', 0, 'C');
 
-    }
+    }*/
 
     public function generateBreakLine($marginTop, $size, $marginBottom)
     {
@@ -209,10 +207,10 @@ class Ticket extends FPDF
         if ($size == 'short') {
             $this->Cell(0, 5, "-----------------------------------------------------------", 0, 0, 'C');
         } elseif ($size == 'long') {
-            $this->Cell(72, 5, "------------------------------------------------------------------------", 0, 0, 'C');
+            $this->Cell(0, 5, "------------------------------------------------------------------------", 0, 0, 'C');
         }
         $this->Ln($marginBottom);
-    }
+    }/*
 
     public function footer()
     {
