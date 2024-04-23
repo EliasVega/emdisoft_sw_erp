@@ -23,15 +23,16 @@
     let totalAcrued = 0;
     let salaryEmployee = 0;
     let transportAssistance = 0;
-
     let ppvac = [];
+
     $("#addSmlv").hide();
     $("#formButtons").hide();
     $("#formOvertime").hide();
     $("#formVacations").hide();
     $("#formBonus").hide();
     $("#formLayoffs").hide();
-    $("#formNovelties").hide();
+    $("#formInabilities").hide();
+    $("#formLicenses").hide();
     $("#addFortnight").hide();
     $("#addEmployee").hide();
     $("#addMonth").hide();
@@ -506,38 +507,21 @@
 
     $("#end_date").change(timeValue);
 
-    /*
-    //seleccionar de acuerdo al empleado
-    $("#days").change(salaryManual);
-
-    function salaryManual() {
-        fortnight = $("#fortnight"). val();
-        daysManual = $("#days").val();
-        acruedManual = (salaryEmployee/30)*daysManual;
-        if (fortnight == 'first') {
-
-        }
-        ta_acruedManual = (transportAssistance/30)*daysManual;
-        $("#salary_acrued").val(acruedManual);
-        totalAcruedManual = 0;
-        totalAcruedManual += acruedManual;
-        totalAcruedManual += ta_acruedManual;
-        $("#total_acrued").val(totalAcruedManual.toFixed(2));
-    }*/
-
     $(document).on("click", "#addExtras", function () {
         $("#formOvertime").show();
         $("#formVacations").hide();
         $("#formBonus").hide();
         $("#formLayoffs").hide();
-        $("#formNovelties").hide();
+        $("#formInabilities").hide();
+        $("#formLicenses").hide();
     });
     $(document).on("click", "#addVacations", function () {
         $("#formVacations").show();
         $("#formOvertime").hide();
         $("#formBonus").hide();
         $("#formLayoffs").hide();
-        $("#formNovelties").hide();
+        $("#formInabilities").hide();
+        $("#formLicenses").hide();
         addVacationPeriod();
     });
     $(document).on("click", "#addBonus", function () {
@@ -545,23 +529,33 @@
         $("#formOvertime").hide();
         $("#formBonus").show();
         $("#formLayoffs").hide();
-        $("#formNovelties").hide();
+        $("#formInabilities").hide();
+        $("#formLicenses").hide();
     });
     $(document).on("click", "#addLayoffs", function () {
         $("#formVacations").hide();
         $("#formOvertime").hide();
         $("#formBonus").hide();
         $("#formLayoffs").show();
-        $("#formNovelties").hide();
+        $("#formInabilities").hide();
+        $("#formLicenses").hide();
         addLayoffsDate();
     });
-    $(document).on("click", "#addNovelties", function () {
+    $(document).on("click", "#addInabilities", function () {
         $("#formVacations").hide();
         $("#formOvertime").hide();
         $("#formBonus").hide();
         $("#formLayoffs").hide();
-        $("#formNovelties").show();
-        //addNoveltiesDate();
+        $("#formInabilities").show();
+        $("#formLicenses").hide();
+    });
+    $(document).on("click", "#addLicenses", function () {
+        $("#formVacations").hide();
+        $("#formOvertime").hide();
+        $("#formBonus").hide();
+        $("#formLayoffs").hide();
+        $("#formInabilities").hide();
+        $("#formLicenses").show();
     });
     $(document).on("click", "#canc_he", function () {
         $("#formOvertime").hide();
@@ -576,8 +570,11 @@
     $(document).on("click", "#canc_layoffs", function () {
         $("#formLayoffs").hide();
     });
-    $(document).on("click", "#canc_novelties", function () {
-        $("#formNovelties").hide();
+    $(document).on("click", "#canc_inability", function () {
+        $("#formInabilities").hide();
+    });
+    $(document).on("click", "#canc_license", function () {
+        $("#formLicenses").hide();
     });
 
     $("input:checkbox").on('click', function() {

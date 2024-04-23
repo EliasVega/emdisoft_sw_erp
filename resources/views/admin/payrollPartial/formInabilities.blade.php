@@ -3,7 +3,7 @@
         <label for="origin">Tipo</label>
         <div class="select">
             <select id="origin" name="origin" class="form-control selectpicker" data-live-search="true" required>
-                <option value="{{ old('origin', $inabilities->origin ?? '') }}" disabled></option>
+                <option value="labor" disabled></option>
                 <option value="labor">Origen Laboral</option>
                     <option value="common">Origen Comun</option>
             </select>

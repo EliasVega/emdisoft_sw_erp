@@ -1,10 +1,18 @@
 <script>
     /*$(document).ready(function(){
-            alert('estoy funcionando correctamanete empresa');
-        });*/
+        alert('estoy funcionando correctamanete empresa');
+    });*/
     jQuery(document).ready(function($){
         $(document).ready(function() {
-            $('#employee_id').select2({
+            $('#customer_id').select2({
+                theme: "classic",
+                width: "100%",
+            });
+        });
+    });
+    jQuery(document).ready(function($){
+        $(document).ready(function() {
+            $('#product_id').select2({
                 theme: "classic",
                 width: "100%",
             });

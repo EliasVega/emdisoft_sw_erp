@@ -5,7 +5,8 @@
             <button class="btn btn-darkBlueGrad" type="button" id="addVacations" data-toggle="tooltip" data-placement="top" title="Vacaciones"><i class="fas fa-check">Vacaciones</i></button>
             <button class="btn btn-darkBlueGrad" type="button" id="addBonus" data-toggle="tooltip" data-placement="top" title="P/sociales"><i class="fas fa-check">Primas</i></button>
             <button class="btn btn-darkBlueGrad" type="button" id="addLayoffs" data-toggle="tooltip" data-placement="top" title="Cesantias"><i class="fas fa-check">Cesantias</i></button>
-            <button class="btn btn-darkBlueGrad" type="button" id="addNovelties" data-toggle="tooltip" data-placement="top" title="Novedades"><i class="fas fa-check">Novedades</i></button>
+            <button class="btn btn-darkBlueGrad" type="button" id="addInabilities" data-toggle="tooltip" data-placement="top" title="Incapacidades"><i class="fas fa-check">Incapacidades</i></button>
+            <button class="btn btn-darkBlueGrad" type="button" id="addLicenses" data-toggle="tooltip" data-placement="top" title="Licencias"><i class="fas fa-check">Licencias</i></button>
         </div>
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
