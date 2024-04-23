@@ -58,6 +58,9 @@
         $("#total_pay_html").html("$ " + total.toFixed(2));
         $("#total_pay").val(total.toFixed(2));
         $("#row" + index).remove();
+
+        $("#balance").val(total);
+        $("#pendient").val(total);
     }
     /*
     function assess(){
