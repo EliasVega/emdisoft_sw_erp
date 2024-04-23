@@ -2,6 +2,7 @@
     /*$(document).ready(function(){
         alert('estoy funcionando correctamanete empresa');
     });*/
+
     jQuery(document).ready(function($){
         $(document).ready(function() {
             $('#payment_method_id').select2({
@@ -24,17 +25,9 @@
     var paycont = [];
     var pendient = 0;
     var rbalance = 0;
-    //form pay
-    /*
-    $("#payCash").hide();
-    $("#payTransfer").hide();
-    $("#payNequi").hide();
-    $("#payCard1").hide();
-    $("#payCard2").hide();
-    $("#payUndefined").hide();
-    $("#payAdvance").hide();
-    $("#paypPyment").hide();*/
 
+    $("#save").hide();
+    $("#methodPay").hide();
     $("#valuePay").hide();
     $("#advancePay").hide();
     $("#advancePayValue").hide();
@@ -43,57 +36,6 @@
     $("#cards").hide();
     $("#advanceId").hide();
     $("#types").hide();
-    /*
-    $("#percentage").val(0);
-    */
-    /*
-    //mostrar u ocultar de acuerdo a la forma de pago
-    $(document).ready(function(){
-        $("#payment_form_id").change(function(){
-        form = $("#payment_form_id").val();
-        if(form == 1){
-            $("#payUndefined").show();
-            $("#payCash").show();
-            $("#payAdvance").show();
-            $("#payTransfer").show();
-            $("#payNequi").show();
-            $("#payCard1").show();
-            $("#payCard2").show();
-            $("#payPayment").hide();
-        }else{
-            $("#payPayment").show();
-            $("#payUndefined").hide();
-            $("#payCash").hide();
-            $("#payAdvance").hide();
-            $("#payTransfer").hide();
-            $("#payNequi").hide();
-            $("#payCard1").hide();
-            $("#payCard2").hide();
-            $("#payment_method_id").val(1);
-            $("#totalpay").val(0);
-        }
-        });
-    });*/
-
-
-    /*
-    $(document).ready(function(){
-        $("#addpay").click(function(){
-            see();
-        });
-    });
-    function see(){
-        $("#payUndefined").show();
-        $("#payCash").show();
-        $("#payAdvance").show();
-        $("#payTransfer").show();
-        $("#payNequi").show();
-        $("#payCard1").show();
-        $("#payCard2").show();
-        $("#methodPay").hide();
-        $("#payPayment").hide();
-
-    }*/
 
     $(document).ready(function(){
         $("#cash").click(function(){
@@ -166,51 +108,7 @@
         $("#advanceId").hide();
         $("#payment").val(0);
     }
-    /*
-    $(document).ready(function(){
-        $("#card1").click(function(){
-            tpay = $("#pendient").val();
-            $("#pay").val(tpay);
-            payCard1();
-        });
-    });
 
-    function payCard1(){
-        $("#pay").val();
-        $("#returned").val(0);
-        $("#payment_method_id").val(48);
-        $("#advancePay").hide();
-        $("#methodPay").hide();
-        $("#advanceId").hide();
-        $("#valuePay").show();
-        $("#banks").show();
-        $("#cards").show();
-        $("#transactions").show();
-        $("#payment").val(0);
-    }
-
-    $(document).ready(function(){
-        $("#card2").click(function(){
-            tpay = $("#pendient").val();
-            $("#pay").val(tpay);
-            payCard2();
-        });
-    });
-
-    function payCard2(){
-        $("#pay").val();
-        $("#returned").val(0);
-        $("#payment_method_id").val(49);
-        $("#advancePay").hide();
-        $("#methodPay").hide();
-        $("#advanceId").hide();
-        $("#valuePay").show();
-        $("#banks").show();
-        $("#cards").show();
-        $("#transactions").show();
-        $("#payment").val(0);
-    }
-    */
     $(document).ready(function(){
         $("#noDefined").click(function(){
             tpay = $("#pendient").val();

@@ -23,8 +23,8 @@
     </div>
     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
-            <label for="name">Nombre del Empleado</label>
-            <input type="text" name="name" value="{{ old('name', $employee->name ?? '') }}" class="form-control" placeholder="Nombre">
+            <label for="name" class="form-control-label">Nombre del Empleado</label>
+            <input type="text" name="name" id="name" value="{{ old('name', $employee->name ?? '') }}" class="form-control" autocomplete="off"  placeholder="Nombre">
         </div>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
@@ -77,28 +77,25 @@
     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="code">Codigo</label>
-            <input type="text" name="code" value="{{ old('code', $employee->code ?? '') }}" class="form-control" placeholder="Codigo">
+            <input type="text" name="code" id="code" value="{{ old('code', $employee->code ?? '') }}" class="form-control" placeholder="Codigo">
         </div>
     </div>
-
-
-
     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
-            <label for="address">Direccion</label>
-            <input type="text" name="address" value="{{ old('address', $employee->address ?? '') }}" class="form-control" placeholder="Direccion">
+            <label class="form-control-label" for="address">Direccion</label>
+            <input type="text" name="address" id="address" value="{{ old('address', $employee->address ?? '') }}" class="form-control" autocomplete="off" placeholder="Direccion">
         </div>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="phone">Telefono</label>
-            <input type="text" name="phone" value="{{ old('phone', $employee->phone ?? '') }}" class="form-control" placeholder="Telefono">
+            <input type="text" name="phone" id="phone" value="{{ old('phone', $employee->phone ?? '') }}" class="form-control" autocomplete="off" placeholder="Telefono">
         </div>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" name="email" value="{{ old('email', $employee->email ?? '') }}" class="form-control" placeholder="Correo electronico">
+            <input type="email" name="email" id="email" value="{{ old('email', $employee->email ?? '') }}" class="form-control" autocomplete="off" placeholder="Correo electronico">
         </div>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -194,13 +191,13 @@
     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="admission_date">Fecha de Admision</label>
-            <input type="date" name="admission_date" value="{{ old('admission_date', $employee->admission_date ?? '') }}" class="form-control" placeholder="Admision">
+            <input type="date" name="admission_date" id="admission_date" value="{{ old('admission_date', $employee->admission_date ?? '') }}" class="form-control" placeholder="Admision">
         </div>
     </div>
     <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="salary">Salario</label>
-            <input type="number" name="salary" value="{{ old('salary', $employee->salary ?? '') }}" class="form-control" placeholder="Salario">
+            <input type="number" name="salary" id="salary" value="{{ old('salary', $employee->salary ?? '') }}" class="form-control" placeholder="Salario">
         </div>
     </div>
     @if ($indicator->work_labor == 'on')
@@ -250,20 +247,20 @@
     <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="account_type">Tipo de cuenta</label>
-            <input type="text" name="account_type" value="{{ old('account_type', $employee->account_type ?? '') }}" class="form-control" placeholder="Cuenta tipo">
+            <input type="text" name="account_type" id="account_type" value="{{ old('account_type', $employee->account_type ?? '') }}" class="form-control" placeholder="Cuenta tipo">
         </div>
     </div>
     <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="account_number">Numero de cuenta</label>
-            <input type="text" name="account_number" value="{{ old('account_number', $employee->account_number ?? '') }}" class="form-control" placeholder="Cuenta numero">
+            <input type="text" name="account_number" id="account_number" value="{{ old('account_number', $employee->account_number ?? '') }}" class="form-control" placeholder="Cuenta numero">
         </div>
     </div>
 
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
-            <button class="btn btn-lightBlueGrad mt-2" type="submit"><i class="fa fa-save"></i>&nbsp; Guardar</button>
-            <a href="{{url('employee')}}" class="btn btn-blueGrad mt-2"><i class="fa fa-window-close"></i>&nbsp; Cancelar</a>
+            <button class="btn btn-lightBlueGrad mt-2" type="submit"><i class="fa fa-save"></i>Guardar</button>
+            <a href="{{url('employee')}}" class="btn btn-blueGrad mt-2"><i class="fa fa-window-close"></i>Cancelar</a>
         </div>
     </div>
 </div>

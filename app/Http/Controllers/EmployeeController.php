@@ -314,6 +314,7 @@ class EmployeeController extends Controller
         $workLabor->note = $request->note;
         $workLabor->user_id = current_user()->id;
         $workLabor->employee_id = $request->employee_id;
+        $workLabor->pay_id = null;
         $workLabor->voucher_type_id = 23;
         $workLabor->save();
 
