@@ -4,6 +4,7 @@ namespace App\Helpers\Tickets;
 
 use App\Models\InvoiceProduct;
 use App\Models\Resolution;
+use App\Models\Tax;
 use FPDF;
 use Symfony\Polyfill\Mbstring\Mbstring;
 
@@ -135,21 +136,24 @@ class Ticket extends FPDF
 
     public function generateSummaryInformation($document)
     {
+        $taxes = Tax::from('taxes as tax')
+        ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->select('tax.tax_value', 'ct.name')
+        ->where('tax.taxable_id', $document->id)
+        ->where('tt.type_tax', 'tax_item')
+        ->get();
         $this->Cell(15, 5, "", 0, 0, 'C');
         $this->Cell(22, 5, formatText("SUBTOTAL"), 0, 0, 'R');
         $this->Cell(34, 5, "$" . number_format($document->total,2), 0, 0, 'R');
 
-        $this->Ln(5);
-        $this->Cell(15, 5, "", 0, 0, 'C');
-        $this->Cell(22, 5, formatText("IMPUESTO"), 0, 0, 'R');
-        $this->Cell(34, 5, "$" . number_format($document->total_tax,2), 0, 0, 'R');
-        /*
-        foreach ($document->percentages as $percentage) {
+
+        foreach ($taxes as $tax) {
             $this->Ln(5);
-            $this->Cell(18, 5, "", 0, 0, 'C');
-            $this->Cell(22, 5, formatText("IMPUESTO"), 0, 0, 'C');
-            $this->Cell(32, 5, "$" . $document->total_tax, 0, 0, 'C');
-        }*/
+            $this->Cell(15, 5, "", 0, 0, 'C');
+            $this->Cell(22, 5, formatText($tax->name), 0, 0, 'R');
+            $this->Cell(34, 5, "$" . number_format($tax->tax_value,2), 0, 0, 'R');
+        }
         $this->Ln(5);
         $this->Cell(15, 5, "", 0, 0, 'C');
         $this->Cell(22, 5, formatText("TOTAL"), 0, 0, 'R');

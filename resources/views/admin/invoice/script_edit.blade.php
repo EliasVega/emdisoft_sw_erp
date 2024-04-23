@@ -128,7 +128,7 @@
             $('#modalEdit').modal('hide');
             swal.fire({
                 icon: 'success',
-                text: product + '--' + 'Editado correctamente',
+                text: employeeName + '--' + 'Editado correctamente',
                 showConfirmButton: false,
                 timer: 3000 // es ms (mili-segundos)
             });

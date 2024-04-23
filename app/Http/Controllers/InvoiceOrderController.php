@@ -28,6 +28,8 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Arr;
 
+use function PHPUnit\Framework\isNull;
+
 class InvoiceOrderController extends Controller
 {
 
@@ -351,6 +353,7 @@ class InvoiceOrderController extends Controller
         }
 
         $invoiceOrderProducts = InvoiceOrderProduct::where('invoice_order_id', $invoiceOrder->id)->get();
+
         foreach ($invoiceOrderProducts as $key => $invoiceOrderProduct) {
             $invoiceOrderProduct->quantity    = 0;
             $invoiceOrderProduct->price       = 0;
@@ -373,9 +376,9 @@ class InvoiceOrderController extends Controller
 
             }
         }
-
         //Toma el Request del array
         for ($i=0; $i < count($product_id); $i++) {
+
             $id = $product_id[$i];
             $invoiceOrderProduct = null;
             if ($indicator->sqio == 'on') {
@@ -420,7 +423,6 @@ class InvoiceOrderController extends Controller
                         $employeeInvoiceOrderProduct->save();
                     }
                 }
-
             } else {
                 if ($quantity[$i] > 0) {
 
@@ -434,38 +436,37 @@ class InvoiceOrderController extends Controller
                     $invoiceOrderProduct->tax_subtotal     += $tax_subtotal;
                     $invoiceOrderProduct->update();
                     if ($indicator->work_labor == 'on') {
-                        $employeeInvoiceOrderProduct = EmployeeInvoiceOrderProduct::where('invoice_order_product_id', $invoiceOrderProduct->id)->get();
-
-                        //metodo para comisiones de empleados
-                        $employee = Employee::findOrFail($employee_id[$i]);
-                        $commission = $employee->commission;
-                        $valueCommission = ($subtotal/100) * $commission;
-                        if ($employeeInvoiceOrderProduct) {
-                            $employeeInvoiceOrderProduct->employee_id = $employee_id[$i];
-                            $employeeInvoiceOrderProduct->generation_date = $request->generation_date;
-                            $employeeInvoiceOrderProduct->quantity = $quantity[$i];
-                            $employeeInvoiceOrderProduct->price = $price[$i];
-                            $employeeInvoiceOrderProduct->subtotal = $subtotal;
-                            $employeeInvoiceOrderProduct->commission = $commission;
-                            $employeeInvoiceOrderProduct->value_commission = $valueCommission;
-                            $employeeInvoiceOrderProduct->status = 'pendient';
-                            $invoiceOrderProduct->update();
-
-                        } else {
-                            $employeeInvoiceOrderProduct = new EmployeeInvoiceOrderProduct();
-                            $employeeInvoiceOrderProduct->invoice_order_product_id = $invoiceOrderProduct->id;
-                            $employeeInvoiceOrderProduct->employee_id = $employee_id[$i];
-                            $employeeInvoiceOrderProduct->generation_date = $request->generation_date;
-                            $employeeInvoiceOrderProduct->quantity = $quantity[$i];
-                            $employeeInvoiceOrderProduct->price = $price[$i];
-                            $employeeInvoiceOrderProduct->subtotal = $subtotal;
-                            $employeeInvoiceOrderProduct->commission = $commission;
-                            $employeeInvoiceOrderProduct->value_commission = $valueCommission;
-                            $employeeInvoiceOrderProduct->status = 'pendient';
-                            $employeeInvoiceOrderProduct->save();
+                        if ($employee_id[$i] != "null") {
+                            $employeeInvoiceOrderProduct = EmployeeInvoiceOrderProduct::where('invoice_order_product_id', $invoiceOrderProduct->id)->get();
+                            //metodo para comisiones de empleados
+                            $employee = Employee::findOrFail($employee_id[$i]);
+                            $commission = $employee->commission;
+                            $valueCommission = ($subtotal/100) * $commission;
+                            if (isNull($employeeInvoiceOrderProduct)) {
+                                $employeeInvoiceOrderProduct = new EmployeeInvoiceOrderProduct();
+                                $employeeInvoiceOrderProduct->invoice_order_product_id = $invoiceOrderProduct->id;
+                                $employeeInvoiceOrderProduct->employee_id = $employee_id[$i];
+                                $employeeInvoiceOrderProduct->generation_date = $request->generation_date;
+                                $employeeInvoiceOrderProduct->quantity = $quantity[$i];
+                                $employeeInvoiceOrderProduct->price = $price[$i];
+                                $employeeInvoiceOrderProduct->subtotal = $subtotal;
+                                $employeeInvoiceOrderProduct->commission = $commission;
+                                $employeeInvoiceOrderProduct->value_commission = $valueCommission;
+                                $employeeInvoiceOrderProduct->status = 'pendient';
+                                $employeeInvoiceOrderProduct->save();
+                            } else {
+                                $employeeInvoiceOrderProduct->employee_id = $employee_id[$i];
+                                $employeeInvoiceOrderProduct->generation_date = $request->generation_date;
+                                $employeeInvoiceOrderProduct->quantity = $quantity[$i];
+                                $employeeInvoiceOrderProduct->price = $price[$i];
+                                $employeeInvoiceOrderProduct->subtotal = $subtotal;
+                                $employeeInvoiceOrderProduct->commission = $commission;
+                                $employeeInvoiceOrderProduct->value_commission = $valueCommission;
+                                $employeeInvoiceOrderProduct->status = 'pendient';
+                                $invoiceOrderProduct->update();
+                            }
                         }
                     }
-
                 }
             }
         }

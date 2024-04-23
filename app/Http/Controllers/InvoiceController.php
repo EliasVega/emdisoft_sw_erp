@@ -51,6 +51,7 @@ use Picqer\Barcode\BarcodeGeneratorPNG;
 
 use function App\Helpers\Tickets\formatText;
 use function App\Helpers\Tickets\ticketHeight;
+use function PHPUnit\Framework\isNull;
 
 class InvoiceController extends Controller
 {
@@ -657,9 +658,64 @@ class InvoiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateInvoiceRequest $request, Invoice $invoice)
+
+     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
     {
         //dd($request->all());
+        $employee_id = $request->employee_id;
+        $quantity = $request->quantity;
+        $price = $request->price;
+        $invoiceProduct = InvoiceProduct::where('invoice_id', $invoice->id)->get();
+        for ($i=0; $i < count($invoiceProduct); $i++) {
+
+            $employeeInvoiceProduct = EmployeeInvoiceProduct::where('invoice_product_id', $invoiceProduct[$i]->id)->first();
+
+            $subtotal = $invoiceProduct[$i]->subtotal;
+            if ($employee_id[$i] != "null") {
+                $id = $employee_id[$i];
+                $employee = Employee::findOrFail($id);
+                $commission = $employee->commission;
+                $valueCommission = ($subtotal/100) * $commission;
+                if (isset($employeeInvoiceProduct)) {
+                    $employeeInvoiceProduct->commission = $commission;
+                    $employeeInvoiceProduct->value_commission = $valueCommission;
+                    $employeeInvoiceProduct->employee_id = $id;
+                    $employeeInvoiceProduct->update();
+                } else {
+                    $employeeInvoiceProduct = new EmployeeInvoiceProduct();
+                    $employeeInvoiceProduct->invoice_product_id = $invoiceProduct[$i]->id;
+                    $employeeInvoiceProduct->employee_id = $id;
+                    $employeeInvoiceProduct->generation_date = $request->generation_date;
+                    $employeeInvoiceProduct->quantity = $quantity[$i];
+                    $employeeInvoiceProduct->price = $price[$i];
+                    $employeeInvoiceProduct->subtotal = $subtotal;
+                    $employeeInvoiceProduct->commission = $commission;
+                    $employeeInvoiceProduct->value_commission =$valueCommission;
+                    $employeeInvoiceProduct->status = 'pendient';
+                    $employeeInvoiceProduct->save();
+
+                }
+
+            } else {
+                if (isset($employeeInvoiceProduct)) {
+                    $employeeInvoiceProduct->quantity = 0;
+                    $employeeInvoiceProduct->price = 0;
+                    $employeeInvoiceProduct->subtotal = 0;
+                    $employeeInvoiceProduct->commission = 0;
+                    $employeeInvoiceProduct->value_commission = 0;
+                    $employeeInvoiceProduct->status = 'canceled';
+                    $employeeInvoiceProduct->update();
+                }
+
+            }
+        }
+        toast('Operario Actualizado satisfactoriamente.','success');
+            return redirect('invoice');
+    }
+    /*
+    public function update(UpdateInvoiceRequest $request, Invoice $invoice)
+    {
+        dd($request->all());
         $invoiceProduct = InvoiceProduct::where('invoice_id', $invoice->id)->get();
         for ($i=0; $i < count($invoiceProduct); $i++) {
             $employee_id = $request->employee_id[$i];
@@ -677,7 +733,7 @@ class InvoiceController extends Controller
         }
         toast('Operario Actualizado satisfactoriamente.','success');
             return redirect('invoice');
-    }
+    }*/
 
     /**
      * Remove the specified resource from storage.
