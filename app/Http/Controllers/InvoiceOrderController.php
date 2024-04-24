@@ -225,7 +225,7 @@ class InvoiceOrderController extends Controller
      */
     public function show(InvoiceOrder $invoiceOrder)
     {
-        $invoiceOrderProducts = InvoiceOrderProduct::where('invoice_order_id', $invoiceOrder->id)->get();
+        $invoiceOrderProducts = InvoiceOrderProduct::where('invoice_order_id', $invoiceOrder->id)->where('quantity', '>', 0)->get();
         $indicator = indicator();
         return view('admin.invoiceOrder.show', compact('invoiceOrder', 'invoiceOrderProducts', 'indicator'));
     }
@@ -346,6 +346,7 @@ class InvoiceOrderController extends Controller
         $invoiceOrder->note = $request->note;
         $invoiceOrder->update();
 
+
         if ($indicator->pos == 'on') {
             //actualizar la caja
             $cashRegister->invoice_order += $total_pay;
@@ -364,7 +365,7 @@ class InvoiceOrderController extends Controller
 
             $employeeInvoiceOrderProduct = EmployeeInvoiceOrderProduct::where('invoice_order_product_id', $invoiceOrderProduct->id)->get();
 
-            if ($employeeInvoiceOrderProduct) {
+            if (empty($employeeInvoiceOrderProduct)) {
                 $employeeInvoiceOrderProduct->generation_date = $request->generation_date;
                 $employeeInvoiceOrderProduct->quantity = 0;
                 $employeeInvoiceOrderProduct->price = 0;
@@ -373,9 +374,9 @@ class InvoiceOrderController extends Controller
                 $employeeInvoiceOrderProduct->value_commission = 0;
                 $employeeInvoiceOrderProduct->status = 'canceled';
                 $invoiceOrderProduct->update();
-
             }
         }
+
         //Toma el Request del array
         for ($i=0; $i < count($product_id); $i++) {
 
@@ -388,7 +389,6 @@ class InvoiceOrderController extends Controller
                 $invoiceOrderProduct = InvoiceOrderProduct::where('invoice_order_id', $invoiceOrder->id)
                 ->where('product_id', $id)->first();
             }
-
             //Inicia proceso actualizacion pre Venta producto si no existe
             if (is_null($invoiceOrderProduct)) {
                 $subtotal = $quantity[$i] * $price[$i];
@@ -396,20 +396,21 @@ class InvoiceOrderController extends Controller
 
                 $invoiceOrderProduct = new InvoiceOrderProduct();
                 $invoiceOrderProduct->invoice_order_id = $invoiceOrder->id;
-                $invoiceOrderProduct->product_id  = $id;
-                $invoiceOrderProduct->quantity    = $quantity[$i];
-                $invoiceOrderProduct->price       = $price[$i];
-                $invoiceOrderProduct->tax_rate    = $tax_rate[$i];
-                $invoiceOrderProduct->subtotal    = $subtotal;
-                $invoiceOrderProduct->tax_subtotal     = $tax_subtotal;
+                $invoiceOrderProduct->product_id = $id;
+                $invoiceOrderProduct->quantity = $quantity[$i];
+                $invoiceOrderProduct->price = $price[$i];
+                $invoiceOrderProduct->tax_rate = $tax_rate[$i];
+                $invoiceOrderProduct->subtotal = $subtotal;
+                $invoiceOrderProduct->tax_subtotal = $tax_subtotal;
                 $invoiceOrderProduct->save();
 
                 if ($indicator->work_labor == 'on') {
                     //metodo para comisiones de empleados
-                    $employee = Employee::findOrFail($employee_id[$i]);
-                    $commission = $employee->commission;
-                    $valueCommission = ($subtotal/100) * $commission;
                     if ($employee_id[$i] != 'null') {
+                        $employee = Employee::findOrFail($employee_id[$i]);
+                        $commission = $employee->commission;
+                        $valueCommission = ($subtotal/100) * $commission;
+
                         $employeeInvoiceOrderProduct = new EmployeeInvoiceOrderProduct();
                         $employeeInvoiceOrderProduct->invoice_order_product_id = $invoiceOrderProduct->id;
                         $employeeInvoiceOrderProduct->employee_id = $employee_id[$i];
@@ -442,7 +443,17 @@ class InvoiceOrderController extends Controller
                             $employee = Employee::findOrFail($employee_id[$i]);
                             $commission = $employee->commission;
                             $valueCommission = ($subtotal/100) * $commission;
-                            if (isNull($employeeInvoiceOrderProduct)) {
+                            if (empty($employeeInvoiceOrderProduct)) {
+                                $employeeInvoiceOrderProduct->employee_id = $employee_id[$i];
+                                $employeeInvoiceOrderProduct->generation_date = $request->generation_date;
+                                $employeeInvoiceOrderProduct->quantity = $quantity[$i];
+                                $employeeInvoiceOrderProduct->price = $price[$i];
+                                $employeeInvoiceOrderProduct->subtotal = $subtotal;
+                                $employeeInvoiceOrderProduct->commission = $commission;
+                                $employeeInvoiceOrderProduct->value_commission = $valueCommission;
+                                $employeeInvoiceOrderProduct->status = 'pendient';
+                                $invoiceOrderProduct->update();
+                            } else {
                                 $employeeInvoiceOrderProduct = new EmployeeInvoiceOrderProduct();
                                 $employeeInvoiceOrderProduct->invoice_order_product_id = $invoiceOrderProduct->id;
                                 $employeeInvoiceOrderProduct->employee_id = $employee_id[$i];
@@ -454,16 +465,6 @@ class InvoiceOrderController extends Controller
                                 $employeeInvoiceOrderProduct->value_commission = $valueCommission;
                                 $employeeInvoiceOrderProduct->status = 'pendient';
                                 $employeeInvoiceOrderProduct->save();
-                            } else {
-                                $employeeInvoiceOrderProduct->employee_id = $employee_id[$i];
-                                $employeeInvoiceOrderProduct->generation_date = $request->generation_date;
-                                $employeeInvoiceOrderProduct->quantity = $quantity[$i];
-                                $employeeInvoiceOrderProduct->price = $price[$i];
-                                $employeeInvoiceOrderProduct->subtotal = $subtotal;
-                                $employeeInvoiceOrderProduct->commission = $commission;
-                                $employeeInvoiceOrderProduct->value_commission = $valueCommission;
-                                $employeeInvoiceOrderProduct->status = 'pendient';
-                                $invoiceOrderProduct->update();
                             }
                         }
                     }
@@ -643,9 +644,11 @@ class InvoiceOrderController extends Controller
     public function posInvoiceOrder()
     {
         $invoiceOrders = session('invoiceOrder');
+        //dd($invoiceOrders);
         $invoiceOrder = InvoiceOrder::findOrFail($invoiceOrders);
         session()->forget('invoiceOrder');
         $invoiceOrderProducts = InvoiceOrderProduct::where('invoice_order_id', $invoiceOrder->id)->where('quantity', '>', 0)->get();
+
         $company = Company::where('id', 1)->first();
         $indicator = Indicator::findOrFail(1);
         $invoiceOrderpdf = "FACT-". $invoiceOrder->document;
