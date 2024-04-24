@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('total_license',10,2);//valor total de la Licencia
             $table->enum('type_license', ['maternity', 'paternity', 'union', 'mourning', 'others'])->default('others');//Licencia de origen comun o laboral
             $table->enum('type_pay', ['paid', 'unpaid'])->default('paid');//Licencia de typo remunerada no remunerada
-            $table->string('note', 255);
+            $table->string('note', 255)->nullable();
 
             $table->foreignId('payroll_acrued_id')->constrained();
             $table->foreignId('payroll_partial_acrued_id')->nullable()->constrained();

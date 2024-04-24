@@ -6,7 +6,7 @@
 
     let subtotalLicense = [];
     let daysLicenseArray = [];
-    let TypeArray = [];
+    let typePayArray = [];
     let contLicense = 0;
     let totalLicense = 0;
 
@@ -35,7 +35,6 @@
 
         //Recuperando los dias del mes
         daysMonth = $("#days").val();
-        origin = $("#origin").val();
 
         dayMonthStart = startTimeLicense.format('D');
         dayMonthEnd = endTimeLicense.format('D');
@@ -65,25 +64,13 @@
                 salaryEmployee = $("#salary").val();
                 daySmlv = parseFloat(smlv)/30;
                 daySalaryEmployee = parseFloat(salaryEmployee)/30;
-                commonDay = (parseFloat(daySalaryEmployee)/3) * 2;
 
-                daySalary = commonDay;
-                if (daySmlv > commonDay) {
-                    daySalary = daySmlv;
-                }
                 //discountSalary = (parseFloat(salaryEmployee)/30) * parseFloat(daysLicense);
-                valueLicense = daySalary * (daysLicense);
-                if (origin == 'common') {
+                valueLicense = daySalaryEmployee * (daysLicense);
 
-                    $("#daysLicense").val(daysLicense);
-                    $("#valueDayLicense").val(daySalary.toFixed(2));
-                    $("#valueLicense").val(valueLicense.toFixed(2));
-                } else {
-
-                    $("#daysLicense").val(daysLicense);
-                    $("#valueDayLicense").val(daySalaryEmployee.toFixed(2));
-                    $("#valueLicense").val(valueLicense.toFixed(2));
-                }
+                $("#daysLicense").val(daysLicense);
+                $("#valueDayLicense").val(daySalaryEmployee.toFixed(2));
+                $("#valueLicense").val(valueLicense.toFixed(2));
             } else {
                 Swal.fire("las fechas no crresponden al mismo periodo");
                 cleanLicense();
@@ -106,23 +93,26 @@
 
         startLicense = $("#startLicense").val();
         endLicense = $("#endLicense").val();
-        origin_id = $("#origin").val();
-        origin = $("#origin option:selected").text();
+        typePay_id = $("#typePay").val();
+        typePay = $("#typePay option:selected").text();
+        typeLicense_id = $("#typeLicense").val();
+        typeLicense = $("#typeLicense option:selected").text();
         daysLicense = $("#daysLicense").val();
         valueDayLicense = $("#valueDayLicense").val();
         if (Date.parse(startLicense) <= Date.parse(endLicense)) {
-            if (origin_id != "" && origin != "" && daysLicense > 0) {
+            if (typePay_id != "" && typeLicense_id != "" && daysLicense > 0) {
 
                 daysLicenseArray[contLicense] = daysLicense;
-                originArray[contLicense] = origin_id;
+                typePayArray[contLicense] = typePay_id;
                 subtotalLicense[contLicense] = parseFloat(daysLicense) * parseFloat(valueDayLicense);
-                totalLicense = totalLicense + subtotalLicense[contLicense];
+                totalLicense = totalLicense + parseFloat(subtotalLicense[contLicense]);
 
                 var rowLicense = '<tr class="selected" id="rowLicense' + contLicense +
                     '"><td><button type="button" class="btn btn-danger btn-sm btndelete"onclick="deleterowLicense(' +
                     contLicense +
-                    ');"><i class="fas fa-trash"></i></button></td><td><input type="hidden" name="origin_id[]"  value="' +
-                    origin_id + '">' + origin + '</td><td><input type="hidden" name="start_license[]" value="' + startLicense +
+                    ');"><i class="fas fa-trash"></i></button></td><td><input type="hidden" name="type_pay[]"  value="' +
+                    typePay_id + '">' + typePay + '</td><td><input type="hidden" name="type_license[]"  value="' +
+                    typeLicense_id + '">' + typeLicense + '</td><td><input type="hidden" name="start_license[]" value="' + startLicense +
                     '">' + startLicense + '</td><td><input type="hidden" name="end_license[]" value="' + endLicense + '">' +
                     endLicense + '</td> <td><input type="hidden" name="license_days[]" value="' + daysLicense + '">' +
                     daysLicense + '</td><td><input type="hidden" name="value_day_license[]" value="' + valueDayLicense + '">' +
@@ -130,8 +120,8 @@
 
                 contLicense++;
                 addLicenseTotals();
-                totalInabilities();
-                $('#inabilities').append(rowLicense);
+                totalLicenses();
+                $('#licenses').append(rowLicense);
                 cleanLicense();
 
 
@@ -160,16 +150,16 @@
         $("#valueLicense").val("");
     }
 
-    function totalInabilities() {
-        $("#total_inabilities_html").html("$ " + Math.round(totalLicense));
-        $("#total_inabilities").val(Math.round(totalLicense));
+    function totalLicenses() {
+        $("#total_licenses_html").html("$ " + Math.round(totalLicense));
+        $("#total_licenses").val(Math.round(totalLicense));
     }
 
     function deleterowLicense(index) {
         deleteLicenseTotals(index);
         totalLicense = parseFloat(totalLicense) - parseFloat(subtotalLicense[index]);
-        $("#total_inabilities_html").html("$ " + Math.round(totalLicense));
-        $("#total_inabilities").val(Math.round(totalLicense));
+        $("#total_licenses_html").html("$ " + Math.round(totalLicense));
+        $("#total_licenses").val(Math.round(totalLicense));
         $("#rowLicense" + index).remove();
     }
 
@@ -178,30 +168,32 @@
         salaryEmployee = $("#salary").val();
         daysLicense = $("#daysLicense").val();
         transportAssistance = $("#transport_assistance").val();
-        origin = $("#origin").val();
+        typePay = $("#typePay").val();
         salary = $("#salary_acrued").val();
         transportAcrued = $("#transport_acrued").val();
         valueLicense = $("#valueLicense").val();
         fortnight = $("#fortnight").val();
 
-        discountSalary = (parseFloat(salaryEmployee)/30) * parseFloat(daysLicense);
         if (transportAssistance > 0) {
             transportAcruedDiscount = parseFloat(transportAssistance)/30 * daysLicense;
             transportAcrued -= parseFloat(transportAcruedDiscount);
         }
 
-        if (origin == 'common') {
-            salaryAcrued = parseFloat(salary) - parseFloat(discountSalary);
+        if (typePay == 'unpaid') {
+            salaryAcrued = parseFloat(salary) - parseFloat(valueLicense);
             $("#salary_acrued").val(salaryAcrued.toFixed(2));
 
             totalAcrued = $("#total_acrued").val();
-            totalAcrued -= parseFloat(discountSalary);
-            totalAcrued += parseFloat(valueLicense);
-            $("#total_acrued").val(totalAcrued.toFixed(2));
+            totalAcrued -= parseFloat(transportAcruedDiscount);
+            totalAcrued -= parseFloat(valueLicense);
+            $("#total_acrued").val(Math.round(totalAcrued));
             if (fortnight == 'second') {
                 $("#transport_acrued").val(transportAcrued);
             }
         } else {
+            totalAcrued = $("#total_acrued").val();
+            totalAcrued -= parseFloat(transportAcruedDiscount);
+            $("#total_acrued").val(Math.round(totalAcrued));
             if (fortnight == 'second') {
                 $("#transport_acrued").val(transportAcrued);
             }
@@ -211,30 +203,32 @@
         salaryEmployee = $("#salary").val();
         daysLicense = daysLicenseArray[index];
         transportAssistance = $("#transport_assistance").val();
-        origin = originArray[index];
+        typePay = typePayArray[index];
         salary = $("#salary_acrued").val();
         transportAcrued = $("#transport_acrued").val();
         valueLicense = subtotalLicense[index];
         fortnight = $("#fortnight").val();
 
-        discountSalary = (parseFloat(salaryEmployee)/30) * parseFloat(daysLicense);
         if (transportAssistance > 0) {
             transportAcruedDiscount = parseFloat(transportAssistance)/30 * daysLicense;
             transportAcrued = parseFloat(transportAcruedDiscount) + parseFloat(transportAcruedDiscount);
         }
 
-        if (origin == 'common') {
-            salaryAcrued = parseFloat(salary) + parseFloat(discountSalary);
+        if (typePay == 'unpaid') {
+            salaryAcrued = parseFloat(salary) + parseFloat(valueLicense);
             $("#salary_acrued").val(salaryAcrued.toFixed(2));
 
             totalAcrued = $("#total_acrued").val();
-            totalAcrued = parseFloat(totalAcrued) + parseFloat(discountSalary);
-            totalAcrued -= parseFloat(valueLicense);
+            totalAcrued = parseFloat(totalAcrued) + parseFloat(valueLicense);
+            totalAcrued = parseFloat(totalAcrued) + parseFloat(transportAcruedDiscount);
             $("#total_acrued").val(Math.round(totalAcrued));
             if (fortnight == 'second') {
                 $("#transport_acrued").val(transportAcrued);
             }
         } else {
+            totalAcrued = $("#total_acrued").val();
+            totalAcrued = parseFloat(totalAcrued) + parseFloat(transportAcruedDiscount);
+            $("#total_acrued").val(Math.round(totalAcrued));
             if (fortnight == 'second') {
                 $("#transport_acrued").val(transportAcrued);
             }

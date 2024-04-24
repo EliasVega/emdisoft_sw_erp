@@ -1,8 +1,8 @@
 <div class="box-body row">
     <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
-        <label for="type_pay">Tipo</label>
+        <label for="typePay">Tipo</label>
         <div class="select">
-            <select id="type_pay" name="type_pay" class="form-control selectpicker" data-live-search="true" required>
+            <select id="typePay" name="typePay" class="form-control selectpicker" data-live-search="true" required>
                 <option value="paid" disabled></option>
                 <option value="paid">Remunerada</option>
                 <option value="unpaid">No Remunerada</option>
@@ -10,9 +10,9 @@
         </div>
     </div>
     <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
-        <label for="type_license">Tipo de licencia</label>
+        <label for="typeLicense">Tipo de licencia</label>
         <div class="select">
-            <select id="type_license" name="type_license" class="form-control selectpicker" data-live-search="true" required>
+            <select id="typeLicense" name="typeLicense" class="form-control selectpicker" data-live-search="true" required>
                 <option value="" disabled>Seleccionar</option>
                 <option value="maternity">Maternidad</option>
                 <option value="paternity">Paternidad</option>
@@ -52,6 +52,13 @@
             <input type="number" id="valueLicense" name="valueLicense" value="0" class="form-control" placeholder="valor" step="any">
         </div>
     </div>
+    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="noteDocument">
+        <div class="form-group">
+            <label class="form-control-label" for="note">Observaciones</label>
+            <input type="text" id="note" name="note" value="{{ old('note') }}" class="form-control"
+                placeholder="Observaciones">
+        </div>
+    </div>
     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mt-4">
         <div class="form-group">
             <button class="btn btn-lightBlueGrad" type="button" id="add_license" data-toggle="tooltip"
@@ -64,11 +71,12 @@
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="table-responsive">
-            <table id="inabilities" class="table table-striped table-bordered table-condensed table-hover">
+            <table id="licenses" class="table table-striped table-bordered table-condensed table-hover">
                 <thead class="bg-info">
                     <tr>
                         <th>Eliminar</th>
                         <th>Tipo</th>
+                        <th>Causa</th>
                         <th>F/Inicio</th>
                         <th>F/Fin</th>
                         <th>Dias</th>
@@ -78,12 +86,12 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <th colspan="6">
+                        <th colspan="7">
                             <p align="right">TOTAL:</p>
                         </th>
                         <th class="thfoot">
-                            <p align="right"><span id="total_inabilities_html">$ 0.00</span>
-                                <input type="hidden" name="total_inabilities" value="0" id="total_inabilities"> </p>
+                            <p align="right"><span id="total_licenses_html">$ 0.00</span>
+                                <input type="hidden" name="total_licenses" value="0" id="total_licenses"> </p>
                         </th>
                     </tr>
                 </tfoot>

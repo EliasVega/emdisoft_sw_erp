@@ -257,6 +257,8 @@
 
                         firstPayrollPartial(empId, yearMonth, daysMonth);//trae datos de dias para descontar aux transporte
                     }
+                    transpAcrued = $("#transport_acrued").val();
+                    totalAcrued += parseFloat(transpAcrued);
                     $("#salary_acrued").val(salaryAcrued.toFixed(2));
                     $("#total_acrued").val(totalAcrued.toFixed(2));
                 }
@@ -318,7 +320,7 @@
             vacationsTotal = parseFloat(data.vacations) + parseFloat(ppv);
             totalDaysVacations = parseFloat(data.vacation_days) + parseFloat(daysMonth);
             daysVacations = parseInt(data.vacation_days) + parseInt(daysMonth);
-            alert(data.vacation_days);
+
             $("#provision_bonus").val(bonusTotal.toFixed(2));
             $("#bonus_provisions").val(ppbl.toFixed(2));
             $("#daysProBonus").val(daysBonus);

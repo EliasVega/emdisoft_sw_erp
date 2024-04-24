@@ -10,6 +10,7 @@ use App\Models\Employee;
 use App\Models\Inability;
 use App\Models\Indicator;
 use App\Models\Layoff;
+use App\Models\License;
 use App\Models\Overtime;
 use App\Models\OvertimeDay;
 use App\Models\OvertimeMonth;
@@ -140,7 +141,11 @@ class PayrollPartialController extends Controller
         //request de incapacidades
         $totalInabilities = $request->total_inabilities;
         $origin = $request->origin_id;
-        dd($totalInabilities);
+
+        $totalLicenses = $request->total_licenses;
+        $typePay = $request->type_pay;
+        $typeLicense = $request->type_license;
+
         $comprobation = PayrollPartial::where('year_month', $yearMonth)
         ->where('employee_id', $employee->id)
         ->where('fortnight', $fortnight)
@@ -528,6 +533,28 @@ class PayrollPartialController extends Controller
                 $inabilities->save();
 
                 $payrollPartial->inability_days += $request->inability_days[$i];
+                $payrollPartial->update();
+            }
+        }
+
+        if ($totalLicenses > 0) {
+            for ($i=0; $i < count($typeLicense); $i++) {
+                $totalLic = $request->license_days[$i] * $request->value_day_license[$i];
+                $licenses = new License();
+                $licenses->start_license = $request->start_license[$i];
+                $licenses->end_license = $request->end_license[$i];
+                $licenses->days_license = $request->license_days[$i];
+                $licenses->value_day = $request->value_day_license[$i];
+                $licenses->total_license = $totalLic;
+                $licenses->type_license = $typeLicense[$i];
+                $licenses->type_pay = $typePay[$i];
+                $licenses->note = $request->note;
+
+                $licenses->payroll_acrued_id = $payrollAcrued->id;
+                $licenses->payroll_partial_acrued_id = $payrollPartialAcrued->id;
+                $licenses->save();
+
+                $payrollPartial->license_days += $request->license_days[$i];
                 $payrollPartial->update();
             }
         }
