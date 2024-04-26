@@ -54,8 +54,8 @@
     </div>
     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="noteDocument">
         <div class="form-group">
-            <label class="form-control-label" for="note">Observaciones</label>
-            <input type="text" id="note" name="note" value="{{ old('note') }}" class="form-control"
+            <label class="form-control-label" for="noteLicense">Observaciones</label>
+            <input type="text" id="noteLicense" name="noteLicense" value="{{ old('noteLicense') }}" class="form-control"
                 placeholder="Observaciones">
         </div>
     </div>

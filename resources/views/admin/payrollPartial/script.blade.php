@@ -33,11 +33,14 @@
     $("#formLayoffs").hide();
     $("#formInabilities").hide();
     $("#formLicenses").hide();
+    $("#formCommissions").hide();
+    //$("#formNovelties").hide();
     $("#addFortnight").hide();
     $("#addEmployee").hide();
     $("#addMonth").hide();
     $("#addInformation").hide();
     $("#addProvisions").hide();
+    $("#addwc").hide();
 
 
     $('#start_date').prop("readonly", true)
@@ -142,9 +145,11 @@
             salary = value['smlv'];
             transportAssistance = value['transport_assistance'];
             weekly_hours = value['weekly_hours'];
+            work_labor = value['work_labor'];
 
             $("#smlv").val(salary);
             $("#weekly_hours").val(weekly_hours);
+            $("#workLabor").val(work_labor);
             twoSalary = parseFloat(salary) * 2;
             salaryEmployee = $("#salary").val();
             salaryAcrued = (salaryEmployee/30)*daysMonth;
@@ -516,6 +521,8 @@
         $("#formLayoffs").hide();
         $("#formInabilities").hide();
         $("#formLicenses").hide();
+        $("#formCommissions").hide();
+        $("#formNovelties").hide();
     });
     $(document).on("click", "#addVacations", function () {
         $("#formVacations").show();
@@ -524,6 +531,8 @@
         $("#formLayoffs").hide();
         $("#formInabilities").hide();
         $("#formLicenses").hide();
+        $("#formCommissions").hide();
+        $("#formNovelties").hide();
         addVacationPeriod();
     });
     $(document).on("click", "#addBonus", function () {
@@ -533,6 +542,8 @@
         $("#formLayoffs").hide();
         $("#formInabilities").hide();
         $("#formLicenses").hide();
+        $("#formCommissions").hide();
+        $("#formNovelties").hide();
     });
     $(document).on("click", "#addLayoffs", function () {
         $("#formVacations").hide();
@@ -541,6 +552,8 @@
         $("#formLayoffs").show();
         $("#formInabilities").hide();
         $("#formLicenses").hide();
+        $("#formCommissions").hide();
+        $("#formNovelties").hide();
         addLayoffsDate();
     });
     $(document).on("click", "#addInabilities", function () {
@@ -550,6 +563,8 @@
         $("#formLayoffs").hide();
         $("#formInabilities").show();
         $("#formLicenses").hide();
+        $("#formCommissions").hide();
+        $("#formNovelties").hide();
     });
     $(document).on("click", "#addLicenses", function () {
         $("#formVacations").hide();
@@ -558,7 +573,32 @@
         $("#formLayoffs").hide();
         $("#formInabilities").hide();
         $("#formLicenses").show();
+        $("#formCommissions").hide();
+        $("#formNovelties").hide();
     });
+    $(document).on("click", "#addCommissions", function () {
+        $("#formVacations").hide();
+        $("#formOvertime").hide();
+        $("#formBonus").hide();
+        $("#formLayoffs").hide();
+        $("#formInabilities").hide();
+        $("#formLicenses").hide();
+        $("#formCommissions").show();
+        $("#formNovelties").hide();
+        addWorkLabor();
+    });
+    $(document).on("click", "#addNovelties", function () {
+
+        $("#formVacations").hide();
+        $("#formOvertime").hide();
+        $("#formBonus").hide();
+        $("#formLayoffs").hide();
+        $("#formInabilities").hide();
+        $("#formLicenses").hide();
+        $("#formCommissions").hide();
+        $("#formNovelties").show();
+    });
+
     $(document).on("click", "#canc_he", function () {
         $("#formOvertime").hide();
     });
@@ -577,6 +617,12 @@
     });
     $(document).on("click", "#canc_license", function () {
         $("#formLicenses").hide();
+    });
+    $(document).on("click", "#canc_commission", function () {
+        $("#formCommissions").hide();
+    });
+    $(document).on("click", "#canc_novelty", function () {
+        $("#formNovelties").hide();
     });
 
     $("input:checkbox").on('click', function() {

@@ -33,6 +33,13 @@ class IndicatorController extends Controller
      */
     public function index(Request $request)
     {
+        $indicators = Indicator::findOrFail(1);
+
+        return view('admin.indicator.index', compact('indicators'));
+    }
+
+    public function index2(Request $request)
+    {
         if ($request->ajax()) {
             $indicators = Indicator::get();
             return DataTables::of($indicators)
@@ -50,7 +57,24 @@ class IndicatorController extends Controller
             ->addColumn('barcode', 'admin/indicator/codebar')
             ->addColumn('cvpinvoice', 'admin/indicator/cvpinvoice')
             ->addColumn('sqio', 'admin/indicator/sqio')
-            ->rawColumns(['edit', 'dian', 'pos', 'logo', 'payroll', 'workLabor', 'accounting', 'productPrice', 'inventory', 'rawMaterial', 'restaurant', 'barcode', 'cvpinvoice', 'sqio'])
+            ->addColumn('sqio', 'admin/indicator/cmep')
+            ->rawColumns([
+                'edit',
+                'dian',
+                'pos',
+                'logo',
+                'payroll',
+                'workLabor',
+                'accounting',
+                'productPrice',
+                'inventory',
+                'rawMaterial',
+                'restaurant',
+                'barcode',
+                'cvpinvoice',
+                'sqio',
+                'cmep'
+                ])
             ->make(true);
         }
 
@@ -305,6 +329,20 @@ class IndicatorController extends Controller
             $indicator->sqio = 'off';
         } else {
             $indicator->sqio = 'on';
+        }
+        $indicator->update();
+
+        return redirect('indicator');
+    }
+
+    public function cmepStatus($id)
+    {
+        $indicator = Indicator::findOrFail($id);
+
+        if ($indicator->cmep == 'employee') {
+            $indicator->cmep = 'product';
+        } else {
+            $indicator->cmep = 'employee';
         }
         $indicator->update();
 

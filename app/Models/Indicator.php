@@ -33,7 +33,8 @@ class Indicator extends Model
         'restaurant',
         'barcode',
         'cvpinvoice',
-        'sqio'
+        'sqio',
+        'cmep'
     ];
 
     protected $guarded = [

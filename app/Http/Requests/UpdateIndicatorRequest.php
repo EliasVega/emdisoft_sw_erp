@@ -41,7 +41,8 @@ class UpdateIndicatorRequest extends FormRequest
             'restaurant' => 'in:on,off',
             'barcode' => 'in:on,off',
             'cvpinvoice' => 'in:on,off',
-            'sqio' => 'in:on,off'
+            'sqio' => 'in:on,off',
+            'cmep' => 'in:employee,product'
         ];
     }
 }

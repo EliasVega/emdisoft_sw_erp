@@ -7,6 +7,7 @@ use App\Http\Requests\StorePayrollPartialRequest;
 use App\Http\Requests\UpdatePayrollPartialRequest;
 use App\Models\Bonus;
 use App\Models\Employee;
+use App\Models\EmployeeInvoiceProduct;
 use App\Models\Inability;
 use App\Models\Indicator;
 use App\Models\Layoff;
@@ -73,7 +74,7 @@ class PayrollPartialController extends Controller
         //$employees = Employee::findOrFail(2);
         //dd($employees->provision->id);
         $paymentFrecuencies = PaymentFrecuency::where('code', '>', 3)->get();
-        $indicators = Indicator::select('smlv', 'transport_assistance', 'weekly_hours')->get();
+        $indicators = Indicator::select('smlv', 'transport_assistance', 'weekly_hours', 'work_labor')->get();
         $overtimeTypes = OvertimeType::get();
         return view('admin.payrollPartial.create', compact(
             'employees',
@@ -672,6 +673,19 @@ class PayrollPartialController extends Controller
 
             if ($firstPayrollPartial) {
                 return response()->json($firstPayrollPartial);
+            }
+        }
+    }
+
+    public function getCommissions(Request $request)
+    {
+        if ($request->ajax()) {
+            $commissions = EmployeeInvoiceProduct::where('employee_id', $request->employee_id)
+            ->where('status', 'pendient')
+            ->sum('value_commission');
+
+            if ($commissions) {
+                return response()->json($commissions);
             }
         }
     }

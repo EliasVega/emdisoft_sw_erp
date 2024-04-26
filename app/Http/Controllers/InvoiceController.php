@@ -49,9 +49,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 
-use function App\Helpers\Tickets\formatText;
 use function App\Helpers\Tickets\ticketHeight;
-use function PHPUnit\Framework\isNull;
 
 class InvoiceController extends Controller
 {
@@ -363,25 +361,32 @@ class InvoiceController extends Controller
                 $this->inventoryInvoices($product, $branchProducts, $quantityLocal, $branch);//trait para actualizar inventario
                 $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
 
-                //metodo para comisiones de empleados
-                if ($employee_id[$i] != "null") {
-                    $employee = Employee::findOrFail($employee_id[$i]);
-                    $subtotal = $quantity[$i] * $price[$i];
-                    $commission = $employee->commission;
-                    $valueCommission = ($subtotal/100) * $commission;
+                if ($indicator->work_labor == 'on') {
+                    //metodo para comisiones de empleados
+                    if ($employee_id[$i] != "null") {
+                        $employee = Employee::findOrFail($employee_id[$i]);
+                        $subtotal = $quantity[$i] * $price[$i];
+                        if ($indicator->cmep == 'employee') {
+                            $commission = $employee->commission;
+                        } else {
+                            $commission = $product->commission;
+                        }
+                        $valueCommission = ($subtotal/100) * $commission;
 
-                    $employeeInvoiceProduct = new EmployeeInvoiceProduct();
-                    $employeeInvoiceProduct->invoice_product_id = $invoiceProduct->id;
-                    $employeeInvoiceProduct->employee_id = $employee_id[$i];
-                    $employeeInvoiceProduct->generation_date = $request->generation_date;
-                    $employeeInvoiceProduct->quantity = $quantity[$i];
-                    $employeeInvoiceProduct->price = $price[$i];
-                    $employeeInvoiceProduct->subtotal = $subtotal;
-                    $employeeInvoiceProduct->commission = $commission;
-                    $employeeInvoiceProduct->value_commission =$valueCommission;
-                    $employeeInvoiceProduct->status = 'pendient';
-                    $employeeInvoiceProduct->save();
+                        $employeeInvoiceProduct = new EmployeeInvoiceProduct();
+                        $employeeInvoiceProduct->invoice_product_id = $invoiceProduct->id;
+                        $employeeInvoiceProduct->employee_id = $employee_id[$i];
+                        $employeeInvoiceProduct->generation_date = $request->generation_date;
+                        $employeeInvoiceProduct->quantity = $quantity[$i];
+                        $employeeInvoiceProduct->price = $price[$i];
+                        $employeeInvoiceProduct->subtotal = $subtotal;
+                        $employeeInvoiceProduct->commission = $commission;
+                        $employeeInvoiceProduct->value_commission =$valueCommission;
+                        $employeeInvoiceProduct->status = 'pendient';
+                        $employeeInvoiceProduct->save();
+                    }
                 }
+
             }
 
             $taxes = $this->getTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC

@@ -242,6 +242,7 @@ Route::get('indicator/restaurantStatus/{id}', [IndicatorController::class, 'rest
 Route::get('indicator/barcodeStatus/{id}', [IndicatorController::class, 'barcodeStatus'])->name('barcodeStatus');
 Route::get('indicator/cvpinvoiceStatus/{id}', [IndicatorController::class, 'cvpinvoiceStatus'])->name('cvpinvoiceStatus');
 Route::get('indicator/sqioStatus/{id}', [IndicatorController::class, 'sqioStatus'])->name('sqioStatus');
+Route::get('indicator/cmepStatus/{id}', [IndicatorController::class, 'cmepStatus'])->name('cmepStatus');
 
 Route::get('invoice/create/{id}', [InvoiceController::class, 'getMunicipalities']);
 Route::get('getProductInvoice', [InvoiceController::class, 'getProductInvoice'])->name('getProductInvoice');
@@ -284,6 +285,7 @@ Route::get('paymentMethod/status/{id}', [PaymentMethodController::class, 'status
 Route::get('getProvisionEmployee', [PayrollPartialController::class, 'getProvisionEmployee'])->name('getProvisionEmployee');
 Route::get('getProvPartEmp', [PayrollPartialController::class, 'getProvPartEmp'])->name('getProvPartEmp');
 Route::get('getPayrollPartial', [PayrollPartialController::class, 'getPayrollPartial'])->name('getPayrollPartial');
+Route::get('getCommissions', [PayrollPartialController::class, 'getCommissions'])->name('getCommissions');
 
 Route::get('percentage/status/{id}', [PercentageController::class, 'status'])->name('percentageStatus');
 
