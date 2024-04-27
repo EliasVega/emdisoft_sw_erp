@@ -34,7 +34,7 @@
     $("#formInabilities").hide();
     $("#formLicenses").hide();
     $("#formCommissions").hide();
-    //$("#formNovelties").hide();
+    $("#formNovelties").hide();
     $("#addFortnight").hide();
     $("#addEmployee").hide();
     $("#addMonth").hide();
@@ -155,7 +155,7 @@
             salaryAcrued = (salaryEmployee/30)*daysMonth;
             transportAssistance = parseFloat(transportAssistance);
             $("#transport_assistance").val(transportAssistance);
-
+            /*
             fortnight = $("#fortnight").val();
             if (fortnight == 'first') {
                 if (salaryEmployee > twoSalary) {
@@ -188,7 +188,7 @@
                     totalAcrued += transportAssistance;
                     $("#total_acrued").val(totalAcrued.toFixed(2));
                 }
-            }
+            }*/
         });
     }
 
@@ -253,6 +253,7 @@
                     totalAcrued = 0;
                     totalAcrued = salaryAcrued;
                     $("#total_acrued").val(totalAcrued.toFixed(2));
+                    $("#base_salary").val(salaryAcrued.toFixed(2));
                 } else {
                     totalAcrued = 0;
                     totalAcrued += salaryAcrued;
@@ -265,6 +266,7 @@
                     transpAcrued = $("#transport_acrued").val();
                     totalAcrued += parseFloat(transpAcrued);
                     $("#salary_acrued").val(salaryAcrued.toFixed(2));
+                    $("#base_salary").val(salaryAcrued.toFixed(2));
                     $("#total_acrued").val(totalAcrued.toFixed(2));
                 }
             } else {
@@ -306,9 +308,6 @@
             ppv = salaryEmployee * daysMonth / 720;
             ppbl = (parseFloat(salaryEmployee) + parseFloat(transportAssistance)) * daysMonth / 360;
 
-            //proVacations = data.proVacations;
-            //proBonus = data.proBonus;
-            //proLayoffs = data.proLayoffs;
             startPeriodVacations = data.start_period_vacations;
             startPeriodBonus = data.start_period_bonus;
             startPeriodLayoffs = data.start_period_layoffs;
@@ -345,7 +344,6 @@
             $("#vacation_provisions").val(ppv.toFixed(2));
             $("#daysProVacations").val(daysVacations);
             $("#daysVacationProvision").val(data.vacation_days);
-            //$("#startVacations").val(startPeriodVacations);
             $("#start_vacation_period").val(startPeriodVacations);
             $("#days_vacation_period").val(data.vacation_days);
 
@@ -442,7 +440,6 @@
             $("#startLayoffs").val(startPeriodLayoffs);
             $("#daysLayoffProvision").val(daysProLayoffs);
 
-
             $("#provision_vacations").val(totalVacationsPro.toFixed(2));
             $("#vacation_provisions").val(totalppv.toFixed(2));
             $("#daysProVacations").val(totalDaysVacations);
@@ -461,8 +458,6 @@
 
             totalProLayoff = parseFloat(ppbl);
             intLayoffTotal = (ppbl * daysMonth * 0.12) / 360;
-
-            //$("#provision_bonus").val(ppbl.toFixed(2));
 
             $("#vacation_provisions").val(ppv.toFixed(2));
             $("#bonus_provisions").val(ppbl.toFixed(2));
@@ -576,17 +571,6 @@
         $("#formCommissions").hide();
         $("#formNovelties").hide();
     });
-    $(document).on("click", "#addCommissions", function () {
-        $("#formVacations").hide();
-        $("#formOvertime").hide();
-        $("#formBonus").hide();
-        $("#formLayoffs").hide();
-        $("#formInabilities").hide();
-        $("#formLicenses").hide();
-        $("#formCommissions").show();
-        $("#formNovelties").hide();
-        addWorkLabor();
-    });
     $(document).on("click", "#addNovelties", function () {
 
         $("#formVacations").hide();
@@ -595,9 +579,21 @@
         $("#formLayoffs").hide();
         $("#formInabilities").hide();
         $("#formLicenses").hide();
-        $("#formCommissions").hide();
         $("#formNovelties").show();
+        $("#formCommissions").hide();
     });
+    $(document).on("click", "#addCommissions", function () {
+        $("#formVacations").hide();
+        $("#formOvertime").hide();
+        $("#formBonus").hide();
+        $("#formLayoffs").hide();
+        $("#formInabilities").hide();
+        $("#formLicenses").hide();
+        $("#formNovelties").hide();
+        $("#formCommissions").show();
+        addWorkLabor();
+    });
+
 
     $(document).on("click", "#canc_he", function () {
         $("#formOvertime").hide();
@@ -636,5 +632,4 @@
             $box.prop("checked", false);
         }
     });
-
 </script>

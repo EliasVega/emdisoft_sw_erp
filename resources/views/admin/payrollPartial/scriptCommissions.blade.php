@@ -4,7 +4,7 @@
         alert('estoy funcionando correctamanete colegio');
     });*/
 
-    let subtotalCommission = [];
+    let valueCommissionArray = [];
     let typeCommissionArray = [];
     let contCommission = 0;
     let totalCommission = 0;
@@ -33,14 +33,21 @@
         if (typeCommission_id != "" && valueCommission > 0) {
 
             typeCommissionArray[contCommission] = typeCommission_id;
-            subtotalCommission[contCommission] = valueCommission;
-            totalCommission = totalCommission + parseFloat(subtotalCommission[contCommission]);
+            valueCommissionArray[contCommission] = valueCommission;
+            totalCommission = totalCommission + parseFloat(valueCommission);
+
+            if (typeCommission_id == 'salary') {
+                salaryBase = $("#base_salary").val();
+                salaryBase += parseFloat(valueCommission);
+                $("#base_salary").val(salaryBase);
+            }
 
             var rowCommission = '<tr class="selected" id="rowCommission' + contCommission +
                 '"><td><button type="button" class="btn btn-danger btn-sm btndelete"onclick="deleterowCommission(' +
                 contCommission +
                 ');"><i class="fas fa-trash"></i></button></td><td><input type="hidden" name="type_commission[]"  value="' +
-                typeCommission_id + '">' + typeCommission + '</td><td>$' + Math.round(subtotalCommission[contCommission]) + ' </td></tr>';
+                typeCommission_id + '">' + typeCommission + '</td><td><input type="hidden" name="value_commission[]"  value="' +
+                valueCommission + '">' + valueCommission + '</td></tr>';
 
             contCommission++;
 
@@ -75,13 +82,19 @@
     }
 
     function deleterowCommission(index) {
-        totalCommission = parseFloat(totalCommission) - parseFloat(subtotalCommission[index]);
+        totalCommission = parseFloat(totalCommission) - parseFloat(valueCommissionArray[index]);
         $("#total_commissions_html").html("$ " + Math.round(totalCommission));
         $("#total_commissions").val(Math.round(totalCommission));
 
         totalAcrued = $("#total_acrued").val();
-        totalAcrued = parseFloat(totalAcrued) - parseFloat(subtotalCommission[index]);
+        totalAcrued = parseFloat(totalAcrued) - parseFloat(valueCommissionArray[index]);
         $("#total_acrued").val(totalAcrued);
+
+        if (typeCommissionArray[index] == 'salary') {
+            salaryBase = $("#base_salary").val();
+            salaryBase -= parseFloat(valueCommissionArray[index]);
+            $("#base_salary").val(salaryBase);
+        }
 
         $("#rowCommission" + index).remove();
     }

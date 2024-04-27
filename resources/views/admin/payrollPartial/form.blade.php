@@ -102,6 +102,12 @@
             <input type="number" id="transport_acrued" name="transport_acrued" value="0" class="form-control" placeholder="Aux Transp" required>
         </div>
     </div>
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addBaseSalary">
+        <div class="form-group">
+            <label class="form-control-label" for="base_salary">Aux Trasporte</label>
+            <input type="number" id="base_salary" name="base_salary" value="0" class="form-control" placeholder="Salario Base">
+        </div>
+    </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addSmlv">
         <div class="form-group">
             <label class="form-control-label" for="smlv">SMLV</label>

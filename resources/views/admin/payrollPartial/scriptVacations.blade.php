@@ -58,7 +58,8 @@
         vacationPaymentMode = $("#vacation_payment_mode").val();
         ta = $("#transport_assistance").val();
         transportAcrued = $("#transport_acrued").val();
-
+        totalAcrued = $("#total_acrued").val();
+        salaryBase = $("#base_salary").val();
 
         if (Date.parse(startVacations) <= Date.parse(endVacations)) {
 
@@ -67,9 +68,11 @@
                 totalVacations = totalVacations + subtotalVacations[contVacations];
 
                 if (type_id == 'compensated' && vacationPaymentMode == 'paid') {
-                    tp = $("#total_acrued").val();
-                    tpnew = parseFloat(tp) + parseFloat(subtotalVacations[contVacations]);
-                    $("#total_acrued").val(tpnew.toFixed(2));
+                    totalAcrued += parseFloat(subtotalVacations[contVacations]);
+                    $("#total_acrued").val(totalAcrued.toFixed(2));
+
+                    salaryBase += parseFloat(subtotalVacations[contVacations]);
+                    $("#base_salary").val(salaryBase.toFixed(2));
                 } else {
                     if (ta > 0) {
                         transportDiscount = (parseFloat(ta)/30) * parseFloat(quantity);
@@ -138,8 +141,6 @@
         } else {
             $("#vacation_adjustment").val("0.00");
         }
-
-
         deleteTotalAcrued(index);
         $("#rowVacations" + index).remove();
     }
@@ -154,9 +155,13 @@
             type = row.find("td:eq(1)").text();
             qvac = row.find("td:eq(4)").text();
             if (type == "Compensadas") {
-                valueAcrued = $("#total_acrued").val();
-                totalAcruedNew = parseFloat(valueAcrued) - parseFloat(subtotalThis);
-                $("#total_acrued").val(totalAcruedNew.toFixed(2));
+                totalAcrued = $("#total_acrued").val();
+                totalAcrued -= parseFloat(subtotalThis);
+                $("#total_acrued").val(totalAcrued.toFixed(2));
+
+                salaryBase = $("#base_salary").val();
+                salaryBase -= parseFloat(subtotalThis);
+                $("#base_salary").val(salaryBase.toFixed(2));
             } else {
                 if (ta > 0) {
                         transportDiscount = (parseFloat(ta)/30) * parseFloat(qvac);

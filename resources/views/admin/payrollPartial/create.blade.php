@@ -53,6 +53,9 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="formLicenses">
                     @include('admin/payrollPartial.formLicenses')
                 </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="formNovelties">
+                    @include('admin/payrollPartial.formNovelties')
+                </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="formCommissions">
                     @include('admin/payrollPartial.formCommissions')
                 </div>
@@ -70,6 +73,7 @@
     @include('admin/payrollPartial.scriptLayoffs')
     @include('admin/payrollPartial.scriptInabilities')
     @include('admin/payrollPartial.scriptLicenses')
+    @include('admin/payrollPartial.scriptNovelties')
     @include('admin/payrollPartial.scriptCommissions')
 @endsection
 

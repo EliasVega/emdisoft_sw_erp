@@ -131,8 +131,12 @@
         $("#total_overtime").val(totalOvertime.toFixed(2));
 
         tAcrued = $("#total_acrued").val();
-        totalAcrued = parseFloat(tAcrued) + subtotal[contPartial];
+        totalAcrued += parseFloat(subtotal[contPartial]);
         $("#total_acrued").val(totalAcrued.toFixed(2));
+
+        salaryBase = $("#base_salary").val();
+        salaryBase += parseFloat(subtotal[contPartial]);
+        $("#base_salary").val(salaryBase);
     }
 
     function assess() {
@@ -224,8 +228,11 @@
 
         tp = $("#total_acrued").val();
         tpnew = parseFloat(tp) - parseFloat(subtotal[index]);
-
         $("#total_acrued").val(tpnew.toFixed(2));
+
+        salaryBase = $("#base_salary").val();
+        salaryBase -= parseFloat(subtotal[index]);
+        $("#base_salary").val(salaryBase.toFixed(2));
 
         $("#row" + index).remove();
         assess();

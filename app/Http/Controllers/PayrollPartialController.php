@@ -6,12 +6,14 @@ use App\Models\PayrollPartial;
 use App\Http\Requests\StorePayrollPartialRequest;
 use App\Http\Requests\UpdatePayrollPartialRequest;
 use App\Models\Bonus;
+use App\Models\Commission;
 use App\Models\Employee;
 use App\Models\EmployeeInvoiceProduct;
 use App\Models\Inability;
 use App\Models\Indicator;
 use App\Models\Layoff;
 use App\Models\License;
+use App\Models\Novelty;
 use App\Models\Overtime;
 use App\Models\OvertimeDay;
 use App\Models\OvertimeMonth;
@@ -146,6 +148,16 @@ class PayrollPartialController extends Controller
         $totalLicenses = $request->total_licenses;
         $typePay = $request->type_pay;
         $typeLicense = $request->type_license;
+
+        $totalCommissions = $request->total_commissions;
+        $typeCommission = $request->type_commission;
+        $valueCommission = $request->value_commission;
+
+        $totalNovelties = $request->total_novelties;
+        $typeNovelty = $request->type_novelty;
+        $novelty = $request->novelty;
+        $typeCpmpensation = $request->type_compensation;
+        $valueNovelty = $request->value_novelty;
 
         $comprobation = PayrollPartial::where('year_month', $yearMonth)
         ->where('employee_id', $employee->id)
@@ -557,6 +569,38 @@ class PayrollPartialController extends Controller
 
                 $payrollPartial->license_days += $request->license_days[$i];
                 $payrollPartial->update();
+            }
+        }
+        if ($totalCommissions > 0) {
+            for ($i=0; $i < count($typeCommission); $i++) {
+
+                $commissions = new Commission();
+                $commissions->start_commission = $startDate;
+                $commissions->end_commission = $endDate;
+                $commissions->type_commission = $typeCommission[$i];
+                $commissions->value_commission = $valueCommission[$i];
+                $commissions->note = $request->noteCommission;
+
+                $commissions->payroll_acrued_id = $payrollAcrued->id;
+                $commissions->payroll_partial_acrued_id = $payrollPartialAcrued->id;
+                $commissions->save();
+            }
+        }
+
+        if ($totalNovelties > 0) {
+            for ($i=0; $i < count($typeCommission); $i++) {
+
+                $novelties = new Novelty();
+                $novelties->year_month = $yearMonth;
+                $novelties->type_novelty = $typeNovelty[$i];
+                $novelties->name_novelty = $novelty[$i];
+                $novelties->value_novelty = $valueNovelty[$i];
+                $novelties->compensation_type = $typeCpmpensation[$i];
+                $novelties->note = $request->noteNovelty;
+
+                $novelties->payroll_acrued_id = $payrollAcrued->id;
+                $novelties->payroll_partial_acrued_id = $payrollPartialAcrued->id;
+                $novelties->save();
             }
         }
 

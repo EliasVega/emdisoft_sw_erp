@@ -7,6 +7,7 @@
             <button class="btn btn-darkBlueGrad m-2 p-1" type="button" id="addLayoffs" data-toggle="tooltip" data-placement="top" title="Cesantias"><i class="fas fa-check">Cesantias</i></button>
             <button class="btn btn-darkBlueGrad m-2 p-1" type="button" id="addInabilities" data-toggle="tooltip" data-placement="top" title="Incapacidades"><i class="fas fa-check">Incapacidades</i></button>
             <button class="btn btn-darkBlueGrad m-2 p-1" type="button" id="addLicenses" data-toggle="tooltip" data-placement="top" title="Licencias"><i class="fas fa-check">Licencias</i></button>
+            <button class="btn btn-darkBlueGrad m-2 p-1" type="button" id="addNovelties" data-toggle="tooltip" data-placement="top" title="Novedades"><i class="fas fa-check">Novedades</i></button>
             <button class="btn btn-darkBlueGrad m-2 p-1" type="button" id="addCommissions" data-toggle="tooltip" data-placement="top" title="Comisiones"><i class="fas fa-check">Comisiones</i></button>
         </div>
     </div>

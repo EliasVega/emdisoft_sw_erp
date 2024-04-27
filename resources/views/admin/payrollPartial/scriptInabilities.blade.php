@@ -19,7 +19,6 @@
     function addInabilityDate() {
 
         fortnight = $("#fortnight").val();
-
         startInability = $("#startInability").val();
         endInability = $("#endInability").val();
         startTimeInability = moment(startInability);
@@ -183,6 +182,7 @@
         transportAcrued = $("#transport_acrued").val();
         valueInability = $("#valueInability").val();
         fortnight = $("#fortnight").val();
+        baseSalary = $("#base_salary").val();
 
         discountSalary = (parseFloat(salaryEmployee)/30) * parseFloat(daysInability);
         if (transportAssistance > 0) {
@@ -193,6 +193,9 @@
         if (origin == 'common') {
             salaryAcrued = parseFloat(salary) - parseFloat(discountSalary);
             $("#salary_acrued").val(salaryAcrued.toFixed(2));
+
+            baseSalary -= parseFloat(discountSalary);
+            $("#base_salary").val(baseSalary);
 
             totalAcrued = $("#total_acrued").val();
             totalAcrued -= parseFloat(discountSalary);
@@ -216,6 +219,7 @@
         transportAcrued = $("#transport_acrued").val();
         valueInability = subtotalInability[index];
         fortnight = $("#fortnight").val();
+        baseSalary = $("#base_salary").val();
 
         discountSalary = (parseFloat(salaryEmployee)/30) * parseFloat(daysInability);
         if (transportAssistance > 0) {
@@ -226,6 +230,9 @@
         if (origin == 'common') {
             salaryAcrued = parseFloat(salary) + parseFloat(discountSalary);
             $("#salary_acrued").val(salaryAcrued.toFixed(2));
+
+            baseSalary += parseFloat(discountSalary);
+            $("#base_salary").val(baseSalary);
 
             totalAcrued = $("#total_acrued").val();
             totalAcrued = parseFloat(totalAcrued) + parseFloat(discountSalary);
