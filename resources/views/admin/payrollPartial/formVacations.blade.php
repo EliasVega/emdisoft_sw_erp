@@ -1,14 +1,16 @@
-<div class="box-body row">
+<div class="box-body row" id="addVPM">
     <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
         <label for="vacation_payment_mode">Modo pago</label>
         <div class="select">
-            <select id="vacation_payment_mode" name="vacation_payment_mode" class="form-control selectpicker" data-live-search="true" required>
-                <option value="{{ old('payment_mode', $vacations->payment_mode ?? '') }}" disabled>pagar o causar</option>
-                    <option value="paid">Pagadas</option>
-                    <option value="caused">Causadas</option>
+            <select id="vacation_payment_mode" name="vacation_payment_mode" class="form-control selectpicker" data-live-search="true">
+                <option value="" disabled selected>Seleccionar.</option>
+                    <option value="paid">Pagar</option>
+                    <option value="caused">Causar</option>
             </select>
         </div>
     </div>
+</div>
+<div class="box-body row" id="addCausedVacations">
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="start_vacation_period">Periodo desde</label>
@@ -39,8 +41,13 @@
             <input type="number" id="vacation_adjustment" name="vacation_adjustment" value="0" class="form-control" placeholder="ajuste vacacional" step="any">
         </div>
     </div>
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mt-4">
+        <div class="form-group"><button class="btn btn-blueGrad" type="button" id="canc_vacations" data-toggle="tooltip"
+                data-placement="top" title="Cancelar"><i class="fa fa-window-close"></i></button>
+        </div>
+    </div>
 </div>
-<div class="box-body row">
+<div class="box-body row" id="addLayoffVacations">
     <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
         <label for="vacation_type">Tipo</label>
         <div class="select">
@@ -79,10 +86,6 @@
         <div class="form-group">
             <button class="btn btn-lightBlueGrad" type="button" id="add_vacations" data-toggle="tooltip"
                 data-placement="top" title="Agregar"><i class="fas fa-check"></i></button>
-
-
-            <button class="btn btn-blueGrad" type="button" id="canc_vacations" data-toggle="tooltip"
-                data-placement="top" title="Cancelar"><i class="fa fa-window-close"></i></button>
         </div>
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

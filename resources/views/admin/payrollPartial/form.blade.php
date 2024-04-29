@@ -136,7 +136,7 @@
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
-            <label class="form-control-label" for="layoff_provisions">P/cesantia</label>
+            <label class="form-control-label" for="layoff_provisions">P/cesantias</label>
             <input type="number" id="layoff_provisions" name="layoff_provisions" value="0" class="form-control" placeholder="provision" step="any">
         </div>
     </div>

@@ -9,6 +9,7 @@
             <button class="btn btn-darkBlueGrad m-2 p-1" type="button" id="addLicenses" data-toggle="tooltip" data-placement="top" title="Licencias"><i class="fas fa-check">Licencias</i></button>
             <button class="btn btn-darkBlueGrad m-2 p-1" type="button" id="addNovelties" data-toggle="tooltip" data-placement="top" title="Novedades"><i class="fas fa-check">Novedades</i></button>
             <button class="btn btn-darkBlueGrad m-2 p-1" type="button" id="addCommissions" data-toggle="tooltip" data-placement="top" title="Comisiones"><i class="fas fa-check">Comisiones</i></button>
+            <button class="btn btn-darkBlueGrad m-2 p-1" type="button" id="addCausations" data-toggle="tooltip" data-placement="top" title="Causaciones"><i class="fas fa-check">Causar</i></button>
         </div>
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

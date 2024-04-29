@@ -16,6 +16,31 @@
         $('#end_vacation_period').prop("readonly", false)
     }*/
 
+    function selectPayVacations() {
+        $("#addVPM").show();
+        $("#addCausedVacations").hide();
+        $("#addLayoffVacations").hide();
+    }
+    $("#vacation_payment_mode").change(activeSelectPay);
+
+    function activeSelectPay() {
+        selectVPM = $("#vacation_payment_mode").val();
+        if (selectVPM == 'paid') {
+            //$("#vacation_payment_mode").val("");
+            $("#addVPM").hide();
+            $("#addCausedVacations").show();
+            $("#addLayoffVacations").show();
+            addVacationPeriod();
+        } else {
+            //$("#vacation_payment_mode").val("");
+            $("#addVPM").hide();
+            $("#addCausedVacations").show();
+            $("#addLayoffVacations").hide();
+            addVacationPeriod();
+
+        }
+    }
+
     function addVacationPeriod() {
 
         monthDate = new Date($("#month").val());

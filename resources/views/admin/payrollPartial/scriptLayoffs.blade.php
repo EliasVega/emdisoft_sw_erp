@@ -9,9 +9,31 @@
     $("#addDLP").hide();
     $("#addLayoffsAdjustment").hide();
 
+    function selectPayLayoffs() {
+        $("#addLPM").show();
+        $("#addLayoffGeneral").hide();
+    }
+    $("#layoff_payment_mode").change(activePayLayoff);
+
+    function activePayLayoff() {
+        selectLPM = $("#layoff_payment_mode").val();
+        if (selectLPM == 'paid') {
+            //$("#vacation_payment_mode").val("");
+            $("#addLPM").hide();
+            $("#addLayoffGeneral").show();
+            addLayoffsDate();
+        } else {
+            //$("#vacation_payment_mode").val("");
+            $("#addLPM").hide();
+            $("#addLayoffGeneral").show();
+            addLayoffsDate();
+
+        }
+    }
+
     //Iniciando fechas segun fecha inicio de nomina
     function addLayoffsDate(){
-        layoffInterest = $("#pro_lay_int").val();
+        layoffInterest = $("#layoff_interest").val();
         provisionLayoffs = $("#provision_layoffs").val();
         provisionTotal = parseFloat(layoffInterest) + parseFloat(provisionLayoffs);
         $("#provision_total").val(provisionTotal.toFixed(2));
@@ -42,12 +64,14 @@
         layoffsInterestTotal = parseFloat(provisionLayoffs) + parseFloat(layoffInterest);
         layAdjTotal = parseFloat(layoffsInterestTotal) - parseFloat(provisionTotal);
 
+
         startDateLayoffs(layoffsStartDate);
         endDateLayoffs(layoffsEndDate);
+
         $("#layoff_days").val(daysLayoffs);
         $("#value_layoffs").val(provisionLayoffs);
-        $("#layoffs_adjustment").val(layoffAdjustment);
-        //$("#total_layoffs").val(layoffsInterestTotal);
+        $("#layoffs_adjustment").val(layAdjTotal);
+        $("#total_layoffs").val(layoffsInterestTotal.toFixed(2));
     }
 
     //Colocando las fechas de inicio y fin de cesantias
@@ -80,7 +104,6 @@
 
     //hallando la cantidad de dias
     function timeLayoffs(){
-
         endDate = $("#end_date").val();
         endTime = moment(endDate);
         endYear = moment(endTime).year();
@@ -98,9 +121,9 @@
         dayMonth = endTimeLayoffs.format('D');
 
         layoffsMonth = parseInt(endMonth) - parseInt(endMonthLayoffs);
-        provisionLayoffs = $("#provision_layoffs").val();
-        layoffsProvision = $("#layoffs_provisions").val();
-        daysLayoffs = $("#daysProLayoffs").val();
+        provisionLayoffs = $("#provision_layoffs").val();//cesantias causadas
+        layoffsProvision = $("#layoffs_provisions").val();//cesantias por causar
+        daysLayoffs = $("#daysProLayoffs").val();//dias por causar
         dlp = $("#daysLayoffProvision").val()//dias de cesantias causados
 
         layoffsDate = new Date(endLayoffs);
@@ -130,10 +153,12 @@
                 valueLayoffsPeriod = (parseFloat(salaryEmployee) + parseFloat(transportAssistance)) * layoffsDaysPeriod / 360;
                 intLayoffTotal = (valueLayoffsPeriod * layoffsDaysPeriod * 0.12) / 360;
                 layoffsAdjustment = parseFloat(valueLayoffsPeriod) - parseFloat(provisionLayoffs);
+                totalLayoff = parseFloat(valueLayoffsPeriod) + parseFloat(intLayoffTotal);
 
                 $("#layoff_days").val(layoffsDaysPeriod);
                 $("#value_layoffs").val(valueLayoffsPeriod.toFixed(2));
                 $("#layoff_interest").val(intLayoffTotal.toFixed(2));
+                $("#total_layoffs").val(totalLayoff.toFixed(2));
                 if (layoffsAdjustment > 0) {
                     $("#layoffs_adjustment").val(layoffsAdjustment.toFixed(2));
                 } else {
@@ -143,14 +168,21 @@
 
                 daysLess = parseInt(layoffsMonth) * 30;
                 layoffsDaysPeriod = parseInt(dayMonth) + parseInt(dlp) - parseInt(daysLess);
-
                 valueLayoffsPeriod = (parseFloat(salaryEmployee) + parseFloat(transportAssistance)) * layoffsDaysPeriod / 360;
                 intLayoffTotal = (valueLayoffsPeriod * layoffsDaysPeriod * 0.12) / 360;
-                layoffsAdjustment = parseFloat(valueLayoffsPeriod) - parseFloat(provisionLayoffs);
+                totalLayoff = parseFloat(valueLayoffsPeriod) + parseFloat(intLayoffTotal);
+                layoffsAdjustment = parseFloat(provisionLayoffs) - parseFloat(valueLayoffsPeriod);
+                alert(layoffsAdjustment);
                 $("#layoff_days").val(layoffsDaysPeriod);
                 $("#value_layoffs").val(valueLayoffsPeriod.toFixed(2));
                 $("#layoff_interest").val(intLayoffTotal.toFixed(2));
-                $("#layoffs_adjustment").val(layoffsAdjustment,toFixed(2));
+                $("#total_layoffs").val(totalLayoff.toFixed(2));
+                if (layoffsAdjustment > 0) {
+                    $("#layoffs_adjustment").val(0);
+                } else {
+                    $("#layoffs_adjustment").val(layoffsAdjustment);
+                }
+
             }
         } else {
             Swal.fire("Fecha de Inicio no puede ser mayor a fecha de fin");
@@ -173,13 +205,13 @@ function addLayoffs() {
     layoffInterest = $("#layoff_interest").val();
     provisionTotal = $("#provision_total").val();
     totalLayoff = parseFloat(valueLayoffs) + parseFloat(layoffInterest);
-    payLayoffs = $("#pay_layoffs").val();
+    layoofPaymentMode = $("#layoff_payment_mode").val();
 
-    if (payLayoffs == 'pay') {
+    if (layoofPaymentMode == 'paid') {
         $("#total_layoffs").val(totalLayoff);
-        tp = $("#total_acrued").val();
-        tpnew = parseFloat(tp) + parseFloat(totalLayoff);
-        $("#total_acrued").val(tpnew.toFixed(2));
+        totalAcrued = $("#total_acrued").val();
+        totalAcrued = parseFloat(totalAcrued) + parseFloat(totalLayoff);
+        $("#total_acrued").val(totalAcrued.toFixed(2));
 
         layoffAdjustment = parseFloat(totalLayoff) - parseFloat(provisionTotal);
         $("#layoffs_adjustment").val(layoffAdjustment.toFixed(2));
@@ -193,7 +225,7 @@ function addLayoffs() {
 }
 
 function clearLayoff() {
-    $("#pay_layoffs").prop("readonly", true);
+    $("#layoff_payment_mode").prop("readonly", true);
     $("#startLayoffs").prop("readonly", true);
     $("#endLayoffs").prop("readonly", true);
     $("#layoff_days").prop("readonly", true);

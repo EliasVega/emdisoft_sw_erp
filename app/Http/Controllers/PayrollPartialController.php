@@ -6,6 +6,7 @@ use App\Models\PayrollPartial;
 use App\Http\Requests\StorePayrollPartialRequest;
 use App\Http\Requests\UpdatePayrollPartialRequest;
 use App\Models\Bonus;
+use App\Models\Causation;
 use App\Models\Commission;
 use App\Models\Employee;
 use App\Models\EmployeeInvoiceProduct;
@@ -91,7 +92,7 @@ class PayrollPartialController extends Controller
      */
     public function store(StorePayrollPartialRequest $request)
     {
-        //dd($request->all());
+        dd($request->all());
         $yearMonth = $request->month;//tomando año y mes de fecha inicio liquidacion
         $startDate = $request->start_date;//fecha de inicio de liquidacion
         $endDate = $request->end_date;
@@ -133,13 +134,14 @@ class PayrollPartialController extends Controller
         //request de vacaciones
         $vacationType = $request->vacation_type;
         $totalVacations = $request->total_vacations;
-
+        $vacationPayMode = $request->vacation_payment_mode;
         //request de primas
         $bonusType = $request->bonus_type;
         $totalBonus = $request->total_bonus;
 
         //request de cesantias
         $totalLayoffs = $request->total_layoffs;
+        $layoffPayMode = $request->layoff_payment_mode;
 
         //request de incapacidades
         $totalInabilities = $request->total_inabilities;
@@ -459,32 +461,47 @@ class PayrollPartialController extends Controller
                 $provisionPartials->update();
             }
         }
+        if (isset($vacationPayMode)) {
+            if ($vacationPayMode == 'paid') {
+                if ($totalVacations > 0) {
+                    for ($i=0; $i < count($vacationType); $i++) {
+                        $vacationDays = $request->vacation_days[$i];
+                        $valueDay = $request->value_day[$i];
 
-        if ($totalVacations > 0) {
-            for ($i=0; $i < count($vacationType); $i++) {
-                $vacationDays = $request->vacation_days[$i];
-                $valueDay = $request->value_day[$i];
+                        $vacations = new Vacation();
+                        $vacations->year_month = $yearMonth;
+                        $vacations->start_period = $request->start_period;
+                        $vacations->end_period = $request->end_period;
+                        $vacations->start_vacations = $request->start_vacations[$i];
+                        $vacations->end_vacations = $request->end_vacations[$i];
+                        $vacations->vacation_days = $vacationDays;
+                        $vacations->value_day = $valueDay;
+                        $vacations->vacation_value = $vacationDays * $valueDay;
+                        $vacations->payment_mode = $request->payment_mode;
+                        $vacations->type = $request->$vacationType[$i];
 
-                $vacations = new Vacation();
-                $vacations->year_month = $yearMonth;
-                $vacations->start_period = $request->start_period;
-                $vacations->end_period = $request->end_period;
-                $vacations->start_vacations = $request->start_vacations[$i];
-                $vacations->end_vacations = $request->end_vacations[$i];
-                $vacations->vacation_days = $vacationDays;
-                $vacations->value_day = $valueDay;
-                $vacations->vacation_value = $vacationDays * $valueDay;
-                $vacations->payment_mode = $request->payment_mode;
-                $vacations->type = $request->$vacationType[$i];
+                        $vacations->payroll_acrued_id = $payrollAcrued->id;
+                        $vacations->payroll_partial_acrued_id = $payrollPartialAcrued->id;
+                        $vacations->save();
 
-                $vacations->payroll_acrued_id = $payrollAcrued->id;
-                $vacations->payroll_partial_acrued_id = $payrollPartialAcrued->id;
-                $vacations->save();
-
-                if ($vacationType[$i] == 'enjoye') {
-                    $payrollPartial->vacation_days += $request->vacationDays[$i];
-                    $payrollPartial->update();
+                        if ($vacationType[$i] == 'enjoye') {
+                            $payrollPartial->vacation_days += $request->vacationDays[$i];
+                            $payrollPartial->update();
+                        }
+                    }
                 }
+            } else {
+                $causation = new Causation();
+                $causation->causation = 'vacations';
+                $causation->start_causation_period = $request->start_vacation_period;
+                $causation->end_causation_period = $request->end_vacation_period;
+                $causation->causation_value = $request->total_layoffs;
+                $causation->causation_interest =0;
+                $causation->status = 'pendient';
+
+                $causation->payroll_acrued_id = $payrollAcrued->id;
+                $causation->payroll_partial_acrued_id = $payrollPartialAcrued->id;
+                $causation->save();
             }
         }
 
@@ -515,19 +532,35 @@ class PayrollPartialController extends Controller
             }
         }
 
-        if ($totalLayoffs > 0) {
-            $layoffs = new Layoff();
-            $layoffs->start_period = $request->startLayoffs;
-            $layoffs->end_period = $request->endLayoffs;
-            $layoffs->layoff_days = $request->layoff_days;
-            $layoffs->layoff_value = $request->value_layoffs;
-            $layoffs->layoff_interest = $request->value_layoffs;
-            $layoffs->pay_layoffs = $request->pay_layoffs;
+        if (isset($layoffPayMode)) {
+            if ($layoffPayMode == 'paid') {
+                if ($totalLayoffs > 0) {
+                    $layoffs = new Layoff();
+                    $layoffs->start_period = $request->startLayoffs;
+                    $layoffs->end_period = $request->endLayoffs;
+                    $layoffs->layoff_days = $request->layoff_days;
+                    $layoffs->layoff_value = $request->value_layoffs;
+                    $layoffs->layoff_interest = $request->layoff_interest;
+                    $layoffs->pay_layoffs = $request->pay_layoffs;
 
-            $layoffs->payroll_acrued_id = $payrollAcrued->id;
-            $layoffs->payroll_partial_acrued_id = $payrollPartialAcrued->id;
-            $layoffs->save();
+                    $layoffs->payroll_acrued_id = $payrollAcrued->id;
+                    $layoffs->payroll_partial_acrued_id = $payrollPartialAcrued->id;
+                    $layoffs->save();
 
+                }
+            } else {
+                $causation = new Causation();
+                $causation->causation = 'layoffs';
+                $causation->start_causation_period = $request->startLayoffs;
+                $causation->end_causation_period = $request->endLayoffs;
+                $causation->causation_value = $request->causation_value;
+                $causation->causation_interest =0;
+                $causation->status = 'pendient';
+
+                $causation->payroll_acrued_id = $payrollAcrued->id;
+                $causation->payroll_partial_acrued_id = $payrollPartialAcrued->id;
+                $causation->save();
+            }
         }
 
         if ($totalInabilities > 0) {

@@ -1,14 +1,16 @@
-<div class="box-body row">
+<div class="box-body row" id="addLPM">
     <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
-        <label for="pay_layoffs">Modo pago</label>
+        <label for="layoff_payment_mode">Modo pago</label>
         <div class="select">
-            <select id="pay_layoffs" name="pay_layoffs" class="form-control selectpicker" data-live-search="true" required>
-                <option value="{{ old('pay_layoffs', $layoffs->pay_layoffs ?? '') }}" disabled>pagar o causar</option>
-                    <option value="pay">Pagadas</option>
-                    <option value="causation">Causadas</option>
+            <select id="layoff_payment_mode" name="layoff_payment_mode" class="form-control selectpicker" data-live-search="true">
+                <option value="" disabled selected>Seleccionar.</option>
+                    <option value="paid">Pagar</option>
+                    <option value="caused">Causar</option>
             </select>
         </div>
     </div>
+</div>
+<div class="box-body row" id="addLayoffGeneral">
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="startLayoffs">F/Inicio</label>

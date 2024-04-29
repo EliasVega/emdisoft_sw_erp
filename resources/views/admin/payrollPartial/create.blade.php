@@ -56,6 +56,9 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="formNovelties">
                     @include('admin/payrollPartial.formNovelties')
                 </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="formCausations">
+                    @include('admin/payrollPartial.formCausations')
+                </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="formCommissions">
                     @include('admin/payrollPartial.formCommissions')
                 </div>
