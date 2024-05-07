@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateEnvironmentRequest extends FormRequest
+class StoreCertificateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -17,15 +17,14 @@ class UpdateEnvironmentRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'code' => 'required',
-            'name' => 'required|string|max:50',
-            'protocol' => 'required|string|max:10',
-            'url' => 'required|string'
+            'file' => 'nullable|mimetypes:application/octet-stream',
+            'password' => 'nullable|string|max:255',
+            'expiration_date' => 'nullable'
         ];
     }
 }

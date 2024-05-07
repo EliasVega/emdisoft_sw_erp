@@ -17,12 +17,22 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    @if (Auth::user()->roles[0]->name == 'superAdmin' || Auth::user()->roles[0]->name == 'admin')
+                    @if (Auth::user()->company->status == 'active')
+                        @if (Auth::user()->roles[0]->name == 'superAdmin' || Auth::user()->roles[0]->name == 'admin')
+                            <x-nav-link href="{{ route('dashboardGraphic.index') }}" :active="request()->routeIs('Emdisoft')">
+                                {{ __('Emdisoft_erp') }}
+                            </x-nav-link>
+                        @else
+                            <x-nav-link href="{{ route('branch.index') }}" :active="request()->routeIs('Emdisoft')">
+                                {{ __('Emdisoft_erp') }}
+                            </x-nav-link>
+                        @endif
+                    @elseif (Auth::user()->roles[0]->name == 'superAdmin')
                         <x-nav-link href="{{ route('dashboardGraphic.index') }}" :active="request()->routeIs('Emdisoft')">
                             {{ __('Emdisoft_erp') }}
                         </x-nav-link>
-                    @else
-                        <x-nav-link href="{{ route('branch.index') }}" :active="request()->routeIs('Emdisoft')">
+                    @elseif (Auth::user()->company->status == 'inactive')
+                        <x-nav-link href="{{ route('indexpay') }}" :active="request()->routeIs('Emdisoft')">
                             {{ __('Emdisoft_erp') }}
                         </x-nav-link>
                     @endif

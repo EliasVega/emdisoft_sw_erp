@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('environments', function (Blueprint $table) {
+        Schema::create('certificates', function (Blueprint $table) {
             $table->id();
 
-            $table->char('code');
-            $table->string('name', 50);
-            $table->string('protocol', 10)->default('http://');
-            $table->string('url');
+            $table->foreignId('company_id')->constrained();
+
+            $table->string('file', 50)->nullable();
+            $table->string('password')->nullable();
+            $table->date('expiration_date')->nullable();
 
             $table->timestamps();
         });
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('environments');
+        Schema::dropIfExists('certificates');
     }
 };

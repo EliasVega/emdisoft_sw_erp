@@ -24,6 +24,7 @@ class StoreEnvironmentRequest extends FormRequest
         return [
             'code' => 'required',
             'name' => 'required|string|max:50',
+            'protocol' => 'required|string|max:10',
             'url' => 'required|string'
         ];
     }

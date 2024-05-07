@@ -40,6 +40,12 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
+                                        <a href="{{ url('configuration') }}" class="nav-link">
+                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <p>Configuraciones</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a href="{{ url('roles') }}" class="nav-link">
                                             <i class="far fa-dot-circle nav-icon"></i>
                                             <p>Roles</p>

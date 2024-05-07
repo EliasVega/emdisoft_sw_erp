@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('environments', function (Blueprint $table) {
+        Schema::create('configurations', function (Blueprint $table) {
             $table->id();
 
-            $table->char('code');
-            $table->string('name', 50);
-            $table->string('protocol', 10)->default('http://');
-            $table->string('url');
+            $table->foreignId('company_id')->constrained();
+
+            $table->string('ip', 20);
+            $table->string('creator_name', 100);
+            $table->string('company_name', 100);
+            $table->string('software_name', 50);
 
             $table->timestamps();
         });
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('environments');
+        Schema::dropIfExists('configurations');
     }
 };

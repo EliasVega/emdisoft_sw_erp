@@ -104,8 +104,8 @@
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addBaseSalary">
         <div class="form-group">
-            <label class="form-control-label" for="base_salary">Aux Trasporte</label>
-            <input type="number" id="base_salary" name="base_salary" value="0" class="form-control" placeholder="Salario Base">
+            <label class="form-control-label" for="base_salary">Salario Base</label>
+            <input type="number" id="base_salary" name="base_salary" value="0" class="form-control" placeholder="Salario Base" step="any">
         </div>
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addSmlv">
@@ -118,6 +118,12 @@
         <div class="form-group">
             <label class="form-control-label" for="note">Observaciones</label>
             <input type="text" id="note" name="note" value="" class="form-control" placeholder="Observaciones">
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <button class="btn btn-lightBlueGrad btn-md mt-3" type="submit"><i class="fa fa-save"></i>&nbsp; Guardar</button>
+            <a href="{{url('payrollPartial')}}" class="btn btn-blueGrad mt-3"><i class="fa fa-window-close"></i>&nbsp; Cancelar</a>
         </div>
     </div>
 </div>

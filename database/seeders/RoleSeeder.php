@@ -89,6 +89,12 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'companyTax.edit', 'description' => 'Editar impuestos %', 'status' => 'active'])->syncRoles([$superAdmin, $admin]);
         Permission::create(['name' => 'companyTax.destroy', 'description' => 'Eliminar impuestos %', 'status' => 'active'])->syncRoles([$superAdmin]);
 
+        Permission::create(['name' => 'configuration.index', 'description' => 'Configuracion', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
+        //Permission::create(['name' => 'companyTax.create', 'description' => 'Crear impuestos %', 'status' => 'active'])->syncRoles([$superAdmin, $admin]);
+        Permission::create(['name' => 'configuration.show', 'description' => 'Ver configuracion', 'status' => 'active'])->syncRoles([$superAdmin, $admin]);
+        Permission::create(['name' => 'configuration.edit', 'description' => 'Editar configuraciones', 'status' => 'active'])->syncRoles([$superAdmin]);
+        //Permission::create(['name' => 'companyTax.destroy', 'description' => 'Eliminar impuestos %', 'status' => 'active'])->syncRoles([$superAdmin]);
+
         Permission::create(['name' => 'contratType.index', 'description' => 'Listado tipo de contratos', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
         Permission::create(['name' => 'contratType.create', 'description' => 'Crear tipo de contrato', 'status' => 'locked'])->syncRoles([$superAdmin]);
         Permission::create(['name' => 'contratType.show', 'description' => 'Ver tipo de contrato', 'status' => 'locked'])->syncRoles([$superAdmin]);

@@ -81,4 +81,18 @@ class Company extends Model
     public function indicator(){
         return $this->hasOne(Indicator::class);
     }
+
+    public function software()
+    {
+        return $this->hasOne(Software::class);
+    }
+
+    public function certificate()
+    {
+        return $this->hasOne(Certificate::class);
+    }
+    public function configuration()
+    {
+        return $this->hasOne(Configuration::class);
+    }
 }

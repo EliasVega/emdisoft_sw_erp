@@ -13,6 +13,12 @@
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
+            <label for="protocol">Protocolo</label>
+            <input type="text" name="protocol" value="{{ old('protocol', $environment->protocol ?? '') }}" class="form-control" placeholder="Protocol">
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
             <label for="url">Url</label>
             <input type="text" name="url" value="{{ old('url', $environment->url ?? '') }}" class="form-control" placeholder="Url">
         </div>

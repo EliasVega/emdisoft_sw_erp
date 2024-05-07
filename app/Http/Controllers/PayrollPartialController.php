@@ -92,7 +92,7 @@ class PayrollPartialController extends Controller
      */
     public function store(StorePayrollPartialRequest $request)
     {
-        dd($request->all());
+        //dd($request->all());
         $yearMonth = $request->month;//tomando año y mes de fecha inicio liquidacion
         $startDate = $request->start_date;//fecha de inicio de liquidacion
         $endDate = $request->end_date;
@@ -469,16 +469,15 @@ class PayrollPartialController extends Controller
                         $valueDay = $request->value_day[$i];
 
                         $vacations = new Vacation();
-                        $vacations->year_month = $yearMonth;
                         $vacations->start_period = $request->start_period;
                         $vacations->end_period = $request->end_period;
                         $vacations->start_vacations = $request->start_vacations[$i];
                         $vacations->end_vacations = $request->end_vacations[$i];
-                        $vacations->vacation_days = $vacationDays;
-                        $vacations->value_day = $valueDay;
+                        $vacations->vacation_days = $vacationDays[$i];
+                        $vacations->value_day = $valueDay[$i];
                         $vacations->vacation_value = $vacationDays * $valueDay;
-                        $vacations->payment_mode = $request->payment_mode;
-                        $vacations->type = $request->$vacationType[$i];
+                        $vacations->payment_mode = $vacationPayMode;
+                        $vacations->type = $vacationType[$i];
 
                         $vacations->payroll_acrued_id = $payrollAcrued->id;
                         $vacations->payroll_partial_acrued_id = $payrollPartialAcrued->id;
@@ -495,7 +494,7 @@ class PayrollPartialController extends Controller
                 $causation->causation = 'vacations';
                 $causation->start_causation_period = $request->start_vacation_period;
                 $causation->end_causation_period = $request->end_vacation_period;
-                $causation->causation_value = $request->total_layoffs;
+                $causation->causation_value = $request->caused_vacations;
                 $causation->causation_interest =0;
                 $causation->status = 'pendient';
 
@@ -553,8 +552,8 @@ class PayrollPartialController extends Controller
                 $causation->causation = 'layoffs';
                 $causation->start_causation_period = $request->startLayoffs;
                 $causation->end_causation_period = $request->endLayoffs;
-                $causation->causation_value = $request->causation_value;
-                $causation->causation_interest =0;
+                $causation->causation_value = $request->total_layoffs;
+                $causation->causation_interest = $request->layoff_interest;
                 $causation->status = 'pendient';
 
                 $causation->payroll_acrued_id = $payrollAcrued->id;

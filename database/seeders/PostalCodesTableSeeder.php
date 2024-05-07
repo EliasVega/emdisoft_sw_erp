@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class PostalCodesSeeder extends Seeder
+class PostalCodesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

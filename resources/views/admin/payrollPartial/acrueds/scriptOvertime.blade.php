@@ -135,8 +135,8 @@
         $("#total_acrued").val(totalAcrued.toFixed(2));
 
         salaryBase = $("#base_salary").val();
-        salaryBase += parseFloat(subtotal[contPartial]);
-        $("#base_salary").val(salaryBase);
+        salaryBase = parseFloat(salaryBase) + parseFloat(subtotal[contPartial]);
+        $("#base_salary").val(salaryBase.toFixed(2));
     }
 
     function assess() {

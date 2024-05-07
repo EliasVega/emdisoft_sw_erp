@@ -12,10 +12,12 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="box-danger">
             <div class="box-header with-border">
-                <h4 class="box-title">Agregar Sucursal
+                <h4 class="box-title">Agregar Nomina
                     @can('payroll.index')
                         <a href="{{ route('payrollPartial.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
                     @endcan
+                    <button class="btn btn-darkBlueGrad m-2 p-1" type="button" id="addAcrueds" data-toggle="tooltip" data-placement="top" title="Devengados"><i class="fas fa-check">Devengados</i></button>
+                    <button class="btn btn-darkBlueGrad m-2 p-1" type="button" id="addDeductions" data-toggle="tooltip" data-placement="top" title="Deducciones"><i class="fas fa-check">Deducciones</i></button>
                 </h4>
             </div>
             @if (count($errors)>0)
@@ -36,31 +38,31 @@
                     @include('admin/payrollPartial.formButtons')
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="formOvertime">
-                    @include('admin/payrollPartial.formOvertime')
+                    @include('admin/payrollPartial/acrueds.formOvertime')
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="formVacations">
-                    @include('admin/payrollPartial.formVacations')
+                    @include('admin/payrollPartial/acrueds.formVacations')
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="formBonus">
-                    @include('admin/payrollPartial.formBonus')
+                    @include('admin/payrollPartial/acrueds.formBonus')
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="formLayoffs">
-                    @include('admin/payrollPartial.formLayoffs')
+                    @include('admin/payrollPartial/acrueds.formLayoffs')
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="formInabilities">
-                    @include('admin/payrollPartial.formInabilities')
+                    @include('admin/payrollPartial/acrueds.formInabilities')
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="formLicenses">
-                    @include('admin/payrollPartial.formLicenses')
+                    @include('admin/payrollPartial/acrueds.formLicenses')
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="formNovelties">
-                    @include('admin/payrollPartial.formNovelties')
+                    @include('admin/payrollPartial/acrueds.formNovelties')
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="formCausations">
-                    @include('admin/payrollPartial.formCausations')
+                    @include('admin/payrollPartial/acrueds.formCausations')
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="formCommissions">
-                    @include('admin/payrollPartial.formCommissions')
+                    @include('admin/payrollPartial/acrueds.formCommissions')
                 </div>
             {!!Form::close()!!}
         </div>
@@ -70,13 +72,13 @@
 @endsection
 @section('scripts')
     @include('admin/payrollPartial.script')
-    @include('admin/payrollPartial.scriptOvertime')
-    @include('admin/payrollPartial.scriptVacations')
-    @include('admin/payrollPartial.scriptBonus')
-    @include('admin/payrollPartial.scriptLayoffs')
-    @include('admin/payrollPartial.scriptInabilities')
-    @include('admin/payrollPartial.scriptLicenses')
-    @include('admin/payrollPartial.scriptNovelties')
-    @include('admin/payrollPartial.scriptCommissions')
+    @include('admin/payrollPartial/acrueds.scriptOvertime')
+    @include('admin/payrollPartial/acrueds.scriptVacations')
+    @include('admin/payrollPartial/acrueds.scriptBonus')
+    @include('admin/payrollPartial/acrueds.scriptLayoffs')
+    @include('admin/payrollPartial/acrueds.scriptInabilities')
+    @include('admin/payrollPartial/acrueds.scriptLicenses')
+    @include('admin/payrollPartial/acrueds.scriptNovelties')
+    @include('admin/payrollPartial/acrueds.scriptCommissions')
 @endsection
 

@@ -26,14 +26,14 @@
     function activeSelectPay() {
         selectVPM = $("#vacation_payment_mode").val();
         if (selectVPM == 'paid') {
-            //$("#vacation_payment_mode").val("");
             $("#addVPM").hide();
+            $("#addProv").show();
             $("#addCausedVacations").show();
             $("#addLayoffVacations").show();
             addVacationPeriod();
         } else {
-            //$("#vacation_payment_mode").val("");
             $("#addVPM").hide();
+            $("#addProv").show();
             $("#addCausedVacations").show();
             $("#addLayoffVacations").hide();
             addVacationPeriod();
@@ -42,14 +42,36 @@
     }
 
     function addVacationPeriod() {
-
+        selectVPM = $("#vacation_payment_mode").val();
         monthDate = new Date($("#month").val());
         //addicionar horas para hora colombia
         addHours = 5;
         //obtener horas del mes seleccionado
         hours = monthDate.getHours();
         monthDate.setHours(hours + addHours);
-        lastDay = new Date(monthDate.getFullYear(), monthDate.getMonth() + 0, 0);
+        if (selectVPM == 'paid') {
+            lastDay = new Date(monthDate.getFullYear(), monthDate.getMonth() + 0, 0);
+            $("#addDPV1").show();
+            $("#addDPV2").hide();
+            dayscaused = $("#days_vacation_period").val();
+            generatedDays = 15 * dayscaused / 360;
+            $("#vacation_days_generated").val(generatedDays);
+            salary = $("#salary").val();
+            causedVacations = (salary / 30) * generatedDays;
+            $("#caused_vacations").val(causedVacations.toFixed(2));
+        } else {
+            lastDay = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0);
+            $("#addDPV2").show();
+            $("#addDPV1").hide();
+            dayscaused = $("#daysVacationsProvision").val();
+            $("#dvpcaused").val(dayscaused);
+            generatedDays = 15 * dayscaused / 360;
+            $("#vacation_days_generated").val(generatedDays);
+            salary = $("#salary").val();
+            causedVacations = (salary / 30) * generatedDays;
+            $("#caused_vacations").val(causedVacations.toFixed(2));
+        }
+        //lastDay = new Date(monthDate.getFullYear(), monthDate.getMonth() + 0, 0);
         periodEndVac = moment(lastDay);
         periodEndVac = periodEndVac.format('YYYY-MM-DD');
         $("#end_vacation_period").val(periodEndVac);
@@ -81,10 +103,14 @@
         salaryEmployee = $("#salary").val();
         value_day = salaryEmployee/30;
         vacationPaymentMode = $("#vacation_payment_mode").val();
-        ta = $("#transport_assistance").val();
+        transportAssistance = $("#transport_assistance").val();
         transportAcrued = $("#transport_acrued").val();
         totalAcrued = $("#total_acrued").val();
         salaryBase = $("#base_salary").val();
+        salaryAcrued = $("#salary_acrued").val();
+        days = $("#days").val();
+        fortnight = $("#fortnight").val();
+        daysCaused = $("#vp_days").val();
 
         if (Date.parse(startVacations) <= Date.parse(endVacations)) {
 
@@ -99,11 +125,23 @@
                     salaryBase += parseFloat(subtotalVacations[contVacations]);
                     $("#base_salary").val(salaryBase.toFixed(2));
                 } else {
-                    if (ta > 0) {
-                        transportDiscount = (parseFloat(ta)/30) * parseFloat(quantity);
-                        transportAcrued = parseFloat(transportAcrued) - parseFloat(transportDiscount);
-                        $("#transport_acrued").val(transportAcrued);
+                    if (fortnight == 'first') {
+                        $("#transport_acrued").val(0);
+                    } else {
+                        if (transportAssistance > 0) {
+                            totalDaysPeriod = parseFloat(quantity) + parseFloat(daysCaused);
+                            alert(totalDaysPeriod);
+                            transportDiscount = (parseFloat(transportAssistance)/30) * parseFloat(totalDaysPeriod);
+                            transportAcrued = parseFloat(transportAcrued) - parseFloat(transportDiscount);
+                            $("#transport_acrued").val(transportAcrued);
                     }
+                    }
+
+                    days = parseInt(days) - parseInt(quantity);
+                    $("#days").val(days);
+
+                    salaryAcrued = parseFloat(salaryAcrued) - parseFloat(subtotalVacations[contVacations]);
+                    $("#salary_acrued").val(salaryAcrued);
                 }
 
                 var rowVacations = '<tr class="selected" id="rowVacations'+contVacations+'"><td><button type="button" class="btn btn-danger btn-sm btndelete"onclick="deleterowVacations('+contVacations+');"><i class="fas fa-trash"></i></button></td><td><input type="hidden" name="vacation_type[]"  value="'+type_id+'">'+type+'</td><td><input type="hidden" name="start_vacations[]" value="'+startVacations+'">'+startVacations+'</td><td><input type="hidden" name="end_vacations[]" value="'+endVacations+'">'+endVacations+'</td> <td><input type="hidden" name="vacation_days[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="value_day[]"  value="'+value_day+'">'+value_day.toFixed(2)+'</td> <td>$'+subtotalVacations[contVacations].toFixed(2)+'</td></tr>';
@@ -204,11 +242,19 @@
         endPeriod = $("#end_vacation_period").val();
         startPeriodTime = moment(startPeriod);
         endPeriodTime = moment(endPeriod);
+        dayMonthEnd = endPeriodTime.format('D');
         vacationDaysPeriod = endPeriodTime.diff(startPeriodTime, 'days');
         vacationDaysPeriod++;
 
         if (vacationDaysPeriod >= 0) {
-            $("#days_vacation_period").val(vacationDaysPeriod);
+            $("#addDPV1").hide();
+            $("#addDPV2").show();
+            $("#dvpcaused").val(vacationDaysPeriod);
+            generatedDays = 15 * vacationDaysPeriod / 360;
+            $("#vacation_days_generated").val(generatedDays.toFixed(2));
+            salary = $("#salary").val();
+            causedVacations = (salary / 30) * generatedDays;
+            $("#caused_vacations").val(causedVacations.toFixed(2));
         } else {
             Swal.fire("Fecha de Inicio no puede ser mayor a fecha de fin");
             cleanVacations();

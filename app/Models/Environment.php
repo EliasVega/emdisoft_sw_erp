@@ -18,6 +18,7 @@ class Environment extends Model
     protected $fillable = [
         'code',
         'name',
+        'protocol',
         'url'
     ];
 

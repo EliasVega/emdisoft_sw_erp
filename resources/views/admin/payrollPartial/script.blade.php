@@ -39,9 +39,12 @@
     $("#addFortnight").hide();
     $("#addEmployee").hide();
     $("#addMonth").hide();
+    $("#addProv").hide();
     $("#addInformation").hide();
     $("#addProvisions").hide();
     $("#addwc").hide();
+    $("#addAcrueds").hide();
+    $("#addDeductions").hide();
 
 
     $('#start_date').prop("readonly", true)
@@ -133,8 +136,9 @@
         daysMonth = 15;
         $('#start_date').prop("readonly", false);
         $("#addInformation").show();
-        $("#formButtons").show();
         $("#days").val(15);
+        $("#addAcrueds").show();
+        $("#addDeductions").show();
 
         salaryMonth(daysMonth);//obtiene valores del empleado bases de sueldo
         timeValue();//salario devengado por los dias trabajados
@@ -242,9 +246,6 @@
                 salaryEmployee = $("#salary").val();
                 transportAcrued = $("#transport_assistance").val();
                 salaryAcrued = (parseFloat(salaryEmployee)/30) * parseFloat(daysMonth);
-                if (transportAcrued > 0) {
-                    transportAcrued = (parseFloat(transportAcrued)/30) * parseFloat(daysMonth);
-                }
 
                 provisionMonth(daysMonth);//provisiones por dias del mes
 
@@ -444,7 +445,7 @@
             $("#provision_vacations").val(totalVacationsPro.toFixed(2));
             $("#vacation_provisions").val(totalppv.toFixed(2));
             $("#daysProVacations").val(totalDaysVacations);
-            $("#daysVacationsProvision").val(daysProVacations);
+            $("#daysVacationsProvision").val(daysProVacations + 30);
             $("#start_vacation_period").val(startPeriodVacations);
             $("#days_vacation_period").val(daysProVacations);
 
@@ -509,6 +510,18 @@
     }
 
     $("#end_date").change(timeValue);
+
+    $(document).on("click", "#addAcrueds", function () {
+        $("#formButtons").show();
+        $("#buttonAcrueds").show();
+        $("#buttonDeductions").hide();
+    });
+
+    $(document).on("click", "#addDeductions", function () {
+        $("#formButtons").show();
+        $("#buttonAcrueds").hide();
+        $("#buttonDeductions").show();
+    });
 
     $(document).on("click", "#addExtras", function () {
         $("#formOvertime").show();
@@ -621,6 +634,7 @@
         $("#formOvertime").hide();
     });
     $(document).on("click", "#canc_vacations", function () {
+        $("#vacation_payment_mode").val("");
         $("#formVacations").hide();
 
     });
@@ -628,6 +642,7 @@
         $("#formBonus").hide();
     });
     $(document).on("click", "#canc_layoffs", function () {
+        $("#layoff_payment_mode").val("");
         $("#formLayoffs").hide();
     });
     $(document).on("click", "#canc_inability", function () {

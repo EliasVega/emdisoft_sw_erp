@@ -15,8 +15,6 @@ class PaymentFormsTableSeeder extends Seeder
      */
     public function run()
     {
-
-
         DB::table('payment_forms')->delete();
 
         DB::table('payment_forms')->insert(array (
@@ -31,7 +29,5 @@ class PaymentFormsTableSeeder extends Seeder
                 'name' => 'Credito',
             ),
         ));
-
-
     }
 }

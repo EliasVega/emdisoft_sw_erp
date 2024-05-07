@@ -53,6 +53,7 @@ class EnvironmentController extends Controller
         $environment = new Environment();
         $environment->code = $request->code;
         $environment->name = $request->name;
+        $environment->protocol = $request->protocol;
         $environment->url = $request->url;
         $environment->save();
 
@@ -83,6 +84,7 @@ class EnvironmentController extends Controller
     {
         $environment->code = $request->code;
         $environment->name = $request->name;
+        $environment->protocol = $request->protocol;
         $environment->url = $request->url;
         $environment->update();
 

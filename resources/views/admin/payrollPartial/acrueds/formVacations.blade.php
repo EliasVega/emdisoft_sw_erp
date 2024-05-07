@@ -10,6 +10,26 @@
         </div>
     </div>
 </div>
+<div class="box-body row" id="addProv">
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
+        <div class="form-group">
+            <label class="form-control-label" for="daysVacationsProvision">dias_prov+</label>
+            <input type="number" id="daysVacationsProvision" name="daysVacationsProvision" value="0" class="form-control" placeholder="dias" readonly>
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addProvisionVacations">
+        <div class="form-group">
+            <label class="form-control-label" for="provision_vacations">Provision</label>
+            <input type="number" id="provision_vacations" name="provision_vacations" value="0" class="form-control" placeholder="provision" step="any" readonly>
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addVacationAdjustment">
+        <div class="form-group">
+            <label class="form-control-label" for="vacation_adjustment">Ajuste vacacional</label>
+            <input type="number" id="vacation_adjustment" name="vacation_adjustment" value="0" class="form-control" placeholder="ajuste vacacional" step="any" readonly>
+        </div>
+    </div>
+</div>
 <div class="box-body row" id="addCausedVacations">
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
@@ -23,22 +43,28 @@
             <input type="date" name="end_vacation_period" id="end_vacation_period" value=""  class="form-control"  placeholder="Periodo hasta">
         </div>
     </div>
-    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addDPV1">
         <div class="form-group">
-            <label class="form-control-label" for="days_vacation_period">N° dias</label>
+            <label class="form-control-label" for="days_vacation_period">dias_periodo</label>
             <input type="number" id="days_vacation_period" name="days_vacation_period" value="0" class="form-control" placeholder="dias">
         </div>
     </div>
-    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addProvisionVacations">
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addDPV2">
         <div class="form-group">
-            <label class="form-control-label" for="provision_vacations">Provision</label>
-            <input type="number" id="provision_vacations" name="provision_vacations" value="0" class="form-control" placeholder="provision" step="any">
+            <label class="form-control-label" for="dvpcaused">dias_periodo+</label>
+            <input type="number" id="dvpcaused" name="dvpcaused" value="0" class="form-control" placeholder="dias" readonly>
         </div>
     </div>
-    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addVacationAdjustment">
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addGenerateDays">
         <div class="form-group">
-            <label class="form-control-label" for="vacation_adjustment">Ajuste vacacional</label>
-            <input type="number" id="vacation_adjustment" name="vacation_adjustment" value="0" class="form-control" placeholder="ajuste vacacional" step="any">
+            <label class="form-control-label" for="vacation_days_generated">dias Vacaciones</label>
+            <input type="number" id="vacation_days_generated" name="vacation_days_generated" value="0" class="form-control" placeholder="dias" step="any">
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addCausedVacations">
+        <div class="form-group">
+            <label class="form-control-label" for="caused_vacations">V/Vacaciones</label>
+            <input type="number" id="caused_vacations" name="caused_vacations" value="0" class="form-control" placeholder="provision" step="any">
         </div>
     </div>
     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mt-4">

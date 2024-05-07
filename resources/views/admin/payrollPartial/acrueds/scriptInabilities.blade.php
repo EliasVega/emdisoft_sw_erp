@@ -33,7 +33,7 @@
         //endDayInability = moment(endTimeInability).day();
 
         //Recuperando los dias del mes
-        daysMonth = $("#days").val();
+        //daysMonth = $("#days").val();
         origin = $("#origin").val();
 
         dayMonthStart = startTimeInability.format('D');
@@ -109,6 +109,7 @@
         origin = $("#origin option:selected").text();
         daysInability = $("#daysInability").val();
         valueDayInability = $("#valueDayInability").val();
+        days = $("#days").val();
         if (Date.parse(startInability) <= Date.parse(endInability)) {
             if (origin_id != "" && origin != "" && daysInability > 0) {
 
@@ -116,6 +117,9 @@
                 originArray[contInability] = origin_id;
                 subtotalInability[contInability] = parseFloat(daysInability) * parseFloat(valueDayInability);
                 totalInability = totalInability + subtotalInability[contInability];
+
+                days = parseInt(days) - parseInt(daysInability);
+                $("#days").val(days);
 
                 var rowInability = '<tr class="selected" id="rowInability' + contInability +
                     '"><td><button type="button" class="btn btn-danger btn-sm btndelete"onclick="deleterowInability(' +
@@ -194,8 +198,8 @@
             salaryAcrued = parseFloat(salary) - parseFloat(discountSalary);
             $("#salary_acrued").val(salaryAcrued.toFixed(2));
 
-            baseSalary -= parseFloat(discountSalary);
-            $("#base_salary").val(baseSalary);
+            baseSalary = (parseFloat(baseSalary) - parseFloat(discountSalary)) + parseFloat(valueInability);
+            $("#base_salary").val(baseSalary.toFixed(2));
 
             totalAcrued = $("#total_acrued").val();
             totalAcrued -= parseFloat(discountSalary);
@@ -232,7 +236,7 @@
             $("#salary_acrued").val(salaryAcrued.toFixed(2));
 
             baseSalary += parseFloat(discountSalary);
-            $("#base_salary").val(baseSalary);
+            $("#base_salary").val(baseSalary.toFixed(2));
 
             totalAcrued = $("#total_acrued").val();
             totalAcrued = parseFloat(totalAcrued) + parseFloat(discountSalary);
