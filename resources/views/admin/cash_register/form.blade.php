@@ -1,5 +1,20 @@
 <div class="box-body row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <label for="sale_point_id">Punto de Venta</label>
+        <div class="select">
+            <select id="sale_point_id" name="sale_point_id" class="form-control selectpicker" data-live-search="true" required>
+                <option {{ ($cashRegister->sale_point_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Punto de vent</option>
+                @foreach($salePoints as $salePoint)
+                    @if($salePoint->id == ($cashRegister->sale_point_id ?? ''))
+                        <option value="{{ $salePoint->id }}" selected>{{ $salePoint->branch->name }} -- {{ $salePoint->cash_type }}</option>
+                    @else
+                        <option value="{{ $salePoint->id }}">{{ $salePoint->branch->name }}:  {{ $salePoint->cash_type }}</option>
+                    @endif
+                @endforeach
+            </select>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="start_date">Fecha Apertura</label>
             <input type="date" name="start_date" id="start_date" class="form-control"

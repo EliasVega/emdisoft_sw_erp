@@ -7,8 +7,8 @@ use App\Models\Product;
 use App\Models\Resolution;
 use Carbon\Carbon;
 
-if (! function_exists('invoiceSend')) {
-    function invoiceSend($request)
+if (! function_exists('invoiceData')) {
+    function invoiceData($request)
     {
         //dd($request->all());
 
@@ -36,7 +36,10 @@ if (! function_exists('invoiceSend')) {
 
         $retentions = $request->company_tax_id;
 
-        $discountTotal = 0.00;
+        $discountTotal = "0.00";
+        $discountLine = "0.00";
+        $chargeTotal = "0.00";
+        $chargeLine = "0.00";
         $productLines = [];
         $taxLines = [];
         $taxCont = 0;
@@ -62,6 +65,7 @@ if (! function_exists('invoiceSend')) {
                         $tax[2] += $taxAmount;
                         $tax[3] += $amount;
                         $contsi++;
+                        $taxes[$key] = $tax;
                     }
                 }
                 if ($contsi == 0) {
@@ -91,7 +95,7 @@ if (! function_exists('invoiceSend')) {
                 "code" => $product->code,
                 "type_item_identification_id" => 4,
                 "price_amount" => $price[$i],
-                "base_quantity" => $quantity[$i]
+                "base_quantity" => round($quantity[$i], 2)
             ];
 
             $productLines[$i] = $productLine;
@@ -165,6 +169,14 @@ if (! function_exists('invoiceSend')) {
             "sendmail" => true,
             "sendmailtome" => true,
             "seze" => "2021-2017",
+            "email_cc_list" => [
+                [
+                    "email" => $company->email
+                ],
+                [
+                    "email" => $customer->email
+                ],
+            ],
             "head_note" => "",
             "foot_note" => "",
             "customer" => [
@@ -192,8 +204,8 @@ if (! function_exists('invoiceSend')) {
                 "tax_exclusive_amount" => $totalDocument,
                 "tax_inclusive_amount" => $total,
                 "allowance_total_amount" => $discountTotal,
-                "charge_total_amount" => $discountTotal,
-                "payable_amount" => ($total - $discountTotal)
+                "charge_total_amount" => $chargeTotal,
+                "payable_amount" => ($total - $discountTotal + $chargeTotal)
             ],
             "invoice_lines" => $productLines,
             "tax_totals" => $taxLines,

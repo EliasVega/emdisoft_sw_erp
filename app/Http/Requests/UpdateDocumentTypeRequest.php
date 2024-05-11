@@ -25,7 +25,7 @@ class UpdateDocumentTypeRequest extends FormRequest
     {
         return [
             'code' => 'nullable|string|max:4',
-            'name' => 'required|string|max:50',
+            'name' => 'required|string|max:100',
             'prefix' => 'required|string|max:4',
             'cufe_algorithm' => 'nullable|string|max:20'
         ];

@@ -159,7 +159,7 @@ class NdpurchaseController extends Controller
         $errorMessages = '';
         $store = false;
         if ($documentType == 11 && $indicator->dian == 'on') {
-            $data = adjustmentNoteSend($request, $purchase);
+            $data = adjustmentNoteData($request, $purchase);
             $requestResponse = sendDocuments($company, $environment, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];

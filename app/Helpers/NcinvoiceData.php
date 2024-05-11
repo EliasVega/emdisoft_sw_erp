@@ -10,8 +10,8 @@ use App\Models\Product;
 use App\Models\Resolution;
 use Carbon\Carbon;
 
-if (!function_exists('ncinvoiceSend')) {
-    function ncinvoiceSend($request, Invoice $invoice)
+if (!function_exists('ncinvoiceData')) {
+    function ncinvoiceData($request, Invoice $invoice)
     {
         $invoiceResponse = InvoiceResponse::where('invoice_id', $invoice->id)->first();//respuesta factura a NC
         $discrepancy = Discrepancy::findOrFail($request->discrepancy_id);//mtivos de la nota Credito

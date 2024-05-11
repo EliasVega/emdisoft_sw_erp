@@ -70,7 +70,7 @@ return new class extends Migration
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
 
-            $table->foreignId('branch_id')->constrained();
+            $table->foreignId('sale_point_id')->constrained();
             $table->foreignId('user_id')->constrained()->onUpdate('cascade');
             $table->foreignId('user_open_id')
             ->references('id')

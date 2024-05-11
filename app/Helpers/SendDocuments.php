@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Http;
 
 if (! function_exists('sendDocuments')) {
-    function sendDocuments($company, $environment, $data)
+    function sendDocuments($company, $url, $data)
     {
         $requestResponse = [];
         $errorMessages = null;
@@ -12,7 +12,7 @@ if (! function_exists('sendDocuments')) {
             'Authorization' => 'Bearer ' . $company->api_token,
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
-        ])->post($environment->url, $data);
+        ])->post($url, $data);
 
         $service = $response->json();
 

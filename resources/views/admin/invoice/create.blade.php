@@ -36,7 +36,7 @@
             {!!Form::open(array('url'=>'invoice', 'method'=>'POST', 'autocomplete'=>'off'))!!}
             {!!Form::token()!!}
             <div class="row m-1">
-                @if ($indicator->pos == 'on')
+                @if ($type == 'pos')
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         @include('admin/invoice.form_pos')
                     </div>

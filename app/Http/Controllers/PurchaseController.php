@@ -14,6 +14,7 @@ use App\Models\Card;
 use App\Models\CashRegister;
 use App\Models\Company;
 use App\Models\CompanyTax;
+use App\Models\Configuration;
 use App\Models\Discrepancy;
 use App\Models\DocumentType;
 use App\Models\Environment;
@@ -258,6 +259,8 @@ class PurchaseController extends Controller
         $resolution = $request->resolution_id;
         $company = Company::findOrFail(current_user()->company_id);
         $environment = Environment::where('id', 16)->first();
+        $configuration = Configuration::where('company_id', $company->id)->first();
+        $url = $environment->protocol . $configuration->ip . $environment->url;
         $indicator = indicator();
         $cashRegister = cashregisterModel();
 
@@ -290,8 +293,9 @@ class PurchaseController extends Controller
         $errorMessages = '';
         $store = false;
         if ($documentType == 11 && $indicator->dian == 'on') {
-            $data = supportDocumentSend($request);
-            $requestResponse = sendDocuments($company, $environment, $data);
+            $data = supportDocumentData($request);
+            dd($data);
+            $requestResponse = sendDocuments($company, $url, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];
@@ -299,7 +303,6 @@ class PurchaseController extends Controller
             $store = true;
         }
         //Crea un registro de compras
-
         if ($store == true) {
 
             $purchase = new Purchase();
@@ -452,12 +455,11 @@ class PurchaseController extends Controller
                 $supportDocumentResponse->save();
 
                 $environmentPdf = Environment::where('code', 'PDF')->first();
-
-                $pdf = file_get_contents($environmentPdf->url . $company->nit ."/DSS-" . $resolutions->prefix .
+                $urlpdf = $environmentPdf->protocol . $configuration->ip . $environmentPdf->url;
+                $pdf = file_get_contents($urlpdf . $company->nit ."/DSS-" . $resolutions->prefix .
                 $resolutions->consecutive .".pdf");
                 Storage::disk('public')->put('files/graphical_representations/support_documents/' .
                 $resolutions->prefix . $resolutions->consecutive . '.pdf', $pdf);
-
                 $resolutions->consecutive += 1;
                 $resolutions->update();
             }

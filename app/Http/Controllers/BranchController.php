@@ -10,6 +10,7 @@ use App\Models\Company;
 use App\Models\Department;
 use App\Models\Indicator;
 use App\Models\Municipality;
+use App\Models\PostalCode;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -91,9 +92,11 @@ class BranchController extends Controller
     {
         $departments = Department::get();
         $municipalities = Municipality::get();
+        $postalCodes = PostalCode::get();
         return view('admin.branch.create', compact(
             'departments',
-            'municipalities'
+            'municipalities',
+            'postalCodes'
         ));
     }
 
@@ -109,6 +112,7 @@ class BranchController extends Controller
         $branch = new Branch();
         $branch->department_id = $request->department_id;
         $branch->municipality_id = $request->municipality_id;
+        $branch->postal_code_id = $request->postal_code_id;
         $branch->company_id = $company->id;
         $branch->name = $request->name;
         $branch->address = $request->address;
@@ -143,6 +147,7 @@ class BranchController extends Controller
     {
         $departments = Department::get();
         $municipalities = Municipality::get();
+        $postalCodes = PostalCode::get();
         $companies = Company::get();
         return view('admin.branch.edit', compact(
             'branch',
@@ -165,6 +170,7 @@ class BranchController extends Controller
 
         $branch->department_id = $request->department_id;
         $branch->municipality_id = $request->municipality_id;
+        $branch->postal_code_id = $request->postal_code_id;
         $branch->company_id = $company->id;
         $branch->name = $request->name;
         $branch->address = $request->address;
@@ -198,6 +204,17 @@ class BranchController extends Controller
             $municipalities = Municipality::where('department_id', '=', $id)->get();
 
             return response()->json($municipalities);
+        }
+    }
+
+    //Metodo para obtener el codigo postal dependeiento del municipio
+    public function getPostalCode(Request $request, $id)
+    {
+        if($request)
+        {
+            $postalCodes = PostalCode::where('municipality_id', '=', $id)->get();
+
+            return response()->json($postalCodes);
         }
     }
 

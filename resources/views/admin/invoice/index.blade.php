@@ -74,7 +74,7 @@
             $(document).ready(function ()
             {
                 var typeDocument = "{{ $typeDocument ?? '' }}";
-                if (typeDocument == 'document') {
+                if (typeDocument == 1) {
                     function print(){
                         var invoice = "{{ $invoice ?? '' }}";
                         if (invoice != '') {
@@ -83,6 +83,8 @@
                             window.open(imprimir, "_blank");
                         }
                     }
+                } else if (typeDocument == '') {
+
                 } else {
                     function print(){
                         var invoice = "{{ $invoice ?? '' }}";

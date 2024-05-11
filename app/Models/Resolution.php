@@ -26,6 +26,7 @@ class Resolution extends Model
         'start_date',
         'end_date',
         'status',
+        'description',
         'company_id',
         'document_type_id'
     ];

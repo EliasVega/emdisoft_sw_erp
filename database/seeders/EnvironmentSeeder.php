@@ -160,6 +160,14 @@ class EnvironmentSeeder extends Seeder
                 'protocol' => 'http://',
                 'url' => '/api/ubl2.1/send-email'
             ),
+            18 =>
+            array (
+                'id' => 19,
+                'code' => 'LOGO',
+                'name' => 'config Logo',
+                'protocol' => 'http://',
+                'url' => '/api/ubl2.1/config/logo'
+            ),
         ));
     }
 }

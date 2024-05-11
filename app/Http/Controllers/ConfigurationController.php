@@ -5,7 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Configuration;
 use App\Http\Requests\StoreConfigurationRequest;
 use App\Http\Requests\UpdateConfigurationRequest;
+use App\Models\Certificate;
+use App\Models\Company;
+use App\Models\Environment;
+use App\Models\Indicator;
+use App\Models\Software;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 
 class ConfigurationController extends Controller
@@ -21,6 +27,7 @@ class ConfigurationController extends Controller
      */
     public function index(Request $request)
     {
+        /*
         if ($request->ajax()) {
             $configurations = Configuration::get();
 
@@ -35,9 +42,12 @@ class ConfigurationController extends Controller
             ->addColumn('edit', 'admin/configuration/actions')
             ->rawColumns(['edit'])
             ->make(true);
-        }
-
-        return view('admin.configuration.index');
+        }*/
+        $company = Company::where('id', current_user()->company_id)->first();
+        $configuration = Configuration::where('company_id', $company->id)->first();
+        $certificate = Certificate::where('company_id', $company->id)->first();
+        $software = Software::where('company_id', $company->id)->first();
+        return view('admin.configuration.index', compact('configuration', 'company', 'certificate', 'software'));
     }
 
     /**
@@ -61,7 +71,11 @@ class ConfigurationController extends Controller
      */
     public function show(Configuration $configuration)
     {
-        //
+        $company = Company::findOrFail(current_user()->company_id);
+        $software = Software::where('company_id', $company->id)->first();
+        $certificate = Certificate::where('company_id', $company->id)->first();
+
+        return view('admin.configuration.show', compact('configuration', 'software', 'company', 'certificate'));
     }
 
     /**
@@ -69,7 +83,9 @@ class ConfigurationController extends Controller
      */
     public function edit(Configuration $configuration)
     {
-        //
+        $software = Software::findOrFail(1);
+        $certificate = Certificate::findOrFail(1);
+        return view('admin.configuration.edit', compact('configuration', 'software', 'certificate'));
     }
 
     /**
@@ -77,7 +93,15 @@ class ConfigurationController extends Controller
      */
     public function update(UpdateConfigurationRequest $request, Configuration $configuration)
     {
-        //
+        $configuration->company_id = current_user()->company_id;
+        $configuration->ip = $request->ip;
+        $configuration->creator_name = $request->creator_name;
+        $configuration->company_name = $request->company_name;
+        $configuration->software_name = $request->software_name;
+        $configuration->update();
+
+        Alert::success('Configuracion','Editada con exito.');
+        return redirect('configuration');
     }
 
     /**

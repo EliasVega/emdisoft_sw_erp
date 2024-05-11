@@ -48,7 +48,7 @@ class CashRegister extends Model
         'status',
         'start_date',
         'end_date',
-        'branch_id',
+        'sale_point_id',
         'user_id',
         'user_open',
         'user_close'
@@ -63,8 +63,8 @@ class CashRegister extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function branch(){
-        return $this->belongsTo(Branch::class);
+    public function salePoint(){
+        return $this->belongsTo(SalePoint::class);
     }
 
     public function cashInflows(){

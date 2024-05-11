@@ -162,6 +162,22 @@ class ProductsSeeder extends Seeder
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43',
             ),
+            9 =>
+            array (
+                'id' => 10,
+                'code' => 'METALES',
+                'name' => 'ORO PLATA Y PLATINO',
+                'price' => '100.00',
+                'sale_price' => '0.00',
+                'commission' => '0.00',
+                'stock' => 1000,
+                'type_product' => 'product',
+                'status' => 'active',
+                'category_id' => 7,
+                'measure_unit_id' => 677,
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43',
+            ),
         ));
     }
 }

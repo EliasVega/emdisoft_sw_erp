@@ -28,7 +28,11 @@
     {!!Form::token()!!}
     <div class="row m-1">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            @include('admin/company.form')
+            @if ($editLogo == "true")
+                @include('admin/company.formLogo')
+            @else
+                @include('admin/company.form')
+            @endif
         </div>
     </div>
     {!!Form::close()!!}

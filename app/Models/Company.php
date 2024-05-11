@@ -25,6 +25,7 @@ class Company extends Model
         'api_token',
         'email',
         'emailfe',
+        'merchant_registration',
         'imageName',
         'logo',
         'pos_invoice',

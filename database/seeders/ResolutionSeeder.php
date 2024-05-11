@@ -18,63 +18,67 @@ class ResolutionSeeder extends Seeder
         $resolutions = [
             [
                 'prefix' => 'FC',
-                'resolution' => 'No Aplica',
+                'resolution' => null,
                 'resolution_date' => null,
                 'technical_key' => 'null',
                 'start_number' => 1,
-                'end_number' => 10000,
+                'end_number' => 1000000,
                 'consecutive' => 1,
                 'start_date' => null,
                 'end_date' => null,
                 'status' => 'inactive',
+                'description' => 'Factura compra local',
                 'company_id' => 1,
-                'document_type_id' => 25
+                'document_type_id' => 101
             ],
             [
                 'prefix' => 'FCNC',
-                'resolution' => 'No Aplica',
+                'resolution' => null,
                 'resolution_date' => null,
                 'technical_key' => 'null',
                 'start_number' => 1,
-                'end_number' => 10000,
+                'end_number' => 1000000,
                 'consecutive' => 1,
                 'start_date' => null,
                 'end_date' => null,
                 'status' => 'inactive',
+                'description' => 'NC Factura compra local',
                 'company_id' => 1,
-                'document_type_id' => 26
+                'document_type_id' => 102
             ],
             [
                 'prefix' => 'FCND',
-                'resolution' => 'No Aplica',
+                'resolution' => null,
                 'resolution_date' => null,
                 'technical_key' => 'null',
                 'start_number' => 1,
-                'end_number' => 10000,
+                'end_number' => 1000000,
                 'consecutive' => 1,
                 'start_date' => null,
                 'end_date' => null,
                 'status' => 'inactive',
+                'description' => 'ND Factura compra local',
                 'company_id' => 1,
-                'document_type_id' => 27
+                'document_type_id' => 103
             ],
             [
                 'prefix' => 'POST',
-                'resolution' => 'No Aplica',
+                'resolution' => null,
                 'resolution_date' => null,
                 'technical_key' => 'null',
                 'start_number' => 1,
-                'end_number' => 10000,
+                'end_number' => 1000000,
                 'consecutive' => 1,
                 'start_date' => null,
                 'end_date' => null,
                 'status' => 'inactive',
+                'description' => 'Factura POS local',
                 'company_id' => 1,
-                'document_type_id' => 12
+                'document_type_id' => 104
             ],
             [
                 'prefix' => 'NCP',
-                'resolution' => 'No Aplica',
+                'resolution' => null,
                 'resolution_date' => null,
                 'technical_key' => 'null',
                 'start_number' => 1,
@@ -83,12 +87,13 @@ class ResolutionSeeder extends Seeder
                 'start_date' => null,
                 'end_date' => null,
                 'status' => 'inactive',
+                'description' => 'NC POS local',
                 'company_id' => 1,
-                'document_type_id' => 28
+                'document_type_id' => 105
             ],
             [
                 'prefix' => 'NDP',
-                'resolution' => 'No Aplica',
+                'resolution' => null,
                 'resolution_date' => null,
                 'technical_key' => 'null',
                 'start_number' => 1,
@@ -97,8 +102,9 @@ class ResolutionSeeder extends Seeder
                 'start_date' => null,
                 'end_date' => null,
                 'status' => 'inactive',
+                'description' => 'ND POS local',
                 'company_id' => 1,
-                'document_type_id' => 29
+                'document_type_id' => 106
             ],
             [
                 'prefix' => 'SETP',
@@ -111,6 +117,7 @@ class ResolutionSeeder extends Seeder
                 'start_date' => '2019-01-19',
                 'end_date' => '2030-01-19',
                 'status' => 'active',
+                'description' => 'Set de pruebas Factura de venta',
                 'company_id' => 1,
                 'document_type_id' => 1
             ],
@@ -125,6 +132,7 @@ class ResolutionSeeder extends Seeder
                 'start_date' => null,
                 'end_date' => null,
                 'status' => 'active',
+                'description' => 'NC Factura de venta',
                 'company_id' => 1,
                 'document_type_id' => 4
             ],
@@ -139,11 +147,12 @@ class ResolutionSeeder extends Seeder
                 'consecutive' => 1,
                 'end_date' => null,
                 'status' => 'active',
+                'description' => 'ND Factura de venta',
                 'company_id' => 1,
                 'document_type_id' => 5
             ],
             [
-                'prefix' => 'ECDS',
+                'prefix' => 'DSE',
                 'resolution' => '18764055595885',
                 'resolution_date' => '2023-09-06',
                 'technical_key' => 'null',
@@ -153,11 +162,12 @@ class ResolutionSeeder extends Seeder
                 'start_date' => '2023-09-06',
                 'end_date' => '2024-03-06',
                 'status' => 'active',
+                'description' => 'Documento soporte electronico',
                 'company_id' => 1,
                 'document_type_id' => 11
             ],
             [
-                'prefix' => 'NDS',
+                'prefix' => 'NADS',
                 'resolution' => null,
                 'resolution_date' => null,
                 'technical_key' => null,
@@ -167,6 +177,7 @@ class ResolutionSeeder extends Seeder
                 'start_date' => null,
                 'end_date' => null,
                 'status' => 'active',
+                'description' => 'nota de ajuste al documento soporte',
                 'company_id' => 1,
                 'document_type_id' => 13
             ],
@@ -181,6 +192,7 @@ class ResolutionSeeder extends Seeder
                 'start_date' => '2023-06-21',
                 'end_date' => '2023-12-21',
                 'status' => 'active',
+                'description' => 'Factura de venta',
                 'company_id' => 1,
                 'document_type_id' => 1
             ],

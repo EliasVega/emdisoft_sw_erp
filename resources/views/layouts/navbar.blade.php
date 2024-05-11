@@ -7,12 +7,12 @@
         </li>
         @can('branch.index')
             <li class="nav-item d-none d-sm-inline-block">
-                <a href="branch" class="nav-link">Sucursales</a>
+                <a href="{{ route('branch.index') }}" class="nav-link">Sucursales</a>
             </li>
         @endcan
         @can('company.index')
             <li class="nav-item d-none d-sm-inline-block">
-                <a href="company" class="nav-link">Compañia</a>
+                <a href="{{ route('company.index') }}" class="nav-link">Compañia</a>
             </li>
         @endcan
       </ul>

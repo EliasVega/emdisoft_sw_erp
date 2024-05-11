@@ -9,6 +9,9 @@
             @can('company.create')
                 <a href="company/create" class="btn btn-greenGrad btn-sm"><i class="fa fa-plus"></i>Agregar Compañia</a>
             @endcan
+            @can('superAdmin')
+                <a href="configuration" class="btn btn-blueGrad btn-sm"><i class="fa fa-plus"></i>Configuraciones</a>
+            @endcan
         </h5>
     </div>
 </div>
@@ -25,8 +28,8 @@
                         <th>NIT</th>
                         <th>dv</th>
                         <th>Logo</th>
-                        <th>Ingresar</th>
                         <th>Editar</th>
+                        <th>Editar Logo</th>
                         <th>Estado</th>
                     </tr>
                 </thead>
@@ -43,18 +46,15 @@
                                 <img src="{{ asset($company->logo) }}" alt="{{ $company->name }}" style="height:60px; width:80px;" class="img-thumbnail">
                             </td>
                             <td>
-                                @can('branch.index')
-                                    <a href="{{ route('branch.index', $company->id) }}" class="btn btn-primary" data-toggle="tooltip"
-                                        data-placement="top" title="Ingresar"><i class="fas fa-indent"></i></a>
-                                @endcan
-                            </td>
-                            <td>
-                                @can('company.edit')
+                                @can('superAdmin')
                                     <a href="{{ route('company.edit', $company->id) }}" class="btn btn-warning" data-toggle="tooltip"
                                         data-placement="top" title="Editar"><i class="far fa-edit"></i></a>
                                 @endcan
                             </td>
-
+                            <td>
+                                    <a href="{{ route('editLogo', $company->id) }}" class="btn btn-warning" data-toggle="tooltip"
+                                        data-placement="top" title="Editar logo"><i class="far fa-edit"></i></a>
+                            </td>
                             <td>
                                 @can('company.companyStatus')
                                     @if ($company->status == 'active')

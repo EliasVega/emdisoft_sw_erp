@@ -1,15 +1,16 @@
 <?php
 
+use App\Models\Company;
 use App\Models\CompanyTax;
 use App\Models\Product;
 use App\Models\Provider;
 use App\Models\Resolution;
 use Carbon\Carbon;
 
-if (! function_exists('supportDocumentSend')) {
-    function supportDocumentSend($request)
+if (! function_exists('supportDocumentData')) {
+    function supportDocumentData($request)
     {
-
+        $company = Company::findOrFail(1);
         $provider = Provider::findOrFail($request->provider_id);
         $resolution = Resolution::findOrFail($request->resolution_id);
         $note = $request->note;//observaciones del documento
@@ -18,7 +19,7 @@ if (! function_exists('supportDocumentSend')) {
         $date = Carbon::now();
         $expirationTime = Carbon::parse($generationDate)->diffInDays(Carbon::parse($dueDate));
 
-        $product_id = $request->id;
+        $product_id = $request->product_id;
         $quantity = $request->quantity;
         $price = $request->price;
         $taxRate = $request->tax_rate;
@@ -29,8 +30,10 @@ if (! function_exists('supportDocumentSend')) {
         $retentions = $request->company_tax_id;
 
         //$subtotal = 0;
-        $discountTotal = 0.00;
-
+        $discountTotal = "0.00";
+        $discountLine = "0.00";
+        $chargeTotal = "0.00";
+        $chargeLine = "0.00";
         $productLines = [];
         $taxLines = [];
         $taxCont = 0;
@@ -46,8 +49,8 @@ if (! function_exists('supportDocumentSend')) {
             $product = Product::findOrFail($product_id[$i]);
             $companyTaxProduct = $product->category->company_tax_id;
             $companyTax = CompanyTax::findOrFail($companyTaxProduct);
-            $taxAmount = ($quantity[$i] * $price[$i] * $taxRate[$i])/100;
-            $amount = $quantity[$i] * $price[$i];
+            $taxAmount = number_format(($quantity[$i] * $price[$i] * $taxRate[$i])/100,2);
+            $amount = number_format($quantity[$i] * $price[$i],2);
 
             if ($taxes[0] != []) { //contax > 0
                 $contsi = 0;
@@ -73,6 +76,14 @@ if (! function_exists('supportDocumentSend')) {
                 "invoiced_quantity" => $quantity[$i],
                 "line_extension_amount" => $amount,
                 "free_of_charge_indicator" => false,
+                "allowance_charges" => [
+                    [
+                        "charge_indicator" => false,
+                        "allowance_charge_reason" => "DESCUENTO GENERAL",
+                        "amount" => $discountLine,
+                        "base_amount" => $amount,
+                    ]
+			    ],
                 "tax_totals" => [
                     [
                         "tax_id" => $companyTax->tax_type_id,
@@ -152,10 +163,13 @@ if (! function_exists('supportDocumentSend')) {
             "type_document_id" => $resolution->document_type_id,
             "date" => $generationDate,
             "time" => $date->toTimeString(),
+            "notes" => $note,
+            "foot_note" => "",
+            "sendmail" => false,
+            "sendmailtome" => false,
             "resolution_number" => $resolution->resolution,
             "prefix" => $resolution->prefix,
-            "notes" => $note,
-            "sendmail" => false,
+            "establishment_name" => $company->name,
             "seller" => [
                 "identification_number" => $provider->identification,
                 "dv" => $provider->dv,
@@ -168,6 +182,7 @@ if (! function_exists('supportDocumentSend')) {
                 "type_document_identification_id" => $provider->identification_type_id,
                 "type_organization_id" => $provider->organization_id,
                 "municipality_id" => $provider->municipality_id,
+                "type_liability_id" => $provider->liability_id,
                 "type_regime_id" => $provider->regime_id,
             ],
             "payment_form" => [
@@ -181,8 +196,17 @@ if (! function_exists('supportDocumentSend')) {
                 "tax_exclusive_amount" => $totalDocument,
                 "tax_inclusive_amount" => $total,
                 "allowance_total_amount" => $discountTotal,
-                "charge_total_amount" => "0.00",
-                "payable_amount" => ($total - $discountTotal)
+                "charge_total_amount" => $chargeTotal,
+                "payable_amount" => ($total)
+            ],
+            "allowance_charges" => [
+                [
+                    "discount_id" => 10,
+                    "charge_indicator" => false,
+                    "allowance_charge_reason" => "DESCUENTO GENERAL",
+                    "amount" => $discountTotal,
+                    "base_amount" => $totalDocument
+                ]
             ],
             "invoice_lines" => $productLines,
             "tax_totals" => $taxLines,

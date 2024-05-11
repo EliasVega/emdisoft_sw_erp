@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('api_token', 100);
             $table->string('email', 50)->unique();
             $table->string('emailfe', 50)->unique();
+            $table->string('merchant_registration', 12);
             $table->string('imageName', 20);
             $table->string('logo', 255)->nullable();
             $table->string('pos_invoice', 20)->default('POS');

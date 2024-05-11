@@ -13,6 +13,7 @@ use App\Models\BranchProduct;
 use App\Models\Card;
 use App\Models\Company;
 use App\Models\CompanyTax;
+use App\Models\Configuration;
 use App\Models\Customer;
 use App\Models\Discrepancy;
 use App\Models\Employee;
@@ -68,12 +69,13 @@ class InvoiceController extends Controller
     {
         $invoice = session('invoice');
         $indicator = Indicator::findOrFail(1);
-        $typeDocument = '';
+        $typeDocument = session('typeDocument');
+        /*
         if ($indicator->pos == 'off') {
             $typeDocument = 'document';
         } else {
             $typeDocument = 'pos';
-        }
+        }*/
         if ($request->ajax()) {
             $users = current_user();
             $user = $users->Roles[0]->name;
@@ -187,6 +189,7 @@ class InvoiceController extends Controller
         ->join('percentages as per', 'ct.percentage_id', 'per.id')
         ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
         ->where('tt.type_tax', 'retention')->get();
+        $type = 'invoice';
         return view('admin.invoice.create',
         compact(
             'customers',
@@ -204,7 +207,90 @@ class InvoiceController extends Controller
             'uvtmax',
             'indicator',
             'company',
-            'cols'
+            'cols',
+            'type'
+        ));
+    }
+
+    public function createPos()
+    {
+        $company = Company::findOrFail(1);
+        $indicator = indicator();
+        $pos = indicator()->pos;
+        $cashRegister = cashregisterModel();
+        if ($indicator->pos == 'on') {
+            if(is_null($cashRegister)){
+                Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
+                return redirect("branch");
+            }
+        }
+        $cols = 9;
+        if ($indicator->cvpinvoice == 'off') {
+            $cols--;
+        }
+        if ($indicator->work_labor == 'off') {
+            $cols--;
+        }
+
+        $customers = Customer::get();
+        $employees = Employee::get();
+        $resolutions = Resolution::where('document_type_id', 1)->where('status', 'active')->get();
+        $paymentForms = PaymentForm::get();
+        $paymentMethods = PaymentMethod::get();
+        $banks = Bank::get();
+        $cards = Card::get();
+        $branchs = Branch::get();
+        $uvtmax = $indicator->uvt * 5;
+        $advances = Advance::where('status', '!=', 'aplicado')->get();
+        $date = Carbon::now();
+        if ($indicator->inventory == 'on') {
+            $products = BranchProduct::from('branch_products as bp')
+            ->join('products as pro', 'bp.product_id', 'pro.id')
+            ->join('categories as cat', 'pro.category_id', 'cat.id')
+            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+            ->join('percentages as per', 'ct.percentage_id', 'per.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('pro.id', 'pro.code', 'pro.stock', 'pro.sale_price', 'pro.name', 'per.percentage', 'cat.utility_rate', 'tt.id as tt')
+            ->where('bp.branch_id', current_user()->branch_id)
+            ->where('bp.stock', '>=', 0)
+            ->where('pro.status', '=', 'active')
+            ->get();
+        } else {
+            $products = Product::from('products as pro')
+            ->join('categories as cat', 'pro.category_id', 'cat.id')
+            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+            ->join('percentages as per', 'ct.percentage_id', 'per.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('pro.id', 'pro.code', 'pro.stock', 'pro.sale_price', 'pro.name', 'cat.utility_rate', 'per.percentage', 'tt.id as tt')
+            ->where('pro.stock', '>=', 0)
+            ->where('pro.status', '=', 'active')
+            ->get();
+        }
+        $companyTaxes = CompanyTax::from('company_taxes', 'ct')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
+        ->where('tt.type_tax', 'retention')->get();
+        $type = 'pos';
+        return view('admin.invoice.create',
+        compact(
+            'customers',
+            'employees',
+            'resolutions',
+            'paymentForms',
+            'paymentMethods',
+            'banks',
+            'cards',
+            'branchs',
+            'advances',
+            'products',
+            'date',
+            'companyTaxes',
+            'uvtmax',
+            'indicator',
+            'company',
+            'cols',
+            'type'
         ));
     }
 
@@ -216,30 +302,57 @@ class InvoiceController extends Controller
         //dd($request->all());
         $company = Company::findOrFail(current_user()->company_id);
         $environment = Environment::where('id', 11)->first();
+        $configuration = Configuration::where('company_id', $company->id)->first();
+        $url = $environment->protocol . $configuration->ip . $environment->url;
         $indicator = Indicator::findOrFail(1);
         $cashRegister = cashregisterModel();
         $resolutions = '';
-        $resolut = $request->resolution_id;
+        //$resolut = $request->resolution_id;
+
+        $typeDocument = $request->typeDocument;
+        $documentType = '';
+
+        //Metodo si los envios a la dian es si trae resolucion
+        //asignacion del vaucher y document type
+        if ($indicator->dian == 'on') {
+            $resolutions = Resolution::findOrFail($request->resolution_id);
+            if ($typeDocument == 'invoice') {
+                $voucherType = 1;
+                $documentType = 1;
+            } else {
+                $voucherType = 2;
+                $documentType = 15;
+            }
+        } else {
+            if ($typeDocument == 'invoice') {
+                $resolutions = Resolution::findOrFail(7);
+                $voucherType = 1;
+                $documentType = 1;
+            } else {
+                $resolutions = Resolution::findOrFail(4);
+                $voucherType = 24;
+                $documentType = 104;
+            }
+        }
+
+        /*
         if ($resolut == null) {
-            if ($indicator->dian == 'on') {
+            if ($indicator->dian == 'off') {
                 $resolutions = Resolution::findOrFail(4);
             } else {
                 $resolutions = Resolution::findOrFail(7);
             }
         } else {
             $resolutions = Resolution::findOrFail($request->resolution_id);
-        }
-
-        $typeDocument = 'invoice';
-        $documentType = '';
-
+        }*/
+        /*
         if ($indicator->pos == 'on' && $request->fe == 2) {
             $voucherType = 2;
             $documentType = 12;
         } else {
             $voucherType = 1;
             $documentType = 1;
-        }
+        }*/
 
         $voucherTypes = VoucherType::findOrFail($voucherType);
         //Variables del request
@@ -253,15 +366,14 @@ class InvoiceController extends Controller
         $paymentForm = $request->payment_form_id;
         $cvp = $request->cv;
 
+
         if (isset($employee_id)) {
             $employee_id = $request->employee_id;
         } else {
             $employee_id = "null";
         }
 
-
-        //dd($employee_id);
-
+        //asignando pago para pos activo
         if ($indicator->pos == 'on'  && $paymentForm == 1) {
             $totalpay = $request->total_pay;
         } else if($indicator->pos == 'on'  && $paymentForm == 2){
@@ -281,10 +393,14 @@ class InvoiceController extends Controller
         $service = '';
         $errorMessages = '';
         $store = false;
-        if ($documentType == 1 && $indicator->dian == 'on') {
-            $data = invoiceSend($request);
-            //dd($data);
-            $requestResponse = sendDocuments($company, $environment, $data);
+        if ($indicator->dian == 'on') {
+            if ($typeDocument == 'invoice') {
+                $data = invoiceData($request);
+            } else {
+                $data = equiDocPosData($request);
+            }
+            dd($data);
+            $requestResponse = sendDocuments($company, $url, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];
@@ -468,8 +584,8 @@ class InvoiceController extends Controller
                 $invoiceResponse->save();
 
                 $environmentPdf = Environment::where('code', 'PDF')->first();
-
-                $pdf = file_get_contents($environmentPdf->url . $company->nit ."/FES-" . $resolutions->prefix .
+                $urlpdf = $environmentPdf->protocol . $configuration->ip . $environmentPdf->url;
+                $pdf = file_get_contents($urlpdf . $company->nit ."/FES-" . $resolutions->prefix .
                 $resolutions->consecutive .".pdf");
                 Storage::disk('public')->put('files/graphical_representations/invoices/' .
                 $resolutions->prefix . $resolutions->consecutive . '.pdf', $pdf);
@@ -478,7 +594,9 @@ class InvoiceController extends Controller
             $resolutions->update();
 
             session()->forget('invoice');
+            session()->forget('typeDocument');
             session(['invoice' => $invoice->id]);
+            session(['typeDocument' => $invoice->document_type_id]);
             toast('Venta Registrada satisfactoriamente.','success');
             return redirect('invoice');
         }

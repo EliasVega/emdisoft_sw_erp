@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Certificate;
 use App\Http\Requests\StoreCertificateRequest;
 use App\Http\Requests\UpdateCertificateRequest;
+use App\Models\Company;
+use App\Models\Configuration;
+use App\Models\Environment;
 
 class CertificateController extends Controller
 {
@@ -45,7 +48,7 @@ class CertificateController extends Controller
      */
     public function edit(Certificate $certificate)
     {
-        //
+        return view('admin.certificate.edit', compact('certificate'));
     }
 
     /**
@@ -53,7 +56,46 @@ class CertificateController extends Controller
      */
     public function update(UpdateCertificateRequest $request, Certificate $certificate)
     {
-        //
+        if (indicator()->dian == 'on') {
+            $store = false;
+            $data = CertificateData($request);
+            $company = Company::findOrFail($certificate->company_id);
+            $configuration = Configuration::where('company_id', $company->id)->first();
+            $certificateEnvironment = Environment::where('code', 'SCC')->first();
+            $urlCertifiacte = $certificateEnvironment->protocol . $configuration->ip . $certificateEnvironment->url;
+            $requestResponse = sendCertificate($company, $urlCertifiacte, $data);
+            $store = $requestResponse['store'];
+            $service = $requestResponse['response'];
+
+            if ($store == true) {
+                $certificate = Certificate::where('company_id', $company)->first();
+
+                if ($request->file('file')) {
+                    if ($file = uploadNewFile('certificates', $request->file('file'), $certificate->file)) {
+                        $certificate->file = $file;
+                    }
+                }
+
+                $certificate->password = $request->get('password');
+                $certificate->expiration_date = $service['certificado']['expiration_date'];
+                $certificate->update();
+
+                return redirect('configuration')->with(
+                    'success_message',
+                    'Certificado digital y configuraciones establecido con éxito.'
+                );
+            }
+
+            return redirect('configuration')->with(
+                'error_message',
+                'El certificado digital y configuraciones no pudo ser establecido con éxito.'
+            );
+        }
+
+        return redirect('configuration')->with(
+            'error_message',
+            'La configuración del certificado de firma digital no esta disponible con el envío a la DIAN desactivado.'
+        );
     }
 
     /**

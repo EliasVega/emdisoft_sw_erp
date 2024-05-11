@@ -1,5 +1,7 @@
 @push('scripts')
     <script>
+        $("#editCompany").hide();
+        $("#editLogo").hide();
         $(document).ready(function () {
             $('#logo').fileinput({
                 language: 'es',

@@ -33,4 +33,9 @@ class PostalCode extends Model
     {
        return $this->hasMany(Provider::class);
     }
+
+    public function branchs()
+    {
+        return $this->hasMany(Branch::class);
+    }
 }

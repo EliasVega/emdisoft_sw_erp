@@ -150,7 +150,7 @@ class NcinvoiceController extends Controller
         $errorMessages = '';
         $store = false;
         if ($indicator->dian == 'on') {
-            $data = ncinvoiceSend($request, $invoice);
+            $data = ncinvoiceData($request, $invoice);
             $requestResponse = sendDocuments($company, $environment, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];

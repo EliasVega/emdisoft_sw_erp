@@ -25,6 +25,7 @@ use App\Models\ProductPurchase;
 use App\Models\Purchase;
 use App\Models\PurchaseOrder;
 use App\Models\RestaurantOrder;
+use App\Models\SalePoint;
 use App\Models\User;
 use App\Models\VerificationCode;
 use Illuminate\Http\Request;
@@ -68,7 +69,7 @@ class CashRegisterController extends Controller
                     return $cashRegister->user->name;
                 })
                 ->addColumn('branch', function (CashRegister $cashRegister) {
-                    return $cashRegister->branch->name;
+                    return $cashRegister->salePoint->branch->name;
                 })
                 ->addColumn('total', function (CashRegister $cashRegister) {
                     return $cashRegister->cash_in_total - $cashRegister->cash_out_total;
@@ -94,9 +95,9 @@ class CashRegisterController extends Controller
     public function create()
     {
         $users = User::where('id', '!=', 1)->get();
-        $branches = Branch::get();
+        $salePoints = SalePoint::get();
 
-        return view("admin.cash_register.create", compact('users', 'branches'));
+        return view("admin.cash_register.create", compact('users', 'salePoints'));
     }
 
     /**
@@ -108,7 +109,6 @@ class CashRegisterController extends Controller
     public function store(StoreCashRegisterRequest $request)
     {
         $user = Auth::user();
-        $branch = $user->branch_id;
         $open = $request->user_open_id;
         $code = $request->verification_code_open;
         $verificationCode = VerificationCode::select('id', 'code')->where('user_id', '=', $open)->first();
@@ -158,7 +158,7 @@ class CashRegisterController extends Controller
             $cashRegister->verification_code_close = null;
             $cashRegister->start_date = $request->start_date;
             $cashRegister->end_date = null;
-            $cashRegister->branch_id = $branch;
+            $cashRegister->sale_point_id = $request->sale_point_id;
             $cashRegister->user_id = $user->id;
             $cashRegister->user_open_id = $request->user_open_id;
             $cashRegister->user_close_id = $request->user_close_id;
@@ -447,7 +447,7 @@ class CashRegisterController extends Controller
         }
 
         Session::put('cashRegister', $cashRegister->user_id, 60 * 24 * 365);
-        Session::put('branch', $cashRegister->branch_id, 60 * 24 * 365);
+        Session::put('salePoint', $cashRegister->sale_point_id, 60 * 24 * 365);
         Session::put('user', $cashRegister->user_id, 60 * 24 * 365);
 
         $users = User::where('id', '!=', 1)->get();
@@ -465,7 +465,7 @@ class CashRegisterController extends Controller
         }
 
         Session::put('cashRegister', $cashRegister->user_id, 60 * 24 * 365);
-        Session::put('branch', $cashRegister->branch_id, 60 * 24 * 365);
+        Session::put('salePoint', $cashRegister->sale_point_id, 60 * 24 * 365);
         Session::put('user', $cashRegister->user_id, 60 * 24 * 365);
 
         $users = User::where('id', '!=', 1)->get();

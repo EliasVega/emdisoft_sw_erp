@@ -32,6 +32,23 @@
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <label for="postal_code_id">Codigo Postal</label>
+        <div class="select">
+            <select id="postal_code_id" name="postal_code_id" class="form-control selectpicker" data-live-search="true">
+                <option {{ ($branch->postal_code_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar</option>
+                @if(($municipalities ?? '') != null)
+                    @foreach($postalCodes as $postalCode)
+                        @if($postalCode->id == ($branch->postal_code_id ?? ''))
+                            <option value="{{ $postalCode->id }}" selected>{{ $postalCode->postal_code }}</option>
+                        @else
+                            <option value="{{ $postalCode->id }}">{{ $postalCode->postal_code }}</option>
+                        @endif
+                    @endforeach
+                @endif
+            </select>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="name">Nombre</label>
             <input type="text" name="name" value="{{ old('name', $branch->name ?? '') }}" class="form-control" placeholder="nombre" required>

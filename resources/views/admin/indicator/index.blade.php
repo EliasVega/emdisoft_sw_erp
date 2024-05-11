@@ -208,12 +208,12 @@
             <div class="row m-3">
                 <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mb-3">
                     @can('indicator.productPrice')
-                        @if ($indicators->barcode == 'on')
+                        @if ($indicators->product_price == 'automatic')
                             <a href="{{ route('productPrice', $indicators->id) }}" class="btn btn-success btn-md" data-toggle="tooltip"
                             data-placement="top" title="Activo"><i class="far fa-edit"></i> PPRO</a>
                         @else
                             <a href="{{ route('productPrice', $indicators->id) }}" class="btn btn-primary btn-md" data-toggle="tooltip"
-                            data-placement="top" title="Inactivo"><i class="far fa-edit"> PPRO</i></a>
+                            data-placement="top" title="manual"><i class="far fa-edit"> PPRO</i></a>
                         @endif
                     @endcan
                 </div>

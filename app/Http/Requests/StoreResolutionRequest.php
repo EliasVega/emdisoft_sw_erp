@@ -34,6 +34,7 @@ class StoreResolutionRequest extends FormRequest
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after:start_date',
             'status' => 'required|in:active,inactive',
+            'description' => 'nullable|string|max:100',
             'document_type_id' => 'required|integer'
         ];
     }

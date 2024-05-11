@@ -356,4 +356,17 @@
             <input type="text" id="indicatorwl" name="indicatorwl" value="{{ $indicator->work_labor }}" class="form-control">
         </div>
     </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="indWL">
+        <div class="form-group">
+            <label class="form-control-label" for="indicatorwl">WL</label>
+            <input type="text" id="indicatorwl" name="indicatorwl" value="{{ $indicator->work_labor }}" class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="addTypeDocument">
+        <div class="form-group">
+            <label class="form-control-label" for="typeDocument">tipo documento</label>
+            <input type="text" id="typeDocument" name="typeDocument" value="pos" class="form-control">
+        </div>
+    </div>
 </div>

@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Software;
 use App\Http\Requests\StoreSoftwareRequest;
 use App\Http\Requests\UpdateSoftwareRequest;
+use App\Models\Company;
+use App\Models\Configuration;
+use App\Models\Environment;
+use Illuminate\Http\Request;
 
 class SoftwareController extends Controller
 {
@@ -45,7 +49,22 @@ class SoftwareController extends Controller
      */
     public function edit(Software $software)
     {
-        //
+        $typeSoftware = 'invoice';
+        return view('admin.software.edit', compact('software', 'typeSoftware'));
+    }
+
+    public function editPayrollSw($id)
+    {
+        $typeSoftware = 'payroll';
+        $software = Software::findOrFail($id);
+        return view('admin.software.edit', compact('software', 'typeSoftware'));
+    }
+
+    public function editPosSw($id)
+    {
+        $typeSoftware = 'pos';
+        $software = Software::findOrFail($id);
+        return view('admin.software.edit', compact('software', 'typeSoftware'));
     }
 
     /**
@@ -53,7 +72,50 @@ class SoftwareController extends Controller
      */
     public function update(UpdateSoftwareRequest $request, Software $software)
     {
-        //
+        $company = Company::where('user_id', current_user()->id)->first();
+        $typeSoftware = $request->type_software;
+
+        $environment = Environment::findOrFail(4);
+        $configuration = Configuration::where('company_id', $company->id)->first();
+        $url = $environment->protocol . $configuration->ip . $environment->url;
+
+        $store = false;
+        if (indicator()->dian == 'on') {
+            $data = softwareData($request, $typeSoftware);
+            $requestResponse = sendDocuments($company, $url, $data);
+
+            $store = $requestResponse['store'];
+
+            if ($store == true) {
+                $software->company_id = $company;
+                if ($typeSoftware == 'invoice') {
+                    $software->identifier = $request->identifier;
+                    $software->pin = $request->pin;
+                    $software->test_set = $request->test_set;
+                } else if ($typeSoftware == 'payroll') {
+                    $software->identifier_payroll = $request->identifier_payroll;
+                    $software->pin_payroll = $request->pin_payroll;
+                    $software->payroll_test_set = $request->payroll_test_set;
+                } else if($typeSoftware == 'payroll') {
+                    $software->identifier_equidoc = $request->identifier_equidoc;
+                    $software->pin_equidoc = $request->pin_equidoc;
+                    $software->equidoc_test_set = $request->equidoc_test_set;
+                }
+                $software->update();
+                return redirect('configuration')->with(
+                    'success_message',
+                    'Datos del Software id establecido con éxito.'
+                );
+            }
+            return redirect('configuration')->with(
+                'error_message',
+                'El Datos del Software id no pudo ser establecido con éxito.'
+            );
+        }
+        return redirect('configuration')->with(
+            'error_message',
+            'La configuración de los datos del software no esta disponible con el envío a la DIAN desactivado.'
+        );
     }
 
     /**

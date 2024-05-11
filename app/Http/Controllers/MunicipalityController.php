@@ -6,6 +6,7 @@ use App\Models\Municipality;
 use App\Http\Requests\StoreMunicipalityRequest;
 use App\Http\Requests\UpdateMunicipalityRequest;
 use App\Models\Department;
+use App\Models\PostalCode;
 use Illuminate\Http\Request;
 
 class MunicipalityController extends Controller
@@ -119,5 +120,16 @@ class MunicipalityController extends Controller
         $municipality->delete();
         toast('Municipio eliminado con éxito.','success');
         return redirect('municipality');
+    }
+
+    //Metodo para obtener el codigo postal dependeiento del municipio
+    public function getPostalCode(Request $request, $id)
+    {
+        if($request)
+        {
+            $postalCodes = PostalCode::where('municipality_id', '=', $id)->get();
+
+            return response()->json($postalCodes);
+        }
     }
 }

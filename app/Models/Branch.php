@@ -24,6 +24,7 @@ class Branch extends Model
         'manager',
         'department_id',
         'municipality_id',
+        'postal_code_id',
         'company_id',
     ];
 
@@ -98,7 +99,7 @@ class Branch extends Model
 
     public function ncInvoices()
     {
-        return $this->hasMany(NcInvoices::class);
+        return $this->hasMany(NcInvoice::class);
     }
 
     public function ndInvoices()
@@ -114,5 +115,14 @@ class Branch extends Model
     public function restaurantTables()
     {
         return $this->hasMany(RestaurantTable::class);
+    }
+
+    public function postalCode()
+    {
+        return $this->belongsTo(PostalCode::class);
+    }
+
+    public function salePoints() {
+        return $this->hasMany(SalePoint::class);
     }
 }

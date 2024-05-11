@@ -33,8 +33,8 @@ class VoucherTypeTableSeeder extends Seeder
             array (
                 'id' => 2,
                 'consecutive' => 1,
-                'code' => 'FVP',
-                'name' => 'Factura de Venta Post',
+                'code' => 'DEEP',
+                'name' => 'Documento equivalente electrónico P.O.S.',
                 'status' => 'locked',
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43'
@@ -143,7 +143,7 @@ class VoucherTypeTableSeeder extends Seeder
             array (
                 'id' => 13,
                 'consecutive' => 1,
-                'code' => 'NDS',
+                'code' => 'NADS',
                 'name' => 'Nota de ajuste Documento soporte',
                 'status' => 'locked',
                 'created_at' => '2023-01-12 21:07:43',
@@ -163,7 +163,7 @@ class VoucherTypeTableSeeder extends Seeder
             array (
                 'id' => 15,
                 'consecutive' => 1,
-                'code' => 'NNI',
+                'code' => 'NANI',
                 'name' => 'Nota de ajuste Nomina Individual',
                 'status' => 'locked',
                 'created_at' => '2023-01-12 21:07:43',
@@ -245,6 +245,16 @@ class VoucherTypeTableSeeder extends Seeder
                 'consecutive' => 1,
                 'code' => 'PWL',
                 'name' => 'Pagos obra labor',
+                'status' => 'active',
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43'
+            ),
+            23 =>
+            array (
+                'id' => 24,
+                'consecutive' => 1,
+                'code' => 'POST',
+                'name' => 'Factura de Venta Post',
                 'status' => 'active',
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43'

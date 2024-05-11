@@ -6,7 +6,9 @@ use App\Helpers\Helpers;
 use App\Models\Company;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
+use App\Models\Configuration;
 use App\Models\Department;
+use App\Models\Environment;
 use App\Models\IdentificationType;
 use App\Models\Liability;
 use App\Models\Municipality;
@@ -160,6 +162,7 @@ class CompanyController extends Controller
         $regimes        = Regime::get();
         $identificationTypes = IdentificationType::get();
         $userRole = current_user()->Roles[0]->name;
+        $editLogo = "false";
         return view("admin.company.edit", compact(
             'company',
             'departments',
@@ -168,8 +171,16 @@ class CompanyController extends Controller
             'organizations',
             'regimes',
             'identificationTypes',
-            'userRole'
+            'userRole',
+            'editLogo'
         ));
+    }
+
+    public function editLogo($id)
+    {
+        $company = Company::findOrFail($id);
+        $editLogo = "true";
+        return view("admin.company.edit", compact('editLogo', 'company'));
     }
 
     /**
@@ -181,55 +192,97 @@ class CompanyController extends Controller
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
-        $company->department_id = $request->department_id;
-        $company->municipality_id = $request->municipality_id;
-        $company->liability_id = $request->liability_id;
-        $company->organization_id = $request->organization_id;
-        $company->regime_id = $request->regime_id;
-        $company->identification_type_id = $request->identification_type_id;
-        $company->name = $request->name;
-        $company->nit = $request->nit;
-        $company->dv = $request->dv;
-        $company->address = $request->address;
-        $company->phone = $request->phone;
-        $company->api_token = $request->api_token;
-        $company->email = $request->email;
-        $company->emailfe = $request->emailfe;
-        $company->pos_invoice = $request->pos_invoice;
-        $company->pos_purchase = $request->pos_purchase;
-
-        $currentImage = $company->imageName;
-        //Handle File Upload
-        if($request->hasFile('logo')){
-            if ($currentImage != 'noimage.jpg') {
-                Storage::disk('public')->delete("images/logos/$currentImage");
+        //dd($request->all());
+        $editLogo = $request->editLogo;
+        if (indicator()->dian == 'on') {
+            if ($editLogo == "false") {
+                $data = companyData($request);
+                $environment = Environment::findOrFail(3);
+                $configuration = Configuration::where('company_id', $company->id)->first();
+                $urlCompany = $environment->protocol . $configuration->ip . $environment->url;
+                $requestResponse = sendCompany($company, $urlCompany, $data);
+                $update = $requestResponse['store'];
+                $service = $requestResponse['response'];
+            } else {
+                $data = logoData($request);
+                $configuration = Configuration::where('company_id', $company->id)->first();
+                $environment = Environment::where('code', 'SCC')->first();
+                $urlCertifiacte = $environment->protocol . $configuration->ip . $environment->url;
+                $requestResponse = sendLogo($company, $urlCertifiacte, $data);
+                $update = $requestResponse['store'];
+                $service = $requestResponse['response'];
             }
-            //Get filename with the extension
-            $filenamewithExt = $request->file('logo')->getClientOriginalName();
-            //Get just filename
-            $filename = pathinfo($filenamewithExt,PATHINFO_FILENAME);
-            //Get just ext
-            $extension = $request->file('logo')->guessClientExtension();
-
-            $image = Image::make($request->file('logo'))->encode('jpg', 75);
-            $image->resize(512,448,function($constraint) {
-                $constraint->upsize();
-            });
-            //FileName to store
-            $fileNameToStore = time() . '.jpg';
-            $company->imageName = $fileNameToStore;
-            //Upload Image
-            Storage::disk('public')->put("images/logos/$fileNameToStore", $image->stream());
-            $fileNameToStore = Storage::url("images/logos/$fileNameToStore");
-        } else{
-            $company->imageName = 'noimage.jpg';
-            $fileNameToStore="/storage/images/logos/noimage.jpg";
+        } else {
+            $update = true;
         }
-        $company->logo=$fileNameToStore;
-        $company->update();
 
+        if ($update == true) {
+            if ($editLogo == "false") {
+                $company->department_id = $request->department_id;
+                $company->municipality_id = $request->municipality_id;
+                $company->liability_id = $request->liability_id;
+                $company->organization_id = $request->organization_id;
+                $company->regime_id = $request->regime_id;
+                $company->identification_type_id = $request->identification_type_id;
+                $company->merchant_registration = $request->merchant_registration;
+                $company->name = $request->name;
+                $company->nit = $request->nit;
+                $company->dv = $request->dv;
+                $company->address = $request->address;
+                $company->phone = $request->phone;
+                if (indicator()->dian == 'on') {
+                    $company->api_token = $service['token'];
+                } else {
+                    $company->api_token = $request->api_token;
+                }
+                $company->email = $request->email;
+                $company->emailfe = $request->emailfe;
+                $company->pos_invoice = $request->pos_invoice;
+                $company->pos_purchase = $request->pos_purchase;
+                $company->update();
+                Alert::success('Compañia','Actualizada con exito.');
+                return redirect('configuration');
+            } else {
+                $currentImage = $company->imageName;
+                //Handle File Upload
+                if($request->hasFile('logo')){
+                    if ($currentImage != 'noimage.jpg') {
+                        Storage::disk('public')->delete("images/logos/$currentImage");
+                    }
+                    //Get filename with the extension
+                    $filenamewithExt = $request->file('logo')->getClientOriginalName();
+                    //Get just filename
+                    $filename = pathinfo($filenamewithExt,PATHINFO_FILENAME);
+                    //Get just ext
+                    $extension = $request->file('logo')->guessClientExtension();
+
+                    $image = Image::make($request->file('logo'))->encode('jpg', 75);
+                    $image->resize(512,448,function($constraint) {
+                        $constraint->upsize();
+                    });
+                    //FileName to store
+                    $fileNameToStore = time() . '.jpg';
+                    $company->imageName = $fileNameToStore;
+                    //Upload Image
+                    Storage::disk('public')->put("images/logos/$fileNameToStore", $image->stream());
+                    $fileNameToStore = Storage::url("images/logos/$fileNameToStore");
+                } else{
+                    $company->imageName = 'noimage.jpg';
+                    $fileNameToStore="/storage/images/logos/noimage.jpg";
+                }
+                $company->logo=$fileNameToStore;
+                $company->update();
+                Alert::success('Logo','Actualizado con exito.');
+                return redirect('configuration');
+            }
+        } else {
+            return redirect('configuration')->with(
+                'error_message',
+                'Configuracion no pudo ser establecido con éxito.'
+            );
+        }
         Alert::success('Compañia','Editada Satisfactoriamente.');
-        return redirect('company');
+        return redirect('configuration');
     }
 
     /**

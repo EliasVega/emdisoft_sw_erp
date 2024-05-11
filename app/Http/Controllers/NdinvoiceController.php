@@ -158,7 +158,7 @@ class NdinvoiceController extends Controller
         $errorMessages = '';
         $store = false;
         if ($indicator->dian == 'on') {
-            $data = ndinvoiceSend($request, $invoice);
+            $data = ndinvoiceData($request, $invoice);
             $requestResponse = sendDocuments($company, $environment, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];

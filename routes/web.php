@@ -10,6 +10,7 @@ use App\Http\Controllers\CashInflowController;
 use App\Http\Controllers\CashOutflowController;
 use App\Http\Controllers\CashRegisterController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ChargeController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CompanyTaxController;
@@ -71,6 +72,8 @@ use App\Http\Controllers\ResolutionController;
 use App\Http\Controllers\RestaurantOrderController;
 use App\Http\Controllers\RestaurantTableController;
 use App\Http\Controllers\RolController;
+use App\Http\Controllers\SalePointController;
+use App\Http\Controllers\SoftwareController;
 use App\Http\Controllers\SupportDocumentResponseController;
 use App\Http\Controllers\TaxController;
 use App\Http\Controllers\TaxTypeController;
@@ -117,6 +120,7 @@ Route::resource('cashInflow', CashInflowController::class);
 Route::resource('cashOutflow', CashOutflowController::class);
 Route::resource('cashRegister', CashRegisterController::class);
 Route::resource('category', CategoryController::class);
+Route::resource('certificate', CertificateController::class);
 Route::resource('charge', ChargeController::class);
 Route::resource('company', CompanyController::class);
 Route::resource('companyTax', CompanyTaxController::class);
@@ -177,6 +181,8 @@ Route::resource('resolution', ResolutionController::class);
 Route::resource('restaurantOrder', RestaurantOrderController::class);
 Route::resource('restaurantTable', RestaurantTableController::class);
 Route::resource('roles', RolController::class);
+Route::resource('salePoint', SalePointController::class);
+Route::resource('software', SoftwareController::class);
 Route::resource('supportDocumentResponse', SupportDocumentResponseController::class);
 Route::resource('tax', TaxController::class);
 Route::resource('taxType', TaxTypeController::class);
@@ -208,6 +214,8 @@ Route::post('storeCategory', [CategoryController::class, 'storeCategory'])->name
 Route::get('company/create/{id}', [CompanyController::class, 'getMunicipalities']);
 Route::post('company/logout', [CompanyController::class, 'logout'])->name('logout_company');
 Route::get('company/status/{id}', [CompanyController::class, 'status'])->name('companyStatus');
+Route::get('company/editLogo/{id}', [CompanyController::class, 'editLogo'])->name('editLogo');
+Route::get('company/editLogo/{id}', [CompanyController::class, 'editLogo'])->name('editLogo');
 
 Route::get('customer/status/{id}', [CustomerController::class, 'status'])->name('customerStatus');
 Route::get('customer/create/{id}', [CustomerController::class, 'getMunicipalities']);
@@ -256,6 +264,7 @@ Route::get('invoice/debitNoteInvoice/{id}', [InvoiceController::class, 'debitNot
 Route::get('pdfInvoice', [InvoiceController::class, 'pdfInvoice'])->name('pdfInvoice');
 Route::get('posInvoice', [InvoiceController::class, 'posInvoice'])->name('posInvoice');
 Route::get('invoice/posPdf/{invoice}', [InvoiceController::class, 'posPdf'])->name('posPdf');
+Route::get('createPos', [InvoiceController::class, 'createPos'])->name('createPos');
 
 Route::get('invoiceOrder/invoice/{id}', [InvoiceOrderController::class, 'invoice'])->name('invoiceOrderInvoice');
 Route::get('invoiceOrder/pdf/{id}', [InvoiceOrderController::class, 'invoiceOrderPdf'])->name('invoiceOrderPdf');
@@ -264,6 +273,9 @@ Route::get('pdfInvoiceOrder', [InvoiceOrderController::class, 'pdfInvoiceOrder']
 Route::get('posInvoiceOrder', [InvoiceOrderController::class, 'posInvoiceOrder'])->name('posInvoiceOrder');
 
 Route::get('kardexProduct', [KardexController::class, 'kardexProduct'])->name('kardexProduct');
+
+
+Route::get('municipality/postalCode/{id}', [MunicipalityController::class, 'getPostalCode']);
 
 Route::get('ncinvoice/ncinvoicePdf/{id}', [NcinvoiceController::class, 'ncinvoicePdf'])->name('ncinvoicePdf');
 Route::get('pdfNcinvoice', [NcinvoiceController::class, 'pdfNcinvoice'])->name('pdfNcinvoice');
@@ -342,6 +354,9 @@ Route::get('restaurantOrder/restaurantOrderPos/{id}', [RestaurantOrderController
 Route::get('posRestaurantOrder', [RestaurantOrderController::class, 'posRestaurantOrder'])->name('posRestaurantOrder');
 Route::get('transfer/product/{id}', [TransferController::class, 'getProducts']);
 Route::get('restaurantOrder/getRawMaterial/{id}', [RestaurantOrderController::class, 'getRawMaterial'])->name('getRawMaterial');
+
+Route::get('software/editPayrollSw/{id}', [SoftwareController::class, 'editPayrollSw'])->name('editPayrollSw');
+Route::get('software/editPosSw/{id}', [SoftwareController::class, 'editPosSw'])->name('editPosSw');
 
 Route::get('user/status/{id}', [UserController::class, 'status'])->name('status');
 Route::get('inactive', [UserController::class, 'inactive'])->name('inactive');

@@ -50,10 +50,16 @@
             <input type="text" name="phone" value="{{ old('phone', $company->phone ?? '') }}" class="form-control" placeholder="Telefono" required>
         </div>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="api_token">Api Token</label>
             <input type="text" name="api_token" id="api_token" value="{{ old('api_token', $company->api_token ?? '') }}" class="form-control" placeholder="Api_token" required>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="form-group">
+            <label for="merchant_registration">Registro Mercantil</label>
+            <input type="text" name="merchant_registration" id="merchant_registration" value="{{ old('merchant_registration', $company->merchant_registration ?? '') }}" class="form-control" placeholder="Api_token">
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
@@ -136,37 +142,37 @@
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" name="email" value="{{ old('email', $company->email ?? '') }}" class="form-control" placeholder="Ingrese el correo electronico">
+            <input type="email" name="email" value="{{ old('email', $company->email ?? '') }}" class="form-control" placeholder="Ingrese el correo electronico" required>
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="emailfe">Email de Fact Electronica</label>
-            <input type="email" name="emailfe" value="{{ old('emailfe', $company->emailfe ?? '') }}" class="form-control" placeholder="Ingrese el email FE">
+            <input type="email" name="emailfe" value="{{ old('emailfe', $company->emailfe ?? '') }}" class="form-control" placeholder="Ingrese el email FE" required>
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="pos_invoice">Ventas POS</label>
-            <input type="text" name="pos_invoice" value="{{ old('pos_invoice', $company->pos_invoice ?? '') }}" class="form-control" placeholder="Ingrese el email FE">
+            <input type="text" name="pos_invoice" value="{{ old('pos_invoice', $company->pos_invoice ?? '') }}" class="form-control" placeholder="Venta Pos">
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="pos_purchase">Compras POS</label>
-            <input type="text" name="pos_purchase" value="{{ old('pos_purchase', $company->pos_purchase ?? '') }}" class="form-control" placeholder="Ingrese el email FE">
+            <input type="text" name="pos_purchase" value="{{ old('pos_purchase', $company->pos_purchase ?? '') }}" class="form-control" placeholder="Compra pos">
         </div>
     </div>
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="editCompany">
         <div class="form-group">
-            <label for="logo">Logo</label>
-            <input type="file" id="logo" name="logo" data-initial-preview="{{ old('logo', $company->logo ?? '') }}" accept="image/*" data-msg-placeholder="Seleccionar archivo"/>
+            <label for="editLogo">EditLogo</label>
+            <input type="text" name="editLogo" value="false" class="form-control" placeholder="edicion company">
         </div>
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
             <button class="btn btn-lightBlueGrad btn-md" type="submit"><i class="fa fa-save"></i> Guardar</button>
-            <a href="{{url('company')}}" class="btn btn-blueGrad"><i class="fa fa-window-close"></i>&nbsp; Cancelar</a>
+            <a href="{{url('configuration')}}" class="btn btn-blueGrad"><i class="fa fa-window-close"></i>&nbsp; Cancelar</a>
         </div>
     </div>
 </div>

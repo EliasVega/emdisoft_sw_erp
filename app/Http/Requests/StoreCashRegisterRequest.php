@@ -54,7 +54,7 @@ class StoreCashRegisterRequest extends FormRequest
             'verification_code_open' => '',
             'verification_code_close' => '',
             'status' => '',
-            'branch_id' => '',
+            'sale_point_id' => '',
             'user_id' => '',
             'user_open' => '',
             'user_close' => ''

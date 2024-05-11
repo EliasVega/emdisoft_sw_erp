@@ -26,7 +26,6 @@ class Software extends Model
         'identifier_equidoc',
         'pin_equidoc',
         'equidoc_test_set'
-
     ];
 
     protected $guarded = [

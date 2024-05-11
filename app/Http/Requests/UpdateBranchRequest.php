@@ -32,6 +32,7 @@ class UpdateBranchRequest extends FormRequest
             'manager'         => 'required|max:50',
             'department_id'   => 'required',
             'municipality_id' => 'required',
+            'postal_code_id' => 'required',
             'company_id'      => ''
         ];
     }

@@ -49,3 +49,7 @@
 .f-right {
     float: right;
 }
+
+.round20 {
+    border-radius: 20%;
+}

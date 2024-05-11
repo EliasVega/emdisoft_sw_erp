@@ -24,25 +24,27 @@ class UpdateCompanyRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:65',
-            'nit' => 'required|max:20',
-            'dv' => 'required|max:1',
-            'address' => 'required|string|max:100',
-            'phone' => 'required|string|max:12',
-            'api_token' => 'required|string|max:100',
-            'email' => 'required',
-            'emailfe' => 'required',
+            /*
+            'name' => 'string|max:65',
+            'nit' => 'string|max:20',
+            'dv' => 'string|max:1',
+            'address' => 'string|max:100',
+            'phone' => 'string|max:12',
+            'api_token' => 'string|max:100',
+            'email' => '',
+            'emailfe' => '',
+            'merchant_registration' => '',
             'imageName' => '',
             'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'pos_invoice' => 'string|max:20',
             'pos_purchase' => 'string|max:20',
             'status' => 'in:activo,inactivo',
-            'department_id' => 'required',
-            'municipality_id' => 'required',
-            'identification_type_id' => 'required',
-            'liability_id' => 'required',
-            'organization_id' => 'required',
-            'regime_id' => 'required',
+            'department_id' => '',
+            'municipality_id' => '',
+            'identification_type_id' => '',
+            'liability_id' => '',
+            'organization_id' => '',
+            'regime_id' => '',*/
         ];
     }
 }

@@ -31,6 +31,7 @@ class CompaniesTableSeeder extends Seeder
                 'api_token' => 'b8f76155bf77accadd728428917d3f4bdf8a862a78bfd32ea89f48f1fa9fdd82',
                 'email' => 'comercial.ecounts@gmail.com',
                 'emailfe' => 'comercial.ecounts@gmail.com',
+                'merchant_registration' => '000000-00',
                 'imageName' => 'noimage.jpg',
                 'logo' => '/storage/images/logos/noimage.jpg',
                 'pos_invoice' => 'POS',

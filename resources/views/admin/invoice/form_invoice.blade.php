@@ -18,7 +18,7 @@
         <div class="form-group">
             <label class="form-control-label" for="generation_date">Fecha Generacion</label>
             <input type="date" name="generation_date" id="generation_date" class="form-control"
-                value="<?php echo date('Y-m-d'); ?>" placeholder="Fecha Vencimiento">
+                value="<?php echo date('Y-m-d'); ?>" placeholder="Fecha Vencimiento" readonly>
         </div>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
@@ -273,6 +273,12 @@
             <label class="form-control-label" for="note">Observaciones</label>
             <input type="text" id="note" name="note" value="{{ old('note') }}" class="form-control"
                 placeholder="Observaciones">
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="addTypeDocument">
+        <div class="form-group">
+            <label class="form-control-label" for="typeDocument">tipo documento</label>
+            <input type="text" id="typeDocument" name="typeDocument" value="invoice" class="form-control">
         </div>
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

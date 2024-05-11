@@ -31,6 +31,7 @@ class StoreCompanyRequest extends FormRequest
             'phone' => 'required|string|max:12',
             'email' => 'required',
             'emailfe' => 'required',
+            'merchant_registration' => '',
             'imageName' => '',
             'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'pos_invoice' => 'string|max:20',
