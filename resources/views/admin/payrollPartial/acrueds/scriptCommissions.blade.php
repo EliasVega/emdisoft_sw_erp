@@ -38,7 +38,7 @@
 
             if (typeCommission_id == 'salary') {
                 salaryBase = $("#base_salary").val();
-                salaryBase += parseFloat(valueCommission);
+                salaryBase = parseFloat(salaryBase) + parseFloat(valueCommission);
                 $("#base_salary").val(salaryBase);
             }
 
@@ -92,7 +92,7 @@
 
         if (typeCommissionArray[index] == 'salary') {
             salaryBase = $("#base_salary").val();
-            salaryBase -= parseFloat(valueCommissionArray[index]);
+            salaryBase = parseFloat(salaryBase) - parseFloat(valueCommissionArray[index]);
             $("#base_salary").val(salaryBase);
         }
 

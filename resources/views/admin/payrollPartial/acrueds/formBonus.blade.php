@@ -22,6 +22,12 @@
             </select>
         </div>
     </div>
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="addSBP"> <!-- Fecha de Inicio liquidacion prima -->
+        <div class="form-group">
+            <label class="form-control-label" for="start_bonus_period">F/Periodo Bonus</label>
+            <input type="date" name="start_bonus_period" id="start_bonus_period"  class="form-control"  placeholder="Fecha Inicio">
+        </div>
+    </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12"> <!-- Fecha de Inicio liquidacion prima -->
         <div class="form-group">
             <label class="form-control-label" for="startBonus">F/Inicio</label>

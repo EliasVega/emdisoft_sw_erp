@@ -10,12 +10,13 @@
     let contInability = 0;
     let totalInability = 0;
 
+    //cuando cambie el inicio de incapacidad se habilita el fin
     $("#startInability").change(activeEndInability);
     function activeEndInability() {
         $("#endInability").prop('readonly', false);
     }
     $("#endInability").change(addInabilityDate);
-
+    //cuando cambia fin de incapacidad
     function addInabilityDate() {
 
         fortnight = $("#fortnight").val();
@@ -178,6 +179,7 @@
 
     function addInabilityTotals() {
 
+        totalAcrued = $("#total_acrued").val();
         salaryEmployee = $("#salary").val();
         daysInability = $("#daysInability").val();
         transportAssistance = $("#transport_assistance").val();
@@ -192,6 +194,8 @@
         if (transportAssistance > 0) {
             transportAcruedDiscount = parseFloat(transportAssistance)/30 * daysInability;
             transportAcrued -= parseFloat(transportAcruedDiscount);
+            totalAcrued -= parseFloat(transportAcruedDiscount);
+            $("#total_acrued").val(totalAcrued);
         }
 
         if (origin == 'common') {

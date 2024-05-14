@@ -6,7 +6,7 @@
 
     let subtotalLicense = [];
     let daysLicenseArray = [];
-    let typePayArray = [];
+    let typePayLicenseArray = [];
     let contLicense = 0;
     let totalLicense = 0;
 
@@ -93,25 +93,29 @@
 
         startLicense = $("#startLicense").val();
         endLicense = $("#endLicense").val();
-        typePay_id = $("#typePay").val();
-        typePay = $("#typePay option:selected").text();
+        typePayLicense_id = $("#typePayLicense").val();
+        typePayLicense = $("#typePayLicense option:selected").text();
         typeLicense_id = $("#typeLicense").val();
         typeLicense = $("#typeLicense option:selected").text();
         daysLicense = $("#daysLicense").val();
         valueDayLicense = $("#valueDayLicense").val();
+        days = $("#days").val();
         if (Date.parse(startLicense) <= Date.parse(endLicense)) {
-            if (typePay_id != "" && typeLicense_id != "" && daysLicense > 0) {
+            if (typePayLicense != "" && typeLicense_id != "" && daysLicense > 0) {
 
                 daysLicenseArray[contLicense] = daysLicense;
-                typePayArray[contLicense] = typePay_id;
+                typePayLicenseArray[contLicense] = typePayLicense;
                 subtotalLicense[contLicense] = parseFloat(daysLicense) * parseFloat(valueDayLicense);
                 totalLicense = totalLicense + parseFloat(subtotalLicense[contLicense]);
+
+                days = parseInt(days) - parseInt(daysLicense);
+                $("#days").val(days);
 
                 var rowLicense = '<tr class="selected" id="rowLicense' + contLicense +
                     '"><td><button type="button" class="btn btn-danger btn-sm btndelete"onclick="deleterowLicense(' +
                     contLicense +
-                    ');"><i class="fas fa-trash"></i></button></td><td><input type="hidden" name="type_pay[]"  value="' +
-                    typePay_id + '">' + typePay + '</td><td><input type="hidden" name="type_license[]"  value="' +
+                    ');"><i class="fas fa-trash"></i></button></td><td><input type="hidden" name="type_pay_license[]"  value="' +
+                    typePayLicense_id + '">' + typePayLicense + '</td><td><input type="hidden" name="type_license[]"  value="' +
                     typeLicense_id + '">' + typeLicense + '</td><td><input type="hidden" name="start_license[]" value="' + startLicense +
                     '">' + startLicense + '</td><td><input type="hidden" name="end_license[]" value="' + endLicense + '">' +
                     endLicense + '</td> <td><input type="hidden" name="license_days[]" value="' + daysLicense + '">' +
@@ -168,7 +172,7 @@
         salaryEmployee = $("#salary").val();
         daysLicense = $("#daysLicense").val();
         transportAssistance = $("#transport_assistance").val();
-        typePay = $("#typePay").val();
+        typePayLicense = $("#typePayLicense").val();
         salary = $("#salary_acrued").val();
         transportAcrued = $("#transport_acrued").val();
         valueLicense = $("#valueLicense").val();
@@ -179,17 +183,16 @@
             transportAcrued -= parseFloat(transportAcruedDiscount);
         }
 
-        if (typePay == 'unpaid') {
+        if (typePayLicense == 'unpaid') {
             salaryAcrued = parseFloat(salary) - parseFloat(valueLicense);
             $("#salary_acrued").val(salaryAcrued.toFixed(2));
-
             totalAcrued = $("#total_acrued").val();
-            totalAcrued -= parseFloat(transportAcruedDiscount);
             totalAcrued -= parseFloat(valueLicense);
-            $("#total_acrued").val(Math.round(totalAcrued));
             if (fortnight == 'second') {
+                totalAcrued -= parseFloat(transportAcruedDiscount);
                 $("#transport_acrued").val(transportAcrued);
             }
+            $("#total_acrued").val(Math.round(totalAcrued));
         } else {
             totalAcrued = $("#total_acrued").val();
             totalAcrued -= parseFloat(transportAcruedDiscount);
@@ -203,7 +206,7 @@
         salaryEmployee = $("#salary").val();
         daysLicense = daysLicenseArray[index];
         transportAssistance = $("#transport_assistance").val();
-        typePay = typePayArray[index];
+        typePayLicense = typePayLicenseArray[index];
         salary = $("#salary_acrued").val();
         transportAcrued = $("#transport_acrued").val();
         valueLicense = subtotalLicense[index];
@@ -214,7 +217,7 @@
             transportAcrued = parseFloat(transportAcruedDiscount) + parseFloat(transportAcruedDiscount);
         }
 
-        if (typePay == 'unpaid') {
+        if (typePayLicense == 'unpaid') {
             salaryAcrued = parseFloat(salary) + parseFloat(valueLicense);
             $("#salary_acrued").val(salaryAcrued.toFixed(2));
 

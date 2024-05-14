@@ -148,7 +148,7 @@ class PayrollPartialController extends Controller
         $origin = $request->origin_id;
 
         $totalLicenses = $request->total_licenses;
-        $typePay = $request->type_pay;
+        $typePayLicense = $request->type_pay_license;
         $typeLicense = $request->type_license;
 
         $totalCommissions = $request->total_commissions;
@@ -467,6 +467,7 @@ class PayrollPartialController extends Controller
                     for ($i=0; $i < count($vacationType); $i++) {
                         $vacationDays = $request->vacation_days[$i];
                         $valueDay = $request->value_day[$i];
+                        $valueVacations = $vacationDays * $valueDay;
 
                         $vacations = new Vacation();
                         $vacations->start_period = $request->start_period;
@@ -475,7 +476,7 @@ class PayrollPartialController extends Controller
                         $vacations->end_vacations = $request->end_vacations[$i];
                         $vacations->vacation_days = $vacationDays[$i];
                         $vacations->value_day = $valueDay[$i];
-                        $vacations->vacation_value = $vacationDays * $valueDay;
+                        $vacations->vacation_value = $valueVacations;
                         $vacations->payment_mode = $vacationPayMode;
                         $vacations->type = $vacationType[$i];
 
@@ -487,6 +488,17 @@ class PayrollPartialController extends Controller
                             $payrollPartial->vacation_days += $request->vacationDays[$i];
                             $payrollPartial->update();
                         }
+
+                        $provisions->vacation_days -= $request->vacation_days[$i];
+                        $provisions->vacations -= $valueVacations;
+                        if ($provisions->vacations < 1) {
+                            $provisions->vacations = 0;
+                        }
+                        $date = Carbon::parse($request->end_period);
+                        $date = $date->addDay();
+                        $provisions->start_period_vacations = $date;
+                        $provisions->update();
+
                     }
                 }
             } else {
@@ -521,7 +533,7 @@ class PayrollPartialController extends Controller
                     $provisions->bonus_days -= $request->bonus_days[$i];
                     $provisions->bonus -= $request->value_bonus[$i];
                     if ($provisions->bonus < 1) {
-                        $date = Carbon::parse($startDate);
+                        $date = Carbon::parse($endDate);
                         $date = $date->addDay();
                         $provisions->bonus = 0;
                         $provisions->start_period_bonus = $date;
@@ -546,6 +558,18 @@ class PayrollPartialController extends Controller
                     $layoffs->payroll_partial_acrued_id = $payrollPartialAcrued->id;
                     $layoffs->save();
 
+                    $provisions->layoff_days -= $request->layoff_days;
+                    $provisions->layoffs -= $request->value_layoffs;
+
+                    if ($provisions->layoffs < 1) {
+                        $provisions->layoffs = 0;
+                        $provisions->layoff_interest = 0;
+                    }
+                    $date = Carbon::parse($request->endLayoffs);
+                    $date = $date->addDay();
+                    $provisions->start_period_layoffs = $date;
+                    $provisions->update();
+
                 }
             } else {
                 $causation = new Causation();
@@ -559,6 +583,16 @@ class PayrollPartialController extends Controller
                 $causation->payroll_acrued_id = $payrollAcrued->id;
                 $causation->payroll_partial_acrued_id = $payrollPartialAcrued->id;
                 $causation->save();
+
+                $provisions->layoff_days -= $request->layoff_days;
+                $provisions->layoffs -= $request->value_layoffs;
+                if ($provisions->layoffs < 1) {
+                    $date = Carbon::parse($endDate);
+                    $date = $date->addDay();
+                    $provisions->layoffs = 0;
+                    $provisions->start_period_layoffs = $date;
+                }
+                $provisions->update();
             }
         }
 
@@ -592,7 +626,7 @@ class PayrollPartialController extends Controller
                 $licenses->value_day = $request->value_day_license[$i];
                 $licenses->total_license = $totalLic;
                 $licenses->type_license = $typeLicense[$i];
-                $licenses->type_pay = $typePay[$i];
+                $licenses->type_pay = $typePayLicense[$i];
                 $licenses->note = $request->note;
 
                 $licenses->payroll_acrued_id = $payrollAcrued->id;
@@ -620,7 +654,7 @@ class PayrollPartialController extends Controller
         }
 
         if ($totalNovelties > 0) {
-            for ($i=0; $i < count($typeCommission); $i++) {
+            for ($i=0; $i < count($typeNovelty); $i++) {
 
                 $novelties = new Novelty();
                 $novelties->year_month = $yearMonth;

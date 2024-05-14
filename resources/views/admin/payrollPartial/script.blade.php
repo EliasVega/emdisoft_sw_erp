@@ -60,6 +60,9 @@
         let boxFirst = $("#checkbox1").prop("checked");
         if (boxFirst == true) {
             $("#fortnight").val('first');
+            $("#addBonus").hide();
+            $("#addLayoffs").hide();
+            $("#addCausations").hide();
         }
         let boxSecond = $("#checkbox2").prop("checked");
         if (boxSecond == true) {
@@ -122,7 +125,10 @@
             day2='0'+day2; //agrega cero si el menor de 10
         if(month2<10)
             month2='0'+month2 //agrega cero si el menor de 10
+
         document.getElementById('end_date').value=year2+"-"+month2+"-"+day2;
+        date = $("#end_date").val();
+        $("#endBonus").val(date);
     }
 
     //seleccionar de acuerdo al empleado
@@ -263,10 +269,11 @@
                         $("#transport_acrued").val(0);
                     } else {
 
-                        firstPayrollPartial(empId, yearMonth, daysMonth);//trae datos de dias para descontar aux transporte
+                        firstPayrollPartial(empId, yearMonth, daysMonth, totalAcrued);//trae datos de dias para descontar aux transporte
                     }
-                    transpAcrued = $("#transport_acrued").val();
-                    totalAcrued += parseFloat(transpAcrued);
+                    //transpAcrued = $("#transport_acrued").val();
+
+                    //totalAcrued += parseFloat(transpAcrued);
                     $("#salary_acrued").val(salaryAcrued.toFixed(2));
                     $("#base_salary").val(salaryAcrued.toFixed(2));
                     $("#total_acrued").val(totalAcrued.toFixed(2));
@@ -332,6 +339,7 @@
             $("#daysProBonus").val(daysBonus);
             $("#daysBonusProvision").val(data.bonus_days);
             $("#startBonus").val(startPeriodBonus);
+            $("#start_bonus_period").val(startPeriodBonus);
 
             $("#provision_layoffs").val(layoffsTotal.toFixed(2));
             $("#layoff_provisions").val(ppbl.toFixed(2));
@@ -432,6 +440,7 @@
             $("#daysProBonus").val(totalDaysBonus);
             $("#startBonus").val(startPeriodBonus);
             $("#daysBonusProvision").val(daysProBonus);
+            $("#start_bonus_period").val(startPeriodBonus)
 
             $("#provision_layoffs").val(totalLayoffsPro.toFixed(2));
             $("#layoff_provisions").val(totalppl.toFixed(2));
@@ -492,6 +501,8 @@
             if (transportAcrued > 0) {
                 transportAcrued = (transportAcrued/30) * daysMonth;
                 $("#transport_acrued").val(transportAcrued);
+                totalAcrued += parseFloat(transportAcrued);
+                $("#total_acrued").val(totalAcrued);
             }
 
         }).fail(function() {

@@ -50,13 +50,9 @@
             valueNovelties[contNovelty] = valueNovelty;
             totalNovelty = totalNovelty + parseFloat(valueNovelty);
 
-            if (typeNovelty == 'salary') {
-
-            }
-
-            if (typeNovelty == 'salary') {
+            if (typeNovelty_id == 'salary') {
                 salaryBase = $("#base_salary").val();
-                salaryBase += parseFloat(valueCommission);
+                salaryBase = parseFloat(salaryBase) + parseFloat(valueNovelty);
                 $("#base_salary").val(salaryBase);
             }
 
