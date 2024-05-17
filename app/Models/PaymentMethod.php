@@ -29,4 +29,9 @@ class PaymentMethod extends Model
     {
         return $this->hasMany(PayPaymentMethod::class);
     }
+
+    public function trigger()
+    {
+        return $this->morphOne(Trigger::class, 'triggerable');
+    }
 }

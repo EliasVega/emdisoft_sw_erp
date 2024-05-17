@@ -1,10 +1,7 @@
 <div class="box-body row">
     <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
         <div class="form-group">
-            <label for="customer_id"> Cliente <a href="{{ route('customer.create') }}" class="btn btn-lightBlueGrad btn-sm"
-                    target="_blank" data-toggle="tooltip" data-placement="top">
-                    <i class="fa fa-plus"> Agregar Cliente</i>
-                </a></label>
+            <label for="customer_id"> Cliente</label>
             <select name="customer_id" class="form-control selectpicker" id="customer_id" data-live-search="true"
                 required>
                 <option value="" disabled selected>Seleccionar el Cliente</option>
@@ -70,7 +67,7 @@
             <input type="number" name="vprice" id="vprice" class="form-control" readonly>
         </div>
     </div>
-    <div class="col-lg-3 col-md-2 col-sm-4 col-xs-12">
+    <div class="col-lg-3 col-md-2 col-sm-4 col-xs-12" id="addUtility">
         <div class="form-group">
             <label for="utility">% Utilidad</label>
             <input type="number" name="utility" id="utility" class="form-control" readonly>
@@ -123,11 +120,7 @@
     @endif
     <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12" id="addProductId">
         <div class="form-group row">
-            <label class="form-control-label" for="product_id">
-                Producto <a href="{{ route('product.create') }}" class="btn btn-lightBlueGrad btn-sm"
-                target="_blank" data-toggle="tooltip" data-placement="top">
-                <i class="fa fa-plus"> Agregar Producto</i></a>
-            </label>
+            <label class="form-control-label" for="product_id">Producto </label>
             <select name="product_id" class="form-control selectpicker" id="product_id" data-live-search="true">
                 <option value="0" disabled selected>Seleccionar</option>
                 @foreach ($products as $product)
@@ -261,7 +254,7 @@
             </div>
         </div>
     @endif
-    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" id="addBags">
         <div class="form-group">
             <label class="form-control-label" for="bags">Bolsas</label>
             <input type="number" id="bags" name="bags" value="0" class="form-control"

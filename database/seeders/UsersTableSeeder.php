@@ -43,13 +43,13 @@ class UsersTableSeeder extends Seeder
 
         User::create([
             'id' => 2,
-            'name' => 'JAIRO ENRIQUE SUAREZ PEREZ',
-            'number' => '91343991',
-            'address' => 'CaLLE 59 1W 70 APTO 301',
-            'phone' => '3014109204',
-            'email' => 'comercial.ecounts@gmail.com',
+            'name' => 'MEDINA MENDEZ ELIZABETH',
+            'number' => '37549956',
+            'address' => 'AV CENTRAL METROP SEC BUENO PQ TERMINAL LC 3',
+            'phone' => '3134669720',
+            'email' => 'elime_802@hotmail.com',
             'email_verified_at' => NULL,
-            'password' => bcrypt('91343991'),
+            'password' => bcrypt('37549956'),
             'two_factor_secret' => NULL,
             'two_factor_recovery_codes' => NULL,
             'two_factor_confirmed_at' => NULL,
@@ -62,8 +62,8 @@ class UsersTableSeeder extends Seeder
             'company_id' => 1,
             'branch_id' => 1,
             'identification_type_id' => 3,
-            'created_at' => '2023-01-12 21:07:43',
-            'updated_at' => '2023-01-12 21:07:43'
+            'created_at' => '2024-05-16 21:07:43',
+            'updated_at' => '2024-05-16 21:07:43'
 
         ])->assignRole(2);
     }

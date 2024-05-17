@@ -152,6 +152,21 @@ class ResolutionSeeder extends Seeder
                 'document_type_id' => 5
             ],
             [
+                'prefix' => 'FLOC',
+                'resolution' => '18760000001',
+                'resolution_date' => '2019-01-19',
+                'technical_key' => 'fc8eac422eba16e22ffd8c6f94b3f40a6e38162c',
+                'start_number' => 1,
+                'end_number' => 99999999,
+                'consecutive' => 1,
+                'start_date' => '2019-01-19',
+                'end_date' => '2040-01-19',
+                'status' => 'active',
+                'description' => 'Facturacion en local',
+                'company_id' => 1,
+                'document_type_id' => 1
+            ],
+            [
                 'prefix' => 'DSE',
                 'resolution' => '18764055595885',
                 'resolution_date' => '2023-09-06',

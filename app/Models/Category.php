@@ -33,4 +33,9 @@ class Category extends Model
     {
         return $this->belongsTo(CompanyTax::class);
     }
+
+    public function trigger()
+    {
+        return $this->morphOne(Trigger::class, 'triggerable');
+    }
 }

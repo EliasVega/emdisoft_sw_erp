@@ -325,7 +325,7 @@ class InvoiceController extends Controller
             }
         } else {
             if ($typeDocument == 'invoice') {
-                $resolutions = Resolution::findOrFail(7);
+                $resolutions = Resolution::findOrFail(10);
                 $voucherType = 1;
                 $documentType = 1;
             } else {
@@ -334,25 +334,6 @@ class InvoiceController extends Controller
                 $documentType = 104;
             }
         }
-
-        /*
-        if ($resolut == null) {
-            if ($indicator->dian == 'off') {
-                $resolutions = Resolution::findOrFail(4);
-            } else {
-                $resolutions = Resolution::findOrFail(7);
-            }
-        } else {
-            $resolutions = Resolution::findOrFail($request->resolution_id);
-        }*/
-        /*
-        if ($indicator->pos == 'on' && $request->fe == 2) {
-            $voucherType = 2;
-            $documentType = 12;
-        } else {
-            $voucherType = 1;
-            $documentType = 1;
-        }*/
 
         $voucherTypes = VoucherType::findOrFail($voucherType);
         //Variables del request
@@ -399,7 +380,7 @@ class InvoiceController extends Controller
             } else {
                 $data = equiDocPosData($request);
             }
-            dd($data);
+            //dd($data);
             $requestResponse = sendDocuments($company, $url, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
@@ -407,6 +388,7 @@ class InvoiceController extends Controller
         } else {
             $store = true;
         }
+        //dd($service);
         //Crea un registro de Ventas
         if ($store == true) {
 

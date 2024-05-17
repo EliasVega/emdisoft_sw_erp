@@ -91,6 +91,19 @@
             </div>
         </div>
     </div>
+    <div class="col-lg-6">
+        <div class="card card-primary card-outline">
+            <div class="row m-3">
+                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mb-3">
+                        <a href="{{ route('invoiceTestSet.create') }}" class="btn btn-blueGrad btn-md pr-5"
+                        data-toggle="tooltip" data-placement="top" title="Activa"><i class="far fa-edit">TESTSET</i></a>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 mb-3">
+                    <b>SET DE PRUEBAS</b>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 

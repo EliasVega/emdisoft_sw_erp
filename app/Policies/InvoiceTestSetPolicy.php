@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\SalePoint;
+use App\Models\InvoiceTestSet;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class SalePointPolicy
+class InvoiceTestSetPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -19,7 +19,7 @@ class SalePointPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, SalePoint $salePoint): bool
+    public function view(User $user, InvoiceTestSet $invoiceTestSet): bool
     {
         //
     }
@@ -35,7 +35,7 @@ class SalePointPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, SalePoint $salePoint): bool
+    public function update(User $user, InvoiceTestSet $invoiceTestSet): bool
     {
         //
     }
@@ -43,7 +43,7 @@ class SalePointPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, SalePoint $salePoint): bool
+    public function delete(User $user, InvoiceTestSet $invoiceTestSet): bool
     {
         //
     }
@@ -51,7 +51,7 @@ class SalePointPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, SalePoint $salePoint): bool
+    public function restore(User $user, InvoiceTestSet $invoiceTestSet): bool
     {
         //
     }
@@ -59,7 +59,7 @@ class SalePointPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, SalePoint $salePoint): bool
+    public function forceDelete(User $user, InvoiceTestSet $invoiceTestSet): bool
     {
         //
     }

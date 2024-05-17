@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\AccountClassController;
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AccountGroupController;
 use App\Http\Controllers\AdvanceController;
+use App\Http\Controllers\AuxiliaryAccountController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\BranchProductController;
@@ -33,6 +37,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InvoiceOrderController;
 use App\Http\Controllers\InvoiceOrderProductController;
 use App\Http\Controllers\InvoiceResponseController;
+use App\Http\Controllers\InvoiceTestSetController;
 use App\Http\Controllers\KardexController;
 use App\Http\Controllers\LiabilityController;
 use App\Http\Controllers\MeasureUnitController;
@@ -62,6 +67,7 @@ use App\Http\Controllers\ProductBranchController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductRestaurantOrderController;
 use App\Http\Controllers\ProviderController;
+use App\Http\Controllers\PucController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\PurchaseOrderProductController;
@@ -74,6 +80,8 @@ use App\Http\Controllers\RestaurantTableController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\SalePointController;
 use App\Http\Controllers\SoftwareController;
+use App\Http\Controllers\SubaccountController;
+use App\Http\Controllers\SubauxiliaryAccountController;
 use App\Http\Controllers\SupportDocumentResponseController;
 use App\Http\Controllers\TaxController;
 use App\Http\Controllers\TaxTypeController;
@@ -110,7 +118,11 @@ Route::middleware([
     })->name('dashboard');
 });
 
+Route::resource('accountClass', AccountClassController::class);
+Route::resource('account', AccountController::class);
+Route::resource('accountGroup', AccountGroupController::class);
 Route::resource('advance', AdvanceController::class);
+Route::resource('auxiliaryAccount', AuxiliaryAccountController::class);
 Route::resource('bank', BankController::class);
 Route::resource('branch', BranchController::class);
 Route::resource('branchProduct', BranchProductController::class);
@@ -144,6 +156,7 @@ Route::resource('invoice', InvoiceController::class);
 Route::resource('invoiceOrder', InvoiceOrderController::class);
 Route::resource('invoiceOrderProduct', InvoiceOrderProductController::class);
 Route::resource('invoiceResponse', InvoiceResponseController::class);
+Route::resource('invoiceTestSet', InvoiceTestSetController::class);
 Route::resource('liability', LiabilityController::class);
 Route::resource('measureUnit', MeasureUnitController::class);
 Route::resource('municipality', MunicipalityController::class);
@@ -174,6 +187,7 @@ Route::resource('product', ProductController::class);
 Route::resource('productBranch', ProductBranchController::class);
 Route::resource('productRestaurantOrder', ProductRestaurantOrderController::class);
 Route::resource('provider', ProviderController::class);
+Route::resource('puc', PucController::class);
 Route::resource('purchase', PurchaseController::class);
 Route::resource('rawMaterial', RawMaterialController::class);
 Route::resource('regime', RegimeController::class);
@@ -183,6 +197,8 @@ Route::resource('restaurantTable', RestaurantTableController::class);
 Route::resource('roles', RolController::class);
 Route::resource('salePoint', SalePointController::class);
 Route::resource('software', SoftwareController::class);
+Route::resource('subaccount', SubaccountController::class);
+Route::resource('subauxiliaryAccount', SubauxiliaryAccountController::class);
 Route::resource('supportDocumentResponse', SupportDocumentResponseController::class);
 Route::resource('tax', TaxController::class);
 Route::resource('taxType', TaxTypeController::class);
@@ -192,6 +208,7 @@ Route::resource('verificationCode', VerificationCodeController::class);
 Route::resource('voucherType', VoucherTypeController::class);
 Route::resource('workLabor', WorkLaborController::class);
 
+Route::get('auxiliaryAccount/auxiliaryAccountStatus/{id}', [AuxiliaryAccountController::class, 'auxiliaryAccountStatus'])->name('auxiliaryAccountStatus');
 
 Route::get('advance/advancePdf/{id}', [AdvanceController::class, 'advancePdf'])->name('advancePdf');
 Route::get('advance/advancePos/{id}', [AdvanceController::class, 'advancePos'])->name('advancePos');
@@ -271,6 +288,8 @@ Route::get('invoiceOrder/pdf/{id}', [InvoiceOrderController::class, 'invoiceOrde
 Route::get('invoiceOrder/pos/{id}', [InvoiceOrderController::class, 'invoiceOrderPos'])->name('invoiceOrderPos');
 Route::get('pdfInvoiceOrder', [InvoiceOrderController::class, 'pdfInvoiceOrder'])->name('pdfInvoiceOrder');
 Route::get('posInvoiceOrder', [InvoiceOrderController::class, 'posInvoiceOrder'])->name('posInvoiceOrder');
+
+Route::get('invoiceTestSet/statusQuery/{id}', [InvoiceTestSetController::class, 'statusQuery'])->name('statusQuery');
 
 Route::get('kardexProduct', [KardexController::class, 'kardexProduct'])->name('kardexProduct');
 
@@ -357,6 +376,10 @@ Route::get('restaurantOrder/getRawMaterial/{id}', [RestaurantOrderController::cl
 
 Route::get('software/editPayrollSw/{id}', [SoftwareController::class, 'editPayrollSw'])->name('editPayrollSw');
 Route::get('software/editPosSw/{id}', [SoftwareController::class, 'editPosSw'])->name('editPosSw');
+
+Route::get('subaccount/subaccountStatus/{id}', [SubaccountController::class, 'subaccountStatus'])->name('subaccountStatus');
+
+Route::get('subauxiliaryAccount/subauxiliaryAccountStatus/{id}', [AuxiliaryAccountController::class, 'subauxiliaryAccountStatus'])->name('subauxiliaryAccountStatus');
 
 Route::get('user/status/{id}', [UserController::class, 'status'])->name('status');
 Route::get('inactive', [UserController::class, 'inactive'])->name('inactive');

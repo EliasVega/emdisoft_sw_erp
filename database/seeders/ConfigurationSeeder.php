@@ -20,7 +20,7 @@ class ConfigurationSeeder extends Seeder
             array (
                 'id' => 1,
                 'company_id' => 1,
-                'ip' => '0.0.0.0',
+                'ip' => '0.0.0.0:81',
                 'creator_name' => 'ELIAS VEGA DELGADO',
                 'company_name' => 'EMDISOFT S.A.S.',
                 'software_name' => 'ekounterERP',

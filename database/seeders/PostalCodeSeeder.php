@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class PostalCodesTableSeeder extends Seeder
+class PostalCodeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -29470,7 +29470,6 @@ class PostalCodesTableSeeder extends Seeder
                 'created_at' => '2023-09-30 16:07:43',
                 'updated_at' => '2023-09-30 16:07:43'
             ),
-
         ));
     }
 }

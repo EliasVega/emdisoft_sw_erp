@@ -168,6 +168,14 @@ class EnvironmentSeeder extends Seeder
                 'protocol' => 'http://',
                 'url' => '/api/ubl2.1/config/logo'
             ),
+            19 =>
+            array (
+                'id' => 20,
+                'code' => 'SQSP',
+                'name' => 'Consulta de estado',
+                'protocol' => 'http://',
+                'url' => '/api/ubl2.1/status/zip/'
+            ),
         ));
     }
 }

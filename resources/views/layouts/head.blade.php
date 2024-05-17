@@ -54,5 +54,7 @@
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('vendor/summernote/summernote-bs4.css') }}" />
 
+    <link rel="stylesheet" href="{{ asset('vendor/bootstrap-treeview.min.css_1.2.0/cdnjs/bootstrap-treeview.min.css') }}" />
+
     @livewireStyles
   </head>

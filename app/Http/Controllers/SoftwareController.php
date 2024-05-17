@@ -72,7 +72,7 @@ class SoftwareController extends Controller
      */
     public function update(UpdateSoftwareRequest $request, Software $software)
     {
-        $company = Company::where('user_id', current_user()->id)->first();
+        $company = Company::findOrFail(current_user()->company_id);
         $typeSoftware = $request->type_software;
 
         $environment = Environment::findOrFail(4);
@@ -87,7 +87,7 @@ class SoftwareController extends Controller
             $store = $requestResponse['store'];
 
             if ($store == true) {
-                $software->company_id = $company;
+                $software->company_id = $company->id;
                 if ($typeSoftware == 'invoice') {
                     $software->identifier = $request->identifier;
                     $software->pin = $request->pin;
@@ -111,6 +111,22 @@ class SoftwareController extends Controller
                 'error_message',
                 'El Datos del Software id no pudo ser establecido con éxito.'
             );
+        } else {
+            $software->company_id = $company->id;
+                if ($typeSoftware == 'invoice') {
+                    $software->identifier = $request->identifier;
+                    $software->pin = $request->pin;
+                    $software->test_set = $request->test_set;
+                } else if ($typeSoftware == 'payroll') {
+                    $software->identifier_payroll = $request->identifier_payroll;
+                    $software->pin_payroll = $request->pin_payroll;
+                    $software->payroll_test_set = $request->payroll_test_set;
+                } else if($typeSoftware == 'payroll') {
+                    $software->identifier_equidoc = $request->identifier_equidoc;
+                    $software->pin_equidoc = $request->pin_equidoc;
+                    $software->equidoc_test_set = $request->equidoc_test_set;
+                }
+                $software->update();
         }
         return redirect('configuration')->with(
             'error_message',
