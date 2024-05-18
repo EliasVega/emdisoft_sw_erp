@@ -102,6 +102,15 @@
                     <b>SET DE PRUEBAS</b>
                 </div>
             </div>
+            <div class="row m-3">
+                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mb-3">
+                        <a href="{{ route('downloadResolution') }}" class="btn btn-blueGrad btn-md pr-5"
+                        data-toggle="tooltip" data-placement="top" title="Activa"><i class="far fa-edit">RESOLUCIONES</i></a>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 mb-3">
+                    <b>DESCARGAR RESOLUCIONES</b>
+                </div>
+            </div>
         </div>
     </div>
 </div>

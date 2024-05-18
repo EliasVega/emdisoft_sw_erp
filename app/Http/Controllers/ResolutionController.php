@@ -33,20 +33,13 @@ class ResolutionController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $resolutions = Resolution::get();
+            $resolutions = Resolution::where('status', 'active')->get();
 
             return DataTables::of($resolutions)
             ->addIndexColumn()
-            ->addColumn('company', function (Resolution $resolution) {
-                return $resolution->company->name;
-            })
             ->addColumn('document', function (Resolution $resolution) {
                 return $resolution->documentType->name;
             })
-            ->addColumn('numeration', function(Resolution $resolution){
-                return $resolution->start_number . ' -- ' . $resolution->end_number;
-            })
-
             ->addColumn('edit', 'admin/resolution/actions')
             ->rawColumns(['edit'])
             ->make(true);
@@ -132,9 +125,7 @@ class ResolutionController extends Controller
      */
     public function show(Resolution $resolution)
     {
-        $companies = Company::findOrFail(1);
-        $documentTypes = DocumentType::get();
-        return view('admin.resolution.edit', compact('resolution', 'documentTypes', 'companies'));
+        return view('admin.resolution.show', compact('resolution'));
     }
 
     /**
@@ -221,16 +212,16 @@ class ResolutionController extends Controller
         return redirect("resolution");
     }
 
-    public function download(Request $request)
+    public function downloadResolution(Request $request)
     {
         $company = Company::findOrFail(current_user()->company_id);
-        $configuration = Configuration::where('company_id', $company->id)->forst();
+        $configuration = Configuration::where('company_id', $company->id)->first();
         $resolutionolds = Resolution::get();
 
         if (indicator()->dian == 'on') {
             $company = Company::findOrFail(current_user()->company_id);
             $software = Software::where('company_id', $company->id)->first();
-            $environment = Environment::findOrFail(7);
+            $environment = Environment::findOrFail(9);
             $configuration = Configuration::where('company_id', $company->id)->first();
             $urlResolution = $environment->protocol . $configuration->ip . $environment->url;
 
@@ -287,12 +278,12 @@ class ResolutionController extends Controller
                             if ($resolutionold == $resolution) {
                                 $consecutive = $resolutionold->consecutive;
                             } else {
-                                $consecutive = $$startNumber;
+                                $consecutive = $startNumber;
                             }
 
                         }
 
-                        Resolution::updateOrcreate(
+                        $resolution = Resolution::updateOrcreate(
                             [
                                 'resolution' => $resolution
                             ],
@@ -311,28 +302,17 @@ class ResolutionController extends Controller
                             ]
                         );
                     }
-
-                    return redirect()->route('resolutions.index')->with(
-                        'success_message',
-                        'Se descargaron con éxito ' . $resolutionCount . ' numeraciones.'
-                    );
+                    toast('Se descargaron con éxito ' . $resolutionCount . ' numeraciones.','danger');
+                    return redirect('resolution');
                 }
-
-                return redirect()->route('resolutions.index')->with(
-                    'error_message',
-                    'No se encontraron numeraciones para descargar.'
-                );
+                toast('No se encontraron numeraciones para descargar.','danger');
+                return redirect('resolution');
             }
-
-            return redirect()->route('resolutions.index')->with(
-                'error_message',
-                'La descarga de numeraciones ha fallado.'
-            );
+            toast('La descarga de numeraciones ha fallado.','danger');
+            return redirect('resolution');
         }
 
-        return redirect()->route('resolutions.index')->with(
-            'error_message',
-            'La descarga de numeraciones no esta disponible con el envío a la DIAN desactivado.'
-        );
+        toast('La descarga de numeraciones no esta disponible con el envío a la DIAN desactivado.','danger');
+        return redirect('resolution');
     }
 }

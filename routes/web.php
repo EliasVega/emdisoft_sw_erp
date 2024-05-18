@@ -367,6 +367,9 @@ Route::get('purchaseCredit', [ReportsController::class, 'purchaseCredit'])->name
 Route::get('reportRestaurantOrder', [ReportsController::class, 'reportRestaurantOrder'])->name('reportRestaurantOrder');
 Route::get('reportInventory', [ReportsController::class, 'reportInventory'])->name('reportInventory');
 
+Route::get('downloadResolution', [ResolutionController::class, 'downloadResolution'])->name('downloadResolution');
+Route::get('resolution/uploadResolution/{id}', [ResolutionController::class, 'uploadResolution'])->name('uploadResolution');
+
 Route::get('restaurantOrder/generateInvoice/{id}', [RestaurantOrderController::class, 'generateInvoice'])->name('generateInvoice');
 Route::get('restaurantOrder/restaurantOrderPdf/{id}', [RestaurantOrderController::class, 'restaurantOrderPdf'])->name('restaurantOrderPdf');
 Route::get('restaurantOrder/restaurantOrderPos/{id}', [RestaurantOrderController::class, 'restaurantOrderPos'])->name('restaurantOrderPos');

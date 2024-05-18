@@ -11,6 +11,7 @@
                 @can('resolution.create')
                     <a href="resolution/create" class="btn btn-greenGrad btn-sm"><i class="fa fa-plus"></i>Agregar Resolucion</a>
                 @endcan
+                    <a href="downloadResolution" class="btn btn-greenGrad btn-sm"><i class="fa fa-plus"></i>Descarga Resoluciones</a>
                 @can('branch.index')
                     <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
                 @endcan
@@ -25,16 +26,14 @@
                     <thead class="trdatacolor">
                         <tr>
                             <th>Id</th>
-                            <th>Compañia</th>
                             <th>Documento</th>
                             <th>Resolucion</th>
                             <th>Pref.</th>
-                            <th>Numeracion</th>
-                            <th>Fecha</th>
+                            <th>Desde</th>
+                            <th>Hasta</th>
                             <th>Generadas</th>
                             <th>Fecha Inicio</th>
                             <th>Fecha Fin</th>
-                            <th>Clave Tecnica</th>
                             <th>estado</th>
                             <th>Acciones</th>
                         </tr>
@@ -65,16 +64,14 @@ $(document).ready(function ()
             columns:
             [
                 {data: 'id'},
-                {data: 'company'},
                 {data: 'document'},
                 {data: 'resolution'},
                 {data: 'prefix'},
-                {data: 'numeration'},
-                {data: 'resolution_date'},
+                {data: 'start_number'},
+                {data: 'end_number'},
                 {data: 'consecutive'},
                 {data: 'start_date'},
                 {data: 'end_date'},
-                {data: 'technical_key'},
                 {data: 'status'},
                 {data: 'edit'},
             ],
