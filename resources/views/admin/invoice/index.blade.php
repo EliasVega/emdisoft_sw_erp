@@ -73,6 +73,7 @@
         <script type="text/javascript">
             $(document).ready(function ()
             {
+
                 var typeDocument = "{{ $typeDocument ?? '' }}";
                 if (typeDocument == 1) {
                     function print(){

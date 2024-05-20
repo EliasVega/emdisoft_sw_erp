@@ -1,7 +1,8 @@
 <script>
-    /*$(document).ready(function(){
+    $(document).ready(function(){
             alert('estoy funcionando correctamanete empresa');
-        });*/
+        });
+
     jQuery(document).ready(function($){
         $(document).ready(function() {
             $('#payment_form_id').select2({

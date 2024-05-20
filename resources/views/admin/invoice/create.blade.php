@@ -35,6 +35,7 @@
             @endif
             {!!Form::open(array('url'=>'invoice', 'method'=>'POST', 'autocomplete'=>'off'))!!}
             {!!Form::token()!!}
+
             <div class="row m-1">
                 @if ($type == 'pos')
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

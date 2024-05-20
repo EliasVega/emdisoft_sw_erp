@@ -711,13 +711,14 @@
                                                 <p>Orden de venta</p>
                                             </a>
                                         </li>
-                                    @else
                                         <li class="nav-item">
-                                            <a href="{{ url('invoice') }}" class="nav-link">
+                                            <a href="{{ url('createPos') }}" class="nav-link">
                                                 <i class="far fa-dot-circle nav-icon"></i>
-                                                <p>Ventas</p>
+                                                <p>Pos</p>
                                             </a>
                                         </li>
+                                    @else
+
                                         <li class="nav-item">
                                             <a href="{{ url('restaurantOrder') }}" class="nav-link">
                                                 <i class="far fa-dot-circle nav-icon"></i>
