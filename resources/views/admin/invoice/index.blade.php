@@ -8,9 +8,15 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h5>Listado de Ventas</h5>
             @if ($indicator->restaurant == 'off')
-                @can('invoice.create')
-                    <a href="invoice/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Agregar Venta</a>
-                @endcan
+                @if ($indicator->pos == 'on')
+                    @can('invoice.create')
+                        <a href="createPos" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Agregar Venta pos</a>
+                    @endcan
+                @else
+                    @can('invoice.create')
+                        <a href="invoice/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Agregar Venta</a>
+                    @endcan
+                @endif
                 @can('invoiceOrder.create')
                     <a href="invoiceOrder/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Orden de Venta</a>
                 @endcan
