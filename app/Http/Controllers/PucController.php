@@ -12,9 +12,13 @@ use App\Models\AuxiliaryAccount;
 use App\Models\Bank;
 use App\Models\Category;
 use App\Models\CompanyTax;
+use App\Models\MovementType;
+use App\Models\OperationType;
 use App\Models\PaymentMethod;
 use App\Models\Subaccount;
+use App\Models\SubauxiliaryAccount;
 use App\Models\Trigger;
+use App\Models\TriggerMethod;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -99,6 +103,9 @@ class PucController extends Controller
         $categories = Category::get();
         $companyTaxes = CompanyTax::get();
         $banks = Bank::get();
+        $triggerMethods = TriggerMethod::where('id', '!=', 1)->get();
+        $movementTypes = MovementType::where('id', '!=', 1)->get();
+        $operationTypes = OperationType::where('id', '!=', 1)->get();
 
         return view('admin.puc.create', compact(
             'accountClasses',
@@ -108,7 +115,10 @@ class PucController extends Controller
             'paymentMethods',
             'categories',
             'companyTaxes',
-            'banks'
+            'banks',
+            'triggerMethods',
+            'movementTypes',
+            'operationTypes'
         ));
     }
 
@@ -117,6 +127,66 @@ class PucController extends Controller
      */
     public function store(StorePucRequest $request)
     {
+        //dd($request->all());
+        $typeAccount = $request->type_account;
+        $store = false;
+        switch ($typeAccount) {
+            case 'account':
+                $account = new Account();
+                $account->code = $request->code_account;
+                $account->name = $request->name_account;
+                $account->total_amount = 0;
+                $account->account_group_id = $request->account_group_id;
+                $account->save();
+                $store = true;
+                break;
+            case 'subaccount':
+                $subaccount = new Subaccount();
+                $subaccount->code = $request->code_subaccount;
+                $subaccount->name = $request->name_subaccount;
+                $subaccount->total_amount = 0;
+                $subaccount->account_id = $request->account_id;
+                $subaccount->save();
+                $store = true;
+                break;
+            case 'auxiliary':
+                $auxiliaryAccount = new AuxiliaryAccount();
+                $auxiliaryAccount->code = $request->code_auxiliary_account;
+                $auxiliaryAccount->name = $request->name_auxiliary_account;
+                $auxiliaryAccount->total_amount = 0;
+                $auxiliaryAccount->subaccount_id = $request->subaccount_id;
+                $auxiliaryAccount->save();
+                $store = true;
+                break;
+            case 'subauxiliary':
+                $subauxiliaryAccount = new SubauxiliaryAccount();
+                $subauxiliaryAccount->code = $request->code_subauxiliary_account;
+                $subauxiliaryAccount->name = $request->name_subauxiliary_account;
+                $subauxiliaryAccount->total_amount = 0;
+                $subauxiliaryAccount->auxiliary_account_id = $request->auxiliary_account_id;
+                $subauxiliaryAccount->save();
+                $store = true;
+                break;
+
+            default:
+            toast('No se pudo crear cuenta PUC.','danger');
+            return redirect('puc');
+                break;
+        }
+        if ($store == true) {
+            $puc = new Puc();
+            $puc->trigger = 'category';
+            $puc->movement = 'trigger';
+            $puc->type = 'multiple';
+            $puc->bank_account = null;
+            $puc->accountable = null;
+            $puc->bank_id = null;
+            $puc->save();
+        }
+        toast('Cuenta PUC creada con exito.','danger');
+            return redirect('puc');
+
+        /*
         $action = $request->get('action');
         $accountId = $request->get('account_id');
         $accountType = $request->get('account_type');
@@ -188,7 +258,7 @@ class PucController extends Controller
 
             return redirect()->route('pucs.create')->with('success_message', $accountType.' desactivada con éxito.');
         }
-        return redirect()->route('pucs.create')->with('error_message', 'Acción no procesada');
+        return redirect()->route('pucs.create')->with('error_message', 'Acción no procesada');*/
     }
 
     /**

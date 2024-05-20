@@ -13,13 +13,18 @@ return new class extends Migration
     {
         Schema::create('pucs', function (Blueprint $table) {
             $table->id();
+            //description    ---- usa, aplica
 
-            $table->enum('trigger', ['category', 'payment_method', 'companyTax', 'expense', 'income', 'discount', 'other', 'advance']);
-            $table->enum('movement', ['trigger', 'inventory', 'cost', 'refund', 'entry'])->default('trigger');
-            $table->enum('type', ['multiple', 'purchases', 'sales'])->default('multiple');
-            $table->string('bank_account', 20)->nullable();
-            $table->morphs('accountable');
-            $table->foreignId('bank_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->morphs('accountable');//referencia al PUC la cuanta a la que pertenece
+            $table->string('description', 100)->nullable();
+            $table->string('implication', 30)->nullable();//ej: numero cuenta del banco
+            $table->foreignId('bank_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');//referencia al banco
+            //motivo por el cual se activa el movimiento del puc
+            $table->foreignId('trigger_method_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            //especifica el tipo de movimiento
+            $table->foreignId('movement_type_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            //el tipo de operación que se realiza
+            $table->foreignId('operation_type_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
 
             $table->timestamps();
         });

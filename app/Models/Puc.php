@@ -50,4 +50,19 @@ class Puc extends Model
     {
         return $this->hasMany(Movement::class);
     }
+
+    public function triggerMethod()
+    {
+        return $this->belongsTo(TriggerMethod::class);
+    }
+
+    public function movementType()
+    {
+        return $this->belongsTo(TriggerMethod::class);
+    }
+
+    public function operationType()
+    {
+        return $this->belongsTo(OperationType::class);
+    }
 }

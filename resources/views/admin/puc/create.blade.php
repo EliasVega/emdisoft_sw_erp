@@ -46,7 +46,6 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     @include('admin/puc.form')
                                     @include('admin/puc.formButtons')
-                                    @include('admin/puc.formCreation')
                                 </div>
                                 {!! Form::close() !!}
                             </div>

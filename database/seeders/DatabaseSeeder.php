@@ -70,5 +70,10 @@ class DatabaseSeeder extends Seeder
         $this->call(AccountGroupSeeder::class);
         $this->call(AccountSeeder::class);
         $this->call(SubaccountSeeder::class);
+        $this->call(AuxiliaryAccountSeeder::class);
+        $this->call(SubauxiliaryAccountSeeder::class);
+        $this->call(TriggerMethodSeeder::class);
+        $this->call(MovementTypeSeeder::class);
+        $this->call(OperationTypeSeeder::class);
     }
 }

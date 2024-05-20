@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('code', 2);
             $table->string('name', 100);
             $table->decimal('total_amount', 12,2);
-            $table->foreignId('account_class_id')->constrained()->onUpdate('cascade')->onDelete('cascade');;
+            $table->foreignId('account_class_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
