@@ -713,19 +713,12 @@
                                         </li>
                                     @else
                                         <li class="nav-item">
-                                            <a href="{{ url('createPos') }}" class="nav-link">
-                                                <i class="far fa-dot-circle nav-icon"></i>
-                                                <p>Pos</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
                                             <a href="{{ url('restaurantOrder') }}" class="nav-link">
                                                 <i class="far fa-dot-circle nav-icon"></i>
                                                 <p>Comanda</p>
                                             </a>
                                         </li>
                                     @endif
-
                                     <li class="nav-item">
                                         <a href="{{ url('ncinvoice') }}" class="nav-link">
                                             <i class="far fa-dot-circle nav-icon"></i>
@@ -935,56 +928,42 @@
                                             <p>Clases</p>
                                         </a>
                                     </li>
-                                </ul>
-                                <ul class="nav nav-treeview">
                                     <li class="nav-item">
                                         <a href="{{ url('accountGroup') }}" class="nav-link">
                                             <i class="far fa-dot-circle nav-icon"></i>
                                             <p>Grupos</p>
                                         </a>
                                     </li>
-                                </ul>
-                                <ul class="nav nav-treeview">
                                     <li class="nav-item">
                                         <a href="{{ url('account') }}" class="nav-link">
                                             <i class="far fa-dot-circle nav-icon"></i>
                                             <p>Cuentas</p>
                                         </a>
                                     </li>
-                                </ul>
-                                <ul class="nav nav-treeview">
                                     <li class="nav-item">
                                         <a href="{{ url('subaccount') }}" class="nav-link">
                                             <i class="far fa-dot-circle nav-icon"></i>
                                             <p>Subcuentas</p>
                                         </a>
                                     </li>
-                                </ul>
-                                <ul class="nav nav-treeview">
                                     <li class="nav-item">
                                         <a href="{{ url('auxiliaryAccount') }}" class="nav-link">
                                             <i class="far fa-dot-circle nav-icon"></i>
                                             <p>Cuentas Auxiliares</p>
                                         </a>
                                     </li>
-                                </ul>
-                                <ul class="nav nav-treeview">
                                     <li class="nav-item">
                                         <a href="{{ url('subauxiliaryAccount') }}" class="nav-link">
                                             <i class="far fa-dot-circle nav-icon"></i>
                                             <p>Cuentas sub Auxiliares</p>
                                         </a>
                                     </li>
-                                </ul>
-                                <ul class="nav nav-treeview">
                                     <li class="nav-item">
                                         <a href="{{ url('puc') }}" class="nav-link">
                                             <i class="far fa-dot-circle nav-icon"></i>
                                             <p>Plan de cuentas</p>
                                         </a>
                                     </li>
-                                </ul>
-                                <li class="nav-item">
                                     <a href="{{ url('triggerMethod') }}" class="nav-link">
                                         <i class="far fa-dot-circle nav-icon"></i>
                                         <p>Metodos de activacion</p>

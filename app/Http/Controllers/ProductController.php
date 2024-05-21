@@ -134,12 +134,39 @@ class ProductController extends Controller
         $product->type_product = $request->type_product;
         $product->stock = $request->stock;
         $product->stock_min = $request->stock_min;
+
+        $product->stock = 0;
+        //Handle File Upload
+        if($request->hasFile('image')){
+            //Get filename with the extension
+            $filenamewithExt = $request->file('image')->getClientOriginalName();
+            //Get just filename
+            $filename = pathinfo($filenamewithExt,PATHINFO_FILENAME);
+            //Get just ext
+            $extension = $request->file('image')->guessClientExtension();
+
+            $image = Image::make($request->file('image'))->encode('jpg', 75);
+            $image->resize(512,448,function($constraint) {
+                $constraint->upsize();
+            });
+            //FileName to store
+            $fileNameToStore = time() . '.jpg';
+            $product->imageName = $fileNameToStore;
+            //Upload Image
+            Storage::disk('public')->put("images/products/$fileNameToStore", $image->stream());
+            $fileNameToStore = Storage::url("images/products/$fileNameToStore");
+        } else{
+            $product->imageName = 'noimage.jpg';
+            $fileNameToStore="/storage/images/products/noimage.jpg";
+        }
+        $product->image=$fileNameToStore;
         $product->save();
 
         $branchProduct = new BranchProduct();
         $branchProduct->branch_id = 1;
         $branchProduct->product_id = $product->id;
         $branchProduct->stock = $request->stock;
+
         $branchProduct->save();
 
         if ($indicator->raw_material == 'on') {
@@ -228,6 +255,36 @@ class ProductController extends Controller
         $product->type_product = $request->type_product;
         $product->stock = $request->stock;
         $product->stock_min = $request->stock_min;
+
+        $currentImage = $product->imageName;
+        //Handle File Upload
+        if($request->hasFile('image')){
+            if ($currentImage != 'noimage.jpg') {
+                Storage::disk('public')->delete("images/products/$currentImage");
+            }
+            //Get filename with the extension
+            $filenamewithExt = $request->file('image')->getClientOriginalName();
+            //Get just filename
+            $filename = pathinfo($filenamewithExt,PATHINFO_FILENAME);
+            //Get just ext
+            $extension = $request->file('image')->guessClientExtension();
+
+            $image = Image::make($request->file('image'))->encode('jpg', 75);
+            $image->resize(512,448,function($constraint) {
+                $constraint->upsize();
+            });
+            //FileName to store
+            $fileNameToStore = time() . '.jpg';
+            $product->imageName = $fileNameToStore;
+            //Upload Image
+            Storage::disk('public')->put("images/products/$fileNameToStore", $image->stream());
+            $fileNameToStore = Storage::url("images/products/$fileNameToStore");
+        } else{
+            $product->imageName = 'noimage.jpg';
+            $fileNameToStore="/storage/images/products/noimage.jpg";
+        }
+        $product->image=$fileNameToStore;
+
         $product->update();
 
         $branchProduct = BranchProduct::where('branch_id', 1)->where('product_id', $product->id)->first();

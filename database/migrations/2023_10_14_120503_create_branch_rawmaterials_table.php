@@ -16,8 +16,8 @@ return new class extends Migration
 
             $table->decimal('stock', 10,2);//stock por branch
 
-            $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('raw_material_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('branch_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('raw_material_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
 
             $table->timestamps();
         });

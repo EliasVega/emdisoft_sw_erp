@@ -18,8 +18,8 @@ return new class extends Migration
             $table->decimal('consumer_price', 11, 2);//precio del producto
             $table->decimal('subtotal', 11, 2);//cantidad por el precio
 
-            $table->foreignId('product_id')->constrained()->onUpdate('restrict');
-            $table->foreignId('raw_material_id')->constrained()->onUpdate('restrict');
+            $table->foreignId('product_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('raw_material_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
 
             $table->timestamps();
         });
