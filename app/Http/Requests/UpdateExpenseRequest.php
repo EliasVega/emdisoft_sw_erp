@@ -36,7 +36,8 @@ class UpdateExpenseRequest extends FormRequest
             'provider_id' => '',
             'payment_form_id' => '',
             'payment_method_id' => '',
-            'voucher_type_id' => 'integer'
+            'voucher_type_id' => 'integer',
+            'cash_register_id' => 'nullable'
         ];
     }
 }

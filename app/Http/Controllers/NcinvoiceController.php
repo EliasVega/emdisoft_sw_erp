@@ -169,6 +169,7 @@ class NcinvoiceController extends Controller
             $ncinvoice->customer_id = $invoice->customer_id;
             $ncinvoice->discrepancy_id = $discrepancy;
             $ncinvoice->voucher_type_id = 5;
+            $ncinvoice->cash_register_id = cashregisterModel()->id;
             $ncinvoice->retention = $retention;
             $ncinvoice->total = $request->total;
             $ncinvoice->total_tax = $request->total_tax;

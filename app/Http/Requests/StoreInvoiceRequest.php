@@ -42,7 +42,8 @@ class StoreInvoiceRequest extends FormRequest
             'payment_method_id' => 'required',
             'resolution_id' => '',
             'voucher_type_id' => 'integer',
-            'document_type_id' => 'integer'
+            'document_type_id' => 'integer',
+            'cash_register_id' => 'nullable'
         ];
     }
 }

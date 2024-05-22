@@ -221,7 +221,7 @@
                     <b>MANEJO AUTOMATICO PRECIO DE VENTA</b>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mb-3">
-                    @if ($indicators->barcode == 'on')
+                    @if ($indicators->cvpinvoice == 'on')
                         <a href="{{ route('cvpinvoiceStatus', $indicators->id) }}" class="btn btn-success btn-md" data-toggle="tooltip"
                         data-placement="top" title="Activo"><i class="far fa-edit"></i> CVPI</a>
                     @else

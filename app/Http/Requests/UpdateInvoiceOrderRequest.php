@@ -30,7 +30,8 @@ class UpdateInvoiceOrderRequest extends FormRequest
             'balance' => 'numeric',
             'status' => 'in:active,generate,canceled',
             'customer_id' => 'required|integer',
-            'invoice_id' => 'nullable'
+            'invoice_id' => 'nullable',
+            'cash_register_id' => 'nullable'
         ];
     }
 }

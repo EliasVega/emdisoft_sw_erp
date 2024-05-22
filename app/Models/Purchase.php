@@ -39,7 +39,8 @@ class Purchase extends Model
         'resolution_id',
         'generation_type_id',
         'voucher_type_id',
-        'document_type_id'
+        'document_type_id',
+        'cash_register_id'
     ];
 
     protected $guarded = [

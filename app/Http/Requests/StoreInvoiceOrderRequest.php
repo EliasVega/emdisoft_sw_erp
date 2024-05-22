@@ -31,7 +31,8 @@ class StoreInvoiceOrderRequest extends FormRequest
             'status' => 'in:active,generate,canceled',
             'branch_id' => 'integer',
             'customer_id' => 'required|integer',
-            'invoice_id' => 'nullable'
+            'invoice_id' => 'nullable',
+            'cash_register_id' => 'nullable'
         ];
     }
 }

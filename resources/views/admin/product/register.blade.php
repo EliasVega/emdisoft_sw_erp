@@ -1,4 +1,4 @@
-<div class="box-body row">
+
     <div class="modal-footer" id="save">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="form-group">
@@ -8,4 +8,3 @@
             </div>
         </div>
     </div>
-</div>

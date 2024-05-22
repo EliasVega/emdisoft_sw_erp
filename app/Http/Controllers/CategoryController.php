@@ -95,13 +95,13 @@ class CategoryController extends Controller
     {
         Excel::import(new CategoriesImport, request()->file('categories'));
 
-        return redirect('category')->with('success', 'All good!');
+        //return redirect('category')->with('success', 'All good!');
         /*
         $message = 'Importacion de Categorias realizada con exito';
         //Alert::success('Categoria', $message);
-        toast($message,'success');
-        //Alert::success('Categoria','Creada Satisfactoriamente.');
-        return redirect('category');*/
+        toast($message,'success');*/
+        toast('Categorias importadas con exito.','danger');
+        return redirect('category');
     }
 
     /**

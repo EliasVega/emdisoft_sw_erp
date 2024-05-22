@@ -196,7 +196,7 @@ class ProductsSeeder extends Seeder
                 'name' => 'GASEOSA',
                 'price' => '1800.00',
                 'sale_price' => '4000.00',
-                'stock' => '1.00',
+                'stock' => '0.00',
                 'commission' => '0.00',
                 'stock_min' => '0.00',
                 'type_product' => 'product',

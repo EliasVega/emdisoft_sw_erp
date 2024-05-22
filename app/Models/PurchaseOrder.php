@@ -23,6 +23,7 @@ class PurchaseOrder extends Model
         'status',
         'user_id',
         'supplier_id',
+        'cash_register_id'
     ];
 
     protected $guarded = [

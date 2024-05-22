@@ -43,7 +43,8 @@ class UpdateInvoiceRequest extends FormRequest
             'payment_method_id' => 'required|integer',
             'resolution_id' => 'integer',
             'voucher_type_id' => 'integer',
-            'document_type_id' => 'integer'*/
+            'document_type_id' => 'integer',
+            'cash_register_id' => 'nullable'*/
         ];
     }
 }

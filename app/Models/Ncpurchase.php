@@ -29,7 +29,8 @@ class Ncpurchase extends Model
         'provider_id',
         'resolution_id',
         'discrepancy_id',
-        'voucher_type_id'
+        'voucher_type_id',
+        'cash_register_id'
     ];
 
     protected $guarded = [

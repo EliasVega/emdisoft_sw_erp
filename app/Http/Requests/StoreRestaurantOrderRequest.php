@@ -28,7 +28,8 @@ class StoreRestaurantOrderRequest extends FormRequest
             'status' => 'in:pending,generated,canceled',
             'user_id' => '',
             'restaurant_table_id' => 'integer',
-            'invoice_id' => 'nullable'
+            'invoice_id' => 'nullable',
+            'cash_register_id' => 'nullable'
         ];
     }
 }

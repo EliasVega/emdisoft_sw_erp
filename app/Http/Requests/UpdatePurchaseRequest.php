@@ -45,7 +45,8 @@ class UpdatePurchaseRequest extends FormRequest
             'resolution_id' => '',
             'generation_type_id' => 'nullable|integer',
             'voucher_type_id' => 'integer',
-            'document_type_id' => 'integer'
+            'document_type_id' => 'integer',
+            'cash_register_id' => 'nullable'
         ];
     }
 }

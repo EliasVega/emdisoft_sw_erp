@@ -34,7 +34,8 @@ class UpdateNdpurchaseRequest extends FormRequest
             'product_id' => 'integer',
             'provider_id' => 'integer',
             'discrepancy_id' => 'integer',
-            'voucher_type_id' => 'integer'
+            'voucher_type_id' => 'integer',
+            'cash_register_id' => 'nullable'
         ];
     }
 }

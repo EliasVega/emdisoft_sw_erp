@@ -142,6 +142,7 @@ class NdinvoiceController extends Controller
         $ndinvoice->resolution_id = $resolution->id;
         $ndinvoice->discrepancy_id = $discrepancy;
         $ndinvoice->voucher_type_id = $voucherTypes->id;
+        $ndinvoice->cash_register_id = cashregisterModel()->id;
         $ndinvoice->retention = $retention;
         $ndinvoice->total = $request->total;
         $ndinvoice->total_tax = $request->total_tax;

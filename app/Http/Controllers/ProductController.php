@@ -90,7 +90,16 @@ class ProductController extends Controller
         $rawMaterials = RawMaterial::get();
         $categories = Category::get();
         $measureUnits = MeasureUnit::where('status', 'active')->get();
-        return view('admin.product.create', compact('categories', 'measureUnits', 'rawMaterials', 'indicator'));
+        $operation = 'create';
+        $cols = 5;
+        return view('admin.product.create', compact(
+            'categories',
+            'measureUnits',
+            'rawMaterials',
+            'indicator',
+            'operation',
+            'cols'
+        ));
     }
 
     public function productImport()
@@ -102,7 +111,7 @@ class ProductController extends Controller
     {
         Excel::import(new ProductsImport, request()->file('products'));
 
-        $message = 'Importacion de Categorias realizada con exito';
+        $message = 'Importacion de Productos realizada con exito';
         //Alert::success('Categoria', $message);
         toast($message,'success');
         //Alert::success('Categoria','Creada Satisfactoriamente.');
@@ -135,7 +144,7 @@ class ProductController extends Controller
         $product->stock = $request->stock;
         $product->stock_min = $request->stock_min;
 
-        $product->stock = 0;
+        //$product->stock = 0;
         //Handle File Upload
         if($request->hasFile('image')){
             //Get filename with the extension
@@ -218,6 +227,8 @@ class ProductController extends Controller
         ->select('rm.id', 'rm.name', 'prm.quantity', 'prm.consumer_price')
         ->where('product_id', $product->id)
         ->get();
+        $operation = 'edit';
+        $cols = 6;
 
         return view("admin.product.edit", compact(
             'product',
@@ -225,7 +236,9 @@ class ProductController extends Controller
             'rawMaterials',
             'categories',
             'measureUnits',
-            'productRawMaterials'
+            'productRawMaterials',
+            'operation',
+            'cols'
         ));
     }
 

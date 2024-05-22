@@ -35,7 +35,8 @@ class StoreNcpurchaseRequest extends FormRequest
             'provider_id' => 'integer',
             'resolution_id' => '',
             'discrepancy_id' => 'integer',
-            'voucher_type_id' => 'integer'
+            'voucher_type_id' => 'integer',
+            'cash_register_id' => 'nullable'
         ];
     }
 }

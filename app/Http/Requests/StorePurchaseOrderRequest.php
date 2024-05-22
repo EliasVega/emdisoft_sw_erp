@@ -28,6 +28,7 @@ class StorePurchaseOrderRequest extends FormRequest
             'balance' => 'numeric',
             'status' => 'in:active,generate,canceled',
             'provider_id' => 'required|integer',
+            'cash_register_id' => 'nullable'
         ];
     }
 }

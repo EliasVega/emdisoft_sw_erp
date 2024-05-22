@@ -21,7 +21,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             0 =>
             array (
                 'id' => 1,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 1,
                 'created_at' => '2024-05-20 12:00:00',
@@ -30,7 +30,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             1 =>
             array (
                 'id' => 2,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 2,
                 'created_at' => '2024-05-20 12:00:00',
@@ -39,7 +39,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             2 =>
             array (
                 'id' => 3,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 3,
                 'created_at' => '2024-05-20 12:00:00',
@@ -48,7 +48,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             3 =>
             array (
                 'id' => 4,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 4,
                 'created_at' => '2024-05-20 12:00:00',
@@ -57,7 +57,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             4 =>
             array (
                 'id' => 5,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 5,
                 'created_at' => '2024-05-20 12:00:00',
@@ -66,7 +66,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             5 =>
             array (
                 'id' => 6,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 6,
                 'created_at' => '2024-05-20 12:00:00',
@@ -75,7 +75,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             6 =>
             array (
                 'id' => 7,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 7,
                 'created_at' => '2024-05-20 12:00:00',
@@ -84,7 +84,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             7 =>
             array (
                 'id' => 8,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 8,
                 'created_at' => '2024-05-20 12:00:00',
@@ -93,7 +93,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             8 =>
             array (
                 'id' => 9,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 9,
                 'created_at' => '2024-05-20 12:00:00',
@@ -102,7 +102,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             9 =>
             array (
                 'id' => 10,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 10,
                 'created_at' => '2024-05-20 12:00:00',
@@ -111,7 +111,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             10 =>
             array (
                 'id' => 11,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 11,
                 'created_at' => '2024-05-20 12:00:00',
@@ -120,7 +120,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             11 =>
             array (
                 'id' => 12,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 12,
                 'created_at' => '2024-05-20 12:00:00',
@@ -129,7 +129,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             12 =>
             array (
                 'id' => 13,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 13,
                 'created_at' => '2024-05-20 12:00:00',
@@ -138,7 +138,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             13 =>
             array (
                 'id' => 14,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 14,
                 'created_at' => '2024-05-20 12:00:00',
@@ -147,7 +147,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             14 =>
             array (
                 'id' => 15,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 15,
                 'created_at' => '2024-05-20 12:00:00',
@@ -156,7 +156,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             15 =>
             array (
                 'id' => 16,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 16,
                 'created_at' => '2024-05-20 12:00:00',
@@ -165,7 +165,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             16 =>
             array (
                 'id' => 17,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 17,
                 'created_at' => '2024-05-20 12:00:00',
@@ -174,7 +174,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             17 =>
             array (
                 'id' => 18,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 18,
                 'created_at' => '2024-05-20 12:00:00',
@@ -183,7 +183,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             18 =>
             array (
                 'id' => 19,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 19,
                 'created_at' => '2024-05-20 12:00:00',
@@ -192,7 +192,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             19 =>
             array (
                 'id' => 20,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 20,
                 'created_at' => '2024-05-20 12:00:00',
@@ -201,7 +201,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             20 =>
             array (
                 'id' => 21,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 21,
                 'created_at' => '2024-05-20 12:00:00',
@@ -210,7 +210,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             21 =>
             array (
                 'id' => 22,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 22,
                 'created_at' => '2024-05-20 12:00:00',
@@ -219,7 +219,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             22 =>
             array (
                 'id' => 23,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 23,
                 'created_at' => '2024-05-20 12:00:00',
@@ -228,7 +228,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             23 =>
             array (
                 'id' => 24,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 24,
                 'created_at' => '2024-05-20 12:00:00',
@@ -237,7 +237,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             24 =>
             array (
                 'id' => 25,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 25,
                 'created_at' => '2024-05-20 12:00:00',
@@ -246,7 +246,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             25 =>
             array (
                 'id' => 26,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 26,
                 'created_at' => '2024-05-20 12:00:00',
@@ -255,7 +255,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             26 =>
             array (
                 'id' => 27,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 27,
                 'created_at' => '2024-05-20 12:00:00',
@@ -264,7 +264,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             27 =>
             array (
                 'id' => 28,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 28,
                 'created_at' => '2024-05-20 12:00:00',
@@ -273,7 +273,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             28 =>
             array (
                 'id' => 29,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 29,
                 'created_at' => '2024-05-20 12:00:00',
@@ -282,7 +282,7 @@ class BranchRawmaterialsTableSeeder extends Seeder
             29 =>
             array (
                 'id' => 30,
-                'stock' => '0.00',
+                'stock' => '20.00',
                 'branch_id' => 1,
                 'raw_material_id' => 30,
                 'created_at' => '2024-05-20 12:00:00',

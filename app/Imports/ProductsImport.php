@@ -24,12 +24,12 @@ class ProductsImport implements
     * @return \Illuminate\Database\Eloquent\Model|null
     */
     private $categories;
-    private $unidades;
+    private $units;
 
     public function __construct()
     {
         $this->categories = Category::pluck('id', 'name');
-        $this->unidades = MeasureUnit::pluck('id', 'name');
+        $this->units = MeasureUnit::pluck('id', 'name');
     }
     /**
     * @param array $row
@@ -38,21 +38,23 @@ class ProductsImport implements
     */
     public function model(array $row)
     {
+
         return new Product([
-            'code' => $row['code'],
-            'name' => $row['name'],
-            'price' => $row['price'],
-            'sale_price' => $row['sale_price'],
+            'code' => $row['codigo'],
+            'name' => $row['nombre'],
+            'price' => $row['precio_compra'],
+            'sale_price' => $row['precio_venta'],
+            'commission' => $row['comision'],
             'stock' => $row['stock'],
-            'stock_min' => $row['stock_min'],
-            'type_product' => $row['type_product'],
-            'status' => $row['status'],
-            'imageName' => $row['image_name'],
-            'image' => $row['image'],
-            'category_id' => $this->categories[$row['category_id']],
-            'measure_unit_id' => $this->unidades[$row['measure_unit_id']],
-            'created_at'    => $row['created_at'],
-            'updated_at'    => $row['updated_at'],
+            'stock_min' => $row['stock_minimo'],
+            'type_product' => $row['tipo'],
+            'status' => $row['estado'],
+            'imageName' => 'noimage.jpg',
+            'image' => '/storage/images/products/noimage.jpg',
+            'category_id' => $this->categories[$row['categoria']],
+            'measure_unit_id' => $this->units[$row['unidad_medida']],
+            'created_at'    => $row['creado'],
+            'updated_at'    => $row['actualizado'],
         ]);
     }
 
@@ -65,33 +67,34 @@ class ProductsImport implements
     {
         return 1000;
     }
-
+    /*
     public function rules(): array
     {
         return [
-            '*.code' => 'required|unique:products,code|max:20',
-            '*.name' => 'required|string|max:100',
-            '*.price' => 'required|numeric|regex:/^(([0-9]*)(\.([0-9]{0,2}+))?)$/',
-            '*.sale_price' => 'required|numeric|regex:/^(([0-9]*)(\.([0-9]{0,2}+))?)$/',
+            '*.codigo' => 'required|unique:products,code|max:20',
+            '*.nombre' => 'required|string|max:100',
+            '*.precio_compra' => 'required|numeric|regex:/^(([0-9]*)(\.([0-9]{0,2}+))?)$/',
+            '*.precio_venta' => 'required|numeric|regex:/^(([0-9]*)(\.([0-9]{0,2}+))?)$/',
             '*.stock' => 'required|numeric|regex:/^(([0-9]*)(\.([0-9]{0,2}+))?)$/',
-            '*.stock_min' => 'required|numeric|regex:/^(([0-9]*)(\.([0-9]{0,2}+))?)$/',
-            '*.type_product' => 'required|in:product,service,consumer',
-            '*.status' => 'in:active,inactive',
+            '*.stock_minimo' => 'required|numeric|regex:/^(([0-9]*)(\.([0-9]{0,2}+))?)$/',
+            '*.tipo' => 'required|in:product,service,consumer',
+            '*.estado' => 'in:active,inactive',
+            '*.unidad_medida' => 'required',
         ];
     }
 
     public function customValidationMessages()
     {
         return [
-            'code.in' => 'Custom message for :Codigo.',
-            'name.in' => 'Custom message for :Nombre.',
-            'price.in' => 'Custom message for :Precio.',
-            'sale_price.in' => 'Custom message for :Precio_venta.',
+            'codigo.in' => 'Custom message for :Codigo.',
+            'nombre.in' => 'Custom message for :Nombre.',
+            'precio_compra.in' => 'Custom message for :Precio.',
+            'precio_venta.in' => 'Custom message for :Precio_venta.',
             'stock.in' => 'Custom message for :Stock.',
-            'stock_min.in' => 'Custom message for :Stock.',
-            'status.in' => 'Custom message for :Estado.',
-            'category_id.in' => 'Custom message for :Categoria.',
-            'measure_unit_id.in' => 'Custom message for :U_medida.',
+            'stock_minimo.in' => 'Custom message for :Stock.',
+            'estado.in' => 'Custom message for :Estado.',
+            'categoria.in' => 'Custom message for :Categoria.',
+            'unidad_medida.in' => 'Custom message for :U_medida.',
         ];
-    }
+    }*/
 }

@@ -45,7 +45,8 @@ class StorePurchaseRequest extends FormRequest
             'resolution_id' => 'integer',
             'generation_type_id' => 'nullable|integer',
             'voucher_type_id' => 'integer',
-            'document_type_id' => 'required|integer'
+            'document_type_id' => 'required|integer',
+            'cash_register_id' => 'nullable'
         ];
     }
 }

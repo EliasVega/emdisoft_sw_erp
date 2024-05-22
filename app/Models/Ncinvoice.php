@@ -29,7 +29,8 @@ class Ncinvoice extends Model
         'customer_id',
         'resolution_id',
         'discrepancy_id',
-        'voucher_type_id'
+        'voucher_type_id',
+        'cash_register_id'
     ];
 
     protected $guarded = [

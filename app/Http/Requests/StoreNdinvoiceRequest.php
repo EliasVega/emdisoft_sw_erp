@@ -32,7 +32,8 @@ class StoreNdinvoiceRequest extends FormRequest
             'product_id' => '',
             'customer_id' => 'integer',
             'discrepancy_id' => 'integer',
-            'voucher_type_id' => 'integer'
+            'voucher_type_id' => 'integer',
+            'cash_register_id' => 'nullable'
         ];
     }
 }

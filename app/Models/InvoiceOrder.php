@@ -26,7 +26,8 @@ class InvoiceOrder extends Model
         'user_id',
         'customer_id',
         'branch_id',
-        'invoice_id'
+        'invoice_id',
+        'cash_register_id'
     ];
 
     protected $guarded = [

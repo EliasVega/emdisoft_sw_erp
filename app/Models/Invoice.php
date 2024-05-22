@@ -38,7 +38,8 @@ class Invoice extends Model
         'payment_method_id',
         'resolution_id',
         'voucher_type_id',
-        'document_type_id'
+        'document_type_id',
+        'cash_register_id'
     ];
 
     protected $guarded = [

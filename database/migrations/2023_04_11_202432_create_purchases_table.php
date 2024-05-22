@@ -41,6 +41,7 @@ return new class extends Migration
             $table->foreignId('generation_type_id')->nullable()->constrained();
             $table->foreignId('voucher_type_id')->constrained()->onUpdate('cascade');
             $table->foreignId('document_type_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('cash_register_id')->nullable()->constrained()->onUpdate('cascade');
 
             $table->timestamps();
         });

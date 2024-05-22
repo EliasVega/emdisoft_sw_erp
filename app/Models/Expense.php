@@ -31,6 +31,7 @@ class Expense extends Model
         'payment_form_id',
         'payment_method_id',
         'voucher_type_id',
+        'cash_register_id'
     ];
 
     protected $guarded = [

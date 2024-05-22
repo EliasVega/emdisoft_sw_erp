@@ -3,12 +3,12 @@
         <label for="sale_point_id">Punto de Venta</label>
         <div class="select">
             <select id="sale_point_id" name="sale_point_id" class="form-control selectpicker" data-live-search="true" required>
-                <option {{ ($cashRegister->sale_point_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Punto de vent</option>
+                <option {{ ($cashRegister->sale_point_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Punto de venta</option>
                 @foreach($salePoints as $salePoint)
                     @if($salePoint->id == ($cashRegister->sale_point_id ?? ''))
                         <option value="{{ $salePoint->id }}" selected>{{ $salePoint->branch->name }} -- {{ $salePoint->cash_type }}</option>
                     @else
-                        <option value="{{ $salePoint->id }}">{{ $salePoint->branch->name }}:  {{ $salePoint->cash_type }}</option>
+                        <option value="{{ $salePoint->id }}">{{ $salePoint->branch->name }} :  {{ $salePoint->cash_type }}</option>
                     @endif
                 @endforeach
             </select>

@@ -23,6 +23,7 @@ return new class extends Migration
 
             $table->foreignId('user_id')->constrained();
             $table->foreignId('provider_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('cash_register_id')->nullable()->constrained()->onUpdate('cascade');
 
             $table->timestamps();
         });

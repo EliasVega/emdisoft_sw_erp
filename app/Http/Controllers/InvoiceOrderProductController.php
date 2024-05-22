@@ -116,7 +116,7 @@ class InvoiceOrderProductController extends Controller
         $errorMessages = '';
         $store = false;
         if ($documentType == 1 && $indicator->dian == 'on') {
-            $data = invoiceSend($request);
+            $data = invoiceData($request);
             //dd($data);
             $requestResponse = sendDocuments($company, $environment, $data);
             $store = $requestResponse['store'];

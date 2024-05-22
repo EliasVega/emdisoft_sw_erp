@@ -163,6 +163,7 @@ class PurchaseController extends Controller
         ->select('pro.id', 'pro.code', 'pro.stock', 'pro.price', 'pro.name', 'per.percentage', 'tt.id as tt')
         ->where('pro.status', '=', 'active')
         ->get();
+        dd($products);
         //$products = Product::where('status', 'active')->where('type_product', 'product')->get();
         $companyTaxes = CompanyTax::from('company_taxes', 'ct')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
@@ -217,7 +218,16 @@ class PurchaseController extends Controller
         $percentages = Percentage::where('status', 'active')->get();
         $advances = Advance::where('status', '!=', 'aplicado')->get();
         $date = Carbon::now();
-        $products = RawMaterial::where('status', 'active')->get();
+        //$products = RawMaterial::where('status', 'active')->get();
+        $products = RawMaterial::from('raw_materials as rm')
+        ->join('categories as cat', 'rm.category_id', 'cat.id')
+        ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->select('rm.id', 'rm.code', 'rm.stock', 'rm.price', 'rm.name', 'per.percentage', 'tt.id as tt')
+        ->where('rm.status', '=', 'active')
+        ->get();
+
         $companyTaxes = CompanyTax::from('company_taxes', 'ct')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
         ->join('percentages as per', 'ct.percentage_id', 'per.id')
@@ -314,6 +324,7 @@ class PurchaseController extends Controller
             $purchase->resolution_id = $resolution;
             $purchase->generation_type_id = $request->generation_type_id;
             $purchase->document_type_id = $documentType;
+            $purchase->cash_register_id = cashregisterModel()->id;
             $purchase->document = $resolutions->prefix . '-' . $resolutions->consecutive;
             if ($documentType == 11) {
                 $voucherTypes = VoucherType::findOrFail(12);

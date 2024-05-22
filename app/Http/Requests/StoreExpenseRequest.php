@@ -36,7 +36,8 @@ class StoreExpenseRequest extends FormRequest
             'provider_id' => '',
             'payment_form_id' => 'required|integer',
             'payment_method_id' => 'required',
-            'voucher_type_id' => 'integer'
+            'voucher_type_id' => 'integer',
+            'cash_register_id' => 'nullable'
         ];
     }
 }
