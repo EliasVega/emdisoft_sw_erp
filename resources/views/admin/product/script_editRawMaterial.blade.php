@@ -22,7 +22,6 @@
     var cont=0;
     var total = 0;
     var subtotal = [];
-    $("#save").hide();
 
     $("#raw_material_id").change(productValue);
 
@@ -73,15 +72,6 @@
         $("#consumer_price").val("");
     }
 
-    function assess(){
-
-        if(total>0){
-            $("#save").show();
-        } else{
-            $("#save").hide();
-        }
-    }
-
     function deleterow(index){
         total = total - subtotal[index];
         $("#total_html").html("$ " + total.toFixed(2));
@@ -91,15 +81,7 @@
         $("#row" + index).remove();
         assess();
     }
-    function assess(){
 
-        if(total>0){
-
-            $("#save").show();
-        } else{
-            $("#save").hide();
-        }
-    }
     jQuery(document).on("click", "#editrow", function () {
         editrow();
     });

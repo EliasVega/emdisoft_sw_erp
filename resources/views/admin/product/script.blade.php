@@ -26,6 +26,18 @@
             });
         });
     });
+    $("#addRmaterial").hide();
+
+    $("#type_product").change(rmshow);
+
+    function rmshow() {
+        typeProduct = $("#type_product").val();
+        if (typeProduct == 'consumer') {
+            $("#addRmaterial").show();
+        } else {
+            $("#addRmaterial").hide();
+        }
+    }
 
     //$(obtener_registro());
     function obtener_registro(code) {

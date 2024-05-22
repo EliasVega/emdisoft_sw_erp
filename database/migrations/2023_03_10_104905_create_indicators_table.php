@@ -35,6 +35,7 @@ return new class extends Migration
             $table->enum('cvpinvoice', ['on', 'off'])->default('off'); //Cambio de precio en venta
             $table->enum('sqio', ['on', 'off'])->default('off'); //si no tiene cantidad la orden de venta
             $table->enum('cmep', ['employee', 'product'])->default('employee'); //manejo de comision en empleados o productos
+            $table->enum('imgp', ['on', 'off'])->default('off'); //maneja imagen en productos
 
             $table->foreignId('company_id')->constrained();
 

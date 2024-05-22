@@ -37,7 +37,9 @@
                     <div class="row">
                         @include('admin/product.form')
                         @include('admin/product.form_material')
-                        @include('admin/product.form_image')
+                        @if ($indicator->imgp == 'on')
+                            @include('admin/product.form_image')
+                        @endif
                         @include('admin/product.register')
                     </div>
                 @endif
@@ -51,5 +53,7 @@
 @endsection
 @section('scripts')
     @include('admin/product.script_editRawMaterial')
-    @include('admin/product.scriptImage')
+    @if ($indicator->imgp == 'on')
+        @include('admin/product.scriptImage')
+    @endif
 @endsection

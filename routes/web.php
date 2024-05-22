@@ -276,6 +276,7 @@ Route::get('indicator/barcodeStatus/{id}', [IndicatorController::class, 'barcode
 Route::get('indicator/cvpinvoiceStatus/{id}', [IndicatorController::class, 'cvpinvoiceStatus'])->name('cvpinvoiceStatus');
 Route::get('indicator/sqioStatus/{id}', [IndicatorController::class, 'sqioStatus'])->name('sqioStatus');
 Route::get('indicator/cmepStatus/{id}', [IndicatorController::class, 'cmepStatus'])->name('cmepStatus');
+Route::get('indicator/imgpStatus/{id}', [IndicatorController::class, 'imgpStatus'])->name('imgpStatus');
 
 Route::get('invoice/create/{id}', [InvoiceController::class, 'getMunicipalities']);
 Route::get('getProductInvoice', [InvoiceController::class, 'getProductInvoice'])->name('getProductInvoice');

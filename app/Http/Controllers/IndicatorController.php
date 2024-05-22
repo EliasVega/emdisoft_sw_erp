@@ -58,6 +58,7 @@ class IndicatorController extends Controller
             ->addColumn('cvpinvoice', 'admin/indicator/cvpinvoice')
             ->addColumn('sqio', 'admin/indicator/sqio')
             ->addColumn('sqio', 'admin/indicator/cmep')
+            ->addColumn('imgp', 'admin/indicator/imgp')
             ->rawColumns([
                 'edit',
                 'dian',
@@ -73,7 +74,8 @@ class IndicatorController extends Controller
                 'barcode',
                 'cvpinvoice',
                 'sqio',
-                'cmep'
+                'cmep',
+                'imgp'
                 ])
             ->make(true);
         }
@@ -343,6 +345,19 @@ class IndicatorController extends Controller
             $indicator->cmep = 'product';
         } else {
             $indicator->cmep = 'employee';
+        }
+        $indicator->update();
+
+        return redirect('indicator');
+    }
+    public function imgpStatus($id)
+    {
+        $indicator = Indicator::findOrFail($id);
+
+        if ($indicator->imgp == 'on') {
+            $indicator->imgp = 'off';
+        } else {
+            $indicator->imgp = 'on';
         }
         $indicator->update();
 

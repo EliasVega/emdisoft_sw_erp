@@ -221,6 +221,18 @@
                     <b>MANEJO AUTOMATICO PRECIO DE VENTA</b>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mb-3">
+                    @if ($indicators->imgp == 'on')
+                        <a href="{{ route('imgpStatus', $indicators->id) }}" class="btn btn-success btn-md" data-toggle="tooltip"
+                        data-placement="top" title="Activa"><i class="far fa-edit">IMGP</i></a>
+                    @else
+                        <a href="{{ route('imgpStatus', $indicators->id) }}" class="btn btn-danger btn-md" data-toggle="tooltip"
+                        data-placement="top" title="Inactiva"><i class="far fa-edit">IMGP</i></a>
+                    @endif
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 mb-3">
+                    <b>MANEJO DE IMAGENES EN LOS PRODUCTOS</b>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mb-3">
                     @if ($indicators->cvpinvoice == 'on')
                         <a href="{{ route('cvpinvoiceStatus', $indicators->id) }}" class="btn btn-success btn-md" data-toggle="tooltip"
                         data-placement="top" title="Activo"><i class="far fa-edit"></i> CVPI</a>

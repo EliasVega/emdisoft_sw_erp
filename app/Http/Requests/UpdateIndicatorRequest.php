@@ -42,7 +42,8 @@ class UpdateIndicatorRequest extends FormRequest
             'barcode' => 'in:on,off',
             'cvpinvoice' => 'in:on,off',
             'sqio' => 'in:on,off',
-            'cmep' => 'in:employee,product'
+            'cmep' => 'in:employee,product',
+            'imgp' => 'in:on,off',
         ];
     }
 }

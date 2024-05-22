@@ -34,7 +34,8 @@ class Indicator extends Model
         'barcode',
         'cvpinvoice',
         'sqio',
-        'cmep'
+        'cmep',
+        'imgp'
     ];
 
     protected $guarded = [

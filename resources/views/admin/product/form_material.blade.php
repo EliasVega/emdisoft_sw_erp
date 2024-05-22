@@ -1,4 +1,9 @@
-<div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+@if ($indicator->imgp == 'on')
+    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12" id="addRmaterial">
+@else
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="addRmaterial">
+@endif
+
     <div class="card card-primary card-outline">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -67,6 +72,16 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+            <div class="box-body row">
+                @if ($indicator->raw_material == 'off')
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <button class="btn btn-lightBlueGrad btn-md mt-3" type="submit"><i class="fa fa-save"></i>&nbsp; Guardar</button>
+                            <a href="{{url('product')}}" class="btn btn-blueGrad mt-3"><i class="fa fa-window-close"></i>&nbsp; Cancelar</a>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
