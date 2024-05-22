@@ -273,14 +273,11 @@ class ResolutionController extends Controller
                         if ($startNumber > $endNumber || $durationMeasure <= 0) {
                             $state = 'inactive';
                         }
-
+                        $consecutive = 'null';
                         foreach ($resolutionolds as $key => $resolutionold) {
-                            if ($resolutionold == $resolution) {
+                            if ($resolutionold->resolution == $resolution) {
                                 $consecutive = $resolutionold->consecutive;
-                            } else {
-                                $consecutive = $startNumber;
                             }
-
                         }
 
                         $resolution = Resolution::updateOrcreate(

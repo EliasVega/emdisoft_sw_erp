@@ -27,7 +27,7 @@ class IndicatorTableSeeder extends Seeder
                 'uvt' => 47065,
                 'plastic_bag_tax' => 66,
                 'dian' => 'off',
-                'pos' => 'on',
+                'pos' => 'off',
                 'logo' => 'on',
                 'payroll' => 'on',
                 'work_labor' => 'on',

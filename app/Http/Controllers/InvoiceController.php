@@ -348,7 +348,6 @@ class InvoiceController extends Controller
         $paymentForm = $request->payment_form_id;
         $cvp = $request->cv;
 
-
         if (isset($employee_id)) {
             $employee_id = $request->employee_id;
         } else {
@@ -363,7 +362,7 @@ class InvoiceController extends Controller
         } else {
             $totalpay = $request->totalpay;
         }
-
+        $totalpay = $request->totalpay;
         $retention = 0;
         //variables del request
         $quantityBag = $request->bags;
@@ -381,8 +380,8 @@ class InvoiceController extends Controller
             } else {
                 $data = equiDocPosData($request);
             }
-            //dd($data);
             $requestResponse = sendDocuments($company, $url, $data);
+
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];
