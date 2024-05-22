@@ -6,7 +6,9 @@ use App\Models\Kardex;
 trait KardexCreate {
     public function kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument){
         //Actualiza la tabla del Kardex
-
+        if ($typeDocument == 'pos') {
+            $typeDocument = 'invoice';
+        }
         $kardex = new Kardex();
         $kardex->branch_id = $branch;
         $kardex->voucher_type_id = $voucherType;

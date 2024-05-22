@@ -115,4 +115,7 @@ class Purchase extends Model
     {
         return $this->hasOne(NsdResponse::class);
     }
+    public function cashRegister() {
+        return $this->belongsTo(CashRegister::class);
+    }
 }

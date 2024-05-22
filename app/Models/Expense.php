@@ -56,7 +56,7 @@ class Expense extends Model
 
     public function voucherTipe()
     {
-        return $this->belongsTo(Voucher_type::class);
+        return $this->belongsTo(VoucherType::class);
     }
 
     public function paymentForm(){
@@ -70,5 +70,9 @@ class Expense extends Model
     public function pays()
     {
         return $this->morphMany(pay::class, 'payable');
+    }
+
+    public function cashRegister() {
+        return $this->belongsTo(CashRegister::class);
     }
 }

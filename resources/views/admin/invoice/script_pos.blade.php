@@ -45,7 +45,7 @@
     $("#posnegative").hide();
     $("#indCV").hide();
     $("#indWL").hide();
-    $("#addtypeDocument").hide();
+    //$("#addTypeDocument").hide();
 
 
     $(document).ready(function(){

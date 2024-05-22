@@ -74,4 +74,40 @@ class CashRegister extends Model
     public function cashOutflows(){
         return $this->hasMany(CashOutflow::class);
     }
+
+    public function invoices(){
+        return $this->hasMany(Invoice::class);
+    }
+
+    public function expenses(){
+        return $this->hasMany(Expense::class);
+    }
+
+    public function invoiceOrders(){
+        return $this->hasMany(InvoiceOrder::class);
+    }
+
+    public function ncinvoices(){
+        return $this->hasMany(Ncinvoice::class);
+    }
+
+    public function ncpurchases(){
+        return $this->hasMany(Ncpurchase::class);
+    }
+
+    public function ndinvoices(){
+        return $this->hasMany(Ndinvoice::class);
+    }
+
+    public function ndpurchases(){
+        return $this->hasMany(Ndpurchase::class);
+    }
+
+    public function purchases(){
+        return $this->hasMany(Purchase::class);
+    }
+
+    public function purchaseOrders(){
+        return $this->hasMany(PurchaseOrder::class);
+    }
 }

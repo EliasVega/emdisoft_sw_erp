@@ -121,4 +121,8 @@ class Invoice extends Model
     public function paymentReturn() {
         return $this->belongsTo(paymentReturn::class);
     }
+
+    public function cashRegister() {
+        return $this->belongsTo(CashRegister::class);
+    }
 }

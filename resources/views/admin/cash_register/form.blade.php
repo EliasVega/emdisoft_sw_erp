@@ -1,19 +1,30 @@
 <div class="box-body row">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <label for="sale_point_id">Punto de Venta</label>
-        <div class="select">
-            <select id="sale_point_id" name="sale_point_id" class="form-control selectpicker" data-live-search="true" required>
-                <option {{ ($cashRegister->sale_point_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Punto de venta</option>
-                @foreach($salePoints as $salePoint)
-                    @if($salePoint->id == ($cashRegister->sale_point_id ?? ''))
-                        <option value="{{ $salePoint->id }}" selected>{{ $salePoint->branch->name }} -- {{ $salePoint->cash_type }}</option>
-                    @else
-                        <option value="{{ $salePoint->id }}">{{ $salePoint->branch->name }} :  {{ $salePoint->cash_type }}</option>
-                    @endif
-                @endforeach
-            </select>
+    @if ($points == 0)
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <label for="sale_point_id">Punto de Venta</label>
+            <div class="select">
+                <select id="sale_point_id" name="sale_point_id" class="form-control selectpicker" data-live-search="true" required>
+                    <option {{ ($cashRegister->sale_point_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Punto de venta</option>
+                    @foreach($salePoints as $salePoint)
+                        @if($salePoint->id == ($cashRegister->sale_point_id ?? ''))
+                            <option value="{{ $salePoint->id }}" selected>{{ $salePoint->branch->name }} -- {{ $salePoint->cash_type }}</option>
+                        @else
+                            <option value="{{ $salePoint->id }}">{{ $salePoint->branch->name }} :  {{ $salePoint->cash_type }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+        </div>
+    @else
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="addPoints">
+        <div class="form-group">
+            <label class="form-control-label" for="sale_point_id">Punto de venta</label>
+            <input type="hidden" id="sale_point_id" name="sale_point_id" value="{{ $points }}" class="form-control"
+                placeholder="Punto de venta">
         </div>
     </div>
+    @endif
+
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="start_date">Fecha Apertura</label>
@@ -24,7 +35,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="valorcito">
         <div class="form-group">
             <label class="form-control-label" for="cash_initial">Efectivo Inicial</label>
-            <input type="number" id="cash_initial" name="cash_initial" value="" class="form-control"
+            <input type="number" id="cash_initial" name="cash_initial" value="0" class="form-control"
                 placeholder="Efectivo" >
         </div>
     </div>

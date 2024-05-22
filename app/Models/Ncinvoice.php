@@ -71,4 +71,8 @@ class Ncinvoice extends Model
     {
         return $this->morphMany(Tax::class, 'taxable');
     }
+
+    public function cashRegister() {
+        return $this->belongsTo(CashRegister::class);
+    }
 }

@@ -67,7 +67,7 @@ class Ticket extends FPDF
     public function generateCashboxInformation($document)
     {
         $date = formatText('Fecha: ' . $document->created_at->format('Y-m-d'));
-        $cashbox = $document->cashbox;
+        $cashbox = $document->cashRegister->salePoint->plate_number;
         $cashboxNumber = formatText('Caja Nro: ' . $cashbox->id);
         $cashierName = formatText('Cajero: ' . $cashbox->manager->person->name);
         $cashierLastName = formatText($cashbox->manager->person->last_name);

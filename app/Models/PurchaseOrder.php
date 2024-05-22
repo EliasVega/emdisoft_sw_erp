@@ -75,4 +75,8 @@ class PurchaseOrder extends Model
     {
         return $this->morphMany(pay::class, 'payable');
     }
+
+    public function cashRegister() {
+        return $this->belongsTo(CashRegister::class);
+    }
 }

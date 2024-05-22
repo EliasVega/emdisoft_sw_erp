@@ -96,8 +96,11 @@ class CashRegisterController extends Controller
     {
         $users = User::where('id', '!=', 1)->get();
         $salePoints = SalePoint::get();
-
-        return view("admin.cash_register.create", compact('users', 'salePoints'));
+        $points = 0;
+        if (count($salePoints) == 1) {
+            $points = 1;
+        }
+        return view("admin.cash_register.create", compact('users', 'salePoints', 'points'));
     }
 
     /**
