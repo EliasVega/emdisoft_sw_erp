@@ -67,7 +67,7 @@
 @endsection
 @section('scripts')
 
-    @if ($indicator->pos == 'on')
+    @if ($type == 'pos')
         @include('admin/invoice.script_paypos')
         @include('admin/invoice.script_pos')
     @else

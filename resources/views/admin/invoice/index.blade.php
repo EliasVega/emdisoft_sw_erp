@@ -78,6 +78,26 @@
             {
 
                 var typeDocument = "{{ $typeDocument ?? '' }}";
+                function print(){
+                    if (typeDocument == 1) {
+                        var invoice = "{{ $invoice ?? '' }}";
+                        if (invoice != '') {
+                            var imprimir = "{{ route('pdfInvoice', ['invoice' => ':invoice']) }}";
+                            imprimir = imprimir.replace(':invoice', invoice);
+                            window.open(imprimir, "_blank");
+                        }
+                    } else if (typeDocument == ''){
+
+                    } else {
+                        var invoice = "{{ $invoice ?? '' }}";
+                        if (invoice != '') {
+                            var imprimir = "{{ route('posInvoice', ['invoice' => ':invoice']) }}";
+                            imprimir = imprimir.replace(':invoice', invoice);
+                            window.open(imprimir, "_blank");
+                        }
+                    }
+                }
+                /*
                 if (typeDocument == 1) {
                     function print(){
                         var invoice = "{{ $invoice ?? '' }}";
@@ -98,7 +118,7 @@
                             window.open(imprimir, "_blank");
                         }
                     }
-                }
+                }*/
 
                 print();
                 $('#invoices').DataTable(

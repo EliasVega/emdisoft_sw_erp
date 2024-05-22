@@ -49,7 +49,7 @@ class UsersTableSeeder extends Seeder
             'phone' => '3139999999',
             'email' => 'testing@gmail.com',
             'email_verified_at' => NULL,
-            'password' => bcrypt('99999999'),
+            'password' => bcrypt('admin2024'),
             'two_factor_secret' => NULL,
             'two_factor_recovery_codes' => NULL,
             'two_factor_confirmed_at' => NULL,

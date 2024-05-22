@@ -511,7 +511,7 @@ class InvoiceController extends Controller
                     $pay->branch_id = current_user()->branch_id;
                     $pay->pay = $totalpay;
                     $pay->balance = $document->balance;
-                    $pay->type = $typeDocument;
+                    $pay->type = 'invoice';
 
                     $invoice = $document;
                     $invoice->pays()->save($pay);
