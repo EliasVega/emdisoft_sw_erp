@@ -289,6 +289,7 @@ Route::get('pdfInvoice', [InvoiceController::class, 'pdfInvoice'])->name('pdfInv
 Route::get('posInvoice', [InvoiceController::class, 'posInvoice'])->name('posInvoice');
 Route::get('invoice/posPdf/{invoice}', [InvoiceController::class, 'posPdf'])->name('posPdf');
 Route::get('createPos', [InvoiceController::class, 'createPos'])->name('createPos');
+Route::get('invoice/pdfFl/{id]', [InvoiceController::class, 'pdfFl'])->name('pdfFl');
 
 Route::get('invoiceOrder/invoice/{id}', [InvoiceOrderController::class, 'invoice'])->name('invoiceOrderInvoice');
 Route::get('invoiceOrder/pdf/{id}', [InvoiceOrderController::class, 'invoiceOrderPdf'])->name('invoiceOrderPdf');

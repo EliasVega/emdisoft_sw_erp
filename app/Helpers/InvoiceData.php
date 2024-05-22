@@ -11,7 +11,6 @@ if (! function_exists('invoiceData')) {
     function invoiceData($request)
     {
         //dd($request->all());
-
         $company = Company::findOrFail(current_user()->company_id);
         $customer = Customer::findOrFail($request->customer_id);//cliente de la factura
         $resolution = Resolution::findOrFail($request->resolution_id);//Resolucion seleccionada
@@ -177,7 +176,7 @@ if (! function_exists('invoiceData')) {
                     "email" => $customer->email
                 ],
             ],
-            "head_note" => "",
+            "head_note" => $request->note,
             "foot_note" => "",
             "customer" => [
                 "identification_number" => $customer->identification,

@@ -96,6 +96,11 @@
                 </div>
             </div>
         @endif
+        <div class="center">
+            <div id="thirdTitle">
+                <span id="title"> {{ $invoice->note }}</span>
+            </div>
+        </div>
         <div class="contentDetail">
             <div class="center">
                 <div id="ttable">

@@ -1,4 +1,8 @@
-@can('invoice.edit')
+@if ($dian == 'on')
+    <a class="btn btn-primary btn-sm" href="{{ Storage::url('files/graphical_representations/invoices/'.$document.'.pdf') }}" title="Representación grafica" target="_blank">
+        <i class="fas fa-download fa-fw"></i> Pdf
+@endif
+</a>@can('invoice.edit')
     @if ($status == 'invoice')
         <a href="{{ route('invoice.edit', $id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip"
         data-placement="top" title="Editar"><i class="far fa-edit"></i></a>
@@ -12,6 +16,7 @@
         <i class="fas fa-file-invoice-dollar"></i>
     </a>
 @endif
+
 @if ($pos == 'on')
     <a href="{{ route('invoicePos', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="pdf pos" >
         <i class="fas fa-receipt"></i>

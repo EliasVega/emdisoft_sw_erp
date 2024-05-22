@@ -54,9 +54,14 @@ class Ticket extends FPDF
         $date = formatText('Fecha: ' . $document->generation_date);
         $branch = formatText('Sucursal: ' . $document->branch->name);
         $number = formatText('Consecutivo: ' . $document->document);
+        $cashRegister = $document->cashRegister;
+        $cashRegisterNumber = formatText('Caja Nro: ' . $cashRegister->id . ' - ' . $cashRegister->salePoint->plate_number);
+        $cashierName = formatText('Cajero: ' . $cashRegister->user->name);
 
         $this->MultiCell(0, 3, $date, 0, 'C', false);
         $this->MultiCell(0, 3, $branch, 0, 'C', false);
+        $this->MultiCell(0, 5, $cashRegisterNumber, 0, 'C', false);
+        $this->MultiCell(0, 5, $cashierName, 0, 'C', false);
         $this->SetFont('Arial', 'B', 10);
         $this->MultiCell(0, 5, $number, 0, 'C', false);
         $this->SetFont('Arial', '', 9);
@@ -67,15 +72,14 @@ class Ticket extends FPDF
     public function generateCashboxInformation($document)
     {
         $date = formatText('Fecha: ' . $document->created_at->format('Y-m-d'));
-        $cashbox = $document->cashRegister->salePoint->plate_number;
-        $cashboxNumber = formatText('Caja Nro: ' . $cashbox->id);
-        $cashierName = formatText('Cajero: ' . $cashbox->manager->person->name);
-        $cashierLastName = formatText($cashbox->manager->person->last_name);
+        $cashRegister = $document->cashRegister;
+        $cashRegisterNumber = formatText('Caja Nro: ' . $cashRegister->id . ' - ' . $cashRegister->salePoint->plate_number);
+        $cashierName = formatText('Cajero: ' . $cashRegister->user->name);
         $ticketNumber = formatText('Ticket Nro: ' . $document->id);
 
         $this->MultiCell(0, 5, $date, 0, 'C', false);
-        $this->MultiCell(0, 5, $cashboxNumber, 0, 'C', false);
-        $this->MultiCell(0, 5, $cashierName . ' ' . $cashierLastName, 0, 'C', false);
+        $this->MultiCell(0, 5, $cashRegisterNumber, 0, 'C', false);
+        $this->MultiCell(0, 5, $cashierName, 0, 'C', false);
         $this->SetFont('Arial', 'B', 10);
         $this->MultiCell(0, 5, $ticketNumber, 0, 'C', false);
         $this->SetFont('Arial', '', 9);
@@ -160,7 +164,7 @@ class Ticket extends FPDF
         $this->Cell(34, 5, "$" . number_format($document->total_pay,2), 0, 0, 'R');
         $this->Ln(10);
     }
-    /*
+
     public function generateInvoiceInformation($invoice)
     {
         $resolution_id = $invoice->resolution_id;
@@ -202,7 +206,7 @@ class Ticket extends FPDF
         $this->SetFont('Arial', 'B', 9);
         $this->Cell(0, 10, formatText("Gracias por su compra"), '', 0, 'C');
 
-    }*/
+    }
 
     public function generateBreakLine($marginTop, $size, $marginBottom)
     {

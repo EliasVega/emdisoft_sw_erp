@@ -23,14 +23,14 @@ class CompaniesTableSeeder extends Seeder
             0 =>
             array (
                 'id' => 1,
-                'name' => 'MEDINA MENDEZ ELIZABETH',
-                'nit' => '37549956',
-                'dv' => '8',
-                'address' => 'AV CENTRAL METROP SEC BUENO PQ TERMINAL LC 3',
-                'phone' => '3134669720',
-                'api_token' => 'baf65af0f81728c78b4f645fa2a4a0a5a8730e377e7a38b4de20244e251c931b',
-                'email' => 'elime_802@hotmail.com',
-                'emailfe' => 'elime_802@hotmail.com',
+                'name' => 'SUAREZ PEREZ JAIRO ENRIQUE',
+                'nit' => '91343991',
+                'dv' => '7',
+                'address' => 'Cl 59 1w 70 apto 301 mutis',
+                'phone' => '3014109204',
+                'api_token' => 'b8f76155bf77accadd728428917d3f4bdf8a862a78bfd32ea89f48f1fa9fdd82',
+                'email' => 'comercial.ecounts@gmail.com',
+                'emailfe' => 'comercial.ecounts@gmail.com',
                 'merchant_registration' => '000000-00',
                 'imageName' => 'noimage.jpg',
                 'logo' => '/storage/images/logos/noimage.jpg',
@@ -42,8 +42,8 @@ class CompaniesTableSeeder extends Seeder
                 'liability_id' => 117,
                 'organization_id' => 2,
                 'regime_id' => 2,
-                'created_at' => '2024-05-17 21:07:42',
-                'updated_at' => '2024-05-17 21:07:42',
+                'created_at' => '2023-01-12 21:07:42',
+                'updated_at' => '2023-01-12 21:07:42',
             ),
         ));
 

@@ -50,6 +50,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 
+use function App\Helpers\Tickets\formatText;
 use function App\Helpers\Tickets\ticketHeight;
 
 class InvoiceController extends Controller
@@ -117,6 +118,9 @@ class InvoiceController extends Controller
             ->addColumn('pos', function (Invoice $invoice) {
                 return $invoice->branch->company->indicator->pos;
             })
+            ->addColumn('dian', function (Invoice $invoice) {
+                return $invoice->branch->company->indicator->dian;
+            })
             ->editColumn('created_at', function(Invoice $invoice){
                 return $invoice->generation_date;
             })
@@ -136,12 +140,11 @@ class InvoiceController extends Controller
         $indicator = indicator();
         $pos = indicator()->pos;
         $cashRegister = cashregisterModel();
-        if ($indicator->pos == 'on') {
-            if(is_null($cashRegister)){
-                Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
-                return redirect("branch");
-            }
+        if(is_null($cashRegister)){
+            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
+            return redirect("branch");
         }
+
         $cols = 9;
         if ($indicator->cvpinvoice == 'off') {
             $cols--;
@@ -218,11 +221,9 @@ class InvoiceController extends Controller
         $indicator = indicator();
         $pos = indicator()->pos;
         $cashRegister = cashregisterModel();
-        if ($indicator->pos == 'on') {
-            if(is_null($cashRegister)){
-                Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
-                return redirect("branch");
-            }
+        if(is_null($cashRegister)){
+            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
+            return redirect("branch");
         }
         $cols = 9;
         if ($indicator->cvpinvoice == 'off') {
@@ -400,7 +401,7 @@ class InvoiceController extends Controller
             $invoice->payment_method_id = $request->payment_method_id[0];
             $invoice->resolution_id = $resolutions->id;
             $invoice->document_type_id = $documentType;
-            $invoice->document = $resolutions->prefix . '-' . $resolutions->consecutive;
+            $invoice->document = $resolutions->prefix . $resolutions->consecutive;
             $invoice->voucher_type_id = $voucherType;
             $invoice->cash_register_id = cashregisterModel()->id;
             $invoice->status = 'invoice';
@@ -1317,7 +1318,7 @@ class InvoiceController extends Controller
         $pdf->generateBranchInformation($invoice);
         $pdf->generateThirdPartyInformation($invoice->third, $thirdPartyType);
         $pdf->generateProductsTable($invoice);
-        $pdf->generateSummaryInformation($invoice);/*
+        $pdf->generateSummaryInformation($invoice);
         $pdf->generateInvoiceInformation($invoice);
 
         $url = 'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=';
@@ -1346,13 +1347,19 @@ class InvoiceController extends Controller
 
         //$confirmationCode = formatText("CUFE: " . $invoice->response->cufe);
         $confirmationCode = formatText("CUFE: " . 'dc3dd77f1bc516721c9f196bc225b68d6ab326f355139b23cde8c2a7b9149e4fe09ab2c3487f11375116f939ed8d4d52');
+        //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
         $pdf->generateConfirmationCode($confirmationCode);
 
         $refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
-        $pdf->generateDisclaimerInformation($refund);*/
+        $pdf->generateDisclaimerInformation($refund);
 
         $pdf->Output("I", $invoice->document . ".pdf", true);
 
         exit;
+    }
+
+    public function pdfFl($id) {
+        $document = Invoice::findOrFail($id);
+        return view('admin.invoice.pdfFl', compact('document'));
     }
 }
