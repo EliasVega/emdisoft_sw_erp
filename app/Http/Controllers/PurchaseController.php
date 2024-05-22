@@ -163,8 +163,6 @@ class PurchaseController extends Controller
         ->select('pro.id', 'pro.code', 'pro.stock', 'pro.price', 'pro.name', 'per.percentage', 'tt.id as tt')
         ->where('pro.status', '=', 'active')
         ->get();
-        dd($products);
-        //$products = Product::where('status', 'active')->where('type_product', 'product')->get();
         $companyTaxes = CompanyTax::from('company_taxes', 'ct')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
         ->join('percentages as per', 'ct.percentage_id', 'per.id')
@@ -304,7 +302,7 @@ class PurchaseController extends Controller
         $store = false;
         if ($documentType == 11 && $indicator->dian == 'on') {
             $data = supportDocumentData($request);
-            dd($data);
+            //dd($data);
             $requestResponse = sendDocuments($company, $url, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
