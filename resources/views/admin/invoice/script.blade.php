@@ -51,7 +51,6 @@
     var total_pay = 0;
     var total_desc = 0;
     var uvt = '';
-    var pos_on = '';
     //form invoice
     $("#idPro").hide();
     $("#percent").hide();
@@ -72,10 +71,10 @@
 
     $(document).ready(function(){
         typeInvoice = $("#pos_active").val();
-        if (typeInvoice == 'off') {
+        if (typeInvoice == 'on') {
             $("#resolution").show();
-            $("#addFe").hide();
-            $(".fe_true").val(1);
+            //$("#addFe").hide();
+            //$(".fe_true").val(1);
             $('#resolution_id').prop("required", true)
         }
 
@@ -155,7 +154,6 @@
         tax_type = $("#tax_type").val();
         uvt = $("#uvtmax").val();
         employee_id = $("#employee_id").val();
-        pos_on = $("#pos_active").val();
         cv = 2;
         if(product_id !="" && quantity!="" && quantity>0  && price!=""){
             subtotal[cont] = parseFloat(quantity) * parseFloat(price);
@@ -224,7 +222,6 @@
         tax_type = $("#tax_type").val();
         uvt = $("#uvtmax").val();
         employee_id = $("#employee_id").val();
-        pos_on = $("#pos_active").val();
         cv = $(".cvp").val();
         if(product_id !="" && quantity!="" && quantity>0  && price!=""){
             subtotal[cont] = parseFloat(quantity) * parseFloat(price);
@@ -287,25 +284,8 @@
         $("#pendient").val(total_pay.toFixed(2));
         $("#total_invoice").val(total.toFixed(2));
         $("#tax_iva").val(tax_iva);
-        pos();
     }
-
-    function pos(){
-        if (pos_on == 'on') {
-            if (total > uvt) {
-                $("#resolution").show();
-                $(".fe_true").val(1);
-                $("#addFe").hide();
-                $('#resolution_id').prop("required", true)
-            } else {
-                $("#resolution").hide();
-                $("#addFe").show();
-                $(".fe_true").val(2);
-                $('#resolution_id').prop("required", false)
-            }
-        }
-    }
-
+    /*
     $(document).ready(function(){
         $("#fe_on").click(function(){
             $(".fe_true").val(1);
@@ -322,7 +302,7 @@
             $("#resolution_id").val(4);
             $('#resolution_id').prop("required", false)
         });
-    });
+    });*/
     function assess(){
 
         if(total>0){
@@ -347,10 +327,6 @@
         $("#total_pay").val(total_pay.toFixed(2));
 
         $("#row" + index).remove();
-
-        if (pos_on == 'on') {
-            pos();
-        }
 
         //assess();
     }

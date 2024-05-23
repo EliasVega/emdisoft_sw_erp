@@ -47,7 +47,7 @@
     </div>
     <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
         <div class="form-group">
-            <label class="form-control-label" for="consecutive">Generadas</label>
+            <label class="form-control-label" for="consecutive">Consecutivo</label>
             <input type="number" id="consecutive" name="consecutive" value="{{ old('consecutive', $resolution->consecutive ?? '') }}" class="form-control" placeholder="Generadas" pattern="[0-9]{0,15}">
         </div>
     </div>

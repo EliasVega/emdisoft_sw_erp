@@ -42,7 +42,7 @@
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="posActive">
         <div class="form-group">
             <label class="form-control-label" for="pos_active">Post Activado</label>
-            <input type="text" id="pos_active" name="pos_active" value="{{ $indicator->pos }}" class="form-control"
+            <input type="text" id="pos_active" name="pos_active" value="{{ $indicator->dian }}" class="form-control"
                 placeholder="tope de pos">
         </div>
     </div>
@@ -209,8 +209,8 @@
         </div>
     @endif
 
+    <!--
     @if ($indicator->pos == 'on')
-
         @if ($indicator->dian == 'on')
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mt-3" id="addFe">
                 <div class="form-check">
@@ -237,7 +237,7 @@
                 </div>
             </div>
         @endif
-    @endif
+    @endif -->
     @if ($indicator->cvpinvoice == 'on')
         <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mt-3" id="addcvp">
             <div class="form-check">

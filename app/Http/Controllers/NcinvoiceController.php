@@ -9,6 +9,7 @@ use App\Models\BranchProduct;
 use App\Models\CashInflow;
 use App\Models\CashRegister;
 use App\Models\Company;
+use App\Models\Configuration;
 use App\Models\Employee;
 use App\Models\EmployeeInvoiceProduct;
 use App\Models\Environment;
@@ -69,11 +70,12 @@ class NcinvoiceController extends Controller
             ->addColumn('document', function (Ncinvoice $ncinvoice) {
                 return $ncinvoice->invoice->document;
             })
-
             ->addColumn('user', function (Ncinvoice $ncinvoice) {
                 return $ncinvoice->user->name;
             })
-
+            ->addColumn('dian', function (Ncinvoice $ncinvoice) {
+                return $ncinvoice->branch->company->indicator->dian;
+            })
             ->editColumn('created_at', function(Ncinvoice $ncinvoice){
                 return $ncinvoice->created_at->format('yy-m-d: h:m');
             })
@@ -103,9 +105,11 @@ class NcinvoiceController extends Controller
 
         $company = Company::findOrFail(current_user()->company_id);
         $invoice = Invoice::findOrFail($request->invoice_id);//encontrando la factura
-        $environment = Environment::where('id', 12)->first();//Url nota de ajuste documento soporte
+        $environment = Environment::where('id', 12)->first();
+        $configuration = Configuration::where('company_id', $company->id)->first();
+        $url = $environment->protocol . $configuration->ip . $environment->url;
+
         $pay = Pay::where('type', 'invoice')->where('payable_id', $invoice->id)->get();//pagos hechos a esta factura
-        $indicator = Indicator::findOrFail(1);
         $voucherTypes = VoucherType::findOrFail(5);
         $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
         $voucherTypes = '';
@@ -149,19 +153,21 @@ class NcinvoiceController extends Controller
         $service = '';
         $errorMessages = '';
         $store = false;
-        if ($indicator->dian == 'on') {
+
+        if (indicator()->dian == 'on') {
             $data = ncinvoiceData($request, $invoice);
-            $requestResponse = sendDocuments($company, $environment, $data);
+            $requestResponse = sendDocuments($company, $url, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];
         } else {
             $store = true;
         }
+
         if ($store == true) {
             //Registrar tabla Nota Credito
             $ncinvoice = new Ncinvoice();
-            $ncinvoice->document = $resolution->prefix . '-' . $resolution->consecutive;
+            $ncinvoice->document = $resolution->prefix . $resolution->consecutive;
             $ncinvoice->user_id = current_user()->id;
             $ncinvoice->branch_id = $branch;
             $ncinvoice->invoice_id = $invoice->id;
@@ -193,7 +199,7 @@ class NcinvoiceController extends Controller
                         $product = Product::findOrFail($id);
                         if ($product->type_product == 'product') {
                             //devolviendo productos al inventario
-                            if ($indicator->inventory == 'on') {
+                            if (indicator()->inventory == 'on') {
                                 $product->stock -= $quantity[$i];
                                 $product->update();
 
@@ -207,7 +213,7 @@ class NcinvoiceController extends Controller
                             $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
                         }
                     }
-                    if ($indicator->work_labor == 'on') {
+                    if (indicator()->work_labor == 'on') {
                         for ($i=0; $i < count($invoiceProducts); $i++) {
                             $ideip = $invoiceProducts[$i]->id;
 
@@ -249,7 +255,7 @@ class NcinvoiceController extends Controller
 
                             if ($product->type_product == 'product') {
                                 //devolviendo productos al inventario
-                                if ($indicator->inventory == 'on') {
+                                if (indicator()->inventory == 'on') {
                                     $product->stock -= $invoiceProducts[$i]->quantity;
                                     $product->update();
 
@@ -263,7 +269,7 @@ class NcinvoiceController extends Controller
                                 $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
                             }
 
-                            if ($indicator->work_labor == 'on') {
+                            if (indicator()->work_labor == 'on') {
                                 $ideip = $invoiceProducts[$i]->id;
 
                                 $employeeInvoiceProduct = EmployeeInvoiceProduct::where('invoice_product_id', $ideip)->first();
@@ -302,7 +308,7 @@ class NcinvoiceController extends Controller
                     //creando registro ncinvoice productos
                     $this->ncinvoiceProductCreate($request, $document);//crear ncinvoiceProduct
 
-                    if ($indicator->work_labor == 'on') {
+                    if (indicator()->work_labor == 'on') {
                         for ($i=0; $i < count($invoiceProducts); $i++) {
                             $ideip = $invoiceProducts[$i]->id;
 
@@ -343,7 +349,7 @@ class NcinvoiceController extends Controller
                     //creando registro ncinvoice productos
                     $this->ncinvoiceProductCreate($request, $document);//crear ncinvoiceProduct
 
-                    if ($indicator->work_labor == 'on') {
+                    if (indicator()->work_labor == 'on') {
                         for ($i=0; $i < count($invoiceProducts); $i++) {
                             $ideip = $invoiceProducts[$i]->id;
 
@@ -383,7 +389,7 @@ class NcinvoiceController extends Controller
                     $cashInflow->admin_id = current_user()->id;
                     $cashInflow->save();
 
-                    if ($indicator->pos == 'on') {
+                    if (indicator()->pos == 'on') {
                         $cashRegister->cash_in_total += $advancePay;
                         $cashRegister->in_cash += $advancePay;
                         $cashRegister->in_total += $advancePay;
@@ -396,7 +402,7 @@ class NcinvoiceController extends Controller
                     //creando registro d avance a clientes
                     $this->advanceCreate($voucherTypes, $documentOrigin, $advancePay, $typeDocument);
 
-                    if ($indicator->pos == 'on') {
+                    if (indicator()->pos == 'on') {
                         $cashRegister->out_advance += $advancePay;
                         if ($date1 == $date2) {
                             $cashRegister->invoice -= $advancePay;
@@ -414,7 +420,7 @@ class NcinvoiceController extends Controller
                 $invoice->update();
             }
 
-            if ($indicator->pos == 'on') {
+            if (indicator()->pos == 'on') {
                 if ($date1 == $date2) {
                     $cashRegister->ncinvoice += $total_pay;
                     $cashRegister->update();
@@ -436,7 +442,7 @@ class NcinvoiceController extends Controller
             }
             $invoice->update();
 
-            if ($indicator->dian == 'on') {
+            if (indicator()->dian == 'on') {
                 $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
                     ['SendBillSyncResult']['IsValid'];
                 $code = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
@@ -457,12 +463,12 @@ class NcinvoiceController extends Controller
                 $ncinvoiceResponse->ncinvoice_id = $ncinvoice->id;
                 $ncinvoiceResponse->save();
 
-                $environmentPdf = Environment::where('code', 'PDF')->first();
+                $environmentPdf = Environment::findOrFail(10);
+                $urlpdf = $environmentPdf->protocol . $configuration->ip . $environmentPdf->url;
 
-                $pdf = file_get_contents($environmentPdf->url . $company->nit ."/NCS-" . $resolution->prefix .
-                $resolution->consecutive .".pdf");
+                $pdf = file_get_contents($urlpdf . $company->nit ."/NCS-" . $ncinvoice->document .".pdf");
                 Storage::disk('public')->put('files/graphical_representations/ncinvoice/' .
-                $resolution->prefix . $resolution->consecutive . '.pdf', $pdf);
+                $ncinvoice->document . '.pdf', $pdf);
             }
 
             $resolution->consecutive += 1;
@@ -539,7 +545,7 @@ class NcinvoiceController extends Controller
        $ncinvoice = Ncinvoice::findOrFail($id);
        $ncinvoiceProducts = NcinvoiceProduct::where('ncinvoice_id', $id)->where('quantity', '>', 0)->get();
        $company = Company::findOrFail(1);
-       $indicator = Indicator::findOrFail(1);
+       $indicator = indicator();
        $retentions = Tax::from('taxes as tax')
         ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
@@ -581,7 +587,7 @@ class NcinvoiceController extends Controller
         session()->forget('ncinvoice');
         $ncinvoiceProducts = NcinvoiceProduct::where('ncinvoice_id', $ncinvoice->id)->where('quantity', '>', 0)->get();
         $company = Company::findOrFail(1);
-        $indicator = Indicator::findOrFail(1);
+        $indicator = indicator();
         $retentions = Tax::from('taxes as tax')
         ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')

@@ -31,7 +31,7 @@
                             <th>Pref.</th>
                             <th>Desde</th>
                             <th>Hasta</th>
-                            <th>Generadas</th>
+                            <th>Consecutivo</th>
                             <th>Fecha Inicio</th>
                             <th>Fecha Fin</th>
                             <th>estado</th>

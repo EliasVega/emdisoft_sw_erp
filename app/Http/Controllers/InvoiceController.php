@@ -138,7 +138,7 @@ class InvoiceController extends Controller
     {
         $company = Company::findOrFail(1);
         $indicator = indicator();
-        $pos = indicator()->pos;
+        //$pos = indicator()->pos;
         $cashRegister = cashregisterModel();
         if(is_null($cashRegister)){
             Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
@@ -219,7 +219,7 @@ class InvoiceController extends Controller
     {
         $company = Company::findOrFail(1);
         $indicator = indicator();
-        $pos = indicator()->pos;
+        //$pos = indicator()->pos;
         $cashRegister = cashregisterModel();
         if(is_null($cashRegister)){
             Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
@@ -235,7 +235,7 @@ class InvoiceController extends Controller
 
         $customers = Customer::get();
         $employees = Employee::get();
-        $resolutions = Resolution::where('document_type_id', 1)->where('status', 'active')->get();
+        $resolutions = Resolution::where('document_type_id', 15)->where('status', 'active')->get();
         $paymentForms = PaymentForm::get();
         $paymentMethods = PaymentMethod::get();
         $banks = Bank::get();
@@ -568,10 +568,10 @@ class InvoiceController extends Controller
 
                 $environmentPdf = Environment::where('code', 'PDF')->first();
                 $urlpdf = $environmentPdf->protocol . $configuration->ip . $environmentPdf->url;
-                $pdf = file_get_contents($urlpdf . $company->nit ."/FES-" . $resolutions->prefix .
-                $resolutions->consecutive .".pdf");
+
+                $pdf = file_get_contents($urlpdf . $company->nit ."/FES-" . $invoice->document .".pdf");
                 Storage::disk('public')->put('files/graphical_representations/invoices/' .
-                $resolutions->prefix . $resolutions->consecutive . '.pdf', $pdf);
+                $invoice->document . '.pdf', $pdf);
             }
             $resolutions->consecutive += 1;
             $resolutions->update();

@@ -1,6 +1,13 @@
 @if ($dian == 'on')
     <a class="btn btn-primary btn-sm" href="{{ Storage::url('files/graphical_representations/invoices/'.$document.'.pdf') }}" title="Representación grafica" target="_blank">
         <i class="fas fa-download fa-fw"></i> Pdf
+@else
+    <a href="{{ route('invoicePos', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="pdf pos" >
+        <i class="fas fa-receipt"></i>
+    </a>
+    <a href="{{ route('invoicePdf', $id) }}" class="btn btn-pdf btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="Venta pdf">
+        <i class="fas fa-file-pdf"></i>
+    </a>
 @endif
 </a>@can('invoice.edit')
     @if ($status == 'invoice')
@@ -16,18 +23,12 @@
         <i class="fas fa-file-invoice-dollar"></i>
     </a>
 @endif
-
-    <a href="{{ route('invoicePos', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="pdf pos" >
-        <i class="fas fa-receipt"></i>
-    </a>
     </a>@can('superAdmin')
         <a href="{{ route('posPdf', $id) }}" class="btn btn-success btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="pdf pos" >
             <i class="fas fa-receipt"></i>
         </a>
     @endcan
-    <a href="{{ route('invoicePdf', $id) }}" class="btn btn-pdf btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="Venta pdf">
-        <i class="fas fa-file-pdf"></i>
-    </a>
+
 
 @if ($restaurant == 'off')
     @if ($status == 'invoice')

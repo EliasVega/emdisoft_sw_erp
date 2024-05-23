@@ -25,7 +25,7 @@
             </div>
             <!--DATOS FACTURA -->
             <div id="document">
-                <p> <h4>NOTA CREDITO  <br> <strong id="documentNumber">N°.{{ $ncinvoice->id }}</strong>  </h4>
+                <p> <h4>NOTA CREDITO  <br> <strong id="documentNumber">{{ $ncinvoice->document }}</strong>  </h4>
 
                 </p>
                 <p> <h4>FECHA DE EMISION <br> <strong id="documentData">{{ date('d-m-Y', strtotime($ncinvoice->created_at)) }}</strong>  </h4>

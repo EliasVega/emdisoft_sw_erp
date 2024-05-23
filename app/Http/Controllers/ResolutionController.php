@@ -279,7 +279,9 @@ class ResolutionController extends Controller
                                 $consecutive = $resolutionold->consecutive;
                             }
                         }
-
+                        if ($consecutive == 'null') {
+                            $consecutive = $resolution;
+                        }
                         $resolution = Resolution::updateOrcreate(
                             [
                                 'resolution' => $resolution

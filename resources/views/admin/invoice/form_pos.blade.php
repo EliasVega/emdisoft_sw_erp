@@ -2,6 +2,21 @@
     <div class="col-md-4">
         <div class="card card-primary card-outline">
             <div class="row">
+                @if ($indicator->dian == 'on')
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="resolution">
+                        <div class="form-group">
+                            <label class="form-control-label required" for="resolution_id">Resolucion</label>
+                            <select name="resolution_id" class="form-control selectpicker" id="resolution_id"
+                                data-live-search="true" required>
+                                <option value="" selected>Resolucion</option>
+                                @foreach ($resolutions as $resolution)
+                                    <option value="{{ $resolution->id }}">{{ $resolution->prefix }}
+                                        {{ $resolution->resolution }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                @endif
                 @if ($indicator->barcode == 'on')
                     <div class="col-lg-12 col-md-12 col-sm-14 col-xs-12" id="codeBarcode">
                         <div class="form-group">
@@ -186,7 +201,7 @@
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="posActive">
         <div class="form-group">
             <label class="form-control-label" for="pos_active">Post Activado</label>
-            <input type="text" id="pos_active" name="pos_active" value="{{ $indicator->pos }}" class="form-control"
+            <input type="text" id="pos_active" name="pos_active" value="{{ $indicator->dian }}" class="form-control"
                 placeholder="tope de pos">
         </div>
     </div>
@@ -278,23 +293,7 @@
             </div>
         </div>
     @endif
-
-    @if ($indicator->dian == 'on')
-        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="resolution">
-            <div class="form-group">
-                <label class="form-control-label required" for="resolution_id">Resolucion</label>
-                <select name="resolution_id" class="form-control selectpicker" id="resolution_id"
-                    data-live-search="true" required>
-                    <option value="" selected>Resolucion</option>
-                    @foreach ($resolutions as $resolution)
-                        <option value="{{ $resolution->id }}">{{ $resolution->prefix }}
-                            {{ $resolution->resolution }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-    @endif
-
+        <!--
     @if ($indicator->pos == 'on')
 
         @if ($indicator->dian == 'on')
@@ -323,7 +322,8 @@
                 </div>
             </div>
         @endif
-    @endif
+    @endif -->
+
     @if ($indicator->cvpinvoice == 'on')
         <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mt-3" id="addcvp">
             <div class="form-check">

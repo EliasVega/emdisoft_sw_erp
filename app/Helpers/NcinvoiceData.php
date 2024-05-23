@@ -41,6 +41,8 @@ if (!function_exists('ncinvoiceData')) {
 
             $taxAmount = ($quantity[$i] * $price[$i] * $taxRate[$i])/100;
             $amount = $quantity[$i] * $price[$i];
+            $taxAmount = number_format(round($taxAmount), 2, '.', '');
+            $amount = number_format(round($amount), 2, '.', '');
 
             if ($taxes[0] != []) { //contax > 0
                 $contsi = 0;
@@ -60,10 +62,11 @@ if (!function_exists('ncinvoiceData')) {
                 $taxes[$contax] = [$companyTax->id, $companyTax->tax_type_id, $taxAmount, $amount, $taxRate[$i]];
                 $contax++;
             }
+            $quantityProducts = number_format(round($quantity[$i]), 2, '.', '');
             $productLine = [
                 "unit_measure_id" => $product->measure_unit_id,
-                "invoiced_quantity" => round($quantity[$i], 2),
-                "line_extension_amount" => round($amount, 2),
+                "invoiced_quantity" => $quantityProducts,
+                "line_extension_amount" => $amount,
                 "free_of_charge_indicator" => false,
                 "tax_totals" => [
                     [
@@ -78,7 +81,7 @@ if (!function_exists('ncinvoiceData')) {
                 "code" => $product->code,
                 "type_item_identification_id" => 4,
                 "price_amount" => $price[$i],
-                "base_quantity" => round($quantity[$i], 2)
+                "base_quantity" => $quantityProducts
             ];
 
             $productLines[$i] = $productLine;
