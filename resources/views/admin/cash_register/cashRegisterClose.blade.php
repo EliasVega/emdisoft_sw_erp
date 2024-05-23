@@ -376,7 +376,7 @@
                             </tr>
                         </tfoot>
                         <tbody>
-                            @foreach($ncinvoiceProducts as $ndpurchaseProduct)
+                            @foreach($ncinvoiceProducts as $ncinvoiceProduct)
                                 <tr>
                                     <td>{{ $ncinvoiceProduct->id }}</td>
                                     <td>{{ $ncinvoiceProduct->name }}</td>

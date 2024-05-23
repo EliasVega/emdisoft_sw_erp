@@ -153,6 +153,7 @@ class BranchController extends Controller
             'branch',
             'departments',
             'municipalities',
+            'postalCodes',
             'companies'
         ));
     }

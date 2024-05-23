@@ -28,37 +28,6 @@ class CompanyTaxSeeder extends Seeder
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43',
             ),
-            1 =>
-            array (
-                'id' => 2,
-                'name' => 'INC 8%',
-                'description' => 'productos con impuesto al consumo',
-                'tax_type_id' => 4,
-                'percentage_id' => 45,
-                'created_at' => '2023-01-12 21:07:43',
-                'updated_at' => '2023-01-12 21:07:43',
-            ),
-            2 =>
-            array (
-                'id' => 3,
-                'name' => 'IVA 5%',
-                'description' => 'productos con iva del 5 %',
-                'tax_type_id' => 1,
-                'percentage_id' => 52,
-                'created_at' => '2023-01-12 21:07:43',
-                'updated_at' => '2023-01-12 21:07:43',
-            ),
-            3 =>
-            array (
-                'id' => 4,
-                'name' => 'IVA 19%',
-                'description' => 'productos con iva del 19 %',
-                'tax_type_id' => 1,
-                'percentage_id' => 43,
-                'created_at' => '2023-01-12 21:07:43',
-                'updated_at' => '2023-01-12 21:07:43',
-            ),
-
         ));
     }
 }

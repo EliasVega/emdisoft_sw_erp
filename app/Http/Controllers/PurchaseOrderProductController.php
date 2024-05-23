@@ -52,7 +52,7 @@ class PurchaseOrderProductController extends Controller
      */
     public function store(StorePurchaseOrderProductRequest $request)
     {
-        //dd($request->all());
+        dd($request->all());
         $company = Company::findOrFail(current_user()->company_id);
         $environment = Environment::where('code', 'SD')->first();
         $indicator = indicator();
@@ -83,7 +83,7 @@ class PurchaseOrderProductController extends Controller
         $documentType = $request->document_type_id;
         $store = false;
         if ($documentType == 11 && $indicator->dian == 'on') {
-            $data = supportDocumentSend($request);
+            $data = supportDocumentData($request);
             $requestResponse = sendDocuments($company, $environment, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
