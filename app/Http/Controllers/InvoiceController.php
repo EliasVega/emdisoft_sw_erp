@@ -335,7 +335,7 @@ class InvoiceController extends Controller
                 $documentType = 104;
             }
         }
-
+        dd($resolutions);
         $voucherTypes = VoucherType::findOrFail($voucherType);
         //Variables del request
         $product_id = $request->product_id;
@@ -380,8 +380,9 @@ class InvoiceController extends Controller
             } else {
                 $data = equiDocPosData($request);
             }
+            dd($data);
             $requestResponse = sendDocuments($company, $url, $data);
-
+            dd($requestResponse);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];

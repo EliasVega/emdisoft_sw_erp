@@ -25,13 +25,14 @@ if (! function_exists('EquiDocPosData')) {
         $dueDate = $request->due_date;//feecha de vencimiento del documento
         $date = Carbon::now();
         $expirationTime = Carbon::parse($generationDate)->diffInDays(Carbon::parse($dueDate));
+        //$expirationTime = number_format(round($expirationTime), 2, '.', '');
 
         //Variables request
         $product_id = $request->product_id;//Array de productos
         $quantity = $request->quantity;//Array de cantidades
         $price = $request->price;//Array de precios
         $taxRate = $request->tax_rate;//Array de tasa de cada producto
-        $points = 0;
+        $points = "0.00";
 
         $totalDocument = $request->total;//total del documento
         $totalIva = $request->tax_iva;//Total de impuesto de iva
@@ -39,12 +40,15 @@ if (! function_exists('EquiDocPosData')) {
 
         $retentions = $request->company_tax_id;
 
-        $discountTotal = 0.00;
+        $discountTotal = "0.00";
+        $chargeTotal = "0.00";
         $productLines = [];
         $taxLines = [];
         $taxCont = 0;
         $withholdingLines = [];
         $withholdingCont = 0;
+
+        $payableAmount = number_format(($total - $discountTotal + $chargeTotal), 2, '.', '');
 
         $taxes[] = [];
         $contax = 0;
@@ -53,9 +57,12 @@ if (! function_exists('EquiDocPosData')) {
             $product = Product::findOrFail($product_id[$i]);
             $companyTaxProduct = $product->category->company_tax_id;
             $companyTax = CompanyTax::findOrFail($companyTaxProduct);
-
             $taxAmount = ($quantity[$i] * $price[$i] * $taxRate[$i])/100;
             $amount = $quantity[$i] * $price[$i];
+            $taxAmount =number_format(round(($quantity[$i] * $price[$i] * $taxRate[$i])/100), 2, '.', '');
+            $amount = number_format(round($amount), 2, '.', '');
+
+
 
             if ($taxes[0] != []) { //contax > 0
                 $contsi = 0;
@@ -76,11 +83,11 @@ if (! function_exists('EquiDocPosData')) {
                 $taxes[$contax] = [$companyTax->id, $companyTax->tax_type_id, $taxAmount, $amount, $taxRate[$i]];
                 $contax++;
             }
-
+            $quantityProducts = number_format(round($quantity[$i]), 2, '.', '');
             $productLine = [
                 "unit_measure_id" => $product->measure_unit_id,
-                "invoiced_quantity" => round($quantity[$i], 2),
-                "line_extension_amount" => round($amount, 2),
+                "invoiced_quantity" => $quantityProducts,
+                "line_extension_amount" => $amount,
                 "free_of_charge_indicator" => false,
                 "tax_totals" => [
                     [
@@ -206,7 +213,7 @@ if (! function_exists('EquiDocPosData')) {
                 "line_extension_amount" => $totalDocument,
                 "tax_exclusive_amount" => $totalDocument,
                 "tax_inclusive_amount" => $total,
-                "payable_amount" => ($total - $discountTotal)
+                "payable_amount" => $payableAmount
             ],
             "invoice_lines" => $productLines,
             "tax_totals" => $taxLines,

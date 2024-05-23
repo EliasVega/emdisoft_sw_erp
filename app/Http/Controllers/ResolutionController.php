@@ -111,10 +111,10 @@ class ResolutionController extends Controller
         $resolution->end_date = $request->end_date;
         $resolution->status = 'active';
         $resolution->description = $request->description;
-        $resolution->save();
+        $resolution->save();*/
 
         Alert::success('Resolucion','Creada Satisfactoriamente.');
-        return redirect('resolution');*/
+        return redirect('resolution');
     }
 
     /**
