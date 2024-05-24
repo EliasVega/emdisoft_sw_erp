@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Resolution;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class ResolutionSeeder extends Seeder
 {
