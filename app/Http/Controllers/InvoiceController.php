@@ -41,7 +41,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use App\Traits\InventoryInvoices;
 use App\Traits\KardexCreate;
-use App\Traits\Taxes;
+use App\Traits\GetTaxesLine;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Support\Facades\App;
@@ -55,7 +55,7 @@ use function App\Helpers\Tickets\ticketHeight;
 
 class InvoiceController extends Controller
 {
-    use InventoryInvoices, KardexCreate, Taxes;
+    use InventoryInvoices, KardexCreate, GetTaxesLine;
     function __construct()
     {
         $this->middleware('permission:invoice.index|invoice.create|invoice.show|invoice.edit', ['only'=>['index']]);
@@ -396,6 +396,13 @@ class InvoiceController extends Controller
         //Crea un registro de Ventas
         if ($store == true) {
 
+            if (indicator()->pos == 'on') {
+                $cashRegister = cashregisterModel();
+            } else {
+                $cashRegister = 1;
+            }
+
+
             $invoice = new Invoice();
             $invoice->user_id = current_user()->id;
             $invoice->branch_id = current_user()->branch_id;
@@ -492,7 +499,7 @@ class InvoiceController extends Controller
 
             }
 
-            $taxes = $this->getTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC
+            $taxes = $this->GetTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC
             taxesGlobals($document, $quantityBag, $typeDocument);
             taxesLines($document, $taxes, $typeDocument);
             retentions($request, $document, $typeDocument);
