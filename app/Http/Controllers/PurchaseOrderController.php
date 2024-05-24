@@ -99,11 +99,10 @@ class PurchaseOrderController extends Controller
     {
         $indicator = indicator();
         $cashRegister = cashregisterModel();
-        if ($indicator->pos == 'on') {
-            if(is_null($cashRegister)){
-                Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
-                return redirect("branch");
-            }
+        $cashRegister = cashregisterModel();
+        if(is_null($cashRegister)){
+            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
+            return redirect("branch");
         }
         $providers = Provider::get();
         $products = Product::from('products as pro')
@@ -321,6 +320,11 @@ class PurchaseOrderController extends Controller
 
     public function invoice($id)
     {
+        $cashRegister = cashregisterModel();
+        if(is_null($cashRegister)){
+            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
+            return redirect("branch");
+        }
         $indicator = indicator();
         $purchaseOrder = PurchaseOrder::findOrFail($id);
         //\Session()->put('purchaseOrder', $purchaseOrder->id, 60 * 24 * 365);

@@ -1,11 +1,13 @@
 <?php
 
+use App\Models\Branch;
 use App\Models\Company;
+use App\Models\Configuration;
 use App\Models\Resolution;
 use Carbon\Carbon;
 
-if (! function_exists('InvoiceTestSetData')) {
-    function invoiceTestSetData()
+if (! function_exists('EquiDocPosTestSetData')) {
+    function equiDocPosTestSetData()
     {
         //dd($request->all());
         $custRandom = rand(1, 3);
@@ -63,16 +65,23 @@ if (! function_exists('InvoiceTestSetData')) {
         }
         $amount = number_format($quantity * $price, 2, '.', '');
 
-
         $company = Company::findOrFail(current_user()->company_id);
+        $branch = Branch::findOrFail(current_user()->branch_id);
+        $configuration = Configuration::where('company_id', $company->id)->first();
         //$customer = Customer::findOrFail($request->customer_id);//cliente de la factura
-        $resolution = Resolution::findOrFail(7);//Resolucion seleccionada
+        $resolution = Resolution::findOrFail(10);//Resolucion seleccionada
+        $cashRegister = cashregisterModel();
         $note = '';//observaciones del documento
-        $generationDate = now();//Fecha de generacion
-        //$dueDate = now();//feecha de vencimiento del documento
         $date = Carbon::now();
         $dueDate = $date->format('Y-m-d');
         $generationDate = $date->format('Y-m-d');
+        $points = "0.00";
+
+        //$taxAmount = ($quantity * $price * $taxRate)/100;
+        $amount = $quantity * $price;
+        $taxAmount =number_format(round($taxAmount), 2, '.', '');
+        $amount = number_format(round($amount), 2, '.', '');
+
         $productLine = [
             "unit_measure_id" => $measure_unit_id,
             "invoiced_quantity" => $quantity,
@@ -91,44 +100,50 @@ if (! function_exists('InvoiceTestSetData')) {
             "code" => $productcode,
             "type_item_identification_id" => 4,
             "price_amount" => $price,
-            "base_quantity" => $quantity,
+            "base_quantity" => $quantity
         ];
+
         $productLines[] = $productLine;
 
         $taxLine = [
-                "tax_id" => $tax_type_id,
-                "tax_amount" => $taxAmount,
-                "percent" => $taxRate,
-                "taxable_amount" => $amount
+            "tax_id" => $tax_type_id,
+            "tax_amount" => $taxAmount,
+            "percent" => $taxRate,
+            "taxable_amount" => $amount
         ];
+
         $taxLines[] = $taxLine;
+
         $data = [
             "number" => $resolution->consecutive,
             "type_document_id" => $resolution->documentType->id,
             "date" => $generationDate,
             "time" => $date->toTimeString(),
+            "postal_zone_code" => $branch->postalCode->postal_code,
             "resolution_number" => $resolution->resolution,
             "prefix" => $resolution->prefix,
             "notes" => $note,
-            "disable_confirmation_text" => true,
-            "establishment_name" => $company->name,
-            "establishment_address" => $company->address,
-            "establishment_phone" => $company->phone,
-            "establishment_municipality" => $company->municipality_id,
-            "establishment_email" => $company->email,
             "sendmail" => true,
             "sendmailtome" => true,
-            "seze" => "2021-2017",
-            "email_cc_list" => [
-                [
-                    "email" => $company->email
-                ],
-                [
-                    "email" => $cust_email
-                ],
-            ],
-            "head_note" => "",
             "foot_note" => "",
+            "software_manufacturer" => [
+                "name" => $configuration->creator_name,
+                "business_name" => $configuration->company_name,
+                "software_name" => $configuration->software_name
+            ],
+            "buyer_benefits" => [
+                "code" => "$cust_identification",
+                "name" => $cust_name,
+                "points" => $points
+            ],
+            "cash_information" => [
+                "plate_number" => cashregisterModel()->salePoint->plate_number,
+                "location" => cashregisterModel()->salePoint->location,
+                "cashier" => current_user()->name,
+                "cash_type" => cashregisterModel()->salePoint->cash_type,
+                "sales_code" => $resolution->prefix .$resolution->consecutive,
+                "subtotal" => $amount
+            ],
             "customer" => [
                 "identification_number" => $cust_identification,
                 "dv" => $cust_dv,
@@ -153,7 +168,7 @@ if (! function_exists('InvoiceTestSetData')) {
                 "line_extension_amount" => $amount,
                 "tax_exclusive_amount" => $amount,
                 "tax_inclusive_amount" => $amount,
-                "payable_amount" => ($amount)
+                "payable_amount" => $amount
             ],
             "invoice_lines" => $productLines,
             "tax_totals" => $taxLines,

@@ -72,10 +72,16 @@ class SoftwareController extends Controller
      */
     public function update(UpdateSoftwareRequest $request, Software $software)
     {
+        //dd($request->all());
         $company = Company::findOrFail(current_user()->company_id);
         $typeSoftware = $request->type_software;
-
-        $environment = Environment::findOrFail(4);
+        if ($typeSoftware == 'invoice') {
+            $environment = Environment::findOrFail(4);
+        } else if ($typeSoftware == 'payroll') {
+            $environment = Environment::findOrFail(5);
+        } else {
+            $environment = Environment::findOrFail(22);
+        }
         $configuration = Configuration::where('company_id', $company->id)->first();
         $url = $environment->protocol . $configuration->ip . $environment->url;
 
@@ -96,7 +102,7 @@ class SoftwareController extends Controller
                     $software->identifier_payroll = $request->identifier_payroll;
                     $software->pin_payroll = $request->pin_payroll;
                     $software->payroll_test_set = $request->payroll_test_set;
-                } else if($typeSoftware == 'payroll') {
+                } else if($typeSoftware == 'pos') {
                     $software->identifier_equidoc = $request->identifier_equidoc;
                     $software->pin_equidoc = $request->pin_equidoc;
                     $software->equidoc_test_set = $request->equidoc_test_set;
@@ -113,20 +119,20 @@ class SoftwareController extends Controller
             );
         } else {
             $software->company_id = $company->id;
-                if ($typeSoftware == 'invoice') {
-                    $software->identifier = $request->identifier;
-                    $software->pin = $request->pin;
-                    $software->test_set = $request->test_set;
-                } else if ($typeSoftware == 'payroll') {
-                    $software->identifier_payroll = $request->identifier_payroll;
-                    $software->pin_payroll = $request->pin_payroll;
-                    $software->payroll_test_set = $request->payroll_test_set;
-                } else if($typeSoftware == 'payroll') {
-                    $software->identifier_equidoc = $request->identifier_equidoc;
-                    $software->pin_equidoc = $request->pin_equidoc;
-                    $software->equidoc_test_set = $request->equidoc_test_set;
-                }
-                $software->update();
+            if ($typeSoftware == 'invoice') {
+                $software->identifier = $request->identifier;
+                $software->pin = $request->pin;
+                $software->test_set = $request->test_set;
+            } else if ($typeSoftware == 'payroll') {
+                $software->identifier_payroll = $request->identifier_payroll;
+                $software->pin_payroll = $request->pin_payroll;
+                $software->payroll_test_set = $request->payroll_test_set;
+            } else if($typeSoftware == 'pos') {
+                $software->identifier_equidoc = $request->identifier_equidoc;
+                $software->pin_equidoc = $request->pin_equidoc;
+                $software->equidoc_test_set = $request->equidoc_test_set;
+            }
+            $software->update();
         }
         return redirect('configuration')->with(
             'error_message',

@@ -100,10 +100,10 @@ class ExpenseController extends Controller
         ->where('user_id', '=', Auth::user()->id)
         ->where('status', '=', 'open')
         ->first();
-        if ($indicator->pos == 'on') {
-            if(is_null($cashRegister)){
-                return redirect("branch")->with('warning', 'Debes tener una caja Abierta para realizar Compras');
-            }
+        $cashRegister = cashregisterModel();
+        if(is_null($cashRegister)){
+            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
+            return redirect("branch");
         }
         $departments = Department::get();
         $municipalities = Municipality::get();

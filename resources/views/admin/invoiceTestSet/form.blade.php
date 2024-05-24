@@ -23,19 +23,40 @@
             <input type="text" name="token" value="{{ $company->api_token }}" class="form-control" placeholder="Token" required>
         </div>
     </div>
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="form-group">
-            <label for="set">Set</label>
-            <input type="text" name="set" value="{{ $software->test_set }}" class="form-control" placeholder="Set" required>
+    @if ($type == 'invoice')
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group">
+                <label for="set">Set</label>
+                <input type="text" name="set" value="{{ $software->test_set }}" class="form-control" placeholder="Set" required>
+            </div>
         </div>
-    </div>
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="form-group">
-            <label for="software_id">Id Software</label>
-            <input type="text" name="software_id" value="{{ $software->identifier }}" class="form-control" placeholder="Id Software" required>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group">
+                <label for="software_id">Id Software</label>
+                <input type="text" name="software_id" value="{{ $software->identifier }}" class="form-control" placeholder="Id Software" required>
+            </div>
         </div>
-    </div>
+    @else
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group">
+                <label for="set">Set</label>
+                <input type="text" name="set" value="{{ $software->equidoc_test_set }}" class="form-control" placeholder="Set" required>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group">
+                <label for="software_id">Id Software</label>
+                <input type="text" name="software_id" value="{{ $software->identifier_equidoc }}" class="form-control" placeholder="Id Software" required>
+            </div>
+        </div>
+    @endif
 
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="addTypeDocument">
+        <div class="form-group">
+            <label class="form-control-label" for="typeDocument">tipo documento</label>
+            <input type="text" id="typeDocument" name="typeDocument" value="{{ $type }}" class="form-control">
+        </div>
+    </div>
 
 
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

@@ -176,6 +176,22 @@ class EnvironmentSeeder extends Seeder
                 'protocol' => 'http://',
                 'url' => '/api/ubl2.1/status/zip/'
             ),
+            20 =>
+            array (
+                'id' => 21,
+                'code' => 'EPOS',
+                'name' => 'Documento Equivalente pos',
+                'protocol' => 'http://',
+                'url' => '/api/ubl2.1/eqdoc'
+            ),
+            21 =>
+            array (
+                'id' => 22,
+                'code' => 'SCP',
+                'name' => 'Software Configuration pos',
+                'protocol' => 'http://',
+                'url' => '/api/ubl2.1/config/softwareeqdocs'
+            ),
         ));
     }
 }

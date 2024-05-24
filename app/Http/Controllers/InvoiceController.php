@@ -302,9 +302,6 @@ class InvoiceController extends Controller
     {
         //dd($request->all());
         $company = Company::findOrFail(current_user()->company_id);
-        $environment = Environment::where('id', 11)->first();
-        $configuration = Configuration::where('company_id', $company->id)->first();
-        $url = $environment->protocol . $configuration->ip . $environment->url;
         $indicator = Indicator::findOrFail(1);
         $cashRegister = cashregisterModel();
         $resolutions = '';
@@ -312,6 +309,7 @@ class InvoiceController extends Controller
 
         $typeDocument = $request->typeDocument;
         $documentType = '';
+
 
         //Metodo si los envios a la dian es si trae resolucion
         //asignacion del vaucher y document type
@@ -335,7 +333,7 @@ class InvoiceController extends Controller
                 $documentType = 104;
             }
         }
-        dd($resolutions);
+
         $voucherTypes = VoucherType::findOrFail($voucherType);
         //Variables del request
         $product_id = $request->product_id;
@@ -377,10 +375,15 @@ class InvoiceController extends Controller
         if ($indicator->dian == 'on') {
             if ($typeDocument == 'invoice') {
                 $data = invoiceData($request);
+                $environment = Environment::where('id', 11)->first();
+                $configuration = Configuration::where('company_id', $company->id)->first();
+                $url = $environment->protocol . $configuration->ip . $environment->url;
             } else {
                 $data = equiDocPosData($request);
+                $environment = Environment::where('id', 21)->first();
+                $configuration = Configuration::where('company_id', $company->id)->first();
+                $url = $environment->protocol . $configuration->ip . $environment->url;
             }
-            dd($data);
             $requestResponse = sendDocuments($company, $url, $data);
             dd($requestResponse);
             $store = $requestResponse['store'];
@@ -819,28 +822,6 @@ class InvoiceController extends Controller
         toast('Operario Actualizado satisfactoriamente.','success');
             return redirect('invoice');
     }
-    /*
-    public function update(UpdateInvoiceRequest $request, Invoice $invoice)
-    {
-        dd($request->all());
-        $invoiceProduct = InvoiceProduct::where('invoice_id', $invoice->id)->get();
-        for ($i=0; $i < count($invoiceProduct); $i++) {
-            $employee_id = $request->employee_id[$i];
-            $employeeInvoiceProduct = EmployeeInvoiceProduct::where('invoice_product_id', $invoiceProduct[$i]->id)->first();
-            $employee = Employee::findOrFail($employee_id);
-            $commission = $employee->commission;
-            $subtotal = $invoiceProduct[$i]->subtotal;
-
-            if ($employeeInvoiceProduct) {
-                $employeeInvoiceProduct->commission = $commission;
-                $employeeInvoiceProduct->value_commission = $subtotal * $commission / 100;
-                $employeeInvoiceProduct->employee_id = $employee_id;
-                $employeeInvoiceProduct->update();
-            }
-        }
-        toast('Operario Actualizado satisfactoriamente.','success');
-            return redirect('invoice');
-    }*/
 
     /**
      * Remove the specified resource from storage.
@@ -852,6 +833,11 @@ class InvoiceController extends Controller
 
     public function debitNote($id)
     {
+        $cashRegister = cashregisterModel();
+        if(is_null($cashRegister)){
+            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
+            return redirect("branch");
+        }
         $invoice = Invoice::findOrFail($id);
         $products = Product::where('status', 'active')->where('type_product', 'service')->get();
         $discrepancies = Discrepancy::where('id', '>', 6)->where('description', '!=', 'Otros')->get();
@@ -888,6 +874,11 @@ class InvoiceController extends Controller
 
     public function creditNote($id)
     {
+        $cashRegister = cashregisterModel();
+        if(is_null($cashRegister)){
+            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
+            return redirect("branch");
+        }
         $invoice = Invoice::where('id', $id)->first();
         $indicator = Indicator::findOrFail(1);
         //$invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->get();
@@ -934,6 +925,11 @@ class InvoiceController extends Controller
 
     public function invoicePay($id)
     {
+        $cashRegister = cashregisterModel();
+        if(is_null($cashRegister)){
+            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
+            return redirect("branch");
+        }
         $document = Invoice::findOrFail($id);
         $banks = Bank::get();
         $paymentMethods = PaymentMethod::get();

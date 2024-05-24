@@ -59,7 +59,7 @@ if (! function_exists('EquiDocPosData')) {
             $companyTax = CompanyTax::findOrFail($companyTaxProduct);
             $taxAmount = ($quantity[$i] * $price[$i] * $taxRate[$i])/100;
             $amount = $quantity[$i] * $price[$i];
-            $taxAmount =number_format(round(($quantity[$i] * $price[$i] * $taxRate[$i])/100), 2, '.', '');
+            $taxAmount =number_format(round($taxAmount), 2, '.', '');
             $amount = number_format(round($amount), 2, '.', '');
 
 

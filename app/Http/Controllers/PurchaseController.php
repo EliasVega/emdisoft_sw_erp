@@ -133,15 +133,10 @@ class PurchaseController extends Controller
     {
         $indicator = indicator();
         $pos = indicator()->pos;
-        $cashRegister = CashRegister::select('id')
-        ->where('user_id', '=', Auth::user()->id)
-        ->where('status', '=', 'open')
-        ->first();
-        if ($pos == 'on') {
-            if(is_null($cashRegister)){
-                toast('Debes tener una caja Abierta para realizar Operaciones.','danger');
-                return redirect("branch");
-            }
+        $cashRegister = cashregisterModel();
+        if(is_null($cashRegister)){
+            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
+            return redirect("branch");
         }
         $providers = Provider::get();
         $documentTypes = DocumentType::where('prefix', 'DSE')->get();
@@ -198,11 +193,10 @@ class PurchaseController extends Controller
     {
         $indicator = indicator();
         $cashRegister = cashregisterModel();
-        if ($indicator->pos == 'on') {
-            if(is_null($cashRegister)){
-                toast('Debes tener una caja Abierta para realizar Compras.','danger');
-                return redirect("branch");
-            }
+        $cashRegister = cashregisterModel();
+        if(is_null($cashRegister)){
+            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
+            return redirect("branch");
         }
         $providers = Provider::get();
         $documentTypes = DocumentType::where('prefix', 'DSE')->get();
@@ -977,7 +971,11 @@ class PurchaseController extends Controller
 
     public function creditNote($id)
     {
-
+        $cashRegister = cashregisterModel();
+        if(is_null($cashRegister)){
+            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
+            return redirect("branch");
+        }
         $purchase = Purchase::findOrFail($id);
         $products = Product::where('status', 'active')->where('type_product', 'service')->get();
         $discrepancies = Discrepancy::where('id', '>', 6)->where('description', '!=', 'Otros')->get();
@@ -1027,6 +1025,11 @@ class PurchaseController extends Controller
 
     public function debitNote($id)
     {
+        $cashRegister = cashregisterModel();
+        if(is_null($cashRegister)){
+            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
+            return redirect("branch");
+        }
         $purchase = Purchase::where('id', $id)->first();
         $indicator = Indicator::findOrFail(1);
         //$productPurchases = ProductPurchase::where('purchase_id', $purchase->id)->get();
@@ -1085,6 +1088,11 @@ class PurchaseController extends Controller
     //Metodo para registrar pago o abono de factura de compra
     public function purchasePay($id)
     {
+        $cashRegister = cashregisterModel();
+        if(is_null($cashRegister)){
+            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
+            return redirect("branch");
+        }
         $document = Purchase::findOrFail($id);
         $banks = Bank::get();
         $paymentMethods = PaymentMethod::get();

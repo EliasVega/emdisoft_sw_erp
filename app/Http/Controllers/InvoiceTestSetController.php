@@ -45,7 +45,17 @@ class InvoiceTestSetController extends Controller
         $company = Company::where('id', current_user()->company_id)->first();
         $configuration = Configuration::where('company_id', $company->id)->first();
         $software = Software::where('company_id', $company->id)->first();
-        return view('admin.invoiceTestSet.create', compact('company', 'configuration', 'software'));
+        $type = 'invoice';
+        return view('admin.invoiceTestSet.create', compact('company', 'configuration', 'software', 'type'));
+    }
+
+    public function createSetPos()
+    {
+        $company = Company::where('id', current_user()->company_id)->first();
+        $configuration = Configuration::where('company_id', $company->id)->first();
+        $software = Software::where('company_id', $company->id)->first();
+        $type = 'pos';
+        return view('admin.invoiceTestSet.create', compact('company', 'configuration', 'software', 'type'));
     }
 
     /**
@@ -54,37 +64,40 @@ class InvoiceTestSetController extends Controller
     public function store(StoreInvoiceTestSetRequest $request)
     {
         //dd($request->all());
+        $typeDocument = $request->typeDocument;
         $company = Company::findOrFail(current_user()->company_id);
-        $environment = Environment::findOrFail(11);
         $configuration = Configuration::where('company_id', $company->id)->first();
         $software = Software::where('company_id', $company->id)->first();
-        $url = $environment->protocol . $configuration->ip . $environment->url . '/' . $software->test_set;
-        $indicator = Indicator::findOrFail(1);
-        //$resolut = $request->resolution_id;
+        if ($typeDocument == 'invoice') {
+            $environment = Environment::findOrFail(11);
+            $resolutions = Resolution::findOrFail(7);
+            $sw = $software->test_set;
+        } else {
+            $environment = Environment::findOrFail(21);
+            $resolutions = Resolution::findOrFail(10);
+            $sw = $software->equidoc_test_set;
+        }
+        $url = $environment->protocol . $configuration->ip . $environment->url . '/' . $sw;
 
         //$typeDocument = 'invoice';
-        $resolutions = Resolution::findOrFail(7);
+
         $service = '';
         $errorMessages = '';
         $store = false;
 
-        for ($i=0; $i < 10; $i++) {
-            if ($indicator->dian == 'on') {
-                /*
+        for ($i=0; $i < 1; $i++) {
+            if (indicator()->dian == 'on') {
                 if ($typeDocument == 'invoice') {
-                    $data = invoiceTestSetData($request);
+                    $data = invoiceTestSetData();
                 } else {
-                    $data = equiDocPosData($request);
-                }*/
-
-                    # code...
-
-                $data = invoiceTestSetData();
-                //dd($data);
-                    $requestResponse = sendInvoiceTestSet($company, $url, $data);
-                    $store = $requestResponse['store'];
-                    $service = $requestResponse['response'];
-                    $errorMessages = $requestResponse['errorMessages'];
+                    $data = equiDocPosTestSetData();
+                }
+                //dd($url);
+                $requestResponse = sendInvoiceTestSet($company, $url, $data);
+                dd($requestResponse);
+                $store = $requestResponse['store'];
+                $service = $requestResponse['response'];
+                $errorMessages = $requestResponse['errorMessages'];
 
             } else {
                 toast('No es posible sin envio a la dian activado.','danger');

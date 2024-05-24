@@ -51,10 +51,10 @@ class InvoiceOrderController extends Controller
             $user = current_user()->Roles[0]->name;
             if ($user == 'superAdmin' ||$user == 'admin') {
                 //Consulta para mostrar todas las precompras a admin y superadmin
-                $invoiceOrders = InvoiceOrder::get();
+                $invoiceOrders = InvoiceOrder::where('status', '!=', 'canceled')->get();
             } else {
                 //Consulta para mostrar precompras de los demas roles
-                $invoiceOrders = InvoiceOrder::where('user_id', $user->id)->get();
+                $invoiceOrders = InvoiceOrder::where('user_id', $user->id)->where('status', '!=', 'canceled')->get();
             }
             return DataTables::of($invoiceOrders)
             ->addIndexColumn()
@@ -93,11 +93,10 @@ class InvoiceOrderController extends Controller
     {
         $indicator = Indicator::findOrFail(1);
         $cashRegister = cashregisterModel();
-        if ($indicator->pos == 'on') {
-            if(is_null($cashRegister)){
-                Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
-                return redirect("branch");
-            }
+        $cashRegister = cashregisterModel();
+        if(is_null($cashRegister)){
+            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
+            return redirect("branch");
         }
         $customers = Customer::get();
         $employees = Employee::get();
@@ -484,6 +483,18 @@ class InvoiceOrderController extends Controller
     public function destroy(InvoiceOrder $invoiceOrder)
     {
         //
+    }
+
+    public function invoiceOrderDelete($id)
+    {
+        $invoiceOrder = InvoiceOrder::findOrFail($id);
+
+        if ($invoiceOrder->status != 'canceled') {
+            $invoiceOrder->status = 'canceled';
+        }
+        $invoiceOrder->update();
+
+        return redirect('invoiceOrder');
     }
 
     public function invoice($id)

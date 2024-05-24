@@ -66,9 +66,9 @@ class DatabaseSeeder extends Seeder
         $this->call(BranchRawmaterialsTableSeeder::class);
         $this->call(OvertimeTypeSeeder::class);
 
-        $this->call(AccountClassSeeder::class);
-        $this->call(AccountGroupSeeder::class);
-        $this->call(AccountSeeder::class);
-        $this->call(SubaccountSeeder::class);
+        //$this->call(AccountClassSeeder::class);
+        //$this->call(AccountGroupSeeder::class);
+        //$this->call(AccountSeeder::class);
+        //$this->call(SubaccountSeeder::class);
     }
 }

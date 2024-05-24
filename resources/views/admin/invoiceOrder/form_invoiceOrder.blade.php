@@ -190,51 +190,6 @@
                 title="Cancelar"><i class="fa fa-window-close"></i>&nbsp; </a>
         </div>
     </div>
-    @if ($indicator->dian == 'on')
-        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="resolution">
-            <div class="form-group">
-                <label class="form-control-label required" for="resolution_id">Resolucion</label>
-                <select name="resolution_id" class="form-control selectpicker" id="resolution_id"
-                    data-live-search="true" required>
-                    <option value="" selected>Resolucion</option>
-                    @foreach ($resolutions as $resolution)
-                        <option value="{{ $resolution->id }}">{{ $resolution->prefix }}
-                            {{ $resolution->resolution }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-    @endif
-
-    @if ($indicator->pos == 'on')
-
-        @if ($indicator->dian == 'on')
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mt-3" id="addFe">
-                <div class="form-check">
-                    <input class="form-check-input fe_true" type="radio" name="fe" value="1"
-                        id="fe_on">
-                    <label class="form-check-label" for="fe">
-                        Generar Factura Electronica
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input fe_true" type="radio" name="fe" value="2"
-                        id="fe_off" checked>
-                    <label class="form-check-label" for="fe">
-                        Generar ticket POS
-                    </label>
-                </div>
-            </div>
-        @else
-            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12" id="posavtivity">
-                <div class="form-group">
-                    <label class="form-control-label" for="fe">pos Active</label>
-                    <input type="number" id="fe" name="fe" value="2" class="form-control"
-                        placeholder="fe">
-                </div>
-            </div>
-        @endif
-    @endif
     <div class="col-lg-10 col-md-8 col-sm-8 col-xs-12" id="noteDocument">
         <div class="form-group">
             <label class="form-control-label" for="note">Observaciones</label>

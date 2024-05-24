@@ -52,7 +52,7 @@ class PurchaseOrderProductController extends Controller
      */
     public function store(StorePurchaseOrderProductRequest $request)
     {
-        dd($request->all());
+        //dd($request->all());
         $company = Company::findOrFail(current_user()->company_id);
         $environment = Environment::where('code', 'SD')->first();
         $indicator = indicator();

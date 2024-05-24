@@ -28,6 +28,7 @@ class SoftwareSeeder extends Seeder
                 'payroll_test_set' => null,
                 'identifier_equidoc' => null,
                 'pin_equidoc' => null,
+                'equidoc_test_set' => null,
                 'created_at' => '2024-05-17 00:00:00',
                 'updated_at' => '2024-01-17 00:00:00'
             ),

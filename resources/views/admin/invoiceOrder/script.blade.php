@@ -50,12 +50,6 @@
     $("#addEid").hide();
 
     $(document).ready(function(){
-        typeInvoice = $("#pos_active").val();
-        if (typeInvoice == 'off') {
-            $("#resolution").show();
-            $("#addFe").hide();
-            $(".fe_true").val(1);
-        }
 
         let barcodestart = $(("#switch_barcode")).prop("checked");// == true ? 1 : 0;
         if (barcodestart == true) {
@@ -171,12 +165,13 @@
 
             $('#details').append(row);
             $("#totalPartial").val(total);
+            /*
             swal.fire({
                 icon: 'success',
                 text: product + '--' + 'Agregado correctamente',
                 showConfirmButton: false,
                 timer: 3000 // es ms (mili-segundos)
-            });
+            });*/
             //$('#product_id option:selected').remove();
             clean();
 
@@ -220,13 +215,6 @@
             $('#details').append(row);
             $("#totalPartial").val(total);
             clean();
-            swal.fire({
-                icon: 'success',
-                text: product + '--' + 'Agregado correctamente',
-                showConfirmButton: false,
-                timer: 3000 // es ms (mili-segundos)
-            });
-
         }else{
             //alert("Rellene todos los campos del detalle para esta compra");
             Swal.fire({
@@ -236,15 +224,6 @@
             })
         }
     }
-
-    function notificacion() {
-            swal({
-                type: 'error',
-                title: 'La contraseña es incorrecta',
-                showConfirmButton: false,
-                timer: 3000 // es ms (mili-segundos)
-            })
-        }
 
     function clean(){
         $('#product_id').val(null).trigger('change');
@@ -271,59 +250,7 @@
         $("#pendient").val(total_pay.toFixed(2));
         $("#total_invoice").val(total.toFixed(2));
         $("#tax_iva").val(tax_iva);
-        pos();
     }
-
-    function pos(){
-        if (pos_on == 'on') {
-            if (total > uvt) {
-                $("#resolution").show();
-                $(".fe_true").val(1);
-                $("#addFe").hide();
-                //$("#resolution_id").val(1);
-                $('#resolution_id').prop("required", true)
-            } else {
-                $("#resolution").hide();
-                $("#addFe").show();
-                $(".fe_true").val(2);
-                //$("#resolution_id").val(1);
-                $('#resolution_id').prop("required", false)
-            }
-        }
-    }
-
-    $(document).ready(function(){
-        $("#fe_on").click(function(){
-            $(".fe_true").val(1);
-            $("#resolution").show();
-            $("#addFe").hide();
-            $('#resolution_id').prop("required", true)
-            $("#addPercentage").show();
-        });
-    });
-    $(document).ready(function(){
-        $("#fe_off").click(function(){
-            $(".fe_true").val(2);
-            $("#resolution").hide();
-            $("#resolution_id").val(4);
-            $('#resolution_id').prop("required", false)
-        });
-    });
-    /*
-    $(".fe_true").change(function(){
-        var fe = $(".fe_true").val();
-        if (fe == 1) {
-            $("#resolution").show();
-            $("#addFe").hide();
-            $('#resolution_id').prop("required", true)
-        } else {
-            $("#resolution").hide();
-            //$(".fe_true").val(2);
-            //$("#addFe").show();
-            $("#resolution_id").val(4);
-            $('#resolution_id').prop("required", false)
-        }
-    });*/
     function assess(){
 
         if(total>0){
@@ -349,10 +276,6 @@
         $("#total_pay").val(total_pay.toFixed(2));
 
         $("#row" + index).remove();
-
-        if (pos_on == 'on') {
-            pos();
-        }
 
         assess();
     }
@@ -418,12 +341,6 @@
             $('#details').append(row);
             $('#editModal').modal('hide');
             $("#totalPartial").val(total);
-            swal.fire({
-                icon: 'success',
-                text: product + '--' + 'Editado correctamente',
-                showConfirmButton: false,
-                timer: 3000 // es ms (mili-segundos)
-            });
 
             //$('#product_id option:selected').remove();
         }else{

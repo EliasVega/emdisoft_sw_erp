@@ -7,7 +7,7 @@
     <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
         <div class="box-danger">
             <div class="box-header with-border">
-                <h5 class="box-title">Agregar Respuesta a Factura de compra
+                <h5 class="box-title">Agregar Set de pruebas facturacion y pos
                     <a href="{{ route('invoiceTestSet.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
 
                 </h5>

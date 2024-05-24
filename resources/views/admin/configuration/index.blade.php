@@ -99,7 +99,16 @@
                         data-toggle="tooltip" data-placement="top" title="Activa"><i class="far fa-edit">TESTSET</i></a>
                 </div>
                 <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 mb-3">
-                    <b>SET DE PRUEBAS</b>
+                    <b>SET DE PRUEBAS FACTURA ELECTRONICA</b>
+                </div>
+            </div>
+            <div class="row m-3">
+                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mb-3">
+                        <a href="{{ route('createSetPos') }}" class="btn btn-blueGrad btn-md pr-5"
+                        data-toggle="tooltip" data-placement="top" title="Activa"><i class="far fa-edit">POS SET</i></a>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 mb-3">
+                    <b>SET DE PRUEBAS POS ELECTRONICO</b>
                 </div>
             </div>
             <div class="row m-3">

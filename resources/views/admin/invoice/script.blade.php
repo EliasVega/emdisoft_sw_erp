@@ -57,8 +57,6 @@
     $("#taxType").hide();
     $("#resolution").hide();
     $("#documentType").hide();
-    $("#uvt5").hide();
-    $("#posActive").hide();
     //$("#save").hide();
     $("#posavtivity").hide();
     $("#barcodeId").hide();
@@ -73,8 +71,6 @@
         typeInvoice = $("#pos_active").val();
         if (typeInvoice == 'on') {
             $("#resolution").show();
-            //$("#addFe").hide();
-            //$(".fe_true").val(1);
             $('#resolution_id').prop("required", true)
         }
 
@@ -287,24 +283,6 @@
         $("#total_invoice").val(total.toFixed(2));
         $("#tax_iva").val(tax_iva);
     }
-    /*
-    $(document).ready(function(){
-        $("#fe_on").click(function(){
-            $(".fe_true").val(1);
-            $("#resolution").show();
-            $("#addFe").hide();
-            $('#resolution_id').prop("required", true)
-            $("#addPercentage").show();
-        });
-    });
-    $(document).ready(function(){
-        $("#fe_off").click(function(){
-            $(".fe_true").val(2);
-            $("#resolution").hide();
-            $("#resolution_id").val(4);
-            $('#resolution_id').prop("required", false)
-        });
-    });*/
     function assess(){
 
         if(total>0){

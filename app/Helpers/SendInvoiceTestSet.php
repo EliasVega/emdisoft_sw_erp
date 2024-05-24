@@ -7,7 +7,7 @@ if (! function_exists('sendInvoiceTestSet')) {
     {
         $requestResponse = [];
         $errorMessages = null;
-        //dd($data);
+
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $company->api_token,
             'Content-Type' => 'application/json',
