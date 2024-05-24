@@ -23,14 +23,14 @@ class CompaniesTableSeeder extends Seeder
             0 =>
             array (
                 'id' => 1,
-                'name' => 'MEDINA MENDEZ ELIZABETH',
-                'nit' => '37549956',
-                'dv' => '8',
-                'address' => 'AV CENTRAL METROP SEC BUENO PQ TERMINAL LC 3',
-                'phone' => '3134669720',
-                'api_token' => 'd2d434be8009f8329a793842c619ee14362301ed3fb3178f899c1f47765745d1',
-                'email' => 'elime_802@hotmail.com',
-                'emailfe' => 'elime_802@hotmail.com',
+                'name' => 'EMDISOFT S.A.S.',
+                'nit' => '901343767',
+                'dv' => '6',
+                'address' => 'cr 21 99 27',
+                'phone' => '3112689929',
+                'api_token' => '00',
+                'email' => 'emdisoft@gmail.com',
+                'emailfe' => 'emdisoft.info@gmail.com',
                 'merchant_registration' => '000000-00',
                 'imageName' => 'noimage.jpg',
                 'logo' => '/storage/images/logos/noimage.jpg',
@@ -42,8 +42,8 @@ class CompaniesTableSeeder extends Seeder
                 'liability_id' => 117,
                 'organization_id' => 2,
                 'regime_id' => 2,
-                'created_at' => '2024-05-17 21:07:42',
-                'updated_at' => '2024-05-17 21:07:42',
+                'created_at' => '2023-01-12 21:07:42',
+                'updated_at' => '2023-01-12 21:07:42',
             ),
         ));
 

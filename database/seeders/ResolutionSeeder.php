@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Resolution;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class ResolutionSeeder extends Seeder
 {
@@ -222,6 +221,40 @@ class ResolutionSeeder extends Seeder
                 'description' => 'ND Pos Electronico',
                 'company_id' => 1,
                 'document_type_id' => 25
+            ),
+            12 =>
+            array (
+                'id' => 13,
+                'prefix' => 'FLOC',
+                'resolution' => '18760000001',
+                'resolution_date' => '2019-01-19',
+                'technical_key' => 'local',
+                'start_number' => 1,
+                'end_number' => 99999999,
+                'consecutive' => 1,
+                'start_date' => '2019-01-19',
+                'end_date' => '2040-01-19',
+                'status' => 'active',
+                'description' => 'Facturacion en local',
+                'company_id' => 1,
+                'document_type_id' => 1
+            ),
+            15 =>
+            array (
+                'id' => 16,
+                'prefix' => 'FVEC',
+                'resolution' => '18764050702643',
+                'resolution_date' => '2023-06-21',
+                'technical_key' => 'edd8c8665026708791fa048afda2adb7ec4fc9520b39522d885dfcf0a80b9939',
+                'start_number' => 1501,
+                'end_number' => 2000,
+                'consecutive' => 1501,
+                'start_date' => '2023-06-21',
+                'end_date' => '2023-12-21',
+                'status' => 'active',
+                'description' => 'Factura de venta',
+                'company_id' => 1,
+                'document_type_id' => 1
             ),
         ));
     }
