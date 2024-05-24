@@ -4,18 +4,6 @@
         });*/
 
     //Selecciona el municipio de acuerdo al departamento
-    $("#department_id").change(function(event) {
-        $.get("create/" + event.target.value + "", function(response) {
-            $("#municipality_id").empty();
-            $("#municipality_id").append(
-                "<option value = '#' disabled selected>Seleccionar ...</option>");
-            for (i = 0; i < response.length; i++) {
-                $("#municipality_id").append("<option value = '" + response[i].id + "'>" + response[i]
-                    .name + "</option>");
-            }
-            $("#municipality_id").selectpicker('refresh');
-        });
-    });
     jQuery(document).ready(function($) {
         $(document).ready(function() {
             $('#branch_id').select2({

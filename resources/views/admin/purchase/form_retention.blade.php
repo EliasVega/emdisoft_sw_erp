@@ -22,9 +22,7 @@
 <div class="box-body row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="box-danger">
-            <label class="form-control-label">
-                <strong>Agregar Retenciones</strong>
-            </label>
+            <span><strong>Agregar Retenciones</strong></span>
         </div>
     </div>
     <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" id="companyTax">
@@ -54,7 +52,7 @@
     </div>
     <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
         <div class="form-group">
-            <label class="form-control-label">Adicionar</label><br>
+            <span><strong>Adicionar</strong></span><br>
             <button class="btn btn-lightBlueGrad" type="button" id="withhold" data-toggle="tooltip" data-placement="top" title="Retencion"><i class="fas fa-check"></i> </button>
         </div>
     </div>

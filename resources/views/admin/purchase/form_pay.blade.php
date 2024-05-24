@@ -1,9 +1,7 @@
 <div class="box-body row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="box-danger">
-            <label class="form-control-label">
-                <strong>Agregar Abono</strong>
-            </label>
+            <span><strong>Agregar Abono</strong></span>
         </div>
     </div>
     <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12" id="fpay">
@@ -92,7 +90,7 @@
     </div>
     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
-            <label class="form-control-label">Pendiente</label>
+            <label class="form-control-label" for="pendient">Pendiente</label>
             <input type="number" id="pendient" value="0" class="form-control" disabled pattern="[0-9]{0,15}">
         </div>
     </div>
@@ -168,7 +166,7 @@
 
     <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">
         <div class="form-group">
-            <label class="form-control-label">Pagar</label><br>
+            <span><strong>Pagar</strong></span><br>
             <button class="btn btn-lightBlueGrad" type="button" id="paying" data-toggle="tooltip" data-placement="top" title="Abono"><i class="fas fa-check"></i> </button>
         </div>
     </div>

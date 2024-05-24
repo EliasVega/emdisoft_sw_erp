@@ -43,12 +43,12 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use App\Traits\InventoryPurchases;
 use App\Traits\KardexCreate;
-use App\Traits\Taxes;
 use App\Traits\RawMaterialPurchases;
+use App\Traits\GetTaxesLine;
 
 class PurchaseController extends Controller
 {
-    use InventoryPurchases, KardexCreate, Taxes, RawMaterialPurchases;
+    use InventoryPurchases, KardexCreate, GetTaxesLine, RawMaterialPurchases;
     function __construct()
     {
         $this->middleware('permission:purchase.index|purchase.create|purchase.show|purchase.edit', ['only'=>['index']]);
@@ -64,9 +64,9 @@ class PurchaseController extends Controller
     public function index(Request $request)
     {
         $purchase = session('purchase');
-        $indicator = indicator();
         $typeDocument = '';
-        if ($indicator->pos == 'off') {
+        $indicator = indicator();
+        if (indicator()->pos == 'off') {
             $typeDocument = 'document';
         } else {
             $typeDocument = 'pos';
@@ -132,9 +132,9 @@ class PurchaseController extends Controller
     public function create()
     {
         $indicator = indicator();
-        $pos = indicator()->pos;
-        $cashRegister = cashregisterModel();
-        if(is_null($cashRegister)){
+        //$pos = indicator()->pos;
+        //$cashRegister = cashregisterModel();
+        if(is_null(cashregisterModel())){
             Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
             return redirect("branch");
         }
@@ -163,13 +163,13 @@ class PurchaseController extends Controller
         ->join('percentages as per', 'ct.percentage_id', 'per.id')
         ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
         ->where('tt.type_tax', 'retention')->get();
-        $typeProduct = 1;
+        $typeProduct = 'product';
 
         $countBranchs = count($branchs);
         return view('admin.purchase.create',
         compact(
             'indicator',
-            'pos',
+            //'pos',
             'providers',
             'documentTypes',
             'resolutions',
@@ -192,9 +192,7 @@ class PurchaseController extends Controller
     public function createRawmaterial()
     {
         $indicator = indicator();
-        $cashRegister = cashregisterModel();
-        $cashRegister = cashregisterModel();
-        if(is_null($cashRegister)){
+        if(is_null(cashregisterModel())){
             Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
             return redirect("branch");
         }
@@ -225,7 +223,7 @@ class PurchaseController extends Controller
         ->join('percentages as per', 'ct.percentage_id', 'per.id')
         ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
         ->where('tt.type_tax', 'retention')->get();
-        $typeProduct = 2;
+        $typeProduct = 'raw material';
         $countBranchs = count($branchs);
         return view('admin.purchase.create',
         compact(
@@ -260,11 +258,7 @@ class PurchaseController extends Controller
         //dd($request->all());
         $resolution = $request->resolution_id;
         $company = Company::findOrFail(current_user()->company_id);
-        $environment = Environment::where('id', 16)->first();
-        $configuration = Configuration::where('company_id', $company->id)->first();
-        $url = $environment->protocol . $configuration->ip . $environment->url;
-        $indicator = indicator();
-        $cashRegister = cashregisterModel();
+        //$cashRegister = cashregisterModel();
 
         //Variables del request
         $product_id = $request->product_id;
@@ -280,7 +274,6 @@ class PurchaseController extends Controller
         if ($request->total_retention != null) {
             $retention = $request->total_retention;
         }
-
         $documentType = $request->document_type_id;
         $typeDocument = 'purchase';
         $voucherType = '';
@@ -290,13 +283,16 @@ class PurchaseController extends Controller
             $voucherType = 7;
             $resolution = 1;
         }
+
         $resolutions = Resolution::findOrFail($resolution);
         $service = '';
         $errorMessages = '';
         $store = false;
-        if ($documentType == 11 && $indicator->dian == 'on') {
+        if ($documentType == 11 && indicator()->dian == 'on') {
+            $environment = Environment::where('id', 16)->first();
+            $configuration = Configuration::where('company_id', $company->id)->first();
+            $url = $environment->protocol . $configuration->ip . $environment->url;
             $data = supportDocumentData($request);
-            //dd($data);
             $requestResponse = sendDocuments($company, $url, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
@@ -304,6 +300,7 @@ class PurchaseController extends Controller
         } else {
             $store = true;
         }
+
         //Crea un registro de compras
         if ($store == true) {
 
@@ -323,6 +320,7 @@ class PurchaseController extends Controller
                 $purchase->invoice_code = $voucherTypes->code . '-' . $voucherTypes->consecutive;
                 $purchase->voucher_type_id = 12;
                 $purchase->status = 'support_document';
+
                 $voucherTypes->consecutive += 1;
                 $voucherTypes->update();
             } else {
@@ -332,6 +330,7 @@ class PurchaseController extends Controller
                 $purchase->status = 'purchase';
                 $voucherTypes->consecutive += 1;
                 $voucherTypes->update();
+
                 $resolutions->consecutive += 1;
                 $resolutions->update();
             }
@@ -356,15 +355,15 @@ class PurchaseController extends Controller
             $voucher->consecutive = $purchase->id;
             $voucher->update();
 
-            if ($indicator->pos == 'on') {
+            if (indicator()->pos == 'on') {
                 //actualizar la caja
-                    $cashRegister->purchase += $total_pay;
-                    //$cashRegister->out_total += $totalpay;
-                    $cashRegister->update();
+                    cashregisterModel()->purchase += $total_pay;
+                    //cashregisterModel()->out_total += $totalpay;
+                    cashregisterModel()->update();
             }
 
             $document = $purchase;
-            if ($request->typeProduct == 1) {
+            if ($request->typeProduct == 'product') {
                 for ($i=0; $i < count($product_id); $i++) {
                     $id = $product_id[$i];
                     //Metodo para registrar la relacion entre producto y compra
@@ -427,7 +426,6 @@ class PurchaseController extends Controller
 
             $taxes = $this->getTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC
             //TaxesGlobals($document, $quantityBag, $typeDocument);
-
             taxesLines($document, $taxes, $typeDocument);
             retentions($request, $document, $typeDocument);
 
@@ -436,7 +434,7 @@ class PurchaseController extends Controller
                 pays($request, $document, $typeDocument);
             }
 
-            if ($documentType == 11 && $indicator->dian == 'on') {
+            if ($documentType == 11 && indicator()->dian == 'on') {
                 $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
                     ['SendBillSyncResult']['IsValid'];
                 $code = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
@@ -620,7 +618,7 @@ class PurchaseController extends Controller
     public function update(UpdatePurchaseRequest $request, Purchase $purchase)
     {
         /*
-            $indicator = Indicator::findOrFail(1);
+            indicator() = indicator()
             $user = Auth::user();
 
             //Variables del request
@@ -671,12 +669,12 @@ class PurchaseController extends Controller
 
             }
 
-            if ($indicator->pos == 'on') {
+            if (indicator()->pos == 'on') {
                 //actualizar la caja
                 if ($date1 == $date2) {
-                    $cashRegister = CashRegister::where('user_id', '=', $purchase->user_id)->where('status', '=', 'open')->first();
-                    $cashRegister->purchase -= $purchase->total_pay;
-                    $cashRegister->update();
+                    cashregisterModel() = CashRegister::where('user_id', '=', $purchase->user_id)->where('status', '=', 'open')->first();
+                    cashregisterModel()->purchase -= $purchase->total_pay;
+                    cashregisterModel()->update();
                 }
             }
 
@@ -716,12 +714,12 @@ class PurchaseController extends Controller
                 }
             }
 
-            if ($indicator->pos == 'on') {
+            if (indicator()->pos == 'on') {
                 //actualizar la caja
                 if ($date1 == $date2) {
-                    $cashRegister = CashRegister::where('user_id', '=', $purchase->user_id)->where('status', '=', 'open')->first();
-                    $cashRegister->purchase += $purchase->total_pay;
-                    $cashRegister->update();
+                    cashregisterModel() = CashRegister::where('user_id', '=', $purchase->user_id)->where('status', '=', 'open')->first();
+                    cashregisterModel()->purchase += $purchase->total_pay;
+                    cashregisterModel()->update();
                 }
             }
 
@@ -780,15 +778,15 @@ class PurchaseController extends Controller
 
                         $mp = $paymentMethod[$i];
 
-                        if ($indicator->pos == 'on') {
+                        if (indicator()->pos == 'on') {
                             //metodo para actualizar la caja
-                            $cashRegister = CashRegister::where('user_id', '=', $purchase->user_id)->where('status', '=', 'open')->first();
+                            cashregisterModel() = CashRegister::where('user_id', '=', $purchase->user_id)->where('status', '=', 'open')->first();
                             if($mp == 10){
-                                $cashRegister->out_purchase_cash += $pay;
-                                $cashRegister->cash_out_total += $pay;
+                                cashregisterModel()->out_purchase_cash += $pay;
+                                cashregisterModel()->cash_out_total += $pay;
                             }
-                            $cashRegister->out_purchase += $pay;
-                            $cashRegister->update();
+                            cashregisterModel()->out_purchase += $pay;
+                            cashregisterModel()->update();
                         }
                     }
                 }
@@ -800,7 +798,7 @@ class PurchaseController extends Controller
                 //selecciona el producto que viene del array
 
                 //$product = Product::findOrFail($id);
-                if ($indicator->inventory == 'on') {
+                if (indicator()->inventory == 'on') {
                     $products = Product::where('id', $productPurchase->product_id)->first();
                     $products->stock -= $productPurchase->quantity;
                     $products->update();
@@ -855,8 +853,8 @@ class PurchaseController extends Controller
                     $branchProducts = BranchProduct::where('product_id', '=', $productPurchase->product_id)
                         ->where('branch_id', '=', $branch)
                         ->first();
-                    if ($indicator->inventory == 'on') {
-                        if ($indicator->product_price == 'automatico') {
+                    if (indicator()->inventory == 'on') {
+                        if (indicator()->product_price == 'automatico') {
 
                             $utility = $products->category->utility;
                             $priceProduct = $products->price;
@@ -924,12 +922,12 @@ class PurchaseController extends Controller
                     $branchProducts = BranchProduct::where('product_id', '=', $productPurchase->product_id)
                     ->where('branch_id', '=', $branch)
                     ->first();
-                    if ($indicator->inventory == 'on') {
+                    if (indicator()->inventory == 'on') {
                         $branchProducts->stock +=  $quantity[$i];
                         $branchProducts->update();
                         //selecciona el producto que viene del array
 
-                        if ($indicator->product_price == 'automatic') {
+                        if (indicator()->product_price == 'automatic') {
                             $utility = $products->category->utility;
                             $priceProduct = $products->price;
                             $priceSale = $priceProduct + ($priceProduct * $utility / 100);
@@ -1031,9 +1029,8 @@ class PurchaseController extends Controller
             return redirect("branch");
         }
         $purchase = Purchase::where('id', $id)->first();
-        $indicator = Indicator::findOrFail(1);
         //$productPurchases = ProductPurchase::where('purchase_id', $purchase->id)->get();
-        if ($indicator->inventory == 'on') {
+        if (indicator()->inventory == 'on') {
             $products = Product::where('status', 'active')->where('stock', '>', 0)->get();
         } else {
             $products = Product::where('status', 'active')->get();
@@ -1119,7 +1116,7 @@ class PurchaseController extends Controller
             $productPurchases = PurchaseRawmaterial::where('purchase_id', $purchase->id)->where('quantity', '>', 0)->get();
         }
         $company = Company::findOrFail(1);
-        $indicator = Indicator::findOrFail(1);
+        $indicator = indicator();
         $debitNotes = Ndpurchase::where('purchase_id', $id)->first();
         $creditNotes = Ncpurchase::where('purchase_id', $id)->first();
         $days = $purchase->created_at->diffInDays($purchase->due_date);
@@ -1215,7 +1212,7 @@ class PurchaseController extends Controller
             $productPurchases = PurchaseRawmaterial::where('purchase_id', $purchase->id)->where('quantity', '>', 0)->get();
         }
         $company = Company::findOrFail(1);
-        $indicator = Indicator::findOrFail(1);
+        $indicator = indicator();
         $debitNotes = Ndpurchase::where('purchase_id', $purchase->id)->first();
         $creditNotes = Ncpurchase::where('purchase_id', $purchase->id)->first();
         $days = $purchase->created_at->diffInDays($purchase->due_date);
@@ -1284,7 +1281,7 @@ class PurchaseController extends Controller
         }
         $user = current_user()->name;
         $company = Company::findOrFail(1);
-        $indicator = Indicator::findOrFail(1);
+        $indicator = indicator();
         $debitNotes = Ndpurchase::where('purchase_id', $id)->first();
         $creditNotes = Ncpurchase::where('purchase_id', $id)->first();
         $days = $purchase->created_at->diffInDays($purchase->due_date);
@@ -1355,7 +1352,7 @@ class PurchaseController extends Controller
             $productPurchases = PurchaseRawmaterial::where('purchase_id', $purchase->id)->where('quantity', '>', 0)->get();
         }
         $company = Company::findOrFail(1);
-        $indicator = Indicator::findOrFail(1);
+        $indicator = indicator();
         $debitNotes = Ndpurchase::where('purchase_id', $purchase->id)->first();
         $creditNotes = Ncpurchase::where('purchase_id', $purchase->id)->first();
         $days = $purchase->created_at->diffInDays($purchase->due_date);

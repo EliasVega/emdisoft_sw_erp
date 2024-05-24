@@ -61,7 +61,7 @@ if (! function_exists('InvoiceTestSetData')) {
             $productname = 'PAN NEVADO';
             $productcode = '202403';
         }
-        $amount = number_format($quantity * $price, 2, '.', '');
+        $amount = number_format(($quantity * $price), 2, '.', '');
 
 
         $company = Company::findOrFail(current_user()->company_id);

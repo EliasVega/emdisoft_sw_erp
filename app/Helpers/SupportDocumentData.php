@@ -4,13 +4,14 @@ use App\Models\Company;
 use App\Models\CompanyTax;
 use App\Models\Product;
 use App\Models\Provider;
+use App\Models\RawMaterial;
 use App\Models\Resolution;
 use Carbon\Carbon;
 
 if (! function_exists('supportDocumentData')) {
     function supportDocumentData($request)
     {
-        $company = Company::findOrFail(1);
+        $company = Company::findOrFail(current_user()->company_id);
         $provider = Provider::findOrFail($request->provider_id);
         $resolution = Resolution::findOrFail($request->resolution_id);
         $note = $request->note;//observaciones del documento
@@ -26,7 +27,7 @@ if (! function_exists('supportDocumentData')) {
         $totalDocument = $request->total;
         $totalIva = $request->tax_iva;
         $total = $request->total_pay;
-
+        $typeProduct = $request->typeProduct;
         $retentions = $request->company_tax_id;
 
         //$subtotal = 0;
@@ -45,12 +46,17 @@ if (! function_exists('supportDocumentData')) {
         $contax = 0;
 
         for ($i=0; $i < count($product_id); $i++) {
-
-            $product = Product::findOrFail($product_id[$i]);
+            if ($typeProduct == 'product') {
+                $product = Product::findOrFail($product_id[$i]);
+            } else {
+                $product = RawMaterial::findOrFail($product_id[$i]);
+            }
             $companyTaxProduct = $product->category->company_tax_id;
             $companyTax = CompanyTax::findOrFail($companyTaxProduct);
-            $taxAmount = number_format(($quantity[$i] * $price[$i] * $taxRate[$i])/100,2);
-            $amount = number_format($quantity[$i] * $price[$i],2);
+            $taxAmount = ($quantity[$i] * $price[$i] * $taxRate[$i])/100;
+            $amount = $quantity[$i] * $price[$i];
+            $taxAmount =number_format(round($taxAmount), 2, '.', '');
+            $amount = number_format(round($amount), 2, '.', '');
 
             if ($taxes[0] != []) { //contax > 0
                 $contsi = 0;
@@ -105,7 +111,6 @@ if (! function_exists('supportDocumentData')) {
             $productLines[$i] = $productLine;
 
         }
-
         for ($i=0; $i < count($taxes); $i++) {
             $taxLine = [
                 "tax_id" => $taxes[$i][1],
@@ -148,8 +153,8 @@ if (! function_exists('supportDocumentData')) {
         } else {
             $withholdingLine = [
                 "tax_id" => 4,
-                "tax_amount" => 0.00,
-                "percent" => 0.00,
+                "tax_amount" => "0.00",
+                "percent" => "0.00",
                 "taxable_amount" => $totalDocument
             ];
             $withholdingLines[$withholdingCont] = $withholdingLine;

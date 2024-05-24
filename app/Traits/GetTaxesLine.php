@@ -3,8 +3,9 @@ namespace App\Traits;
 
 use App\Models\CompanyTax;
 use App\Models\Product;
+use App\Models\RawMaterial;
 
-trait Taxes {
+trait GetTaxesLine {
     public function getTaxesLine($request,){
 
         $quantity = $request->quantity;
@@ -16,8 +17,12 @@ trait Taxes {
         $contax = 0;
         for ($i=0; $i < count($product_id); $i++) {
             $id = $product_id[$i];
-            $product = Product::findOrFail($id);
-
+            $typeProduct = $request->typeProduct;
+            if ($typeProduct == 'product') {
+                $product = Product::findOrFail($id);
+            } else {
+                $product = RawMaterial::findOrFail($id);
+            }
             $companyTaxProduct = $product->category->company_tax_id;
             $companyTax = CompanyTax::findOrFail($companyTaxProduct);
             $taxAmount = ($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
@@ -50,7 +55,6 @@ trait Taxes {
                 }
             }
         }
-
         return $taxes;
     }
 }

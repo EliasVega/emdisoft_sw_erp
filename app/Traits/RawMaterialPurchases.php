@@ -7,9 +7,9 @@ use App\Models\Indicator;
 trait RawMaterialPurchases {
     public function rawMaterialPurchases($rawMaterial, $branchRawmaterials, $quantity, $price, $branch){
 
-        $indicator = Indicator::findOrFail(1);
+        //$indicator = Indicator::findOrFail(1);
         if ($rawMaterial->type_product == 'product') {
-            if ($indicator->inventory == 'on') {
+            if (indicator()->inventory == 'on') {
                     //Actualizar stock y precio del producto
                     $rawMaterial->stock += $quantity; //reempazando triguer
                     $rawMaterial->price = $price;
@@ -30,7 +30,7 @@ trait RawMaterialPurchases {
                 }
             }
         } else {
-            if ($indicator->inventory == 'on') {
+            if (indicator()->inventory == 'on') {
                 //Actualizar stock y precio del producto
                 $rawMaterial->stock += $quantity;
                 $rawMaterial->price = $price;

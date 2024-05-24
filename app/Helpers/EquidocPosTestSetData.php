@@ -63,7 +63,7 @@ if (! function_exists('EquiDocPosTestSetData')) {
             $productname = 'PAN NEVADO';
             $productcode = '202403';
         }
-        $amount = number_format($quantity * $price, 2, '.', '');
+        $amount = number_format(($quantity * $price), 2, '.', '');
 
         $company = Company::findOrFail(current_user()->company_id);
         $branch = Branch::findOrFail(current_user()->branch_id);

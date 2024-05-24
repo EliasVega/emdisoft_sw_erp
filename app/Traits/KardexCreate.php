@@ -9,6 +9,7 @@ trait KardexCreate {
         if ($typeDocument == 'pos') {
             $typeDocument = 'invoice';
         }
+
         $kardex = new Kardex();
         $kardex->branch_id = $branch;
         $kardex->voucher_type_id = $voucherType;

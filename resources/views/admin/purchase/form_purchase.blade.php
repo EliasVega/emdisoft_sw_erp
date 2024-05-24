@@ -1,9 +1,7 @@
 <div class="box-body row">
     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
-            <label for="provider_id"> Proveedor <a href="{{ route('provider.create') }}" class="btn btn-lightBlueGrad btn-sm" target="_blank" data-toggle="tooltip" data-placement="top">
-                <i class="fa fa-plus"> Agregar Proveedor</i>
-            </a></label>
+            <label for="provider_id">Proveedor</label>
             <select name="provider_id" class="form-control selectpicker" id="provider_id"
                 data-live-search="true" required>
                 <option value="" disabled selected>Seleccionar el Proveedor</option>
@@ -14,7 +12,7 @@
         </div>
     </div>
     @if ($countBranchs > 1)
-        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 mt-2">
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
             <div class="form-group">
                 <label class="form-control-label" for="branch_id">Sucursal Destino</label>
                     <select name="branch_id" class="form-control selectpicker" id="branch_id" data-live-search="true" required>
@@ -64,13 +62,13 @@
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="generation_date">F/Generacion</label>
-            <input type="date" name="generation_date" class="form-control" value="<?php echo date("Y-m-d");?>" placeholder="Fecha Vencimiento">
+            <input type="date" name="generation_date" id="generation_date" class="form-control" value="<?php echo date("Y-m-d");?>" placeholder="Fecha Vencimiento">
         </div>
     </div>
     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="due_date">Vencimiento</label>
-            <input type="date" name="due_date" class="form-control" value="<?php echo date("Y-m-d");?>" placeholder="Fecha Vencimiento">
+            <input type="date" name="due_date" id="due_date" class="form-control" value="<?php echo date("Y-m-d");?>" placeholder="Fecha Vencimiento">
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="resolution">
@@ -101,7 +99,12 @@
             <input type="date" name="start_date" id="start_date" class="form-control" value="<?php echo date("Y-m-d");?>">
         </div>
     </div>
-    <div class="clearfix"></div>
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="addTypeProduct">
+        <div class="form-group">
+            <label class="form-control-label" for="typeProduct">Typo Producto</label>
+            <input type="text" id="typeProduct" name="typeProduct" class="form-control" value="{{ $typeProduct }}">
+        </div>
+    </div>
     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="noteDocument">
         <div class="form-group">
             <label class="form-control-label" for="note">Observaciones</label>
@@ -135,13 +138,7 @@
             <input type="number" name="vprice" id="vprice"  class="form-control" readonly>
         </div>
     </div>
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="addTypeProduct">
-        <div class="form-group">
-            <label class="form-control-label" for="typeProduct">Typo Producto</label>
-            <input type="number" id="typeProduct" name="typeProduct" class="form-control" value="{{ $typeProduct }}"
-                pattern="[0-9]{0,15}">
-        </div>
-    </div>
+
     @if ($indicator->barcode == 'on')
         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 mt-5 switchBarcode">
             <div class="form-group">
@@ -186,11 +183,7 @@
     @endif
     <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12" id="addProductId">
         <div class="form-group row">
-            <label class="form-control-label" for="product_id">
-                Producto <a href="{{ route('product.create') }}" class="btn btn-lightBlueGrad btn-sm"
-                target="_blank" data-toggle="tooltip" data-placement="top">
-                <i class="fa fa-plus"> Agregar Producto</i></a>
-            </label>
+            <label class="form-control-label" for="product_id">Producto </label>
                 <select name="product_id" class="form-control selectpicker" id="product_id" data-live-search="true">
                     <option value="0" disabled selected>Seleccionar</option>
                     @foreach($products as $product)
@@ -222,13 +215,13 @@
     </div>
     <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">
         <div class="form-group">
-            <label class="form-control-label">Add</label><br>
+            <span><strong>add</strong></span><br>
             <button class="btn btn-lightBlueGrad" type="button" id="add" data-toggle="tooltip" data-placement="top" title="Add"><i class="fas fa-check"></i>&nbsp; </button>
         </div>
     </div>
     <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">
         <div class="form-group">
-            <label class="form-control-label" >Canc</label><br>
+            <span><strong>canc</strong></span><br>
             <a href="{{url('purchase')}}" class="btn btn-blueGrad" data-toggle="tooltip" data-placement="top" title="Cancelar"><i class="fa fa-window-close"></i>&nbsp; </a>
         </div>
     </div>
