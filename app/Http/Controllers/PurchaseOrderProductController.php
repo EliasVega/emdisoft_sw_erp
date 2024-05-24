@@ -19,14 +19,14 @@ use App\Models\SupportDocumentResponse;
 use App\Models\VoucherType;
 use App\Traits\InventoryPurchases;
 use App\Traits\KardexCreate;
-use App\Traits\Taxes;
+use App\Traits\GetTaxesLine;
 use Illuminate\Support\Facades\Storage;
 
 use function PHPUnit\Framework\isNull;
 
 class PurchaseOrderProductController extends Controller
 {
-    use InventoryPurchases, KardexCreate, Taxes;
+    use InventoryPurchases, KardexCreate, GetTaxesLine;
     function __construct()
     {
         $this->middleware('permission:purchaseOrderProduct.store', ['only'=>['store']]);
@@ -178,7 +178,7 @@ class PurchaseOrderProductController extends Controller
 
             }
 
-            $taxes = $this->getTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC
+            $taxes = $this->GetTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC
             //taxesGlobals($document, $quantityBag, $typeDocument);
             taxesLines($document, $taxes, $typeDocument);
             retentions($request, $document, $typeDocument);

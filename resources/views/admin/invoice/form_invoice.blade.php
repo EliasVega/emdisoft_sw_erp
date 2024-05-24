@@ -32,6 +32,7 @@
                 placeholder="Tipo de documento">
         </div>
     </div>
+    <!--
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="uvt5">
         <div class="form-group">
             <label class="form-control-label" for="uvtmax">UVT Max</label>
@@ -45,7 +46,7 @@
             <input type="text" id="pos_active" name="pos_active" value="{{ $indicator->dian }}" class="form-control"
                 placeholder="tope de pos">
         </div>
-    </div>
+    </div> -->
 
     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <div class="form-group">
