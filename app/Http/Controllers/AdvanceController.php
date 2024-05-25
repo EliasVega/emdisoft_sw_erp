@@ -94,12 +94,9 @@ class AdvanceController extends Controller
     {
         $indicator = indicator();
         $pos = indicator()->pos;
-        $cashRegister = cashregisterModel();
-        if ($indicator->pos == 'on') {
-            if(is_null($cashRegister)){
-                Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
-                return redirect("branch");
-            }
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
         }
         $banks = Bank::get();
         $paymentMethods = PaymentMethod::where('status', 'active')->get();

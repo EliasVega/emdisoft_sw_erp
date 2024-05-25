@@ -11,7 +11,6 @@ use App\Models\Branch;
 use App\Models\BranchProduct;
 use App\Models\BranchRawmaterial;
 use App\Models\Card;
-use App\Models\CashRegister;
 use App\Models\Company;
 use App\Models\CompanyTax;
 use App\Models\Configuration;
@@ -19,7 +18,6 @@ use App\Models\Discrepancy;
 use App\Models\DocumentType;
 use App\Models\Environment;
 use App\Models\GenerationType;
-use App\Models\Indicator;
 use App\Models\Ncpurchase;
 use App\Models\Ndpurchase;
 use App\Models\PaymentForm;
@@ -39,7 +37,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use App\Traits\InventoryPurchases;
 use App\Traits\KardexCreate;
@@ -132,11 +129,9 @@ class PurchaseController extends Controller
     public function create()
     {
         $indicator = indicator();
-        //$pos = indicator()->pos;
-        //$cashRegister = cashregisterModel();
-        if(is_null(cashregisterModel())){
-            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
-            return redirect("branch");
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
         }
         $providers = Provider::get();
         $documentTypes = DocumentType::where('prefix', 'DSE')->get();
@@ -169,7 +164,6 @@ class PurchaseController extends Controller
         return view('admin.purchase.create',
         compact(
             'indicator',
-            //'pos',
             'providers',
             'documentTypes',
             'resolutions',
@@ -192,9 +186,9 @@ class PurchaseController extends Controller
     public function createRawmaterial()
     {
         $indicator = indicator();
-        if(is_null(cashregisterModel())){
-            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
-            return redirect("branch");
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
         }
         $providers = Provider::get();
         $documentTypes = DocumentType::where('prefix', 'DSE')->get();
@@ -208,7 +202,6 @@ class PurchaseController extends Controller
         $percentages = Percentage::where('status', 'active')->get();
         $advances = Advance::where('status', '!=', 'aplicado')->get();
         $date = Carbon::now();
-        //$products = RawMaterial::where('status', 'active')->get();
         $products = RawMaterial::from('raw_materials as rm')
         ->join('categories as cat', 'rm.category_id', 'cat.id')
         ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
@@ -258,7 +251,7 @@ class PurchaseController extends Controller
         //dd($request->all());
         $resolution = $request->resolution_id;
         $company = Company::findOrFail(current_user()->company_id);
-        //$cashRegister = cashregisterModel();
+        $cashRegister = cashRegisterComprobation();
 
         //Variables del request
         $product_id = $request->product_id;
@@ -313,7 +306,7 @@ class PurchaseController extends Controller
             $purchase->resolution_id = $resolution;
             $purchase->generation_type_id = $request->generation_type_id;
             $purchase->document_type_id = $documentType;
-            $purchase->cash_register_id = cashregisterModel()->id;
+            $purchase->cash_register_id = $cashRegister;
             $purchase->document = $resolutions->prefix . '-' . $resolutions->consecutive;
             if ($documentType == 11) {
                 $voucherTypes = VoucherType::findOrFail(12);
@@ -357,9 +350,8 @@ class PurchaseController extends Controller
 
             if (indicator()->pos == 'on') {
                 //actualizar la caja
-                    cashregisterModel()->purchase += $total_pay;
-                    //cashregisterModel()->out_total += $totalpay;
-                    cashregisterModel()->update();
+                    $cashRegister->purchase += $total_pay;
+                    $cashRegister->update();
             }
 
             $document = $purchase;
@@ -566,6 +558,10 @@ class PurchaseController extends Controller
     public function edit(Purchase $purchase)
     {
         /*
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
+        }
         $retention = Retention::where('type', 'purchase')->where('retentionable_id', $purchase->id)->first();
         $providers = Provider::get();
         $documentTypes = DocumentType::where('prefix', 'dse')->get();
@@ -618,7 +614,7 @@ class PurchaseController extends Controller
     public function update(UpdatePurchaseRequest $request, Purchase $purchase)
     {
         /*
-            indicator() = indicator()
+            $cashRegister = cashRegisterComprobation();
             $user = Auth::user();
 
             //Variables del request
@@ -672,8 +668,8 @@ class PurchaseController extends Controller
             if (indicator()->pos == 'on') {
                 //actualizar la caja
                 if ($date1 == $date2) {
-                    cashregisterModel() = CashRegister::where('user_id', '=', $purchase->user_id)->where('status', '=', 'open')->first();
-                    cashregisterModel()->purchase -= $purchase->total_pay;
+                    $cashRegister = CashRegister::where('user_id', '=', $purchase->user_id)->where('status', '=', 'open')->first();
+                    $cashRegister->purchase -= $purchase->total_pay;
                     cashregisterModel()->update();
                 }
             }
@@ -717,9 +713,9 @@ class PurchaseController extends Controller
             if (indicator()->pos == 'on') {
                 //actualizar la caja
                 if ($date1 == $date2) {
-                    cashregisterModel() = CashRegister::where('user_id', '=', $purchase->user_id)->where('status', '=', 'open')->first();
-                    cashregisterModel()->purchase += $purchase->total_pay;
-                    cashregisterModel()->update();
+                    $cashRegister = CashRegister::where('user_id', '=', $purchase->user_id)->where('status', '=', 'open')->first();
+                    $cashRegister->purchase += $purchase->total_pay;
+                    $cashRegister->update();
                 }
             }
 
@@ -780,13 +776,13 @@ class PurchaseController extends Controller
 
                         if (indicator()->pos == 'on') {
                             //metodo para actualizar la caja
-                            cashregisterModel() = CashRegister::where('user_id', '=', $purchase->user_id)->where('status', '=', 'open')->first();
+
                             if($mp == 10){
-                                cashregisterModel()->out_purchase_cash += $pay;
-                                cashregisterModel()->cash_out_total += $pay;
+                                $cashRegister->out_purchase_cash += $pay;
+                                $cashRegister->cash_out_total += $pay;
                             }
-                            cashregisterModel()->out_purchase += $pay;
-                            cashregisterModel()->update();
+                            $cashRegister->out_purchase += $pay;
+                            $cashRegister->update();
                         }
                     }
                 }
@@ -969,10 +965,9 @@ class PurchaseController extends Controller
 
     public function creditNote($id)
     {
-        $cashRegister = cashregisterModel();
-        if(is_null($cashRegister)){
-            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
-            return redirect("branch");
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
         }
         $purchase = Purchase::findOrFail($id);
         $products = Product::where('status', 'active')->where('type_product', 'service')->get();
@@ -1023,10 +1018,9 @@ class PurchaseController extends Controller
 
     public function debitNote($id)
     {
-        $cashRegister = cashregisterModel();
-        if(is_null($cashRegister)){
-            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
-            return redirect("branch");
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
         }
         $purchase = Purchase::where('id', $id)->first();
         //$productPurchases = ProductPurchase::where('purchase_id', $purchase->id)->get();
@@ -1085,10 +1079,9 @@ class PurchaseController extends Controller
     //Metodo para registrar pago o abono de factura de compra
     public function purchasePay($id)
     {
-        $cashRegister = cashregisterModel();
-        if(is_null($cashRegister)){
-            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
-            return redirect("branch");
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
         }
         $document = Purchase::findOrFail($id);
         $banks = Bank::get();

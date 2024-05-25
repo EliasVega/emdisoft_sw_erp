@@ -84,8 +84,12 @@ class InvoiceController extends Controller
                 //Muestra todas las compras de la empresa
                 $invoices = Invoice::get();
             } else {
-                //Muestra todas las compras de la empresa por usuario
-                $invoices = Invoice::where('user_id', $users->id)->get();
+                if (indicator()->pos == 'off') {
+                    $invoices = Invoice::get();
+                } else {
+                    //Muestra todas las compras de la empresa por usuario
+                    $invoices = Invoice::where('user_id', $users->id)->get();
+                }
             }
             return DataTables::of($invoices)
             ->addIndexColumn()
@@ -139,12 +143,10 @@ class InvoiceController extends Controller
         $company = Company::findOrFail(1);
         $indicator = indicator();
         //$pos = indicator()->pos;
-        $cashRegister = cashregisterModel();
-        if(is_null($cashRegister)){
-            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
-            return redirect("branch");
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
         }
-
         $cols = 9;
         if ($indicator->cvpinvoice == 'off') {
             $cols--;
@@ -220,11 +222,11 @@ class InvoiceController extends Controller
         $company = Company::findOrFail(1);
         $indicator = indicator();
         //$pos = indicator()->pos;
-        $cashRegister = cashregisterModel();
-        if(is_null($cashRegister)){
-            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
-            return redirect("branch");
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
         }
+
         $cols = 9;
         if ($indicator->cvpinvoice == 'off') {
             $cols--;
@@ -302,8 +304,9 @@ class InvoiceController extends Controller
     {
         //dd($request->all());
         $company = Company::findOrFail(current_user()->company_id);
-        $indicator = Indicator::findOrFail(1);
-        $cashRegister = cashregisterModel();
+        $configuration = Configuration::findOrFail($company->id);
+        //$indicator = Indicator::findOrFail(1);
+        $cashRegister = cashRegisterComprobation();
         $resolutions = '';
         //$resolut = $request->resolution_id;
 
@@ -313,7 +316,7 @@ class InvoiceController extends Controller
 
         //Metodo si los envios a la dian es si trae resolucion
         //asignacion del vaucher y document type
-        if ($indicator->dian == 'on') {
+        if (indicator()->dian == 'on') {
             $resolutions = Resolution::findOrFail($request->resolution_id);
             if ($typeDocument == 'invoice') {
                 $voucherType = 1;
@@ -353,14 +356,13 @@ class InvoiceController extends Controller
         }
 
         //asignando pago para pos activo
-        if ($indicator->pos == 'on'  && $paymentForm == 1) {
+        if (indicator()->pos == 'on'  && $paymentForm == 1) {
             $totalpay = $request->total_pay;
-        } else if($indicator->pos == 'on'  && $paymentForm == 2){
+        } else if(indicator()->pos == 'on'  && $paymentForm == 2){
             $totalpay = 0;
         } else {
             $totalpay = $request->totalpay;
         }
-        $totalpay = $request->totalpay;
         $retention = 0;
         //variables del request
         $quantityBag = $request->bags;
@@ -372,20 +374,18 @@ class InvoiceController extends Controller
         $service = '';
         $errorMessages = '';
         $store = false;
-        if ($indicator->dian == 'on') {
+        if (indicator()->dian == 'on') {
             if ($typeDocument == 'invoice') {
                 $data = invoiceData($request);
                 $environment = Environment::where('id', 11)->first();
-                $configuration = Configuration::where('company_id', $company->id)->first();
+
                 $url = $environment->protocol . $configuration->ip . $environment->url;
             } else {
                 $data = equiDocPosData($request);
                 $environment = Environment::where('id', 21)->first();
-                $configuration = Configuration::where('company_id', $company->id)->first();
                 $url = $environment->protocol . $configuration->ip . $environment->url;
             }
             $requestResponse = sendDocuments($company, $url, $data);
-            dd($requestResponse);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];
@@ -395,13 +395,6 @@ class InvoiceController extends Controller
         //dd($service);
         //Crea un registro de Ventas
         if ($store == true) {
-
-            if (indicator()->pos == 'on') {
-                $cashRegister = cashregisterModel();
-            } else {
-                $cashRegister = 1;
-            }
-
 
             $invoice = new Invoice();
             $invoice->user_id = current_user()->id;
@@ -413,7 +406,7 @@ class InvoiceController extends Controller
             $invoice->document_type_id = $documentType;
             $invoice->document = $resolutions->prefix . $resolutions->consecutive;
             $invoice->voucher_type_id = $voucherType;
-            $invoice->cash_register_id = cashregisterModel()->id;
+            $invoice->cash_register_id = $cashRegister;
             $invoice->status = 'invoice';
             $invoice->note = $request->note;
             $invoice->generation_date = $request->generation_date;
@@ -434,7 +427,7 @@ class InvoiceController extends Controller
             $voucherTypes->consecutive += 1;
             $voucherTypes->update();
 
-            if ($indicator->pos == 'on') {
+            if (indicator()->pos == 'on') {
                 //actualizar la caja
                     $cashRegister->invoice += $total_pay;
                     //$cashRegister->in_total += $totalpay;
@@ -458,7 +451,7 @@ class InvoiceController extends Controller
                 //selecciona el producto que viene del array
                 $product = Product::findOrFail($id);
 
-                if ($indicator->cvpinvoice == 'on' && $cvp[$i] == 1) {
+                if (indicator()->cvpinvoice == 'on' && $cvp[$i] == 1) {
                     $product->sale_price = $price[$i];
                     $product->update();
                 }
@@ -471,12 +464,12 @@ class InvoiceController extends Controller
                 $this->inventoryInvoices($product, $branchProducts, $quantityLocal, $branch);//trait para actualizar inventario
                 $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
 
-                if ($indicator->work_labor == 'on') {
+                if (indicator()->work_labor == 'on') {
                     //metodo para comisiones de empleados
                     if ($employee_id[$i] != "null") {
                         $employee = Employee::findOrFail($employee_id[$i]);
                         $subtotal = $quantity[$i] * $price[$i];
-                        if ($indicator->cmep == 'employee') {
+                        if (indicator()->cmep == 'employee') {
                             $commission = $employee->commission;
                         } else {
                             $commission = $product->commission;
@@ -496,15 +489,14 @@ class InvoiceController extends Controller
                         $employeeInvoiceProduct->save();
                     }
                 }
-
             }
 
-            $taxes = $this->GetTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC
+            $taxes = $this->getTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC
             taxesGlobals($document, $quantityBag, $typeDocument);
             taxesLines($document, $taxes, $typeDocument);
             retentions($request, $document, $typeDocument);
 
-            if ($indicator->pos == 'on' ) {
+            if (indicator()->pos == 'on' ) {
                 $return = 0;
                 if ($totalpay > 0) {
                     $paymentMethod = $request->payment_method_id;
@@ -555,8 +547,7 @@ class InvoiceController extends Controller
                 }
             }
 
-
-            if ($documentType == 1 && $indicator->dian == 'on') {
+            if ($documentType == 1 && indicator()->dian == 'on') {
                 $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
                     ['SendBillSyncResult']['IsValid'];
                 $code = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
@@ -677,7 +668,6 @@ class InvoiceController extends Controller
             }
         }
 
-
         $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->where('quantity', '>', 0)->get();
         return view('admin.invoice.show', compact(
             'indicator',
@@ -701,21 +691,14 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
-        $indicator = Indicator::findOrFail(1);
-        $cashRegister = cashregisterModel();
-        if ($indicator->pos == 'on') {
-            if(is_null($cashRegister)){
-                Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
-                return redirect("branch");
-            }
-        }
+        $cashRegister = cashRegisterComprobation();
         $customers = Customer::get();
         $employees = Employee::get();
         $branchs = Branch::get();
-        $uvtmax = $indicator->uvt * 5;
+        //$uvtmax = $indicator->uvt * 5;
         $advances = Advance::where('status', '!=', 'aplicado')->get();
         $date = Carbon::now();
-        if ($indicator->inventory == 'on') {
+        if (indicator()->inventory == 'on') {
             $products = BranchProduct::from('branch_products as bp')
             ->join('products as pro', 'bp.product_id', 'pro.id')
             ->join('categories as cat', 'pro.category_id', 'cat.id')
@@ -840,10 +823,9 @@ class InvoiceController extends Controller
 
     public function debitNote($id)
     {
-        $cashRegister = cashregisterModel();
-        if(is_null($cashRegister)){
-            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
-            return redirect("branch");
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
         }
         $invoice = Invoice::findOrFail($id);
         $products = Product::where('status', 'active')->where('type_product', 'service')->get();
@@ -881,10 +863,9 @@ class InvoiceController extends Controller
 
     public function creditNote($id)
     {
-        $cashRegister = cashregisterModel();
-        if(is_null($cashRegister)){
-            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
-            return redirect("branch");
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
         }
         $invoice = Invoice::where('id', $id)->first();
         $indicator = Indicator::findOrFail(1);
@@ -932,10 +913,9 @@ class InvoiceController extends Controller
 
     public function invoicePay($id)
     {
-        $cashRegister = cashregisterModel();
-        if(is_null($cashRegister)){
-            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
-            return redirect("branch");
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
         }
         $document = Invoice::findOrFail($id);
         $banks = Bank::get();

@@ -8,8 +8,8 @@ use App\Http\Requests\UpdateNdpurchaseRequest;
 use App\Models\BranchProduct;
 use App\Models\BranchRawmaterial;
 use App\Models\CashInflow;
-use App\Models\CashRegister;
 use App\Models\Company;
+use App\Models\Configuration;
 use App\Models\Environment;
 use App\Models\Indicator;
 use App\Models\NdpurchaseProduct;
@@ -31,14 +31,14 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use App\Traits\AdvanceCreate;
 use App\Traits\KardexCreate;
-use App\Traits\Taxes;
+use App\Traits\GetTaxesLine;
 use App\Traits\NdpurchaseProductCreate;
 use App\Traits\reverse;
 use Illuminate\Support\Facades\Storage;
 
 class NdpurchaseController extends Controller
 {
-    use AdvanceCreate, KardexCreate, Taxes, NdpurchaseProductCreate, reverse;
+    use AdvanceCreate, KardexCreate, GetTaxesLine, NdpurchaseProductCreate, reverse;
 
     function __construct()
     {
@@ -120,12 +120,11 @@ class NdpurchaseController extends Controller
             $resolution = Resolution::findOrFail(3);//resolucion selecionada en el request
         }
         $company = Company::findOrFail(current_user()->company_id);
+        $configuration = Configuration::findOrFail($company->id);
         $purchase = Purchase::findOrFail($request->purchase_id);//encontrando la factura
-        $environment = Environment::where('id', 17)->first();//Url nota de ajuste documento soporte
         $pay = Pay::where('type', 'purchase')->where('payable_id', $purchase->id)->get();//pagos hechos a esta factura
-        $indicator = Indicator::findOrFail(1);
         $voucherTypes = VoucherType::findOrFail(18);
-        $cashRegister = CashRegister::where('user_id', '=', $purchase->user_id)->where('status', '=', 'open')->first();
+        $cashRegister = cashRegisterComprobation();
         //variables del request
         $quantity = $request->quantity;
         $price = $request->price;
@@ -158,9 +157,11 @@ class NdpurchaseController extends Controller
         $service = '';
         $errorMessages = '';
         $store = false;
-        if ($documentType == 11 && $indicator->dian == 'on') {
+        if ($documentType == 11 && indicator()->dian == 'on') {
+            $environment = Environment::where('id', 17)->first();//Url nota de ajuste documento soporte
+            $url = $environment->protocol . $configuration->ip . $environment->url;
             $data = adjustmentNoteData($request, $purchase);
-            $requestResponse = sendDocuments($company, $environment, $data);
+            $requestResponse = sendDocuments($company, $url, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];
@@ -210,7 +211,7 @@ class NdpurchaseController extends Controller
                         }
                         if ($product->type_product == 'product') {
                             //devolviendo productos al inventario
-                            if ($indicator->inventory == 'on') {
+                            if (indicator()->inventory == 'on') {
                                 $product->stock -= $quantity[$i];
                                 $product->update();
 
@@ -252,7 +253,7 @@ class NdpurchaseController extends Controller
 
                             if ($product->type_product == 'product') {
                                 //devolviendo productos al inventario
-                                if ($indicator->inventory == 'on') {
+                                if (indicator()->inventory == 'on') {
                                     $product->stock -= $productPurchases[$i]->quantity;
                                     $product->update();
 
@@ -342,7 +343,7 @@ class NdpurchaseController extends Controller
                     $cashInflow->admin_id = current_user()->id;
                     $cashInflow->save();
 
-                    if ($indicator->pos == 'on') {
+                    if (indicator()->pos == 'on') {
                         $cashRegister->cash_in_total += $advancePay;
                         $cashRegister->in_cash += $advancePay;
                         $cashRegister->in_total += $advancePay;
@@ -354,7 +355,7 @@ class NdpurchaseController extends Controller
                 } else {
                     $this->advanceCreate($voucherTypes, $documentOrigin, $advancePay, $typeDocument);
 
-                    if ($indicator->pos == 'on') {
+                    if (indicator()->pos == 'on') {
                         $cashRegister->out_advance += $advancePay;
                         if ($date1 == $date2) {
                             $cashRegister->out_purchase -= $advancePay;
@@ -367,7 +368,7 @@ class NdpurchaseController extends Controller
                 $purchase->update();
             }
 
-            if ($indicator->pos == 'on' && $date1 == $date2) {
+            if (indicator()->pos == 'on' && $date1 == $date2) {
                 $cashRegister->ndpurchase += $total_pay;
                 $cashRegister->update();
             }
@@ -397,7 +398,7 @@ class NdpurchaseController extends Controller
             }
             $purchase->update();
 
-            if ($documentType == 11 && $indicator->dian == 'on') {
+            if ($documentType == 11 && indicator()->dian == 'on') {
                 $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
                     ['SendBillSyncResult']['IsValid'];
                 $code = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
@@ -419,11 +420,11 @@ class NdpurchaseController extends Controller
                 $nsdResponse->save();
 
                 $environmentPdf = Environment::where('code', 'PDF')->first();
+                $urlpdf = $environmentPdf->protocol . $configuration->ip . $environmentPdf->url;
 
-                $pdf = file_get_contents($environmentPdf->url . $company->nit ."/NDSNS-" . $resolution->prefix .
-                $resolution->consecutive .".pdf");
+                $pdf = file_get_contents($urlpdf . $company->nit ."/NDSNS-" . $ndpurchase->document .".pdf");
                 Storage::disk('public')->put('files/graphical_representations/adjustment_notes_ds/' .
-                $resolution->prefix . $resolution->consecutive . '.pdf', $pdf);
+                $ndpurchase->document . ".pdf", $pdf);
             }
             $resolution->consecutive += 1;
             $resolution->update();

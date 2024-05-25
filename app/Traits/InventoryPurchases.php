@@ -7,10 +7,9 @@ use App\Models\Indicator;
 trait InventoryPurchases {
     public function inventoryPurchases($product, $branchProducts, $quantity, $price, $branch){
 
-        $indicator = Indicator::findOrFail(1);
         if ($product->type_product == 'product') {
-            if ($indicator->inventory == 'on') {
-                if ($indicator->product_price == 'automatic') {
+            if (indicator()->inventory == 'on') {
+                if (indicator()->product_price == 'automatic') {
                     //Actualizar stock y precio del producto
                     $utility = $product->category->utility_rate;//valor registrado de utilidad
                     $priceOld = $product->price; //precio actual del producto
@@ -47,7 +46,7 @@ trait InventoryPurchases {
                 }
             }
         } else {
-            if ($indicator->inventory == 'on') {
+            if (indicator()->inventory == 'on') {
                 //Actualizar stock y precio del producto
                 $product->stock += $quantity;
                 $product->price = $price;

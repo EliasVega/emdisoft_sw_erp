@@ -86,7 +86,7 @@ class PaymentController extends Controller
      */
     public function store(StorePaymentRequest $request)
     {
-
+        $cashRegister = cashRegisterComprobation();
         //dd($request->all());
         $third_id = $request->third_id;
         $totalPay = $request->totalpay;
@@ -101,8 +101,6 @@ class PaymentController extends Controller
         $payment->note = $request->note;
         $payment->type_third = $typeThird;
         $payment->user_id = current_user()->id;
-
-
 
         switch($typeDocument) {
             case 'invoice':
@@ -176,8 +174,6 @@ class PaymentController extends Controller
                         }
                     }
                     //payThirds($request, $document, $typeDocument, $payDocument, $payment_id, $cont);
-                    $indicator = indicator();
-                    $cashRegister = cashregisterModel();
                     //Variables del request
                     $totalpay = $payDocument;
                     //variables del request.
@@ -283,7 +279,7 @@ class PaymentController extends Controller
                                 $mp = $paymentMethod[$i];
                                 switch($typeDocument) {
                                     case 'purchase':
-                                        if ($indicator->pos == 'on') {
+                                        if (indicator()->pos == 'on') {
                                             //metodo para actualizar la caja
                                             if($mp == 10){
                                                 $cashRegister->out_purchase_cash += $payment[$i];
@@ -295,7 +291,7 @@ class PaymentController extends Controller
                                         }
                                     break;
                                     case 'expense':
-                                        if ($indicator->pos == 'on') {
+                                        if (indicator()->pos == 'on') {
                                             //metodo para actualizar la caja
                                             if($mp == 10){
                                                 $cashRegister->out_expense_cash += $payment[$i];
@@ -307,7 +303,7 @@ class PaymentController extends Controller
                                         }
                                     break;
                                     case 'invoice':
-                                        if ($indicator->pos == 'on') {
+                                        if (indicator()->pos == 'on') {
                                             //metodo para actualizar la caja
                                             if($mp == 10){
                                                 $cashRegister->in_invoice_cash += $payment[$i];
@@ -370,8 +366,6 @@ class PaymentController extends Controller
                         }
                     }
                     //payThirds($request, $document, $typeDocument, $payDocument, $payment_id, $cont);
-                    $indicator = indicator();
-                    $cashRegister = cashregisterModel();
                     //Variables del request
                     $totalpay = $payDocument;
                     //variables del request.
@@ -477,7 +471,7 @@ class PaymentController extends Controller
                                 $mp = $paymentMethod[$i];
                                 switch($typeDocument) {
                                     case 'purchase':
-                                        if ($indicator->pos == 'on') {
+                                        if (indicator()->pos == 'on') {
                                             //metodo para actualizar la caja
                                             if($mp == 10){
                                                 $cashRegister->out_purchase_cash += $payment[$i];
@@ -489,7 +483,7 @@ class PaymentController extends Controller
                                         }
                                     break;
                                     case 'expense':
-                                        if ($indicator->pos == 'on') {
+                                        if (indicator()->pos == 'on') {
                                             //metodo para actualizar la caja
                                             if($mp == 10){
                                                 $cashRegister->out_expense_cash += $payment[$i];
@@ -501,7 +495,7 @@ class PaymentController extends Controller
                                         }
                                     break;
                                     case 'invoice':
-                                        if ($indicator->pos == 'on') {
+                                        if (indicator()->pos == 'on') {
                                             //metodo para actualizar la caja
                                             if($mp == 10){
                                                 $cashRegister->in_invoice_cash += $payment[$i];
@@ -563,7 +557,6 @@ class PaymentController extends Controller
 
     public function paymentPdf(Request $request, $id)
     {
-        $indicator = indicator();
         $payment = Payment::findOrFail($id);
         $paymentPaymentMethods = PaymentPaymentMethod::where('payment_id', $id)->get();
         $company = Company::findOrFail(1);

@@ -4,29 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Models\PurchaseOrderProduct;
 use App\Http\Requests\StorePurchaseOrderProductRequest;
-use App\Http\Requests\UpdatePurchaseOrderProductRequest;
 use App\Models\BranchProduct;
-use App\Models\CashRegister;
+use App\Models\BranchRawmaterial;
 use App\Models\Company;
+use App\Models\Configuration;
 use App\Models\Environment;
-use App\Models\Indicator;
 use App\Models\Product;
 use App\Models\ProductPurchase;
 use App\Models\Purchase;
 use App\Models\PurchaseOrder;
+use App\Models\PurchaseRawmaterial;
+use App\Models\RawMaterial;
 use App\Models\Resolution;
 use App\Models\SupportDocumentResponse;
 use App\Models\VoucherType;
 use App\Traits\InventoryPurchases;
 use App\Traits\KardexCreate;
 use App\Traits\GetTaxesLine;
+use App\Traits\RawMaterialPurchases;
 use Illuminate\Support\Facades\Storage;
 
 use function PHPUnit\Framework\isNull;
 
 class PurchaseOrderProductController extends Controller
 {
-    use InventoryPurchases, KardexCreate, GetTaxesLine;
+    use InventoryPurchases, KardexCreate, GetTaxesLine, RawMaterialPurchases;
     function __construct()
     {
         $this->middleware('permission:purchaseOrderProduct.store', ['only'=>['store']]);
@@ -54,11 +56,11 @@ class PurchaseOrderProductController extends Controller
     {
         //dd($request->all());
         $company = Company::findOrFail(current_user()->company_id);
-        $environment = Environment::where('code', 'SD')->first();
-        $indicator = indicator();
+        $configuration = Configuration::findOrFail($company->id);
         $purchaseOrder = PurchaseOrder::findOrFail($request->purchaseOrder);
-        $cashRegister = cashregisterModel();
+        $cashRegister = cashRegisterComprobation();
         $typeDocument = 'purchase';
+        $typeProduct = $purchaseOrder->type_product;
         $voucherType = 7;//Factura de compra nacional
         $resolution_id = $request->resolution_id;
         if (isNull($resolution_id)) {
@@ -82,9 +84,11 @@ class PurchaseOrderProductController extends Controller
 
         $documentType = $request->document_type_id;
         $store = false;
-        if ($documentType == 11 && $indicator->dian == 'on') {
+        if ($documentType == 11 && indicator()->dian == 'on') {
+            $environment = Environment::where('code', 'SD')->first();
+            $url = $environment->protocol . $configuration->ip . $environment->url;
             $data = supportDocumentData($request);
-            $requestResponse = sendDocuments($company, $environment, $data);
+            $requestResponse = sendDocuments($company, $url, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];
@@ -104,6 +108,8 @@ class PurchaseOrderProductController extends Controller
             $purchase->resolution_id = $resolution_id;
             $purchase->generation_type_id = $request->generation_type_id;
             $purchase->document_type_id = $documentType;
+            $purchase->cash_register_id = $cashRegister;
+            $purchase->type_product = $typeProduct;
             if ($documentType == 11) {
                 $resolutions = Resolution::findOrFail($resolution_id);
                 $voucherTypes = VoucherType::findOrFail(12);
@@ -143,7 +149,7 @@ class PurchaseOrderProductController extends Controller
             $voucher->consecutive = $purchase->id;
             $voucher->update();
 
-            if ($indicator->pos == 'on') {
+            if (indicator()->pos == 'on') {
                 //actualizar la caja
                     $cashRegister->purchase += $total_pay;
                     $cashRegister->out_total += $totalpay;
@@ -151,33 +157,62 @@ class PurchaseOrderProductController extends Controller
             }
             $document = $purchase;
             //Ingresa los productos que vienen en el array
-            for ($i=0; $i < count($product_id); $i++) {
-                $id = $product_id[$i];
-                //Metodo para registrar la relacion entre producto y compra
-                $productPurchase = new ProductPurchase();
-                $productPurchase->purchase_id = $purchase->id;
-                $productPurchase->product_id = $id;
-                $productPurchase->quantity = $quantity[$i];
-                $productPurchase->price = $price[$i];
-                $productPurchase->tax_rate = $tax_rate[$i];
-                $productPurchase->subtotal = $quantity[$i] * $price[$i];
-                $productPurchase->tax_subtotal =($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
-                $productPurchase->save();
+            if ($typeProduct == 'product') {
+                for ($i=0; $i < count($product_id); $i++) {
+                    $id = $product_id[$i];
+                    //Metodo para registrar la relacion entre producto y compra
+                    $productPurchase = new ProductPurchase();
+                    $productPurchase->purchase_id = $purchase->id;
+                    $productPurchase->product_id = $id;
+                    $productPurchase->quantity = $quantity[$i];
+                    $productPurchase->price = $price[$i];
+                    $productPurchase->tax_rate = $tax_rate[$i];
+                    $productPurchase->subtotal = $quantity[$i] * $price[$i];
+                    $productPurchase->tax_subtotal =($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
+                    $productPurchase->save();
 
-                //selecciona el producto que viene del array
-                $product = Product::findOrFail($id);
-                //selecciona el producto de la sucursal que sea el mismo del array
-                $branchProducts = BranchProduct::where('product_id', '=', $id)
-                ->where('branch_id', '=', $branch)
-                ->first();
+                    //selecciona el producto que viene del array
+                    $product = Product::findOrFail($id);
+                    //selecciona el producto de la sucursal que sea el mismo del array
+                    $branchProducts = BranchProduct::where('product_id', '=', $id)
+                    ->where('branch_id', '=', $branch)
+                    ->first();
 
-                $quantityLocal = $quantity[$i];
-                $priceLocal = $price[$i];
-                $this->inventoryPurchases($product, $branchProducts, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
-                $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
+                    $quantityLocal = $quantity[$i];
+                    $priceLocal = $price[$i];
+                    $this->inventoryPurchases($product, $branchProducts, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
+                    $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
 
+                }
+            } else {
+                for ($i=0; $i < count($product_id); $i++) {
+                    $id = $product_id[$i];
+                    //Metodo para registrar la relacion entre producto y compra
+                    $purchaseRawmaterial = new PurchaseRawmaterial();
+                    $purchaseRawmaterial->purchase_id = $purchase->id;
+                    $purchaseRawmaterial->raw_material_id = $id;
+                    $purchaseRawmaterial->quantity = $quantity[$i];
+                    $purchaseRawmaterial->price = $price[$i];
+                    $purchaseRawmaterial->tax_rate = $tax_rate[$i];
+                    $purchaseRawmaterial->subtotal = $quantity[$i] * $price[$i];
+                    $purchaseRawmaterial->tax_subtotal =($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
+                    $purchaseRawmaterial->save();
+
+                    //selecciona el producto que viene del array
+                    $rawMaterial = RawMaterial::findOrFail($id);
+                    //selecciona el producto de la sucursal que sea el mismo del array
+                    $branchRawmaterials = BranchRawmaterial::where('raw_material_id', '=', $id)
+                    ->where('branch_id', '=', $branch)
+                    ->first();
+
+                    $quantityLocal = $quantity[$i];
+                    $priceLocal = $price[$i];
+                    $product = $rawMaterial;
+                    $this->rawMaterialPurchases($rawMaterial, $branchRawmaterials, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
+                    $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
+
+                }
             }
-
             $taxes = $this->GetTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC
             //taxesGlobals($document, $quantityBag, $typeDocument);
             taxesLines($document, $taxes, $typeDocument);
@@ -187,7 +222,7 @@ class PurchaseOrderProductController extends Controller
             if ($totalpay > 0) {
                 pays($request, $document, $typeDocument);
             }
-            if ($documentType == 11 && $indicator->dian == 'on') {
+            if ($documentType == 11 && indicator()->dian == 'on') {
                 $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
                     ['SendBillSyncResult']['IsValid'];
                 $code = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
@@ -209,11 +244,11 @@ class PurchaseOrderProductController extends Controller
                 $supportDocumentResponse->save();
 
                 $environmentPdf = Environment::where('code', 'PDF')->first();
+                $urlpdf = $environmentPdf->protocol . $configuration->ip . $environmentPdf->url;
 
-                $pdf = file_get_contents($environmentPdf->url . $company->nit ."/DSS-" . $resolutions->prefix .
-                $resolutions->consecutive .".pdf");
+                $pdf = file_get_contents($urlpdf . $company->nit ."/DSS-" . $purchase->document .".pdf");
                 Storage::disk('public')->put('files/graphical_representations/support_documents/' .
-                $resolutions->prefix . $resolutions->consecutive . '.pdf', $pdf);
+                $purchase->document . '.pdf', $pdf);
 
                 $resolutions->consecutive += 1;
                 $resolutions->update();

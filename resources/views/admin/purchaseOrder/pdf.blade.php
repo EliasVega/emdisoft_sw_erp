@@ -85,7 +85,11 @@
                         <tbody class="detail">
                             @foreach ($purchaseOrderProducts as $purchaseOrderProduct)
                             <tr>
-                                <td>{{ $purchaseOrderProduct->product->name }}</td>
+                                @if ($purchaseOrder->type_product == 'product')
+                                    <td>{{ $purchaseOrderProduct->product->name }}</td>
+                                @else
+                                    <td>{{ $purchaseOrderProduct->rawMaterial->name }}</td>
+                                @endif
                                 <td id="ccent">{{ number_format($purchaseOrderProduct->quantity) }}</td>
                                 <td class="tdder">${{ number_format($purchaseOrderProduct->price)}}</td>
                                 <td class="tdder">${{number_format($purchaseOrderProduct->quantity * $purchaseOrderProduct->price)}}</td>

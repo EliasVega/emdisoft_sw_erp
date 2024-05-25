@@ -118,4 +118,12 @@ class Purchase extends Model
     public function cashRegister() {
         return $this->belongsTo(CashRegister::class);
     }
+
+    public function purchaseRawmaterials(){
+        return $this->hasMany(PurchaseRawmaterial::class);
+    }
+
+    public function rawmaterials(){
+        return $this->hasMany(RawMaterial::class);
+    }
 }

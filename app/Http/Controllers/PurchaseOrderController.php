@@ -9,23 +9,22 @@ use App\Models\Advance;
 use App\Models\Bank;
 use App\Models\Branch;
 use App\Models\Card;
-use App\Models\CashRegister;
 use App\Models\Company;
 use App\Models\CompanyTax;
 use App\Models\DocumentType;
 use App\Models\GenerationType;
-use App\Models\Indicator;
 use App\Models\PaymentForm;
 use App\Models\PaymentMethod;
 use App\Models\Percentage;
 use App\Models\Product;
 use App\Models\Provider;
 use App\Models\PurchaseOrderProduct;
+use App\Models\PurchaseOrderRawmaterial;
+use App\Models\RawMaterial;
 use App\Models\Resolution;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 
 class PurchaseOrderController extends Controller
@@ -43,6 +42,7 @@ class PurchaseOrderController extends Controller
      */
     public function index(Request $request)
     {
+        $indicator = indicator();
         $purchaseOrder = session('purchaseOrder');
         $indicator = indicator();
         $typeDocument = '';
@@ -58,8 +58,13 @@ class PurchaseOrderController extends Controller
                 //Consulta para mostrar todas las precompras a admin y superadmin
                 $purchaseOrders = PurchaseOrder::get();
             } else {
-                //Consulta para mostrar precompras de los demas roles
+                if (indicator()->pos == 'off') {
+                    $purchaseOrders = PurchaseOrder::get();
+                } else {
+                    //Consulta para mostrar precompras de los demas roles
                 $purchaseOrders = PurchaseOrder::where('user_id', $user->id)->get();
+                }
+
             }
             return DataTables::of($purchaseOrders)
             ->addIndexColumn()
@@ -89,7 +94,7 @@ class PurchaseOrderController extends Controller
             ->rawColumns(['btn'])
             ->make(true);
         }
-        return view('admin.purchaseOrder.index', compact('purchaseOrder', 'typeDocument'));
+        return view('admin.purchaseOrder.index', compact('purchaseOrder', 'typeDocument', 'indicator'));
     }
 
     /**
@@ -98,11 +103,9 @@ class PurchaseOrderController extends Controller
     public function create()
     {
         $indicator = indicator();
-        $cashRegister = cashregisterModel();
-        $cashRegister = cashregisterModel();
-        if(is_null($cashRegister)){
-            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
-            return redirect("branch");
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
         }
         $providers = Provider::get();
         $products = Product::from('products as pro')
@@ -113,11 +116,38 @@ class PurchaseOrderController extends Controller
         ->select('pro.id', 'pro.code', 'pro.stock', 'pro.price', 'pro.name', 'per.percentage', 'tt.id as tt')
         ->where('pro.status', '=', 'active')
         ->get();
+        $typeProduct = 'product';
         return view('admin.purchaseOrder.create',
         compact(
             'providers',
             'products',
-            'indicator'
+            'indicator',
+            'typeProduct'
+        ));
+    }
+    public function createRawmaterial()
+    {
+        $indicator = indicator();
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
+        }
+        $providers = Provider::get();
+        $products = RawMaterial::from('raw_materials as rm')
+        ->join('categories as cat', 'rm.category_id', 'cat.id')
+        ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->select('rm.id', 'rm.code', 'rm.stock', 'rm.price', 'rm.name', 'per.percentage', 'tt.id as tt')
+        ->where('rm.status', '=', 'active')
+        ->get();
+        $typeProduct = 'raw_material';
+        return view('admin.purchaseOrder.create',
+        compact(
+            'indicator',
+            'providers',
+            'products',
+            'typeProduct'
         ));
     }
 
@@ -127,8 +157,7 @@ class PurchaseOrderController extends Controller
     public function store(StorePurchaseOrderRequest $request)
     {
         //dd($request->all());
-        $indicator = indicator();
-        $cashRegister = cashregisterModel();
+        $cashRegister = cashRegisterComprobation();
         //Variables del request
         $product_id = $request->product_id;
         $quantity = $request->quantity;
@@ -140,32 +169,49 @@ class PurchaseOrderController extends Controller
         $purchaseOrder = new PurchaseOrder();
         $purchaseOrder->user_id = current_user()->id;
         $purchaseOrder->provider_id = $request->provider_id;
-        $purchaseOrder->cash_register_id = cashregisterModel()->id;
+        $purchaseOrder->cash_register_id = $cashRegister;
         $purchaseOrder->total = $request->total;
         $purchaseOrder->total_tax = $request->total_tax;
         $purchaseOrder->total_pay = $total_pay;
         $purchaseOrder->status = 'active';
+        $purchaseOrder->type_product = $request->typeProduct;
+        $purchaseOrder->note = $request->note;
         $purchaseOrder->balance = $total_pay;
         $purchaseOrder->save();
 
-        if ($indicator->pos == 'on') {
+        if (indicator()->pos == 'on') {
             //actualizar la caja
                 $cashRegister->purchase_order += $total_pay;
                 $cashRegister->update();
         }
 
         //Ingresa los productos que vienen en el array
-        for ($i=0; $i < count($product_id); $i++) {
-            //Metodo para registrar la relacion entre producto y compra
-            $purchaseOrderProduct = new PurchaseOrderProduct();
-            $purchaseOrderProduct->purchase_order_id = $purchaseOrder->id;
-            $purchaseOrderProduct->product_id = $product_id[$i];
-            $purchaseOrderProduct->quantity = $quantity[$i];
-            $purchaseOrderProduct->price = $price[$i];
-            $purchaseOrderProduct->tax_rate = $tax_rate[$i];
-            $purchaseOrderProduct->subtotal = $quantity[$i] * $price[$i];
-            $purchaseOrderProduct->tax_subtotal =($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
-            $purchaseOrderProduct->save();
+        if ($request->typeProduct == 'product') {
+            for ($i=0; $i < count($product_id); $i++) {
+                //Metodo para registrar la relacion entre producto y compra
+                $purchaseOrderProduct = new PurchaseOrderProduct();
+                $purchaseOrderProduct->purchase_order_id = $purchaseOrder->id;
+                $purchaseOrderProduct->product_id = $product_id[$i];
+                $purchaseOrderProduct->quantity = $quantity[$i];
+                $purchaseOrderProduct->price = $price[$i];
+                $purchaseOrderProduct->tax_rate = $tax_rate[$i];
+                $purchaseOrderProduct->subtotal = $quantity[$i] * $price[$i];
+                $purchaseOrderProduct->tax_subtotal =($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
+                $purchaseOrderProduct->save();
+            }
+        } else {
+            for ($i=0; $i < count($product_id); $i++) {
+                //Metodo para registrar la relacion entre producto y compra
+                $purchaseOrderRawmaterial = new PurchaseOrderRawmaterial();
+                $purchaseOrderRawmaterial->purchase_order_id = $purchaseOrder->id;
+                $purchaseOrderRawmaterial->raw_material_id = $product_id[$i];
+                $purchaseOrderRawmaterial->quantity = $quantity[$i];
+                $purchaseOrderRawmaterial->price = $price[$i];
+                $purchaseOrderRawmaterial->tax_rate = $tax_rate[$i];
+                $purchaseOrderRawmaterial->subtotal = $quantity[$i] * $price[$i];
+                $purchaseOrderRawmaterial->tax_subtotal =($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
+                $purchaseOrderRawmaterial->save();
+            }
         }
         session()->forget('purchaseOrder');
         session(['purchaseOrder' => $purchaseOrder->id]);
@@ -187,6 +233,10 @@ class PurchaseOrderController extends Controller
      */
     public function edit(PurchaseOrder $purchaseOrder)
     {
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
+        }
         $indicator = indicator();
         $providers = Provider::get();
         $products = Product::from('products as pro')
@@ -217,8 +267,7 @@ class PurchaseOrderController extends Controller
     public function update(UpdatePurchaseOrderRequest $request, PurchaseOrder $purchaseOrder)
     {
         //dd($request->all());
-        $indicator = indicator();
-        $cashRegister = cashregisterModel();
+        $cashRegister = cashRegisterComprobation();
         //llamado a variables
         $product_id = $request->product_id;
         $quantity   = $request->quantity;
@@ -226,7 +275,7 @@ class PurchaseOrderController extends Controller
         $tax_rate   = $request->tax_rate;
         $total_pay = $request->total_pay;
 
-        if ($indicator->pos == 'on') {
+        if (indicator()->pos == 'on') {
             //actualizar la caja
             $cashRegister->purchase_order -= $purchaseOrder->total_pay;
             $cashRegister->update();
@@ -243,7 +292,7 @@ class PurchaseOrderController extends Controller
         $purchaseOrder->note = $request->note;
         $purchaseOrder->update();
 
-        if ($indicator->pos == 'on') {
+        if (indicator()->pos == 'on') {
             //actualizar la caja
             $cashRegister->purchase_order += $total_pay;
             $cashRegister->update();
@@ -320,10 +369,9 @@ class PurchaseOrderController extends Controller
 
     public function invoice($id)
     {
-        $cashRegister = cashregisterModel();
-        if(is_null($cashRegister)){
-            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
-            return redirect("branch");
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
         }
         $indicator = indicator();
         $purchaseOrder = PurchaseOrder::findOrFail($id);
@@ -342,13 +390,25 @@ class PurchaseOrderController extends Controller
         $advances = Advance::where('status', '!=', 'aplicado')->get();
         $products = Product::where('status', 'active')->get();
         $date = Carbon::now();
-        $purchaseOrderProducts = PurchaseOrderProduct::from('purchase_order_products as pop')
-        ->join('products as pro', 'pop.product_id', 'pro.id')
-        ->join('categories as cat', 'pro.category_id', 'cat.id')
-        ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
-        ->select('pro.id', 'pro.name', 'pro.stock', 'pop.quantity', 'pop.price', 'pop.tax_rate', 'pop.subtotal', 'ct.tax_type_id')
-        ->where('purchase_order_id', $purchaseOrder->id)
-        ->get();
+        if ($purchaseOrder->type_product == 'product') {
+            $purchaseOrderProducts = PurchaseOrderProduct::from('purchase_order_products as pop')
+            ->join('products as pro', 'pop.product_id', 'pro.id')
+            ->join('categories as cat', 'pro.category_id', 'cat.id')
+            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+            ->select('pro.id', 'pro.name', 'pro.stock', 'pop.quantity', 'pop.price', 'pop.tax_rate', 'pop.subtotal', 'ct.tax_type_id')
+            ->where('purchase_order_id', $purchaseOrder->id)
+            ->get();
+        } else {
+            $purchaseOrderProducts = PurchaseOrderRawmaterial::from('purchase_order_rawmaterials as por')
+            ->join('raw_materials as rm', 'por.raw_material_id', 'rm.id')
+            ->join('categories as cat', 'rm.category_id', 'cat.id')
+            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+            ->select('rm.id', 'rm.name', 'rm.stock', 'por.quantity', 'por.price', 'por.tax_rate', 'por.subtotal', 'ct.tax_type_id')
+            ->where('purchase_order_id', $purchaseOrder->id)
+            ->get();
+        }
+
+
         $companyTaxes = CompanyTax::from('company_taxes', 'ct')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
         ->join('percentages as per', 'ct.percentage_id', 'per.id')
@@ -382,9 +442,13 @@ class PurchaseOrderController extends Controller
     {
         $indicator = indicator();
         $purchaseOrder = PurchaseOrder::findOrFail($id);
-        $purchaseOrderProducts = PurchaseOrderProduct::where('purchase_order_id', $id)->where('quantity', '>', 0)->get();
+        if ($purchaseOrder->type_product == 'product') {
+            $purchaseOrderProducts = PurchaseOrderProduct::where('purchase_order_id', $id)->where('quantity', '>', 0)->get();
+        } else {
+            $purchaseOrderProducts = PurchaseOrderRawmaterial::where('purchase_order_id', $id)->where('quantity', '>', 0)->get();
+        }
+
         $company = Company::findOrFail(1);
-        $indicator = Indicator::findOrFail(1);
         $purchaseOrderpdf = "COMP-". $purchaseOrder->id;
         $view = \view('admin.purchaseOrder.pdf',
         compact(
@@ -407,7 +471,12 @@ class PurchaseOrderController extends Controller
         $purchaseOrders = session('purchaseOrder');
         $purchaseOrder = PurchaseOrder::findOrFail($purchaseOrders);
         session()->forget('purchaseOrder');
-        $purchaseOrderProducts = PurchaseOrderProduct::where('purchase_order_id', $purchaseOrder->id)->where('quantity', '>', 0)->get();
+        if ($purchaseOrder->type_product == 'product') {
+            $purchaseOrderProducts = PurchaseOrderProduct::where('purchase_order_id', $purchaseOrder->id)->where('quantity', '>', 0)->get();
+        } else {
+            $purchaseOrderProducts = PurchaseOrderRawmaterial::where('purchase_order_id', $purchaseOrder->id)->where('quantity', '>', 0)->get();
+        }
+
         $company = Company::findOrFail(1);
 
         $purchaseOrderpdf = "COMP-". $purchaseOrder->id;
@@ -428,7 +497,11 @@ class PurchaseOrderController extends Controller
     public function purchaseOrderPos($id)
     {
         $purchaseOrder = PurchaseOrder::where('id', $id)->first();
-        $purchaseOrderProducts = PurchaseOrderProduct::where('purchase_order_id', $id)->where('quantity', '>', 0)->get();
+        if ($purchaseOrder->type_product == 'product') {
+            $purchaseOrderProducts = PurchaseOrderProduct::where('purchase_order_id', $id)->where('quantity', '>', 0)->get();
+        } else {
+            $purchaseOrderProducts = PurchaseOrderRawmaterial::where('purchase_order_id', $id)->where('quantity', '>', 0)->get();
+        }
         $company = Company::where('id', 1)->first();
         $indicator = indicator();
         $purchaseOrderpdf = "FACT-". $purchaseOrder->document;
@@ -451,7 +524,11 @@ class PurchaseOrderController extends Controller
         $purchaseOrders = session('purchaseOrder');
         $purchaseOrder = PurchaseOrder::findOrFail($purchaseOrders);
         session()->forget('purchaseOrder');
-        $purchaseOrderProducts = PurchaseOrderProduct::where('purchase_order_id', $purchaseOrder->id)->where('quantity', '>', 0)->get();
+        if ($purchaseOrder->type_product == 'product') {
+            $purchaseOrderProducts = PurchaseOrderProduct::where('purchase_order_id', $purchaseOrder->id)->where('quantity', '>', 0)->get();
+        } else {
+            $purchaseOrderProducts = PurchaseOrderRawmaterial::where('purchase_order_id', $purchaseOrder->id)->where('quantity', '>', 0)->get();
+        }
         $company = Company::where('id', 1)->first();
         $indicator = indicator();
         $purchaseOrderpdf = "FACT-". $purchaseOrder->document;

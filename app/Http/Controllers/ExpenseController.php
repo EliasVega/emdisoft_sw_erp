@@ -96,14 +96,9 @@ class ExpenseController extends Controller
     public function create()
     {
         $indicator = Indicator::findOrFail(1);
-        $cashRegister = CashRegister::select('id')
-        ->where('user_id', '=', Auth::user()->id)
-        ->where('status', '=', 'open')
-        ->first();
-        $cashRegister = cashregisterModel();
-        if(is_null($cashRegister)){
-            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
-            return redirect("branch");
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
         }
         $departments = Department::get();
         $municipalities = Municipality::get();
@@ -151,7 +146,7 @@ class ExpenseController extends Controller
         //dd($request->all());
         $company = Company::findOrFail(current_user()->company_id);
         $indicator = Indicator::findOrFail(1);
-        $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
+        $cashRegister = cashRegisterComprobation();
         $voucherTypes = VoucherType::findOrFail(20);
         $typeDocument = 'expense';
         //$voucherType = 20;
@@ -175,7 +170,7 @@ class ExpenseController extends Controller
         $expense->payment_method_id = $request->payment_method_id[0];
         $expense->document = $voucherTypes->code . '-' . $voucherTypes->consecutive;
         $expense->voucher_type_id = $voucherTypes->id;
-        $expense->cash_register_id = cashregisterModel()->id;
+        $expense->cash_register_id = $cashRegister;
         $expense->generation_date = $request->generation_date;
         $expense->total = $total;
         $expense->total_tax = 0;
@@ -264,6 +259,10 @@ class ExpenseController extends Controller
      */
     public function edit(Expense $expense)
     {
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
+        }
         $providers = Provider::get();
         $paymentForms = PaymentForm::get();
         $paymentMethods = PaymentMethod::get();
@@ -308,7 +307,7 @@ class ExpenseController extends Controller
         $indicator = Indicator::findOrFail(1);
         $date1 = Carbon::now()->toDateString();
         $date2 = Expense::find($expense->id)->created_at->toDateString();
-        $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
+        $cashRegister = cashRegisterComprobation();
         $typeDocument = 'expense';
 
         //Variables del request expense
@@ -317,7 +316,6 @@ class ExpenseController extends Controller
         $price      = $request->price;
         $total = $request->total;
         $reverse = $request->reverse;
-
 
         //gran total de la compra
         $totalold = $expense->total;
@@ -436,6 +434,10 @@ class ExpenseController extends Controller
 
     public function expensePay($id)
     {
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
+        }
         $document = Expense::findOrFail($id);
         $banks = Bank::get();
         $paymentMethods = PaymentMethod::get();

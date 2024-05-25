@@ -33,6 +33,6 @@ class ProductRawmaterial extends Model
     }
 
     public function rawMaterial(){
-        return $this->hasOne(RawMaterial::class);
+        return $this->belongsTo(RawMaterial::class);
     }
 }

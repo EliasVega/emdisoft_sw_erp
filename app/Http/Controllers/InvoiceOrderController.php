@@ -91,20 +91,17 @@ class InvoiceOrderController extends Controller
      */
     public function create()
     {
-        $indicator = Indicator::findOrFail(1);
-        $cashRegister = cashregisterModel();
-        $cashRegister = cashregisterModel();
-        if(is_null($cashRegister)){
-            Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
-            return redirect("branch");
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
         }
         $customers = Customer::get();
         $employees = Employee::get();
         $branchs = Branch::get();
-        $uvtmax = $indicator->uvt * 5;
+        $uvtmax = indicator()->uvt * 5;
         $advances = Advance::where('status', '!=', 'aplicado')->get();
         $date = Carbon::now();
-        if ($indicator->inventory == 'on') {
+        if (indicator()->inventory == 'on') {
             $products = BranchProduct::from('branch_products as bp')
             ->join('products as pro', 'bp.product_id', 'pro.id')
             ->join('categories as cat', 'pro.category_id', 'cat.id')
@@ -144,8 +141,7 @@ class InvoiceOrderController extends Controller
     public function store(StoreInvoiceOrderRequest $request)
     {
         //dd($request->all());
-        $indicator = Indicator::findOrFail(1);
-        $cashRegister = cashregisterModel();
+        $cashRegister = cashRegisterComprobation();
 
         //Variables del request
         $product_id = $request->product_id;
@@ -161,7 +157,7 @@ class InvoiceOrderController extends Controller
         $invoiceOrder->branch_id = current_user()->branch_id;
         $invoiceOrder->invoice_id = null;
         $invoiceOrder->customer_id = $request->customer_id;
-        $invoiceOrder->cash_register_id = cashregisterModel()->id;
+        $invoiceOrder->cash_register_id = $cashRegister;
         $invoiceOrder->generation_date = $request->generation_date;
         $invoiceOrder->due_date = $request->due_date;
         $invoiceOrder->total = $request->total;
@@ -171,7 +167,7 @@ class InvoiceOrderController extends Controller
         $invoiceOrder->note = $request->note;
         $invoiceOrder->save();
 
-        if ($indicator->pos == 'on') {
+        if (indicator()->pos == 'on') {
             //actualizar la caja
                 $cashRegister->invoice_order += $total_pay;
                 $cashRegister->update();
@@ -194,7 +190,7 @@ class InvoiceOrderController extends Controller
             //$product = Product::findOrFail($id);
 
             //metodo para comisiones de empleados
-            if ($indicator->work_labor == 'on') {
+            if (indicator()->work_labor == 'on') {
                 if ($employee_id[$i] != 'null') {
                     $employee = Employee::findOrFail($employee_id[$i]);
                     $commission = $employee->commission;
@@ -235,22 +231,17 @@ class InvoiceOrderController extends Controller
      */
     public function edit(InvoiceOrder $invoiceOrder)
     {
-        $indicator = Indicator::findOrFail(1);
-        $cashRegister = cashregisterModel();
-        if ($indicator->pos == 'on') {
-            if(is_null($cashRegister)){
-                Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
-                return redirect("branch");
-            }
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
         }
         $customers = Customer::get();
         $employees = Employee::get();
         $branchs = Branch::get();
-        $uvtmax = $indicator->uvt * 5;
         $advances = Advance::where('status', '!=', 'aplicado')->get();
         $date = Carbon::now();
         $generation = $invoiceOrder->generation_date;
-        if ($indicator->inventory == 'on') {
+        if (indicator()->inventory == 'on') {
             $products = BranchProduct::from('branch_products as bp')
             ->join('products as pro', 'bp.product_id', 'pro.id')
             ->join('categories as cat', 'pro.category_id', 'cat.id')
@@ -304,7 +295,6 @@ class InvoiceOrderController extends Controller
             'products',
             'date',
             'companyTaxes',
-            'uvtmax',
             'indicator',
             'invoiceOrderProducts'
         ));
@@ -316,8 +306,7 @@ class InvoiceOrderController extends Controller
     public function update(UpdateInvoiceOrderRequest $request, InvoiceOrder $invoiceOrder)
     {
         //dd($request->all());
-        $indicator = Indicator::findOrFail(1);
-        $cashRegister = cashregisterModel();
+        $cashRegister = cashRegisterComprobation();
         //llamado a variables
         $product_id = $request->product_id;
         $quantity   = $request->quantity;
@@ -326,7 +315,7 @@ class InvoiceOrderController extends Controller
         $total_pay = $request->total_pay;
         $employee_id = $request->employee_id;
 
-        if ($indicator->pos == 'on') {
+        if (indicator()->pos == 'on') {
             //actualizar la caja
             $cashRegister->invoice_order -= $invoiceOrder->total_pay;
             $cashRegister->update();
@@ -347,7 +336,7 @@ class InvoiceOrderController extends Controller
         $invoiceOrder->update();
 
 
-        if ($indicator->pos == 'on') {
+        if (indicator()->pos == 'on') {
             //actualizar la caja
             $cashRegister->invoice_order += $total_pay;
             $cashRegister->update();
@@ -382,7 +371,7 @@ class InvoiceOrderController extends Controller
 
             $id = $product_id[$i];
             $invoiceOrderProduct = null;
-            if ($indicator->sqio == 'on') {
+            if (indicator()->sqio == 'on') {
                 $invoiceOrderProduct = InvoiceOrderProduct::where('invoice_order_id', $invoiceOrder->id)
                 ->where('product_id', $id)->where('quantity', 0)->first();
             } else {
@@ -404,7 +393,7 @@ class InvoiceOrderController extends Controller
                 $invoiceOrderProduct->tax_subtotal = $tax_subtotal;
                 $invoiceOrderProduct->save();
 
-                if ($indicator->work_labor == 'on') {
+                if (indicator()->work_labor == 'on') {
                     //metodo para comisiones de empleados
                     if ($employee_id[$i] != 'null') {
                         $employee = Employee::findOrFail($employee_id[$i]);
@@ -436,7 +425,7 @@ class InvoiceOrderController extends Controller
                     $invoiceOrderProduct->subtotal    += $subtotal;
                     $invoiceOrderProduct->tax_subtotal     += $tax_subtotal;
                     $invoiceOrderProduct->update();
-                    if ($indicator->work_labor == 'on') {
+                    if (indicator()->work_labor == 'on') {
                         if ($employee_id[$i] != "null") {
                             $employeeInvoiceOrderProduct = EmployeeInvoiceOrderProduct::where('invoice_order_product_id', $invoiceOrderProduct->id)->get();
                             //metodo para comisiones de empleados
@@ -500,13 +489,9 @@ class InvoiceOrderController extends Controller
     public function invoice($id)
     {
         $invoiceOrder = InvoiceOrder::findOrFail($id);
-        $indicator = Indicator::findOrFail(1);
-        $cashRegister = cashregisterModel();
-        if ($indicator->pos == 'on') {
-            if(is_null($cashRegister)){
-                Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
-                return redirect("branch");
-            }
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
         }
         $customers = Customer::get();
         $resolutions = Resolution::where('document_type_id', 1)->where('status', 'active')->get();
@@ -515,10 +500,9 @@ class InvoiceOrderController extends Controller
         $banks = Bank::get();
         $cards = Card::get();
         $branchs = Branch::get();
-        $uvtmax = $indicator->uvt * 5;
         $advances = Advance::where('status', '!=', 'aplicado')->get();
         $date = Carbon::now();
-        if ($indicator->inventory == 'on') {
+        if (indicator()->inventory == 'on') {
             $products = BranchProduct::from('branch_products as bp')
             ->join('products as pro', 'bp.product_id', 'pro.id')
             ->join('categories as cat', 'pro.category_id', 'cat.id')

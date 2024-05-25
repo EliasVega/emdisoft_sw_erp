@@ -8,6 +8,8 @@ use App\Http\Requests\UpdateInvoiceOrderProductRequest;
 use App\Models\BranchProduct;
 use App\Models\CashRegister;
 use App\Models\Company;
+use App\Models\Configuration;
+use App\Models\Employee;
 use App\Models\EmployeeInvoiceProduct;
 use App\Models\Environment;
 use App\Models\Indicator;
@@ -58,31 +60,34 @@ class InvoiceOrderProductController extends Controller
         //dd($request->all());
         $invoiceOrder = InvoiceOrder::findOrFail($request->invoice_order_id);
         $company = Company::findOrFail(current_user()->company_id);
-        $environment = Environment::where('id', 11)->first();
-        $indicator = Indicator::findOrFail(1);
-        $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
+        $configuration = Configuration::findOrFail($company->id);
+        $cashRegister = cashRegisterComprobation();
         $resolutions = '';
 
-        $resolut = $request->resolution_id;
-        if ($resolut == null) {
-            if ($indicator->dian == 'on') {
-                $resolutions = Resolution::findOrFail(4);
-            } else {
-                $resolutions = Resolution::findOrFail(7);
-            }
-        } else {
-            $resolutions = Resolution::findOrFail($request->resolution_id);
-        }
-
-        $typeDocument = 'invoice';
+        $typeDocument = $request->typeDocument;
         $documentType = '';
 
-        if ($indicator->pos == 'on' && $request->fe == 2) {
-            $voucherType = 2;
-            $documentType = 12;
+        //Metodo si los envios a la dian es si trae resolucion
+        //asignacion del vaucher y document type
+        if (indicator()->dian == 'on') {
+            $resolutions = Resolution::findOrFail($request->resolution_id);
+            if ($typeDocument == 'invoice') {
+                $voucherType = 1;
+                $documentType = 1;
+            } else {
+                $voucherType = 2;
+                $documentType = 15;
+            }
         } else {
-            $voucherType = 1;
-            $documentType = 1;
+            if ($typeDocument == 'invoice') {
+                $resolutions = Resolution::findOrFail(10);
+                $voucherType = 1;
+                $documentType = 1;
+            } else {
+                $resolutions = Resolution::findOrFail(4);
+                $voucherType = 24;
+                $documentType = 104;
+            }
         }
 
         $voucherTypes = VoucherType::findOrFail($voucherType);
@@ -96,14 +101,19 @@ class InvoiceOrderProductController extends Controller
         $employee_id = $request->employee_id;
         $paymentForm = $request->payment_form_id;
 
-        if ($indicator->pos == 'on'  && $paymentForm == 1) {
+        if (isset($employee_id)) {
+            $employee_id = $request->employee_id;
+        } else {
+            $employee_id = "null";
+        }
+
+        if (indicator()->pos == 'on'  && $paymentForm == 1) {
             $totalpay = $request->total_pay;
-        } else if($indicator->pos == 'on'  && $paymentForm == 2) {
+        } else if(indicator()->pos == 'on'  && $paymentForm == 2) {
             $totalpay = 0;
         } else {
             $totalpay = $request->totalpay;
         }
-
         $retention = 0;
         //variables del request
         $quantityBag = $request->bags;
@@ -115,10 +125,18 @@ class InvoiceOrderProductController extends Controller
         $service = '';
         $errorMessages = '';
         $store = false;
-        if ($documentType == 1 && $indicator->dian == 'on') {
-            $data = invoiceData($request);
+        if (indicator()->dian == 'on') {
+            if ($typeDocument == 'invoice') {
+                $data = invoiceData($request);
+                $environment = Environment::where('id', 11)->first();
+                $url = $environment->protocol . $configuration->ip . $environment->url;
+            } else {
+                $data = equiDocPosData($request);
+                $environment = Environment::where('id', 21)->first();
+                $url = $environment->protocol . $configuration->ip . $environment->url;
+            }
             //dd($data);
-            $requestResponse = sendDocuments($company, $environment, $data);
+            $requestResponse = sendDocuments($company, $url, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];
@@ -139,6 +157,7 @@ class InvoiceOrderProductController extends Controller
             $invoice->document_type_id = $documentType;
             $invoice->document = $resolutions->prefix . '-' . $resolutions->consecutive;
             $invoice->voucher_type_id = $voucherType;
+            $invoice->cash_register_id = $cashRegister;
             $invoice->status = 'invoice';
             $invoice->note = $request->note;
             $invoice->generation_date = $request->generation_date;
@@ -159,7 +178,7 @@ class InvoiceOrderProductController extends Controller
             $voucherTypes->consecutive += 1;
             $voucherTypes->update();
 
-            if ($indicator->pos == 'on') {
+            if (indicator()->pos == 'on') {
                 //actualizar la caja
                     $cashRegister->invoice += $total_pay;
                     //$cashRegister->in_total += $totalpay;
@@ -194,66 +213,78 @@ class InvoiceOrderProductController extends Controller
                 $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
 
                 //metodo para comisiones de empleados
-                $subtotal = $quantity[$i] * $price[$i];
-                $commission = $product->commission;
-                $valueCommission = ($subtotal/100) * $commission;
-                if ($employee_id[$i] != 'null') {
-                    $employeeInvoiceProduct = new EmployeeInvoiceProduct();
-                    $employeeInvoiceProduct->invoice_product_id = $invoiceProduct->id;
-                    $employeeInvoiceProduct->employee_id = $employee_id[$i];
-                    $employeeInvoiceProduct->quantity = $quantity[$i];
-                    $employeeInvoiceProduct->price = $price[$i];
-                    $employeeInvoiceProduct->subtotal = $subtotal;
-                    $employeeInvoiceProduct->commission = $commission;
-                    $employeeInvoiceProduct->value_commission =$valueCommission;
-                    $employeeInvoiceProduct->status = 'pendient';
-                    $employeeInvoiceProduct->save();
+                if (indicator()->work_labor == 'on') {
+                    //metodo para comisiones de empleados
+                    if ($employee_id[$i] != "null") {
+                        $employee = Employee::findOrFail($employee_id[$i]);
+                        $subtotal = $quantity[$i] * $price[$i];
+                        if (indicator()->cmep == 'employee') {
+                            $commission = $employee->commission;
+                        } else {
+                            $commission = $product->commission;
+                        }
+                        $valueCommission = ($subtotal/100) * $commission;
+
+                        $employeeInvoiceProduct = new EmployeeInvoiceProduct();
+                        $employeeInvoiceProduct->invoice_product_id = $invoiceProduct->id;
+                        $employeeInvoiceProduct->employee_id = $employee_id[$i];
+                        $employeeInvoiceProduct->generation_date = $request->generation_date;
+                        $employeeInvoiceProduct->quantity = $quantity[$i];
+                        $employeeInvoiceProduct->price = $price[$i];
+                        $employeeInvoiceProduct->subtotal = $subtotal;
+                        $employeeInvoiceProduct->commission = $commission;
+                        $employeeInvoiceProduct->value_commission =$valueCommission;
+                        $employeeInvoiceProduct->status = 'pendient';
+                        $employeeInvoiceProduct->save();
+                    }
                 }
             }
 
-            $taxes = $this->GetTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC
+            $taxes = $this->getTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC
             taxesGlobals($document, $quantityBag, $typeDocument);
             taxesLines($document, $taxes, $typeDocument);
             retentions($request, $document, $typeDocument);
 
-            if ($indicator->pos == 'on') {
-                $paymentMethod = $request->payment_method_id;
-                $bank = 1;
-                $card = 1;
-                $advance_id = null;
-                $payment = $request->pay;
-                $transaction = 00;
-                $payAdvance = 0;
-                $return = $payment - $totalpay;
+            if (indicator()->pos == 'on' ) {
+                $return = 0;
+                if ($totalpay > 0) {
+                    $paymentMethod = $request->payment_method_id;
+                    $bank = 1;
+                    $card = 1;
+                    $advance_id = null;
+                    $payment = $request->pay;
+                    $transaction = 00;
+                    $payAdvance = 0;
+                    $return = $payment - $totalpay;
+                        //Metodo para crear un nuevo pago y su realcion polimorfica dependiendo del tipo de documento
+                    $pay = new Pay();
+                    $pay->user_id = current_user()->id;
+                    $pay->branch_id = current_user()->branch_id;
+                    $pay->pay = $totalpay;
+                    $pay->balance = $document->balance;
+                    $pay->type = 'invoice';
 
-                //Metodo para crear un nuevo pago y su realcion polimorfica dependiendo del tipo de documento
-                $pay = new Pay();
-                $pay->user_id = current_user()->id;
-                $pay->branch_id = current_user()->branch_id;
-                $pay->pay = $totalpay;
-                $pay->balance = $document->balance;
-                $pay->type = $typeDocument;
-                $invoice = $document;
-                $invoice->pays()->save($pay);
+                    $invoice = $document;
+                    $invoice->pays()->save($pay);
 
-                //Metodo para registrar la relacion entre pago y metodo de pago
-                $pay_paymentMethod = new PayPaymentMethod();
-                $pay_paymentMethod->pay_id = $pay->id;
-                $pay_paymentMethod->payment_method_id = $paymentMethod;
-                $pay_paymentMethod->bank_id = $bank;
-                $pay_paymentMethod->card_id = $card;
-                $pay_paymentMethod->pay = $payment;
-                $pay_paymentMethod->transaction = $transaction;
-                $pay_paymentMethod->save();
+                    //Metodo para registrar la relacion entre pago y metodo de pago
+                    $pay_paymentMethod = new PayPaymentMethod();
+                    $pay_paymentMethod->pay_id = $pay->id;
+                    $pay_paymentMethod->payment_method_id = $paymentMethod;
+                    $pay_paymentMethod->bank_id = $bank;
+                    $pay_paymentMethod->card_id = $card;
+                    $pay_paymentMethod->pay = $payment;
+                    $pay_paymentMethod->transaction = $transaction;
+                    $pay_paymentMethod->save();
 
-                //metodo para actualizar la caja
-                $cashRegister->in_invoice_cash += $totalpay;
-                $cashRegister->cash_in_total += $totalpay;
+                    //metodo para actualizar la caja
+                    $cashRegister->in_invoice_cash += $totalpay;
+                    $cashRegister->cash_in_total += $totalpay;
 
-                $cashRegister->in_invoice += $totalpay;
-                $cashRegister->in_total += $totalpay;
-                $cashRegister->update();
-
+                    $cashRegister->in_invoice += $totalpay;
+                    $cashRegister->in_total += $totalpay;
+                    $cashRegister->update();
+                }
                 $paymentReturn = new paymentReturn();
                 $paymentReturn->payment = $request->pay;
                 $paymentReturn->return = $return;
@@ -265,7 +296,7 @@ class InvoiceOrderProductController extends Controller
                 }
             }
 
-            if ($documentType == 1 && $indicator->dian == 'on') {
+            if ($documentType == 1 && indicator()->dian == 'on') {
                 $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
                     ['SendBillSyncResult']['IsValid'];
                 $code = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
@@ -287,11 +318,11 @@ class InvoiceOrderProductController extends Controller
                 $invoiceResponse->save();
 
                 $environmentPdf = Environment::where('code', 'PDF')->first();
+                $urlpdf = $environmentPdf->protocol . $configuration->ip . $environmentPdf->url;
 
-                $pdf = file_get_contents($environmentPdf->url . $company->nit ."/FES-" . $resolutions->prefix .
-                $resolutions->consecutive .".pdf");
+                $pdf = file_get_contents($urlpdf . $company->nit ."/FES-" . $invoice->document .".pdf");
                 Storage::disk('public')->put('files/graphical_representations/invoices/' .
-                $resolutions->prefix . $resolutions->consecutive . '.pdf', $pdf);
+                $invoice->document . '.pdf', $pdf);
             }
             $resolutions->consecutive += 1;
             $resolutions->update();

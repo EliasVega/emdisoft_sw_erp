@@ -21,6 +21,8 @@ class PurchaseOrder extends Model
         'total_pay',
         'balance',
         'status',
+        'type_product',
+        'note',
         'user_id',
         'supplier_id',
         'cash_register_id'

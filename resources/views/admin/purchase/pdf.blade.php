@@ -115,26 +115,18 @@
                             </tr>
                         </thead>
                         <tbody class="detail">
-                            @if ($purchase->type_product == 'product')
-                                @foreach ($productPurchases as $productPurchase)
-                                    <tr>
-                                        <td>{{ $productPurchase->product->name }}</td>
-                                        <td id="ccent">{{ number_format($productPurchase->quantity) }}</td>
-                                        <td class="tdder">${{ number_format($productPurchase->price)}}</td>
-                                        <td class="tdder">${{number_format($productPurchase->quantity * $productPurchase->price)}}</td>
-                                    </tr>
-                                @endforeach
-                            @else
-                                @foreach ($productPurchases as $productPurchase)
-                                    <tr>
-                                        <td>{{ $productPurchase->rawMaterial->name }}</td>
-                                        <td id="ccent">{{ number_format($productPurchase->quantity) }}</td>
-                                        <td class="tdder">${{ number_format($productPurchase->price)}}</td>
-                                        <td class="tdder">${{number_format($productPurchase->quantity * $productPurchase->price)}}</td>
-                                    </tr>
-                                @endforeach
-                            @endif
-
+                            @foreach ($productPurchases as $productPurchase)
+                                <tr>
+                                    @if ($purchase->type_product == 'product')
+                                    <td>{{ $productPurchase->product->name }}</td>
+                                    @else
+                                    <td>{{ $productPurchase->rawMaterial->name }}</td>
+                                    @endif
+                                    <td id="ccent">{{ number_format($productPurchase->quantity) }}</td>
+                                    <td class="tdder">${{ number_format($productPurchase->price)}}</td>
+                                    <td class="tdder">${{number_format($productPurchase->quantity * $productPurchase->price)}}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                         <tfoot>
                             <!--DATOS FTOTALES -->

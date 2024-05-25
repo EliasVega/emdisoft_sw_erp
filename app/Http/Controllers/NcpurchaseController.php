@@ -7,7 +7,6 @@ use App\Http\Requests\StoreNcpurchaseRequest;
 use App\Http\Requests\UpdateNcpurchaseRequest;
 use App\Models\BranchProduct;
 use App\Models\BranchRawmaterial;
-use App\Models\CashRegister;
 use App\Models\Company;
 use App\Models\Indicator;
 use App\Models\NcpurchaseProduct;
@@ -24,11 +23,11 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use App\Traits\InventoryPurchases;
 use App\Traits\KardexCreate;
-use App\Traits\Taxes;
+use App\Traits\GetTaxesLine;
 
 class NcpurchaseController extends Controller
 {
-    use InventoryPurchases, KardexCreate, Taxes;
+    use InventoryPurchases, KardexCreate, GetTaxesLine;
     function __construct()
     {
         $this->middleware('permission:ncpurchase.index|ncpurchase.store|ncpurchase.show', ['only'=>['index']]);
@@ -99,7 +98,6 @@ class NcpurchaseController extends Controller
     {
         //dd($request->all());
         $typeDocument = 'ncpurchase';
-        $voucherType = 10;
         $quantity = $request->quantity;
         $price = $request->price;
         $total_pay = $request->total_pay;
@@ -114,8 +112,7 @@ class NcpurchaseController extends Controller
 
         $resolution = Resolution::findOrFail(2);
         $purchase = Purchase::findOrFail($request->purchase_id);
-        $indicator = Indicator::findOrFail(1);
-        $cashRegister = CashRegister::where('user_id', '=', $purchase->user_id)->where('status', '=', 'open')->first();
+        $cashRegister = cashRegisterComprobation();
 
         //gran total de la compra
         $grandTotalold = $purchase->grand_total;
@@ -135,14 +132,14 @@ class NcpurchaseController extends Controller
         $ncpurchase->resolution_id = $resolution->id;
         $ncpurchase->discrepancy_id = $discrepancy;
         $ncpurchase->voucher_type_id = 10;
-        $ncpurchase->cash_register_id = cashregisterModel()->id;
+        $ncpurchase->cash_register_id = $cashRegister;
         $ncpurchase->retention = $retention;
         $ncpurchase->total = $request->total;
         $ncpurchase->total_tax = $request->total_tax;
         $ncpurchase->total_pay = $request->total_pay;
         $ncpurchase->save();
 
-        if ($indicator->pos == 'on') {
+        if (indicator()->pos == 'on') {
             //actualizar la caja
             $cashRegister->ncpurchase += $total_pay;
             $cashRegister->update();

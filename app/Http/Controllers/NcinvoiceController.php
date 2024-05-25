@@ -7,13 +7,11 @@ use App\Http\Requests\StoreNcinvoiceRequest;
 use App\Http\Requests\UpdateNcinvoiceRequest;
 use App\Models\BranchProduct;
 use App\Models\CashInflow;
-use App\Models\CashRegister;
 use App\Models\Company;
 use App\Models\Configuration;
 use App\Models\Employee;
 use App\Models\EmployeeInvoiceProduct;
 use App\Models\Environment;
-use App\Models\Indicator;
 use App\Models\Invoice;
 use App\Models\InvoiceProduct;
 use App\Models\NcinvoiceProduct;
@@ -31,12 +29,12 @@ use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
 use App\Traits\AdvanceCreate;
 use App\Traits\KardexCreate;
-use App\Traits\Taxes;
+use App\Traits\GetTaxesLine;
 use App\Traits\NcinvoiceProductCreate;
 
 class NcinvoiceController extends Controller
 {
-    use AdvanceCreate, KardexCreate, Taxes, NcinvoiceProductCreate;
+    use AdvanceCreate, KardexCreate, GetTaxesLine, NcinvoiceProductCreate;
     function __construct()
     {
         $this->middleware('permission:ncinvoice.index|ncinvoice.store|ncinvoice.show', ['only'=>['index']]);
@@ -105,13 +103,11 @@ class NcinvoiceController extends Controller
 
         $company = Company::findOrFail(current_user()->company_id);
         $invoice = Invoice::findOrFail($request->invoice_id);//encontrando la factura
-        $environment = Environment::where('id', 12)->first();
         $configuration = Configuration::where('company_id', $company->id)->first();
-        $url = $environment->protocol . $configuration->ip . $environment->url;
 
         $pay = Pay::where('type', 'invoice')->where('payable_id', $invoice->id)->get();//pagos hechos a esta factura
         $voucherTypes = VoucherType::findOrFail(5);
-        $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
+        $cashRegister = cashRegisterComprobation();
         $voucherTypes = '';
         $resolution = '';
         if ($invoice->document_type_id == 1) {
@@ -155,6 +151,8 @@ class NcinvoiceController extends Controller
         $store = false;
 
         if (indicator()->dian == 'on') {
+            $environment = Environment::where('id', 12)->first();
+            $url = $environment->protocol . $configuration->ip . $environment->url;
             $data = ncinvoiceData($request, $invoice);
             $requestResponse = sendDocuments($company, $url, $data);
             $store = $requestResponse['store'];
@@ -175,7 +173,7 @@ class NcinvoiceController extends Controller
             $ncinvoice->customer_id = $invoice->customer_id;
             $ncinvoice->discrepancy_id = $discrepancy;
             $ncinvoice->voucher_type_id = 5;
-            $ncinvoice->cash_register_id = cashregisterModel()->id;
+            $ncinvoice->cash_register_id = $cashRegister;
             $ncinvoice->retention = $retention;
             $ncinvoice->total = $request->total;
             $ncinvoice->total_tax = $request->total_tax;
@@ -287,12 +285,6 @@ class NcinvoiceController extends Controller
                     }
                     break;
                 case(3):
-                    /*
-                    if ($total_pay <= 0) {
-                        toast(' Nota debito no debe ser menor o igual a 0.','warning');
-                        return redirect("invoice");
-                    }*/
-
                     $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->get();
 
                     for ($i=0; $i < count($price); $i++) {

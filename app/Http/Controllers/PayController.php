@@ -106,6 +106,10 @@ class PayController extends Controller
      */
     public function create(Request $request)
     {
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
+        }
         $banks = Bank::get();
         $paymentMethods = PaymentMethod::get();
         $cards = Card::get();

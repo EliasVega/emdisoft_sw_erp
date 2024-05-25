@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PurchaseRawmaterial extends Model
+class PurchaseOrderRawmaterial extends Model
 {
     use HasFactory;
 
-    public $table = 'purchase_rawmaterials';
+    public $table = 'purchase_order_rawmaterials';
 
     protected $primaryKey = 'id';
 
@@ -22,11 +22,11 @@ class PurchaseRawmaterial extends Model
         'subtotal',
         'tax_subtotal',
 
-        'purchase_id',
+        'purchase_order_id',
         'raw_material_id'
     ];
-    public function purchase(){
-        return $this->belongsTo(Purchase::class);
+    public function purchaseOrder(){
+        return $this->belongsTo(PurchaseOrder::class);
     }
 
     public function rawMaterial(){

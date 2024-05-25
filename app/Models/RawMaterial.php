@@ -76,4 +76,12 @@ class RawMaterial extends Model
     public function commandRawmaterials(){
         return $this->hasMany(CommandRawmaterial::class);
     }
+
+    public function purchaseOrders(){
+        return $this->hasMany(PurchaseOrder::class);
+    }
+
+    public function purchases(){
+        return $this->hasMany(PurchaseOrder::class);
+    }
 }

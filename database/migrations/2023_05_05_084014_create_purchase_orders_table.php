@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('total_pay', 20, 2);//total de la factura
             $table->decimal('balance', 20, 2);//saldo de la factura
             $table->enum('status',['active', 'generated', 'canceled'])->default('active');
+            $table->enum('type_product',['product', 'raw_material'])->default('product');
             $table->string('note', 255)->nullable();//nota abierta
 
             $table->foreignId('user_id')->constrained();

@@ -10,9 +10,9 @@ use App\Models\Bank;
 use App\Models\Branch;
 use App\Models\BranchProduct;
 use App\Models\Card;
-use App\Models\CashRegister;
 use App\Models\Company;
 use App\Models\CompanyTax;
+use App\Models\Configuration;
 use App\Models\Customer;
 use App\Models\Environment;
 use App\Models\HomeOrder;
@@ -33,11 +33,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Traits\KardexCreate;
 use App\Traits\InventoryInvoices;
-use App\Traits\Taxes;
+use App\Traits\GetTaxesLine;
 
 class ProductRestaurantOrderController extends Controller
 {
-    use KardexCreate, InventoryInvoices, Taxes;
+    use KardexCreate, InventoryInvoices, GetTaxesLine;
 
     function __construct()
     {
@@ -57,7 +57,11 @@ class ProductRestaurantOrderController extends Controller
 
      public function create(Request $request)
     {
-
+        //dd($request->all());
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
+        }
         $restaurantOrder = RestaurantOrder::where('id', $request->session()->get('restaurantOrder'))->first();
         $homeOrder = HomeOrder::where('restaurant_order_id', $restaurantOrder->id)->first();
         $typeService = $restaurantOrder->restaurant_table_id;
@@ -69,7 +73,6 @@ class ProductRestaurantOrderController extends Controller
         $banks = Bank::get();
         $cards = Card::get();
         $branchs = Branch::get();
-        $uvtmax = $indicator->uvt * 5;
         $advances = Advance::where('status', '!=', 'aplicado')->get();
         $date = Carbon::now();
         $productRestaurantOrders = ProductRestaurantOrder::from('product_restaurant_orders as pr')
@@ -104,7 +107,6 @@ class ProductRestaurantOrderController extends Controller
             'productRestaurantOrders',
             'date',
             'companyTaxes',
-            'uvtmax',
             'indicator'
         ));
     }
@@ -116,9 +118,9 @@ class ProductRestaurantOrderController extends Controller
     {
         //dd($request->all());
         $company = Company::findOrFail(current_user()->company_id);
+        $configuration = Configuration::where('company_id', $company->id)->first();
         $environment = Environment::where('id', 11)->first();
-        $indicator = Indicator::findOrFail(1);
-        $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
+        $cashRegister = cashRegisterComprobation();
         $resolutions = '';
         $resolut = $request->resolution_id;
 
@@ -128,10 +130,10 @@ class ProductRestaurantOrderController extends Controller
         } else {
             $resolutions = Resolution::findOrFail($request->resolution_id);
         }
-        $typeDocument = 'invoice';
+        $typeDocument = $request->typeDocument;
         $documentType = '';
 
-        if ($indicator->pos == 'on' && $request->fe == 2) {
+        if (indicator()->pos == 'on' && $request->fe == 2) {
             $voucherType = 2;
             $documentType = 12;
         } else {
@@ -171,10 +173,20 @@ class ProductRestaurantOrderController extends Controller
         $service = '';
         $errorMessages = '';
         $store = false;
-        if ($documentType == 1 && $indicator->dian == 'on') {
-            $data = invoiceSend($request);
+        if (indicator()->dian == 'on') {
+            $typeDocument = 'pos';
+            if ($typeDocument == 'invoice') {
+                $data = invoiceData($request);
+                $environment = Environment::where('id', 11)->first();
+                $url = $environment->protocol . $configuration->ip . $environment->url;
+            } else {
+                $data = equiDocPosData($request);
+                $environment = Environment::where('id', 21)->first();
+                $url = $environment->protocol . $configuration->ip . $environment->url;
+            }
+            $data = invoiceData($request);
             //dd($data);
-            $requestResponse = sendDocuments($company, $environment, $data);
+            $requestResponse = sendDocuments($company, $url, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];
@@ -194,6 +206,7 @@ class ProductRestaurantOrderController extends Controller
             $invoice->document_type_id = $documentType;
             $invoice->document = $resolutions->prefix . '-' . $resolutions->consecutive;
             $invoice->voucher_type_id = $voucherType;
+            $invoice->cash_register_id = $cashRegister;
             $invoice->status = 'invoice';
             $invoice->generation_date = $restaurantOrder->created_at;
             $invoice->due_date = $restaurantOrder->created_at;
@@ -213,7 +226,7 @@ class ProductRestaurantOrderController extends Controller
             $voucherTypes->consecutive += 1;
             $voucherTypes->update();
 
-            if ($indicator->pos == 'on') {
+            if (indicator()->pos == 'on') {
                 //actualizar la caja
                     $cashRegister->invoice += $total_pay;
                     $cashRegister->update();
@@ -232,22 +245,6 @@ class ProductRestaurantOrderController extends Controller
                 $invoiceProduct->subtotal = $quantity[$i] * $price[$i];
                 $invoiceProduct->tax_subtotal =($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
                 $invoiceProduct->save();
-                /*
-                $productRawmaterials = ProductRawmaterial::where('product_id', $product_id[$i])->get();
-                if ($productRawmaterials) {
-                    foreach ($productRawmaterials as $key => $productRawmaterial) {
-                        $productRawmaterialQuantity = $productRawmaterial->quantity;
-                        $quantityTotal = $productRawmaterialQuantity * $quantity[$i];
-                        $rawMaterial = RawMaterial::findOrFail($productRawmaterial->raw_material_id);
-                        $rawMaterial->stock -= $quantityTotal;
-                        $rawMaterial->update();
-
-                        $product = $rawMaterial;
-                        $quantityLocal = $quantity[$i];
-                        $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
-                    }
-                }*/
-
 
                 //selecciona el producto que viene del array
                 $product = Product::findOrFail($id);
@@ -282,7 +279,7 @@ class ProductRestaurantOrderController extends Controller
             if ($totalpay > 0) {
                 pays($request, $document, $typeDocument);
             }
-            if ($documentType == 1 && $indicator->dian == 'on') {
+            if ($documentType == 1 && indicator()->dian == 'on') {
                 $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
                     ['SendBillSyncResult']['IsValid'];
                 $code = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
@@ -304,11 +301,11 @@ class ProductRestaurantOrderController extends Controller
                 $invoiceResponse->save();
 
                 $environmentPdf = Environment::where('code', 'PDF')->first();
+                $urlpdf = $environmentPdf->protocol . $configuration->ip . $environmentPdf->url;
 
-                $pdf = file_get_contents($environmentPdf->url . $company->nit ."/FES-" . $resolutions->prefix .
-                $resolutions->consecutive .".pdf");
+                $pdf = file_get_contents($urlpdf . $company->nit ."/FES-" . $invoice->document .".pdf");
                 Storage::disk('public')->put('files/graphical_representations/invoices/' .
-                $resolutions->prefix . $resolutions->consecutive . '.pdf', $pdf);
+                $invoice->document . '.pdf', $pdf);
             }
             $resolutions->consecutive += 1;
             $resolutions->update();

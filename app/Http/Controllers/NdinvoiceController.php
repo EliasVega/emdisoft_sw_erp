@@ -6,8 +6,8 @@ use App\Models\Ndinvoice;
 use App\Http\Requests\StoreNdinvoiceRequest;
 use App\Http\Requests\UpdateNdinvoiceRequest;
 use App\Models\BranchProduct;
-use App\Models\CashRegister;
 use App\Models\Company;
+use App\Models\Configuration;
 use App\Models\Employee;
 use App\Models\EmployeeInvoiceProduct;
 use App\Models\Environment;
@@ -27,11 +27,11 @@ use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
 use App\Traits\InventoryInvoices;
 use App\Traits\KardexCreate;
-use App\Traits\Taxes;
+use App\Traits\GetTaxesLine;
 
 class NdinvoiceController extends Controller
 {
-    use InventoryInvoices, KardexCreate, Taxes;
+    use InventoryInvoices, KardexCreate, GetTaxesLine;
     function __construct()
     {
         $this->middleware('permission:ndinvoice.index|ndinvoice.store|ndinvoice.show', ['only'=>['index']]);
@@ -95,13 +95,12 @@ class NdinvoiceController extends Controller
     {
         //dd($request->all());
         $company = Company::findOrFail(current_user()->company_id);
+        $configuration = Configuration::findOrFail($company->id);
         $invoice = Invoice::findOrFail($request->invoice_id);//encontrando la factura
-        $environment = Environment::where('id', 13)->first();//Url nota de ajuste documento soporte
         $pay = Pay::where('type', 'invoice')->where('payable_id', $invoice->id)->get();//pagos hechos a esta factura
         //$resolution = Resolution::findOrFail(7);
-        $indicator = Indicator::findOrFail(1);
         $voucherTypes = VoucherType::findOrFail(6);
-        $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
+        $cashRegister = cashRegisterComprobation();
         $resolution = '';
         if ($invoice->document_type_id == 1) {
             $resolution = Resolution::findOrFail(9);//resolucion ND venta
@@ -134,7 +133,7 @@ class NdinvoiceController extends Controller
 
         //Registrar tabla Nota Credito
         $ndinvoice = new Ndinvoice();
-        $ndinvoice->document = $resolution->prefix . '-' . $resolution->consecutive;
+        $ndinvoice->document = $resolution->prefix . $resolution->consecutive;
         $ndinvoice->user_id = current_user()->id;
         $ndinvoice->branch_id = current_user()->branch_id;
         $ndinvoice->invoice_id = $invoice->id;
@@ -142,14 +141,14 @@ class NdinvoiceController extends Controller
         $ndinvoice->resolution_id = $resolution->id;
         $ndinvoice->discrepancy_id = $discrepancy;
         $ndinvoice->voucher_type_id = $voucherTypes->id;
-        $ndinvoice->cash_register_id = cashregisterModel()->id;
+        $ndinvoice->cash_register_id = $cashRegister;
         $ndinvoice->retention = $retention;
         $ndinvoice->total = $request->total;
         $ndinvoice->total_tax = $request->total_tax;
         $ndinvoice->total_pay = $request->total_pay;
         $ndinvoice->save();
 
-        if ($indicator->pos == 'on') {
+        if (indicator()->pos == 'on') {
             //actualizar la caja
             $cashRegister->ndinvoice += $total_pay;
             $cashRegister->update();
@@ -158,9 +157,11 @@ class NdinvoiceController extends Controller
         $service = '';
         $errorMessages = '';
         $store = false;
-        if ($indicator->dian == 'on') {
+        if (indicator()->dian == 'on') {
             $data = ndinvoiceData($request, $invoice);
-            $requestResponse = sendDocuments($company, $environment, $data);
+            $environment = Environment::where('id', 13)->first();//Url nota de ajuste documento soporte
+            $url = $environment->protocol . $configuration->ip . $environment->url;
+            $requestResponse = sendDocuments($company, $url, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];
@@ -220,7 +221,7 @@ class NdinvoiceController extends Controller
                         $ndinvoiceProduct->subtotal = $quantity[$i] * $price[$i];
                         $ndinvoiceProduct->tax_subtotal = ($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
                         $ndinvoiceProduct->save();
-                        if ($indicator->work_labor == 'on') {
+                        if (indicator()->work_labor == 'on') {
                             //obtenemos los productos de esta factura que se hace ND
                             $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->get();
 
@@ -265,7 +266,7 @@ class NdinvoiceController extends Controller
             }
             $invoice->update();
 
-            if ($indicator->dian == 'on') {
+            if (indicator()->dian == 'on') {
                 $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
                     ['SendBillSyncResult']['IsValid'];
                 $code = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
@@ -286,12 +287,12 @@ class NdinvoiceController extends Controller
                 $ndinvoiceResponse->ncinvoice_id = $ndinvoice->id;
                 $ndinvoiceResponse->save();
 
-                $environmentPdf = Environment::where('code', 'PDF')->first();
+                $environmentPdf = Environment::findOrFail(10);
+                $urlpdf = $environmentPdf->protocol . $configuration->ip . $environmentPdf->url;
 
-                $pdf = file_get_contents($environmentPdf->url . $company->nit ."/NDS-" . $resolution->prefix .
-                $resolution->consecutive .".pdf");
+                $pdf = file_get_contents($urlpdf . $company->nit ."/NDS-" . $ndinvoice->document .".pdf");
                 Storage::disk('public')->put('files/graphical_representations/ndinvoice/' .
-                $resolution->prefix . $resolution->consecutive . '.pdf', $pdf);
+                $ndinvoice->document . '.pdf', $pdf);
 
 
             }

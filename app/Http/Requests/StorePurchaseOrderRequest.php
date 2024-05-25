@@ -27,6 +27,8 @@ class StorePurchaseOrderRequest extends FormRequest
             'total_pay' => 'required|numeric',
             'balance' => 'numeric',
             'status' => 'in:active,generate,canceled',
+            'type_product' => 'in:product,raw_material',
+            'note' => 'nullable|string',
             'provider_id' => 'required|integer',
             'cash_register_id' => 'nullable'
         ];

@@ -11,6 +11,11 @@
                 @can('purchaseOrder.create')
                     <a href="purchaseOrder/create" class="btn btn-greenGrad btn-sm"><i class="fa fa-plus"></i> Agregar Orden de compra</a>
                 @endcan
+                @if ($indicator->raw_material == 'on')
+                    @can('purchaseOrder.create')
+                        <a href="createRM" class="btn btn-orangeGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> OC Materias Prima</a>
+                    @endcan
+                @endif
                 @can('purchase.index')
                     <a href="{{ route('purchase.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
                 @endcan

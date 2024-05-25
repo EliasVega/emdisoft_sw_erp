@@ -79,15 +79,9 @@ class RestaurantOrderController extends Controller
     {
         $indicator = Indicator::findOrFail(1);
         $branch = Branch::findOrFail(current_user()->branch_id);
-        $cashRegister = CashRegister::select('id')
-        ->where('user_id', '=', current_user()->id)
-        ->where('status', '=', 'open')
-        ->first();
-        if ($indicator->pos == 'on') {
-            if(is_null($cashRegister)){
-                toast('Debes tener una caja Abierta para realizar Ventas.','danger');
-                return redirect("branch");
-            }
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
         }
         $products = Product::get();
         $rawMaterials = RawMaterial::get();
@@ -111,9 +105,7 @@ class RestaurantOrderController extends Controller
     public function store(StoreRestaurantOrderRequest $request)
     {
         //dd($request->all());
-
-        $indicator = Indicator::findOrFail(1);
-        $cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
+        $cashRegister = cashRegisterComprobation();
         //Obteniendo variables
         $service = $request->service;//obteniendo el tipo servicio sede o domisilio o rapi
         $table = $request->restaurant_table_id;//obtenendo la mesa
@@ -130,7 +122,7 @@ class RestaurantOrderController extends Controller
         $quantityrm = $request->quantityrm;//obteniendo la cantidad de materia primas
         $pricerm = $request->consumer_price;//obteniendo el precio de la materia prima
         $material = $request->material;//nombre de la materia prima
-        $idp = $request->idP;//obteniendo el id a que pertenece la materia prima
+        //$idp = $request->idP;//obteniendo el id a que pertenece la materia prima
         $referency = $request->referency;//obteniendo la referencia producto en la materia prima
 
         $contRmRo = 0;//contador para asignar referencia en rawmaterialRestauantOrders
@@ -214,13 +206,13 @@ class RestaurantOrderController extends Controller
         } else {//si el servicio es domicilio
             $restaurantOrder->restaurant_table_id = 1;
         }
-        $restaurantOrder->cash_register_id = cashregisterModel()->id;
+        $restaurantOrder->cash_register_id = $cashRegister;
         $restaurantOrder->save();
 
         if (indicator()->pos == 'on') {
             //actualizar la caja
-            cashregisterModel()->restaurant_order += $total_pay;
-            cashregisterModel()->update();
+            $cashRegister->restaurant_order += $total_pay;
+            $cashRegister->update();
         }
 
         //si es un domicilio se crea la tabla Home_orders
@@ -406,6 +398,10 @@ class RestaurantOrderController extends Controller
      */
     public function edit(RestaurantOrder $restaurantOrder)
     {
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
+        }
         $restaurantTables = RestaurantTable::where('id', '!=', 1)->get();
         $products = Product::get();
         $rawMaterials = RawMaterial::get();
@@ -446,8 +442,7 @@ class RestaurantOrderController extends Controller
     public function update(UpdateRestaurantOrderRequest $request, RestaurantOrder $restaurantOrder)
     {
         //dd($request->all());
-        //$indicator = Indicator::findOrFail(1);
-        //$cashRegister = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
+        $cashRegister = cashRegisterComprobation();
         //llamado a variables
         $ed = $request->ed;//variable para saber si es un producto nuevo
 
@@ -475,8 +470,8 @@ class RestaurantOrderController extends Controller
 
         if (indicator()->pos == 'on') {
             //actualizar la caja
-            cashregisterModel()->restaurant_order -= $restaurantOrder->total_pay;
-            cashregisterModel()->update();
+            $cashRegister->restaurant_order -= $restaurantOrder->total_pay;
+            $cashRegister->update();
         }
 
         if ($raw_material_id) {//si existe request materias primas
@@ -549,8 +544,8 @@ class RestaurantOrderController extends Controller
 
         if (indicator()->pos == 'on') {
             //actualizar la caja
-            cashregisterModel()->restaurant_order += $total_pay;
-            cashregisterModel()->update();
+            $cashRegister->restaurant_order += $total_pay;
+            $cashRegister->update();
         }
 
         //si es un domicilio se crea la tabla Home_orders

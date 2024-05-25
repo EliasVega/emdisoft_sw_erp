@@ -36,7 +36,7 @@
     $("#save").hide();
     $("#generat").hide();
     $("#barcodeId").hide();
-
+    //$("#addTypeProduct").hide();
 
 
     $(document).ready(function() {
