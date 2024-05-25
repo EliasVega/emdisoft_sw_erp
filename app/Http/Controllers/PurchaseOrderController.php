@@ -169,7 +169,7 @@ class PurchaseOrderController extends Controller
         $purchaseOrder = new PurchaseOrder();
         $purchaseOrder->user_id = current_user()->id;
         $purchaseOrder->provider_id = $request->provider_id;
-        $purchaseOrder->cash_register_id = $cashRegister;
+        $purchaseOrder->cash_register_id = $cashRegister->id;
         $purchaseOrder->total = $request->total;
         $purchaseOrder->total_tax = $request->total_tax;
         $purchaseOrder->total_pay = $total_pay;

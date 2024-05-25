@@ -108,7 +108,7 @@ class PurchaseOrderProductController extends Controller
             $purchase->resolution_id = $resolution_id;
             $purchase->generation_type_id = $request->generation_type_id;
             $purchase->document_type_id = $documentType;
-            $purchase->cash_register_id = $cashRegister;
+            $purchase->cash_register_id = $cashRegister->id;
             $purchase->type_product = $typeProduct;
             if ($documentType == 11) {
                 $resolutions = Resolution::findOrFail($resolution_id);

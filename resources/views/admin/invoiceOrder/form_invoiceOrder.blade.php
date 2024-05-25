@@ -12,7 +12,7 @@
                         </div>
                     </div>
                 @endif
-                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12" id="addProductId">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="addProductId">
                     <div class="form-group row">
                         <label class="form-control-label" for="product_id">Producto</label>
                         <select name="product_id" class="form-control selectpicker" id="product_id" data-live-search="true">
@@ -23,6 +23,49 @@
                                     {{ $product->code }} -- {{ $product->name }} -- {{ $product->sale_price }}</option>
                             @endforeach
                         </select>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label class="form-control-label" for="quantityadd">Cantidad</label>
+                        <input type="number" id="quantityadd" name="quantityadd" value="1" class="form-control" placeholder="Cant."
+                            pattern="[0-9]{0,15}">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label class="form-control-label" for="price">Precio</label>
+                        <input type="number" id="price" name="price" class="form-control" placeholder="Precio">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label class="form-control-label">Add</label><br>
+                        <button class="btn btn-lightBlueGrad" type="button" id="add" data-toggle="tooltip"
+                            data-placement="top" title="Add"><i class="fas fa-check"></i>&nbsp; </button>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label class="form-control-label" for="bags">Bolsas</label>
+                        <input type="number" id="bags" name="bags" value="0" class="form-control"
+                            placeholder="Bolsas">
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="noteDocument">
+                    <div class="form-group">
+                        <label class="form-control-label" for="note">Observaciones</label>
+                        <input type="text" id="note" name="note" value="{{ old('note') }}" class="form-control"
+                            placeholder="Observaciones">
+                    </div>
+                </div>
+                <div class="modal-footer" id="save">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <input type="hidden" name="_token" value="{{csrf_token()}}">
+                            <button class="btn btn-lightBlueGrad" type="submit"><i class="fa fa-save"></i>&nbsp;
+                                Registrar</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -105,9 +148,8 @@
 </div>
 
 
+
 <div class="box-body row">
-
-
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="documentType">
         <div class="form-group">
             <label class="form-control-label" for="document_type_id">Tipo de documento</label>
@@ -207,19 +249,8 @@
                 pattern="[0-9]{0,15}">
         </div>
     </div>
-    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
-        <div class="form-group">
-            <label class="form-control-label" for="quantityadd">Cantidad</label>
-            <input type="number" id="quantityadd" name="quantityadd" value="1" class="form-control" placeholder="Cant."
-                pattern="[0-9]{0,15}">
-        </div>
-    </div>
-    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
-        <div class="form-group">
-            <label class="form-control-label" for="price">Precio</label>
-            <input type="number" id="price" name="price" class="form-control" placeholder="Precio">
-        </div>
-    </div>
+
+
     @if ($indicator->work_labor == 'on')
         <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12" id="addEmployeeId">
             <div class="form-group row">

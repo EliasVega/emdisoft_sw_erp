@@ -170,7 +170,7 @@ class ExpenseController extends Controller
         $expense->payment_method_id = $request->payment_method_id[0];
         $expense->document = $voucherTypes->code . '-' . $voucherTypes->consecutive;
         $expense->voucher_type_id = $voucherTypes->id;
-        $expense->cash_register_id = $cashRegister;
+        $expense->cash_register_id = $cashRegister->id;
         $expense->generation_date = $request->generation_date;
         $expense->total = $total;
         $expense->total_tax = 0;

@@ -296,7 +296,6 @@ class PurchaseController extends Controller
 
         //Crea un registro de compras
         if ($store == true) {
-
             $purchase = new Purchase();
             $purchase->user_id = current_user()->id;
             $purchase->branch_id = current_user()->branch_id;
@@ -306,7 +305,7 @@ class PurchaseController extends Controller
             $purchase->resolution_id = $resolution;
             $purchase->generation_type_id = $request->generation_type_id;
             $purchase->document_type_id = $documentType;
-            $purchase->cash_register_id = $cashRegister;
+            $purchase->cash_register_id = $cashRegister->id;
             $purchase->document = $resolutions->prefix . '-' . $resolutions->consecutive;
             if ($documentType == 11) {
                 $voucherTypes = VoucherType::findOrFail(12);

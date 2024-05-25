@@ -209,7 +209,7 @@ class InvoiceOrderController extends Controller
         $invoiceOrder->branch_id = current_user()->branch_id;
         $invoiceOrder->invoice_id = null;
         $invoiceOrder->customer_id = $request->customer_id;
-        $invoiceOrder->cash_register_id = $cashRegister;
+        $invoiceOrder->cash_register_id = $cashRegister->id;
         $invoiceOrder->generation_date = $request->generation_date;
         $invoiceOrder->due_date = $request->due_date;
         $invoiceOrder->total = $request->total;

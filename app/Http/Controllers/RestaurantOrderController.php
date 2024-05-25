@@ -206,7 +206,7 @@ class RestaurantOrderController extends Controller
         } else {//si el servicio es domicilio
             $restaurantOrder->restaurant_table_id = 1;
         }
-        $restaurantOrder->cash_register_id = $cashRegister;
+        $restaurantOrder->cash_register_id = $cashRegister->id;
         $restaurantOrder->save();
 
         if (indicator()->pos == 'on') {

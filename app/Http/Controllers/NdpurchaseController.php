@@ -178,6 +178,7 @@ class NdpurchaseController extends Controller
             $ndpurchase->resolution_id = $resolution->id;
             $ndpurchase->provider_id = $purchase->provider_id;
             $ndpurchase->discrepancy_id = $discrepancy;
+            $ndpurchase->cash_register_id = $cashRegister->id;
             $ndpurchase->voucher_type_id = 11;
             $ndpurchase->cash_register_id = cashregisterModel()->id;
             $ndpurchase->retention = $retention;

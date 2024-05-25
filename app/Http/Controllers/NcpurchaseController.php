@@ -132,7 +132,7 @@ class NcpurchaseController extends Controller
         $ncpurchase->resolution_id = $resolution->id;
         $ncpurchase->discrepancy_id = $discrepancy;
         $ncpurchase->voucher_type_id = 10;
-        $ncpurchase->cash_register_id = $cashRegister;
+        $ncpurchase->cash_register_id = $cashRegister->id;
         $ncpurchase->retention = $retention;
         $ncpurchase->total = $request->total;
         $ncpurchase->total_tax = $request->total_tax;

@@ -157,7 +157,7 @@ class InvoiceOrderProductController extends Controller
             $invoice->document_type_id = $documentType;
             $invoice->document = $resolutions->prefix . '-' . $resolutions->consecutive;
             $invoice->voucher_type_id = $voucherType;
-            $invoice->cash_register_id = $cashRegister;
+            $invoice->cash_register_id = $cashRegister->id;
             $invoice->status = 'invoice';
             $invoice->note = $request->note;
             $invoice->generation_date = $request->generation_date;
