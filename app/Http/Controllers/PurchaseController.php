@@ -130,7 +130,7 @@ class PurchaseController extends Controller
     {
         $indicator = indicator();
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $providers = Provider::get();
@@ -187,7 +187,7 @@ class PurchaseController extends Controller
     {
         $indicator = indicator();
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $providers = Provider::get();
@@ -563,7 +563,7 @@ class PurchaseController extends Controller
     {
         /*
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $retention = Retention::where('type', 'purchase')->where('retentionable_id', $purchase->id)->first();
@@ -970,7 +970,7 @@ class PurchaseController extends Controller
     public function creditNote($id)
     {
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $purchase = Purchase::findOrFail($id);
@@ -1023,7 +1023,7 @@ class PurchaseController extends Controller
     public function debitNote($id)
     {
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $purchase = Purchase::where('id', $id)->first();
@@ -1084,7 +1084,7 @@ class PurchaseController extends Controller
     public function purchasePay($id)
     {
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $document = Purchase::findOrFail($id);

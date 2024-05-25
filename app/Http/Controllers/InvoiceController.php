@@ -143,7 +143,7 @@ class InvoiceController extends Controller
         $indicator = indicator();
         //$pos = indicator()->pos;
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $cols = 9;
@@ -222,7 +222,7 @@ class InvoiceController extends Controller
         $indicator = indicator();
         //$pos = indicator()->pos;
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
 
@@ -823,7 +823,7 @@ class InvoiceController extends Controller
     public function debitNote($id)
     {
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $invoice = Invoice::findOrFail($id);
@@ -863,7 +863,7 @@ class InvoiceController extends Controller
     public function creditNote($id)
     {
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $invoice = Invoice::where('id', $id)->first();
@@ -913,7 +913,7 @@ class InvoiceController extends Controller
     public function invoicePay($id)
     {
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $document = Invoice::findOrFail($id);

@@ -59,7 +59,7 @@ class ProductRestaurantOrderController extends Controller
     {
         //dd($request->all());
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $restaurantOrder = RestaurantOrder::where('id', $request->session()->get('restaurantOrder'))->first();

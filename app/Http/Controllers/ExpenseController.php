@@ -97,7 +97,7 @@ class ExpenseController extends Controller
     {
         $indicator = Indicator::findOrFail(1);
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $departments = Department::get();
@@ -260,7 +260,7 @@ class ExpenseController extends Controller
     public function edit(Expense $expense)
     {
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $providers = Provider::get();
@@ -435,7 +435,7 @@ class ExpenseController extends Controller
     public function expensePay($id)
     {
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $document = Expense::findOrFail($id);

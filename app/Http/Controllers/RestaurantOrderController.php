@@ -80,7 +80,7 @@ class RestaurantOrderController extends Controller
         $indicator = Indicator::findOrFail(1);
         $branch = Branch::findOrFail(current_user()->branch_id);
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $products = Product::get();
@@ -399,7 +399,7 @@ class RestaurantOrderController extends Controller
     public function edit(RestaurantOrder $restaurantOrder)
     {
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $restaurantTables = RestaurantTable::where('id', '!=', 1)->get();

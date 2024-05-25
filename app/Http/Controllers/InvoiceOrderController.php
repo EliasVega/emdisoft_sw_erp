@@ -93,7 +93,7 @@ class InvoiceOrderController extends Controller
     {
         $indicator = indicator();
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $customers = Customer::get();
@@ -142,7 +142,7 @@ class InvoiceOrderController extends Controller
     {
         $indicator = indicator();
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $customers = Customer::get();
@@ -284,7 +284,7 @@ class InvoiceOrderController extends Controller
     public function edit(InvoiceOrder $invoiceOrder)
     {
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $customers = Customer::get();
@@ -542,7 +542,7 @@ class InvoiceOrderController extends Controller
     {
         $invoiceOrder = InvoiceOrder::findOrFail($id);
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $customers = Customer::get();

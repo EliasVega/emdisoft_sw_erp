@@ -104,7 +104,7 @@ class PurchaseOrderController extends Controller
     {
         $indicator = indicator();
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $providers = Provider::get();
@@ -129,7 +129,7 @@ class PurchaseOrderController extends Controller
     {
         $indicator = indicator();
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $providers = Provider::get();
@@ -238,7 +238,7 @@ class PurchaseOrderController extends Controller
     public function edit(PurchaseOrder $purchaseOrder)
     {
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $indicator = indicator();
@@ -374,7 +374,7 @@ class PurchaseOrderController extends Controller
     public function invoice($id)
     {
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $indicator = indicator();

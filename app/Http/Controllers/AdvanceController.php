@@ -95,7 +95,7 @@ class AdvanceController extends Controller
         $indicator = indicator();
         $pos = indicator()->pos;
         $cashRegister = cashRegisterComprobation();
-        if ($cashRegister == 0) {
+        if ($cashRegister == null) {
             return redirect('branch');
         }
         $banks = Bank::get();

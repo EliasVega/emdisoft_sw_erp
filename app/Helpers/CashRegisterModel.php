@@ -14,7 +14,7 @@ if (! function_exists('cashRegisterModel')) {
 if (! function_exists('CashRegisterComprobation')) {
     function cashRegisterComprobation()
     {
-        $cashRegister = 0;
+        $cashRegister = null;
         if (indicator()->pos == 'on') {
             if(is_null(cashregisterModel())){
                 Alert::success('danger','Debes tener una caja Abierta para realizar Operaciones');
@@ -23,7 +23,7 @@ if (! function_exists('CashRegisterComprobation')) {
                 $cashRegister = cashregisterModel();
             }
         } else {
-            $cashRegister = 1;
+            $cashRegister = CashRegister::findOrFail(1);
         }
 
         return $cashRegister;
