@@ -52,9 +52,11 @@ class CashRegisterSeeder extends Seeder
                 'start_date' => null,
                 'end_date' => null,
                 'sale_point_id' => 1,
-                'user_id' => 2,
-                'user_open_id' => 2,
-                'user_close_id' => null
+                'user_id' => 1,
+                'user_open_id' => 1,
+                'user_close_id' => null,
+                'created_at' => '2024-01-14 12:00:00',
+                'updated_at' => '2024-01-14 12:00:00'
             ),
         ));
     }

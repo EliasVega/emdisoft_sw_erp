@@ -6,7 +6,6 @@ use App\Models\CashRegister;
 use App\Http\Requests\StoreCashRegisterRequest;
 use App\Http\Requests\UpdateCashRegisterRequest;
 use App\Models\Advance;
-use App\Models\Branch;
 use App\Models\CashInflow;
 use App\Models\CashOutflow;
 use App\Models\Company;
@@ -58,7 +57,8 @@ class CashRegisterController extends Controller
             $user = $users->Roles[0]->name;
             if ($user == 'superAdmin' || $user == 'admin') {
                 //Consulta para mostrar todas las cajas a admin y superadmin
-                $cashRegisters = CashRegister::get();
+                //$cashRegisters = CashRegister::get();
+                $cashRegisters = CashRegister::where('id', '!=', 1)->get();
             } else {
                 //Consulta para mostrar Cajas de los demas roles
                 $cashRegisters = CashRegister::where('user_id', $users->id)->get();
@@ -78,7 +78,7 @@ class CashRegisterController extends Controller
                     return $cashRegister->status == 'open' ? 'Abierta' : 'Cerrada';
                 })
                 ->editColumn('created_at', function (CashRegister $cashRegister) {
-                    return $cashRegister->created_at->format('yy-m-d: h:m');
+                    return $cashRegister->created_at->format('Y-m-d: h:m');
                 })
                 ->addColumn('btn', 'admin/cash_register/actions')
                 ->rawcolumns(['btn'])
