@@ -532,9 +532,13 @@ class PurchaseController extends Controller
                 $retentionnc = 0;
             }
         }
+        if ($purchase->type_product == 'product') {
+            $productPurchases = ProductPurchase::where('purchase_id', $purchase->id)->where('quantity', '>', 0)->get();
+        } else {
+            $productPurchases = PurchaseRawmaterial::where('purchase_id', $purchase->id)->where('quantity', '>', 0)->get();
+        }
 
-
-        $productPurchases = ProductPurchase::where('purchase_id', $purchase->id)->where('quantity', '>', 0)->get();
+        //$productPurchases = ProductPurchase::where('purchase_id', $purchase->id)->where('quantity', '>', 0)->get();
         return view('admin.purchase.show', compact(
             'purchase',
             'debitNotes',

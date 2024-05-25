@@ -10,6 +10,9 @@
             @can('invoiceOrder.create')
                 <a href="invoiceOrder/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Orden de Venta</a>
             @endcan
+            @can('invoiceOrder.create')
+                <a href="createPos" class="btn btn-blueGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Agregar Venta pos</a>
+            @endcan
             @can('invoice.index')
                 <a href="{{ route('invoice.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Ventas</a>
             @endcan

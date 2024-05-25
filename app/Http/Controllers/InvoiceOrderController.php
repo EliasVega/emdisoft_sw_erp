@@ -24,7 +24,6 @@ use App\Models\Resolution;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Arr;
 
@@ -46,6 +45,7 @@ class InvoiceOrderController extends Controller
     public function index(Request $request)
     {
         $invoiceOrder = session('invoiceOrder');
+        $typeDocument = session('typeDocument');
         if ($request->ajax()) {
             //Muestra todas las pre compras de la empresa
             $user = current_user()->Roles[0]->name;
@@ -83,7 +83,7 @@ class InvoiceOrderController extends Controller
             ->rawColumns(['btn'])
             ->make(true);
         }
-        return view('admin.invoiceOrder.index', compact('invoiceOrder'));
+        return view('admin.invoiceOrder.index', compact('invoiceOrder', 'typeDocument'));
     }
 
     /**
@@ -91,6 +91,7 @@ class InvoiceOrderController extends Controller
      */
     public function create()
     {
+        $indicator = indicator();
         $cashRegister = cashRegisterComprobation();
         if ($cashRegister == 0) {
             return redirect('branch');
@@ -121,6 +122,7 @@ class InvoiceOrderController extends Controller
         ->join('percentages as per', 'ct.percentage_id', 'per.id')
         ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
         ->where('tt.type_tax', 'retention')->get();
+        $type = 'invoice';
         return view('admin.invoiceOrder.create',
         compact(
             'customers',
@@ -131,7 +133,57 @@ class InvoiceOrderController extends Controller
             'date',
             'companyTaxes',
             'uvtmax',
-            'indicator'
+            'indicator',
+            'type'
+        ));
+    }
+
+    public function createPosOrder()
+    {
+        $indicator = indicator();
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == 0) {
+            return redirect('branch');
+        }
+        $customers = Customer::get();
+        $employees = Employee::get();
+        $branchs = Branch::get();
+        $uvtmax = indicator()->uvt * 5;
+        $advances = Advance::where('status', '!=', 'aplicado')->get();
+        $date = Carbon::now();
+        if (indicator()->inventory == 'on') {
+            $products = BranchProduct::from('branch_products as bp')
+            ->join('products as pro', 'bp.product_id', 'pro.id')
+            ->join('categories as cat', 'pro.category_id', 'cat.id')
+            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+            ->join('percentages as per', 'ct.percentage_id', 'per.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('pro.id', 'pro.code', 'pro.stock', 'pro.sale_price', 'pro.name', 'per.percentage', 'tt.id as tt')
+            ->where('bp.branch_id', current_user()->branch_id)
+            ->where('bp.stock', '>=', 0)
+            ->where('pro.status', '=', 'active')
+            ->get();
+        } else {
+            $products = Product::where('status', 'active')->get();
+        }
+        $companyTaxes = CompanyTax::from('company_taxes', 'ct')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
+        ->where('tt.type_tax', 'retention')->get();
+        $type = 'pos';
+        return view('admin.invoiceOrder.create',
+        compact(
+            'customers',
+            'employees',
+            'branchs',
+            'advances',
+            'products',
+            'date',
+            'companyTaxes',
+            'uvtmax',
+            'indicator',
+            'type'
         ));
     }
 

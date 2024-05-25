@@ -224,7 +224,11 @@ class PurchaseOrderController extends Controller
      */
     public function show(PurchaseOrder $purchaseOrder)
     {
-        $purchaseOrderProducts = PurchaseOrderProduct::where('purchase_order_id', $purchaseOrder->id)->get();
+        if ($purchaseOrder->type_product == 'product') {
+            $purchaseOrderProducts = PurchaseOrderProduct::where('purchase_order_id', $purchaseOrder->id)->where('quantity', '>', 0)->get();
+        } else {
+            $purchaseOrderProducts = PurchaseOrderRawmaterial::where('purchase_order_id', $purchaseOrder->id)->where('quantity', '>', 0)->get();
+        }
         return view('admin.purchaseOrder.show', compact('purchaseOrder', 'purchaseOrderProducts'));
     }
 

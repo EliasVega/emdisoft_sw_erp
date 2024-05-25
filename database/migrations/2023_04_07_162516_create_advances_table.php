@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('document', 20);
             $table->string('origin', 50);
             $table->string('destination', 20)->nullable();
-            $table->decimal('pay',10,2);
-            $table->decimal('balance',10,2);
+            $table->decimal('pay',20,2);
+            $table->decimal('balance',20,2);
             $table->string('note', 255)->nullable();
             $table->morphs('advanceable');
             $table->enum('status',['pending', 'partial', 'applied'])->default('pending');

@@ -37,7 +37,6 @@ use App\Models\Tax;
 use App\Models\VoucherType;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use App\Traits\InventoryInvoices;
 use App\Traits\KardexCreate;

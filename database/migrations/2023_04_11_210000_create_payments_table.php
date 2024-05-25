@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->morphs('paymentable');
-            $table->decimal('pay',10,2);
+            $table->decimal('pay',20,2);
             $table->string('note', 255)->nullable();
             $table->enum('type_third', ['customer', 'provider', 'employee'])->default('customer');
 
