@@ -287,6 +287,7 @@ class InvoiceOrderController extends Controller
         if ($cashRegister == null) {
             return redirect('branch');
         }
+        $indicator = indicator();
         $customers = Customer::get();
         $employees = Employee::get();
         $branchs = Branch::get();
@@ -540,6 +541,7 @@ class InvoiceOrderController extends Controller
 
     public function invoice($id)
     {
+        $indicator = indicator();
         $invoiceOrder = InvoiceOrder::findOrFail($id);
         $cashRegister = cashRegisterComprobation();
         if ($cashRegister == null) {
@@ -613,7 +615,6 @@ class InvoiceOrderController extends Controller
             'products',
             'date',
             'companyTaxes',
-            'uvtmax',
             'indicator',
             'invoiceOrderProducts'
         ));

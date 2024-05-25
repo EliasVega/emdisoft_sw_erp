@@ -35,13 +35,6 @@
                 placeholder="Tipo de documento">
         </div>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="uvt5">
-        <div class="form-group">
-            <label class="form-control-label" for="uvtmax">UVT Max</label>
-            <input type="text" id="uvtmax" name="uvtmax" value="{{ $uvtmax }}" class="form-control"
-                placeholder="tope de pos">
-        </div>
-    </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="posActive">
         <div class="form-group">
             <label class="form-control-label" for="pos_active">Post Activado</label>

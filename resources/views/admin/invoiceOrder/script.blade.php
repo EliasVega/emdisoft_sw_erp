@@ -48,6 +48,8 @@
     $("#posavtivity").hide();
     $("#barcodeId").hide();
     $("#addEid").hide();
+    $("#posnegative").hide();
+    $("#addWorkLabor").hide();
 
     $(document).ready(function(){
 

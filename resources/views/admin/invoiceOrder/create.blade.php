@@ -7,7 +7,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="box-danger">
             <div class="box-header with-border">
-                <h5 class="box-title">Agregar Venta
+                <h5 class="box-title">Agregar Orden de Venta
                     @can('invoice.index')
                         <a href="{{ route('invoiceOrder.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
                     @endcan
@@ -27,13 +27,10 @@
             @endif
             {!!Form::open(array('url'=>'invoiceOrder', 'method'=>'POST', 'autocomplete'=>'off'))!!}
             {!!Form::token()!!}
+
             <div class="row m-1">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    @include('admin/invoiceOrder.form_invoiceOrder')
-                </div>
-
+                @include('admin/invoiceOrder.form_invoiceOrder')
             </div>
-
             {!!Form::close()!!}
         </div>
     </div>
@@ -45,3 +42,4 @@
 @section('scripts')
 @include('admin/invoiceOrder.script')
 @endsection
+

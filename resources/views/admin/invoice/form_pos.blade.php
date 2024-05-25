@@ -58,7 +58,7 @@
                     <div class="form-group">
                         <label class="form-control-label">Add</label><br>
                         <button class="btn btn-lightBlueGrad" type="button" id="add" data-toggle="tooltip"
-                            data-placement="top" title="Add"><i class="fas fa-check"></i>&nbsp; </button>
+                            data-placement="top" title="Add"><i class="fas fa-check"></i></button>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -293,37 +293,6 @@
             </div>
         </div>
     @endif
-        <!--
-    @if ($indicator->pos == 'on')
-
-        @if ($indicator->dian == 'on')
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mt-3" id="addFe">
-                <div class="form-check">
-                    <input class="form-check-input fe_true" type="radio" name="fe" value="1"
-                        id="fe_on">
-                    <label class="form-check-label" for="fe_on">
-                        Generar Factura Electronica
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input fe_true" type="radio" name="fe" value="2"
-                        id="fe_off" checked>
-                    <label class="form-check-label" for="fe_off">
-                        Generar ticket POS
-                    </label>
-                </div>
-            </div>
-        @else
-            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12" id="posavtivity">
-                <div class="form-group">
-                    <label class="form-control-label" for="fe">pos Active</label>
-                    <input type="number" id="fe" name="fe" value="2" class="form-control"
-                        placeholder="fe">
-                </div>
-            </div>
-        @endif
-    @endif -->
-
     @if ($indicator->cvpinvoice == 'on')
         <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mt-3" id="addcvp">
             <div class="form-check">

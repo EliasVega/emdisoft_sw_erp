@@ -28,18 +28,20 @@
                 placeholder="Fecha Vencimiento">
         </div>
     </div>
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+        <label for="typeDocument">Tipo</label>
+        <div class="select">
+            <select id="typeDocument" name="typeDocument" class="form-control selectpicker" data-live-search="true" required>
+                <option value="invoice">FACTURA</option>
+                <option value="pos">POS</option>
+            </select>
+        </div>
+    </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="documentType">
         <div class="form-group">
             <label class="form-control-label" for="document_type_id">Tipo de documento</label>
             <input type="text" id="document_type_id" name="document_type_id" value="1" class="form-control"
                 placeholder="Tipo de documento">
-        </div>
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="uvt5">
-        <div class="form-group">
-            <label class="form-control-label" for="uvtmax">UVT Max</label>
-            <input type="text" id="uvtmax" name="uvtmax" value="{{ $uvtmax }}" class="form-control"
-                placeholder="tope de pos">
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="posActive">
@@ -126,5 +128,4 @@
             </table>
         </div>
     </div>
-
 </div>

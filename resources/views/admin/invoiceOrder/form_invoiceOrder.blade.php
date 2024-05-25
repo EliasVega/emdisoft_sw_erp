@@ -13,7 +13,7 @@
                     </div>
                 @endif
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="addProductId">
-                    <div class="form-group row">
+                    <div class="form-group">
                         <label class="form-control-label" for="product_id">Producto</label>
                         <select name="product_id" class="form-control selectpicker" id="product_id" data-live-search="true">
                             <option value="0" disabled selected>Seleccionar</option>
@@ -146,10 +146,7 @@
         </div>
     </div>
 </div>
-
-
-
-<div class="box-body row">
+<div class="box-body row" id="posnegative">
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="documentType">
         <div class="form-group">
             <label class="form-control-label" for="document_type_id">Tipo de documento</label>
@@ -157,21 +154,13 @@
                 placeholder="Tipo de documento">
         </div>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="uvt5">
-        <div class="form-group">
-            <label class="form-control-label" for="uvtmax">UVT Max</label>
-            <input type="text" id="uvtmax" name="uvtmax" value="{{ $uvtmax }}" class="form-control"
-                placeholder="tope de pos">
-        </div>
-    </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="posActive">
         <div class="form-group">
             <label class="form-control-label" for="pos_active">Post Activado</label>
-            <input type="text" id="pos_active" name="pos_active" value="{{ $indicator->pos }}" class="form-control"
+            <input type="text" id="pos_active" name="pos_active" value="{{ $indicator->dian }}" class="form-control"
                 placeholder="tope de pos">
         </div>
     </div>
-
     <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="stock">Stock</label>
@@ -186,19 +175,39 @@
                 pattern="[0-9]{0,15}">
         </div>
     </div>
-    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+    <div class="col-lg-3 col-md-2 col-sm-4 col-xs-12">
         <div class="form-group">
             <label for="vprice">V/Actual</label>
             <input type="number" name="vprice" id="vprice" class="form-control" readonly>
         </div>
     </div>
+    <div class="col-lg-3 col-md-2 col-sm-4 col-xs-12">
+        <div class="form-group">
+            <label for="utility">% Utilidad</label>
+            <input type="number" name="utility" id="utility" class="form-control" readonly>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-2 col-sm-4 col-xs-12">
+        <div class="form-group">
+            <label for="totalPartial">Total</label>
+            <input type="number" name="totalPartial" id="totalPartial" class="form-control" readonly>
+        </div>
+    </div>
     @if ($indicator->barcode == 'on')
-        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 mt-5 suitchBarcode">
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" id="barcodeId">
             <div class="form-group">
-                <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="switch_barcode" checked>
-                    <label class="custom-control-label" for="switch_barcode">Codigo de barras</label>
-                </div>
+                <label for="barcode_product_id">id Barcode</label>
+                <input type="number" name="barcode_product_id" id="barcode_product_id" value=""
+                    class="form-control" placeholder="">
+
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="productBarcode">
+            <div class="form-group">
+                <label for="product_barcode">Producto</label>
+                <input type="text" name="product_barcode" id="product_barcode" value=""
+                    class="form-control" placeholder="">
+
             </div>
         </div>
     @endif
@@ -209,39 +218,7 @@
         </div>
     </div>
 </div>
-
-<div class="box-body row">
-
-
-    @if ($indicator->barcode == 'on')
-        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" id="codeBarcode">
-            <div class="form-group">
-                <label for="code">Codigo</label>
-                <input type="text" name="code" id="code" value="" class="form-control"
-                    placeholder="" aria-describedby="helpId" class="gui-input" autofocus>
-
-            </div>
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" id="barcodeId">
-            <div class="form-group">
-                <label for="barcode_product_id">id Barcode</label>
-                <input type="number" name="barcode_product_id" id="barcode_product_id" value=""
-                    class="form-control" placeholder="">
-
-            </div>
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" id="productBarcode">
-            <div class="form-group">
-                <label for="product_barcode">Nombre</label>
-                <input type="text" name="product_barcode" id="product_barcode" value=""
-                    class="form-control" placeholder="">
-
-            </div>
-        </div>
-    @endif
-
-
-
+<div class="box-body row" id="addWorkLabor">
     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="taxType">
         <div class="form-group">
             <label class="form-control-label" for="tax_type">Tipo Impuesto</label>
@@ -249,7 +226,6 @@
                 pattern="[0-9]{0,15}">
         </div>
     </div>
-
 
     @if ($indicator->work_labor == 'on')
         <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12" id="addEmployeeId">
@@ -278,47 +254,22 @@
             </div>
         </div>
     @endif
-    <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="indCV">
         <div class="form-group">
-            <label class="form-control-label">Add</label><br>
-            <button class="btn btn-lightBlueGrad" type="button" id="add" data-toggle="tooltip"
-                data-placement="top" title="Add"><i class="fas fa-check"></i>&nbsp; </button>
+            <label class="form-control-label" for="indicatorcv">CV</label>
+            <input type="text" id="indicatorcv" name="indicatorcv" value="{{ $indicator->cvpinvoice }}" class="form-control">
         </div>
     </div>
-    <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="indWL">
         <div class="form-group">
-            <label class="form-control-label">Canc</label><br>
-            <a href="{{ url('invoice') }}" class="btn btn-blueGrad" data-toggle="tooltip" data-placement="top"
-                title="Cancelar"><i class="fa fa-window-close"></i>&nbsp; </a>
+            <label class="form-control-label" for="indicatorwl">WL</label>
+            <input type="text" id="indicatorwl" name="indicatorwl" value="{{ $indicator->work_labor }}" class="form-control">
         </div>
     </div>
-    <div class="col-lg-10 col-md-8 col-sm-8 col-xs-12" id="noteDocument">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="addTypeDocument">
         <div class="form-group">
-            <label class="form-control-label" for="note">Observaciones</label>
-            <input type="text" id="note" name="note" value="{{ old('note') }}" class="form-control"
-                placeholder="Observaciones">
-        </div>
-    </div>
-    @if ($indicator->barcode == 'on')
-        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
-            <div class="form-group">
-                <label for="actualizar">Actualizar</label>
-                <select name="actualizar" class="form-control selectpicker" id="actualizar" data-live-search="true" required>
-                    <option value="" disabled selected>Seleccionar</option>
-                    <option value="1">Actualizar</option>
-                    <option value="2">No actualizar</option>
-                </select>
-            </div>
-        </div>
-    @endif
-
-    <div class="modal-footer" id="save">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="form-group">
-                <input type="hidden" name="_token" value="{{csrf_token()}}">
-                <button class="btn btn-lightBlueGrad" type="submit"><i class="fa fa-save"></i>
-                    Registrar</button>
-            </div>
+            <label class="form-control-label" for="typeDocument">tipo documento</label>
+            <input type="text" id="typeDocument" name="typeDocument" value="pos" class="form-control">
         </div>
     </div>
 </div>

@@ -495,7 +495,7 @@ class InvoiceController extends Controller
             taxesLines($document, $taxes, $typeDocument);
             retentions($request, $document, $typeDocument);
 
-            if (indicator()->pos == 'on' ) {
+            if (indicator()->pos == 'on' && $typeDocument == 'pos') {
                 $return = 0;
                 if ($totalpay > 0) {
                     $paymentMethod = $request->payment_method_id;
