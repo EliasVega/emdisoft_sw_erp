@@ -85,7 +85,7 @@ class InvoiceTestSetController extends Controller
         $errorMessages = '';
         $store = false;
 
-        for ($i=0; $i < 1; $i++) {
+        for ($i=0; $i < 10; $i++) {
             if (indicator()->dian == 'on') {
                 if ($typeDocument == 'invoice') {
                     $data = invoiceTestSetData();
@@ -94,7 +94,6 @@ class InvoiceTestSetController extends Controller
                 }
                 //dd($url);
                 $requestResponse = sendInvoiceTestSet($company, $url, $data);
-                dd($requestResponse);
                 $store = $requestResponse['store'];
                 $service = $requestResponse['response'];
                 $errorMessages = $requestResponse['errorMessages'];
