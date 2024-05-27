@@ -43,13 +43,13 @@ class UsersTableSeeder extends Seeder
 
         User::create([
             'id' => 2,
-            'name' => 'DIAZ CASTRO LUZ MARINA',
-            'number' => '28218042',
-            'address' => 'CR 9 11 41 LC 109 CC COMULTRASAN',
+            'name' => 'MANRIQUE GLADYS',
+            'number' => '28211716',
+            'address' => 'CR8 11 41 LC 105 BRR CENTRO',
             'phone' => '3132710552',
-            'email' => 'mayis@hotmail.com',
+            'email' => 'papeleriaelite01@hotmail.com',
             'email_verified_at' => NULL,
-            'password' => bcrypt('28218042'),
+            'password' => bcrypt('28211716'),
             'two_factor_secret' => NULL,
             'two_factor_recovery_codes' => NULL,
             'two_factor_confirmed_at' => NULL,

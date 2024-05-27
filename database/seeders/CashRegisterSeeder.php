@@ -46,7 +46,7 @@ class CashRegisterSeeder extends Seeder
                 'out_advance' => 0,
                 'ndpurchase' => 0,
                 'ncinvoice' => 0,
-                'verification_code_open' => '28218042',
+                'verification_code_open' => '28211716',
                 'verification_code_close' => null,
                 'status' => 'open',
                 'start_date' => null,

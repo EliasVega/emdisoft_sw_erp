@@ -16,17 +16,17 @@ class BranchesTableSeeder extends Seeder
     public function run()
     {
         DB::table('branches')->delete();
-
+        
         DB::table('branches')->insert(array (
             0 =>
             array (
                 'id' => 1,
                 'name' => 'Principal',
-                'address' => 'CR 9 11 41 LC 109 CC COMULTRASAN',
-                'phone' => '3158203099',
+                'address' => 'CR8 11 41 LC 105 BRR CENTRO',
+                'phone' => '3132710552',
                 'mobile' => '3132710552',
-                'email' => 'mayis@hotmail.com',
-                'manager' => 'DIAZ CASTRO LUZ MARINA',
+                'email' => 'papeleriaelite01@hotmail.com',
+                'manager' => 'MANRIQUE GLADYS',
                 'department_id' => 21,
                 'municipality_id' => 893,
                 'postal_code_id' => 3012,
