@@ -158,7 +158,7 @@ class InvoiceController extends Controller
         $employees = Employee::get();
         $resolutions = Resolution::where('document_type_id', 1)->where('status', 'active')->get();
         $paymentForms = PaymentForm::get();
-        $paymentMethods = PaymentMethod::get();
+        $paymentMethods = PaymentMethod::where('status', 'active')->get();
         $banks = Bank::get();
         $cards = Card::get();
         $branchs = Branch::get();
@@ -238,7 +238,7 @@ class InvoiceController extends Controller
         $employees = Employee::get();
         $resolutions = Resolution::where('document_type_id', 15)->where('status', 'active')->get();
         $paymentForms = PaymentForm::get();
-        $paymentMethods = PaymentMethod::get();
+        $paymentMethods = PaymentMethod::where('status', 'active')->get();
         $banks = Bank::get();
         $cards = Card::get();
         $branchs = Branch::get();
@@ -301,7 +301,7 @@ class InvoiceController extends Controller
      */
     public function store(StoreInvoiceRequest $request)
     {
-        //dd($request->all());
+        dd($request->all());
         $company = Company::findOrFail(current_user()->company_id);
         $configuration = Configuration::findOrFail($company->id);
         //$indicator = Indicator::findOrFail(1);
@@ -326,7 +326,7 @@ class InvoiceController extends Controller
             }
         } else {
             if ($typeDocument == 'invoice') {
-                $resolutions = Resolution::findOrFail(10);
+                $resolutions = Resolution::findOrFail(13);
                 $voucherType = 1;
                 $documentType = 1;
             } else {

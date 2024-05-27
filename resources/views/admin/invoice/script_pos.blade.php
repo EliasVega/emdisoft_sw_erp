@@ -4,6 +4,14 @@
     });*/
     jQuery(document).ready(function($){
         $(document).ready(function() {
+            $('#resolution_id').select2({
+                theme: "classic",
+                width: "100%",
+            });
+        });
+    });
+    jQuery(document).ready(function($){
+        $(document).ready(function() {
             $('#customer_id').select2({
                 theme: "classic",
                 width: "100%",
@@ -45,6 +53,7 @@
     $("#indCV").hide();
     $("#indWL").hide();
     $("#addTypeDocument").hide();
+    $("#formRetentions").hide();
 
 
     $(document).ready(function(){
@@ -52,7 +61,6 @@
         if (typeInvoice == 'on') {
             $("#resolution").show();
             $("#addFe").hide();
-            //$(".fe_true").val(1);
             $('#resolution_id').prop("required", true)
         }
 
@@ -270,29 +278,10 @@
         $("#total_invoice").val(total.toFixed(2));
         $("#tax_iva").val(tax_iva);
     }
-    /*
-    $(document).ready(function(){
-        $("#fe_on").click(function(){
-            $(".fe_true").val(1);
-            $("#resolution").show();
-            $("#addFe").hide();
-            $('#resolution_id').prop("required", true)
-            $("#addPercentage").show();
-        });
-    });
-    $(document).ready(function(){
-        $("#fe_off").click(function(){
-            $(".fe_true").val(2);
-            $("#resolution").hide();
-            $("#resolution_id").val(4);
-            $('#resolution_id').prop("required", false)
-        });
-    });*/
     function assess(){
 
         if(total>0){
-
-        $("#save").show();
+            $("#save").show();
         } else{
             $("#save").hide();
         }
@@ -403,4 +392,16 @@
             })
         }
     }
+    $(document).ready(function(){
+        $("#addRetentions").click(function(){
+            $("#formCard").hide();
+            $("#formRetentions").show();
+        });
+    });
+    $(document).ready(function(){
+        $("#goBack2").click(function(){
+            $("#formCard").show();
+            $("#formRetentions").hide();
+        });
+    });
 </script>

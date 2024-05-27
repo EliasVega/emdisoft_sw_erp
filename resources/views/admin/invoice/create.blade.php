@@ -35,7 +35,6 @@
             @endif
             {!!Form::open(array('url'=>'invoice', 'method'=>'POST', 'autocomplete'=>'off'))!!}
             {!!Form::token()!!}
-
             <div class="row m-1">
                 @if ($type == 'pos')
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -45,14 +44,11 @@
                         @include('admin/invoice.form_paypos')
                     </div>
                 @else
-                    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         @include('admin/invoice.form_invoice')
                     </div>
-                    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 colorpay">
-                        @include('admin/invoice.form_pay')
-                    </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 colorretentions">
-                        @include('admin/invoice.form_retention')
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        @include('admin/invoice.form_register')
                     </div>
                 @endif
             </div>
@@ -69,6 +65,7 @@
 
     @if ($type == 'pos')
         @include('admin/invoice.script_paypos')
+        @include('admin/invoice.script_retention')
         @include('admin/invoice.script_pos')
     @else
         @include('admin/generalview.script_pay')

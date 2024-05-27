@@ -23,6 +23,11 @@ if (! function_exists('pays')) {
         $transaction = $request->transaction;
         $payAdvance = $request->payment;
 
+        if ($typeDocument == 'po') {
+            # code...
+        } else {
+            # code...
+        }
 
         //Metodo para crear un nuevo pago y su realcion polimorfica dependiendo del tipo de documento
         $pay = new Pay();
@@ -33,21 +38,28 @@ if (! function_exists('pays')) {
         $pay->type = $typeDocument;
         switch($typeDocument) {
             case 'purchase':
+                $pay->type = $typeDocument;
                 $purchase = $document;
                 $purchase->pays()->save($pay);
             break;
             case 'expense':
+                $pay->type = $typeDocument;
                 $expense = $document;
                 $expense->pays()->save($pay);
             break;
             case 'invoice':
+                $pay->type = $typeDocument;
+                $invoice = $document;
+                $invoice->pays()->save($pay);
+            break;
+            case 'invoice':
+                $pay->type = 'invoice';
                 $invoice = $document;
                 $invoice->pays()->save($pay);
             break;
             default:
                 $msg = 'No has seleccionado voucher.';
         }
-
 
         for ($i=0; $i < count($payment); $i++) {
 

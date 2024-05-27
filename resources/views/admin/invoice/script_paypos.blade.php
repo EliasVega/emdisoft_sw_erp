@@ -18,7 +18,7 @@
     //$("#valuePay").hide();
     $("#types").hide();
     $("#pendaddModal").hide();
-    $("#methodPayModal").hide();
+    //$("#methodPayModal").hide();
     $("#payposorigin").hide();
     $("#payment_method_modal").val(2);
     $("#returnedBalanceModal").hide();

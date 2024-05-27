@@ -1,7 +1,9 @@
 <div class="box-body row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="box-danger">
-            <span><strong>Agregar Abono</strong></span>
+            <label class="form-control-label">
+                <strong>Agregar Abono</strong>
+            </label>
         </div>
     </div>
     <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12" id="fpay">
@@ -165,20 +167,27 @@
 
     <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">
         <div class="form-group">
-            <span><strong>Pagar</strong></span><br>
+            <label class="form-control-label">Pagar</label><br>
             <button class="btn btn-lightBlueGrad" type="button" id="paying" data-toggle="tooltip" data-placement="top" title="Abono"><i class="fas fa-check"></i> </button>
         </div>
     </div>
+    <!--
+    <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12">
+        <div class="form-group">
+            <label class="form-control-label" >Canc</label><br>
+            <a href="{{url('Invoice')}}" class="btn btn-blueGrad" data-toggle="tooltip" data-placement="top" title="Cancelar"><i class="fa fa-window-close"></i>&nbsp; </a>
+        </div>
+    </div> -->
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="table-responsive">
             <table id="payments" class="table table-striped table-bordered table-condensed table-hover">
                 <thead class="bg-info">
                     <tr>
-                        <th>Elim</th>
+                        <th>Eliminar</th>
                         <th>Medio</th>
-                        <th>Tarjeta</th>
+                        <th>T. card</th>
                         <th>Entidad</th>
-                        <th>Trans.</th>
+                        <th>Transaccion</th>
                         <th>Valor</th>
                     </tr>
                 </thead>
@@ -197,15 +206,6 @@
 
                 </tbody>
             </table>
-        </div>
-    </div>
-    <div class="modal-footer" id="save">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="form-group">
-                <input type="hidden" name="_token" value="{{csrf_token()}}">
-                <button class="btn btn-lightBlueGrad" type="submit"><i class="fa fa-save"></i>&nbsp;
-                    Registrar</button>
-            </div>
         </div>
     </div>
 </div>

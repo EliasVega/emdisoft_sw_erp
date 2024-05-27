@@ -33,7 +33,7 @@
     $("#payCard2").hide();
     $("#payUndefined").hide();
     $("#payAdvance").hide();
-    $("#paypPyment").hide();
+    $("#payPyment").hide();
 
     $("#valuePay").hide();
     $("#advancePay").hide();
@@ -43,6 +43,7 @@
     $("#cards").hide();
     $("#advancePayment").hide();
     $("#types").hide();
+    $("#methodPay").hide();
     /*
     $("#percentage").val(0);
     */
@@ -59,9 +60,9 @@
             $("#payNequi").show();
             $("#payCard1").show();
             $("#payCard2").show();
-            $("#payPayment").hide();
+            $("#addPayPayment").hide();
         }else{
-            $("#payPayment").show();
+            $("#addPayPayment").show();
             $("#payUndefined").hide();
             $("#payCash").hide();
             $("#payAdvance").hide();
@@ -71,6 +72,7 @@
             $("#payCard2").hide();
             $("#payment_method_id").val(1);
             $("#totalpay").val(0);
+            $("#payingButton").hide();
         }
         });
     });
@@ -89,7 +91,8 @@
         $("#payCard1").show();
         $("#payCard2").show();
         $("#methodPay").hide();
-        $("#payPayment").hide();
+        $("#addPayPayment").hide();
+        $("#payingButton").show();
 
     }
 
@@ -398,6 +401,16 @@
             $("#card_id").val("");
             $("#pay").val("");
             $("#transaction").val("");
+
+            pend = $("#pendient").val();
+            if (pend == 0) {
+                $("#payPaymentButtons").hide();
+                $("#tinvoice").hide();
+                $("#pInvoice").hide();
+                $("#valuePay").hide();
+                $("#returnedBalance").hide();
+                $("#payingButton").hide();
+            }
         }
         function totalpayment(){
 
