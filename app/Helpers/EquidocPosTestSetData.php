@@ -173,7 +173,6 @@ if (! function_exists('EquiDocPosTestSetData')) {
             "invoice_lines" => $productLines,
             "tax_totals" => $taxLines,
         ];
-
         return $data;
     }
 }

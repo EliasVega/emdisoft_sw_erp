@@ -63,7 +63,6 @@
     $("#formPayCard").hide();
     $("#formRetentions").hide();
 
-
     $(document).ready(function(){
         typeInvoice = $("#pos_active").val();
         if (typeInvoice == 'on') {
@@ -159,21 +158,12 @@
             }
             subcont = subtotal[cont]
             rowsList(cont, cv, employee_id, product_id, product, quantity, price, tax_rate, subcont);
-            /*
-            var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="cv[]"  value="'+cv+'">'+cv+'</td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';*/
             cont++;
             totals();
             //assess();
 
             $('#details').append(row);
             $("#totalPartial").val(total);
-            /*
-            swal.fire({
-                icon: 'success',
-                text: product + '--' + 'Registrado correctamente',
-                showConfirmButton: false,
-                timer: 3000 // es ms (mili-segundos)
-            });*/
             clean();
 
 
@@ -231,21 +221,12 @@
             }
             subcont = subtotal[cont]
             rowsList(cont, cv, employee_id, product_id, product, quantity, price, tax_rate, subcont);
-            /*
-            var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="cv[]"  value="'+cv+'">'+cv+'</td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';*/
             cont++;
             totals();
             //assess();
 
             $('#details').append(row);
             $("#totalPartial").val(total);
-            /*
-            swal.fire({
-                icon: 'success',
-                text: product + '--' + 'Registrado correctamente',
-                showConfirmButton: false,
-                timer: 3000 // es ms (mili-segundos)
-            });*/
             //$('#product_id option:selected').remove();
             clean();
 
@@ -374,8 +355,6 @@
             total_tax = total_tax+ivita;
             subcont = subtotal[cont]
             rowsList(cont, cv, employee_id, product_id, product, quantity, price, tax_rate, subcont);
-            /*
-            var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="cv[]"  value="'+cv+'">'+cv+'</td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';*/
             cont++;
 
             deleterow(contedit);
@@ -384,12 +363,6 @@
             $('#details').append(row);
             $('#editModal').modal('hide');
             $("#totalPartial").val(total);
-            /*
-            swal.fire({
-                icon: 'success',
-                text: product + '--' + 'Editado correctamente',
-                showConfirmButton: false,
-                timer: 3000 // es ms (mili-segundos)
             });*/
             //$('#product_id option:selected').remove();
         }else{
