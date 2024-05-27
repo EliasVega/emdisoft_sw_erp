@@ -7,6 +7,7 @@ if (!function_exists('SoftwareData')) {
             $data = [
                 "id" => $request->identifier,
                 "pin" => $request->pin
+
             ];
         } else if ($typeSoftware == 'payroll') {
             $data = [

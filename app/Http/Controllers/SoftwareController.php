@@ -88,8 +88,8 @@ class SoftwareController extends Controller
         $store = false;
         if (indicator()->dian == 'on') {
             $data = softwareData($request, $typeSoftware);
-            $requestResponse = sendDocuments($company, $url, $data);
-
+            //dd($data);
+            $requestResponse = sendSoftware($company, $url, $data);
             $store = $requestResponse['store'];
 
             if ($store == true) {
@@ -108,15 +108,11 @@ class SoftwareController extends Controller
                     $software->equidoc_test_set = $request->equidoc_test_set;
                 }
                 $software->update();
-                return redirect('configuration')->with(
-                    'success_message',
-                    'Datos del Software id establecido con éxito.'
-                );
+                toast('Datos del Software id establecido con éxito.','success');
+                return redirect('configuration');
             }
-            return redirect('configuration')->with(
-                'error_message',
-                'El Datos del Software id no pudo ser establecido con éxito.'
-            );
+            toast('El Datos del Software id no pudo ser establecido con éxito.','success');
+                return redirect('configuration');
         } else {
             $software->company_id = $company->id;
             if ($typeSoftware == 'invoice') {
@@ -133,11 +129,10 @@ class SoftwareController extends Controller
                 $software->equidoc_test_set = $request->equidoc_test_set;
             }
             $software->update();
+            toast('Guardado en local. La configuración de los datos del software no esta disponible con el envío a la DIAN desactivado.','success');
+                return redirect('configuration');
         }
-        return redirect('configuration')->with(
-            'error_message',
-            'La configuración de los datos del software no esta disponible con el envío a la DIAN desactivado.'
-        );
+
     }
 
     /**

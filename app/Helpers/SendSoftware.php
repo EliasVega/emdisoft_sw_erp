@@ -6,7 +6,6 @@ if (!function_exists('SendSoftware')) {
     function sendSoftware($company, $url, $data)
     {
         $requestResponse = [];
-
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $company->api_token,
             'Content-Type' => 'application/json',

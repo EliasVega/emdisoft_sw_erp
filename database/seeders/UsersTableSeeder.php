@@ -47,7 +47,7 @@ class UsersTableSeeder extends Seeder
             'number' => '28218042',
             'address' => 'CR 9 11 41 LC 109 CC COMULTRASAN',
             'phone' => '3132710552',
-            'email' => 'mayis@hotmail.com',
+            'email' => 'fmayis@hotmail.com',
             'email_verified_at' => NULL,
             'password' => bcrypt('28218042'),
             'two_factor_secret' => NULL,

@@ -1,0 +1,18 @@
+{
+    "success": true,
+    "message": "Software creado/actualizado con éxito",
+    "software": {
+        "id": 24,
+        "identifier": "c16ac5f7-a933-4fc9-92cf-66c7d4d6d24b",
+        "pin": "98345",
+        "identifier_payroll": "",
+        "pin_payroll": "",
+        "identifier_eqdocs": "",
+        "pin_eqdocs": "",
+        "url": "https://vpfe-hab.dian.gov.co/WcfDianCustomerServices.svc",
+        "url_payroll": "https://vpfe-hab.dian.gov.co/WcfDianCustomerServices.svc",
+        "url_eqdocs": "https://vpfe-hab.dian.gov.co/WcfDianCustomerServices.svc",
+        "created_at": "2024-05-27 15:53:47",
+        "updated_at": "2024-05-27 17:41:50"
+    }
+}

@@ -294,7 +294,12 @@
                                             <p>ND response</p>
                                         </a>
                                     </li>
-
+                                    <li class="nav-item">
+                                        <a href="{{ url('invoiceTestSet') }}" class="nav-link">
+                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <p>Response test set</p>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="nav-item has-treeview">
