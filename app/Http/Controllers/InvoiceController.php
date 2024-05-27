@@ -301,7 +301,7 @@ class InvoiceController extends Controller
      */
     public function store(StoreInvoiceRequest $request)
     {
-        dd($request->all());
+        //dd($request->all());
         $company = Company::findOrFail(current_user()->company_id);
         $configuration = Configuration::findOrFail($company->id);
         //$indicator = Indicator::findOrFail(1);

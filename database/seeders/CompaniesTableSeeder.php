@@ -26,7 +26,7 @@ class CompaniesTableSeeder extends Seeder
                 'dv' => '8',
                 'address' => 'AV CENTRAL METROP SEC BUENO PQ TERMINAL LC 3',
                 'phone' => '3134669720',
-                'api_token' => 'baf65af0f81728c78b4f645fa2a4a0a5a8730e377e7a38b4de20244e251c931b',
+                'api_token' => 'd2d434be8009f8329a793842c619ee14362301ed3fb3178f899c1f47765745d1',
                 'email' => 'elime_802@hotmail.com',
                 'emailfe' => 'elime_802@hotmail.com',
                 'merchant_registration' => '000000-00',
