@@ -376,12 +376,6 @@
             $('#details').append(row);
             $('#editModal').modal('hide');
             $("#totalPartial").val(total);
-            swal.fire({
-                icon: 'success',
-                text: product + '--' + 'Editado correctamente',
-                showConfirmButton: false,
-                timer: 3000 // es ms (mili-segundos)
-            });
             //$('#product_id option:selected').remove();
         }else{
             // alert("Rellene todos los campos del detalle de la compra, revise los datos del producto");
