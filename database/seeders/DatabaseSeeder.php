@@ -49,15 +49,17 @@ class DatabaseSeeder extends Seeder
 
         //$this->call(ProvidersTableSeeder::class);
         //$this->call(CustomersTableSeeder::class);
-        $this->call(CategoriesTableSeeder::class);
-        $this->call(ProductsSeeder::class);
-        $this->call(BranchProductsTableSeeder::class);
+        // $this->call(CategoriesTableSeeder::class);
+        // $this->call(ProductsSeeder::class);
+        // $this->call(BranchProductsTableSeeder::class);
 
         $this->call(GenerationTypeTableSeeder::class);
         $this->call(VoucherTypeTableSeeder::class);
         $this->call(ResolutionSeeder::class);
         $this->call(PaymentFormsTableSeeder::class);
         $this->call(PaymentMethodsTableSeeder::class);
+
+        //modific
         $this->call(SalePointSeeder::class);
 
         //$this->call(EmployeesTableSeeder::class);
@@ -66,16 +68,17 @@ class DatabaseSeeder extends Seeder
         //$this->call(ProductRawmaterialSeeder::class);
         //$this->call(BranchRawmaterialsTableSeeder::class);
         //$this->call(OvertimeTypeSeeder::class);
+        //modific
         $this->call(CashRegisterSeeder::class);
 
-        $this->call(AccountClassSeeder::class);
-        $this->call(AccountGroupSeeder::class);
-        $this->call(AccountSeeder::class);
-        $this->call(SubaccountSeeder::class);
-        $this->call(AuxiliaryAccountSeeder::class);
-        $this->call(SubauxiliaryAccountSeeder::class);
-        $this->call(TriggerMethodSeeder::class);
-        $this->call(MovementTypeSeeder::class);
-        $this->call(OperationTypeSeeder::class);
+        // $this->call(AccountClassSeeder::class);
+        // $this->call(AccountGroupSeeder::class);
+        // $this->call(AccountSeeder::class);
+        // $this->call(SubaccountSeeder::class);
+        // $this->call(AuxiliaryAccountSeeder::class);
+        // $this->call(SubauxiliaryAccountSeeder::class);
+        // $this->call(TriggerMethodSeeder::class);
+        // $this->call(MovementTypeSeeder::class);
+        // $this->call(OperationTypeSeeder::class);
     }
 }

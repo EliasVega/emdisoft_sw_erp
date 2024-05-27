@@ -46,7 +46,7 @@ class CashRegisterSeeder extends Seeder
                 'out_advance' => 0,
                 'ndpurchase' => 0,
                 'ncinvoice' => 0,
-                'verification_code_open' => 'admin2024',
+                'verification_code_open' => '28218042',
                 'verification_code_close' => null,
                 'status' => 'open',
                 'start_date' => null,
@@ -55,8 +55,8 @@ class CashRegisterSeeder extends Seeder
                 'user_id' => 1,
                 'user_open_id' => 1,
                 'user_close_id' => null,
-                'created_at' => '2024-01-14 12:00:00',
-                'updated_at' => '2024-01-14 12:00:00'
+                'created_at' => '2024-05-25 21:07:42',
+                'updated_at' => '2024-05-25 21:07:42'
             ),
         ));
     }
