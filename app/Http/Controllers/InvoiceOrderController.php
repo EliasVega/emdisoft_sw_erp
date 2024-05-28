@@ -202,6 +202,7 @@ class InvoiceOrderController extends Controller
         $tax_rate   = $request->tax_rate;
         $total_pay = $request->total_pay;
         $employee_id = $request->employee_id;
+        $typeDocument = $request->typeDocument;
 
         //Crea un registro de orden de venta
         $invoiceOrder = new InvoiceOrder();
@@ -263,7 +264,9 @@ class InvoiceOrderController extends Controller
             }
         }
         session()->forget('invoiceOrder');
+        session()->forget('typeDocument');
         session(['invoiceOrder' => $invoiceOrder->id]);
+        session(['typeDocument' => $typeDocument]);
         toast('Orden de Venta Generada con exito.','success');
         return redirect('invoiceOrder');
     }

@@ -9,12 +9,11 @@
         <i class="fas fa-file-pdf"></i>
     </a>
 @endif
-</a>@can('invoice.edit')
-    @if ($status == 'invoice')
-        <a href="{{ route('invoice.edit', $id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip"
-        data-placement="top" title="Editar"><i class="far fa-edit"></i></a>
-    @endif
-@endcan
+<!--
+</a>@can('superAdmin')
+    <a href="{{ route('invoice.edit', $id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip"
+    data-placement="top" title="Editar"><i class="far fa-edit"></i></a>
+@endcan -->
     <a href="{{ route('invoice.show', $id) }}" class="btn btn-success btn-sm" data-toggle="tooltip"
     data-placement="top" title="Ver Venta"><i class="far fa-eye"></i></a>
 

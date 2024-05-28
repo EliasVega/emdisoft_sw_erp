@@ -5,12 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\RestaurantOrder;
 use App\Http\Requests\StoreRestaurantOrderRequest;
 use App\Http\Requests\UpdateRestaurantOrderRequest;
+use App\Models\Advance;
+use App\Models\Bank;
 use App\Models\Branch;
+use App\Models\Card;
 use App\Models\CashRegister;
 use App\Models\CommandRawmaterial;
 use App\Models\Company;
+use App\Models\CompanyTax;
+use App\Models\Customer;
 use App\Models\HomeOrder;
 use App\Models\Indicator;
+use App\Models\PaymentForm;
+use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Models\ProductRawmaterial;
 use App\Models\ProductRestaurantOrder;
@@ -899,6 +906,59 @@ class RestaurantOrderController extends Controller
 
     public function generateInvoice($id)
     {
+        //dd($request->all());
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == null) {
+            return redirect('branch');
+        }
+        $restaurantOrder = RestaurantOrder::findOrFail($id);
+        $homeOrder = HomeOrder::where('restaurant_order_id', $restaurantOrder->id)->first();
+        $typeService = $restaurantOrder->restaurant_table_id;
+        $indicator = indicator();
+        $customers = Customer::get();
+        $resolutions = Resolution::where('document_type_id', 1)->where('status', 'active')->get();
+        $paymentForms = PaymentForm::get();
+        $paymentMethods = PaymentMethod::get();
+        $banks = Bank::get();
+        $cards = Card::get();
+        $branchs = Branch::get();
+        $advances = Advance::where('status', '!=', 'aplicado')->get();
+        $date = Carbon::now();
+        $productRestaurantOrders = ProductRestaurantOrder::from('product_restaurant_orders as pr')
+        ->join('products as pro', 'pr.product_id', 'pro.id')
+        ->join('categories as cat', 'pro.category_id', 'cat.id')
+        ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->join('restaurant_orders as ro', 'pr.restaurant_order_id', 'ro.id')
+        ->select('pro.id', 'pro.name', 'pr.quantity', 'pr.price', 'pr.tax_rate', 'pr.subtotal')
+        ->where('restaurant_order_id', $restaurantOrder->id)
+        ->get();
+
+        $companyTaxes = CompanyTax::from('company_taxes', 'ct')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
+        ->where('tt.type_tax', 'retention')->get();
+        return view('admin.productRestaurantOrder.create',
+        compact(
+            'restaurantOrder',
+            'homeOrder',
+            'typeService',
+            'customers',
+            'resolutions',
+            'paymentForms',
+            'paymentMethods',
+            'banks',
+            'cards',
+            'branchs',
+            'advances',
+            'productRestaurantOrders',
+            'date',
+            'companyTaxes',
+            'indicator'
+        ));
+        /*
         $restaurantOrder = RestaurantOrder::findOrFail($id);
         \session()->put('restaurantOrder', $restaurantOrder->id, 60 * 24 * 365);
         \session()->put('total', $restaurantOrder->total, 60 * 24 *365);
@@ -906,12 +966,12 @@ class RestaurantOrderController extends Controller
         \session()->put('total_pay', $restaurantOrder->total_pay, 60 * 24 *365);
         \session()->put('status', $restaurantOrder->status, 60 * 24 *365);
 
-        return redirect('productRestaurantOrder/create');
+        return redirect('productRestaurantOrder/create');*/
     }
 
     public function restaurantOrderPos(Request $request, $id)
     {
-        $restaurantOrder = RestaurantOrder::where('id', $id)->first();
+        $restaurantOrder = RestaurantOrder::findOrFail($id);
         $productRestaurantOrders = ProductRestaurantOrder::where('restaurant_order_id', $id)->where('quantity', '>', 0)->get();
         $commandRawmaterials = CommandRawmaterial::where('restaurant_order_id', $id)->get();
 

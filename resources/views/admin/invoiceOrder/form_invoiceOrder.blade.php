@@ -269,7 +269,7 @@
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="addTypeDocument">
         <div class="form-group">
             <label class="form-control-label" for="typeDocument">tipo documento</label>
-            <input type="text" id="typeDocument" name="typeDocument" value="pos" class="form-control">
+            <input type="text" id="typeDocument" name="typeDocument" value="{{ $type }}" class="form-control">
         </div>
     </div>
 </div>

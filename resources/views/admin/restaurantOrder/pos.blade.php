@@ -1,3 +1,7 @@
+<?php
+$medidaTicket = 180;
+
+?>
 <!DOCTYPE>
 <html>
     <head>
@@ -67,16 +71,16 @@
                 <tfoot>
                     <!--DATOS FTOTALES -->
                     <tr>
-                        <th colspan="3" class="footRight">TOTAL:</th>
-                        <td colspan="3" class="footRight"><strong>${{number_format($restaurantOrder->total,2)}}</strong></td>
+                        <th colspan="2" class="footRight">TOTAL:</th>
+                        <td colspan="2" class="footRight"><strong>${{number_format($restaurantOrder->total,2)}}</strong></td>
                     </tr>
                     <tr>
-                        <th colspan="3" class="footRight">IMPUESTOS:</th>
-                        <td colspan="3" class="footRight"><strong>${{number_format($restaurantOrder->total_tax,2)}}</strong> </td>
+                        <th colspan="2" class="footRight">IMPUESTOS:</th>
+                        <td colspan="2" class="footRight"><strong>${{number_format($restaurantOrder->total_tax,2)}}</strong> </td>
                     </tr>
                     <tr>
-                        <th colspan="3" class="footRight">TOTAL PAGAR:</th>
-                        <td colspan="3" class="footRight"><strong>${{number_format($restaurantOrder->total_pay,2)}}</strong></td>
+                        <th colspan="2" class="footRight">TOTAL PAGAR:</th>
+                        <td colspan="2" class="footRight"><strong>${{number_format($restaurantOrder->total_pay,2)}}</strong></td>
                     </tr>
                 </tfoot>
             </table>

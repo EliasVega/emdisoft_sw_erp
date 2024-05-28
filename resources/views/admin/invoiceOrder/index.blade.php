@@ -8,7 +8,10 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h5>Listado de Ordenes de venta</h5>
             @can('invoiceOrder.create')
-                <a href="invoiceOrder/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Orden de Venta</a>
+                <a href="createPosOrder" class="btn btn-blueGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Orden de Venta Pos</a>
+            @endcan
+            @can('invoiceOrder.create')
+                <a href="invoiceOrder/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Orden de Venta </a>
             @endcan
             @can('invoice.index')
                 <a href="{{ route('invoice.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Ventas</a>
@@ -39,12 +42,24 @@
         <script type="text/javascript">
             $(document).ready(function ()
             {
+                var typeDocument = "{{ $typeDocument ?? '' }}";
                 function print(){
-                    var invoiceOrder = "{{ $invoiceOrder ?? '' }}";
-                    if (invoiceOrder != '') {
-                        var imprimir = "{{ route('posInvoiceOrder', ['invoiceOrder' => ':invoiceOrder']) }}";
-                        imprimir = imprimir.replace(':invoiceOrder', invoiceOrder);
-                        window.open(imprimir, "_blank");
+                    if (typeDocument == 'invoice') {
+                        var invoiceOrder = "{{ $invoice ?? '' }}";
+                        if (invoiceOrder != '') {
+                            var imprimir = "{{ route('pdfInvoiceOrder', ['invoiceOrder' => ':invoiceOrder']) }}";
+                            imprimir = imprimir.replace(':invoiceOrder', invoiceOrder);
+                            window.open(imprimir, "_blank");
+                        }
+                    } else if (typeDocument == ''){
+
+                    } else {
+                        var invoice = "{{ $invoice ?? '' }}";
+                        if (invoice != '') {
+                            var imprimir = "{{ route('posInvoiceOrder', ['invoiceOrder' => ':invoiceOrder']) }}";
+                            imprimir = imprimir.replace(':invoiceOrder', invoiceOrder);
+                            window.open(imprimir, "_blank");
+                        }
                     }
                 }
 

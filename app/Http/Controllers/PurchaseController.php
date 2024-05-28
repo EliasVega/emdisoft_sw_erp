@@ -536,6 +536,7 @@ class PurchaseController extends Controller
         } else {
             $productPurchases = PurchaseRawmaterial::where('purchase_id', $purchase->id)->where('quantity', '>', 0)->get();
         }
+        $type = $purchase->type_product;
 
         //$productPurchases = ProductPurchase::where('purchase_id', $purchase->id)->where('quantity', '>', 0)->get();
         return view('admin.purchase.show', compact(
@@ -549,6 +550,7 @@ class PurchaseController extends Controller
             'retentions',
             'retentionsum',
             'productPurchases',
+            'type'
         ));
     }
 
@@ -1235,13 +1237,14 @@ class PurchaseController extends Controller
         $retentionnc = 0;
         if ($debitNotes != null) {
             $debitNote = $debitNotes->total_pay;
-            $retnd = Tax::where('type', 'ndpurchase')->where('retentionable_id', $debitNotes->id)->first();
-            $retentionnd = $retnd->retention;
+            $retnd = Tax::where('type', 'ndpurchase')->where('taxable_id', $debitNotes->id)->first();
+            dd($retnd);
+            $retentionnd = $retnd->tax_value;
         }
         if ($creditNotes != null) {
             $creditNote = $creditNotes->total_pay;
-            $retnc = Tax::where('type', 'ncpurchase')->where('retentionable_id', $creditNotes->id)->first();
-            $retentionnc = $retnc->retention;
+            $retnc = Tax::where('type', 'ncpurchase')->where('taxable_id', $creditNotes->id)->first();
+            $retentionnc = $retnc->tax_value;
         }
         $view = \view('admin.purchase.pdf', compact(
             'purchase',
@@ -1304,13 +1307,23 @@ class PurchaseController extends Controller
         $retentionnc = 0;
         if ($debitNotes != null) {
             $debitNote = $debitNotes->total_pay;
-            $retnd = Tax::where('type', 'ndpurchase')->where('retentionable_id', $debitNotes->id)->first();
-            $retentionnd = $retnd->retention;
+            $retnd = Tax::where('type', 'ndpurchase')->where('taxable_id', $debitNotes->id)->first();
+            if (isset($retnd)) {
+                $retentionnd = $retnd->tax_value;
+            } else {
+                $retentionnd = 0;
+            }
+
+
         }
         if ($creditNotes != null) {
             $creditNote = $creditNotes->total_pay;
-            $retnc = Tax::where('type', 'ncpurchase')->where('retentionable_id', $creditNotes->id)->first();
-            $retentionnc = $retnc->retention;
+            $retnc = Tax::where('type', 'ncpurchase')->where('taxable_id', $creditNotes->id)->first();
+            if (isset($retnc)) {
+                $retentionnc = $retnc->tax_value;
+            } else {
+                $retentionnc = 0;
+            }
         }
         $view = \view('admin.purchase.pos', compact(
             'purchase',
@@ -1377,12 +1390,20 @@ class PurchaseController extends Controller
         if ($debitNotes != null) {
             $debitNote = $debitNotes->total_pay;
             $retnd = Tax::where('type', 'ndpurchase')->where('retentionable_id', $debitNotes->id)->first();
-            $retentionnd = $retnd->retention;
+            if (isset($retnd)) {
+                $retentionnd = $retnd->tax_value;
+            } else {
+                $retentionnd = 0;
+            }
         }
         if ($creditNotes != null) {
             $creditNote = $creditNotes->total_pay;
             $retnc = Tax::where('type', 'ncpurchase')->where('retentionable_id', $creditNotes->id)->first();
-            $retentionnc = $retnc->retention;
+            if (isset($retnc)) {
+                $retentionnc = $retnc->tax_value;
+            } else {
+                $retentionnc = 0;
+            }
         }
         $view = \view('admin.purchase.pos', compact(
             'purchase',

@@ -147,7 +147,11 @@
                     <tbody>
                         @foreach($productPurchases as $productPurchase)
                             <tr>
-                                <td>{{ $productPurchase->product->name }}</td>
+                                @if ($type == 'product')
+                                    <td>{{ $productPurchase->product->name }}</td>
+                                @else
+                                    <td>{{ $productPurchase->rawMaterial->name }}</td>
+                                @endif
                                 <td class="rightfoot">${{ $productPurchase->price }}</td>
                                 <td class="rightfoot">{{ $productPurchase->quantity }}</td>
                                 <td class="rightfoot">${{ $productPurchase->subtotal }}</td>

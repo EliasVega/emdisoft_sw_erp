@@ -13,6 +13,7 @@ use App\Models\Configuration;
 use App\Models\Environment;
 use App\Models\Indicator;
 use App\Models\NdpurchaseProduct;
+use App\Models\NdpurchaseRawmaterial;
 use App\Models\NsdResponse;
 use App\Models\Pay;
 use App\Models\PayPaymentMethod;
@@ -20,6 +21,7 @@ use App\Models\Product;
 use App\Models\ProductPurchase;
 use App\Models\ProductRawmaterial;
 use App\Models\Purchase;
+use App\Models\PurchaseRawmaterial;
 use App\Models\RawMaterial;
 use App\Models\Resolution;
 use App\Models\Tax;
@@ -33,12 +35,13 @@ use App\Traits\AdvanceCreate;
 use App\Traits\KardexCreate;
 use App\Traits\GetTaxesLine;
 use App\Traits\NdpurchaseProductCreate;
+use App\Traits\NdpurchaseRawmaterials;
 use App\Traits\reverse;
 use Illuminate\Support\Facades\Storage;
 
 class NdpurchaseController extends Controller
 {
-    use AdvanceCreate, KardexCreate, GetTaxesLine, NdpurchaseProductCreate, reverse;
+    use AdvanceCreate, KardexCreate, GetTaxesLine, NdpurchaseProductCreate, reverse, NdpurchaseRawmaterials;
 
     function __construct()
     {
@@ -188,27 +191,27 @@ class NdpurchaseController extends Controller
             $ndpurchase->save();
 
             $document = $ndpurchase;
-            $productPurchases = ProductPurchase::where('purchase_id', $purchase->id)->get();
+            //$productPurchases = ProductPurchase::where('purchase_id', $purchase->id)->get();
             switch($discrepancy) {
                 case(1):
                     if ($total_pay <= 0) {
                         toast(' Nota debito no debe ser menor o igual a 0.','warning');
                         return redirect("purchase");
                     }
-                    if ($purchase->type_product == 'product') {
-                        $this->ndpurchaseProductCreate($request, $document);//crear ndpurchaseProduct
-                    } else {
-                        $this->ndpurchaseRawmaterials($request, $document);//crear ndpurchaseProduct
-                    }
 
                     for ($i=0; $i < count($product_id); $i++) {
                         $id = $product_id[$i];
+                        if ($purchase->type_product == 'product') {
+                            $this->ndpurchaseProductCreate($request, $document);//crear ndpurchaseProduct
+                        } else {
+                            $this->ndpurchaseRawmaterials($request, $document);//crear ndpurchaseProduct
+                        }
                         if ($purchase->type_product == 'product') {
                             $product = Product::findOrFail($id);
                             $branchProduct = BranchProduct::where('branch_id', $purchase->branch_id)->where('product_id', $id)->first();
                         } else {
                             $product = RawMaterial::findOrFail($id);
-                            $branchProduct = BranchRawmaterial::where('branch_id', $purchase->branch_id)->where('product_id', $id)->first();
+                            $branchProduct = BranchRawmaterial::where('branch_id', $purchase->branch_id)->where('raw_material_id', $id)->first();
                         }
                         if ($product->type_product == 'product') {
                             //devolviendo productos al inventario
@@ -227,30 +230,31 @@ class NdpurchaseController extends Controller
                     }
                 break;
                 case(2):
-                    //$productPurchases = ProductPurchase::where('purchase_id', $purchase->id)->get();
                     if ($store == true) {
+                        if ($purchase->type_product == 'product') {
+                            $productPurchases = ProductPurchase::where('purchase_id', $purchase->id)->get();
+                        } else {
+                            $productPurchases = PurchaseRawmaterial::where('purchase_id', $purchase->id)->get();
+                        }
+
                         for ($i=0; $i < count($productPurchases); $i++) {
 
                             //foreach ($productPurchases as $productPurchase) {
-                            $id = $productPurchases[$i]->product_id;
+
                             if ($purchase->type_product == 'product') {
+                                $id = $productPurchases[$i]->product_id;
                                 $product = Product::findOrFail($id);
                                 $branchProduct = BranchProduct::where('branch_id', $purchase->branch_id)->where('product_id', $id)->first();
                             } else {
+                                $id = $productPurchases[$i]->raw_material_id;
                                 $product = RawMaterial::findOrFail($id);
-                                $branchProduct = BranchRawmaterial::where('branch_id', $purchase->branch_id)->where('product_id', $id)->first();
+                                $branchProduct = BranchRawmaterial::where('branch_id', $purchase->branch_id)->where('raw_material_id', $id)->first();
                             }
-
-                            //registrando nota debito productos
-                            $ndpurchaseProduct = new NdpurchaseProduct();
-                            $ndpurchaseProduct->ndpurchase_id = $ndpurchase->id;
-                            $ndpurchaseProduct->product_id = $id;
-                            $ndpurchaseProduct->quantity = $productPurchases[$i]->quantity;
-                            $ndpurchaseProduct->price = $productPurchases[$i]->price;
-                            $ndpurchaseProduct->tax_rate = $productPurchases[$i]->tax_rate;
-                            $ndpurchaseProduct->subtotal = $productPurchases[$i]->subtotal;
-                            $ndpurchaseProduct->tax_subtotal = $productPurchases[$i]->tax_subtotal;
-                            $ndpurchaseProduct->save();
+                            if ($purchase->type_product == 'product') {
+                                $this->ndpurchaseProductCreate($request, $document);//crear ndpurchaseProduct
+                            } else {
+                                $this->ndpurchaseRawmaterials($request, $document);//crear ndpurchaseProduct
+                            }
 
                             if ($product->type_product == 'product') {
                                 //devolviendo productos al inventario
@@ -290,12 +294,13 @@ class NdpurchaseController extends Controller
                                 }
                             }
                         }
+                        if ($purchase->type_product == 'product') {
+                            $this->ndpurchaseProductCreate($request, $document);//crear ndpurchaseProduct
+                        } else {
+                            $this->ndpurchaseRawmaterials($request, $document);//crear ndpurchaseProduct
+                        }
                     }
-                    if ($purchase->type_product == 'product') {
-                        $this->ndpurchaseProductCreate($request, $document);//crear ndpurchaseProduct
-                    } else {
-                        $this->ndpurchaseRawmaterials($request, $document);//crear ndpurchaseProduct
-                    }
+
                 break;
                 case(4):
                     if ($total_pay <= 0) {
@@ -450,7 +455,13 @@ class NdpurchaseController extends Controller
      */
     public function show(Ndpurchase $ndpurchase)
     {
-        $ndpurchaseProducts = NdpurchaseProduct::where('ndpurchase_id', $ndpurchase->id)->where('quantity', '>', 0)->get();
+        $purchase = Purchase::findOrFail($ndpurchase->purchase_id);
+        $type = $purchase->type_product;
+        if ($type == 'product') {
+            $ndpurchaseProducts = NdpurchaseProduct::where('ndpurchase_id', $ndpurchase->id)->where('quantity', '>', 0)->get();
+        } else {
+            $ndpurchaseProducts = NdpurchaseRawmaterial::where('ndpurchase_id', $ndpurchase->id)->where('quantity', '>', 0)->get();
+        }
         $retentions = Tax::from('taxes as tax')
         ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
@@ -470,7 +481,8 @@ class NdpurchaseController extends Controller
             'ndpurchase',
             'ndpurchaseProducts',
             'retentions',
-            'retentionsum'
+            'retentionsum',
+            'type'
         ));
     }
 
@@ -511,9 +523,15 @@ class NdpurchaseController extends Controller
     public function ndpurchasePdf(Request $request, $id)
     {
        $ndpurchase = ndpurchase::findOrFail($id);
-       $ndpurchaseProducts = ndpurchaseProduct::where('ndpurchase_id', $id)->where('quantity', '>', 0)->get();
+       $purchase = Purchase::findOrFail($ndpurchase->purchase_id);
+        $type = $purchase->type_product;
+        if ($type == 'product') {
+            $ndpurchaseProducts = NdpurchaseProduct::where('ndpurchase_id', $ndpurchase->id)->where('quantity', '>', 0)->get();
+        } else {
+            $ndpurchaseProducts = NdpurchaseRawmaterial::where('ndpurchase_id', $ndpurchase->id)->where('quantity', '>', 0)->get();
+        }
        $company = Company::findOrFail(1);
-       $indicator = Indicator::findOrFail(1);
+       $indicator = indicator();
        $retentions = Tax::from('taxes as tax')
         ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
@@ -538,7 +556,8 @@ class NdpurchaseController extends Controller
             'indicator',
             'logo',
             'retentions',
-            'retentionsum'
+            'retentionsum',
+            'type'
         ));
        $pdf = App::make('dompdf.wrapper');
        $pdf->loadHTML($view);
@@ -553,7 +572,14 @@ class NdpurchaseController extends Controller
         $ndpurchases = session('ndpurchase');
         $ndpurchase = Ndpurchase::findOrFail($ndpurchases);
         session()->forget('ndpurchase');
-        $ndpurchaseProducts = ndpurchaseProduct::where('ndpurchase_id', $ndpurchase->id)->where('quantity', '>', 0)->get();
+        $purchase = Purchase::findOrFail($ndpurchase->purchase_id);
+        $type = $purchase->type_product;
+        if ($type == 'product') {
+            $ndpurchaseProducts = NdpurchaseProduct::where('ndpurchase_id', $ndpurchase->id)->where('quantity', '>', 0)->get();
+        } else {
+            $ndpurchaseProducts = NdpurchaseRawmaterial::where('ndpurchase_id', $ndpurchase->id)->where('quantity', '>', 0)->get();
+        }
+        $indicator = indicator();
         $company = Company::findOrFail(1);
         $indicator = Indicator::findOrFail(1);
         $retentions = Tax::from('taxes as tax')
@@ -580,7 +606,8 @@ class NdpurchaseController extends Controller
             'indicator',
             'logo',
             'retentions',
-            'retentionsum'
+            'retentionsum',
+            'type'
         ));
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);

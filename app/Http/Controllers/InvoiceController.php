@@ -580,7 +580,7 @@ class InvoiceController extends Controller
             session()->forget('invoice');
             session()->forget('typeDocument');
             session(['invoice' => $invoice->id]);
-            session(['typeDocument' => $invoice->document_type_id]);
+            session(['typeDocument' => $typeDocument]);
             toast('Venta Registrada satisfactoriamente.','success');
             return redirect('invoice');
         }

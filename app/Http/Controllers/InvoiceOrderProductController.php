@@ -6,13 +6,11 @@ use App\Models\InvoiceOrderProduct;
 use App\Http\Requests\StoreInvoiceOrderProductRequest;
 use App\Http\Requests\UpdateInvoiceOrderProductRequest;
 use App\Models\BranchProduct;
-use App\Models\CashRegister;
 use App\Models\Company;
 use App\Models\Configuration;
 use App\Models\Employee;
 use App\Models\EmployeeInvoiceProduct;
 use App\Models\Environment;
-use App\Models\Indicator;
 use App\Models\Invoice;
 use App\Models\InvoiceOrder;
 use App\Models\InvoiceProduct;
@@ -27,7 +25,6 @@ use App\Traits\InventoryInvoices;
 use App\Traits\KardexCreate;
 use App\Traits\GetTaxesLine;
 use Illuminate\Support\Facades\Storage;
-use RealRashid\SweetAlert\Facades\Alert;
 
 class InvoiceOrderProductController extends Controller
 {
@@ -331,7 +328,9 @@ class InvoiceOrderProductController extends Controller
             $invoiceOrder->update();
 
             session()->forget('invoice');
+            session()->forget('typeDocument');
             session(['invoice' => $invoice->id]);
+            session(['typeDocument' => $typeDocument]);
             toast('Venta Registrada satisfactoriamente.','success');
             return redirect('invoice');
         }

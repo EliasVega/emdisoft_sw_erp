@@ -62,6 +62,7 @@
     $("#doNotLook").hide();
     $("#formPayCard").hide();
     $("#formRetentions").hide();
+    $("#addTypeProduct").hide();
 
     $(document).ready(function(){
         typeInvoice = $("#pos_active").val();

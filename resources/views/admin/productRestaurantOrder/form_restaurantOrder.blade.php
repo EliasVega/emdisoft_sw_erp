@@ -177,5 +177,16 @@
             </table>
         </div>
     </div>
-
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="addTypeDocument">
+        <div class="form-group">
+            <label class="form-control-label" for="typeDocument">tipo documento</label>
+            <input type="text" id="typeDocument" name="typeDocument" value="pos" class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="addTypeProduct">
+        <div class="form-group">
+            <label class="form-control-label" for="typeProduct">Typo Producto</label>
+            <input type="text" id="typeProduct" name="typeProduct" class="form-control" value="product">
+        </div>
+    </div>
 </div>

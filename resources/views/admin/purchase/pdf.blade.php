@@ -118,9 +118,9 @@
                             @foreach ($productPurchases as $productPurchase)
                                 <tr>
                                     @if ($purchase->type_product == 'product')
-                                    <td>{{ $productPurchase->product->name }}</td>
+                                        <td>{{ $productPurchase->product->name }}</td>
                                     @else
-                                    <td>{{ $productPurchase->rawMaterial->name }}</td>
+                                        <td>{{ $productPurchase->rawMaterial->name }}</td>
                                     @endif
                                     <td id="ccent">{{ number_format($productPurchase->quantity) }}</td>
                                     <td class="tdder">${{ number_format($productPurchase->price)}}</td>

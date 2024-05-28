@@ -64,14 +64,14 @@
             @if ($debitNote != null)
             <div class="center">
                 <div id="thirdTitle">
-                    <span id="title">Compra modificada con la Nota debito {{ $debitNote->document }}</span>
+                    <span id="title">Compra modificada con la Nota debito {{ $debitNotes->document }}</span>
                 </div>
             </div>
             @endif
             @if ($creditNote != null)
                 <div class="center">
                     <div id="thirdTitle">
-                        <span id="title">Compra modificada con la Nota credito {{ $creditNote->document }}</span>
+                        <span id="title">Compra modificada con la Nota credito {{ $debitNotes->document }}</span>
                     </div>
                 </div>
             @endif
