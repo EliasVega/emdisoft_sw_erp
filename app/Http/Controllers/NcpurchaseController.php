@@ -148,6 +148,7 @@ class NcpurchaseController extends Controller
         //Seleccionar los productos de la compra
         switch($discrepancy) {
             case(7):
+                dd('7');
                 if ($total_pay <= 0) {
                     toast(' Nota credito no debe ser menor o igual a 0.','warning');
                     return redirect("purchase");
@@ -156,8 +157,6 @@ class NcpurchaseController extends Controller
                     $id = $product_id[$i];
                     //selecciona el producto que viene del array
                     if ($purchase->type_product == 'product') {
-                        $product = Product::findOrFail($id);
-                        $branchProducts = BranchProduct::where('branch_id', $purchase->branch_id)->where('product_id', $id)->first();
 
                         //registrando nota debito productos
                         $ncpurchaseProduct = new NcpurchaseProduct();
@@ -169,14 +168,8 @@ class NcpurchaseController extends Controller
                         $ncpurchaseProduct->subtotal = $quantity[$i] * $price[$i];
                         $ncpurchaseProduct->tax_subtotal = ($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
                         $ncpurchaseProduct->save();
-                        $quantityLocal = $quantity[$i];
-                        $priceLocal = $price[$i];
 
-                        $this->inventoryPurchases($product, $branchProducts, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
                     } else {
-                        $product = RawMaterial::findOrFail($id);
-                        $branchProducts = BranchRawmaterial::where('branch_id', $purchase->branch_id)->where('product_id', $id)->first();
-
                         //registrando nota debito productos
                         $ncpurchaseRawmaterial = new NcpurchaseRawmaterial();
                         $ncpurchaseRawmaterial->ncpurchase_id = $ncpurchase->id;
@@ -187,14 +180,7 @@ class NcpurchaseController extends Controller
                         $ncpurchaseRawmaterial->subtotal = $quantity[$i] * $price[$i];
                         $ncpurchaseRawmaterial->tax_subtotal = ($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
                         $ncpurchaseRawmaterial->save();
-
-                        $quantityLocal = $quantity[$i];
-                        $priceLocal = $price[$i];
-
-                        $this->rawMaterialPurchases($product, $branchProducts, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
                     }
-
-
                 }
                 break;
             case(8):
@@ -205,18 +191,32 @@ class NcpurchaseController extends Controller
                 }
                 for ($i=0; $i < count($product_id); $i++) {
                     $id = $product_id[$i];
+                    if ($purchase->type_product == 'product') {
+                        //registrando nota debito productos
+                        $ncpurchaseProduct = new NcpurchaseProduct();
+                        $ncpurchaseProduct->ncpurchase_id = $ncpurchase->id;
+                        $ncpurchaseProduct->product_id = $id;
+                        $ncpurchaseProduct->quantity = $quantity[$i];
+                        $ncpurchaseProduct->price = $price[$i];
+                        $ncpurchaseProduct->tax_rate = $tax_rate[$i];
+                        $ncpurchaseProduct->subtotal = $quantity[$i] * $price[$i];
+                        $ncpurchaseProduct->tax_subtotal = ($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
+                        $ncpurchaseProduct->save();
+                    } else {
+                        //registrando nota debito productos
+                        $ncpurchaseRawmaterial = new NcpurchaseRawmaterial();
+                        $ncpurchaseRawmaterial->ncpurchase_id = $ncpurchase->id;
+                        $ncpurchaseRawmaterial->raw_material_id = $id;
+                        $ncpurchaseRawmaterial->quantity = $quantity[$i];
+                        $ncpurchaseRawmaterial->price = $price[$i];
+                        $ncpurchaseRawmaterial->tax_rate = $tax_rate[$i];
+                        $ncpurchaseRawmaterial->subtotal = $quantity[$i] * $price[$i];
+                        $ncpurchaseRawmaterial->tax_subtotal = ($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
+                        $ncpurchaseRawmaterial->save();
+                    }
 
-                    $product = Product::findOrFail($id);
-                    //registrando nota debito productos
-                    $ncpurchaseProduct = new NcpurchaseProduct();
-                    $ncpurchaseProduct->ncpurchase_id = $ncpurchase->id;
-                    $ncpurchaseProduct->product_id = $id;
-                    $ncpurchaseProduct->quantity = $quantity[$i];
-                    $ncpurchaseProduct->price = $price[$i];
-                    $ncpurchaseProduct->tax_rate = $tax_rate[$i];
-                    $ncpurchaseProduct->subtotal = $quantity[$i] * $price[$i];
-                    $ncpurchaseProduct->tax_subtotal = ($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
-                    $ncpurchaseProduct->save();
+
+
 
                     //selecciona el impuesto que tiene la categoria IVA o INC
                 }
@@ -321,9 +321,14 @@ class NcpurchaseController extends Controller
     public function ncpurchasePdf(Request $request, $id)
     {
         $ncpurchase = Ncpurchase::findOrFail($id);
-        $ncpurchaseProducts = NcpurchaseProduct::where('ncpurchase_id', $id)->where('quantity', '>', 0)->get();
+        $purchase = Purchase::findOrFail($ncpurchase->purchase_id);
+        if ($purchase->type_product == 'product') {
+            $ncpurchaseProducts = ncpurchaseProduct::where('ncpurchase_id', $ncpurchase->id)->where('quantity', '>', 0)->get();
+        } else {
+            $ncpurchaseProducts = NcpurchaseRawmaterial::where('ncpurchase_id', $ncpurchase->id)->where('quantity', '>', 0)->get();
+        }
         $company = Company::findOrFail(1);
-        $indicator = Indicator::findOrFail(1);
+        $indicator = indicator();
         $retentions = Tax::from('taxes as tax')
             ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
             ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
@@ -341,6 +346,7 @@ class NcpurchaseController extends Controller
 
         $ncpurchasepdf = $ncpurchase->document;
         $logo = './imagenes/logos'.$company->logo;
+        $type = $purchase->type_product;
         $view = \view('admin.ncpurchase.pdf', compact(
                 'ncpurchase',
                 'ncpurchaseProducts',
@@ -348,7 +354,8 @@ class NcpurchaseController extends Controller
                 'indicator',
                 'logo',
                 'retentions',
-                'retentionsum'
+                'retentionsum',
+                'type'
             ));
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
@@ -363,8 +370,14 @@ class NcpurchaseController extends Controller
         $ncpurchases = session('ncpurchase');
         $ncpurchase = Ncpurchase::findOrFail($ncpurchases);
         session()->forget('ncpurchase');
-        $ncpurchaseProducts = ncpurchaseProduct::where('ncpurchase_id', $ncpurchase->id)->where('quantity', '>', 0)->get();
-        $company = Company::findOrFail(1);
+        $purchase = Purchase::findOrFail($ncpurchase->purchase_id);
+        if ($purchase->type_product == 'product') {
+            $ncpurchaseProducts = ncpurchaseProduct::where('ncpurchase_id', $ncpurchase->id)->where('quantity', '>', 0)->get();
+        } else {
+            $ncpurchaseProducts = NcpurchaseRawmaterial::where('ncpurchase_id', $ncpurchase->id)->where('quantity', '>', 0)->get();
+        }
+        $company = Company::findOrFail(current_user()->company_id);
+        $indicator = indicator();
 
         $retentions = Tax::from('taxes as tax')
         ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
@@ -382,12 +395,15 @@ class NcpurchaseController extends Controller
         ->where('tt.type_tax', 'retention')->sum('tax_value');
 
         $ncpurchasepdf = $ncpurchase->document;
+        $type = $purchase->type_product;
         $view = \view('admin.ncpurchase.pdf', compact(
             'ncpurchase',
             'ncpurchaseProducts',
             'company',
             'retentions',
-            'retentionsum'
+            'retentionsum',
+            'indicator',
+            'type'
         ));
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);

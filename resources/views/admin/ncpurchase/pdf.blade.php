@@ -86,7 +86,11 @@
                         <tbody class="detail">
                             @foreach ($ncpurchaseProducts as $ncpurchaseProduct)
                             <tr>
-                                <td>{{ $ncpurchaseProduct->product->name }}</td>
+                                @if ($type == 'product')
+                                    <td>{{ $ncpurchaseProduct->product->name }}</td>
+                                @else
+                                    <td>{{ $ncpurchaseProduct->rawMaterial->name }}</td>
+                                @endif
                                 <td id="ccent">{{ number_format($ncpurchaseProduct->quantity) }}</td>
                                 <td class="tdder">${{ number_format($ncpurchaseProduct->price)}}</td>
                                 <td class="tdder">${{number_format($ncpurchaseProduct->quantity * $ncpurchaseProduct->price)}}</td>

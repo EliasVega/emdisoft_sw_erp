@@ -243,33 +243,29 @@ class NdpurchaseController extends Controller
 
                             if ($purchase->type_product == 'product') {
                                 $id = $productPurchases[$i]->product_id;
+                                //devolviendo productos al inventario
                                 $product = Product::findOrFail($id);
                                 $branchProduct = BranchProduct::where('branch_id', $purchase->branch_id)->where('product_id', $id)->first();
+                                $product->stock -= $productPurchases[$i]->quantity;
+                                $product->update();
+
+                                $branchProduct->stock -= $productPurchases[$i]->quantity;
+                                $branchProduct->update();
+                                $quantityLocal = $quantity[$i];
+                                $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
+                                $this->ndpurchaseProductCreate($request, $document);//crear ndpurchaseProduct
                             } else {
                                 $id = $productPurchases[$i]->raw_material_id;
                                 $product = RawMaterial::findOrFail($id);
                                 $branchProduct = BranchRawmaterial::where('branch_id', $purchase->branch_id)->where('raw_material_id', $id)->first();
-                            }
-                            if ($purchase->type_product == 'product') {
-                                $this->ndpurchaseProductCreate($request, $document);//crear ndpurchaseProduct
-                            } else {
-                                $this->ndpurchaseRawmaterials($request, $document);//crear ndpurchaseProduct
-                            }
+                                $product->stock -= $productPurchases[$i]->quantity;
+                                $product->update();
 
-                            if ($product->type_product == 'product') {
-                                //devolviendo productos al inventario
-                                if (indicator()->inventory == 'on') {
-                                    $product->stock -= $productPurchases[$i]->quantity;
-                                    $product->update();
-
-                                    //devolviendo productos a la sucursal
-                                    $branchProduct = BranchProduct::where('branch_id', $purchase->branch_id)->where('product_id', $id)->first();
-                                    $branchProduct->stock -= $productPurchases[$i]->quantity;
-                                    $branchProduct->update();
-                                }
-
+                                $branchProduct->stock -= $productPurchases[$i]->quantity;
+                                $branchProduct->update();
                                 $quantityLocal = $quantity[$i];
                                 $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
+                                $this->ndpurchaseRawmaterials($request, $document);//crear ndpurchaseProduct
                             }
                         }
                     }
