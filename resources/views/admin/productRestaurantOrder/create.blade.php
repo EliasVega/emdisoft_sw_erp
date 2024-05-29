@@ -31,10 +31,9 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     @include('admin/productRestaurantOrder.form_restaurantOrder')
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 colorpay">
-                    @include('admin/productRestaurantOrder.form_pay')
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    @include('admin/productRestaurantOrder.form_register')
                 </div>
-
             </div>
 
             {!!Form::close()!!}

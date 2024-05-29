@@ -23,6 +23,7 @@ use App\Models\ProductRawmaterial;
 use App\Models\ProductRestaurantOrder;
 use App\Models\RawMaterial;
 use App\Models\RawmaterialRestaurantorder;
+use App\Models\Resolution;
 use App\Models\RestaurantTable;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -916,7 +917,6 @@ class RestaurantOrderController extends Controller
         $typeService = $restaurantOrder->restaurant_table_id;
         $indicator = indicator();
         $customers = Customer::get();
-        $resolutions = Resolution::where('document_type_id', 1)->where('status', 'active')->get();
         $paymentForms = PaymentForm::get();
         $paymentMethods = PaymentMethod::get();
         $banks = Bank::get();
@@ -924,6 +924,9 @@ class RestaurantOrderController extends Controller
         $branchs = Branch::get();
         $advances = Advance::where('status', '!=', 'aplicado')->get();
         $date = Carbon::now();
+
+        $resolutions = Resolution::where('document_type_id', 1)->where('status', 'active')->get();
+
         $productRestaurantOrders = ProductRestaurantOrder::from('product_restaurant_orders as pr')
         ->join('products as pro', 'pr.product_id', 'pro.id')
         ->join('categories as cat', 'pro.category_id', 'cat.id')
@@ -940,6 +943,7 @@ class RestaurantOrderController extends Controller
         ->join('percentages as per', 'ct.percentage_id', 'per.id')
         ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
         ->where('tt.type_tax', 'retention')->get();
+        $type = 'invoice';
         return view('admin.productRestaurantOrder.create',
         compact(
             'restaurantOrder',
@@ -956,7 +960,68 @@ class RestaurantOrderController extends Controller
             'productRestaurantOrders',
             'date',
             'companyTaxes',
-            'indicator'
+            'indicator',
+            'type'
+        ));
+    }
+
+    public function generatePos($id)
+    {
+        //dd($request->all());
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == null) {
+            return redirect('branch');
+        }
+        $restaurantOrder = RestaurantOrder::findOrFail($id);
+        $homeOrder = HomeOrder::where('restaurant_order_id', $restaurantOrder->id)->first();
+        $typeService = $restaurantOrder->restaurant_table_id;
+        $indicator = indicator();
+        $customers = Customer::get();
+        $paymentForms = PaymentForm::get();
+        $paymentMethods = PaymentMethod::get();
+        $banks = Bank::get();
+        $cards = Card::get();
+        $branchs = Branch::get();
+        $advances = Advance::where('status', '!=', 'aplicado')->get();
+        $date = Carbon::now();
+
+        $resolutions = Resolution::where('document_type_id', 15)->where('status', 'active')->get();
+
+        $productRestaurantOrders = ProductRestaurantOrder::from('product_restaurant_orders as pr')
+        ->join('products as pro', 'pr.product_id', 'pro.id')
+        ->join('categories as cat', 'pro.category_id', 'cat.id')
+        ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->join('restaurant_orders as ro', 'pr.restaurant_order_id', 'ro.id')
+        ->select('pro.id', 'pro.name', 'pr.quantity', 'pr.price', 'pr.tax_rate', 'pr.subtotal')
+        ->where('restaurant_order_id', $restaurantOrder->id)
+        ->get();
+
+        $companyTaxes = CompanyTax::from('company_taxes', 'ct')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
+        ->where('tt.type_tax', 'retention')->get();
+        $type = 'pos';
+        return view('admin.productRestaurantOrder.create',
+        compact(
+            'restaurantOrder',
+            'homeOrder',
+            'typeService',
+            'customers',
+            'resolutions',
+            'paymentForms',
+            'paymentMethods',
+            'banks',
+            'cards',
+            'branchs',
+            'advances',
+            'productRestaurantOrders',
+            'date',
+            'companyTaxes',
+            'indicator',
+            'type'
         ));
         /*
         $restaurantOrder = RestaurantOrder::findOrFail($id);

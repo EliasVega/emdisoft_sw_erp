@@ -147,7 +147,7 @@ class ProductRestaurantOrderController extends Controller
         $branch = current_user()->branch_id;
         $restaurant_order_id = $request->restaurant_order_id;
         $restaurantOrder = RestaurantOrder::findOrFail($restaurant_order_id);
-        $product_id = $request->id;
+        $product_id = $request->product_id;
         $quantity = $request->quantity;
         $price = $request->price;
         $tax_rate = $request->tax_rate;
@@ -206,7 +206,7 @@ class ProductRestaurantOrderController extends Controller
             $invoice->document_type_id = $documentType;
             $invoice->document = $resolutions->prefix . '-' . $resolutions->consecutive;
             $invoice->voucher_type_id = $voucherType;
-            $invoice->cash_register_id = $cashRegister;
+            $invoice->cash_register_id = cashregisterModel()->id;
             $invoice->status = 'invoice';
             $invoice->generation_date = $restaurantOrder->created_at;
             $invoice->due_date = $restaurantOrder->created_at;
@@ -256,19 +256,21 @@ class ProductRestaurantOrderController extends Controller
                 $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
 
             }
-            $rawmaterialRestaurantorders = RawmaterialRestaurantorder::where('restaurant_order_id', $restaurantOrder->id)->where('quantity', '>', 0)->get();
-                if ($rawmaterialRestaurantorders) {
-                    foreach ($rawmaterialRestaurantorders as $key => $rawmaterialRestaurantorder) {
-                        $quantityLocal = $rawmaterialRestaurantorder->total_quantity;
-                        $rawMaterial = RawMaterial::findOrFail($rawmaterialRestaurantorder->raw_material_id);
-                        $rawMaterial->stock -= $quantityLocal;
-                        $rawMaterial->update();
 
-                        $product = $rawMaterial;
-                        //$quantityLocal = $quantityrm;
-                        $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
-                    }
+            $rawmaterialRestaurantorders = RawmaterialRestaurantorder::where('restaurant_order_id', $restaurantOrder->id)->where('quantity', '>', 0)->get();
+
+            if ($rawmaterialRestaurantorders) {
+                foreach ($rawmaterialRestaurantorders as $key => $rawmaterialRestaurantorder) {
+                    $quantityLocal = $rawmaterialRestaurantorder->total_quantity;
+                    $rawMaterial = RawMaterial::findOrFail($rawmaterialRestaurantorder->raw_material_id);
+                    $rawMaterial->stock -= $quantityLocal;
+                    $rawMaterial->update();
+
+                    $product = $rawMaterial;
+                    //$quantityLocal = $quantityrm;
+                    $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
                 }
+            }
 
             $taxes = $this->getTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC
             taxesGlobals($document, $quantityBag, $typeDocument);
@@ -315,7 +317,9 @@ class ProductRestaurantOrderController extends Controller
             $restaurantOrder->update();
 
             session()->forget('invoice');
+            session()->forget('typeDocument');
             session(['invoice' => $invoice->id]);
+            session(['typeDocument' => $typeDocument]);
             toast('Venta Registrada satisfactoriamente.','success');
             return redirect('invoice');
         }

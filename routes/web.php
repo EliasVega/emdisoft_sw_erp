@@ -383,6 +383,7 @@ Route::get('downloadResolution', [ResolutionController::class, 'downloadResoluti
 Route::get('resolution/uploadResolution/{id}', [ResolutionController::class, 'uploadResolution'])->name('uploadResolution');
 
 Route::get('restaurantOrder/generateInvoice/{id}', [RestaurantOrderController::class, 'generateInvoice'])->name('generateInvoice');
+Route::get('restaurantOrder/generatePos/{id}', [RestaurantOrderController::class, 'generatePos'])->name('generatePos');
 Route::get('restaurantOrder/restaurantOrderPdf/{id}', [RestaurantOrderController::class, 'restaurantOrderPdf'])->name('restaurantOrderPdf');
 Route::get('restaurantOrder/restaurantOrderPos/{id}', [RestaurantOrderController::class, 'restaurantOrderPos'])->name('restaurantOrderPos');
 Route::get('posRestaurantOrder', [RestaurantOrderController::class, 'posRestaurantOrder'])->name('posRestaurantOrder');

@@ -3,7 +3,9 @@
     <a href="{{ route('restaurantOrder.edit', $id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Editar">
         <i class="far fa-edit"></i>
     </a>
-    <a href="{{ route('generateInvoice', $id) }}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Facturar Comanda"><i class="fas fa-receipt"></i>
+    <a href="{{ route('generateInvoice', $id) }}" class="btn btn-blueGrad btn-sm" data-toggle="tooltip" data-placement="top" title="Facturar Comanda"><i class="fas fa-receipt"></i>
+    </a>
+    <a href="{{ route('generatePos', $id) }}" class="btn btn-orangeGrad btn-sm" data-toggle="tooltip" data-placement="top" title="Facturar Pos Comanda"><i class="fas fa-receipt"></i>
     </a>
 @endif
 <a href="{{ route('restaurantOrder.show', $id) }}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Comanda" >

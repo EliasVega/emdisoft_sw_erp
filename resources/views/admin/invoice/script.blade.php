@@ -296,6 +296,8 @@
     }
 
     function editrow(index) {
+        indicv = $("#indicatorcv").val();
+        indiwl = $("#indicatorwl").val();
 
         $("#contMod").hide();
         $("#subtotalMod").hide();
@@ -305,19 +307,42 @@
         var row = $("#row" + index);
         // Solo si la row existe
         if(row) {
-
+            if (indicv == 'off' && indiwl == 'off') {
+                $("#contModal").val(index);
+                $('#cvpinvoice1').prop("checked", false);
+                $('#cvpinvoice2').prop("checked", true);
+                $("#idModal").val(row.find("td:eq(2)").text());
+                $("#product_idModal").val(row.find("td:eq(2)").text());
+                $("#productModal").val(row.find("td:eq(3)").text());
+                $("#quantityModal").val(row.find("td:eq(4)").text());
+                $("#priceModal").val(row.find("td:eq(5)").text());
+                $("#taxModal").val(row.find("td:eq(6)").text());
+                $("#subtotalModal").val(row.find("td:eq(7)").text());
+            } else if (indicv == 'off' || indiwl == 'off') {
+                $("#contModal").val(index);
+                $('#cvpinvoice1').prop("checked", false);
+                $('#cvpinvoice2').prop("checked", true);
+                $("#idModal").val(row.find("td:eq(3)").text());
+                $("#product_idModal").val(row.find("td:eq(3)").text());
+                $("#productModal").val(row.find("td:eq(4)").text());
+                $("#quantityModal").val(row.find("td:eq(5)").text());
+                $("#priceModal").val(row.find("td:eq(6)").text());
+                $("#taxModal").val(row.find("td:eq(7)").text());
+                $("#subtotalModal").val(row.find("td:eq(8)").text());
+            }  else {
+                $("#contModal").val(index);
+                $('#cvpinvoice1').prop("checked", false);
+                $('#cvpinvoice2').prop("checked", true);
+                $("#idModal").val(row.find("td:eq(4)").text());
+                $("#product_idModal").val(row.find("td:eq(4)").text());
+                $("#productModal").val(row.find("td:eq(5)").text());
+                $("#quantityModal").val(row.find("td:eq(6)").text());
+                $("#priceModal").val(row.find("td:eq(7)").text());
+                $("#taxModal").val(row.find("td:eq(8)").text());
+                $("#subtotalModal").val(row.find("td:eq(9)").text());
+            }
             // Buscar datos en la row y asignar a campos del formulario:
             // Primera columna (0) tiene ID, segunda (1) tiene nombre, tercera (2) capacidad
-            $("#contModal").val(index);
-            $('#cvpinvoice1').prop("checked", false);
-            $('#cvpinvoice2').prop("checked", true);
-            $("#idModal").val(row.find("td:eq(4)").text());
-            $("#product_idModal").val(row.find("td:eq(4)").text());
-            $("#productModal").val(row.find("td:eq(5)").text());
-            $("#quantityModal").val(row.find("td:eq(6)").text());
-            $("#priceModal").val(row.find("td:eq(7)").text());
-            $("#taxModal").val(row.find("td:eq(8)").text());
-            $("#subtotalModal").val(row.find("td:eq(9)").text());
 
             // Mostrar modal
             $('#editModal').modal('show');
