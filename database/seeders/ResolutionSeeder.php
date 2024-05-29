@@ -133,7 +133,7 @@ class ResolutionSeeder extends Seeder
                 'consecutive' => 990000001,
                 'start_date' => '2019-01-19',
                 'end_date' => '2030-01-19',
-                'status' => 'inactive',
+                'status' => 'active',
                 'description' => 'Set de pruebas Factura de venta',
                 'company_id' => 1,
                 'document_type_id' => 1
@@ -184,7 +184,7 @@ class ResolutionSeeder extends Seeder
                 'consecutive' => 1,
                 'start_date' => '2019-01-19',
                 'end_date' => '2030-01-19',
-                'status' => 'inactive',
+                'status' => 'active',
                 'description' => 'Set de pruebas Pos Electronico',
                 'company_id' => 1,
                 'document_type_id' => 15
@@ -201,7 +201,7 @@ class ResolutionSeeder extends Seeder
                 'consecutive' => 1,
                 'start_date' => null,
                 'end_date' => null,
-                'status' => 'inactive',
+                'status' => 'active',
                 'description' => 'NC Pos Electronico',
                 'company_id' => 1,
                 'document_type_id' => 26
@@ -218,7 +218,7 @@ class ResolutionSeeder extends Seeder
                 'start_date' => null,
                 'consecutive' => 1,
                 'end_date' => null,
-                'status' => 'inactive',
+                'status' => 'active',
                 'description' => 'ND Pos Electronico',
                 'company_id' => 1,
                 'document_type_id' => 25
@@ -235,8 +235,25 @@ class ResolutionSeeder extends Seeder
                 'consecutive' => 1,
                 'start_date' => '2019-01-19',
                 'end_date' => '2040-01-19',
-                'status' => 'inactive',
+                'status' => 'active',
                 'description' => 'Facturacion en local',
+                'company_id' => 1,
+                'document_type_id' => 1
+            ),
+            15 =>
+            array (
+                'id' => 16,
+                'prefix' => 'FVEC',
+                'resolution' => '18764050702643',
+                'resolution_date' => '2023-06-21',
+                'technical_key' => 'edd8c8665026708791fa048afda2adb7ec4fc9520b39522d885dfcf0a80b9939',
+                'start_number' => 1501,
+                'end_number' => 2000,
+                'consecutive' => 1501,
+                'start_date' => '2023-06-21',
+                'end_date' => '2023-12-21',
+                'status' => 'active',
+                'description' => 'Factura de venta',
                 'company_id' => 1,
                 'document_type_id' => 1
             ),

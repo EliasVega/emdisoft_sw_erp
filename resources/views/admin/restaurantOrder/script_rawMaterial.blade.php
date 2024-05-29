@@ -11,10 +11,12 @@
             });
         });
     });
-    let  contrm=0;
+    let  contrm = 0;
     let  totalrm = 0;
     let subtotalrm = [];
     let refCont = [];
+    let rmpartial = [];
+    let contrmpartial = 0;
     //let totalrm_tax = 0;
     //let tax_ratecont = [];
     //form Order
@@ -52,7 +54,7 @@
             totalrms();
             $('#materials').append(rowrm);
             clear();
-            //assess();
+            assess();
         } else {
             //alert("Rellene todos los campos del detalle de la venta");
             Swal.fire({
@@ -66,7 +68,7 @@
     $("#product_id").change(function(event){
 
         $.get("getRawMaterial/" + event.target.value + "", function(response){
-
+            deletePartial();
             $("#material_id").empty();
             $("#material_id").append("<option value = '#' disabled selected>Seleccionar ...</option>");
 
@@ -84,12 +86,15 @@
                     totalrm = totalrm+subtotalrm[contrm];
                     refCont[contrm] = [contrm, referency];
                     subcont = subtotalrm[contrm];
-                    rowRawMaterial(contrm, referency, idP, raw_material_id, material, quantityrm, consumer_price, subcont);
-                    contrm++
-                    //alert(refCont);
-                    totalrms();
-                    $('#materials').append(rowrm);
-                    clear();
+                    rmpartial[contrmpartial] = [contrm, referency, idP, raw_material_id, material, quantityrm, consumer_price, subcont];
+                    contrmpartial++;
+                    contrm++;
+                    //rowRawMaterial(contrm, referency, idP, raw_material_id, material, quantityrm, consumer_price, subcont);
+                    //contrm++
+
+                    //totalrms();
+                    //$('#materials').append(rowrm);
+                    //clear();
                     //$('#product_id option:selected').remove();
                 }else{
                     //alert("Rellene todos los campos del detalle para esta compra");
@@ -103,6 +108,24 @@
             //$("#raw_material_id").selectpicker('refresh');
         });
     });
+
+    function deletePartial () {
+        rmpartial = [];
+        contrmpartial = 0;
+    }
+    function insertrm() {
+
+        for (let i = 0; i < rmpartial.length; i++) {
+            rowRawMaterial(rmpartial[i][0], rmpartial[i][1], rmpartial[i][2], rmpartial[i][3], rmpartial[i][4], rmpartial[i][5], rmpartial[i][6], rmpartial[i][7]);
+
+            totalrms();
+            $('#materials').append(rowrm);
+
+        }
+        rmpartial = [];
+        contrmpartial = 0;
+
+    }
 
     function updaterowrm() {
 
@@ -196,13 +219,13 @@
         $("#rowrm" + index).remove();
     }
 
-    function deleteRawmaterials(index){
-        totalrm -= parseFloat(subtotalrm[index]);
-
-        $("#totalrm_html").html("$ " + totalrm.toFixed(2));
-        $("#totalrm").val(totalrm.toFixed(2));
-
-        $("#rowrm" + index).remove();
+    function deleteRawmaterials(referencyProduct) {
+        for (let i = 0; i < refCont.length; i++) {
+            if (refCont[i][1] == referencyProduct) {
+                index = refCont[i][0]
+                deleterowrm(index);
+            }
+        }
     }
 
     function rowRawMaterial(contrm, referency, idP, raw_material_id, material, quantityrm, consumer_price, subcont) {

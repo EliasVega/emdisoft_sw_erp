@@ -381,6 +381,7 @@ Route::get('reportInventory', [ReportsController::class, 'reportInventory'])->na
 
 Route::get('downloadResolution', [ResolutionController::class, 'downloadResolution'])->name('downloadResolution');
 Route::get('resolution/uploadResolution/{id}', [ResolutionController::class, 'uploadResolution'])->name('uploadResolution');
+Route::get('resolution/uploadResolution/{id}', [ResolutionController::class, 'uploadResolution'])->name('uploadResolution');
 
 Route::get('restaurantOrder/generateInvoice/{id}', [RestaurantOrderController::class, 'generateInvoice'])->name('generateInvoice');
 Route::get('restaurantOrder/generatePos/{id}', [RestaurantOrderController::class, 'generatePos'])->name('generatePos');

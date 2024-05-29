@@ -75,6 +75,7 @@ $(document).ready(function ()
                 {data: 'status'},
                 {data: 'edit'},
             ],
+            columnDefs: [{ width: 300, targets: 1 }],
             dom: 'Blfrtip',
             lengthMenu: [
                 [10, 20, 50, 100, 500, -1], [10, 20, 50, 100, 500, 'Todos']

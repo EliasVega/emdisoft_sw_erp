@@ -150,48 +150,22 @@ class ResolutionController extends Controller
      */
     public function update(UpdateResolutionRequest $request, Resolution $resolution)
     {
-        $store = false;
+        $resolution->company_id = current_user()->company_id;
+        $resolution->document_type_id = $request->document_type_id;
+        $resolution->consecutive = $request->consecutive;
+        $resolution->prefix = $request->prefix;
+        $resolution->resolution = $request->resolution;
+        $resolution->resolution_date = $request->resolution_date;
+        $resolution->technical_key = $request->technical_key;
+        $resolution->start_number = $request->start_number;
+        $resolution->end_number = $request->end_number;
+        $resolution->start_date = $request->start_date;
+        $resolution->end_date = $request->end_date;
+        $resolution->status = $request->status;
+        $resolution->description = $request->description;
+        $resolution->update();
 
-        if (indicator()->dian == 'on') {
-            $data = resolutionData($request);
-
-            $company = Company::findOrFail(current_user()->company_id);
-            $environment = Environment::findOrFail(7);
-            $configuration = Configuration::where('company_id', $company->id)->first();
-            $urlResolution = $environment->protocol . $configuration->ip . $environment->url;
-
-            $requestResponse = sendResolution($company, $urlResolution, $data);
-            $store = $requestResponse['store'];
-            $service = $requestResponse['response'];
-            $errorMessages = $requestResponse['errorMessages'];
-        } else {
-            $store = true;
-        }
-        if ($store = true) {
-            $resolution->company_id = current_user()->company_id;
-            $resolution->document_type_id = $request->document_type_id;
-            $resolution->consecutive = $request->consecutive;
-            $resolution->prefix = $request->prefix;
-            $resolution->resolution = $request->resolution;
-            $resolution->resolution_date = $request->resolution_date;
-            $resolution->technical_key = $request->technical_key;
-            $resolution->start_number = $request->start_number;
-            $resolution->end_number = $request->end_number;
-            $resolution->start_date = $request->start_date;
-            $resolution->end_date = $request->end_date;
-            $resolution->status = 'active';
-            $resolution->description = $request->description;
-            $resolution->update();
-
-            Alert::success('Resolucion', $resolution->prefix . ': ' . $resolution->resolution . ' editada con éxito..');
-            return redirect('resolution');
-        } else {
-            return redirect()->route('numerations.index')->with(
-                'error_message',
-                'La Resolucion no fue editada con éxito. Error: ' . $errorMessages
-            );
-        }
-        Alert::success('Resolucion','Editada con exito.');
+        Alert::success('Resolucion', $resolution->prefix . ': ' . $resolution->resolution . ' editada con éxito..');
         return redirect('resolution');
     }
 
@@ -210,6 +184,34 @@ class ResolutionController extends Controller
             toast('Resolucion Eliminada con Exito.','success');
         }
         return redirect("resolution");
+    }
+
+    public function uploadResolution($id)
+    {
+        $store = false;
+
+        if (indicator()->dian == 'on') {
+            $request = Resolution::findOrFail($id);
+            $data = resolutionData($request);
+
+            $company = Company::findOrFail(current_user()->company_id);
+            $environment = Environment::findOrFail(7);
+            $configuration = Configuration::where('company_id', $company->id)->first();
+            $urlResolution = $environment->protocol . $configuration->ip . $environment->url;
+
+            $requestResponse = sendResolution($company, $urlResolution, $data);
+            $store = $requestResponse['store'];
+            $service = $requestResponse['response'];
+            $errorMessages = $requestResponse['errorMessages'];
+        } else {
+            $store = true;
+        }
+        if ($store = false) {
+            Alert::success('error_message', $errorMessages);
+        return redirect('resolution');
+        }
+        Alert::success('Resolucion','Actualizada con exito.');
+        return redirect('resolution');
     }
 
     public function downloadResolution(Request $request)
