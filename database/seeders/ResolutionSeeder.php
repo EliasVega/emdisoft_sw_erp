@@ -240,23 +240,6 @@ class ResolutionSeeder extends Seeder
                 'company_id' => 1,
                 'document_type_id' => 1
             ),
-            15 =>
-            array (
-                'id' => 16,
-                'prefix' => 'FVEC',
-                'resolution' => '18764050702643',
-                'resolution_date' => '2023-06-21',
-                'technical_key' => 'edd8c8665026708791fa048afda2adb7ec4fc9520b39522d885dfcf0a80b9939',
-                'start_number' => 1501,
-                'end_number' => 2000,
-                'consecutive' => 1501,
-                'start_date' => '2023-06-21',
-                'end_date' => '2023-12-21',
-                'status' => 'active',
-                'description' => 'Factura de venta',
-                'company_id' => 1,
-                'document_type_id' => 1
-            ),
         ));
     }
 }

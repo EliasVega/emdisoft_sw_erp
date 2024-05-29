@@ -29,7 +29,7 @@ if (! function_exists('InvoiceTestSetData')) {
 
         $tax_type_id = 1;
         $taxAmount = '0.00';
-        $taxRate = '19.00';
+        $taxRate = '0.00';
 
         $productname = '';
         $productcode = '';

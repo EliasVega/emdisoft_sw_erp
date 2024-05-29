@@ -143,24 +143,24 @@ class RestaurantOrderController extends Controller
 
             for ($i=0; $i < count($raw_material_id); $i++) {
 
-                $quantityPro = 0;
-                $idProd = 0;
+                $quantityPro = 0;//cantidad de productos para esta RM
+                $idProd = 0;//id del producto que trae esta RM
                 for ($x=0; $x < count($product_id); $x++) {
-                    if ($referency[$i] == $ref[$x]) {
-                        $quantityPro = $quantity[$x];
-                        $idProd = $product_id[$x];
+                    if ($referency[$i] == $ref[$x]) {// si las 2 referencias son iguales
+                        $quantityPro = $quantity[$x];//asiganando cantidad de productos
+                        $idProd = $product_id[$x];//asiganando el id del producto
                     }
                 }
 
-                $quantityProRm = $quantityPro * $quantityrm[$i];
+                $quantityProRm = $quantityPro * $quantityrm[$i];//cantidad de materia prima por cantidad de productos
 
                 if ($rawMaterials[0] != []) {//si aun no hay registro en el array $rawMaterials
                     $contsi = 0;//contador para saber si existe esa materia prima
                     foreach ($rawMaterials as $key => $rawMaterial) {//recorriendo el array $rawMaterials
-                        if ($rawMaterial[0] == $raw_material_id[$i]) {//si ya existe en el array esa materia prima
+                        if ($rawMaterial[0] == $raw_material_id[$i]) {//si ya existe id en el array esa materia prima
                             $rawMaterial[1] += $quantityProRm;//le suma la nueva cantidad
-                            $contsi++;//aumenta el contador para decir que este producto ya esta sumado
                             $rawMaterials[$key] = $rawMaterial;//actualiza el array $rawMaterials
+                            $contsi++;//aumenta el contador para decir que este producto ya esta sumado
                         }
                     }
                     if ($contsi == 0) {//si contador es igual a 0 quiere decir que no existia la materia prima
@@ -173,21 +173,25 @@ class RestaurantOrderController extends Controller
                     $contRM++;
 
                 }
-            }
-            //metodo que verifica si hay suficiente materias primas para esta comanda
-            for ($i=0; $i < count($rawMaterials); $i++) {
 
-                $rawMaterialId = $rawMaterials[$i][0];
-                $quantityRawmaterial = $rawMaterials[$i][1];
-                $nameRawmaterial = $rawMaterials[$i][2];
-                $rawMaterial = RawMaterial::findOrFail($rawMaterialId);
-                $stock = $rawMaterial->stock;
-                $product = Product::findOrFail($idProd);
-                $nameProduct = $product->name;
-                if ($quantityRawmaterial > $stock && $rawMaterial->type_product == 'product') {
-                    toast("$nameRawmaterial" . ' ' . 'no es suficiente para' . ' ' . "$nameProduct",'warning');
-                    //Alert::success('Error', "$nameProduct" . ' ' . 'no es suficiente para' . ' ' . "$nameMenu");
-                    return redirect()->back();
+                //metodo que verifica si hay suficiente materias primas para esta comanda
+                for ($i=0; $i < count($rawMaterials); $i++) {
+
+                    $rawMaterialId = $rawMaterials[$i][0];//obteniendo el id de la RM del array
+                    $quantityRawmaterial = $rawMaterials[$i][1];//obteniendo la cantidad de RM del array
+                    $nameRawmaterial = $rawMaterials[$i][2];//obteniendo el nombre de RM del array
+                    $rawMaterial = RawMaterial::findOrFail($rawMaterialId);//llamando la materia prima del id del array
+                    $stock = $rawMaterial->stock;//comparando el stock de la RM con la cantidad que se esta vendiendo
+
+
+                    $product = Product::findOrFail($idProd);
+                    $nameProduct = $product->name;
+                    if ($quantityRawmaterial > $stock && $rawMaterial->type_product == 'product') {
+                        toast("$nameRawmaterial" . ' ' . 'no es suficiente para' . ' ' . "$nameProduct",'warning');
+                        //Alert::success('Error', "$nameProduct" . ' ' . 'no es suficiente para' . ' ' . "$nameMenu");
+                        return redirect()->back();
+                    }
+
                 }
             }
 
@@ -279,10 +283,10 @@ class RestaurantOrderController extends Controller
                         $rawMaterialRestaurantOrder->save();
                         $cont++;
 
-
                         //metodo para editar o poener una materia prima a un producto CommandRawmaterial
                         $crm = 'no';
                         if (count($productRawmaterial) == 0) {
+                            /*
                             $commandRawmaterial = new CommandRawmaterial();
                             $commandRawmaterial->quantity = $quantityrm[$y];
                             $rawMaterialRestaurantOrder->total_quantity = $quantityActual;
@@ -291,7 +295,7 @@ class RestaurantOrderController extends Controller
                             $commandRawmaterial->restaurant_order_id = $restaurantOrder->id;
                             $commandRawmaterial->product_id = $product_id[$i];
                             $commandRawmaterial->raw_material_id = $raw_material_id[$y];
-                            $commandRawmaterial->save();
+                            $commandRawmaterial->save();*/
                         } else {
                             //recorrer array de las materias primas del producto
 
