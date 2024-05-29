@@ -43,13 +43,13 @@ class UsersTableSeeder extends Seeder
 
         User::create([
             'id' => 2,
-            'name' => 'USUARIO TESTING',
-            'number' => '99999999',
-            'address' => 'BUCARAMANGA',
-            'phone' => '3139999999',
-            'email' => 'testing@gmail.com',
+            'name' => 'DIAZ CASTRO LUZ MARINA',
+            'number' => '28218042',
+            'address' => 'CR 9 11 41 LC 109 CC COMULTRASAN',
+            'phone' => '3132710552',
+            'email' => 'fmayis@hotmail.com',
             'email_verified_at' => NULL,
-            'password' => bcrypt('admin2024'),
+            'password' => bcrypt('28218042'),
             'two_factor_secret' => NULL,
             'two_factor_recovery_codes' => NULL,
             'two_factor_confirmed_at' => NULL,
@@ -62,8 +62,8 @@ class UsersTableSeeder extends Seeder
             'company_id' => 1,
             'branch_id' => 1,
             'identification_type_id' => 3,
-            'created_at' => '2024-05-16 21:07:43',
-            'updated_at' => '2024-05-16 21:07:43'
+            'created_at' => '2024-05-25 21:07:42',
+            'updated_at' => '2024-05-25 21:07:42'
 
         ])->assignRole(2);
     }

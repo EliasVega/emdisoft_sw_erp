@@ -20,9 +20,9 @@ class SoftwareSeeder extends Seeder
             array (
                 'id' => 1,
                 'company_id' => 1,
-                'identifier' => null,
-                'pin' => null,
-                'test_set' => null,
+                'identifier' => '9fab368d-6132-4941-a6ee-73cb681e66f0',
+                'pin' => '98345',
+                'test_set' => '1ced058a-d57b-45f1-8294-beccfc422c3d',
                 'identifier_payroll' => null,
                 'pin_payroll' => null,
                 'payroll_test_set' => null,

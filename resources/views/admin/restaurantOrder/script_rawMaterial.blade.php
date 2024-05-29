@@ -48,7 +48,6 @@
 
             subcont = subtotalrm[contrm];
             rowRawMaterial(contrm, referency, idP, raw_material_id, material, quantityrm, consumer_price, subcont);
-
             contrm++;
             totalrms();
             $('#materials').append(rowrm);
@@ -83,13 +82,11 @@
                 if(raw_material_id !="" && quantityrm!="" && quantityrm>0  && consumer_price!="" && consumer_price>0){
                     subtotalrm[contrm]= parseFloat(quantityrm) * parseFloat(consumer_price);
                     totalrm = totalrm+subtotalrm[contrm];
-
+                    refCont[contrm] = [contrm, referency];
                     subcont = subtotalrm[contrm];
                     rowRawMaterial(contrm, referency, idP, raw_material_id, material, quantityrm, consumer_price, subcont);
-                    alert(contrm);
                     contrm++
-
-
+                    //alert(refCont);
                     totalrms();
                     $('#materials').append(rowrm);
                     clear();
@@ -199,7 +196,16 @@
         $("#rowrm" + index).remove();
     }
 
+    function deleteRawmaterials(index){
+        totalrm -= parseFloat(subtotalrm[index]);
+
+        $("#totalrm_html").html("$ " + totalrm.toFixed(2));
+        $("#totalrm").val(totalrm.toFixed(2));
+
+        $("#rowrm" + index).remove();
+    }
+
     function rowRawMaterial(contrm, referency, idP, raw_material_id, material, quantityrm, consumer_price, subcont) {
-        rowrm= '<tr class="selected" id="rowrm'+contrm+'"><td><button type="button" class="btn btn-danger btn-sm" onclick="deleterowrm('+contrm+');"><i class="fa fa-times"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrowrm('+contrm+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="referency[]" value="'+referency+'">'+referency+'</td><td><input type="hidden" name="idP[]" value="'+idP+'">'+idP+'</td> <td><input type="hidden" name="raw_material_id[]" value="'+raw_material_id+'">'+raw_material_id+'</td> <td><input type="hidden" name="material[]" value="'+material+'">'+material+'</td> <td><input type="hidden" name="quantityrm[]" value="'+quantityrm+'">'+quantityrm+'</td> <td><input type="hidden" name="consumer_price[]" value="'+consumer_price+'">'+consumer_price+'</td><td>$'+subcont+' </td></tr>';
+        rowrm= '<tr class="selected" id="rowrm'+contrm+'"><td><button type="button" class="btn btn-danger btn-sm" onclick="deleterowrm('+contrm+');"><i class="fa fa-times"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrowrm('+contrm+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="referency[]" value="'+contrm+'">'+contrm+'</td><td><input type="hidden" name="referency[]" value="'+referency+'">'+referency+'</td><td><input type="hidden" name="idP[]" value="'+idP+'">'+idP+'</td> <td><input type="hidden" name="raw_material_id[]" value="'+raw_material_id+'">'+raw_material_id+'</td> <td><input type="hidden" name="material[]" value="'+material+'">'+material+'</td> <td><input type="hidden" name="quantityrm[]" value="'+quantityrm+'">'+quantityrm+'</td> <td><input type="hidden" name="consumer_price[]" value="'+consumer_price+'">'+consumer_price+'</td><td>$'+subcont+' </td></tr>';
     }
 </script>

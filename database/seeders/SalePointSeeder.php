@@ -18,8 +18,8 @@ class SalePointSeeder extends Seeder
                 'branch_id' => 1,
 
                 'plate_number'=> 'CVBN2132648',
-                'location' => 'CL 18 19 27',
-                'cash_type' => 'PRINCIPAL'
+                'location' => 'Carrera 21 # 99-27 Fontana',
+                'cash_type' => 'Principal'
             ]
         ];
 

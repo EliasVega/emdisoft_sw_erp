@@ -65,6 +65,7 @@
                 <thead>
                     <tr class="bg-info">
                         <th>Eliminar</th>
+                        <th>row</th>
                         <th>Ref</th>
                         <th>id</th>
                         <th>Menu</th>
@@ -76,18 +77,18 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <th colspan="7" class="rightfoot">TOTAL:</th>
+                        <th colspan="8" class="rightfoot">TOTAL:</th>
                         <td class="rightfoot"><strong id="total_html">$ 0.00</strong>
                             <input type="hidden" name="total" id="total"></td>
                     </tr>
                     <tr>
-                        <th colspan="7" class="rightfoot">IMPUESTO:</th>
+                        <th colspan="8" class="rightfoot">IMPUESTO:</th>
                         <td class="rightfoot"><strong id="total_tax_html">$ 0.00</strong>
                             <input type="hidden" name="total_tax" id="total_tax">
                         </td>
                     </tr>
                     <tr>
-                        <th colspan="7" class="rightfoot">TOTAL PAGAR:</th>
+                        <th colspan="8" class="rightfoot">TOTAL PAGAR:</th>
                         <td class="rightfoot"><strong id="total_pay_html">$ 0.00</strong>
                             <input type="hidden" name="total_pay" id="total_pay"></td>
                     </tr>

@@ -15,38 +15,34 @@ class CompaniesTableSeeder extends Seeder
      */
     public function run()
     {
-
-
         DB::table('companies')->delete();
 
         DB::table('companies')->insert(array (
             0 =>
             array (
                 'id' => 1,
-                'name' => 'EMDISOFT S.A.S.',
-                'nit' => '901363767',
-                'dv' => '6',
-                'address' => 'CR 21 99 27 BRR FONTANA',
-                'phone' => '3168886468',
-                'api_token' => '31bec9289d9271c7b65064e32d0af706f65f4ba99eea11aeefdb0e3a243c8c86',
-                'email' => 'emdisoft@gmail.com',
-                'emailfe' => 'emdisoft@gmail.com',
-                'merchant_registration' => '05-451997-16',
+                'name' => 'DIAZ CASTRO LUZ MARINA',
+                'nit' => '28218042',
+                'dv' => '9',
+                'address' => 'CR 9 11 41 LC 109 CC COMULTRASAN',
+                'phone' => '3132710552',
+                'api_token' => '9bac5fee2f223577c10fb772ec9c9ba45fec107d34eb456fea19ba0abe8d8da7',
+                'email' => 'fmayis@hotmail.com',
+                'emailfe' => 'fmayis@hotmail.com',
+                'merchant_registration' => '000000-00',
                 'imageName' => 'noimage.jpg',
                 'logo' => '/storage/images/logos/noimage.jpg',
                 'pos_invoice' => 'POS',
                 'pos_purchase' => 'POS',
                 'department_id' => 21,
-                'municipality_id' => 846,
-                'identification_type_id' => 6,
-                'liability_id' => 14,
-                'organization_id' => 1,
-                'regime_id' => 1,
-                'created_at' => '2024-01-12 21:07:42',
-                'updated_at' => '2024-01-12 21:07:42',
+                'municipality_id' => 893,
+                'identification_type_id' => 3,
+                'liability_id' => 117,
+                'organization_id' => 2,
+                'regime_id' => 2,
+                'created_at' => '2024-05-25 21:07:42',
+                'updated_at' => '2024-05-25 21:07:42',
             ),
         ));
-
-
     }
 }
