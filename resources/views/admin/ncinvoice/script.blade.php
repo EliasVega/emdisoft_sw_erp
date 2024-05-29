@@ -44,6 +44,7 @@
     $("#addReverse").hide();
     $("#documentType").hide();
     $("#addResolution").hide();
+    $("#addTypeProduct").hide();
 
     /*
     supportDocument = $("#document_type_id").val();

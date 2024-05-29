@@ -14,6 +14,7 @@
     let  contrm=0;
     let  totalrm = 0;
     let subtotalrm = [];
+    let refCont = [];
     //let totalrm_tax = 0;
     //let tax_ratecont = [];
     //form Order
@@ -46,7 +47,7 @@
             totalrm = totalrm+subtotalrm[contrm];
 
             subcont = subtotalrm[contrm];
-            rowRawMaterial(contrm, referency, idP, raw_material_id, material, quantiryrm, consumer_price, subcont);
+            rowRawMaterial(contrm, referency, idP, raw_material_id, material, quantityrm, consumer_price, subcont);
 
             contrm++;
             totalrms();
@@ -84,8 +85,11 @@
                     totalrm = totalrm+subtotalrm[contrm];
 
                     subcont = subtotalrm[contrm];
-                    rowRawMaterial(contrm, referency, idP, raw_material_id, material, quantiryrm, consumer_price, subcont);
+                    rowRawMaterial(contrm, referency, idP, raw_material_id, material, quantityrm, consumer_price, subcont);
+                    alert(contrm);
                     contrm++
+
+
                     totalrms();
                     $('#materials').append(rowrm);
                     clear();
@@ -122,7 +126,7 @@
             subtotalrm[contrm]= parseFloat(quantityrm) * parseFloat(consumer_price);
             totalrm = totalrm + subtotalrm[contrm];
             subcont = subtotalrm[contrm];
-            rowRawMaterial(contrm, referency, idP, raw_material_id, material, quantiryrm, consumer_price, subcont);
+            rowRawMaterial(contrm, referency, idP, raw_material_id, material, quantityrm, consumer_price, subcont);
             contrm++;
             deleterowrm(conteditrm);
             totalrms();
@@ -195,7 +199,7 @@
         $("#rowrm" + index).remove();
     }
 
-    function rowRawMaterial(contrm, referency, idP, raw_material_id, material, quantiryrm, consumer_price, subcont) {
+    function rowRawMaterial(contrm, referency, idP, raw_material_id, material, quantityrm, consumer_price, subcont) {
         rowrm= '<tr class="selected" id="rowrm'+contrm+'"><td><button type="button" class="btn btn-danger btn-sm" onclick="deleterowrm('+contrm+');"><i class="fa fa-times"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrowrm('+contrm+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="referency[]" value="'+referency+'">'+referency+'</td><td><input type="hidden" name="idP[]" value="'+idP+'">'+idP+'</td> <td><input type="hidden" name="raw_material_id[]" value="'+raw_material_id+'">'+raw_material_id+'</td> <td><input type="hidden" name="material[]" value="'+material+'">'+material+'</td> <td><input type="hidden" name="quantityrm[]" value="'+quantityrm+'">'+quantityrm+'</td> <td><input type="hidden" name="consumer_price[]" value="'+consumer_price+'">'+consumer_price+'</td><td>$'+subcont+' </td></tr>';
     }
 </script>

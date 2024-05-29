@@ -19,7 +19,7 @@ class SalePointSeeder extends Seeder
 
                 'plate_number'=> 'CVBN2132648',
                 'location' => 'CL 18 19 27',
-                'cash_type' => 'Principal'
+                'cash_type' => 'PRINCIPAL'
             ]
         ];
 

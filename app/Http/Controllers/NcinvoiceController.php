@@ -198,12 +198,12 @@ class NcinvoiceController extends Controller
                         if ($product->type_product == 'product') {
                             //devolviendo productos al inventario
                             if (indicator()->inventory == 'on') {
-                                $product->stock -= $quantity[$i];
+                                $product->stock += $quantity[$i];
                                 $product->update();
 
                                 //devolviendo productos a la sucursal
                                 $branchProduct = BranchProduct::where('branch_id', $invoice->branch_id)->where('product_id', $id)->first();
-                                $branchProduct->stock -= $quantity[$i];
+                                $branchProduct->stock += $quantity[$i];
                                 $branchProduct->update();
                             }
                             //Actualizando el  Kardex
@@ -254,12 +254,12 @@ class NcinvoiceController extends Controller
                             if ($product->type_product == 'product') {
                                 //devolviendo productos al inventario
                                 if (indicator()->inventory == 'on') {
-                                    $product->stock -= $invoiceProducts[$i]->quantity;
+                                    $product->stock += $invoiceProducts[$i]->quantity;
                                     $product->update();
 
                                     //devolviendo productos a la sucursal
                                     $branchProduct = BranchProduct::where('branch_id', $invoice->branch_id)->where('product_id', $id)->first();
-                                    $branchProduct->stock -= $invoiceProducts[$i]->quantity;
+                                    $branchProduct->stock += $invoiceProducts[$i]->quantity;
                                     $branchProduct->update();
                                 }
                                 //registrando el kardex

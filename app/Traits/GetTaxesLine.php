@@ -14,6 +14,7 @@ trait GetTaxesLine {
         $tax_rate = $request->tax_rate;
         $taxes[] = [];
         $contax = 0;
+
         for ($i=0; $i < count($product_id); $i++) {
             $id = $product_id[$i];
             $typeProduct = $request->typeProduct;
@@ -22,7 +23,6 @@ trait GetTaxesLine {
             } else {
                 $product = RawMaterial::findOrFail($id);
             }
-
             $companyTaxProduct = $product->category->company_tax_id;
             $companyTax = CompanyTax::findOrFail($companyTaxProduct);
             $taxAmount = ($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
