@@ -4,7 +4,7 @@
             <span><strong>Agregar Abono</strong></span>
         </div>
     </div>
-    <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12" id="fpay">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="fpay">
         <div class="form-group">
             <label for="payment_form_id">F/Pago</label>
             <select name="payment_form_id" class="form-control selectpicker" id="payment_form_id"
@@ -16,7 +16,7 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12" id="methodPay">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="methodPay">
         <div class="form-group">
             <label for="payment_method_id">Med/pago</label>
             <select name="payment_method_id" class="form-control selectpicker" id="payment_method_id"

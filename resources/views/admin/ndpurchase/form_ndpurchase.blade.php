@@ -27,6 +27,12 @@
                 class="form-control" placeholder="" readonly>
         </div>
     </div>
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="addTypeProduct">
+        <div class="form-group">
+            <label class="form-control-label" for="typeProduct">Typo Producto</label>
+            <input type="text" id="typeProduct" name="typeProduct" class="form-control" value="{{ $purchase->type_product }}">
+        </div>
+    </div>
     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
         <div class="form-group">
             <label for="">Proveedor</label>
@@ -140,7 +146,6 @@
                             <th>Eliminar</th>
                             <th>Editar</th>
                             <th>Id Imp</th>
-                            <th>ID</th>
                             <th>Producto</th>
                             <th>Cantidad</th>
                             <th>precio ($)</th>
@@ -150,19 +155,19 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th  colspan="8"><p align="right">TOTAL:</p></th>
+                            <th  colspan="7"><p align="right">TOTAL:</p></th>
                             <th class="thfoot"><p align="right"><span id="total_html">$ 0.00</span>
                                 <input type="hidden" name="total" id="total"> </p></th>
                         </tr>
 
                         <tr>
-                            <th colspan="8"><p align="right">IMPUESTO:</p></th>
+                            <th colspan="7"><p align="right">IMPUESTO:</p></th>
                             <th class="thfoot"><p align="right"><span id="total_tax_html">$ 0.00</span>
                                 <input type="hidden" name="total_tax" id="total_tax"></p></th>
                         </tr>
 
                         <tr>
-                            <th  colspan="8"><p align="right">TOTAL PAGAR:</p></th>
+                            <th  colspan="7"><p align="right">TOTAL PAGAR:</p></th>
                             <th class="thfoot"><p align="right"><span align="right" id="total_pay_html">$ 0.00</span>
                                 <input type="hidden" name="total_pay" id="total_pay"></p></th>
                         </tr>

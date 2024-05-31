@@ -49,7 +49,12 @@
                 disabled pattern="[0-9]{0,15}">
         </div>
     </div>
-
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="addTypeProduct">
+        <div class="form-group">
+            <label class="form-control-label" for="typeProduct">Typo Producto</label>
+            <input type="text" id="typeProduct" name="typeProduct" class="form-control" value="{{ $purchase->type_product }}">
+        </div>
+    </div>
     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="addstock">
         <div class="form-group">
             <label class="form-control-label" for="stock">Stock</label>

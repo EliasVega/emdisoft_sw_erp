@@ -30,12 +30,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
-
-use function PHPUnit\Framework\isEmpty;
-use function PHPUnit\Framework\isNull;
+use App\Traits\CommandRawMaterialCreate;
 
 class RestaurantOrderController extends Controller
 {
+    use CommandRawMaterialCreate;
     /**
      * Display a listing of the resource.
      */
@@ -133,7 +132,15 @@ class RestaurantOrderController extends Controller
         //$idp = $request->idP;//obteniendo el id a que pertenece la materia prima
         $referency = $request->referency;//obteniendo la referencia producto en la materia prima
 
-        $contRmRo = 0;//contador para asignar referencia en rawmaterialRestauantOrders
+        if ($service == 0) {//si el servicio es en mesa o sede
+            //metodo que verifica que la mesa esta libre
+            $restaurantOrdered = RestaurantOrder::where('restaurant_table_id', $table)->where('status', 'pending')->first();
+            if (isset($restaurantOrdered)) {
+                Alert::success('Error', 'Esta mesa ya tiene una comanda abierta');
+                return redirect('restaurantOrder');
+            }
+        }
+
         $rawMaterials[] = [];//array de las materias primas reales
         $contRM = 0;//contador para el array de $rawMaterials
 
@@ -197,14 +204,6 @@ class RestaurantOrderController extends Controller
 
         }
 
-        if ($service == 0) {//si el servicio es en mesa o sede
-            //metodo que verifica que la mesa esta libre
-            $restaurantOrdered = RestaurantOrder::where('restaurant_table_id', $table)->where('status', 'pending')->first();
-            if (isset($restaurantOrdered)) {
-                Alert::success('Error', 'Esta mesa ya tiene una comanda abierta');
-                return redirect('restaurantOrder');
-            }
-        }
         //registro en la tabla restaurant_order
         $restaurantOrder = new RestaurantOrder();
         $restaurantOrder->total = $request->total;
@@ -220,14 +219,15 @@ class RestaurantOrderController extends Controller
         }
         $restaurantOrder->cash_register_id = $cashRegister->id;
         $restaurantOrder->save();
+        $roId = $restaurantOrder->id;
 
+        //actualizar la caja
         if (indicator()->pos == 'on') {
-            //actualizar la caja
             $cashRegister->restaurant_order += $total_pay;
             $cashRegister->update();
         }
 
-        //si es un domicilio se crea la tabla Home_orders
+        //si es un domicilio se crea la tabla Home_orders (domicilio)
         if ($service == 1) {
             $date = Carbon::now();
             $homeOrder = new HomeOrder();
@@ -256,16 +256,20 @@ class RestaurantOrderController extends Controller
             $homeOrder->save();
         }
 
-        if ($raw_material_id) {//si existen materias primas en los productos
+        $contRmRo = 0;//contador para asignar referencia en rawmaterialRestauantOrders
+
+        //si existen materias primas en los productos para esta orden
+        if ($raw_material_id) {
             //tomamos los productos que se operan en esta comanda
             for ($i=0; $i < count($product_id); $i++) {
-
+                $pId = $product_id[$i];
                 $productRawmaterial = ProductRawmaterial::where('product_id', $product_id[$i])->get();
 
                 $cont = 0;//contador para subir el contRmRo si es mayor a 0
                 $crmstop = 0;//variable para parar el recurso de eliminar en la primera pasada
                 //tomamos las materias primas que vienen en esta comanda
                 for ($y=0; $y < count($raw_material_id); $y++) {
+                    $rmId = $raw_material_id[$y];
                     //cantidad de productos por cantidad de materia prima
                     $quantityActual = $quantity[$i] * $quantityrm[$y];
                     //ref hace referencia al producto
@@ -283,13 +287,23 @@ class RestaurantOrderController extends Controller
                         $rawMaterialRestaurantOrder->save();
                         $cont++;
 
+                        //1. caso- comanda a la cual se le quitan materias primas del menu
+                        //2. caso- comanda a la cual se le adicionan materias primas al menu
+                        //3. caso- comanda a la cual se le adieren mas cantidad de materia prima
+                        //4. caso- comanda a la cual se le quita cantidad de materia prima
+
+
                         //metodo para editar o poener una materia prima a un producto CommandRawmaterial
-                        $crm = 'no';
                         if (count($productRawmaterial) == 0) {
+                            //caso 2
+                            $quantityrm = $quantityrm[$y];
+                            $referencyrm = $contRmRo;
+                            $statusrm = 'add';
+                            $this->commandRawMaterialCreate($quantityrm, $referencyrm, $statusrm, $roId, $pId, $rmId);
+
                             /*
                             $commandRawmaterial = new CommandRawmaterial();
                             $commandRawmaterial->quantity = $quantityrm[$y];
-                            $rawMaterialRestaurantOrder->total_quantity = $quantityActual;
                             $commandRawmaterial->referency = $contRmRo;
                             $commandRawmaterial->status = 'add';
                             $commandRawmaterial->restaurant_order_id = $restaurantOrder->id;
@@ -297,17 +311,31 @@ class RestaurantOrderController extends Controller
                             $commandRawmaterial->raw_material_id = $raw_material_id[$y];
                             $commandRawmaterial->save();*/
                         } else {
+                            $comandRawMaterial= 'no'; //variable para quitar o poner cantidad si es diferente al asignado
                             //recorrer array de las materias primas del producto
-
                             for ($z=0; $z < count($productRawmaterial); $z++) {
-
+                                //obtenemos la cantidad de materia prima utilizada en este producto
                                 $quantityPr = $productRawmaterial[$z]->quantity;
                                 if ($productRawmaterial[$z]->raw_material_id == $raw_material_id[$y]) {
-                                    $crm = 'yes';
+                                    $comandRawMaterial = 'yes';//si son iguales las cantidades
+                                    //comparamos si la cantidad es igual en el producto que en la comanda
                                     if ($quantityPr != $quantityrm[$y]) {
+                                        //si es diferente restamos cantidad de comanda menos cantidad del producto
                                         $quantityNew = $quantityrm[$y] - $quantityPr;
-
+                                        //creamos la comandaRawMaterial
                                         //aumenta o disminuye una materia prima a un producto CommandRawmaterial
+
+                                        //caso 3
+                                        //caso 4
+                                        $quantityrm = $quantityNew;
+                                        $referencyrm = $contRmRo;
+                                        if ($quantityrm[$y] > $quantityPr) {
+                                            $statusrm = 'add';
+                                        } else {
+                                            $statusrm = 'decrease';
+                                        }
+                                        $this->commandRawMaterialCreate($quantityrm, $referencyrm, $statusrm, $roId, $pId, $rmId);
+                                        /*
                                         $commandRawmaterial = new CommandRawmaterial();
                                         $commandRawmaterial->quantity = $quantityNew;
                                         $commandRawmaterial->referency = $contRmRo;
@@ -319,9 +347,28 @@ class RestaurantOrderController extends Controller
                                         $commandRawmaterial->restaurant_order_id = $restaurantOrder->id;
                                         $commandRawmaterial->product_id = $product_id[$i];
                                         $commandRawmaterial->raw_material_id = $raw_material_id[$y];
-                                        $commandRawmaterial->save();
+                                        $commandRawmaterial->save();*/
                                     }
                                 }
+                                /*
+                                //caso 2
+
+                                $quantityrm = $quantityrm[$y];
+                                $referencyrm = $contRmRo;
+                                $statusrm = 'add';
+                                $this->commandRawMaterialCreate($quantityrm, $referencyrm, $statusrm, $roId, $pId, $rmId);
+
+
+                                $commandRawmaterial = new CommandRawmaterial();
+                                $commandRawmaterial->quantity = $quantityrm[$y];
+                                $commandRawmaterial->referency = $contRmRo;
+                                $commandRawmaterial->status = 'add';
+                                $commandRawmaterial->restaurant_order_id = $restaurantOrder->id;
+                                $commandRawmaterial->product_id = $product_id[$i];
+                                $commandRawmaterial->raw_material_id = $raw_material_id[$y];
+                                $commandRawmaterial->save();*/
+
+
                                 $crmInv = 'no';
                                 for ($a=0; $a < count($raw_material_id); $a++) {
                                     if ($ref[$i] == $referency[$a]) {
@@ -344,7 +391,7 @@ class RestaurantOrderController extends Controller
                             }
                             $crmstop++;//variable para parar el recurso de eliminar en la primera pasada
                             //adiciona una materia prima a un producto CommandRawmaterial
-                            if ($crm == 'no') {
+                            if ($comandRawMaterial == 'no') {
                                 $commandRawmaterial = new CommandRawmaterial();
                                 $commandRawmaterial->quantity = $quantityrm[$y];
                                 $commandRawmaterial->referency = $rawMaterialRestaurantOrder->referency;
@@ -365,6 +412,7 @@ class RestaurantOrderController extends Controller
 
             }
         }
+        dd($request->all());
         //se aumenta el valor de las comandas en caja
         $sale_box = CashRegister::where('user_id', '=', current_user()->id)->where('status', '=', 'open')->first();
         $sale_box->restaurant_order += $restaurantOrder->total_pay;
@@ -454,7 +502,7 @@ class RestaurantOrderController extends Controller
     public function update(UpdateRestaurantOrderRequest $request, RestaurantOrder $restaurantOrder)
     {
         //dd($request->all());
-        $cashRegister = cashRegisterComprobation();
+        $cashRegister = cashregisterModel();
         //llamado a variables
         $ed = $request->ed;//variable para saber si es un producto nuevo
 
@@ -637,7 +685,7 @@ class RestaurantOrderController extends Controller
                         }
 
                         //metodo para editar o poener una materia prima a un producto CommandRawmaterial
-                        $crm = 'no';//variable para si es addicion de materia prima nueva
+                        $comandRawMaterial= 'no';//variable para si es addicion de materia prima nueva
 
                         /* -- si el producto no tiene materias primas pero se agregaron -- */
                         //si este producto tiene materias primas entramos a crear un registro
@@ -679,7 +727,7 @@ class RestaurantOrderController extends Controller
                                 //comparamos si la materia prima de este producto es igual a la materia prima del request
                                 if ($productRawmaterial[$z]->raw_material_id == $raw_material_id[$y]) {
                                     //cambio la variable para no ejecutar como materia prima agregada
-                                    $crm = 'yes';//si existe materia prima
+                                    $comandRawMaterial= 'yes';//si existe materia prima
 
                                     //si la cantidad asiganada es diferente a la cantidad del request
                                     if ($quantityPr != $quantityrm[$y]) {
@@ -768,7 +816,7 @@ class RestaurantOrderController extends Controller
                             /* ---- PASO 4 ----- */
                             /* ----  ADICIONA UNA MP QUE NO EXISTIA EN ESE PRODUCTO ----- */
                             //adiciona una materia prima a un producto CommandRawmaterial
-                            if ($crm == 'no') {//si no existia MP
+                            if ($comandRawMaterial== 'no') {//si no existia MP
                                 //si hay registros en 0 lo editamos con nuevos valores
                                 if ($contcrm < count($commandRawmaterials)) {
                                     $commandRawmaterials[$contcrm]->quantity = $quantityrm[$y];
@@ -793,9 +841,6 @@ class RestaurantOrderController extends Controller
                                 }
                             }
                         }
-
-
-
                     }
                 }
                 if ($cont > 0) {

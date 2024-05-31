@@ -49,7 +49,7 @@
     $("#taxType").hide();
     $("#resolution").hide();
     $("#documentType").hide();
-    //$("#save").hide();
+    $("#save").hide();
     $("#posavtivity").hide();
     $("#barcodeId").hide();
     $("#addEid").hide();
@@ -63,6 +63,8 @@
     $("#formPayCard").hide();
     $("#formRetentions").hide();
     $("#addTypeProduct").hide();
+    $("#addPay").hide();
+    $("#addRetentions").hide();
 
     $(document).ready(function(){
         typeInvoice = $("#pos_active").val();
@@ -161,7 +163,7 @@
             rowsList(cont, cv, employee_id, product_id, product, quantity, price, tax_rate, subcont);
             cont++;
             totals();
-            //assess();
+            assess();
 
             $('#details').append(row);
             $("#totalPartial").val(total);
@@ -224,7 +226,7 @@
             rowsList(cont, cv, employee_id, product_id, product, quantity, price, tax_rate, subcont);
             cont++;
             totals();
-            //assess();
+            assess();
 
             $('#details').append(row);
             $("#totalPartial").val(total);
@@ -270,10 +272,14 @@
     }
     function assess(){
 
-        if(total>0){
-            $("#save").show();
+        if(total>=0){
+
+            $("#addPay").show();
+            $("#addRetentions").show();
+
         } else{
-            $("#save").hide();
+            $("#addPay").hide();
+            $("#addRetentions").hide();
         }
     }
     function deleterow(index){
@@ -292,7 +298,7 @@
 
         $("#row" + index).remove();
 
-        //assess();
+        assess();
     }
 
     function editrow(index) {
@@ -385,7 +391,7 @@
 
             deleterow(contedit);
             totals();
-            //assess();
+            assess();
             $('#details').append(row);
             $('#editModal').modal('hide');
             $("#totalPartial").val(total);

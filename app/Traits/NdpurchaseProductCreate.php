@@ -6,7 +6,7 @@ use App\Models\NdpurchaseProduct;
 trait NdpurchaseProductCreate {
     public function ndpurchaseProductCreate($request, $document){
         //variables del request
-        $product_id = $request->id;
+        $product_id = $request->product_id;
         $quantity = $request->quantity;
         $price = $request->price;
         $tax_rate = $request->tax_rate;

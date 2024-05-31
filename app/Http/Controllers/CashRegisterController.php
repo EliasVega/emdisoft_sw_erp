@@ -14,7 +14,9 @@ use App\Models\ExpenseProduct;
 use App\Models\Invoice;
 use App\Models\InvoiceProduct;
 use App\Models\Ncinvoice;
+use App\Models\NcinvoiceProduct;
 use App\Models\Ncpurchase;
+use App\Models\NcpurchaseProduct;
 use App\Models\Ndinvoice;
 use App\Models\Ndpurchase;
 use App\Models\NdpurchaseProduct;
@@ -489,33 +491,6 @@ class CashRegisterController extends Controller
         $produc = [];
         $cont = 0;
         $products = Product::all();
-        /*
-        foreach ($products as $key => $product ) {
-            $invoice_products = Invoice_product::from('invoice_products as ip')
-            ->join('invoices as inv', 'ip.invoice_id', 'inv.id')
-            ->join('products as pro', 'ip.product_id', 'pro.id')
-            ->select('pro.id', 'pro.name', 'ip.quantity', 'ip.ivasubt', 'ip.subtotal', 'ip.created_at')
-            ->whereBetween('ip.created_at', [$from, $to])
-            ->where('inv.user_id', $cashregister->user_id)
-            ->where('ip.product_id', $product->id)
-            ->sum('quantity');
-
-            $ivai = Invoice_product::from('invoice_products as ip')
-            ->join('invoices as inv', 'ip.invoice_id', 'inv.id')
-            ->join('products as pro', 'ip.product_id', 'pro.id')
-            ->select('pro.id', 'pro.name', 'ip.quantity', 'ip.ivasubt', 'ip.subtotal', 'ip.created_at')
-            ->whereBetween('ip.created_at', [$from, $to])
-            ->where('inv.user_id', $cashregister->user_id)
-            ->where('ip.product_id', $product->id)
-            ->sum('ivasubt');
-
-            if ($invoice_products) {
-                $producInvoice[$cont] = Product::findOrFail($product->id);
-                $producInvoice[$cont]->stock = $invoice_products;
-                $producInvoice[$cont]->price = $ivai;
-                $cont++;
-            }
-        }*/
 
         $productPurchases = [];
         $cont = 0;
@@ -657,6 +632,114 @@ class CashRegisterController extends Controller
                 $cont++;
             }
         }
+
+        $ncpurchaseProducts = [];
+        $cont = 0;
+        foreach ($products as $key => $product) {
+            $quantity = NcpurchaseProduct::from('ncpurchase_products as np')
+                ->join('ncpurchases as nc', 'np.ncpurchase_id', 'nc.id')
+                ->join('products as pro', 'np.product_id', 'pro.id')
+                ->whereBetween('np.created_at', [$from, $to])
+                ->where('nc.user_id', $cashRegister->user_id)
+                ->where('np.product_id', $product->id)
+                ->sum('quantity');
+
+            $tax_subtotal = NcpurchaseProduct::from('ncpurchase_products as np')
+                ->join('ncpurchases as nc', 'np.ncpurchase_id', 'nc.id')
+                ->join('products as pro', 'np.product_id', 'pro.id')
+                ->whereBetween('np.created_at', [$from, $to])
+                ->where('nc.user_id', $cashRegister->user_id)
+                ->where('np.product_id', $product->id)
+                ->sum('tax_subtotal');
+
+            $subtotal = NcpurchaseProduct::from('ncpurchase_products as np')
+                ->join('ncpurchases as nc', 'np.ncpurchase_id', 'nc.id')
+                ->join('products as pro', 'np.product_id', 'pro.id')
+                ->whereBetween('np.created_at', [$from, $to])
+                ->where('nc.user_id', $cashRegister->user_id)
+                ->where('np.product_id', $product->id)
+                ->sum('subtotal');
+
+            if ($quantity) {
+                $ncpurchaseProducts[$cont] = Product::findOrFail($product->id);
+                $ncpurchaseProducts[$cont]->quantity = $quantity;
+                $ncpurchaseProducts[$cont]->tax_subtotal = $tax_subtotal;
+                $ncpurchaseProducts[$cont]->subtotal = $subtotal;
+                $cont++;
+            }
+        }
+
+        $ncinvoiceProducts = [];
+        $cont = 0;
+        foreach ($products as $key => $product) {
+            $quantity = NcinvoiceProduct::from('ncinvoice_products as np')
+                ->join('ncinvoices as nc', 'np.ncinvoice_id', 'nc.id')
+                ->join('products as pro', 'np.product_id', 'pro.id')
+                ->whereBetween('np.created_at', [$from, $to])
+                ->where('nc.user_id', $cashRegister->user_id)
+                ->where('np.product_id', $product->id)
+                ->sum('quantity');
+
+            $tax_subtotal = NcinvoiceProduct::from('ncinvoice_products as np')
+                ->join('ncinvoices as nc', 'np.ncinvoice_id', 'nc.id')
+                ->join('products as pro', 'np.product_id', 'pro.id')
+                ->whereBetween('np.created_at', [$from, $to])
+                ->where('nc.user_id', $cashRegister->user_id)
+                ->where('np.product_id', $product->id)
+                ->sum('tax_subtotal');
+
+            $subtotal = NcinvoiceProduct::from('ncinvoice_products as np')
+                ->join('ncinvoices as nc', 'np.ncinvoice_id', 'nc.id')
+                ->join('products as pro', 'np.product_id', 'pro.id')
+                ->whereBetween('np.created_at', [$from, $to])
+                ->where('nc.user_id', $cashRegister->user_id)
+                ->where('np.product_id', $product->id)
+                ->sum('subtotal');
+
+            if ($quantity) {
+                $ncinvoiceProducts[$cont] = Product::findOrFail($product->id);
+                $ncinvoiceProducts[$cont]->quantity = $quantity;
+                $ncinvoiceProducts[$cont]->tax_subtotal = $tax_subtotal;
+                $ncinvoiceProducts[$cont]->subtotal = $subtotal;
+                $cont++;
+            }
+        }
+
+        $ndinvoiceProducts = [];
+        $cont = 0;
+        foreach ($products as $key => $product) {
+            $quantity = NcinvoiceProduct::from('ndinvoice_products as np')
+                ->join('ndinvoices as nd', 'np.ndinvoice_id', 'nd.id')
+                ->join('products as pro', 'np.product_id', 'pro.id')
+                ->whereBetween('np.created_at', [$from, $to])
+                ->where('nd.user_id', $cashRegister->user_id)
+                ->where('np.product_id', $product->id)
+                ->sum('quantity');
+
+            $tax_subtotal = NcinvoiceProduct::from('ndinvoice_products as np')
+                ->join('ndinvoices as nd', 'np.ndinvoice_id', 'nd.id')
+                ->join('products as pro', 'np.product_id', 'pro.id')
+                ->whereBetween('np.created_at', [$from, $to])
+                ->where('nd.user_id', $cashRegister->user_id)
+                ->where('np.product_id', $product->id)
+                ->sum('tax_subtotal');
+
+            $subtotal = NcinvoiceProduct::from('ndinvoice_products as np')
+                ->join('ndinvoices as nd', 'np.ndinvoice_id', 'nd.id')
+                ->join('products as pro', 'np.product_id', 'pro.id')
+                ->whereBetween('np.created_at', [$from, $to])
+                ->where('nd.user_id', $cashRegister->user_id)
+                ->where('np.product_id', $product->id)
+                ->sum('subtotal');
+
+            if ($quantity) {
+                $ncinvoiceProducts[$cont] = Product::findOrFail($product->id);
+                $ncinvoiceProducts[$cont]->quantity = $quantity;
+                $ncinvoiceProducts[$cont]->tax_subtotal = $tax_subtotal;
+                $ncinvoiceProducts[$cont]->subtotal = $subtotal;
+                $cont++;
+            }
+        }
         /*
         $sumtotal = Invoice_product::from('invoice_products as ip')
         ->join('invoices as inv', 'ip.invoice_id', 'inv.id')
@@ -756,6 +839,9 @@ class CashRegisterController extends Controller
             'invoiceProducts',
             'expenseProducts',
             'ndpurchaseProducts',
+            'ncpurchaseProducts',
+            'ncinvoiceProducts',
+            'ndinvoiceProducts',
 
             'purchases',
             'purchaseBalances',

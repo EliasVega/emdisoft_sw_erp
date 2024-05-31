@@ -33,7 +33,7 @@
     $("#payCard2").hide();
     $("#payUndefined").hide();
     $("#payAdvance").hide();
-    $("#payPyment").hide();
+    $("#payPayment").hide();
 
     $("#valuePay").hide();
     $("#advancePay").hide();
@@ -61,6 +61,7 @@
             $("#payCard1").show();
             $("#payCard2").show();
             $("#addPayPayment").hide();
+            $("#save").show();
         }else{
             $("#addPayPayment").show();
             $("#payUndefined").hide();
@@ -73,6 +74,8 @@
             $("#payment_method_id").val(1);
             $("#totalpay").val(0);
             $("#payingButton").hide();
+            $("#payPayment").show();
+            $("#save").show();
         }
         });
     });

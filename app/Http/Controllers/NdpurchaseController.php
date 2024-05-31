@@ -132,7 +132,7 @@ class NdpurchaseController extends Controller
         $quantity = $request->quantity;
         $price = $request->price;
         $total_pay = $request->total_pay;
-        $product_id = $request->id;
+        $product_id = $request->product_id;
         $discrepancy = $request->discrepancy_id;
         $retention = 0;
         //variables del request
@@ -237,11 +237,8 @@ class NdpurchaseController extends Controller
                             $productPurchases = PurchaseRawmaterial::where('purchase_id', $purchase->id)->get();
                         }
 
-                        for ($i=0; $i < count($productPurchases); $i++) {
-
-                            //foreach ($productPurchases as $productPurchase) {
-
-                            if ($purchase->type_product == 'product') {
+                        if ($purchase->type_product == 'product') {
+                            for ($i=0; $i < count($productPurchases); $i++) {
                                 $id = $productPurchases[$i]->product_id;
                                 //devolviendo productos al inventario
                                 $product = Product::findOrFail($id);
@@ -253,8 +250,12 @@ class NdpurchaseController extends Controller
                                 $branchProduct->update();
                                 $quantityLocal = $quantity[$i];
                                 $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
-                                $this->ndpurchaseProductCreate($request, $document);//crear ndpurchaseProduct
-                            } else {
+                            }
+                            $this->ndpurchaseProductCreate($request, $document);//crear ndpurchaseProduct
+                        } else {
+                            for ($i=0; $i < count($productPurchases); $i++) {
+
+
                                 $id = $productPurchases[$i]->raw_material_id;
                                 $product = RawMaterial::findOrFail($id);
                                 $branchProduct = BranchRawmaterial::where('branch_id', $purchase->branch_id)->where('raw_material_id', $id)->first();
@@ -265,8 +266,8 @@ class NdpurchaseController extends Controller
                                 $branchProduct->update();
                                 $quantityLocal = $quantity[$i];
                                 $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
-                                $this->ndpurchaseRawmaterials($request, $document);//crear ndpurchaseProduct
                             }
+                                $this->ndpurchaseRawmaterials($request, $document);//crear ndpurchaseProduct
                         }
                     }
                 break;

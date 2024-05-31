@@ -280,7 +280,7 @@
     }
 
     function clean() {
-        $("#product_id").val("");
+        $('#product_id').val(null).trigger('change');
         $("#barcode_product_id").val("");
         $("#product_barcode").val("");
         $("#code").val("");

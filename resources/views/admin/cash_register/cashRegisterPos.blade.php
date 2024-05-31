@@ -341,11 +341,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($ncinvoices as $ncinvoice)
+                            @foreach ($ncpurchases as $ncpurchase)
                             <tr>
-                                <td>{{ $ncinvoice->id }}</td>
-                                <td>{{ $ncinvoice->invoice->third->name }}</td>
-                                <td align="right">${{number_format($ncinvoice->total_pay)}}</td>
+                                <td>{{ $ncpurchase->id }}</td>
+                                <td>{{ $ncpurchase->purchase->third->name }}</td>
+                                <td align="right">${{number_format($ncpurchase->total_pay)}}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -370,10 +370,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($ndinvoices as $ndpurchase)
+                            @foreach ($ndpurchases as $ndpurchase)
                             <tr>
                                 <td>{{ $ndpurchase->id }}</td>
-                                <td>{{ $ndpurchase->invoice->third->name }}</td>
+                                <td>{{ $ndpurchase->purchase->third->name }}</td>
                                 <td align="right">${{number_format($ndpurchase->total_pay)}}</td>
                             </tr>
                             @endforeach
