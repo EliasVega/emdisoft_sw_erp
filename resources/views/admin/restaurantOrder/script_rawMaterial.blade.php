@@ -127,50 +127,8 @@
 
     }
 
-    function updaterowrm() {
-
-        // Buscar datos en la fila y asignar a campos del formulario:
-        // Primera columna (0) tiene ID, segunda (1) tiene nombre, tercera (2) capacidad
-        conteditrm = $("#contrmModal").val();
-        //id = $("#idModal").val();
-        raw_material_id = $("#raw_material_idModal").val();
-        product = $("#rawMaterialModal").val();
-        quantityrm = $("#quantityrmModal").val();
-        consumer_price = $("#consumer_priceModal").val();
-        idP = $("#idpModal").val();
-        referency = cont -1;
-        ed = 1;
-        //$('#priceModal').prop("readonly", false)
-
-        if(raw_material_id !="" && quantityrm!="" && quantityrm>0 && consumer_price!="" && consumer_price>0){
-            subtotalrm[contrm]= parseFloat(quantityrm) * parseFloat(consumer_price);
-            totalrm = totalrm + subtotalrm[contrm];
-            subcont = subtotalrm[contrm];
-            rowRawMaterial(contrm, referency, idP, raw_material_id, material, quantityrm, consumer_price, subcont);
-            contrm++;
-            deleterowrm(conteditrm);
-            totalrms();
-            clear();
-            $('#materials').append(rowrm);
-            $('#modalRawMaterial').modal('hide');
-            //$('#product_id option:selected').remove();
-            clear();
-        }else{
-            // alert("Rellene todos los campos del detalle de la compra, revise los datos del producto");
-            Swal.fire({
-                type: 'error',
-                //title: 'Oops...',
-                text: 'Rellene todos los campos del detalle de la compra',
-            })
-        }
-    }
-
     jQuery(document).on("click", "#editrowrm", function () {
         editrowrm();
-    });
-
-    jQuery(document).on("click", "#updateRawMaterial", function () {
-        updaterowrm();
     });
 
     function editrowrm(index) {
@@ -198,6 +156,53 @@
             $('#modalRawMaterial').modal('show');
         }
     }
+
+    jQuery(document).on("click", "#updateRawMaterial", function () {
+        updaterowrm();
+    });
+
+    function updaterowrm() {
+
+        // Buscar datos en la fila y asignar a campos del formulario:
+        // Primera columna (0) tiene ID, segunda (1) tiene nombre, tercera (2) capacidad
+        conteditrm = $("#contrmModal").val();
+        //id = $("#idModal").val();
+        raw_material_id = $("#raw_material_idModal").val();
+        material = $("#rawMaterialModal").val();
+        quantityrm = $("#quantityrmModal").val();
+        consumer_price = $("#consumer_priceModal").val();
+        idP = $("#idpModal").val();
+        referency = cont -1;
+        ed = 1;
+        //$('#priceModal').prop("readonly", false)
+        if(raw_material_id !="" && quantityrm!="" && quantityrm>0 && consumer_price!="" && consumer_price>0){
+            subtotalrm[contrm]= parseFloat(quantityrm) * parseFloat(consumer_price);
+            totalrm = totalrm + subtotalrm[contrm];
+            subcont = subtotalrm[contrm];
+            rowRawMaterial(contrm, referency, idP, raw_material_id, material, quantityrm, consumer_price, subcont);
+            contrm++;
+            deleterowrm(conteditrm);
+            totalrms();
+            clear();
+            $('#materials').append(rowrm);
+            $('#modalRawMaterial').modal('hide');
+            //$('#product_id option:selected').remove();
+            clear();
+        }else{
+            // alert("Rellene todos los campos del detalle de la compra, revise los datos del producto");
+            Swal.fire({
+                type: 'error',
+                //title: 'Oops...',
+                text: 'Rellene todos los campos del detalle de la compra',
+            })
+        }
+    }
+
+
+
+
+
+
 
     function totalrms(){
         $("#totalrm_html").html("$ " + totalrm.toFixed(2));
@@ -229,6 +234,6 @@
     }
 
     function rowRawMaterial(contrm, referency, idP, raw_material_id, material, quantityrm, consumer_price, subcont) {
-        rowrm= '<tr class="selected" id="rowrm'+contrm+'"><td><button type="button" class="btn btn-danger btn-sm" onclick="deleterowrm('+contrm+');"><i class="fa fa-times"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrowrm('+contrm+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="referency[]" value="'+contrm+'">'+contrm+'</td><td><input type="hidden" name="referency[]" value="'+referency+'">'+referency+'</td><td><input type="hidden" name="idP[]" value="'+idP+'">'+idP+'</td> <td><input type="hidden" name="raw_material_id[]" value="'+raw_material_id+'">'+raw_material_id+'</td> <td><input type="hidden" name="material[]" value="'+material+'">'+material+'</td> <td><input type="hidden" name="quantityrm[]" value="'+quantityrm+'">'+quantityrm+'</td> <td><input type="hidden" name="consumer_price[]" value="'+consumer_price+'">'+consumer_price+'</td><td>$'+subcont+' </td></tr>';
+        rowrm= '<tr class="selected" id="rowrm'+contrm+'"><td><button type="button" class="btn btn-danger btn-sm" onclick="deleterowrm('+contrm+');"><i class="fa fa-times"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrowrm('+contrm+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="referency[]" value="'+referency+'">'+referency+'</td><td><input type="hidden" name="idP[]" value="'+idP+'">'+idP+'</td> <td><input type="hidden" name="raw_material_id[]" value="'+raw_material_id+'">'+raw_material_id+'</td> <td><input type="hidden" name="material[]" value="'+material+'">'+material+'</td> <td><input type="hidden" name="quantityrm[]" value="'+quantityrm+'">'+quantityrm+'</td> <td><input type="hidden" name="consumer_price[]" value="'+consumer_price+'">'+consumer_price+'</td><td>$'+subcont+' </td></tr>';
     }
 </script>

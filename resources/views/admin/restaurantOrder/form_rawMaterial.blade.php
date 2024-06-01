@@ -64,7 +64,6 @@
                     <tr>
                         <th>Eliminar</th>
                         <th>Editar</th>
-                        <th>row</th>
                         <th>Ref</th>
                         <th>idP</th>
                         <th>Id</th>
@@ -76,7 +75,7 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <th colspan="9">
+                        <th colspan="8">
                             <p align="right">TOTAL:</p>
                         </th>
                         <th>
