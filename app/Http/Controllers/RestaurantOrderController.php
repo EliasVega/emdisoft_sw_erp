@@ -160,7 +160,6 @@ class RestaurantOrderController extends Controller
                 }
 
                 $quantityProRm = $quantityPro * $quantityrm[$i];//cantidad de materia prima por cantidad de productos
-
                 if ($rawMaterials[0] != []) {//si aun no hay registro en el array $rawMaterials
                     $contsi = 0;//contador para saber si existe esa materia prima
                     foreach ($rawMaterials as $key => $rawMaterial) {//recorriendo el array $rawMaterials
@@ -180,16 +179,15 @@ class RestaurantOrderController extends Controller
                     $contRM++;
 
                 }
-
                 //metodo que verifica si hay suficiente materias primas para esta comanda
-                for ($i=0; $i < count($rawMaterials); $i++) {
+                for ($y=0; $y < count($rawMaterials); $y++) {
 
-                    $rawMaterialId = $rawMaterials[$i][0];//obteniendo el id de la RM del array
-                    $quantityRawmaterial = $rawMaterials[$i][1];//obteniendo la cantidad de RM del array
-                    $nameRawmaterial = $rawMaterials[$i][2];//obteniendo el nombre de RM del array
+                    $rawMaterialId = $rawMaterials[$y][0];//obteniendo el id de la RM del array
+                    $quantityRawmaterial = $rawMaterials[$y][1];//obteniendo la cantidad de RM del array
+                    //$nameRawmaterial = $rawMaterials[$y][2];//obteniendo el nombre de RM del array
                     $rawMaterial = RawMaterial::findOrFail($rawMaterialId);//llamando la materia prima del id del array
+                    $nameRawmaterial = $rawMaterial->name;//obteniendo el nombre de RM del array
                     $stock = $rawMaterial->stock;//comparando el stock de la RM con la cantidad que se esta vendiendo
-
 
                     $product = Product::findOrFail($idProd);
                     $nameProduct = $product->name;
@@ -201,7 +199,6 @@ class RestaurantOrderController extends Controller
 
                 }
             }
-
         }
 
         //registro en la tabla restaurant_order

@@ -116,7 +116,7 @@ class ProductsSeeder extends Seeder
             5 =>
             array (
                 'id' => 6,
-                'code' => '202407',
+                'code' => '202406',
                 'name' => 'SOBREBARRIGA 500 Grs',
                 'price' => '27000.00',
                 'sale_price' => '39000.00',
@@ -135,7 +135,7 @@ class ProductsSeeder extends Seeder
             6 =>
             array (
                 'id' => 7,
-                'code' => '202406',
+                'code' => '202407',
                 'name' => 'PECHUGA ASADA',
                 'price' => '15000.00',
                 'sale_price' => '21000.00',
