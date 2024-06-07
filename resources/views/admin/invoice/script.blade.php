@@ -43,7 +43,6 @@
     var total_pay = 0;
     var total_desc = 0;
     var uvt = '';
-    //var total_invoice = 0;
     //form invoice
     $("#idPro").hide();
     $("#percent").hide();
@@ -269,8 +268,6 @@
 
         $("#balance").val(total_pay.toFixed(2));
         $("#pendient").val(total_pay.toFixed(2));
-        //$("#total_invoice").val(total.toFixed(2));
-        //$("#tax_iva").val(tax_iva);
     }
     function assess(){
 
