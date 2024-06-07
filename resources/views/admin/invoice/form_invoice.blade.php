@@ -75,7 +75,7 @@
                             data-placement="top" title="Add"><i class="fas fa-check"></i></button>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="addBags">
                     <div class="form-group">
                         <label class="form-control-label" for="bags">Bolsas</label>
                         <input type="number" id="bags" name="bags" value="0" class="form-control"

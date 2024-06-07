@@ -15,6 +15,8 @@ class BranchProductsTableSeeder extends Seeder
      */
     public function run()
     {
+
+
         DB::table('branch_products')->delete();
 
         DB::table('branch_products')->insert(array (
@@ -24,8 +26,8 @@ class BranchProductsTableSeeder extends Seeder
                 'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 1,
-                'created_at' => '2024-05-20 12:00:00',
-                'updated_at' => '2024-05-20 12:00:00'
+                'created_at' => '2024-06-12 21:07:43',
+                'updated_at' => '2024-06-12 21:07:43',
             ),
             1 =>
             array (
@@ -33,8 +35,8 @@ class BranchProductsTableSeeder extends Seeder
                 'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 2,
-                'created_at' => '2024-05-20 12:00:00',
-                'updated_at' => '2024-05-20 12:00:00'
+                'created_at' => '2024-06-12 21:07:43',
+                'updated_at' => '2024-06-12 21:07:43',
             ),
             2 =>
             array (
@@ -42,8 +44,8 @@ class BranchProductsTableSeeder extends Seeder
                 'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 3,
-                'created_at' => '2024-05-20 12:00:00',
-                'updated_at' => '2024-05-20 12:00:00'
+                'created_at' => '2024-06-12 21:07:43',
+                'updated_at' => '2024-06-12 21:07:43',
             ),
             3 =>
             array (
@@ -51,8 +53,8 @@ class BranchProductsTableSeeder extends Seeder
                 'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 4,
-                'created_at' => '2024-05-20 12:00:00',
-                'updated_at' => '2024-05-20 12:00:00'
+                'created_at' => '2024-06-12 21:07:43',
+                'updated_at' => '2024-06-12 21:07:43',
             ),
             4 =>
             array (
@@ -60,8 +62,8 @@ class BranchProductsTableSeeder extends Seeder
                 'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 5,
-                'created_at' => '2024-05-20 12:00:00',
-                'updated_at' => '2024-05-20 12:00:00'
+                'created_at' => '2024-06-12 21:07:43',
+                'updated_at' => '2024-06-12 21:07:43',
             ),
             5 =>
             array (
@@ -69,8 +71,8 @@ class BranchProductsTableSeeder extends Seeder
                 'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 6,
-                'created_at' => '2024-05-20 12:00:00',
-                'updated_at' => '2024-05-20 12:00:00'
+                'created_at' => '2024-06-12 21:07:43',
+                'updated_at' => '2024-06-12 21:07:43',
             ),
             6 =>
             array (
@@ -78,8 +80,8 @@ class BranchProductsTableSeeder extends Seeder
                 'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 7,
-                'created_at' => '2024-05-20 12:00:00',
-                'updated_at' => '2024-05-20 12:00:00'
+                'created_at' => '2024-06-12 21:07:43',
+                'updated_at' => '2024-06-12 21:07:43',
             ),
             7 =>
             array (
@@ -87,28 +89,11 @@ class BranchProductsTableSeeder extends Seeder
                 'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 8,
-                'created_at' => '2024-05-20 12:00:00',
-                'updated_at' => '2024-05-20 12:00:00'
+                'created_at' => '2024-06-12 21:07:43',
+                'updated_at' => '2024-06-12 21:07:43',
             ),
-            8 =>
-            array (
-                'id' => 9,
-                'stock' => '0.00',
-                'branch_id' => 1,
-                'product_id' => 9,
-                'created_at' => '2024-05-20 12:00:00',
-                'updated_at' => '2024-05-20 12:00:00'
-            ),
-            9 =>
-            array (
-                'id' => 10,
-                'stock' => '0.00',
-                'branch_id' => 1,
-                'product_id' => 10,
-                'created_at' => '2024-05-20 12:00:00',
-                'updated_at' => '2024-05-20 12:00:00'
-            ),
-
         ));
+
+
     }
 }
