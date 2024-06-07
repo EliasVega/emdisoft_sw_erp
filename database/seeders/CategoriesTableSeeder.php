@@ -36,7 +36,7 @@ class CategoriesTableSeeder extends Seeder
                 'description' => 'iva 19%',
                 'utility_rate' => '0.00',
                 'status' => 'active',
-                'company_tax_id' => 1,
+                'company_tax_id' => 2,
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43',
             ),

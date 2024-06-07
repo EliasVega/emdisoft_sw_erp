@@ -129,7 +129,6 @@ class ProductsSeeder extends Seeder
             6 =>
             array (
                 'id' => 7,
-                'id' => 6,
                 'code' => 'SCA',
                 'name' => 'SCA - SERVICIO CONTABLE ANUAL',
                 'price' => '0.00',
@@ -148,7 +147,6 @@ class ProductsSeeder extends Seeder
             7 =>
             array (
                 'id' => 8,
-                'id' => 6,
                 'code' => 'SCC',
                 'name' => 'SERVICIO CONTABLE DE UN CUATRIMESTRE',
                 'price' => '0.00',
