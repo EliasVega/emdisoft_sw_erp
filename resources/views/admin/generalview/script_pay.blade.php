@@ -423,7 +423,7 @@
         }
         function assesspayment(){
 
-            if(totalpay>0){
+            if(totalpay>=0){
 
             $("#save").show();
 
