@@ -31,7 +31,7 @@ class CategoriesTableSeeder extends Seeder
             ),
             0 =>
             array (
-                'id' => 1,
+                'id' => 2,
                 'name' => 'GENERAL 19%',
                 'description' => 'iva 19%',
                 'utility_rate' => '0.00',
