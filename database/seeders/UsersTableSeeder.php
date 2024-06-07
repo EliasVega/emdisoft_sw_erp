@@ -43,13 +43,13 @@ class UsersTableSeeder extends Seeder
 
         User::create([
             'id' => 2,
-            'name' => 'PEDRAZA GOMEZ',
-            'number' => '900812421',
-            'address' => 'CL 6 NORTE 4 200 MZ J CA 6 CONJ JUNIN I I',
-            'phone' => '3107971721',
-            'email' => 'franciscopedrazaa@gmail.com',
+            'name' => 'USUARIO TESTING',
+            'number' => '99999999',
+            'address' => 'BUCARAMANGA',
+            'phone' => '3139999999',
+            'email' => 'testing@gmail.com',
             'email_verified_at' => NULL,
-            'password' => bcrypt('900812421'),
+            'password' => bcrypt('admin2024'),
             'two_factor_secret' => NULL,
             'two_factor_recovery_codes' => NULL,
             'two_factor_confirmed_at' => NULL,
@@ -61,7 +61,7 @@ class UsersTableSeeder extends Seeder
             'status' => 'active',
             'company_id' => 1,
             'branch_id' => 1,
-            'identification_type_id' => 6,
+            'identification_type_id' => 3,
             'created_at' => '2024-05-16 21:07:43',
             'updated_at' => '2024-05-16 21:07:43'
 
