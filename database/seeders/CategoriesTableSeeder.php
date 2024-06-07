@@ -29,7 +29,7 @@ class CategoriesTableSeeder extends Seeder
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43',
             ),
-            0 =>
+            1 =>
             array (
                 'id' => 2,
                 'name' => 'GENERAL 19%',
