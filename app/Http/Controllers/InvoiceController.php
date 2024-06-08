@@ -390,13 +390,12 @@ class InvoiceController extends Controller
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];
-            if ($store == false) {
-                $responseApi = implode(",", $service);
-            }
 
             $apiResponse = new ApiResponse();
             $apiResponse->document = $resolutions->prefix . $resolutions->consecutive;
-            $apiResponse->response_api = $responseApi;
+            if ($store == false) {
+                $apiResponse->response_api = $requestResponse['response'];
+            }
             $apiResponse->save();
         } else {
             $store = true;
