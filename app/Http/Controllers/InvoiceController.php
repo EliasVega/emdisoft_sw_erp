@@ -574,7 +574,7 @@ class InvoiceController extends Controller
                 $invoiceResponse->description = $description;
                 $invoiceResponse->status_message = $statusMessage;
                 $invoiceResponse->cufe = $service['cufe'];
-                $invoiceResponse->response_api = $requestResponse['response'];
+                $invoiceResponse->response_api = $responseApi;
                 $invoiceResponse->save();
 
                 $environmentPdf = Environment::where('code', 'PDF')->first();
