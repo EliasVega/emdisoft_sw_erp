@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\ApiResponse;
-use App\Http\Requests\StoreApiResponseRequest;
-use App\Http\Requests\UpdateApiResponseRequest;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -25,46 +23,6 @@ class ApiResponseController extends Controller
         }
 
         return view('admin.apiResponse.index');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreApiResponseRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(ApiResponse $apiResponse)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ApiResponse $apiResponse)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateApiResponseRequest $request, ApiResponse $apiResponse)
-    {
-        //
     }
 
     /**

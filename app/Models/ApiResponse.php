@@ -15,6 +15,10 @@ class ApiResponse extends Model
 
     public $timestamps = true;
 
+    protected $responceApi = [
+        'response_api' => 'array'
+    ];
+
     protected $fillable = [
         'document',
         'response_api'
