@@ -394,7 +394,7 @@ class InvoiceController extends Controller
             $apiResponse = new ApiResponse();
             $apiResponse->document = $resolutions->prefix . $resolutions->consecutive;
             if ($store == false) {
-                $apiResponse->response_api = $apiResponse;
+                $apiResponse->response_api = $responseApi;
             }
             $apiResponse->save();
         } else {
