@@ -393,9 +393,8 @@ class InvoiceController extends Controller
             $responseApi = json_encode($service);
             $apiResponse = new ApiResponse();
             $apiResponse->document = $resolutions->prefix . $resolutions->consecutive;
-            if ($store == false) {
-                $apiResponse->response_api = $responseApi;
-            }
+            $apiResponse->response_api = $responseApi;
+
             $apiResponse->save();
         } else {
             $store = true;
@@ -574,7 +573,7 @@ class InvoiceController extends Controller
                 $invoiceResponse->description = $description;
                 $invoiceResponse->status_message = $statusMessage;
                 $invoiceResponse->cufe = $service['cufe'];
-                $invoiceResponse->response_api = $responseApi;
+                $invoiceResponse->response_api = 'null';
                 $invoiceResponse->save();
 
                 $environmentPdf = Environment::where('code', 'PDF')->first();
