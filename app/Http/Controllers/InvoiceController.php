@@ -384,14 +384,14 @@ class InvoiceController extends Controller
                 $environment = Environment::where('id', 21)->first();
                 $url = $environment->protocol . $configuration->ip . $environment->url;
             }
-            //dd($data);
+            //dd($url);
             $requestResponse = sendDocuments($company, $url, $data);
             //dd($requestResponse);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];
             if ($store == false) {
-                $responseApi = implode(',',$service);
+                $responseApi = implode(",", $service);
             }
 
             $apiResponse = new ApiResponse();

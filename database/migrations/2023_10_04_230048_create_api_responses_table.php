@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('document', 20);
-            $table->longText('response_api');
+            $table->json('response_api');
 
             $table->timestamps();
         });
