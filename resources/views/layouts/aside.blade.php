@@ -265,6 +265,12 @@
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
+                                        <a href="{{ url('apiResponse') }}" class="nav-link">
+                                            <i class="far fa-dot-circle nav-icon"></i>
+                                            <p>Respuestas Api</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a href="{{ url('supportDocumentResponse') }}" class="nav-link">
                                             <i class="far fa-dot-circle nav-icon"></i>
                                             <p>DS response</p>

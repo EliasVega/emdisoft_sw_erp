@@ -7,6 +7,7 @@ use App\Models\Invoice;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
 use App\Models\Advance;
+use App\Models\ApiResponse;
 use App\Models\Bank;
 use App\Models\Branch;
 use App\Models\BranchProduct;
@@ -389,6 +390,11 @@ class InvoiceController extends Controller
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];
+
+            $apiResponse = new ApiResponse();
+            $apiResponse->document = $resolutions->prefix . $resolutions->consecutive;
+            $apiResponse->response_api = $requestResponse['response'];
+            $apiResponse->save();
         } else {
             $store = true;
         }

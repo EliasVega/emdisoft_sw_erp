@@ -15,10 +15,6 @@ class InvoiceResponse extends Model
 
     public $timestamps = true;
 
-    protected $casts = [
-        'response_api' => 'array'
-    ];
-
     protected $fillable = [
         'document',
         'cufe',
@@ -27,6 +23,7 @@ class InvoiceResponse extends Model
         'code',
         'description',
         'status_message',
+        'response_api',
         'invoice_id'
     ];
 
