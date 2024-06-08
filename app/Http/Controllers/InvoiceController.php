@@ -141,7 +141,7 @@ class InvoiceController extends Controller
     {
         $company = Company::findOrFail(1);
         $indicator = indicator();
-        //$pos = indicator()->pos;
+        $pos = indicator()->pos;
         $cashRegister = cashRegisterComprobation();
         if ($cashRegister == null) {
             return redirect('branch');
@@ -153,7 +153,6 @@ class InvoiceController extends Controller
         if ($indicator->work_labor == 'off') {
             $cols--;
         }
-
         $customers = Customer::get();
         $employees = Employee::get();
         $resolutions = Resolution::where('document_type_id', 1)->where('status', 'active')->get();
@@ -386,6 +385,7 @@ class InvoiceController extends Controller
             }
             //dd($data);
             $requestResponse = sendDocuments($company, $url, $data);
+            //dd($requestResponse);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];
@@ -558,6 +558,7 @@ class InvoiceController extends Controller
                     ['SendBillSyncResult']['StatusMessage'];
 
                 $invoiceResponse = new InvoiceResponse();
+                $invoiceResponse->invoice_id = $invoice->id;
                 $invoiceResponse->document = $invoice->document;
                 $invoiceResponse->message = $service['message'];
                 $invoiceResponse->valid = $valid;
@@ -565,7 +566,7 @@ class InvoiceController extends Controller
                 $invoiceResponse->description = $description;
                 $invoiceResponse->status_message = $statusMessage;
                 $invoiceResponse->cufe = $service['cufe'];
-                $invoiceResponse->invoice_id = $invoice->id;
+                $invoiceResponse->response_api = $requestResponse['response'];
                 $invoiceResponse->save();
 
                 $environmentPdf = Environment::where('code', 'PDF')->first();

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('invoice_responses', function (Blueprint $table) {
             $table->id();
 
+            $table->foreignId('invoice_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('document', 20);
             $table->string('cufe', 100);
             $table->string('message', 100);
@@ -21,7 +22,8 @@ return new class extends Migration
             $table->string('code', 3);
             $table->string('description', 100);
             $table->string('status_message', 100);
-            $table->foreignId('invoice_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->json('response_api');
+
 
             $table->timestamps();
         });
