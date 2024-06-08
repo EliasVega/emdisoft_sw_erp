@@ -386,7 +386,7 @@ class InvoiceController extends Controller
             }
             //dd($data);
             $requestResponse = sendDocuments($company, $url, $data);
-            dd($requestResponse);
+            //dd($requestResponse);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];
