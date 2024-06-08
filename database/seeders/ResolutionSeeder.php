@@ -240,6 +240,40 @@ class ResolutionSeeder extends Seeder
                 'company_id' => 1,
                 'document_type_id' => 1
             ),
+            13 =>
+            array (
+                'id' => 14,
+                'prefix' => 'DSE',
+                'resolution' => '18764055595885',
+                'resolution_date' => '2023-09-06',
+                'technical_key' => 'null',
+                'start_number' => 701,
+                'end_number' => 1000,
+                'consecutive' => 701,
+                'start_date' => '2023-09-06',
+                'end_date' => '2024-03-06',
+                'status' => 'active',
+                'description' => 'Documento soporte electronico',
+                'company_id' => 1,
+                'document_type_id' => 11
+            ),
+            14 =>
+            array (
+                'id' => 15,
+                'prefix' => 'NADS',
+                'resolution' => null,
+                'resolution_date' => null,
+                'technical_key' => null,
+                'start_number' => 1,
+                'end_number' => 1000,
+                'consecutive' => 35,
+                'start_date' => null,
+                'end_date' => null,
+                'status' => 'active',
+                'description' => 'nota de ajuste al documento soporte',
+                'company_id' => 1,
+                'document_type_id' => 13
+            ),
             15 =>
             array (
                 'id' => 16,

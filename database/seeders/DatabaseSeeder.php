@@ -59,6 +59,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PaymentFormsTableSeeder::class);
         $this->call(PaymentMethodsTableSeeder::class);
         $this->call(SalePointSeeder::class);
+        $this->call(CashRegisterSeeder::class);
 
         $this->call(EmployeesTableSeeder::class);
         $this->call(RestaurantTableSeeder::class);
@@ -66,7 +67,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductRawmaterialSeeder::class);
         $this->call(BranchRawmaterialsTableSeeder::class);
         $this->call(OvertimeTypeSeeder::class);
-        $this->call(CashRegisterSeeder::class);
 
         $this->call(AccountClassSeeder::class);
         $this->call(AccountGroupSeeder::class);

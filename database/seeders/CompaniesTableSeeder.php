@@ -42,8 +42,8 @@ class CompaniesTableSeeder extends Seeder
                 'liability_id' => 14,
                 'organization_id' => 1,
                 'regime_id' => 1,
-                'created_at' => '2024-01-12 21:07:42',
-                'updated_at' => '2024-01-12 21:07:42',
+                'created_at' => '2024-05-22 21:07:42',
+                'updated_at' => '2024-05-22 21:07:42',
             ),
         ));
 

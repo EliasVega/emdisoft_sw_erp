@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('code', 3);
             $table->string('description', 100);
             $table->string('status_message', 100);
-            $table->longText('response_api');
+            $table->json('response_api');
 
 
             $table->timestamps();
