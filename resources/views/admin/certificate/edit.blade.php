@@ -15,7 +15,7 @@
                     </ul>
                 </div>
             @endif
-            {!!Form::model($certificate, ['method'=>'PATCH','route'=>['certificate.update', $certificate->id, 'autocomplete' => 'off', 'files' => true]])!!}
+            {!!Form::model($certificate, ['method'=>'PATCH', 'files' => 'true', 'autocomplete'=>'off', 'route'=>['certificate.update', $certificate->id]])!!}
             {!!Form::token()!!}
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     @include('admin/certificate.form')

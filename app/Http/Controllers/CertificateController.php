@@ -60,16 +60,15 @@ class CertificateController extends Controller
         if (indicator()->dian == 'on') {
             $store = false;
             $data = CertificateData($request);
-            $company = Company::findOrFail($certificate->company_id);
-            $configuration = Configuration::where('company_id', $company->id)->first();
+            $configuration = Configuration::where('company_id', company()->id)->first();
             $certificateEnvironment = Environment::where('code', 'SCC')->first();
             $urlCertifiacte = $certificateEnvironment->protocol . $configuration->ip . $certificateEnvironment->url;
-            $requestResponse = sendCertificate($company, $urlCertifiacte, $data);
+            $requestResponse = sendCertificate($urlCertifiacte, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
 
             if ($store == true) {
-                $certificate = Certificate::where('company_id', $company)->first();
+                $certificate = Certificate::where('company_id', company()->id)->first();
 
                 if ($request->file('file')) {
                     if ($file = uploadNewFile('certificates', $request->file('file'), $certificate->file)) {
