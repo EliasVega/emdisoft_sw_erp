@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pay;
-use App\Http\Requests\StorepayRequest;
-use App\Http\Requests\UpdatepayRequest;
+use App\Http\Requests\StorePayRequest;
+use App\Http\Requests\UpdatePayRequest;
 use App\Models\Advance;
 use App\Models\Bank;
 use App\Models\Card;
@@ -128,10 +128,10 @@ class PayController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StorepayRequest  $request
+     * @param  \App\Http\Requests\StorePayRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorepayRequest $request)
+    public function store(StorePayRequest $request)
     {
         //dd($request->all());
         $document_id = $request->document_id;
@@ -215,11 +215,11 @@ class PayController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdatepayRequest  $request
+     * @param  \App\Http\Requests\UpdatePayRequest  $request
      * @param  \App\Models\pay  $pay
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatepayRequest $request, pay $pay)
+    public function update(UpdatePayRequest $request, pay $pay)
     {
         //
     }

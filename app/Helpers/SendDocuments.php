@@ -30,6 +30,7 @@ if (! function_exists('sendDocuments')) {
                 } else {
                     $errorMessages = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
                         ['SendBillSyncResult']['ErrorMessage']['string'];
+                    $errorMessages2 = $service['response']['message'];
 
                     $requestResponse['store'] = false;
                 }
@@ -47,7 +48,11 @@ if (! function_exists('sendDocuments')) {
         }
 
         $requestResponse['response'] = $service;
-        $requestResponse['errorMessages'] = $errorMessages;
+        if ($errorMessages2 != '') {
+            $requestResponse['errorMessages'] = $errorMessages2;
+        } else {
+            $requestResponse['errorMessages'] = $errorMessages;
+        }
 
         return $requestResponse;
     }
