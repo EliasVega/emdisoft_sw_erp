@@ -32,7 +32,7 @@ if (! function_exists('sendDocuments')) {
                     $errorMessages = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
                         ['SendBillSyncResult']['ErrorMessage']['string'];
                     $errorMessages2 = $service['response']['message'];
-
+                    dd($errorMessages2);
                     $requestResponse['store'] = false;
                 }
             } else {
