@@ -41,6 +41,7 @@ if (! function_exists('sendDocuments')) {
                 foreach ($errors as $key => $error) {
                     $errorMessages[$key] = $error;
                 }
+                //para comprobacion
             }
             $requestResponse['store'] = false;
         }
