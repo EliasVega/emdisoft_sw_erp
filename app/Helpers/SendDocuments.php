@@ -16,8 +16,7 @@ if (! function_exists('sendDocuments')) {
 
         $service = $response->json();
 
-        $responseErrors = $service['errors'] ?? '';
-        $errorMessages2 = '';
+        $responseErrors = $service['errorMessages'] ?? '';
         if ($responseErrors == '') {
             $responseDian = $service['ResponseDian'] ?? '';
             if ($responseDian != '') {
@@ -31,8 +30,6 @@ if (! function_exists('sendDocuments')) {
                 } else {
                     $errorMessages = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
                         ['SendBillSyncResult']['ErrorMessage']['string'];
-                    $errorMessages2 = $service['response']['message'];
-                    dd($errorMessages2);
                     $requestResponse['store'] = false;
                 }
             } else {
@@ -49,11 +46,7 @@ if (! function_exists('sendDocuments')) {
         }
 
         $requestResponse['response'] = $service;
-        if ($errorMessages2 != '') {
-            $requestResponse['errorMessages'] = $errorMessages2;
-        } else {
-            $requestResponse['errorMessages'] = $errorMessages;
-        }
+        $requestResponse['errorMessages'] = $errorMessages;
 
         return $requestResponse;
     }
