@@ -1,0 +1,8 @@
+{
+    "message": "The given data was invalid.",
+    "errors": {
+        "email_cc_list.0.email": [
+            "El campo email_cc_list.0.email es obligatorio cuando email cc list /  está presente."
+        ]
+    }
+}

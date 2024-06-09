@@ -56,6 +56,7 @@ class CertificateController extends Controller
      */
     public function update(UpdateCertificateRequest $request, Certificate $certificate)
     {
+        //dd($request->all());
         if (indicator()->dian == 'on') {
             $store = false;
             $data = CertificateData($request);

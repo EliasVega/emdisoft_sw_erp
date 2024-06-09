@@ -33,7 +33,7 @@ if (! function_exists('sendDocuments')) {
                     $requestResponse['store'] = false;
                 }
             } else {
-                $errorMessages = $service;
+                $errorMessages = $service['message'];
                 $requestResponse['store'] = false;
             }
         } else {

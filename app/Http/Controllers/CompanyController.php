@@ -206,9 +206,9 @@ class CompanyController extends Controller
             } else {
                 $data = logoData($request);
                 $configuration = Configuration::where('company_id', $company->id)->first();
-                $environment = Environment::where('code', 'SCC')->first();
-                $urlCertifiacte = $environment->protocol . $configuration->ip . $environment->url;
-                $requestResponse = sendLogo($company, $urlCertifiacte, $data);
+                $environment = Environment::where('code', 'LOGO')->first();
+                $urlLogo = $environment->protocol . $configuration->ip . $environment->url;
+                $requestResponse = sendLogo($company, $urlLogo, $data);
                 $update = $requestResponse['store'];
                 $service = $requestResponse['response'];
             }

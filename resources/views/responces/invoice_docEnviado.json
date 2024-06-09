@@ -1,17 +1,7 @@
-array:3 [▼
-  "store" => false
-  "response" => array:5 [▼
-    "success" => false
-    "message" => "Este documento ya fue enviado anteriormente, se registra en la base de datos."
-    "customer" => "222222222222"
-    "cufe" => "0340c24bcebd063a1e9dc3e0c9515b1ffb7be4469f0489605721d6e906367405bd463bd524840f4ea0538936e4003841"
-    "sale" => 12000
-  ]
-  "errorMessages" => array:5 [▼
-    "success" => false
-    "message" => "Este documento ya fue enviado anteriormente, se registra en la base de datos."
-    "customer" => "222222222222"
-    "cufe" => "0340c24bcebd063a1e9dc3e0c9515b1ffb7be4469f0489605721d6e906367405bd463bd524840f4ea0538936e4003841"
-    "sale" => 12000
-  ]
-]
+{
+    "success": false,
+    "message": "Este documento ya fue enviado anteriormente, se registra en la base de datos.",
+    "customer": "91343991",
+    "cufe": "f7d377e223c272d3a072e7f257323e809204ddb4aff96d443f178a35731e08f78c1afa850ef6702c9bbabc989226c827",
+    "sale": 1190
+}
