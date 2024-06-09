@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\paymentReturn;
-use App\Http\Requests\StorepaymentReturnRequest;
-use App\Http\Requests\UpdatepaymentReturnRequest;
+use App\Models\PaymentReturn;
+use App\Http\Requests\StorePaymentReturnRequest;
+use App\Http\Requests\UpdatePaymentReturnRequest;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -21,17 +21,17 @@ class PaymentReturnController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $paymentReturns = paymentReturn::get();
+            $paymentReturns = PaymentReturn::get();
 
             return DataTables::of($paymentReturns)
             ->addIndexColumn()
-            ->addColumn('invoice', function (paymentReturn $paymentReturn) {
+            ->addColumn('invoice', function (PaymentReturn $paymentReturn) {
                 return $paymentReturn->invoice->document;
             })
-            ->addColumn('customer', function (paymentReturn $paymentReturn) {
+            ->addColumn('customer', function (PaymentReturn $paymentReturn) {
                 return $paymentReturn->invoice->third->name;
             })
-            ->editColumn('created_at', function(paymentReturn $paymentReturn){
+            ->editColumn('created_at', function(PaymentReturn $paymentReturn){
                 return $paymentReturn->created_at->format('yy-m-d: h:m');
             })
             ->make(true);
@@ -51,7 +51,7 @@ class PaymentReturnController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorepaymentReturnRequest $request)
+    public function store(StorePaymentReturnRequest $request)
     {
         //
     }
@@ -59,7 +59,7 @@ class PaymentReturnController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(paymentReturn $payment_return)
+    public function show(PaymentReturn $payment_return)
     {
         //
     }
@@ -67,7 +67,7 @@ class PaymentReturnController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(paymentReturn $payment_return)
+    public function edit(PaymentReturn $payment_return)
     {
         //
     }
@@ -75,7 +75,7 @@ class PaymentReturnController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatepaymentReturnRequest $request, paymentReturn $payment_return)
+    public function update(UpdatePaymentReturnRequest $request, PaymentReturn $payment_return)
     {
         //
     }
@@ -83,7 +83,7 @@ class PaymentReturnController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(paymentReturn $payment_return)
+    public function destroy(PaymentReturn $payment_return)
     {
         //
     }

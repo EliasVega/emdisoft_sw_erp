@@ -259,6 +259,16 @@ class VoucherTypeTableSeeder extends Seeder
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43'
             ),
+            24 =>
+            array (
+                'id' => 25,
+                'consecutive' => 1,
+                'code' => 'RMIS',
+                'name' => 'Remision',
+                'status' => 'active',
+                'created_at' => '2023-01-12 21:07:43',
+                'updated_at' => '2023-01-12 21:07:43'
+            ),
         ));
     }
 }

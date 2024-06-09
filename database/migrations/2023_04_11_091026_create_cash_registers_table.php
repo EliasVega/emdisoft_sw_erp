@@ -31,6 +31,10 @@ return new class extends Migration
             $table->decimal('in_invoice',20,2);//ingreso total por ventas
             $table->decimal('invoice',20,2);//total de ventas
 
+            $table->decimal('in_remission_cash',20,2);//ingreso efectivo por Remision
+            $table->decimal('in_remission',20,2);//ingreso total por remisiones
+            $table->decimal('remission',20,2);//total de remisiones
+
             $table->decimal('in_advance_cash', 20,2);//ingreso de efectivo por avances
             $table->decimal('in_advance', 20,2);//ingreso total por avances
 

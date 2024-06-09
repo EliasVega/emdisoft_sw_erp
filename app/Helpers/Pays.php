@@ -23,12 +23,6 @@ if (! function_exists('pays')) {
         $transaction = $request->transaction;
         $payAdvance = $request->payment;
 
-        if ($typeDocument == 'po') {
-            # code...
-        } else {
-            # code...
-        }
-
         //Metodo para crear un nuevo pago y su realcion polimorfica dependiendo del tipo de documento
         $pay = new Pay();
         $pay->user_id = current_user()->id;
@@ -52,10 +46,15 @@ if (! function_exists('pays')) {
                 $invoice = $document;
                 $invoice->pays()->save($pay);
             break;
-            case 'invoice':
+            case 'pos':
                 $pay->type = 'invoice';
                 $invoice = $document;
                 $invoice->pays()->save($pay);
+            break;
+            case 'remission':
+                $pay->type = $typeDocument;
+                $remission = $document;
+                $remission->pays()->save($pay);
             break;
             default:
                 $msg = 'No has seleccionado voucher.';
@@ -133,6 +132,18 @@ if (! function_exists('pays')) {
                             $cashRegister->cash_in_total += $payment[$i];
                         }
                         $cashRegister->in_invoice += $payment[$i];
+                        $cashRegister->in_total += $payment[$i];
+                        $cashRegister->update();
+                    }
+                break;
+                case 'remission':
+                    if ($indicator->pos == 'on') {
+                        //metodo para actualizar la caja
+                        if($mp == 10){
+                            $cashRegister->in_remission_cash += $payment[$i];
+                            $cashRegister->cash_in_total += $payment[$i];
+                        }
+                        $cashRegister->in_remission += $payment[$i];
                         $cashRegister->in_total += $payment[$i];
                         $cashRegister->update();
                     }

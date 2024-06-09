@@ -2,6 +2,15 @@
     /*$(document).ready(function(){
         alert('estoy funcionando correctamanete empresa');
     });*/
+    jQuery(document).ready(function($) {
+        $(document).ready(function() {
+            $('#raw_material_id').select2({
+                theme: "classic",
+                width: "100%",
+            });
+        });
+    });
+
     var cont=0;
     var total = 0;
     var subtotal = [];

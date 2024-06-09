@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Company;
 use App\Models\Indicator;
 
 if (! function_exists('indicator')) {
@@ -7,5 +8,11 @@ if (! function_exists('indicator')) {
     {
         $indicator = Indicator::findOrFail(1);
         return $indicator;
+    }
+
+    function company()
+    {
+        $company = Company::findOrFail(current_user()->company_id);
+        return $company;
     }
 }

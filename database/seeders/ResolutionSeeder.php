@@ -240,22 +240,39 @@ class ResolutionSeeder extends Seeder
                 'company_id' => 1,
                 'document_type_id' => 1
             ),
+            12 =>
+            array (
+                'id' => 13,
+                'prefix' => 'FLOC',
+                'resolution' => '18760000001',
+                'resolution_date' => '2019-01-19',
+                'technical_key' => 'local',
+                'start_number' => 1,
+                'end_number' => 99999999,
+                'consecutive' => 1,
+                'start_date' => '2019-01-19',
+                'end_date' => '2040-01-19',
+                'status' => 'active',
+                'description' => 'Facturacion en local',
+                'company_id' => 1,
+                'document_type_id' => 1
+            ),
             13 =>
             array (
                 'id' => 14,
-                'prefix' => 'DSE',
-                'resolution' => '18764055595885',
-                'resolution_date' => '2023-09-06',
+                'prefix' => 'RMIS',
+                'resolution' => '28761',
+                'resolution_date' => '2024-05-06',
                 'technical_key' => 'null',
-                'start_number' => 701,
-                'end_number' => 1000,
-                'consecutive' => 701,
-                'start_date' => '2023-09-06',
-                'end_date' => '2024-03-06',
-                'status' => 'active',
-                'description' => 'Documento soporte electronico',
+                'start_number' => 1,
+                'end_number' => 10000,
+                'consecutive' => 1,
+                'start_date' => '2024-05-06',
+                'end_date' => '2030-05-06',
+                'status' => 'inactive',
+                'description' => 'Resolucion de remissiones',
                 'company_id' => 1,
-                'document_type_id' => 11
+                'document_type_id' => 107
             ),
             14 =>
             array (
@@ -273,23 +290,6 @@ class ResolutionSeeder extends Seeder
                 'description' => 'nota de ajuste al documento soporte',
                 'company_id' => 1,
                 'document_type_id' => 13
-            ),
-            15 =>
-            array (
-                'id' => 16,
-                'prefix' => 'FVEC',
-                'resolution' => '18764050702643',
-                'resolution_date' => '2023-06-21',
-                'technical_key' => 'edd8c8665026708791fa048afda2adb7ec4fc9520b39522d885dfcf0a80b9939',
-                'start_number' => 1501,
-                'end_number' => 2000,
-                'consecutive' => 1501,
-                'start_date' => '2023-06-21',
-                'end_date' => '2023-12-21',
-                'status' => 'active',
-                'description' => 'Factura de venta',
-                'company_id' => 1,
-                'document_type_id' => 1
             ),
         ));
     }

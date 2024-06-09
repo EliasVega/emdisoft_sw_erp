@@ -76,6 +76,7 @@ use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\PurchaseOrderProductController;
 use App\Http\Controllers\RawMaterialController;
 use App\Http\Controllers\RegimeController;
+use App\Http\Controllers\RemissionController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\ResolutionController;
 use App\Http\Controllers\RestaurantOrderController;
@@ -94,6 +95,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerificationCodeController;
 use App\Http\Controllers\VoucherTypeController;
 use App\Http\Controllers\WorkLaborController;
+use App\Models\Remission;
 use FontLib\Table\Type\name;
 use Illuminate\Support\Facades\Route;
 
@@ -198,6 +200,7 @@ Route::resource('puc', PucController::class);
 Route::resource('purchase', PurchaseController::class);
 Route::resource('rawMaterial', RawMaterialController::class);
 Route::resource('regime', RegimeController::class);
+Route::resource('remission', RemissionController::class);
 Route::resource('resolution', ResolutionController::class);
 Route::resource('restaurantOrder', RestaurantOrderController::class);
 Route::resource('restaurantTable', RestaurantTableController::class);
@@ -282,9 +285,9 @@ Route::get('indicator/imgpStatus/{id}', [IndicatorController::class, 'imgpStatus
 
 Route::get('invoice/create/{id}', [InvoiceController::class, 'getMunicipalities']);
 Route::get('getProductInvoice', [InvoiceController::class, 'getProductInvoice'])->name('getProductInvoice');
-Route::get('invoice/InvoicePay/{id}', [InvoiceController::class, 'invoicePay'])->name('invoicePay');
-Route::get('invoice/InvoicePdf/{id}', [InvoiceController::class, 'invoicePdf'])->name('invoicePdf');
-Route::get('invoice/InvoicePos/{id}', [InvoiceController::class, 'invoicePos'])->name('invoicePos');
+Route::get('invoice/invoicePay/{id}', [InvoiceController::class, 'invoicePay'])->name('invoicePay');
+Route::get('invoice/invoicePdf/{id}', [InvoiceController::class, 'invoicePdf'])->name('invoicePdf');
+Route::get('invoice/invoicePos/{id}', [InvoiceController::class, 'invoicePos'])->name('invoicePos');
 Route::get('invoice/creditNoteInvoice/{id}', [InvoiceController::class, 'creditNote'])->name('creditNoteInvoice');
 Route::get('invoice/debitNoteInvoice/{id}', [InvoiceController::class, 'debitNote'])->name('debitNoteInvoice');
 Route::get('pdfInvoice', [InvoiceController::class, 'pdfInvoice'])->name('pdfInvoice');
@@ -373,6 +376,14 @@ Route::get('createRawmaterial', [PurchaseController::class, 'createRawmaterial']
 
 Route::get('rawMaterial/status/{id}', [RawMaterialController::class, 'status'])->name('rawMaterialStatus');
 Route::get('rawMaterial/kardexRawMaterial/{id}', [RawMaterialController::class, 'kardexRawMaterial'])->name('kardexRawMaterial');
+
+Route::get('getProductRemission', [RemissionController::class, 'getProductRemission'])->name('getProductRemission');
+Route::get('remission/remissionPay/{id}', [RemissionController::class, 'remissionPay'])->name('remissionPay');
+Route::get('pdfRemission', [RemissionController::class, 'pdfRemission'])->name('pdfRemission');
+Route::get('posRemission', [RemissionController::class, 'posRemission'])->name('posRemission');
+Route::get('remission/remissionPdf/{remission}', [RemissionController::class, 'remissionPdf'])->name('remissionPdf');
+Route::get('remission/remissionPos/{remission}', [RemissionController::class, 'remissionPos'])->name('remissionPos');
+Route::get('createPosRemission', [RemissionController::class, 'createPosRemission'])->name('createPosRemission');
 
 Route::get('reportInvoice', [ReportsController::class, 'reportInvoice'])->name('reportInvoice');
 Route::get('invoiceCredit', [ReportsController::class, 'invoiceCredit'])->name('invoiceCredit');

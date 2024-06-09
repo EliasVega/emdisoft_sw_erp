@@ -36,12 +36,14 @@
                     </div>
                 @else
                     <div class="row">
-                        @include('admin/product.form')
-                        @include('admin/product.form_material')
-                        @if ($indicator->imgp == 'on')
-                            @include('admin/product.form_image')
-                        @endif
-                        @include('admin/product.register')
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            @include('admin/product.form')
+                            @include('admin/product.form_material')
+                            @if ($indicator->imgp == 'on')
+                                @include('admin/product.form_image')
+                            @endif
+                            @include('admin/product.register')
+                        </div>
                     </div>
                 @endif
 

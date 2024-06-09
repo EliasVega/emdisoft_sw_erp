@@ -123,4 +123,9 @@ class Employee extends Model
     public function provision(){
         return $this->hasOne(Provision::class);
     }
+
+    public function payments()
+    {
+        return $this->morphMany(Payment::class, 'paymentable');
+    }
 }

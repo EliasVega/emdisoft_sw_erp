@@ -8,7 +8,7 @@
                         <input type="text" name="name" id="name" value="{{ old('name', $product->name ?? '') }}" class="form-control" placeholder="Nombre del producto">
                     </div>
                 </div>
-                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <div class="col-lg-12 col-md-8 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="code">Codigo</label>
                         <input type="text" name="code" id="code" value="{{ old('code', $product->code ?? '') }}" class="form-control" placeholder="Codigo" aria-describedby="helpId" required>

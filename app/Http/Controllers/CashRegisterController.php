@@ -23,8 +23,10 @@ use App\Models\NdpurchaseProduct;
 use App\Models\Pay;
 use App\Models\Product;
 use App\Models\ProductPurchase;
+use App\Models\ProductRemission;
 use App\Models\Purchase;
 use App\Models\PurchaseOrder;
+use App\Models\Remission;
 use App\Models\RestaurantOrder;
 use App\Models\SalePoint;
 use App\Models\User;
@@ -144,6 +146,9 @@ class CashRegisterController extends Controller
             $cashRegister->in_invoice_cash = 0;
             $cashRegister->in_invoice = 0;
             $cashRegister->invoice = 0;
+            $cashRegister->in_remission_cash = 0;
+            $cashRegister->in_remission = 0;
+            $cashRegister->remission = 0;
             $cashRegister->in_advance_cash = 0;
             $cashRegister->in_advance = 0;
             $cashRegister->ndinvoice = 0;
@@ -259,7 +264,7 @@ class CashRegisterController extends Controller
                 ->where('ep.product_id', $product->id)
                 ->sum('quantity');
 
-            $tax_subtotal = ProductPurchase::from('expense_products as ep')
+            $tax_subtotal = ExpenseProduct::from('expense_products as ep')
                 ->join('expenses as exp', 'ep.expense_id', 'exp.id')
                 ->join('products as pro', 'ep.product_id', 'pro.id')
                 ->whereBetween('ep.created_at', [$from, $to])
@@ -275,6 +280,32 @@ class CashRegisterController extends Controller
             }
         }
 
+        $productRemissions = [];
+        $cont = 0;
+        foreach ($products as $key => $product) {
+            $productRemission = ProductRemission::from('product_remissions as pr')
+                ->join('remissions as rem', 'pr.remission_id', 'rem.id')
+                ->join('products as pro', 'pr.product_id', 'pro.id')
+                ->whereBetween('pr.created_at', [$from, $to])
+                ->where('rem.user_id', $userId)
+                ->where('pr.product_id', $product->id)
+                ->sum('quantity');
+
+            $tax_subtotal = ProductRemission::from('product_remissions as pr')
+                ->join('remissions as rem', 'pr.remission_id', 'rem.id')
+                ->join('products as pro', 'pr.product_id', 'pro.id')
+                ->whereBetween('pr.created_at', [$from, $to])
+                ->where('rem.user_id', $userId)
+                ->where('pr.product_id', $product->id)
+                ->sum('tax_subtotal');
+            if ($productRemission) {
+                $productRemission[$cont] = Product::findOrFail($product->id);
+                $productRemission[$cont]->stock = $productRemission;
+                $productRemission[$cont]->price = $tax_subtotal;
+                $cont++;
+            }
+        }
+
         $purchases = Purchase::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->get();
         $purchaseBalance = Purchase::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('balance');
         $purchasePays = Purchase::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('pay');
@@ -284,6 +315,10 @@ class CashRegisterController extends Controller
         $invoices = Invoice::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->get();
         $invoiceBalance = Invoice::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('balance');
         $invoicePays = Invoice::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('pay');
+
+        $remissions = Remission::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->get();
+        $remissionBalance = Remission::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('balance');
+        $remissionPays = Remission::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('pay');
 
         $restaurantOrders = RestaurantOrder::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->get();
 
@@ -331,6 +366,7 @@ class CashRegisterController extends Controller
             'productPurchases',
             'invoiceProducts',
             'expenseProducts',
+            'productRemissions',
 
             'purchases',
             'purchaseBalance',
@@ -342,6 +378,9 @@ class CashRegisterController extends Controller
             'invoiceBalance',
             'invoicePays',
 
+            'remissions',
+            'remissionBalance',
+            'remissionPays',
             'restaurantOrders',
 
             'expenses',
@@ -562,6 +601,43 @@ class CashRegisterController extends Controller
                 $cont++;
             }
         }
+
+        $productRemissions = [];
+        $cont = 0;
+        foreach ($products as $key => $product) {
+            $quantity = ProductRemission::from('product_remissions as pr')
+                ->join('remissions as rem', 'pr.remission_id', 'rem.id')
+                ->join('products as pro', 'pr.product_id', 'pro.id')
+                ->whereBetween('pr.created_at', [$from, $to])
+                ->where('rem.user_id', $cashRegister->user_id)
+                ->where('pr.product_id', $product->id)
+                ->sum('quantity');
+
+            $tax_subtotal = ProductRemission::from('product_remissions as pr')
+                ->join('remissions as rem', 'pr.remission_id', 'rem.id')
+                ->join('products as pro', 'pr.product_id', 'pro.id')
+                ->whereBetween('pr.created_at', [$from, $to])
+                ->where('rem.user_id', $cashRegister->user_id)
+                ->where('pr.product_id', $product->id)
+                ->sum('tax_subtotal');
+
+            $subtotal = ProductRemission::from('product_remissions as pr')
+                ->join('remissions as rem', 'pr.remission_id', 'rem.id')
+                ->join('products as pro', 'ip.product_id', 'pro.id')
+                ->whereBetween('pr.created_at', [$from, $to])
+                ->where('rem.user_id', $cashRegister->user_id)
+                ->where('pr.product_id', $product->id)
+                ->sum('subtotal');
+
+            if ($quantity) {
+                $productRemissions[$cont] = Product::findOrFail($product->id);
+                $productRemissions[$cont]->quantity = $quantity;
+                $productRemissions[$cont]->tax_subtotal = $tax_subtotal;
+                $productRemissions[$cont]->subtotal = $subtotal;
+                $cont++;
+            }
+        }
+
         $expenseProducts = [];
         $cont = 0;
         foreach ($products as $key => $product) {
@@ -785,6 +861,15 @@ class CashRegisterController extends Controller
         $invoicePays = Pay::where('user_id', $cashRegister->user_id)->where('type', 'invoice')->whereBetween('created_at', [$from, $to])->get();
         $invoiceSumPays = Pay::where('user_id', $cashRegister->user_id)->where('type', 'invoice')->whereBetween('created_at', [$from, $to])->sum('pay');
 
+        $remissions = Remission::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->get();
+        $remissionBalances = Remission::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('balance');
+        $remissionTotalTaxs = Remission::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('total_tax');
+        $remissionTotals = Remission::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('total');
+        $remissionTotalPays = Remission::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
+
+        $remissionPays = Pay::where('user_id', $cashRegister->user_id)->where('type', 'invoice')->whereBetween('created_at', [$from, $to])->get();
+        $remissionSumPays = Pay::where('user_id', $cashRegister->user_id)->where('type', 'invoice')->whereBetween('created_at', [$from, $to])->sum('pay');
+
         $expenses = Expense::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->get();
         $expenseBalances = Expense::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('balance');
         $expenseTotalTaxs = Expense::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('total_tax');
@@ -842,6 +927,7 @@ class CashRegisterController extends Controller
             'ncpurchaseProducts',
             'ncinvoiceProducts',
             'ndinvoiceProducts',
+            'productRemissions',
 
             'purchases',
             'purchaseBalances',
@@ -858,6 +944,14 @@ class CashRegisterController extends Controller
             'invoiceTotalPays',
             'invoicePays',
             'invoiceSumPays',
+
+            'remissions',
+            'remissionBalances',
+            'remissionTotalTaxs',
+            'remissionTotals',
+            'remissionTotalPays',
+            'remissionPays',
+            'remissionSumPays',
 
             'expenses',
             'expenseBalances',
@@ -978,6 +1072,42 @@ class CashRegisterController extends Controller
             }
         }
 
+        $productRemissions = [];
+        $cont = 0;
+        foreach ($products as $key => $product) {
+            $quantity = ProductRemission::from('product_remissions as pr')
+                ->join('remissions as rem', 'pr.remission_id', 'rem.id')
+                ->join('products as pro', 'pr.product_id', 'pro.id')
+                ->whereBetween('pr.created_at', [$from, $to])
+                ->where('rem.user_id', $cashRegister->user_id)
+                ->where('pr.product_id', $product->id)
+                ->sum('quantity');
+
+            $tax_subtotal = ProductRemission::from('product_remissions as pr')
+                ->join('remissions as rem', 'pr.remission_id', 'rem.id')
+                ->join('products as pro', 'pr.product_id', 'pro.id')
+                ->whereBetween('pr.created_at', [$from, $to])
+                ->where('rem.user_id', $cashRegister->user_id)
+                ->where('pr.product_id', $product->id)
+                ->sum('tax_subtotal');
+
+            $subtotal = ProductRemission::from('product_remissions as pr')
+                ->join('remissions as rem', 'pr.remission_id', 'rem.id')
+                ->join('products as pro', 'ip.product_id', 'pro.id')
+                ->whereBetween('pr.created_at', [$from, $to])
+                ->where('rem.user_id', $cashRegister->user_id)
+                ->where('pr.product_id', $product->id)
+                ->sum('subtotal');
+
+            if ($quantity) {
+                $productRemissions[$cont] = Product::findOrFail($product->id);
+                $productRemissions[$cont]->quantity = $quantity;
+                $productRemissions[$cont]->tax_subtotal = $tax_subtotal;
+                $productRemissions[$cont]->subtotal = $subtotal;
+                $cont++;
+            }
+        }
+
         $expenseProducts = [];
         $contExpense = 0;
         foreach ($products as $key => $product) {
@@ -1018,6 +1148,8 @@ class CashRegisterController extends Controller
 
         $invoices = Invoice::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
 
+        $remissions = Remission::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
+
         $expenses = Expense::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
 
         $purchasePays = Pay::where('user_id', current_user()->id)->where('type', 'purchase')->whereBetween('created_at', [$from, $to])->get();
@@ -1025,6 +1157,9 @@ class CashRegisterController extends Controller
 
         $invoicePays = Pay::where('user_id', current_user()->id)->where('type', 'invoice')->whereBetween('created_at', [$from, $to])->get();
         $invoiceSumPays = Pay::where('user_id', current_user()->id)->where('type', 'invoice')->whereBetween('created_at', [$from, $to])->sum('pay');
+
+        $remissionPays = Pay::where('user_id', current_user()->id)->where('type', 'remission')->whereBetween('created_at', [$from, $to])->get();
+        $remissionSumPays = Pay::where('user_id', current_user()->id)->where('type', 'remission')->whereBetween('created_at', [$from, $to])->sum('pay');
 
         $expensePays = Pay::where('user_id', current_user()->id)->where('type', 'expense')->whereBetween('created_at', [$from, $to])->get();
         $expenseSumPays = Pay::where('user_id', current_user()->id)->where('type', 'expense')->whereBetween('created_at', [$from, $to])->sum('pay');
@@ -1069,9 +1204,11 @@ class CashRegisterController extends Controller
             'productPurchases',
             'invoiceProducts',
             'expenseProducts',
+            'productRemissions',
 
             'purchases',
             'invoices',
+            'remissions',
             'expenses',
 
             'purchasePays',
@@ -1079,6 +1216,9 @@ class CashRegisterController extends Controller
 
             'invoicePays',
             'invoiceSumPays',
+
+            'remissionPays',
+            'remissionSumPays',
 
             'expensePays',
             'expenseSumPays',

@@ -9,7 +9,7 @@
                 <div class="box-header with-border">
                     <h5 class="box-title">Editar Factura de Venta:{{ $invoice->id }}
                         @can('Invoice.index')
-                            <a href="{{ route('Invoice.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
+                            <a href="{{ route('invoice.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
                         @endcan
                         @can('branch.index')
                             <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
