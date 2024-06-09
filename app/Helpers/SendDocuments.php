@@ -37,7 +37,7 @@ if (! function_exists('sendDocuments')) {
                 $requestResponse['store'] = false;
             }
         } else {
-            foreach ($responseErrors as $key => $errors) {
+            foreach ($responseErrors[0] as $key => $errors) {
                 foreach ($errors as $key => $error) {
                     $errorMessages[$key] = $error;
                 }
