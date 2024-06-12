@@ -1534,14 +1534,5 @@ class CashRegisterController extends Controller
         $pdf->setPaper(array(0, 0, 226.76, 497.64));
 
         return $pdf->stream('reporte_caja.pdf');
-        /*
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($view);
-        $pdf->setPaper (array(0,0,226.76,497.64));
-
-        return $pdf->stream('reporte_caja.pdf');
-
-        $data = PDF::loadView('vista-pdf', $data)
-        ->save(storage_path('app/public/') . 'archivo.pdf');*/
     }
 }
