@@ -193,7 +193,7 @@ class CashRegisterController extends Controller
         $to = $cashRegister->updated_at;
 
         if ($user == 'superAdmin' || $user == 'admin') {
-            $userId = CashRegister::findOrFail($cashRegister->user_id);
+            $userId = User::findOrFail($cashRegister->user_id);
         } else {
             $userId = current_user()->id;
         }

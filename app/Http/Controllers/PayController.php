@@ -10,7 +10,6 @@ use App\Models\Bank;
 use App\Models\Card;
 use App\Models\Company;
 use App\Models\Expense;
-use App\Models\Indicator;
 use App\Models\Invoice;
 use App\Models\PaymentMethod;
 use App\Models\PayPaymentMethod;
