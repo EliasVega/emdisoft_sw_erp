@@ -275,7 +275,7 @@ class RemissionController extends Controller
         $remission->document_type_id = $documentType;
         $remission->document = $resolutions->prefix . $resolutions->consecutive;
         $remission->voucher_type_id = $voucherTypes->id;
-        $remission->cash_register_id = cashregisterModel()->id;
+        $remission->cash_register_id = cashRegisterComprobation()->id;
         $remission->status = 'active';
         $remission->note = $request->note;
         $remission->generation_date = $request->generation_date;
