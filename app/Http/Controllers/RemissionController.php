@@ -298,8 +298,8 @@ class RemissionController extends Controller
 
         if (indicator()->pos == 'on') {
             //actualizar la caja
-                cashregisterModel()->remission += $total_pay;
-                cashregisterModel()->update();
+                cashRegisterComprobation()->remission += $total_pay;
+                cashRegisterComprobation()->update();
         }
         $document = $remission;
         //Ingresa los productos que vienen en el array
@@ -600,7 +600,7 @@ class RemissionController extends Controller
         $remission->document_type_id = $documentType;
         $remission->document = $resolutions->prefix . $resolutions->consecutive;
         $remission->voucher_type_id = $voucherTypes->id;
-        $remission->cash_register_id = cashregisterModel()->id;
+        $remission->cash_register_id = cashRegisterComprobation()->id;
         $remission->status = 'active';
         $remission->note = $request->note;
         $remission->generation_date = $request->generation_date;
@@ -688,8 +688,8 @@ class RemissionController extends Controller
 
         if (indicator()->pos == 'on') {
             //actualizar la caja
-                cashregisterModel()->remission += $total_pay;
-                cashregisterModel()->update();
+                cashRegisterComprobation()->remission += $total_pay;
+                cashRegisterComprobation()->update();
         }
         if ($totalpay > 0) {
             pays($request, $document, $typeDocument);
