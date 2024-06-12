@@ -14,6 +14,7 @@ use App\Models\Invoice;
 use App\Models\PaymentMethod;
 use App\Models\PayPaymentMethod;
 use App\Models\Purchase;
+use App\Models\Remission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -141,6 +142,7 @@ class PayController extends Controller
         $voucher = $request->voucher;
         $totalpay = $request->totalpay;
         $document = '';
+        $typeDocument = '';
         switch($voucher) {
             case(7):
                 $purchase = Purchase::findOrFail($document_id);
@@ -181,6 +183,14 @@ class PayController extends Controller
                 $invoice->balance -= $totalpay;
                 $invoice->pay += $totalpay;
                 $invoice->update();
+            break;
+            case(25):
+                $remission = Remission::findOrFail($document_id);
+                $typeDocument = 'remission';
+                $document = $remission;
+                $remission->balance -= $totalpay;
+                $remission->pay += $totalpay;
+                $remission->update();
             break;
             default:
                 $msg = 'No has seleccionado voucher.';
