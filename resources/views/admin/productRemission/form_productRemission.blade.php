@@ -182,5 +182,12 @@
             <input type="text" id="indicatorwl" name="indicatorwl" value="{{ indicator()->work_labor }}" class="form-control">
         </div>
     </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="addRemissionPayments">
+        <div class="form-group">
+            <label class="form-control-label" for="remission_payments">Abonos</label>
+            <input type="text" id="remission_payments" name="remission_payments" value="{{ $remission->pay }}" class="form-control"
+                placeholder="Observaciones">
+        </div>
+    </div>
 </div>
 

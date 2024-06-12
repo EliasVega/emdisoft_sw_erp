@@ -47,7 +47,7 @@ class ProductRemissionController extends Controller
      */
     public function store(StoreProductRemissionRequest $request)
     {
-        //dd($request->all());
+        dd($request->all());
         $remissionId = $request->remission_id;
         $remission = Remission::findOrFail($remissionId);
         $configuration = Configuration::findOrFail(company()->id);
@@ -88,11 +88,9 @@ class ProductRemissionController extends Controller
         $quantity = $request->quantity;
         $price = $request->price;
         $tax_rate = $request->tax_rate;
-        $branch = current_user()->branch_id;
         $total_pay = $request->total_pay;
         $employee_id = $request->employee_id;
         $paymentForm = $request->payment_form_id;
-        $cvp = $request->cv;
 
         if (isset($employee_id)) {
             $employee_id = $request->employee_id;
@@ -310,6 +308,10 @@ class ProductRemissionController extends Controller
             }
             $resolutions->consecutive += 1;
             $resolutions->update();
+
+            $remission->invoice_id = $invoice->id;
+            $remission->status = 'generated';
+            $remission->update();
 
             session()->forget('invoice');
             session()->forget('typeDocument');

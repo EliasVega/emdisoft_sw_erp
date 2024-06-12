@@ -27,25 +27,13 @@
             {!!Form::open(array('url'=>'productRemission', 'method'=>'POST', 'autocomplete'=>'off'))!!}
             {!!Form::token()!!}
             <div class="row m-1">
-                @if ($type == 'pos')
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        @include('admin/productRemission.form_pos')
-                    </div>
-                    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12" id="payposorigin">
-                        @include('admin/productRemission.form_paypos')
-                    </div>
-                @else
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        @include('admin/productRemission.form_productRemission')
-                    </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        @include('admin/productRemission.form_edit')
-                    </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    @include('admin/productRemission.form_productRemission')
+                </div>
 
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        @include('admin/productRemission.form_register')
-                    </div>
-                @endif
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    @include('admin/productRemission.form_register')
+                </div>
             </div>
             {!!Form::close()!!}
         </div>
@@ -53,16 +41,9 @@
 </div>
 <!--Inicio del modal cliente-->
 @include('admin/productRemission.editmodal')
-@include('admin/productRemission.modal_pay_pos')
 <!--Fin del modal-->
 @endsection
 @section('scripts')
-
-    @if ($type == 'pos')
-        @include('admin/productRemission.script_paypos')
-        @include('admin/productRemission.script_pos')
-    @else
-        @include('admin/generalview.script_pay')
-        @include('admin/productRemission.script')
-    @endif
+    @include('admin/generalview.script_pay')
+    @include('admin/productRemission.script')
 @endsection

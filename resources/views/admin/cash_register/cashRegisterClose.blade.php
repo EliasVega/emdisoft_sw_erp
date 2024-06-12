@@ -6,7 +6,7 @@
 <main class="main">
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <label class="form-control-label"> CIERRE DE CAJA N°. <strong>{{ $cashRegister->id }}</strong> </label>
+                <label class="form-control-label"> CIERRE DE CAJA N°. <strong>{{ cashRegisterComprobation()->id }}</strong> </label>
             @can('cashRegister.index')
                 <a href="{{ route('cashRegister.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
             @endcan
@@ -20,163 +20,234 @@
         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
             <div class="form-group">
                 <label class="form-control-label" for="nombre">Responsable</label>
-                <p>{{ $cashRegister->user->name }}</p>
+                <p>{{ cashRegisterComprobation()->user->name }}</p>
             </div>
         </div>
-        @if ($cashRegister->cash_initial > 0)
+        @if (cashRegisterComprobation()->cash_initial > 0)
             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label class="form-control-label" for="cash_open">Efectivo Inicial</label>
-                    <p>${{ number_format($cashRegister->cash_initial,2) }}</p>
+                    <p>${{ number_format(cashRegisterComprobation()->cash_initial,2) }}</p>
                 </div>
             </div>
         @endif
 
-        @if ($cashRegister->status == 'close')
+        @if (cashRegisterComprobation()->status == 'close')
             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label class="form-control-label" for="open">Abierta</label>
-                    <p>{{ $cashRegister->created_at }}</p>
+                    <p>{{ cashRegisterComprobation()->created_at }}</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label class="form-control-label" for="close">Cerrada</label>
-                    <p>{{ $cashRegister->updated_at }}</p>
+                    <p>{{ cashRegisterComprobation()->updated_at }}</p>
                 </div>
             </div>
         @else
             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label class="form-control-label" for="open">Abierta</label>
-                    <p>{{ $cashRegister->created_at }}</p>
+                    <p>{{ cashRegisterComprobation()->created_at }}</p>
                 </div>
             </div>
         @endif
-        @if ($cashRegister->purchase > 0)
+        @if (cashRegisterComprobation()->purchase > 0)
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label class="form-control-label" for="abono">Total Compras</label>
-                    <p>${{ number_format($cashRegister->purchase,2) }}</p>
+                    <p>${{ number_format(cashRegisterComprobation()->purchase,2) }}</p>
                 </div>
             </div>
         @endif
-        @if ($cashRegister->out_purchase > 0)
+        @if (cashRegisterComprobation()->out_purchase > 0)
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label class="form-control-label" for="abono">Egresos Compras</label>
-                    <p>${{ number_format($cashRegister->out_purchase,2) }}</p>
+                    <p>${{ number_format(cashRegisterComprobation()->out_purchase,2) }}</p>
                 </div>
             </div>
         @endif
-        @if ($cashRegister->out_purchase_cash > 0)
+        @if (cashRegisterComprobation()->out_purchase_cash > 0)
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label class="form-control-label" for="in_purchase_cash">Compras En Efectivo</label>
-                    <p>${{ number_format($cashRegister->out_purchase_cash,2) }}</p>
+                    <p>${{ number_format(cashRegisterComprobation()->out_purchase_cash,2) }}</p>
                 </div>
             </div>
         @endif
-        @if ($cashRegister->expense > 0)
+        @if (cashRegisterComprobation()->expense > 0)
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label class="form-control-label" for="abono">Total Gastos</label>
-                    <p>${{ number_format($cashRegister->expense,2) }}</p>
+                    <p>${{ number_format(cashRegisterComprobation()->expense,2) }}</p>
                 </div>
             </div>
         @endif
-        @if ($cashRegister->out_expense > 0)
+        @if (cashRegisterComprobation()->out_expense > 0)
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label class="form-control-label" for="abono">Egresos Gastos</label>
-                    <p>${{ number_format($cashRegister->out_expense,2) }}</p>
+                    <p>${{ number_format(cashRegisterComprobation()->out_expense,2) }}</p>
                 </div>
             </div>
         @endif
-        @if ($cashRegister->out_expense_cash > 0)
+        @if (cashRegisterComprobation()->out_expense_cash > 0)
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label class="form-control-label" for="in_purchase_cash">Gastos En Efectivo</label>
-                    <p>${{ number_format($cashRegister->out_expense_cash,2) }}</p>
+                    <p>${{ number_format(cashRegisterComprobation()->out_expense_cash,2) }}</p>
                 </div>
             </div>
         @endif
-        @if ($cashRegister->ndpurchase > 0)
+        @if (cashRegisterComprobation()->ndpurchase > 0)
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label class="form-control-label" for="in_purchase_cash">ND Compras</label>
-                    <p>${{ number_format($cashRegister->ndpurchase,2) }}</p>
+                    <p>${{ number_format(cashRegisterComprobation()->ndpurchase,2) }}</p>
                 </div>
             </div>
         @endif
-        @if ($cashRegister->out_advance_cash > 0)
+        @if (cashRegisterComprobation()->ncpurchase > 0)
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label class="form-control-label" for="in_purchase_cash">NC Compras</label>
+                    <p>${{ number_format(cashRegisterComprobation()->ncpurchase,2) }}</p>
+                </div>
+            </div>
+        @endif
+        @if (cashRegisterComprobation()->out_advance_cash > 0)
             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                 <div class="form-group">
                     <label class="form-control-label" for="abono">ANT. PROVEEDORES EFECTIVO</label>
-                    <p>${{ number_format($cashRegister->out_advance_cash,2) }}</p>
+                    <p>${{ number_format(cashRegisterComprobation()->out_advance_cash,2) }}</p>
                 </div>
             </div>
         @endif
-        @if ($cashRegister->out_advance > 0)
+        @if (cashRegisterComprobation()->out_advance > 0)
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label class="form-control-label" for="abono">ANTICIPO PROVEEDORES</label>
-                    <p>${{ number_format($cashRegister->out_advance,2) }}</p>
+                    <p>${{ number_format(cashRegisterComprobation()->out_advance,2) }}</p>
                 </div>
             </div>
         @endif
-        @if ($cashRegister->in_advance_cash > 0)
+        @if (cashRegisterComprobation()->in_advance_cash > 0)
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label class="form-control-label" for="abono">ANT. CLIENTES EFECTIVO</label>
-                    <p>${{ number_format($cashRegister->in_advance_cash,2) }}</p>
+                    <p>${{ number_format(cashRegisterComprobation()->in_advance_cash,2) }}</p>
                 </div>
             </div>
         @endif
-        @if ($cashRegister->in_advance > 0)
+        @if (cashRegisterComprobation()->in_advance > 0)
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label class="form-control-label" for="abono">ANTICIPOS CLIENTES</label>
-                    <p>${{ number_format($cashRegister->in_advance,2) }}</p>
+                    <p>${{ number_format(cashRegisterComprobation()->in_advance,2) }}</p>
                 </div>
             </div>
         @endif
-
-        @if ($cashRegister->cash_in_total > 0)
+        @if (cashRegisterComprobation()->invoice > 0)
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label class="form-control-label" for="abono">Total Ventas</label>
+                    <p>${{ number_format(cashRegisterComprobation()->invoice,2) }}</p>
+                </div>
+            </div>
+        @endif
+        @if (cashRegisterComprobation()->in_invoice > 0)
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label class="form-control-label" for="abono">Ingreso Ventas</label>
+                    <p>${{ number_format(cashRegisterComprobation()->in_invoice,2) }}</p>
+                </div>
+            </div>
+        @endif
+        @if (cashRegisterComprobation()->in_invoice_cash > 0)
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label class="form-control-label" for="in_purchase_cash">Ventas En Efectivo</label>
+                    <p>${{ number_format(cashRegisterComprobation()->in_invoice_cash,2) }}</p>
+                </div>
+            </div>
+        @endif
+        @if (cashRegisterComprobation()->remission > 0)
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label class="form-control-label" for="abono">Total Remisiones</label>
+                    <p>${{ number_format(cashRegisterComprobation()->remission,2) }}</p>
+                </div>
+            </div>
+        @endif
+        @if (cashRegisterComprobation()->in_remission > 0)
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label class="form-control-label" for="abono">Ingreso Remisiones</label>
+                    <p>${{ number_format(cashRegisterComprobation()->in_remission,2) }}</p>
+                </div>
+            </div>
+        @endif
+        @if (cashRegisterComprobation()->in_remission_cash > 0)
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label class="form-control-label" for="in_purchase_cash">Remisiones En Efectivo</label>
+                    <p>${{ number_format(cashRegisterComprobation()->in_remission_cash,2) }}</p>
+                </div>
+            </div>
+        @endif
+        @if (cashRegisterComprobation()->ndinvoice > 0)
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label class="form-control-label" for="in_purchase_cash">ND Ventas</label>
+                    <p>${{ number_format(cashRegisterComprobation()->ndinvoice,2) }}</p>
+                </div>
+            </div>
+        @endif
+        @if (cashRegisterComprobation()->ncinvoice > 0)
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label class="form-control-label" for="in_purchase_cash">NC Ventas</label>
+                    <p>${{ number_format(cashRegisterComprobation()->ncinvoice,2) }}</p>
+                </div>
+            </div>
+        @endif
+        @if (cashRegisterComprobation()->cash_in_total > 0)
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label class="form-control-label" for="cash_in_total">INGRESOS EFECTIVO</label>
-                    <p>${{ number_format($cashRegister->cash_in_total,2) }}</p>
+                    <p>${{ number_format(cashRegisterComprobation()->cash_in_total,2) }}</p>
                 </div>
             </div>
         @endif
-        @if ($cashRegister->cash_out_total > 0)
+        @if (cashRegisterComprobation()->cash_out_total > 0)
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label class="form-control-label" for="cash_out">SALIDA EFECTIVO</label>
-                    <p>${{ number_format($cashRegister->cash_out_total,2) }}</p>
+                    <p>${{ number_format(cashRegisterComprobation()->cash_out_total,2) }}</p>
                 </div>
             </div>
         @endif
-        @if ($cashRegister->cash_in_total - $cashRegister->cash_out_total != 0)
+        @if (cashRegisterComprobation()->cash_in_total - cashRegisterComprobation()->cash_out_total != 0)
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label class="form-control-label" for="balance">EFECTIVO EN CAJA</label>
-                    <p>${{ number_format($cashRegister->cash_in_total - $cashRegister->cash_out_total,2) }}</p>
+                    <p>${{ number_format(cashRegisterComprobation()->cash_in_total - cashRegisterComprobation()->cash_out_total,2) }}</p>
                 </div>
             </div>
         @endif
-        @if ($cashRegister->in_total > 0)
+        @if (cashRegisterComprobation()->in_total > 0)
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label class="form-control-label" for="pay">TOTAL INGRESOS</label>
-                    <p>${{ number_format($cashRegister->in_total,2) }}</p>
+                    <p>${{ number_format(cashRegisterComprobation()->in_total,2) }}</p>
                 </div>
             </div>
         @endif
     </div>
     <div class="box-body row">
-        @if ($cashRegister->purchase > 0)
+        @if (cashRegisterComprobation()->purchase > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <strong class="tpdf">Articulos Comprados</strong>
@@ -219,7 +290,7 @@
                 </div>
             </div>
         @endif
-        @if ($cashRegister->expense > 0)
+        @if (cashRegisterComprobation()->expense > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <strong class="tpdf">Gastos adquiridos</strong>
@@ -262,7 +333,7 @@
                 </div>
             </div>
         @endif
-        @if ($cashRegister->invoice > 0)
+        @if (cashRegisterComprobation()->invoice > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <strong class="tpdf">Articulos Vendidos</strong>
@@ -305,7 +376,50 @@
                 </div>
             </div>
         @endif
-        @if ($cashRegister->ndpurchase > 0)
+        @if (cashRegisterComprobation()->remission > 0)
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <strong class="tpdf">Articulos Remision</strong>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div>
+                    <table class="table table-striped table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr class="bg-info">
+                                <th>id</th>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Imp</th>
+                                <th>subtotal</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th  colspan="3"><p align="right">TOTALES:</p></th>
+                                <th><p align="right">${{ number_format($remissionTotalTaxs,2) }}</p></th>
+                                <th><p align="right">${{ number_format($remissionTotals,2) }}</p></th>
+                                <th><p align="right">${{ number_format($remissionTotalTaxs + $invoiceTotals,2) }}</p></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach($productRemissions as $productRemission)
+                                <tr>
+                                    <td>{{ $productRemission->id }}</td>
+                                    <td>{{ $productRemission->name }}</td>
+                                    <td class="rightfoot">{{ $productRemission->quantity }}</td>
+                                    <td class="rightfoot">$ {{ number_format($productRemission->tax_subtotal,2) }}</td>
+                                    <td class="rightfoot">$ {{ number_format($productRemission->subtotal,2) }}</td>
+                                    <td class="rightfoot">$ {{ number_format($productRemission->subtotal + $productRemission->tax_subtotal,2) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        @endif
+        @if (cashRegisterComprobation()->ndpurchase > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <strong class="tpdf">Articulos Rechazados ND compra</strong>
@@ -348,7 +462,7 @@
                 </div>
             </div>
         @endif
-        @if ($cashRegister->ncinvoice > 0)
+        @if (cashRegisterComprobation()->ncinvoice > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <strong class="tpdf">Articulos Rechazados NC venta</strong>
@@ -391,7 +505,7 @@
                 </div>
             </div>
         @endif
-        @if ($cashRegister->purchase > 0)
+        @if (cashRegisterComprobation()->purchase > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <strong class="tpdf">Detalle de Compras</strong>
@@ -436,7 +550,7 @@
                 </div>
             </div>
         @endif
-        @if ($cashRegister->invoice > 0)
+        @if (cashRegisterComprobation()->invoice > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <strong class="tpdf">Detalle de Ventas</strong>
@@ -481,7 +595,52 @@
                 </div>
             </div>
         @endif
-        @if ($cashRegister->expense > 0)
+        @if (cashRegisterComprobation()->remission > 0)
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <strong class="tpdf">Detalle de Remisiones</strong>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr class="bg-info">
+                                <th>Fecha</th>
+                                <th>N°.R</th>
+                                <th>Cliente</th>
+                                <th>Estado</th>
+                                <th>Abonos</th>
+                                <th>Saldo</th>
+                                <th>Compras</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th  colspan="4"><p align="right">TOTAL:</p></th>
+                                <th><p align="right">${{ number_format($remissionSumPays,2) }}</p></th>
+                                <th><p align="right">${{ number_format($remissionBalances,2) }}</p></th>
+                                <th><p align="right">${{ number_format($remissionTotalPays,2) }}</p></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach($remissions as $remission)
+                                <tr>
+                                    <td>{{ $remission->created_at }}</td>
+                                    <td>{{ $remission->document }}</td>
+                                    <td>{{ $remission->third->name }}</td>
+                                    <td >{{ $remission->status }}</td>
+                                    <td class="rightfoot">$ {{ number_format($remission->pay,2) }}</td>
+                                    <td class="rightfoot">$ {{ number_format($remission->balance,2) }}</td>
+                                    <td class="rightfoot">$ {{ number_format($remission->total_pay,2) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        @endif
+        @if (cashRegisterComprobation()->expense > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <strong class="tpdf">Detalle de Gastos</strong>
@@ -526,7 +685,7 @@
                 </div>
             </div>
         @endif
-        @if ($cashRegister->ndpurchase > 0)
+        @if (cashRegisterComprobation()->ndpurchase > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <strong class="tpdf">Detalle Notas Debito Compras</strong>
@@ -565,7 +724,7 @@
                 </div>
             </div>
         @endif
-        @if ($cashRegister->ncpurchase > 0)
+        @if (cashRegisterComprobation()->ncpurchase > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <strong class="tpdf">Detalle Notas Credito Compras</strong>
@@ -604,7 +763,7 @@
                 </div>
             </div>
         @endif
-        @if ($cashRegister->ncinvoice > 0)
+        @if (cashRegisterComprobation()->ncinvoice > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <strong class="tpdf">Detalle Notas Credito Ventas</strong>
@@ -643,10 +802,10 @@
                 </div>
             </div>
         @endif
-        @if ($cashRegister->ndinvoice > 0)
+        @if (cashRegisterComprobation()->ndinvoice > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <strong class="tpdf">Detalle Notas Credito Compras</strong>
+                    <strong class="tpdf">Detalle Notas Credito Ventas</strong>
                 </div>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -682,7 +841,7 @@
                 </div>
             </div>
         @endif
-        @if ($cashRegister->out_purchase > 0)
+        @if (cashRegisterComprobation()->out_purchase > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <strong class="tpdf">Detalle Pagos por Compras</strong>
@@ -721,7 +880,7 @@
                 </div>
             </div>
         @endif
-        @if ($cashRegister->out_expense > 0)
+        @if (cashRegisterComprobation()->out_expense > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <strong class="tpdf">Detalle Pagos por Gastos</strong>
@@ -760,7 +919,7 @@
                 </div>
             </div>
         @endif
-        @if ($cashRegister->in_invoice > 0)
+        @if (cashRegisterComprobation()->in_invoice > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <strong class="tpdf">Detalle Recaudo por Ventas</strong>
@@ -792,6 +951,45 @@
                                     <td>{{ $invoicePay->payable->document }}</td>
                                     <td>{{ $invoicePay->payable->third->name }}</td>
                                     <td class="rightfoot">$ {{ number_format($invoicePay->pay,2) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        @endif
+        @if (cashRegisterComprobation()->in_remission > 0)
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <strong class="tpdf">Detalle Recaudo por Ventas</strong>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr class="bg-info">
+                                <th>Fecha</th>
+                                <th>ID</th>
+                                <th>N° Remision</th>
+                                <th>Cliente</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th  colspan="4"><p align="right">TOTAL:</p></th>
+                                <th><p align="right">${{ number_format($remissionSumPays,2) }}</p></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach($remissionPays as $remissionPay)
+                                <tr>
+                                    <td>{{ $remissionPay->created_at }}</td>
+                                    <td>{{ $remissionPay->id }}</td>
+                                    <td>{{ $remissionPay->payable->document }}</td>
+                                    <td>{{ $remissionPay->payable->third->name }}</td>
+                                    <td class="rightfoot">$ {{ number_format($remissionPay->pay,2) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -873,7 +1071,7 @@
                 </div>
             </div>
         @endif
-        @if ($cashRegister->in_cash > 0)
+        @if (cashRegisterComprobation()->in_cash > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <strong class="tpdf">Detalle Entradas de efectivo</strong>
@@ -910,7 +1108,7 @@
                 </div>
             </div>
         @endif
-        @if ($cashRegister->out_cash > 0)
+        @if (cashRegisterComprobation()->out_cash > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <strong class="tpdf">Detalle Entregas de efectivo</strong>

@@ -83,7 +83,7 @@
                 <table class="table table-striped table-bordered table-condensed table-hover">
                     <thead>
                         <tr class="bg-info">
-                            @if ($indicator->work_labor == 'on')
+                            @if (indicator()->work_labor == 'on')
                                 <th>Operario</th>
                             @else
                                 <th>ID</th>
@@ -99,26 +99,10 @@
                             <th colspan="4" class="rightfoot">TOTAL:</th>
                             <td class="rightfoot thfoot"><strong>${{number_format($remission->total,2)}}</strong></td>
                          </tr>
-                         @if ($taxLinesum > 0)
-                            @foreach ($taxLines as $taxLine)
-                                <tr>
-                                    <th colspan="4" class="rightfoot">{{ $taxLine->name }}:</th>
-                                    <td class="rightfoot thfoot"><strong>${{number_format($taxLine->tax_value,2)}}</strong> </td>
-                                </tr>
-                            @endforeach
-                         @endif
                          <tr>
                              <th  colspan="4" class="rightfoot">TOTAL PAGAR:</th>
                              <td class="rightfoot thfoot"><strong id="total">${{number_format($remission->total_pay,2)}}</strong></td>
                          </tr>
-                         @if ($retentionsum > 0)
-                            @foreach ($retentions as $retention)
-                                <tr>
-                                    <th colspan="4" class="rightfoot">{{ $retention->name }}:</th>
-                                    <td class="rightfoot thfoot"><strong>-${{number_format($retention->tax_value,2)}}</strong> </td>
-                                </tr>
-                            @endforeach
-                        @endif
                         @if ($remission->pay > 0)
                             <tr>
                                 <th  colspan="4" class="rightfoot">ABONOS</th>

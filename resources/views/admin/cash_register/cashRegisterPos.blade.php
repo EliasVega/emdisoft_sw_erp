@@ -21,10 +21,10 @@
             <div class="content_postbox">
                 <div class="user_postbox">
                     <p>
-                        Nombre: {{ $cashRegister->user->name }}:</p>
+                        Nombre: {{ cashRegisterComprobation()->user->name }}:</p>
                 </div>
             </div>
-            @if ($cashRegister->purchase > 0)
+            @if (cashRegisterComprobation()->purchase > 0)
                 <div class="content_postbox">
                     <p>REPORTE DE ARTICULOS COMPRAS</p>
                     <table>
@@ -51,47 +51,13 @@
                         <tfoot>
                             <tr>
                                 <th colspan="4" ><p align="right" >TOTAL:</p></th>
-                                <td><p align="right" >${{number_format($cashRegister->purchase)}}</p></td>
+                                <td><p align="right" >${{number_format(cashRegisterComprobation()->purchase)}}</p></td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
             @endif
-            @if ($cashRegister->invoice > 0)
-                <div class="content_postbox">
-                    <p>REPORTE DE ARTICULOS VENTAS</p>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>id</th>
-                                <th>Articulo</th>
-                                <th>Cant</th>
-                                <th>Precio</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($invoiceProducts as $invoiceProduct)
-                            <tr>
-                                <td>{{ $invoiceProduct->id }}</td>
-                                <td>{{ $invoiceProduct->name }}</td>
-                                <td>{{ $invoiceProduct->stock }}</td>
-                                <td align="right">${{ number_format($invoiceProduct->price) }}</td>
-                                <td align="right">${{ number_format($invoiceProduct->sale_price) }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot>
-
-                            <tr>
-                                <th colspan="4" ><p align="right" >TOTAL:</p></th>
-                                <td><p align="right" >${{number_format($cashRegister->invoice)}}</p></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            @endif
-            @if ($cashRegister->expense > 0)
+            @if (cashRegisterComprobation()->expense > 0)
                 <div class="content_postbox">
                     <p>REPORTE DE GASTOS SERVICIOS</p>
                     <table>
@@ -119,13 +85,81 @@
 
                             <tr>
                                 <th colspan="4" ><p align="right" >TOTAL:</p></th>
-                                <td><p align="right" >${{number_format($cashRegister->invoice)}}</p></td>
+                                <td><p align="right" >${{number_format(cashRegisterComprobation()->invoice)}}</p></td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
             @endif
-            @if ($cashRegister->purchase > 0)
+            @if (cashRegisterComprobation()->invoice > 0)
+                <div class="content_postbox">
+                    <p>REPORTE DE ARTICULOS VENTAS</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Articulo</th>
+                                <th>Cant</th>
+                                <th>Precio</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($invoiceProducts as $invoiceProduct)
+                            <tr>
+                                <td>{{ $invoiceProduct->id }}</td>
+                                <td>{{ $invoiceProduct->name }}</td>
+                                <td>{{ $invoiceProduct->stock }}</td>
+                                <td align="right">${{ number_format($invoiceProduct->price) }}</td>
+                                <td align="right">${{ number_format($invoiceProduct->sale_price) }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot>
+
+                            <tr>
+                                <th colspan="4" ><p align="right" >TOTAL:</p></th>
+                                <td><p align="right" >${{number_format(cashRegisterComprobation()->invoice)}}</p></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            @endif
+            @if (cashRegisterComprobation()->remission > 0)
+                <div class="content_postbox">
+                    <p>REPORTE DE ARTICULOS REMISIONES</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Articulo</th>
+                                <th>Cant</th>
+                                <th>Precio</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($remissionProducts as $remissionProduct)
+                            <tr>
+                                <td>{{ $remissionProduct->id }}</td>
+                                <td>{{ $remissionProduct->name }}</td>
+                                <td>{{ $remissionProduct->stock }}</td>
+                                <td align="right">${{ number_format($remissionProduct->price) }}</td>
+                                <td align="right">${{ number_format($remissionProduct->sale_price) }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot>
+
+                            <tr>
+                                <th colspan="4" ><p align="right" >TOTAL:</p></th>
+                                <td><p align="right" >${{number_format(cashRegisterComprobation()->remission)}}</p></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            @endif
+            @if (cashRegisterComprobation()->purchase > 0)
                 <div class="content_postbox">
                     <p>REPORTE DE COMPRAS</p>
                     <table>
@@ -148,43 +182,13 @@
                         <tfoot>
                             <tr>
                                 <th colspan="2" ><p align="right" >TOTAL:</p></th>
-                                <td><p align="right" >${{number_format($cashRegister->purchase)}}</p></td>
+                                <td><p align="right" >${{number_format(cashRegisterComprobation()->purchase)}}</p></td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
             @endif
-            @if ($cashRegister->invoice > 0)
-                <div class="content_postbox">
-                    <p>REPORTE DE FACTURAS DE VENTA</p>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>N°.Venta</th>
-                                <th>Cliente</th>
-                                <th>Precio</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($invoices as $invoice)
-                            <tr>
-                                <td>{{ $invoice->document }}</td>
-                                <td>{{ $invoice->third->name }}</td>
-                                <td align="right">$ {{ number_format($invoice->total_pay) }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th colspan="2" ><p align="right" >TOTAL:</p></th>
-                                <td><p align="right" >${{number_format($cashRegister->invoice)}}</p></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            @endif
-
-            @if ($cashRegister->expense > 0)
+            @if (cashRegisterComprobation()->expense > 0)
                 <div class="content_postbox">
                     <p>REPORTE DE GASTOS</p>
                     <table>
@@ -207,13 +211,71 @@
                         <tfoot>
                             <tr>
                                 <th colspan="2" ><p align="right" >TOTAL:</p></th>
-                                <td><p align="right" >${{number_format($cashRegister->expense)}}</p></td>
+                                <td><p align="right" >${{number_format(cashRegisterComprobation()->expense)}}</p></td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
             @endif
-            @if ($cashRegister->purchase_order > 0)
+            @if (cashRegisterComprobation()->invoice > 0)
+                <div class="content_postbox">
+                    <p>REPORTE DE FACTURAS DE VENTA</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>N°.Venta</th>
+                                <th>Cliente</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($invoices as $invoice)
+                            <tr>
+                                <td>{{ $invoice->document }}</td>
+                                <td>{{ $invoice->third->name }}</td>
+                                <td align="right">$ {{ number_format($invoice->total_pay) }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="2" ><p align="right" >TOTAL:</p></th>
+                                <td><p align="right" >${{number_format(cashRegisterComprobation()->invoice)}}</p></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            @endif
+            @if (cashRegisterComprobation()->remission > 0)
+                <div class="content_postbox">
+                    <p>REPORTE DE REMISIONES</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>N°.Venta</th>
+                                <th>Cliente</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($remissions as $remission)
+                            <tr>
+                                <td>{{ $remission->document }}</td>
+                                <td>{{ $remission->third->name }}</td>
+                                <td align="right">$ {{ number_format($remission->total_pay) }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="2" ><p align="right" >TOTAL:</p></th>
+                                <td><p align="right" >${{number_format(cashRegisterComprobation()->remission)}}</p></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            @endif
+            @if (cashRegisterComprobation()->purchase_order > 0)
                 <div class="content_postbox">
                     <p>REPORTE DE ORDENES DE COMPRA</p>
                     <table>
@@ -236,13 +298,42 @@
                         <tfoot>
                             <tr>
                                 <th colspan="2" ><p align="right" >TOTAL:</p></th>
-                                <td><p align="right" >${{number_format($cashRegister->purchase_order)}}</p></td>
+                                <td><p align="right" >${{number_format(cashRegisterComprobation()->purchase_order)}}</p></td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
             @endif
-            @if ($cashRegister->restaurant_order > 0)
+            @if (cashRegisterComprobation()->invoice_order > 0)
+                <div class="content_postbox">
+                    <p>REPORTE DE ORDENES DE VENTA</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>N°.orden</th>
+                                <th>Cliente</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($invoiceOrders as $invoiceOrder)
+                            <tr>
+                                <td>{{ $invoiceOrder->id }}</td>
+                                <td>{{ $invoiceOrder->customer->name }}</td>
+                                <td align="right">$ {{ number_format($invoiceOrder->total_pay, 2) }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="2" ><p align="right" >TOTAL:</p></th>
+                                <td><p align="right" >${{number_format(cashRegisterComprobation()->invoice_order)}}</p></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            @endif
+            @if (cashRegisterComprobation()->restaurant_order > 0)
                 <div class="content_postbox">
                     <p>REPORTE DE COMANDAS</p>
                     <table>
@@ -265,13 +356,13 @@
                         <tfoot>
                             <tr>
                                 <th colspan="2" ><p align="right" >TOTAL:</p></th>
-                                <td><p align="right" >${{number_format($cashRegister->restaurant_order)}}</p></td>
+                                <td><p align="right" >${{number_format(cashRegisterComprobation()->restaurant_order)}}</p></td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
             @endif
-            @if ($cashRegister->ncinvoice > 0)
+            @if (cashRegisterComprobation()->ncinvoice > 0)
                 <div class="content_postbox">
                     <p>REPORTE DE NOTAS CREDITO VENTAS</p>
                     <table>
@@ -294,13 +385,13 @@
                         <tfoot>
                             <tr>
                                 <th colspan="2" ><p align="right" >TOTAL:</p></th>
-                                <td><p align="right" >${{number_format($cashRegister->ncinvoice)}}</p></td>
+                                <td><p align="right" >${{number_format(cashRegisterComprobation()->ncinvoice)}}</p></td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
             @endif
-            @if ($cashRegister->ndinvoice > 0)
+            @if (cashRegisterComprobation()->ndinvoice > 0)
                 <div class="content_postbox">
                     <p>REPORTE DE NOTAS DEBITO VENTAS</p>
                     <table>
@@ -323,13 +414,13 @@
                         <tfoot>
                             <tr>
                                 <th colspan="2" ><p align="right" >TOTAL:</p></th>
-                                <td><p align="right" >${{number_format($cashRegister->ndinvoice)}}</p></td>
+                                <td><p align="right" >${{number_format(cashRegisterComprobation()->ndinvoice)}}</p></td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
             @endif
-            @if ($cashRegister->ncpurchase > 0)
+            @if (cashRegisterComprobation()->ncpurchase > 0)
                 <div class="content_postbox">
                     <p>REPORTE DE NOTAS CREDITO COMPRAS</p>
                     <table>
@@ -352,13 +443,13 @@
                         <tfoot>
                             <tr>
                                 <th colspan="2" ><p align="right" >TOTAL:</p></th>
-                                <td><p align="right" >${{number_format($cashRegister->ncpurchase)}}</p></td>
+                                <td><p align="right" >${{number_format(cashRegisterComprobation()->ncpurchase)}}</p></td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
             @endif
-            @if ($cashRegister->ndpurchase > 0)
+            @if (cashRegisterComprobation()->ndpurchase > 0)
                 <div class="content_postbox">
                     <p>REPORTE DE NOTAS DEBITO COMPRAS</p>
                     <table>
@@ -381,13 +472,13 @@
                         <tfoot>
                             <tr>
                                 <th colspan="2" ><p align="right" >TOTAL:</p></th>
-                                <td><p align="right" >${{number_format($cashRegister->ndpurchase)}}</p></td>
+                                <td><p align="right" >${{number_format(cashRegisterComprobation()->ndpurchase)}}</p></td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
             @endif
-            @if ($cashRegister->in_invoice > 0)
+            @if (cashRegisterComprobation()->in_invoice > 0)
                 <div class="content_postbox">
                     <p>REPORTE DE ABONOS A FACTURAS</p>
                     <table>
@@ -416,7 +507,36 @@
                     </table>
                 </div>
             @endif
-            @if ($cashRegister->out_purchase > 0)
+            @if (cashRegisterComprobation()->in_remisssion > 0)
+                <div class="content_postbox">
+                    <p>REPORTE DE ABONOS A REMISIONES</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>N°.Remision</th>
+                                <th>Cliente</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($remissionPays as $remissionPay)
+                            <tr>
+                                <td>{{ $remissionPay->payable->document }}</td>
+                                <td>{{ $remissionPay->payable->third->name }}</td>
+                                <td align="right">${{number_format($remissionPay->pay)}}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="2" ><p align="right" >TOTAL:</p></th>
+                                <td><p align="right" >${{number_format($invoiceSumPays)}}</p></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            @endif
+            @if (cashRegisterComprobation()->out_purchase > 0)
                 <div class="content_postbox">
                     <p>REPORTE DE PAGOS A COMPRAS</p>
                     <table>
@@ -445,7 +565,7 @@
                     </table>
                 </div>
             @endif
-            @if ($cashRegister->out_expense > 0)
+            @if (cashRegisterComprobation()->out_expense > 0)
                 <div class="content_postbox">
                     <p>REPORTE DE PAGOS Y GASTOS</p>
                     <table>
@@ -474,7 +594,7 @@
                     </table>
                 </div>
             @endif
-            @if ($cashRegister->in_cash > 0)
+            @if (cashRegisterComprobation()->in_cash > 0)
                 <div class="content_postbox">
                     <p>REPORTE DE ENTRADAS EFECTIVO</p>
                     <table>
@@ -503,7 +623,7 @@
                     </table>
                 </div>
             @endif
-            @if ($cashRegister->out_cash > 0)
+            @if (cashRegisterComprobation()->out_cash > 0)
                 <div class="content_postbox">
                     <p>REPORTE DE SALIDAS EFECTIVO</p>
                     <table>
@@ -623,129 +743,153 @@
                 <p>REPORTE DE TOTALES</p>
                 <table>
                     <tbody>
-                        @if ($cashRegister->purchase > 0)
+                        @if (cashRegisterComprobation()->purchase > 0)
                             <tr>
                                 <th colspan="4" ><p align="left" >TOTAL COMPRAS:</p></th>
-                                <td align="right"><p  ><h2>${{number_format($cashRegister->purchase,2)}}</h2></td>
+                                <td align="right"><p  ><h2>${{number_format(cashRegisterComprobation()->purchase,2)}}</h2></td>
                             </tr>
                         @endif
-                        @if ($cashRegister->expense > 0)
+                        @if (cashRegisterComprobation()->expense > 0)
                             <tr>
                                 <th colspan="4" ><p align="left" >TOTAL GASTOS:</p></th>
-                                <td align="right"><h2>${{number_format($cashRegister->expense,2)}}</h2></td>
+                                <td align="right"><h2>${{number_format(cashRegisterComprobation()->expense,2)}}</h2></td>
                             </tr>
                         @endif
-                        @if ($cashRegister->invoice > 0)
+                        @if (cashRegisterComprobation()->invoice > 0)
                             <tr>
                                 <th colspan="4" ><p align="left" >TOTAL VENTAS:</p></th>
-                                <td align="right"><h2>${{number_format($cashRegister->invoice,2)}}</h2></td>
+                                <td align="right"><h2>${{number_format(cashRegisterComprobation()->invoice,2)}}</h2></td>
                             </tr>
                         @endif
-                        @if ($cashRegister->purchase_order > 0)
+                        @if (cashRegisterComprobation()->remission > 0)
+                            <tr>
+                                <th colspan="4" ><p align="left" >TOTAL REMISIONES:</p></th>
+                                <td align="right"><h2>${{number_format(cashRegisterComprobation()->remission,2)}}</h2></td>
+                            </tr>
+                        @endif
+                        @if (cashRegisterComprobation()->purchase_order > 0)
                             <tr>
                                 <th colspan="4"><p align="left" >TOTAL ORDEN COMPRAS:</p></th>
-                                <td align="right"><h2>${{number_format($cashRegister->purchase_order,2)}}</h2></td>
+                                <td align="right"><h2>${{number_format(cashRegisterComprobation()->purchase_order,2)}}</h2></td>
                             </tr>
                         @endif
-                        @if ($cashRegister->restaurant_order > 0)
+                        @if (cashRegisterComprobation()->invoice_order > 0)
+                            <tr>
+                                <th colspan="4"><p align="left" >TOTAL ORDEN VENTAS:</p></th>
+                                <td align="right"><h2>${{number_format(cashRegisterComprobation()->invoice_order,2)}}</h2></td>
+                            </tr>
+                        @endif
+                        @if (cashRegisterComprobation()->restaurant_order > 0)
                             <tr>
                                 <th colspan="4"><p align="left" >TOTAL COMANDAS:</p></th>
-                                <td align="right"><h2>${{number_format($cashRegister->restaurant_order,2)}}</h2></td>
+                                <td align="right"><h2>${{number_format(cashRegisterComprobation()->restaurant_order,2)}}</h2></td>
                             </tr>
                         @endif
-                        @if ($cashRegister->ncinvoice > 0)
+                        @if (cashRegisterComprobation()->ncinvoice > 0)
                             <tr>
                                 <th colspan="4" ><p align="left" >TOTAL NOTA CREDITO VENTAS:</p></th>
-                                <td align="right"><h2>${{number_format($cashRegister->ncinvoice,2)}}</h2></td>
+                                <td align="right"><h2>${{number_format(cashRegisterComprobation()->ncinvoice,2)}}</h2></td>
                             </tr>
                         @endif
-                        @if ($cashRegister->ndinvoice > 0)
+                        @if (cashRegisterComprobation()->ndinvoice > 0)
                             <tr>
                                 <th colspan="4" ><p align="left" >TOTAL NOTA DEBITO VENTAS:</p></th>
-                                <td align="right"><h2>${{number_format($cashRegister->ndinvoice,2)}}</h2></td>
+                                <td align="right"><h2>${{number_format(cashRegisterComprobation()->ndinvoice,2)}}</h2></td>
                             </tr>
                         @endif
-                        @if ($cashRegister->ncpurchase > 0)
+                        @if (cashRegisterComprobation()->ncpurchase > 0)
                             <tr>
                                 <th colspan="4" ><p align="left" >TOTAL NOTA CREDITO COMPRAS:</p></th>
-                                <td align="right"><h2>${{number_format($cashRegister->ncpurchase,2)}}</h2></td>
+                                <td align="right"><h2>${{number_format(cashRegisterComprobation()->ncpurchase,2)}}</h2></td>
                             </tr>
                         @endif
-                        @if ($cashRegister->ndpurchase > 0)
+                        @if (cashRegisterComprobation()->ndpurchase > 0)
                             <tr>
                                 <th colspan="4" ><p align="left" >TOTAL NOTA DEBITO COMPRAS:</p></th>
-                                <td align="right"><h2>${{number_format($cashRegister->ndpurchase,2)}}</h2></td>
+                                <td align="right"><h2>${{number_format(cashRegisterComprobation()->ndpurchase,2)}}</h2></td>
                             </tr>
                         @endif
-                        @if ($cashRegister->out_purchase > 0)
+                        @if (cashRegisterComprobation()->out_purchase > 0)
                         <tr>
                             <th colspan="4" ><p align="left" >EGRESOS COMPRAS:</p></th>
-                            <td align="right"><h2>${{number_format($cashRegister->out_purchase,2)}}</h2></td>
+                            <td align="right"><h2>${{number_format(cashRegisterComprobation()->out_purchase,2)}}</h2></td>
                         </tr>
                         @endif
-                        @if ($cashRegister->out_expense > 0)
+                        @if (cashRegisterComprobation()->out_expense > 0)
                         <tr>
                             <th colspan="4" ><p align="left" >EGRESOS GASTOS:</p></th>
-                            <td align="right"><h2>${{number_format($cashRegister->out_expense,2)}}</h2></td>
+                            <td align="right"><h2>${{number_format(cashRegisterComprobation()->out_expense,2)}}</h2></td>
                         </tr>
                         @endif
-                        @if ($cashRegister->in_invoice > 0)
+                        @if (cashRegisterComprobation()->in_invoice > 0)
                         <tr>
                             <th colspan="4" ><p align="left" >INGRESOS VENTAS:</p></th>
-                            <td align="right"><h2>${{number_format($cashRegister->in_invoice,2)}}</h2></td>
+                            <td align="right"><h2>${{number_format(cashRegisterComprobation()->in_invoice,2)}}</h2></td>
                         </tr>
                         @endif
-                        @if ($cashRegister->out_total > 0)
+                        @if (cashRegisterComprobation()->in_remission > 0)
+                        <tr>
+                            <th colspan="4" ><p align="left" >INGRESOS REMISIONES:</p></th>
+                            <td align="right"><h2>${{number_format(cashRegisterComprobation()->in_remission,2)}}</h2></td>
+                        </tr>
+                        @endif
+                        @if (cashRegisterComprobation()->out_total > 0)
                             <tr>
                                 <th colspan="4" ><p align="left" >TOTAL EGRESOS:</p></th>
-                                <td align="right"><h2>${{number_format($cashRegister->out_total,2)}}</h2></td>
+                                <td align="right"><h2>${{number_format(cashRegisterComprobation()->out_total,2)}}</h2></td>
                             </tr>
                         @endif
-                        @if ($cashRegister->in_total > 0)
+                        @if (cashRegisterComprobation()->in_total > 0)
                             <tr>
                                 <th colspan="4" ><p align="left" >TOTAL INGRESOS:</p></th>
-                                <td align="right"><h2>${{number_format($cashRegister->in_total,2)}}</h2></td>
+                                <td align="right"><h2>${{number_format(cashRegisterComprobation()->in_total,2)}}</h2></td>
                             </tr>
                         @endif
-                        @if ($cashRegister->cash_initial > 0)
+                        @if (cashRegisterComprobation()->cash_initial > 0)
                         <tr>
                             <th colspan="4" ><p align="left" >EFECTIVO INICIAL:</p></th>
-                            <td align="right"><h2>${{number_format($cashRegister->cash_initial,2)}}</h2></td>
+                            <td align="right"><h2>${{number_format(cashRegisterComprobation()->cash_initial,2)}}</h2></td>
                         </tr>
                         @endif
-                        @if ($cashRegister->out_purchase_cash > 0)
+                        @if (cashRegisterComprobation()->out_purchase_cash > 0)
                         <tr>
                             <th colspan="4" ><p align="left" >EFECTIVO COMPRAS:</p></th>
-                            <td align="right"><h2>${{number_format($cashRegister->out_purchase_cash,2)}}</h2></td>
+                            <td align="right"><h2>${{number_format(cashRegisterComprobation()->out_purchase_cash,2)}}</h2></td>
                         </tr>
                         @endif
-                        @if ($cashRegister->out_expense_cash > 0)
+                        @if (cashRegisterComprobation()->out_expense_cash > 0)
                         <tr>
                             <th colspan="4" ><p align="left" >EFECTIVO GASTOS:</p></th>
-                            <td align="right"><h2>${{number_format($cashRegister->out_expense_cash,2)}}</h2></td>
+                            <td align="right"><h2>${{number_format(cashRegisterComprobation()->out_expense_cash,2)}}</h2></td>
                         </tr>
                         @endif
-                        @if ($cashRegister->in_invoice_cash > 0)
+                        @if (cashRegisterComprobation()->in_invoice_cash > 0)
                         <tr>
                             <th colspan="4" ><p align="left" >EFECTIVO VENTAS:</p></th>
-                            <td align="right"><h2>${{number_format($cashRegister->in_invoice_cash,2)}}</h2></td>
+                            <td align="right"><h2>${{number_format(cashRegisterComprobation()->in_invoice_cash,2)}}</h2></td>
                         </tr>
                         @endif
-                        @if ($cashRegister->cash_in_total > 0)
+                        @if (cashRegisterComprobation()->in_remission_cash > 0)
+                        <tr>
+                            <th colspan="4" ><p align="left" >EFECTIVO REMISIONES:</p></th>
+                            <td align="right"><h2>${{number_format(cashRegisterComprobation()->in_remission_cash,2)}}</h2></td>
+                        </tr>
+                        @endif
+                        @if (cashRegisterComprobation()->cash_in_total > 0)
                             <tr>
                                 <th colspan="4" ><p align="left" >TOTAL EFECTIVO:</p></th>
-                                <td align="right"><h2>${{number_format($cashRegister->cash_in_total,2)}}</h2></td>
+                                <td align="right"><h2>${{number_format(cashRegisterComprobation()->cash_in_total,2)}}</h2></td>
                             </tr>
                         @endif
-                        @if ($cashRegister->cash_out_total > 0)
+                        @if (cashRegisterComprobation()->cash_out_total > 0)
                             <tr>
                                 <th colspan="4" ><p align="left" >SALIDA EFECTIVO:</p></th>
-                                <td align="right"><h2>${{number_format($cashRegister->cash_out_total,2)}}</h2></td>
+                                <td align="right"><h2>${{number_format(cashRegisterComprobation()->cash_out_total,2)}}</h2></td>
                             </tr>
                         @endif
                         <tr>
                             <th colspan="4" ><p align="left" >SALDO EN CAJA:</p></th>
-                            <td align="right"><h2>${{number_format($cashRegister->cash_in_total - $cashRegister->cash_out_total ,2)}}</h2></td>
+                            <td align="right"><h2>${{number_format(cashRegisterComprobation()->cash_in_total - cashRegisterComprobation()->cash_out_total ,2)}}</h2></td>
                         </tr>
                     </tbody>
                     <tfoot>

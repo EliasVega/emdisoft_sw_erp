@@ -7,7 +7,6 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h5>Listado de Ventas</h5>
-            <a href="createPosRemission" class="btn btn-blueGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Agregar Remision pos</a>
             <a href="remission/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Agregar Remision</a>
             @can('branch.index')
                 <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>

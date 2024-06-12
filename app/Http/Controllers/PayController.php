@@ -62,6 +62,8 @@ class PayController extends Controller
                     $type = 'Venta';
                 } elseif ($pay->type == 'work_labor') {
                     $type = 'Obra_labor';
+                } elseif ($pay->type == 'remission') {
+                    $type = 'Remision';
                 }
                 return $type;
             })
@@ -73,6 +75,8 @@ class PayController extends Controller
                 } elseif ($pay->type == 'expense') {
                     $third = $pay->payable->third->name;
                 } elseif ($pay->type == 'invoice') {
+                    $third = $pay->payable->third->name;
+                } elseif ($pay->type == 'remission') {
                     $third = $pay->payable->third->name;
                 } elseif ($pay->type == 'work_labor') {
                     $third = $pay->payable->third->name;

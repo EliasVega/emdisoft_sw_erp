@@ -382,6 +382,7 @@ Route::get('rawMaterial/status/{id}', [RawMaterialController::class, 'status'])-
 Route::get('rawMaterial/kardexRawMaterial/{id}', [RawMaterialController::class, 'kardexRawMaterial'])->name('kardexRawMaterial');
 
 Route::get('remission/invoiceRemission/{id}', [RemissionController::class, 'invoiceRemission'])->name('invoiceRemission');
+Route::get('remission/invoicePosRemission/{id}', [RemissionController::class, 'invoicePosRemission'])->name('invoicePosRemission');
 Route::get('getProductRemission', [RemissionController::class, 'getProductRemission'])->name('getProductRemission');
 Route::get('remission/remissionPay/{id}', [RemissionController::class, 'remissionPay'])->name('remissionPay');
 Route::get('pdfRemission', [RemissionController::class, 'pdfRemission'])->name('pdfRemission');

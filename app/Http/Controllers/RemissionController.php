@@ -539,33 +539,34 @@ class RemissionController extends Controller
         $surplusPayments = (($payNew - $remissionPayments) *(-1));
 
         //salida de efectivo de caja
-        if ($remissionPayments > $payNew) {
-            if ($reverse == 1) {
-                $cashOutflow = new CashOutflow();
-                $cashOutflow->user_id = current_user()->id;
-                $cashOutflow->cash_register_id = cashRegisterComprobation()->id;
-                $cashOutflow->branch_id = current_user()->branch_id;
-                $cashOutflow->admin_id = 2;
-                $cashOutflow->cash = $surplusPayments;
-                $cashOutflow->reason = 'salida de caja por devolucion en remision :' . '-' - $remission->document;
-                $cashOutflow->save();
-
-                cashRegisterComprobation()->out_cash += $surplusPayments;
-                cashRegisterComprobation()->out_total += $surplusPayments;
-                cashRegisterComprobation()->cash_out_total += $surplusPayments;
-                cashRegisterComprobation()->update();
-            } else {
-                //creando registro d avance a clientes
-                $documentOrigin = $remission;
-                $advancePay = $surplusPayments;
-                $this->advanceCreate($voucherTypes, $documentOrigin, $advancePay, $typeDocument);
-
-                if (indicator()->pos == 'on') {
-                    cashRegisterComprobation()->in_advance += $advancePay;
-                    if ($date1 == $date2) {
-                        cashRegisterComprobation()->remission -= $advancePay;
-                    }
+        if (indicator()->pos == 'on') {
+            if ($remissionPayments > $payNew) {
+                if ($reverse == 1) {
+                    $cashOutflow = new CashOutflow();
+                    $cashOutflow->user_id = current_user()->id;
+                    $cashOutflow->cash_register_id = cashRegisterComprobation()->id;
+                    $cashOutflow->branch_id = current_user()->branch_id;
+                    $cashOutflow->admin_id = 2;
+                    $cashOutflow->cash = $surplusPayments;
+                    $cashOutflow->reason = 'salida de caja por devolucion en remision :' . '-' - $remission->document;
+                    $cashOutflow->save();
+                    cashRegisterComprobation()->out_cash += $surplusPayments;
+                    cashRegisterComprobation()->out_total += $surplusPayments;
+                    cashRegisterComprobation()->cash_out_total += $surplusPayments;
                     cashRegisterComprobation()->update();
+                } else {
+                    //creando registro d avance a clientes
+                    $documentOrigin = $remission;
+                    $advancePay = $surplusPayments;
+                    $this->advanceCreate($voucherTypes, $documentOrigin, $advancePay, $typeDocument);
+
+                    if (indicator()->pos == 'on') {
+                        cashRegisterComprobation()->in_advance += $advancePay;
+                        if ($date1 == $date2) {
+                            cashRegisterComprobation()->remission -= $advancePay;
+                        }
+                        cashRegisterComprobation()->update();
+                    }
                 }
             }
         }
@@ -725,7 +726,7 @@ class RemissionController extends Controller
             $cols--;
         }
         $customers = Customer::get();
-        $resolutions = Resolution::where('document_type_id', 1)->get();
+        $resolutions = Resolution::where('document_type_id', 1)->where('status', 'active')->get();
         $paymentForms = PaymentForm::get();
         $paymentMethods = PaymentMethod::where('status', 'active')->get();
         $banks = Bank::get();
@@ -795,10 +796,94 @@ class RemissionController extends Controller
         ));
     }
 
-    public function remissionPay($id)
+    public function invoicePosRemission($id)
     {
+        //dd($request->all());
+        $remission = Remission::findOrFail($id);
+        //$pos = indicator()->pos;
         $cashRegister = cashRegisterComprobation();
         if ($cashRegister == null) {
+            return redirect('branch');
+        }
+
+        $cols = 7;
+        if (indicator()->work_labor == 'off') {
+            $cols--;
+        }
+        $customers = Customer::get();
+        $resolutions = Resolution::where('document_type_id', 15)->where('status', 'active')->get();
+        $paymentForms = PaymentForm::get();
+        $paymentMethods = PaymentMethod::where('status', 'active')->get();
+        $banks = Bank::get();
+        $cards = Card::get();
+        $branchs = Branch::get();
+        $advances = Advance::where('status', '!=', 'aplicado')->get();
+        $employees = Employee::get();
+        $date = Carbon::now();
+        if (indicator()->inventory == 'on') {
+            $products = BranchProduct::from('branch_products as bp')
+            ->join('products as pro', 'bp.product_id', 'pro.id')
+            ->join('categories as cat', 'pro.category_id', 'cat.id')
+            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+            ->join('percentages as per', 'ct.percentage_id', 'per.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('pro.id', 'pro.code', 'pro.stock', 'pro.sale_price', 'pro.name', 'per.percentage', 'cat.utility_rate', 'tt.id as tt')
+            ->where('bp.branch_id', current_user()->branch_id)
+            ->where('bp.stock', '>=', 0)
+            ->where('pro.status', '=', 'active')
+            ->get();
+        } else {
+            $products = Product::from('products as pro')
+            ->join('categories as cat', 'pro.category_id', 'cat.id')
+            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+            ->join('percentages as per', 'ct.percentage_id', 'per.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('pro.id', 'pro.code', 'pro.stock', 'pro.sale_price', 'pro.name', 'cat.utility_rate', 'per.percentage', 'tt.id as tt')
+            ->where('pro.stock', '>=', 0)
+            ->where('pro.status', '=', 'active')
+            ->get();
+        }
+        $companyTaxes = CompanyTax::from('company_taxes', 'ct')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
+        ->where('tt.type_tax', 'retention')->get();
+        $productRemissions = ProductRemission::from('product_remissions as pr')
+        ->join('products as pro', 'pr.product_id', 'pro.id')
+        ->join('categories as cat', 'pro.category_id', 'cat.id')
+        ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->select('pr.id', 'pr.quantity', 'pr.price', 'pr.tax_rate', 'pro.id as idP', 'pro.stock', 'pro.name', 'per.percentage', 'tt.id as tt')
+        ->where('pr.remission_id', $remission->id)
+        ->get();
+        $type = 'pos';
+        $typeOperation = 'edition';
+        return view('admin.productRemission.create',
+        compact(
+            'remission',
+            'customers',
+            'employees',
+            'resolutions',
+            'paymentForms',
+            'paymentMethods',
+            'banks',
+            'cards',
+            'branchs',
+            'advances',
+            'products',
+            'date',
+            'companyTaxes',
+            'productRemissions',
+            'type',
+            'typeOperation',
+            'cols'
+        ));
+    }
+
+    public function remissionPay($id)
+    {
+        if (cashRegisterComprobation() == null) {
             return redirect('branch');
         }
         $document = Remission::findOrFail($id);
@@ -806,7 +891,7 @@ class RemissionController extends Controller
         $paymentMethods = PaymentMethod::get();
         $cards = Card::get();
         $advances = Advance::where('status', '!=', 'applied')->where('advanceable_id', $document->third->id)->get();
-        $tipeDocument = 'Venta';
+        $tipeDocument = 'Remission';
 
         return view('admin.pay.create', compact(
             'document',
