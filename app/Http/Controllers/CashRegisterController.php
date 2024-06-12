@@ -12,6 +12,7 @@ use App\Models\Company;
 use App\Models\Expense;
 use App\Models\ExpenseProduct;
 use App\Models\Invoice;
+use App\Models\InvoiceOrder;
 use App\Models\InvoiceProduct;
 use App\Models\Ncinvoice;
 use App\Models\NcinvoiceProduct;
@@ -316,11 +317,12 @@ class CashRegisterController extends Controller
         $invoiceBalance = Invoice::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('balance');
         $invoicePays = Invoice::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('pay');
 
+        $invoiceOrders = InvoiceOrder::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->get();
+        $restaurantOrders = RestaurantOrder::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->get();
+
         $remissions = Remission::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->get();
         $remissionBalance = Remission::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('balance');
         $remissionPays = Remission::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('pay');
-
-        $restaurantOrders = RestaurantOrder::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->get();
 
         $expenses = Expense::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->get();
         $expenseBalance = Expense::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('balance');
@@ -343,6 +345,9 @@ class CashRegisterController extends Controller
 
         $payInvoices = Pay::where('user_id', $userId)->where('type', 'invoice')->whereBetween('created_at', [$from, $to])->get();
         $sumPayInvoices = Pay::where('user_id', $userId)->where('type', 'invoice')->whereBetween('created_at', [$from, $to])->sum('pay');
+
+        $payRemissions = Pay::where('user_id', $userId)->where('type', 'remission')->whereBetween('created_at', [$from, $to])->get();
+        $sumPayRemissions = Pay::where('user_id', $userId)->where('type', 'remission')->whereBetween('created_at', [$from, $to])->sum('pay');
 
         $payExpenses = Pay::where('user_id', $userId)->where('type', 'expense')->whereBetween('created_at', [$from, $to])->get();
         $sumPayExpenses = Pay::where('user_id', $userId)->where('type', 'expense')->whereBetween('created_at', [$from, $to])->sum('pay');
@@ -378,10 +383,12 @@ class CashRegisterController extends Controller
             'invoiceBalance',
             'invoicePays',
 
+            'invoiceOreders',
+            'restaurantOrders',
+
             'remissions',
             'remissionBalance',
             'remissionPays',
-            'restaurantOrders',
 
             'expenses',
             'expenseBalance',
@@ -402,6 +409,9 @@ class CashRegisterController extends Controller
 
             'payInvoices',
             'sumPayInvoices',
+
+            'payRemissions',
+            'sumPayRemissions',
 
             'payExpenses',
             'sumPayExpenses',
@@ -566,6 +576,7 @@ class CashRegisterController extends Controller
                 $cont++;
             }
         }
+
         $invoiceProducts = [];
         $cont = 0;
         foreach ($products as $key => $product) {
@@ -816,32 +827,6 @@ class CashRegisterController extends Controller
                 $cont++;
             }
         }
-        /*
-        $sumtotal = Invoice_product::from('invoice_products as ip')
-        ->join('invoices as inv', 'ip.invoice_id', 'inv.id')
-        ->select('ip.subtotal', 'ip.created_at')
-        ->where('inv.user_id', $cashRegister->user_id)
-        ->whereBetween('ip.created_at', [$from, $to])
-        ->sum('subtotal');*/
-        /*
-        $iva_subtotal = Invoice_product::from('invoice_products as ip')
-        ->join('invoices as inv', 'ip.invoice_id', 'inv.id')
-        ->select('ip.subtotal', 'ip.created_at')
-        ->where('inv.user_id', $cashRegister->user_id)
-        ->whereBetween('ip.created_at', [$from, $to])
-        ->sum('ivasubt');*/
-
-        //$invoices = Invoice::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->get();
-        //$invbalance = Invoice::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('balance');
-        //$invpay = Invoice::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('pay');
-        //$pay_invoices = Pay_invoice::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->get();
-        //$sum_pay_invoices = Pay_invoice::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('pay');
-
-        //$orders = Order::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->get();
-        //$ordbalance = Order::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('balance');
-        //$ordpay = Order::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('pay');
-        //$pay_orders = Pay_order::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->get();
-        //$sum_pay_orders = Pay_order::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('pay');
 
         $purchases = Purchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->get();
         $purchaseBalances = Purchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('balance');
@@ -878,12 +863,6 @@ class CashRegisterController extends Controller
 
         $expensePays = Pay::where('user_id', $cashRegister->user_id)->where('type', 'expense')->whereBetween('created_at', [$from, $to])->get();
         $expenseSumPays = Pay::where('user_id', $cashRegister->user_id)->where('type', 'expense')->whereBetween('created_at', [$from, $to])->sum('pay');
-
-        //$ncinvoices = Ncinvoice::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->get();
-        //$totalnc = Ncinvoice::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
-
-        //$ndinvoices = Ndinvoice::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->get();
-        //$totalnd = Ndinvoice::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
 
         $ncpurchases = Ncpurchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->get();
         $sumNcpurchases = Ncpurchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
@@ -1145,39 +1124,34 @@ class CashRegisterController extends Controller
         }
 
         $purchases = Purchase::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
-
-        $invoices = Invoice::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
-
-        $remissions = Remission::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
-
-        $expenses = Expense::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
-
         $purchasePays = Pay::where('user_id', current_user()->id)->where('type', 'purchase')->whereBetween('created_at', [$from, $to])->get();
         $purchaseSumPays = Pay::where('user_id', current_user()->id)->where('type', 'purchase')->whereBetween('created_at', [$from, $to])->sum('pay');
-
-        $invoicePays = Pay::where('user_id', current_user()->id)->where('type', 'invoice')->whereBetween('created_at', [$from, $to])->get();
-        $invoiceSumPays = Pay::where('user_id', current_user()->id)->where('type', 'invoice')->whereBetween('created_at', [$from, $to])->sum('pay');
-
-        $remissionPays = Pay::where('user_id', current_user()->id)->where('type', 'remission')->whereBetween('created_at', [$from, $to])->get();
-        $remissionSumPays = Pay::where('user_id', current_user()->id)->where('type', 'remission')->whereBetween('created_at', [$from, $to])->sum('pay');
-
-        $expensePays = Pay::where('user_id', current_user()->id)->where('type', 'expense')->whereBetween('created_at', [$from, $to])->get();
-        $expenseSumPays = Pay::where('user_id', current_user()->id)->where('type', 'expense')->whereBetween('created_at', [$from, $to])->sum('pay');
-
         $ncpurchases = Ncpurchase::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
         $sumNcpurchases = Ncpurchase::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
-
         $ndpurchases = Ndpurchase::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
         $sumNdpurchases = Ndpurchase::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
 
+        $invoices = Invoice::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
+        $invoicePays = Pay::where('user_id', current_user()->id)->where('type', 'invoice')->whereBetween('created_at', [$from, $to])->get();
+        $invoiceSumPays = Pay::where('user_id', current_user()->id)->where('type', 'invoice')->whereBetween('created_at', [$from, $to])->sum('pay');
         $ncinvoices = Ncinvoice::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
         $sumNcinvoices = Ncinvoice::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
-
         $ndinvoices = Ndinvoice::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
         $sumNdinvoices = Ndinvoice::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
 
+        $remissions = Remission::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
+        $remissionPays = Pay::where('user_id', current_user()->id)->where('type', 'remission')->whereBetween('created_at', [$from, $to])->get();
+        $remissionSumPays = Pay::where('user_id', current_user()->id)->where('type', 'remission')->whereBetween('created_at', [$from, $to])->sum('pay');
+
+        $expenses = Expense::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
+        $expensePays = Pay::where('user_id', current_user()->id)->where('type', 'expense')->whereBetween('created_at', [$from, $to])->get();
+        $expenseSumPays = Pay::where('user_id', current_user()->id)->where('type', 'expense')->whereBetween('created_at', [$from, $to])->sum('pay');
+
         $purchaseOrders = PurchaseOrder::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
         $sumPurchaseOrders = PurchaseOrder::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
+
+        $invoiceOrders = InvoiceOrder::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
+        $sumInvoiceOrders = InvoiceOrder::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
 
         $restaurantOrders = RestaurantOrder::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
         $sumRestaurantOrders = RestaurantOrder::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
@@ -1201,40 +1175,39 @@ class CashRegisterController extends Controller
         $view = \view('admin.cash_register.cashRegisterPos', compact(
             'company',
             'cashRegister',
+
             'productPurchases',
             'invoiceProducts',
             'expenseProducts',
             'productRemissions',
 
             'purchases',
-            'invoices',
-            'remissions',
-            'expenses',
-
             'purchasePays',
             'purchaseSumPays',
-
-            'invoicePays',
-            'invoiceSumPays',
-
-            'remissionPays',
-            'remissionSumPays',
-
-            'expensePays',
-            'expenseSumPays',
-
             'ncpurchases',
             'sumNcpurchases',
             'ndpurchases',
             'sumNdpurchases',
 
+            'invoices',
+            'invoicePays',
+            'invoiceSumPays',
             'ncinvoices',
             'sumNcinvoices',
             'ndinvoices',
             'sumNdinvoices',
 
+            'remissions',
+            'remissionPays',
+            'remissionSumPays',
+
+            'expenses',
+            'expensePays',
+            'expenseSumPays',
+
             'purchaseOrders',
             'sumPurchaseOrders',
+
             'restaurantOrders',
             'sumRestaurantOrders',
 
@@ -1257,15 +1230,6 @@ class CashRegisterController extends Controller
         $pdf->setPaper(array(0, 0, 226.76, 497.64));
 
         return $pdf->stream('reporte_caja.pdf');
-        /*
-            $pdf = \App::make('dompdf.wrapper');
-            $pdf->loadHTML($view);
-            $pdf->setPaper (array(0,0,226.76,497.64));
-
-            return $pdf->stream('reporte_caja.pdf');
-
-            $data = PDF::loadView('vista-pdf', $data)
-            ->save(storage_path('app/public/') . 'archivo.pdf');*/
     }
 
 

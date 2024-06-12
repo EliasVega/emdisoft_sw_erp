@@ -14,27 +14,27 @@
         <div class="col-12 col-md-4 col-sm-6">
             <div class="form-group">
                 <label class="form-control-label" for="nombre"># caja</label>
-                <p>{{ cashRegisterComprobation()->id }}</p>
+                <p>{{ $cashRegister->id }}</p>
             </div>
         </div>
         <div class="col-12 col-md-4 col-sm-6">
             <div class="form-group">
                 <label class="form-control-label" for="cash_open">Efectivo apertura</label>
-                <p>{{ number_format(cashRegisterComprobation()->cash_initial,2) }}</p>
+                <p>{{ number_format($cashRegister->cash_initial,2) }}</p>
             </div>
         </div>
         <div class="col-12 col-md-4 col-sm-6">
             <div class="form-group">
                 <label class="form-control-label" for="open">fecha de apertura</label>
-                <p>{{ cashRegisterComprobation()->start_date }}</p>
+                <p>{{ $cashRegister->start_date }}</p>
             </div>
         </div>
 
         <div class="col-12 col-md-4 col-sm-6">
             <div class="form-group">
                 <label class="form-control-label" for="close"> fecha de Cierre</label>
-                @if (cashRegisterComprobation()->status == 'close')
-                    <p>{{ cashRegisterComprobation()->end_date }}</p>
+                @if ($cashRegister->status == 'close')
+                    <p>{{ $cashRegister->end_date }}</p>
                 @endif
 
             </div>
@@ -42,38 +42,38 @@
         <div class="col-12 col-md-4 col-sm-6">
             <div class="form-group">
                 <label class="form-control-label" for="abono">total entradas</label>
-                <p>{{ number_format(cashRegisterComprobation()->in_total,2) }}</p>
+                <p>{{ number_format($cashRegister->in_total,2) }}</p>
             </div>
         </div>
         <div class="col-12 col-md-4 col-sm-6">
             <div class="form-group">
                 <label class="form-control-label" for="abono">Total salidas</label>
-                <p>{{ number_format(cashRegisterComprobation()->out_total,2) }}</p>
+                <p>{{ number_format($cashRegister->out_total,2) }}</p>
             </div>
         </div>
         <div class="col-12 col-md-4 col-sm-6">
             <div class="form-group">
                 <label class="form-control-label" for="abono">Entrada de efectivo</label>
-                <p>{{ number_format(cashRegisterComprobation()->cash_in_total,2) }}</p>
+                <p>{{ number_format($cashRegister->cash_in_total,2) }}</p>
             </div>
         </div>
 
         <div class="col-12 col-md-4 col-sm-6">
             <div class="form-group">
                 <label class="form-control-label" for="pay">Salida de efectivo</label>
-                <p>{{ number_format(cashRegisterComprobation()->cash_out_total,2) }}</p>
+                <p>{{ number_format($cashRegister->cash_out_total,2) }}</p>
             </div>
         </div>
         <div class="col-12 col-md-4 col-sm-6">
             <div class="form-group">
                 <label class="form-control-label" for="balance">Saldo en caja</label>
-                <p>{{ number_format((cashRegisterComprobation()->cash_in_total - cashRegisterComprobation()->cash_out_total),2) }}</p>
+                <p>{{ number_format(($cashRegister->cash_in_total - $cashRegister->cash_out_total),2) }}</p>
             </div>
         </div>
     </div>
 
     <div class="row">
-        @if (cashRegisterComprobation()->remission > 0)
+        @if ($cashRegister->remission > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <strong class="tpdf">Detalle Remisiones</strong>
             </div>
@@ -93,7 +93,7 @@
                         <tfoot>
                             <tr>
                                 <th  colspan="5"><p align="right">TOTAL:</p></th>
-                                <th><p align="right">${{ number_format(cashRegisterComprobation()->remission,2) }}</p></th>
+                                <th><p align="right">${{ number_format($cashRegister->remission,2) }}</p></th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -114,7 +114,7 @@
                 </div>
             </div>
         @endif
-        @if (cashRegisterComprobation()->purchase > 0)
+        @if ($cashRegister->purchase > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <strong class="tpdf">Detalle Compras</strong>
             </div>
@@ -135,7 +135,7 @@
                         <tfoot>
                             <tr>
                                 <th  colspan="5"><p align="right">TOTAL:</p></th>
-                                <th><p align="right">${{ number_format(cashRegisterComprobation()->purchase,2) }}</p></th>
+                                <th><p align="right">${{ number_format($cashRegister->purchase,2) }}</p></th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -155,7 +155,7 @@
                 </div>
             </div>
         @endif
-        @if (cashRegisterComprobation()->expense > 0)
+        @if ($cashRegister->expense > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <strong class="tpdf">Detalle Gastos</strong>
             </div>
@@ -175,7 +175,7 @@
                         <tfoot>
                             <tr>
                                 <th  colspan="5"><p align="right">TOTAL:</p></th>
-                                <th><p align="right">${{ number_format(cashRegisterComprobation()->expense,2) }}</p></th>
+                                <th><p align="right">${{ number_format($cashRegister->expense,2) }}</p></th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -197,7 +197,7 @@
             </div>
         @endif
 
-        @if (cashRegisterComprobation()->ndinvoice > 0)
+        @if ($cashRegister->ndinvoice > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <strong class="tpdf">Detalle Notas Debito Ventas</strong>
             </div>
@@ -234,7 +234,7 @@
                 </div>
             </div>
         @endif
-        @if (cashRegisterComprobation()->ncinvoice > 0)
+        @if ($cashRegister->ncinvoice > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <strong class="tpdf">Detalle Notas Credito Venta</strong>
             </div>
@@ -271,7 +271,7 @@
                 </div>
             </div>
         @endif
-        @if (cashRegisterComprobation()->ndpurchase > 0)
+        @if ($cashRegister->ndpurchase > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <strong class="tpdf">Detalle Notas Debito Compras</strong>
             </div>
@@ -308,7 +308,7 @@
                 </div>
             </div>
         @endif
-        @if (cashRegisterComprobation()->ncpurchase > 0)
+        @if ($cashRegister->ncpurchase > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                 <strong class="tpdf">Detalle Notas Credito Compras</strong>
             </div>
@@ -346,7 +346,7 @@
             </div>
         @endif
 
-        @if (cashRegisterComprobation()->purchaseOrder > 0)
+        @if ($cashRegister->purchaseOrder > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <strong class="tpdf">Detalle Ordenes de compra</strong>
             </div>
@@ -365,7 +365,7 @@
                         <tfoot>
                             <tr>
                                 <th  colspan="5"><p align="right">TOTAL:</p></th>
-                                <th><p align="right">${{ number_format(cashRegisterComprobation()->purchase_order,2) }}</p></th>
+                                <th><p align="right">${{ number_format($cashRegister->purchase_order,2) }}</p></th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -384,7 +384,7 @@
                 </div>
             </div>
         @endif
-        @if (cashRegisterComprobation()->invoiceOrder > 0)
+        @if ($cashRegister->invoiceOrder > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <strong class="tpdf">Detalle Ordenes de compra</strong>
             </div>
@@ -403,7 +403,7 @@
                         <tfoot>
                             <tr>
                                 <th  colspan="5"><p align="right">TOTAL:</p></th>
-                                <th><p align="right">${{ number_format(cashRegisterComprobation()->invoice_order,2) }}</p></th>
+                                <th><p align="right">${{ number_format($cashRegister->invoice_order,2) }}</p></th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -422,7 +422,7 @@
                 </div>
             </div>
         @endif
-        @if (cashRegisterComprobation()->restaurantOrder > 0)
+        @if ($cashRegister->restaurantOrder > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <strong class="tpdf">Detalle Pedidos</strong>
             </div>
@@ -441,7 +441,7 @@
                         <tfoot>
                             <tr>
                                 <th  colspan="5"><p align="right">TOTAL:</p></th>
-                                <th><p align="right">${{ number_format(cashRegisterComprobation()->restaurant_order,2) }}</p></th>
+                                <th><p align="right">${{ number_format($cashRegister->restaurant_order,2) }}</p></th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -460,7 +460,7 @@
                 </div>
             </div>
         @endif
-        @if (cashRegisterComprobation()->out_cash > 0)
+        @if ($cashRegister->out_cash > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <strong class="tpdf">Detalle Entregas de efectivo</strong>
             </div>
@@ -495,7 +495,7 @@
                 </div>
             </div>
         @endif
-        @if (cashRegisterComprobation()->in_cash > 0)
+        @if ($cashRegister->in_cash > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <strong class="tpdf">Detalle Recarga de efectivo</strong>
             </div>
