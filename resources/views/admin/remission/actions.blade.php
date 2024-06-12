@@ -4,6 +4,8 @@
 <a href="{{ route('remissionPdf', $id) }}" class="btn btn-pdf btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="Venta pdf">
     <i class="fas fa-file-pdf"></i>
 </a>
+<a href="{{ route('invoiceRemission', $id) }}" class="btn btn-blueGrad btn-sm" data-toggle="tooltip" data-placement="top" title="Facturar Remision"><i class="fas fa-receipt"></i>
+</a>
 <a href="{{ route('remission.edit', $id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip"
 data-placement="top" title="Editar"><i class="far fa-edit"></i></a>
 <a href="{{ route('remission.show', $id) }}" class="btn btn-success btn-sm" data-toggle="tooltip"

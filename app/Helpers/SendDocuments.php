@@ -3,13 +3,13 @@
 use Illuminate\Support\Facades\Http;
 
 if (! function_exists('sendDocuments')) {
-    function sendDocuments($company, $url, $data)
+    function sendDocuments($url, $data)
     {
         $requestResponse = [];
         $errorMessages = null;
         //dd($data);
         $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $company->api_token,
+            'Authorization' => 'Bearer ' . company()->api_token,
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
         ])->post($url, $data);

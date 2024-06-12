@@ -11,7 +11,7 @@ class UpdateRemissionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,29 @@ class UpdateRemissionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'document' => 'string|max:20',
+            'generation_date' => 'date',
+            'due_date' => 'date',
+            'total' => 'required|numeric',
+            'total_tax' => 'required|numeric',
+            'total_pay' => 'required|numeric',
+            'pay' => '',
+            'balance' => 'numeric',
+            'retention' => 'numeric',
+            'grand_total' => 'numeric',
+            'status' => 'in:active,generate,canceled',
+            'note' => 'nullable|string|max:255',
+
+            'user_id' => 'integer',
+            'branch_id' => 'integer',
+            'customer_id' => 'integer',
+            'payment_form_id' => 'required|integer',
+            'payment_method_id' => 'required',
+            'resolution_id' => '',
+            'voucher_type_id' => 'integer',
+            'document_type_id' => 'integer',
+            'cash_register_id' => 'nullable',
+            'invoice_id' => 'nullable'
         ];
     }
 }

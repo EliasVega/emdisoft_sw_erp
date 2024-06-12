@@ -321,7 +321,7 @@ class DocumentTypesTableSeeder extends Seeder
             30 =>
             array (
                 'id' => 105,
-                'code' => '105',
+                'code' => '104',
                 'name' => 'Nota Credito pos Interna',
                 'prefix' => 'NCFP',
                 'cufe_algorithm' => 'CUDS-SHA384',
@@ -331,7 +331,7 @@ class DocumentTypesTableSeeder extends Seeder
             31 =>
             array (
                 'id' => 106,
-                'code' => '106',
+                'code' => '105',
                 'name' => 'Nota Debito pos Interna',
                 'prefix' => 'NDFP',
                 'cufe_algorithm' => 'CUDS-SHA384',

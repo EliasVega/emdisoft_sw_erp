@@ -9,17 +9,18 @@
             <h5>Listado de Ventas</h5>
             @if ($indicator->restaurant == 'off')
                     @can('invoice.create')
-                        <a href="createPos" class="btn btn-blueGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Agregar Venta pos</a>
+                        <a href="createPos" class="btn btn-blueGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Ventas pos</a>
                     @endcan
                     @can('invoice.create')
-                        <a href="invoice/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Agregar Venta</a>
+                        <a href="invoice/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Ventas</a>
                     @endcan
                 @can('invoiceOrder.create')
-                    <a href="invoiceOrder" class="btn btn-orangeGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Orden de Venta</a>
+                    <a href="invoiceOrder" class="btn btn-orangeGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Orden/Venta</a>
                 @endcan
+                <a href="remission" class="btn btn-lemonGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Remisiones</a>
             @else
                 @can('restaurantOrder.create')
-                    <a href="restaurantOrder/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Agregar Comanda</a>
+                    <a href="restaurantOrder/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Comandas</a>
                 @endcan
             @endif
 
@@ -37,12 +38,6 @@
             @endcan
             @can('pay.index')
                 <a href="{{ route('pay.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Abonos</a>
-            @endcan
-            @can('advance.index')
-                <a href="{{ route('advance.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Ant a Proveedores</a>
-            @endcan
-            @can('prePurchase.index')
-                <a href="{{ route('prePurchase.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Orden Compra</a>
             @endcan
             @can('branchProduct.index')
                 <a href="{{ route('branchProduct.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Productos Sucursal</a>

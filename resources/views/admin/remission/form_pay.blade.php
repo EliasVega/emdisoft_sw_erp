@@ -24,7 +24,7 @@
 </div>
 </div>
 <div class="box-body row" id="payPaymentButtons">
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="addPayPayment">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="payPayment">
     <div class="form-group">
         <button class="btn btn-lightBlueGrad btn-sm" type="button" id="addpay" data-toggle="tooltip"
         data-placement="top" title="Desea Agregar Abono">Agregar abono </button>

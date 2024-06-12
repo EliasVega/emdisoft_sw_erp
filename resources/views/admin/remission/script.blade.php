@@ -34,7 +34,6 @@
     var tax_iva = 0;
     var total_pay = 0;
     var total_desc = 0;
-    var uvt = '';
     //form remission
     $("#idPro").hide();
     $("#percent").hide();
@@ -227,7 +226,7 @@
         $("#price").val("");
     }
     function totals(){
-        var total_pay = total + total_tax;
+        total_pay = parseFloat(total)  + parseFloat(total_tax);
 
         $("#total_html").html("$ " + total.toFixed(2));
         $("#total").val(total.toFixed(2));
@@ -297,7 +296,7 @@
         }
     }
 
-    jQuery(document).on("click", "#updateInvoice", function () {
+    jQuery(document).on("click", "#updateRemission", function () {
         updaterow();
     });
 
@@ -347,6 +346,10 @@
         $("#addPay").click(function(){
             $("#formCard").hide();
             $("#formPayCard").show();
+            typeOperation = $("#typeOperation").val();
+            if (typeOperation == 'edition') {
+                assessEdit();
+            }
         });
     });
     $(document).ready(function(){

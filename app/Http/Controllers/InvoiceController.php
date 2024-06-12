@@ -1353,4 +1353,13 @@ class InvoiceController extends Controller
         $document = Invoice::findOrFail($id);
         return view('admin.invoice.pdfFl', compact('document'));
     }
+
+    public function getAdvance(Request $request, $id)
+    {
+        if($request)
+        {
+            $advances = Advance::where('type_third', 'customer')->where('advanceable_id', $id)->get();
+            return response()->json($advances);
+        }
+    }
 }

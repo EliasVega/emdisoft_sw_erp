@@ -10,7 +10,7 @@ trait AdvanceCreate {
         $advance = new Advance();
         $advance->user_id = current_user()->id;
         $advance->branch_id = current_user()->branch_id;
-        $advance->voucher_type_id = 18;
+        $advance->voucher_type_id = 25;
         $advance->document = $voucherTypes->code . '-' . $voucherTypes->consecutive;
         $advance->destination = null;
         $advance->pay = $advancePay;
@@ -34,6 +34,13 @@ trait AdvanceCreate {
             case 'ncinvoice':
                 $advance->origin = 'Factura de Venta' . '-' . $documentOrigin->id;
                 $advance->note = 'por Nota Credito a venta' . '-' . $documentOrigin->id;
+                $customer = Customer::findOrFail($documentOrigin->customer_id);
+                $advance->type_third = 'customer';
+                $customer->advances()->save($advance);
+            break;
+            case 'remission':
+                $advance->origin = 'Remission' . '-' . $documentOrigin->id;
+                $advance->note = 'por Edicion de Remision' . '-' . $documentOrigin->id;
                 $customer = Customer::findOrFail($documentOrigin->customer_id);
                 $advance->type_third = 'customer';
                 $customer->advances()->save($advance);

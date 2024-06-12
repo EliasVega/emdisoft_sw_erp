@@ -2,7 +2,7 @@
     <div class="col-md-5" id="formPayCard">
         <div class="card card-primary card-outline">
             <div class="row">
-                @include('admin/remission.form_pay')
+                @include('admin/generalview.form_pay')
             </div>
         </div>
     </div>
@@ -100,13 +100,16 @@
     <div class="col-md-7">
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <div class="form-group">
-                    <label for="customer_id"> Cliente </label>
-                    <select name="customer_id" class="form-control selectpicker" id="customer_id" data-live-search="true"
-                        required>
-                        <option value="" disabled selected>Seleccionar</option>
-                        @foreach ($customers as $customer)
-                            <option value="{{ $customer->id }}">{{ $customer->identification }} - {{ $customer->name }}</option>
+                <label for="customer_id">Cliente</label>
+                <div class="select">
+                    <select id="customer_id" name="customer_id" class="form-control selectpicker" data-live-search="true">
+                        <option {{ old('customer_id', $remission->customer_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Cliente</option>
+                        @foreach($customers as $customer)
+                            @if(old('customer_id', $remission->customer_id ?? '') == $customer->id)
+                                <option value="{{ $customer->id }}" selected>{{ $customer->name }}</option>
+                            @else
+                                <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
@@ -173,7 +176,7 @@
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="documentType">
         <div class="form-group">
             <label class="form-control-label" for="document_type_id">Tipo de documento</label>
-            <input type="text" id="document_type_id" name="document_type_id" value="1" class="form-control"
+            <input type="text" id="document_type_id" name="document_type_id" value="107" class="form-control"
                 placeholder="Tipo de documento">
         </div>
     </div>
@@ -187,7 +190,7 @@
     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="stock">Stock</label>
-            <input type="number" id="stock" name="stock" value="{{ old('stock') }}" class="form-control"
+            <input type="number" id="stock" name="stock" value="" class="form-control"
                 placeholder="stock" disabled pattern="[0-9]{0,15}">
         </div>
     </div>
@@ -254,6 +257,12 @@
         <div class="form-group">
             <label class="form-control-label" for="typeProduct">Typo Producto</label>
             <input type="text" id="typeProduct" name="typeProduct" class="form-control" value="product">
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="addTypeOperation">
+        <div class="form-group">
+            <label class="form-control-label" for="typeOperation">Typo Operacion</label>
+            <input type="text" id="typeOperation" name="typeOperation" class="form-control" value="{{ $typeOperation }}">
         </div>
     </div>
 </div>

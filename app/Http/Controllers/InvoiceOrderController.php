@@ -362,7 +362,6 @@ class InvoiceOrderController extends Controller
     public function update(UpdateInvoiceOrderRequest $request, InvoiceOrder $invoiceOrder)
     {
         //dd($request->all());
-        $cashRegister = cashRegisterComprobation();
         //llamado a variables
         $product_id = $request->product_id;
         $quantity   = $request->quantity;
@@ -373,8 +372,8 @@ class InvoiceOrderController extends Controller
 
         if (indicator()->pos == 'on') {
             //actualizar la caja
-            $cashRegister->invoice_order -= $invoiceOrder->total_pay;
-            $cashRegister->update();
+            cashRegisterComprobation()->invoice_order -= $invoiceOrder->total_pay;
+            cashRegisterComprobation()->update();
         }
 
         //Actualizando un registro de compras
@@ -394,8 +393,8 @@ class InvoiceOrderController extends Controller
 
         if (indicator()->pos == 'on') {
             //actualizar la caja
-            $cashRegister->invoice_order += $total_pay;
-            $cashRegister->update();
+            cashRegisterComprobation()->invoice_order += $total_pay;
+            cashRegisterComprobation()->update();
         }
 
         $invoiceOrderProducts = InvoiceOrderProduct::where('invoice_order_id', $invoiceOrder->id)->get();

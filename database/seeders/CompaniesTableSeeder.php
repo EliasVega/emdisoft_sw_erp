@@ -28,7 +28,7 @@ class CompaniesTableSeeder extends Seeder
                 'dv' => '6',
                 'address' => 'CR 21 99 27 BRR FONTANA',
                 'phone' => '3168886468',
-                'api_token' => '31bec9289d9271c7b65064e32d0af706f65f4ba99eea11aeefdb0e3a243c8c86',
+                'api_token' => '12345',
                 'email' => 'emdisoft@gmail.com',
                 'emailfe' => 'emdisoft@gmail.com',
                 'merchant_registration' => '05-451997-16',
@@ -42,8 +42,8 @@ class CompaniesTableSeeder extends Seeder
                 'liability_id' => 14,
                 'organization_id' => 1,
                 'regime_id' => 1,
-                'created_at' => '2024-05-22 21:07:42',
-                'updated_at' => '2024-05-22 21:07:42',
+                'created_at' => '2024-01-12 21:07:42',
+                'updated_at' => '2024-01-12 21:07:42',
             ),
         ));
 

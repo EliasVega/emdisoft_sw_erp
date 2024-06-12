@@ -25,6 +25,7 @@
     var totalpay=0;
     var paycont = [];
     var pendient = 0;
+    var advanceBalance = [];
     //form pay
     $("#payCash").hide();
     $("#payTransfer").hide();
@@ -286,22 +287,9 @@
         }
     }
 
-    prueba = [];
-    $("#provider_id").change(function(event){
-        $.get("getPayment/" + event.target.value + "", function(response){
-            $("#payment_id").empty();
-            $("#payment_id").append("<option value = '#' disabled selected>Seleccionar ...</option>");
-            for(i = 0; i < response.length; i++){
-                $("#payment_id").append("<option value = '" + response[i].id + "'>" + response[i].origin + response[i].balance + "</option>");
-                prueba = response[i].balance;
-            }
-            $("#payment_id").selectpicker('refresh');
-        });
-    });
-
     $(document).ready(function(){
-        $("#payment_id").change(function(){
-            parseFloat($("#abpayment").val(prueba))
+        $("#advance_id").change(function(){
+            parseFloat($("#abpayment").val(advanceBalance))
             $("#advancePay").show();
             prepaidnew();
         });
@@ -399,31 +387,31 @@
         }
     }
     function clearpay(){
-            $("#payment_method_id").val("");
-            $("#bank_id").val("");
-            $("#card_id").val("");
-            $("#pay").val("");
-            $("#transaction").val("");
+        $("#payment_method_id").val("");
+        $("#bank_id").val("");
+        $("#card_id").val("");
+        $("#pay").val("");
+        $("#transaction").val("");
 
-            pend = $("#pendient").val();
-            if (pend == 0) {
-                $("#payPaymentButtons").hide();
-                $("#tinvoice").hide();
-                $("#pInvoice").hide();
-                $("#valuePay").hide();
-                $("#returnedBalance").hide();
-                $("#payingButton").hide();
-            }
+        pend = $("#pendient").val();
+        if (pend == 0) {
+            $("#payPaymentButtons").hide();
+            $("#tinvoice").hide();
+            $("#pInvoice").hide();
+            $("#valuePay").hide();
+            $("#returnedBalance").hide();
+            $("#payingButton").hide();
         }
-        function totalpayment(){
+    }
+    function totalpayment(){
 
-            $("#totalpay_html").html("$ " + totalpay.toFixed(2));
-            $("#totalpay").val(totalpay.toFixed(2));
-            $("#pendient").val(rbalance);
-        }
-        function assesspayment(){
+        $("#totalpay_html").html("$ " + totalpay.toFixed(2));
+        $("#totalpay").val(totalpay.toFixed(2));
+        $("#pendient").val(rbalance);
+    }
+    function assesspayment(){
 
-            if(totalpay>=0){
+        if(totalpay>=0){
 
             $("#save").show();
 

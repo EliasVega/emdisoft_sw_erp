@@ -307,7 +307,6 @@ class ExpenseController extends Controller
         $indicator = Indicator::findOrFail(1);
         $date1 = Carbon::now()->toDateString();
         $date2 = Expense::find($expense->id)->created_at->toDateString();
-        $cashRegister = cashRegisterComprobation();
         $typeDocument = 'expense';
 
         //Variables del request expense
@@ -324,7 +323,7 @@ class ExpenseController extends Controller
         $documentOrigin = $expense;
 
         if ($advancePay > 0) {
-            $this->reverse($reverse, $advancePay, $cashRegister, $indicator, $documentOrigin, $typeDocument, $document, $date1, $date2);
+            $this->reverse($reverse, $advancePay, $indicator, $documentOrigin, $typeDocument, $document, $date1, $date2);
 
             $expense->balance = 0;
             $expense->pay = $total;
@@ -342,9 +341,9 @@ class ExpenseController extends Controller
         if ($indicator->pos == 'on') {
             //actualizar la caja
             if ($date1 == $date2) {
-                $cashRegister->expense -= $totalold;
-                $cashRegister->expense += $total;
-                $cashRegister->update();
+                cashRegisterComprobation()->expense -= $totalold;
+                cashRegisterComprobation()->expense += $total;
+                cashRegisterComprobation()->update();
             }
         }
 

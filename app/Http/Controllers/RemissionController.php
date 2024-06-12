@@ -10,8 +10,11 @@ use App\Models\Bank;
 use App\Models\Branch;
 use App\Models\BranchProduct;
 use App\Models\Card;
+use App\Models\CashOutflow;
 use App\Models\CompanyTax;
 use App\Models\Customer;
+use App\Models\Employee;
+use App\Models\Kardex;
 use App\Models\PaymentForm;
 use App\Models\PaymentMethod;
 use App\Models\paymentReturn;
@@ -25,11 +28,12 @@ use Illuminate\Support\Facades\App;
 use Yajra\DataTables\DataTables;
 use App\Traits\InventoryInvoices;
 use App\Traits\KardexCreate;
+use App\Traits\AdvanceCreate;
 
 
 class RemissionController extends Controller
 {
-    use InventoryInvoices, KardexCreate;
+    use InventoryInvoices, KardexCreate, AdvanceCreate;
     /**
      * Display a listing of the resource.
      */
@@ -142,6 +146,7 @@ class RemissionController extends Controller
         ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
         ->where('tt.type_tax', 'retention')->get();
         $type = 'remission';
+        $typeOperation = 'creation';
         return view('admin.remission.create',
         compact(
             'customers',
@@ -155,7 +160,8 @@ class RemissionController extends Controller
             'products',
             'date',
             'companyTaxes',
-            'type'
+            'type',
+            'typeOperation'
         ));
     }
 
@@ -205,6 +211,7 @@ class RemissionController extends Controller
         ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
         ->where('tt.type_tax', 'retention')->get();
         $type = 'pos';
+        $typeOperation = 'creation';
         return view('admin.remission.create',
         compact(
             'customers',
@@ -219,7 +226,8 @@ class RemissionController extends Controller
             'products',
             'date',
             'companyTaxes',
-            'type'
+            'type',
+            'typeOperation'
         ));
     }
 
@@ -232,7 +240,7 @@ class RemissionController extends Controller
         $typeDocument = 'remission';
         $documentType = 107;
         $resolutions = Resolution::findOrFail(14);
-        $voucherType = VoucherType::findOrFail(25);
+        $voucherTypes = VoucherType::findOrFail(25);
 
         //Variables del request
         $product_id = $request->product_id;
@@ -266,7 +274,7 @@ class RemissionController extends Controller
         $remission->resolution_id = $resolutions->id;
         $remission->document_type_id = $documentType;
         $remission->document = $resolutions->prefix . $resolutions->consecutive;
-        $remission->voucher_type_id = $voucherType->id;
+        $remission->voucher_type_id = $voucherTypes->id;
         $remission->cash_register_id = cashregisterModel()->id;
         $remission->status = 'active';
         $remission->note = $request->note;
@@ -285,8 +293,8 @@ class RemissionController extends Controller
         $remission->grand_total = $total_pay - $retention;
         $remission->save();
 
-        $voucherType->consecutive += 1;
-        $voucherType->update();
+        $voucherTypes->consecutive += 1;
+        $voucherTypes->update();
 
         if (indicator()->pos == 'on') {
             //actualizar la caja
@@ -316,7 +324,7 @@ class RemissionController extends Controller
             ->first();
 
             $quantityLocal = $quantity[$i];
-            $voucherType = $voucherType->id;
+            $voucherType = $voucherTypes->id;
             $this->inventoryInvoices($product, $branchProducts, $quantityLocal, $branch);//trait para actualizar inventario
             $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
         }
@@ -353,7 +361,153 @@ class RemissionController extends Controller
      */
     public function edit(Remission $remission)
     {
-        //
+        $pos = indicator()->pos;
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == null) {
+            return redirect('branch');
+        }
+        $customers = Customer::get();
+        $resolutions = Resolution::where('document_type_id', 107)->get();
+        $paymentForms = PaymentForm::get();
+        $paymentMethods = PaymentMethod::where('status', 'active')->get();
+        $banks = Bank::get();
+        $cards = Card::get();
+        $branchs = Branch::get();
+        $advances = Advance::where('status', '!=', 'aplicado')->get();
+        $date = Carbon::now();
+        if (indicator()->inventory == 'on') {
+            $products = BranchProduct::from('branch_products as bp')
+            ->join('products as pro', 'bp.product_id', 'pro.id')
+            ->join('categories as cat', 'pro.category_id', 'cat.id')
+            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+            ->join('percentages as per', 'ct.percentage_id', 'per.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('pro.id', 'pro.code', 'pro.stock', 'pro.sale_price', 'pro.name', 'per.percentage', 'cat.utility_rate', 'tt.id as tt')
+            ->where('bp.branch_id', current_user()->branch_id)
+            ->where('bp.stock', '>=', 0)
+            ->where('pro.status', '=', 'active')
+            ->get();
+        } else {
+            $products = Product::from('products as pro')
+            ->join('categories as cat', 'pro.category_id', 'cat.id')
+            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+            ->join('percentages as per', 'ct.percentage_id', 'per.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('pro.id', 'pro.code', 'pro.stock', 'pro.sale_price', 'pro.name', 'cat.utility_rate', 'per.percentage', 'tt.id as tt')
+            ->where('pro.stock', '>=', 0)
+            ->where('pro.status', '=', 'active')
+            ->get();
+        }
+        $companyTaxes = CompanyTax::from('company_taxes', 'ct')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
+        ->where('tt.type_tax', 'retention')->get();
+        $productRemissions = ProductRemission::from('product_remissions as pr')
+        ->join('products as pro', 'pr.product_id', 'pro.id')
+        ->join('categories as cat', 'pro.category_id', 'cat.id')
+        ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->select('pr.id', 'pr.quantity', 'pr.price', 'pr.tax_rate', 'pro.id as idP', 'pro.stock', 'pro.name', 'per.percentage', 'tt.id as tt')
+        ->where('pr.remission_id', $remission->id)
+        ->get();
+        $type = 'remission';
+        $typeOperation = 'edition';
+        return view('admin.remission.edit',
+        compact(
+            'remission',
+            'customers',
+            'resolutions',
+            'paymentForms',
+            'paymentMethods',
+            'banks',
+            'cards',
+            'branchs',
+            'advances',
+            'products',
+            'date',
+            'companyTaxes',
+            'productRemissions',
+            'type',
+            'typeOperation'
+        ));
+    }
+
+    public function editPosRemission($id)
+    {
+        $remission = Remission::findOrFail($id);
+        $pos = indicator()->pos;
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == null) {
+            return redirect('branch');
+        }
+        $customers = Customer::get();
+        $resolutions = Resolution::where('document_type_id', 107)->get();
+        $paymentForms = PaymentForm::get();
+        $paymentMethods = PaymentMethod::where('status', 'active')->get();
+        $banks = Bank::get();
+        $cards = Card::get();
+        $branchs = Branch::get();
+        $advances = Advance::where('status', '!=', 'aplicado')->get();
+        $date = Carbon::now();
+        if (indicator()->inventory == 'on') {
+            $products = BranchProduct::from('branch_products as bp')
+            ->join('products as pro', 'bp.product_id', 'pro.id')
+            ->join('categories as cat', 'pro.category_id', 'cat.id')
+            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+            ->join('percentages as per', 'ct.percentage_id', 'per.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('pro.id', 'pro.code', 'pro.stock', 'pro.sale_price', 'pro.name', 'per.percentage', 'cat.utility_rate', 'tt.id as tt')
+            ->where('bp.branch_id', current_user()->branch_id)
+            ->where('bp.stock', '>=', 0)
+            ->where('pro.status', '=', 'active')
+            ->get();
+        } else {
+            $products = Product::from('products as pro')
+            ->join('categories as cat', 'pro.category_id', 'cat.id')
+            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+            ->join('percentages as per', 'ct.percentage_id', 'per.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('pro.id', 'pro.code', 'pro.stock', 'pro.sale_price', 'pro.name', 'cat.utility_rate', 'per.percentage', 'tt.id as tt')
+            ->where('pro.stock', '>=', 0)
+            ->where('pro.status', '=', 'active')
+            ->get();
+        }
+        $companyTaxes = CompanyTax::from('company_taxes', 'ct')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
+        ->where('tt.type_tax', 'retention')->get();
+        $productRemissions = ProductRemission::from('product_remissions as pr')
+        ->join('products as pro', 'pr.product_id', 'pro.id')
+        ->join('categories as cat', 'pro.category_id', 'cat.id')
+        ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->select('pr.id', 'pr.quantity', 'pr.price', 'pr.tax_rate', 'pro.id as idP', 'pro.stock', 'pro.name', 'per.percentage', 'tt.id as tt')
+        ->where('pr.remission_id', $remission->id)
+        ->get();
+        $type = 'remission';
+        $typeOperation = 'edition';
+        return view('admin.remission.edit',
+        compact(
+            'remission',
+            'customers',
+            'resolutions',
+            'paymentForms',
+            'paymentMethods',
+            'banks',
+            'cards',
+            'branchs',
+            'advances',
+            'products',
+            'date',
+            'companyTaxes',
+            'productRemissions',
+            'type',
+            'typeOperation'
+        ));
     }
 
     /**
@@ -361,7 +515,191 @@ class RemissionController extends Controller
      */
     public function update(UpdateRemissionRequest $request, Remission $remission)
     {
-        //
+        //dd($request->all());
+        //Variables del request
+        $product_id = $request->product_id;
+        $quantity = $request->quantity;
+        $price = $request->price;
+        $tax_rate = $request->tax_rate;
+        $branch = current_user()->branch_id;
+        $total_pay = $request->total_pay;
+        $paymentForm = $request->payment_form_id;
+
+        $typeDocument = 'remission';
+        $documentType = 107;
+        $resolutions = Resolution::findOrFail(14);
+        $voucherTypes = VoucherType::findOrFail(25);
+
+        //datos para hacer reversiones
+        $date1 = Carbon::now()->toDateString();
+        $date2 = Remission::find($remission->id)->created_at->toDateString();
+        $reverse = $request->reverse;//1 si desea volver valor a caja 2 si desea crear un avance
+        $remissionPayments = $request->remission_payments;
+        $payNew = $request->total_pay;
+        $surplusPayments = (($payNew - $remissionPayments) *(-1));
+
+        //salida de efectivo de caja
+        if ($remissionPayments > $payNew) {
+            if ($reverse == 1) {
+                $cashOutflow = new CashOutflow();
+                $cashOutflow->user_id = current_user()->id;
+                $cashOutflow->cash_register_id = cashRegisterComprobation()->id;
+                $cashOutflow->branch_id = current_user()->branch_id;
+                $cashOutflow->admin_id = 2;
+                $cashOutflow->cash = $surplusPayments;
+                $cashOutflow->reason = 'salida de caja por devolucion en remision :' . '-' - $remission->document;
+                $cashOutflow->save();
+
+                cashRegisterComprobation()->out_cash += $surplusPayments;
+                cashRegisterComprobation()->out_total += $surplusPayments;
+                cashRegisterComprobation()->cash_out_total += $surplusPayments;
+                cashRegisterComprobation()->update();
+            } else {
+                //creando registro d avance a clientes
+                $documentOrigin = $remission;
+                $advancePay = $surplusPayments;
+                $this->advanceCreate($voucherTypes, $documentOrigin, $advancePay, $typeDocument);
+
+                if (indicator()->pos == 'on') {
+                    cashRegisterComprobation()->in_advance += $advancePay;
+                    if ($date1 == $date2) {
+                        cashRegisterComprobation()->remission -= $advancePay;
+                    }
+                    cashRegisterComprobation()->update();
+                }
+            }
+        }
+
+        if (indicator()->pos == 'on') {
+            if ($date1 == $date2) {
+                cashRegisterComprobation()->remission -= $remission->total_pay;
+            }
+        }
+
+        //asignando pago para pos activo
+        if (indicator()->pos == 'on'  && $paymentForm == 1) {
+            $totalpay = $request->total_pay;
+        } else if(indicator()->pos == 'on'  && $paymentForm == 2){
+            $totalpay = 0;
+        } else {
+            $totalpay = $request->totalpay;
+        }
+        $retention = 0;
+        //variables del request
+        if ($request->total_retention != null) {
+            $retention = $request->total_retention;
+        }
+
+        $remission->user_id = current_user()->id;
+        $remission->branch_id = current_user()->branch_id;
+        $remission->customer_id = $request->customer_id;
+        $remission->payment_form_id = $request->payment_form_id;
+        $remission->payment_method_id = $request->payment_method_id[0];
+        $remission->resolution_id = $resolutions->id;
+        $remission->document_type_id = $documentType;
+        $remission->document = $resolutions->prefix . $resolutions->consecutive;
+        $remission->voucher_type_id = $voucherTypes->id;
+        $remission->cash_register_id = cashregisterModel()->id;
+        $remission->status = 'active';
+        $remission->note = $request->note;
+        $remission->generation_date = $request->generation_date;
+        $remission->due_date = $request->due_date;
+        $remission->retention = $retention;
+        $remission->total = $request->total;
+        $remission->total_tax = $request->total_tax;
+        $remission->total_pay = $total_pay;
+        if ($totalpay > 0) {
+            $remission->pay = $totalpay;
+        } else {
+            $remission->pay = 0;
+        }
+        $remission->balance = $total_pay - $totalpay;
+        $remission->grand_total = $total_pay - $retention;
+        $remission->update();
+
+        $voucherTypes->consecutive += 1;
+        $voucherTypes->update();
+
+        //poner en cero los productos productRemission
+        $productRemission = ProductRemission::where('remission_id', $remission->id)->get();
+
+        for ($i=0; $i < count($productRemission); $i++) {
+            $product = Product::findOrFail($productRemission[$i]->product_id);
+            if (indicator()->inventory == 'on') {//si se maneja inventario
+                $product->stock += $productRemission[$i]->quantity;
+                $product->update();
+                $branchProducts = BranchProduct::where('product_id', $product->id)->first();
+                $branchProducts->stock += $productRemission[$i]->quantity;
+                $branchProducts->update();
+
+                $kardex = new Kardex();
+                $kardex->branch_id = $branch;
+                $kardex->voucher_type_id = $voucherTypes->id;
+                $kardex->document = $remission->document;
+                $kardex->quantity = $productRemission[$i]->quantity;
+                $kardex->stock = $product->stock;
+                $kardex->movement = $typeDocument;
+                $product->kardexes()->save($kardex);
+            }
+
+            $productRemission[$i]->quantity = 0;
+            $productRemission[$i]->subtotal = 0;
+            $productRemission[$i]->tax_subtotal = 0;
+            $productRemission[$i]->update();
+        }
+
+        //poner en cero los productos productRemission
+
+        $document = $remission;
+        for ($i=0; $i < count($product_id); $i++) {
+            $id = $product_id[$i];
+            $productRemission = ProductRemission::where('remission_id', $remission->id)->where('product_id', $id)->first();
+            if (isset($productRemission)) {
+                //Actualiza el campo existente
+                $productRemission->quantity = $quantity[$i];
+                $productRemission->subtotal = $quantity[$i] * $price[$i];
+                $productRemission->tax_subtotal =($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
+                $productRemission->update();
+            } else {
+                //Ingresa los productos que vienen en el array
+                //Metodo para registrar la relacion entre producto y compra
+                $productRemission = new ProductRemission();
+                $productRemission->remission_id = $remission->id;
+                $productRemission->product_id = $id;
+                $productRemission->quantity = $quantity[$i];
+                $productRemission->price = $price[$i];
+                $productRemission->tax_rate = $tax_rate[$i];
+                $productRemission->subtotal = $quantity[$i] * $price[$i];
+                $productRemission->tax_subtotal =($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
+                $productRemission->save();
+            }
+            //selecciona el producto que viene del array
+            $product = Product::findOrFail($id);
+            //selecciona el producto de la sucursal que sea el mismo del array
+            $branchProducts = BranchProduct::where('product_id', '=', $id)
+            ->where('branch_id', '=', $branch)
+            ->first();
+            $quantityLocal = $quantity[$i];
+            $voucherType = $voucherTypes->id;
+            $this->inventoryInvoices($product, $branchProducts, $quantityLocal, $branch);//trait para actualizar inventario
+            $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
+        }
+
+        if (indicator()->pos == 'on') {
+            //actualizar la caja
+                cashregisterModel()->remission += $total_pay;
+                cashregisterModel()->update();
+        }
+        if ($totalpay > 0) {
+            pays($request, $document, $typeDocument);
+        }
+
+        session()->forget('remission');
+        session()->forget('typeDocument');
+        session(['remission' => $remission->id]);
+        session(['typeDocument' => $typeDocument]);
+        toast('Remission Editada satisfactoriamente.','success');
+        return redirect('remission');
     }
 
     /**
@@ -370,6 +708,91 @@ class RemissionController extends Controller
     public function destroy(Remission $remission)
     {
         //
+    }
+
+    public function invoiceRemission($id)
+    {
+        //dd($request->all());
+        $remission = Remission::findOrFail($id);
+        $pos = indicator()->pos;
+        $cashRegister = cashRegisterComprobation();
+        if ($cashRegister == null) {
+            return redirect('branch');
+        }
+
+        $cols = 7;
+        if (indicator()->work_labor == 'off') {
+            $cols--;
+        }
+        $customers = Customer::get();
+        $resolutions = Resolution::where('document_type_id', 1)->get();
+        $paymentForms = PaymentForm::get();
+        $paymentMethods = PaymentMethod::where('status', 'active')->get();
+        $banks = Bank::get();
+        $cards = Card::get();
+        $branchs = Branch::get();
+        $advances = Advance::where('status', '!=', 'aplicado')->get();
+        $employees = Employee::get();
+        $date = Carbon::now();
+        if (indicator()->inventory == 'on') {
+            $products = BranchProduct::from('branch_products as bp')
+            ->join('products as pro', 'bp.product_id', 'pro.id')
+            ->join('categories as cat', 'pro.category_id', 'cat.id')
+            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+            ->join('percentages as per', 'ct.percentage_id', 'per.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('pro.id', 'pro.code', 'pro.stock', 'pro.sale_price', 'pro.name', 'per.percentage', 'cat.utility_rate', 'tt.id as tt')
+            ->where('bp.branch_id', current_user()->branch_id)
+            ->where('bp.stock', '>=', 0)
+            ->where('pro.status', '=', 'active')
+            ->get();
+        } else {
+            $products = Product::from('products as pro')
+            ->join('categories as cat', 'pro.category_id', 'cat.id')
+            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+            ->join('percentages as per', 'ct.percentage_id', 'per.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('pro.id', 'pro.code', 'pro.stock', 'pro.sale_price', 'pro.name', 'cat.utility_rate', 'per.percentage', 'tt.id as tt')
+            ->where('pro.stock', '>=', 0)
+            ->where('pro.status', '=', 'active')
+            ->get();
+        }
+        $companyTaxes = CompanyTax::from('company_taxes', 'ct')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
+        ->where('tt.type_tax', 'retention')->get();
+        $productRemissions = ProductRemission::from('product_remissions as pr')
+        ->join('products as pro', 'pr.product_id', 'pro.id')
+        ->join('categories as cat', 'pro.category_id', 'cat.id')
+        ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->select('pr.id', 'pr.quantity', 'pr.price', 'pr.tax_rate', 'pro.id as idP', 'pro.stock', 'pro.name', 'per.percentage', 'tt.id as tt')
+        ->where('pr.remission_id', $remission->id)
+        ->get();
+        $type = 'invoice';
+        $typeOperation = 'edition';
+        return view('admin.productRemission.create',
+        compact(
+            'remission',
+            'customers',
+            'employees',
+            'resolutions',
+            'paymentForms',
+            'paymentMethods',
+            'banks',
+            'cards',
+            'branchs',
+            'advances',
+            'products',
+            'date',
+            'companyTaxes',
+            'productRemissions',
+            'type',
+            'typeOperation',
+            'cols'
+        ));
     }
 
     public function remissionPay($id)

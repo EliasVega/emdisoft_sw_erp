@@ -446,4 +446,17 @@
             $("#formRetentions").hide();
         });
     });
+
+
+    $("#customer_id").change(function(event){
+        $.get("advance/" + event.target.value + "", function(response){
+            $("#advance_id").empty();
+            $("#advance_id").append("<option value = '#' disabled selected>Seleccionar ...</option>");
+            for(i = 0; i < response.length; i++){
+                $("#advance_id").append("<option value = '" + response[i].id + "'>" + response[i].origin + response[i].balance + "</option>");
+                advanceBalance = response[i].balance;
+            }
+            //$("#advance_id").selectpicker('refresh');
+        });
+    });
 </script>
