@@ -1062,7 +1062,7 @@
                                 <tr>
                                     <td>{{ $advanceCustomer->created_at }}</td>
                                     <td>{{ $advanceCustomer->id }}</td>
-                                    <td>{{ $advanceCustomer->customer->name }}</td>
+                                    <td>{{ $advanceCustomer->advanceable->name }}</td>
                                     <td class="rightfoot">$ {{ number_format($advanceCustomer->pay,2) }}</td>
                                 </tr>
                             @endforeach

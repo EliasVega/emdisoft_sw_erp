@@ -112,6 +112,7 @@ class NdpurchaseController extends Controller
     public function store(StoreNdpurchaseRequest $request)
     {
         //dd($request->all());
+        $cashRegister = cashRegisterComprobation();
         $resolut = $request->resolution_id;
         $typeDocument = 'ndpurchase';
         $voucherType = 11;
@@ -127,7 +128,7 @@ class NdpurchaseController extends Controller
         $purchase = Purchase::findOrFail($request->purchase_id);//encontrando la factura
         $pay = Pay::where('type', 'purchase')->where('payable_id', $purchase->id)->get();//pagos hechos a esta factura
         $voucherTypes = VoucherType::findOrFail(18);
-        $cashRegister = cashRegisterComprobation();
+
         //variables del request
         $quantity = $request->quantity;
         $price = $request->price;

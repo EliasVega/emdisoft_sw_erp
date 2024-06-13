@@ -97,10 +97,10 @@ class NdinvoiceController extends Controller
         $company = Company::findOrFail(current_user()->company_id);
         $configuration = Configuration::findOrFail($company->id);
         $invoice = Invoice::findOrFail($request->invoice_id);//encontrando la factura
+        $cashRegister = cashRegisterComprobation();
         $pay = Pay::where('type', 'invoice')->where('payable_id', $invoice->id)->get();//pagos hechos a esta factura
         //$resolution = Resolution::findOrFail(7);
         $voucherTypes = VoucherType::findOrFail(6);
-        $cashRegister = cashRegisterComprobation();
         $resolution = '';
         if ($invoice->document_type_id == 1) {
             $resolution = Resolution::findOrFail(9);//resolucion ND venta
@@ -159,6 +159,7 @@ class NdinvoiceController extends Controller
         $store = false;
         if (indicator()->dian == 'on') {
             $data = ndinvoiceData($request, $invoice);
+            //dd($data);
             $environment = Environment::where('id', 13)->first();//Url nota de ajuste documento soporte
             $url = $environment->protocol . $configuration->ip . $environment->url;
             $requestResponse = sendDocuments($company, $url, $data);
@@ -168,6 +169,7 @@ class NdinvoiceController extends Controller
         } else {
             $store = true;
         }
+
         if ($store == true) {
             switch($discrepancy) {
                 case(7):

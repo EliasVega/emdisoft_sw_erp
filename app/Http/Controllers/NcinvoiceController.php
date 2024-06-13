@@ -104,10 +104,9 @@ class NcinvoiceController extends Controller
         $company = Company::findOrFail(current_user()->company_id);
         $invoice = Invoice::findOrFail($request->invoice_id);//encontrando la factura
         $configuration = Configuration::where('company_id', $company->id)->first();
-
+        $cashRegister = cashRegisterComprobation();
         $pay = Pay::where('type', 'invoice')->where('payable_id', $invoice->id)->get();//pagos hechos a esta factura
         $voucherTypes = VoucherType::findOrFail(5);
-        $cashRegister = cashRegisterComprobation();
         $voucherTypes = '';
         $resolution = '';
         if ($invoice->document_type_id == 1) {
@@ -395,7 +394,7 @@ class NcinvoiceController extends Controller
                     $this->advanceCreate($voucherTypes, $documentOrigin, $advancePay, $typeDocument);
 
                     if (indicator()->pos == 'on') {
-                        $cashRegister->out_advance += $advancePay;
+                        $cashRegister->in_advance += $advancePay;
                         if ($date1 == $date2) {
                             $cashRegister->invoice -= $advancePay;
                         }

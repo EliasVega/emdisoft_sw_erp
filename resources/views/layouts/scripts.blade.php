@@ -39,6 +39,7 @@
 <script src="https://kit.fontawesome.com/88e63931e0.js" crossorigin="anonymous"></script>
 
 <!-- File input -->
+<script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('vendor/bootstrap-fileinput/js/fileinput.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('vendor/bootstrap-fileinput/js/locales/es.js') }}" type="text/javascript"></script>
 <script src="{{ asset('vendor/bootstrap-fileinput/themes/fa5/theme.min.js') }}" type="text/javascript"></script>

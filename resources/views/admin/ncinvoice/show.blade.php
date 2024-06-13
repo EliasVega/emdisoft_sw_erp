@@ -55,8 +55,8 @@
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
             <div class="form-group">
-                <label class="form-control-label" for="invoice">APLICA COMPRA No.</label>
-                <h4>{{ $ncinvoice->document }}</h4>
+                <label class="form-control-label" for="invoice">APLICA VENTA No.</label>
+                <h4>{{ $ncinvoice->invoice->document }}</h4>
             </div>
         </div>
 

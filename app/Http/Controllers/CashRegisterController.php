@@ -383,7 +383,7 @@ class CashRegisterController extends Controller
             'invoiceBalance',
             'invoicePays',
 
-            'invoiceOreders',
+            'invoiceOrders',
             'restaurantOrders',
 
             'remissions',
@@ -634,7 +634,7 @@ class CashRegisterController extends Controller
 
             $subtotal = ProductRemission::from('product_remissions as pr')
                 ->join('remissions as rem', 'pr.remission_id', 'rem.id')
-                ->join('products as pro', 'ip.product_id', 'pro.id')
+                ->join('products as pro', 'pr.product_id', 'pro.id')
                 ->whereBetween('pr.created_at', [$from, $to])
                 ->where('rem.user_id', $cashRegister->user_id)
                 ->where('pr.product_id', $product->id)
@@ -895,8 +895,6 @@ class CashRegisterController extends Controller
         $advanceEmployees = Advance::where('user_id', $cashRegister->user_id)->where('type_third', 'employee')->whereBetween('created_at', [$from, $to])->get();
         $sumAdvanceEmployees = Advance::where('user_id', $cashRegister->user_id)->where('type_third', 'employee')->whereBetween('created_at', [$from, $to])->sum('pay');
 
-
-
         return view('admin.cash_register.cashRegisterClose', compact(
             'cashRegister',
             'productPurchases',
@@ -1072,7 +1070,7 @@ class CashRegisterController extends Controller
 
             $subtotal = ProductRemission::from('product_remissions as pr')
                 ->join('remissions as rem', 'pr.remission_id', 'rem.id')
-                ->join('products as pro', 'ip.product_id', 'pro.id')
+                ->join('products as pro', 'pr.product_id', 'pro.id')
                 ->whereBetween('pr.created_at', [$from, $to])
                 ->where('rem.user_id', $cashRegister->user_id)
                 ->where('pr.product_id', $product->id)

@@ -10,7 +10,7 @@ trait AdvanceCreate {
         $advance = new Advance();
         $advance->user_id = current_user()->id;
         $advance->branch_id = current_user()->branch_id;
-        $advance->voucher_type_id = 25;
+        $advance->voucher_type_id = 18;
         $advance->document = $voucherTypes->code . '-' . $voucherTypes->consecutive;
         $advance->destination = null;
         $advance->pay = $advancePay;

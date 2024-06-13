@@ -109,7 +109,7 @@
                             <tr>
                                 <td>{{ $invoiceProduct->id }}</td>
                                 <td>{{ $invoiceProduct->name }}</td>
-                                <td>{{ $invoiceProduct->stock }}</td>
+                                <td>{{ $invoiceProduct->quantity }}</td>
                                 <td align="right">${{ number_format($invoiceProduct->price) }}</td>
                                 <td align="right">${{ number_format($invoiceProduct->sale_price) }}</td>
                             </tr>

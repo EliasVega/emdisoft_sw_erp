@@ -46,6 +46,7 @@
     $("#addResolution").hide();
     $("#addiva").hide();
     $("#taxType").hide();
+    $("#addTypeProduct").hide();
 
     $(document).ready(function(){
         $("#discrepancy_id").change(function(){

@@ -5,15 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Ncpurchase;
 use App\Http\Requests\StoreNcpurchaseRequest;
 use App\Http\Requests\UpdateNcpurchaseRequest;
-use App\Models\BranchProduct;
-use App\Models\BranchRawmaterial;
 use App\Models\Company;
-use App\Models\Indicator;
 use App\Models\NcpurchaseProduct;
 use App\Models\NcpurchaseRawmaterial;
-use App\Models\Product;
 use App\Models\Purchase;
-use App\Models\RawMaterial;
 use App\Models\Resolution;
 use App\Models\Tax;
 use App\Models\VoucherType;
@@ -97,6 +92,7 @@ class NcpurchaseController extends Controller
     public function store(StoreNcpurchaseRequest $request)
     {
         //dd($request->all());
+        $cashRegister = cashRegisterComprobation();
         $typeDocument = 'ncpurchase';
         $quantity = $request->quantity;
         $price = $request->price;
@@ -112,7 +108,6 @@ class NcpurchaseController extends Controller
 
         $resolution = Resolution::findOrFail(2);
         $purchase = Purchase::findOrFail($request->purchase_id);
-        $cashRegister = cashRegisterComprobation();
 
         //gran total de la compra
         $grandTotalold = $purchase->grand_total;

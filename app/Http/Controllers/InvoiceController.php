@@ -347,12 +347,24 @@ class InvoiceController extends Controller
         $employee_id = $request->employee_id;
         $paymentForm = $request->payment_form_id;
         $cvp = $request->cv;
+        $payment = $request->total_pay;
 
         if (isset($employee_id)) {
             $employee_id = $request->employee_id;
         } else {
             $employee_id = "null";
         }
+
+        if (isset($payment)) {
+            $totalpay = $request->totalpay;
+        } else {
+            if (indicator()->pos == 'on'  && $paymentForm == 1) {
+                $totalpay = $request->total_pay;
+            } else if(indicator()->pos == 'on'  && $paymentForm == 2){
+                $totalpay = 0;
+            }
+        }
+
 
         //asignando pago para pos activo
         if (indicator()->pos == 'on'  && $paymentForm == 1) {
@@ -437,7 +449,6 @@ class InvoiceController extends Controller
             if (indicator()->pos == 'on') {
                 //actualizar la caja
                     $cashRegister->invoice += $total_pay;
-                    //$cashRegister->in_total += $totalpay;
                     $cashRegister->update();
             }
             $document = $invoice;
