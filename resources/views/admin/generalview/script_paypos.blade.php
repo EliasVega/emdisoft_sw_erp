@@ -49,6 +49,7 @@
                 $("#returnedModal").val(0);
                 $('#payModal').prop("required", false);
                 $("#save").show();
+                $("#totalpay").val(0);
             }
         });
     });
@@ -105,5 +106,6 @@
         $("#vpayadd").show();
         $("#rbadd").show();
         $("#payposadd").hide();
+        $("#totalpay").val(payMod);
     }
 </script>

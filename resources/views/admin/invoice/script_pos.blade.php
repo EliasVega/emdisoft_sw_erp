@@ -54,6 +54,7 @@
     $("#indWL").hide();
     $("#addTypeDocument").hide();
     $("#formRetentions").hide();
+    $("#addTypeProduct").hide();
 
 
     $(document).ready(function(){

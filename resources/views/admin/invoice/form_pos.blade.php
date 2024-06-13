@@ -90,6 +90,9 @@
                                 class="fas fa-check"></i>Agrepar Retenciones</button>
                     </div>
                 </div>
+
+                @include('admin/generalview.form_register')
+
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="vpayadd">
                     <div class="form-group">
                         <label class="form-control-label requerido" for="vpay">Pago</label>
@@ -100,15 +103,6 @@
                     <div class="form-group">
                         <label class="form-control-label" for="rbal">Cambio</label>
                         <input type="number" id="rbal" value="0" class="form-control">
-                    </div>
-                </div>
-                <div class="modal-footer" id="save">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="form-group">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <button class="btn btn-lightBlueGrad" type="submit"><i class="fa fa-save"></i>&nbsp;
-                                Registrar</button>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -347,6 +341,12 @@
         <div class="form-group">
             <label class="form-control-label" for="typeDocument">tipo documento</label>
             <input type="text" id="typeDocument" name="typeDocument" value="pos" class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="addTypeProduct">
+        <div class="form-group">
+            <label class="form-control-label" for="typeProduct">Typo Producto</label>
+            <input type="text" id="typeProduct" name="typeProduct" class="form-control" value="product">
         </div>
     </div>
 </div>

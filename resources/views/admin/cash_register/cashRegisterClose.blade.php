@@ -805,7 +805,7 @@
         @if ($cashRegister->ndinvoice > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <strong class="tpdf">Detalle Notas Credito Ventas</strong>
+                    <strong class="tpdf">Detalle Notas Debito Ventas</strong>
                 </div>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -814,7 +814,7 @@
                         <thead>
                             <tr class="bg-info">
                                 <th>Fecha</th>
-                                <th>N°.NC</th>
+                                <th>N°.ND</th>
                                 <th>N° Compra</th>
                                 <th>Proveedor</th>
                                 <th>Valor</th>

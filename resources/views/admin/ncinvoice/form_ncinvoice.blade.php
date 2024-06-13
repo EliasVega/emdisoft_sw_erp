@@ -67,7 +67,7 @@
         <div class="form-check">
             <input class="form-check-input" type="radio" name="reverse" value="1" id="reverse_on">
             <label class="form-check-label" for="reverse">
-                Regresar Valor a la Caja
+                Regresar Valor de la Caja
             </label>
             </div>
             <div class="form-check">

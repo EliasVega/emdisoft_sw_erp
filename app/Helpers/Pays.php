@@ -1,15 +1,13 @@
 <?php
 
 use App\Models\Advance;
-use App\Models\CashRegister;
-use App\Models\Indicator;
 use App\Models\Pay;
-use App\Models\paymentReturn;
 use App\Models\PayPaymentMethod;
 
 if (! function_exists('pays')) {
     function pays($request, $document, $typeDocument)
     {
+        //dd($request->all());
         $indicator = indicator();
         $cashRegister = cashregisterModel();
         //Variables del request
@@ -22,7 +20,6 @@ if (! function_exists('pays')) {
         $payment = $request->pay;
         $transaction = $request->transaction;
         $payAdvance = $request->payment;
-
         //Metodo para crear un nuevo pago y su realcion polimorfica dependiendo del tipo de documento
         $pay = new Pay();
         $pay->user_id = current_user()->id;

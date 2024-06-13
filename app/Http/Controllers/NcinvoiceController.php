@@ -381,9 +381,9 @@ class NcinvoiceController extends Controller
                     $cashInflow->save();
 
                     if (indicator()->pos == 'on') {
-                        $cashRegister->cash_in_total += $advancePay;
-                        $cashRegister->in_cash += $advancePay;
-                        $cashRegister->in_total += $advancePay;
+                        $cashRegister->cash_in_total -= $advancePay;
+                        $cashRegister->in_cash -= $advancePay;
+                        $cashRegister->in_total -= $advancePay;
                         if ($date1 == $date2) {
                             $cashRegister->invoice -= $advancePay;
                         }

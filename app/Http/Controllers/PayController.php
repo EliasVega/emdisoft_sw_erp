@@ -184,6 +184,14 @@ class PayController extends Controller
                 $invoice->pay += $totalpay;
                 $invoice->update();
             break;
+            case(24):
+                $invoice = Invoice::findOrFail($document_id);
+                $typeDocument = 'invoice';
+                $document = $invoice;
+                $invoice->balance -= $totalpay;
+                $invoice->pay += $totalpay;
+                $invoice->update();
+            break;
             case(25):
                 $remission = Remission::findOrFail($document_id);
                 $typeDocument = 'remission';

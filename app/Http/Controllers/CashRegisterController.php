@@ -877,8 +877,8 @@ class CashRegisterController extends Controller
         $ncinvoiceTotalTaxs = Ncinvoice::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('total_tax');
         $ncinvoiceTotals = Ncinvoice::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('total');
 
-        $ndinvoices = Ndpurchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->get();
-        $sumNdinvoices = Ndpurchase::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
+        $ndinvoices = Ndinvoice::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->get();
+        $sumNdinvoices = Ndinvoice::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
 
         $cashInflows = CashInflow::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->get();
         $sumCashInflows = CashInflow::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('cash');

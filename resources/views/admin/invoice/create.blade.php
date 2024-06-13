@@ -41,14 +41,14 @@
                         @include('admin/invoice.form_pos')
                     </div>
                     <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12" id="payposorigin">
-                        @include('admin/invoice.form_paypos')
+                        @include('admin/generalview.form_paypos')
                     </div>
                 @else
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         @include('admin/invoice.form_invoice')
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        @include('admin/invoice.form_register')
+                        @include('admin/generalview.form_register')
                     </div>
                 @endif
             </div>
@@ -64,7 +64,7 @@
 @section('scripts')
 
     @if ($type == 'pos')
-        @include('admin/invoice.script_paypos')
+        @include('admin/generalview.script_paypos')
         @include('admin/invoice.script_retention')
         @include('admin/invoice.script_pos')
     @else
