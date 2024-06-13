@@ -102,7 +102,7 @@
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <label for="customer_id">Cliente</label>
                 <div class="select">
-                    <select id="customer_id" name="customer_id" class="form-control selectpicker" data-live-search="true">
+                    <select id="customer_id" name="customer_id" class="form-control selectpicker" data-live-search="true" required>
                         <option {{ old('customer_id', $remission->customer_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Cliente</option>
                         @foreach($customers as $customer)
                             @if(old('customer_id', $remission->customer_id ?? '') == $customer->id)

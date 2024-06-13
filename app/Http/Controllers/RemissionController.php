@@ -29,7 +29,9 @@ use Yajra\DataTables\DataTables;
 use App\Traits\InventoryInvoices;
 use App\Traits\KardexCreate;
 use App\Traits\AdvanceCreate;
+use Illuminate\Support\Facades\Redirect;
 
+use function PHPUnit\Framework\isNull;
 
 class RemissionController extends Controller
 {
@@ -237,10 +239,15 @@ class RemissionController extends Controller
     public function store(StoreRemissionRequest $request)
     {
         //dd($request->all());
+        $customer = $request->customer_id;
+        if (is_null($customer)) {
+            return Redirect::back()->withErrors(['msg' => 'no selecionaste el cliente']);
+        }
         $typeDocument = 'remission';
         $documentType = 107;
         $resolutions = Resolution::findOrFail(14);
         $voucherTypes = VoucherType::findOrFail(25);
+        $cashRegister = cashRegisterComprobation();
 
         //Variables del request
         $product_id = $request->product_id;
@@ -298,8 +305,8 @@ class RemissionController extends Controller
 
         if (indicator()->pos == 'on') {
             //actualizar la caja
-                cashRegisterComprobation()->remission += $total_pay;
-                cashRegisterComprobation()->update();
+                $cashRegister->remission += $total_pay;
+                $cashRegister->update();
         }
         $document = $remission;
         //Ingresa los productos que vienen en el array
@@ -523,20 +530,24 @@ class RemissionController extends Controller
         $tax_rate = $request->tax_rate;
         $branch = current_user()->branch_id;
         $total_pay = $request->total_pay;
-        $paymentForm = $request->payment_form_id;
-
+        $totalpay = $request->totalpay;
+        if (is_null($totalpay)) {
+            $totalpay = 0;
+        }
         $typeDocument = 'remission';
         $documentType = 107;
         $resolutions = Resolution::findOrFail(14);
         $voucherTypes = VoucherType::findOrFail(25);
 
         //datos para hacer reversiones
+        $cashRegister = cashRegisterComprobation();
         $date1 = Carbon::now()->toDateString();
         $date2 = Remission::find($remission->id)->created_at->toDateString();
         $reverse = $request->reverse;//1 si desea volver valor a caja 2 si desea crear un avance
         $remissionPayments = $request->remission_payments;
         $payNew = $request->total_pay;
         $surplusPayments = (($payNew - $remissionPayments) *(-1));
+        $totalPayRemission = $remissionPayments + $totalpay;
 
         //salida de efectivo de caja
         if (indicator()->pos == 'on') {
@@ -548,12 +559,12 @@ class RemissionController extends Controller
                     $cashOutflow->branch_id = current_user()->branch_id;
                     $cashOutflow->admin_id = 2;
                     $cashOutflow->cash = $surplusPayments;
-                    $cashOutflow->reason = 'salida de caja por devolucion en remision :' . '-' - $remission->document;
+                    $cashOutflow->reason = 'salida de caja por devolucion en remision :' . '-' . $remission->document;
                     $cashOutflow->save();
-                    cashRegisterComprobation()->out_cash += $surplusPayments;
-                    cashRegisterComprobation()->out_total += $surplusPayments;
-                    cashRegisterComprobation()->cash_out_total += $surplusPayments;
-                    cashRegisterComprobation()->update();
+                    $cashRegister->out_cash += $surplusPayments;
+                    $cashRegister->out_total += $surplusPayments;
+                    $cashRegister->cash_out_total += $surplusPayments;
+                    $cashRegister->update();
                 } else {
                     //creando registro d avance a clientes
                     $documentOrigin = $remission;
@@ -561,11 +572,11 @@ class RemissionController extends Controller
                     $this->advanceCreate($voucherTypes, $documentOrigin, $advancePay, $typeDocument);
 
                     if (indicator()->pos == 'on') {
-                        cashRegisterComprobation()->in_advance += $advancePay;
+                        $cashRegister->in_advance += $advancePay;
                         if ($date1 == $date2) {
-                            cashRegisterComprobation()->remission -= $advancePay;
+                            $cashRegister->remission -= $advancePay;
                         }
-                        cashRegisterComprobation()->update();
+                        $cashRegister->update();
                     }
                 }
             }
@@ -573,17 +584,9 @@ class RemissionController extends Controller
 
         if (indicator()->pos == 'on') {
             if ($date1 == $date2) {
-                cashRegisterComprobation()->remission -= $remission->total_pay;
+                $cashRegister->remission -= $remission->total_pay;
+                $cashRegister->update();
             }
-        }
-
-        //asignando pago para pos activo
-        if (indicator()->pos == 'on'  && $paymentForm == 1) {
-            $totalpay = $request->total_pay;
-        } else if(indicator()->pos == 'on'  && $paymentForm == 2){
-            $totalpay = 0;
-        } else {
-            $totalpay = $request->totalpay;
         }
         $retention = 0;
         //variables del request
@@ -688,12 +691,22 @@ class RemissionController extends Controller
 
         if (indicator()->pos == 'on') {
             //actualizar la caja
-                cashRegisterComprobation()->remission += $total_pay;
-                cashRegisterComprobation()->update();
+                $cashRegister->remission += $total_pay;
+                $cashRegister->update();
         }
         if ($totalpay > 0) {
             pays($request, $document, $typeDocument);
         }
+        if ($totalPayRemission > $payNew) {
+            $remission->pay = $total_pay;
+            $remission->balance = 0;
+            $remission->update();
+        } else {
+            $remission->pay = $remissionPayments;
+            $remission->balance = $payNew - $remissionPayments;
+            $remission->update();
+        }
+
 
         session()->forget('remission');
         session()->forget('typeDocument');
