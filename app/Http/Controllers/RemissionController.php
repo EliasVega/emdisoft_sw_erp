@@ -77,7 +77,7 @@ class RemissionController extends Controller
             })
             ->addColumn('status', function (Remission $remission) {
                 if ($remission->status == 'active') {
-                    return $remission->status == 'active' ? 'Orden de Venta' : 'Facturado';
+                    return $remission->status == 'active' ? 'Remission' : 'Facturado';
                 } elseif ($remission->status == 'generated') {
                     return $remission->status == 'generated' ? 'Facturado' : 'Cancelado';
                 } else {
@@ -258,14 +258,21 @@ class RemissionController extends Controller
         $total_pay = $request->total_pay;
         $paymentForm = $request->payment_form_id;
 
-        //asignando pago para pos activo
-        if (indicator()->pos == 'on'  && $paymentForm == 1) {
-            $totalpay = $request->total_pay;
-        } else if(indicator()->pos == 'on'  && $paymentForm == 2){
-            $totalpay = 0;
-        } else {
+        $payment = $request->total_pay;
+        $totalpay = $request->totalpay;
+
+        if (isset($payment)) {
             $totalpay = $request->totalpay;
+        } else {
+            if (indicator()->pos == 'on') {
+                if ($paymentForm == 1) {
+                    $totalpay = $request->total_pay;
+                } else {
+                    $totalpay = 0;
+                }
+            }
         }
+
         $retention = 0;
         //variables del request
         if ($request->total_retention != null) {
@@ -545,13 +552,12 @@ class RemissionController extends Controller
         $date2 = Remission::find($remission->id)->created_at->toDateString();
         $reverse = $request->reverse;//1 si desea volver valor a caja 2 si desea crear un avance
         $remissionPayments = $request->remission_payments;
-        $payNew = $request->total_pay;
-        $surplusPayments = (($payNew - $remissionPayments) *(-1));
-        $totalPayRemission = $remissionPayments + $totalpay;
+        $payNew = $request->totalpay + $remissionPayments;
+        $surplusPayments = (($total_pay - $payNew) *(-1));
 
         //salida de efectivo de caja
         if (indicator()->pos == 'on') {
-            if ($remissionPayments > $payNew) {
+            if ($remissionPayments > $total_pay) {
                 if ($reverse == 1) {
                     $cashOutflow = new CashOutflow();
                     $cashOutflow->user_id = current_user()->id;
@@ -574,7 +580,7 @@ class RemissionController extends Controller
                     if (indicator()->pos == 'on') {
                         $cashRegister->in_advance += $advancePay;
                         if ($date1 == $date2) {
-                            $cashRegister->remission -= $advancePay;
+                            $cashRegister->in_remission -= $advancePay;
                         }
                         $cashRegister->update();
                     }
@@ -697,13 +703,13 @@ class RemissionController extends Controller
         if ($totalpay > 0) {
             pays($request, $document, $typeDocument);
         }
-        if ($totalPayRemission > $payNew) {
+        if ($payNew > $total_pay) {
             $remission->pay = $total_pay;
             $remission->balance = 0;
             $remission->update();
         } else {
-            $remission->pay = $remissionPayments;
-            $remission->balance = $payNew - $remissionPayments;
+            $remission->pay = $payNew;
+            $remission->balance = $total_pay - $payNew;
             $remission->update();
         }
 
@@ -1014,6 +1020,15 @@ class RemissionController extends Controller
             if ($products) {
                 return response()->json($products);
             }
+        }
+    }
+
+    public function getAdvance(Request $request, $id)
+    {
+        if($request)
+        {
+            $advances = Advance::where('type_third', 'customer')->where('advanceable_id', $id)->get();
+            return response()->json($advances);
         }
     }
 }

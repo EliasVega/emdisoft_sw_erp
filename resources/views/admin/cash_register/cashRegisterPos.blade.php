@@ -139,13 +139,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($remissionProducts as $remissionProduct)
+                            @foreach ($productRemissions as $produtRemission)
                             <tr>
-                                <td>{{ $remissionProduct->id }}</td>
-                                <td>{{ $remissionProduct->name }}</td>
-                                <td>{{ $remissionProduct->stock }}</td>
-                                <td align="right">${{ number_format($remissionProduct->price) }}</td>
-                                <td align="right">${{ number_format($remissionProduct->sale_price) }}</td>
+                                <td>{{ $produtRemission->id }}</td>
+                                <td>{{ $produtRemission->name }}</td>
+                                <td>{{ $produtRemission->quantity }}</td>
+                                <td align="right">${{ number_format($produtRemission->price) }}</td>
+                                <td align="right">${{ number_format($produtRemission->sale_price) }}</td>
                             </tr>
                             @endforeach
                         </tbody>

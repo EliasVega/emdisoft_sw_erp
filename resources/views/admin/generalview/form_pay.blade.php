@@ -155,7 +155,7 @@
             data-live-search="true">
             <option value="" disabled selected>seleccionar...</option>
             @foreach($advances as $advance)
-            <option value="{{ $advance->id }}">{{ $advance->balance }}</option>
+            <option value="{{ $advance->id }}_{{ $advance->balance }}">{{ $advance->balance }}</option>
             @endforeach
         </select>
     </div>

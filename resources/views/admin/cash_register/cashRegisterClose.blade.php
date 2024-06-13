@@ -961,7 +961,7 @@
         @if ($cashRegister->in_remission > 0)
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <strong class="tpdf">Detalle Recaudo por Ventas</strong>
+                    <strong class="tpdf">Detalle Recaudo por Remisiones</strong>
                 </div>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

@@ -47,7 +47,7 @@ class ProductRemissionController extends Controller
      */
     public function store(StoreProductRemissionRequest $request)
     {
-        dd($request->all());
+        //dd($request->all());
         $remissionId = $request->remission_id;
         $remission = Remission::findOrFail($remissionId);
         $configuration = Configuration::findOrFail(company()->id);
@@ -91,20 +91,23 @@ class ProductRemissionController extends Controller
         $total_pay = $request->total_pay;
         $employee_id = $request->employee_id;
         $paymentForm = $request->payment_form_id;
+        $payment = $request->total_pay;
+        $totalpay = $request->totalpay;
+
+        if (isset($payment)) {
+            $totalpay = $request->totalpay;
+        } else {
+            if (indicator()->pos == 'on'  && $paymentForm == 1) {
+                $totalpay = $request->total_pay;
+            } else if(indicator()->pos == 'on'  && $paymentForm == 2){
+                $totalpay = 0;
+            }
+        }
 
         if (isset($employee_id)) {
             $employee_id = $request->employee_id;
         } else {
             $employee_id = "null";
-        }
-
-        //asignando pago para pos activo
-        if (indicator()->pos == 'on'  && $paymentForm == 1) {
-            $totalpay = $request->total_pay;
-        } else if(indicator()->pos == 'on'  && $paymentForm == 2){
-            $totalpay = 0;
-        } else {
-            $totalpay = $request->totalpay;
         }
         $retention = 0;
         //variables del request

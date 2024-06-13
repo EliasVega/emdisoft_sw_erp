@@ -8,6 +8,13 @@ if (! function_exists('pays')) {
     function pays($request, $document, $typeDocument)
     {
         //dd($request->all());
+        $advanceRequest = $request->advance_id;
+        if (isset($advanceRequest)) {
+            $adv = explode("_", $advanceRequest);
+            $advance = Advance::where('id', $adv[0])->first();
+            $advance_id = $advance->id;
+        }
+
         $indicator = indicator();
         $cashRegister = cashregisterModel();
         //Variables del request
@@ -16,7 +23,6 @@ if (! function_exists('pays')) {
         $paymentMethod = $request->payment_method_id;
         $bank = $request->bank_id;
         $card = $request->card_id;
-        $advance_id = $request->advance_id;
         $payment = $request->pay;
         $transaction = $request->transaction;
         $payAdvance = $request->payment;

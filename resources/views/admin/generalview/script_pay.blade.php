@@ -62,6 +62,7 @@
             $("#payCard1").show();
             $("#payCard2").show();
             $("#addPayPayment").hide();
+            $("#payingButton").show();
             $("#save").show();
         }else{
             $("#addPayPayment").show();
@@ -242,6 +243,8 @@
     $(document).ready(function(){
         $("#advance").click(function(){
             $("#pay").val("");
+            tpay = $("#pendient").val();
+            $("#payment").val(tpay);
             advance();
         });
     });
@@ -261,6 +264,7 @@
         $("#banks").hide();
         $("#advancePayment").show();
     }
+
     $(document).ready(function(){
         $("#pay").keyup(function(){
             $("#pay").val();
@@ -289,33 +293,36 @@
 
     $(document).ready(function(){
         $("#advance_id").change(function(){
-            parseFloat($("#abpayment").val(advanceBalance))
+            dataAdvance = document.getElementById('advance_id').value.split('_');
+            parseFloat($("#abpayment").val(dataAdvance[1]));
             $("#advancePay").show();
             prepaidnew();
         });
     });
 
-    $(document).ready(function(){
-        $("#payment").keyup(function(){
-            $("#payment").val();
-            prepaid();
-        });
-    });
-
     function prepaidnew(){
-        ttp = parseFloat($("#total_pay").val())
+        ttp = parseFloat($("#pendient").val())
         abn = parseFloat($("#abpayment").val())
-
         balancey = ttp - abn;
+
         if (ttp >= abn) {
             $("#returned").val(balancey);
             $("#pay").val(abn);
             $("#payment").val(abn);
         } else {
             $("#advancePayValue").show();
+            $("#pay").val(ttp);
             //prepaid()
         }
     }
+
+    $(document).ready(function(){
+        $("#payment").keyup(function(){
+            $("#payment").val();
+            $("#returned").val();
+            prepaid();
+        });
+    });
 
     function prepaid(){
         ttpnew = parseFloat($("#pendient").val())
@@ -354,7 +361,6 @@
         pay = $("#pay").val();
         transaction = $("#transaction").val();
         pendient = parseFloat($("#pendient").val());
-
         if(payment_method_id !="" && bank_id!="" && card_id!=""  && pay!="" && pay>0 && transaction!=""){
             totalpay = parseFloat(totalpay) + parseFloat(pay);
             rbalance = parseFloat(pendient) - parseFloat(pay);

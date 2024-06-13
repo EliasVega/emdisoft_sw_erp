@@ -456,7 +456,7 @@
                 $("#advance_id").append("<option value = '" + response[i].id + "'>" + response[i].origin + response[i].balance + "</option>");
                 advanceBalance = response[i].balance;
             }
-            //$("#advance_id").selectpicker('refresh');
+            $("#advance_id").selectpicker('refresh');
         });
     });
 </script>

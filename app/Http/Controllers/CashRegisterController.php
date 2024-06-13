@@ -300,13 +300,12 @@ class CashRegisterController extends Controller
                 ->where('pr.product_id', $product->id)
                 ->sum('tax_subtotal');
             if ($productRemission) {
-                $productRemission[$cont] = Product::findOrFail($product->id);
-                $productRemission[$cont]->stock = $productRemission;
-                $productRemission[$cont]->price = $tax_subtotal;
+                $productRemissions[$cont] = Product::findOrFail($product->id);
+                $productRemissions[$cont]->stock = $productRemission;
+                $productRemissions[$cont]->price = $tax_subtotal;
                 $cont++;
             }
         }
-
         $purchases = Purchase::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->get();
         $purchaseBalance = Purchase::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('balance');
         $purchasePays = Purchase::where('user_id', $userId)->whereBetween('created_at', [$from, $to])->sum('pay');
@@ -852,8 +851,8 @@ class CashRegisterController extends Controller
         $remissionTotals = Remission::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('total');
         $remissionTotalPays = Remission::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
 
-        $remissionPays = Pay::where('user_id', $cashRegister->user_id)->where('type', 'invoice')->whereBetween('created_at', [$from, $to])->get();
-        $remissionSumPays = Pay::where('user_id', $cashRegister->user_id)->where('type', 'invoice')->whereBetween('created_at', [$from, $to])->sum('pay');
+        $remissionPays = Pay::where('user_id', $cashRegister->user_id)->where('type', 'remission')->whereBetween('created_at', [$from, $to])->get();
+        $remissionSumPays = Pay::where('user_id', $cashRegister->user_id)->where('type', 'remission')->whereBetween('created_at', [$from, $to])->sum('pay');
 
         $expenses = Expense::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->get();
         $expenseBalances = Expense::where('user_id', $cashRegister->user_id)->whereBetween('created_at', [$from, $to])->sum('balance');
