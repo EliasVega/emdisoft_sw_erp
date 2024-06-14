@@ -54,7 +54,7 @@
     $("#barcodeId").hide();
     $("#addEid").hide();
     $("#addcvp").hide();
-    $("#addBags").hide();
+
     //$("#addTypeDocument").hide();
     $("#addBags").hide();
     $("#addUtility").hide();
