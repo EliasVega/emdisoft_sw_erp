@@ -347,7 +347,7 @@ class InvoiceController extends Controller
         $employee_id = $request->employee_id;
         $paymentForm = $request->payment_form_id;
         $cvp = $request->cv;
-        $payment = $request->total_pay;
+        //$payment = $request->total_pay;
         $totalpay = $request->totalpay;
 
         if (isset($employee_id)) {
@@ -356,7 +356,7 @@ class InvoiceController extends Controller
             $employee_id = "null";
         }
 
-        if (isset($payment)) {
+        if (isset($totalpay)) {
             $totalpay = $request->totalpay;
         } else {
             if (indicator()->pos == 'on'  && $paymentForm == 1) {

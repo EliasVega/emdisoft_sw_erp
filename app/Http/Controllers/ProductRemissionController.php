@@ -51,6 +51,7 @@ class ProductRemissionController extends Controller
         $remissionId = $request->remission_id;
         $remission = Remission::findOrFail($remissionId);
         $configuration = Configuration::findOrFail(company()->id);
+        $cashRegister = cashRegisterComprobation();
         //$indicator = Indicator::findOrFail(1);
         $resolutions = '';
         //$resolut = $request->resolution_id;
@@ -262,12 +263,12 @@ class ProductRemissionController extends Controller
                     $pay_paymentMethod->save();
 
                     //metodo para actualizar la caja
-                    cashRegisterComprobation()->in_invoice_cash += $totalpay;
-                    cashRegisterComprobation()->cash_in_total += $totalpay;
+                    $cashRegister->in_invoice_cash += $totalpay;
+                    $cashRegister->cash_in_total += $totalpay;
 
-                    cashRegisterComprobation()->in_invoice += $totalpay;
-                    cashRegisterComprobation()->in_total += $totalpay;
-                    cashRegisterComprobation()->update();
+                    $cashRegister->in_invoice += $totalpay;
+                    $cashRegister->in_total += $totalpay;
+                    $cashRegister->update();
                 }
                 $paymentReturn = new PaymentReturn();
                 $paymentReturn->payment = $request->pay;
