@@ -113,7 +113,7 @@ class PurchaseOrderProductController extends Controller
             if ($documentType == 11) {
                 $resolutions = Resolution::findOrFail($resolution_id);
                 $voucherTypes = VoucherType::findOrFail(12);
-                $purchase->document = $resolutions->prefix . '-' . $resolutions->consecutive;
+                $purchase->document = $resolutions->prefix . $resolutions->consecutive;
                 $purchase->invoice_code = $voucherTypes->code . '-' . $voucherTypes->consecutive;
                 $purchase->voucher_type_id = 12;
                 $purchase->status = 'support_document';

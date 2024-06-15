@@ -216,7 +216,7 @@ class PurchaseController extends Controller
         ->join('percentages as per', 'ct.percentage_id', 'per.id')
         ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
         ->where('tt.type_tax', 'retention')->get();
-        $typeProduct = 'raw material';
+        $typeProduct = 'raw_material';
         $countBranchs = count($branchs);
         return view('admin.purchase.create',
         compact(
@@ -306,7 +306,7 @@ class PurchaseController extends Controller
             $purchase->generation_type_id = $request->generation_type_id;
             $purchase->document_type_id = $documentType;
             $purchase->cash_register_id = $cashRegister->id;
-            $purchase->document = $resolutions->prefix . '-' . $resolutions->consecutive;
+            $purchase->document = $resolutions->prefix . $resolutions->consecutive;
             if ($documentType == 11) {
                 $voucherTypes = VoucherType::findOrFail(12);
                 $purchase->invoice_code = $voucherTypes->code . '-' . $voucherTypes->consecutive;

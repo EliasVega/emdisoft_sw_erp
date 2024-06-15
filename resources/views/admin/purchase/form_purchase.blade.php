@@ -1,7 +1,7 @@
 <div class="box-body row">
     <div class="col-md-5" id="formPayCard">
         <div class="card card-primary card-outline">
-                @include('admin/generalview.form_pay')
+            @include('admin/generalview.form_pay')
         </div>
     </div>
     <div class="col-md-5" id="formRetentions">
@@ -47,31 +47,31 @@
                         </div>
                     </div>
                 @endif
-                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label class="form-control-label" for="generation_date">Generacion</label>
-                        <input type="date" name="generation_date" id="generation_date" class="form-control"
-                            value="<?php echo date('Y-m-d'); ?>" placeholder="Fecha Vencimiento">
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label class="form-control-label" for="due_date">Vencimiento</label>
-                        <input type="date" name="due_date" id="due_date" class="form-control"
-                            value="<?php echo date('Y-m-d'); ?>" placeholder="Fecha Vencimiento">
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="invoiceCode">
-                    <div class="form-group">
-                        <label class="form-control-label" for="invoice_code">N°Factura</label>
-                        <input type="text" id="invoice_code" name="invoice_code" value="{{ old('invoice_code') }}"
-                            class="form-control" placeholder="Numero de la factura" required>
-                    </div>
-                </div>
                 @if ($indicator->dian == 'on')
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="resolution">
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="documentType">
+                        <div class="form-group">
+                            <label class="form-control-label" for="document_type_id">Tipo de Documento</label>
+                            <select name="document_type_id" class="form-control selectpicker" id="document_type_id"
+                                data-live-search="true" required>
+                                <option value="0" disabled selected>Seleccionar Tipo de documento</option>
+                                @foreach ($documentTypes as $documentType)
+                                    <option value="{{ $documentType->id }}">{{ $documentType->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                @else
+                    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="documentBis">
+                        <div class="form-group">
+                            <label class="form-control-label" for="document_type_id">Typo Documento</label>
+                            <input type="text" id="document_type_id" name="document_type_id" value="25"
+                                class="form-control" placeholder="Tipo Documento">
+                        </div>
+                    </div>
+                @endif
+
+                @if ($indicator->dian == 'on')
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="resolution">
                         <div class="form-group">
                             <label class="form-control-label required" for="resolution_id">Resolucion</label>
                             <select name="resolution_id" class="form-control selectpicker" id="resolution_id"
@@ -85,7 +85,29 @@
                         </div>
                     </div>
                 @endif
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label class="form-control-label" for="generation_date">Generacion</label>
+                        <input type="date" name="generation_date" id="generation_date" class="form-control"
+                            value="<?php echo date('Y-m-d'); ?>" placeholder="Fecha Vencimiento" readonly>
+                    </div>
+                </div>
 
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label class="form-control-label" for="due_date">Vencimiento</label>
+                        <input type="date" name="due_date" id="due_date" class="form-control"
+                            value="<?php echo date('Y-m-d'); ?>" placeholder="Fecha Vencimiento">
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="invoiceCode">
+                    <div class="form-group">
+                        <label class="form-control-label" for="invoice_code">N°Factura</label>
+                        <input type="text" id="invoice_code" name="invoice_code"
+                            value="{{ old('invoice_code') }}" class="form-control"
+                            placeholder="Numero de la factura" required>
+                    </div>
+                </div>
                 @if ($indicator->barcode == 'on')
                     <div class="col-lg-12 col-md-12 col-sm-14 col-xs-12" id="codeBarcode">
                         <div class="form-group">
@@ -218,28 +240,6 @@
     </div>
 </div>
 <div class="box-body row" id="invoicenegative">
-    @if ($indicator->dian == 'on')
-        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="documentType">
-            <div class="form-group">
-                <label class="form-control-label" for="document_type_id">Tipo de Documento</label>
-                <select name="document_type_id" class="form-control selectpicker" id="document_type_id"
-                    data-live-search="true" required>
-                    <option value="0" disabled selected>Seleccionar Tipo de documento</option>
-                    @foreach ($documentTypes as $documentType)
-                        <option value="{{ $documentType->id }}">{{ $documentType->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-    @else
-        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="documentBis">
-            <div class="form-group">
-                <label class="form-control-label" for="document_type_id">Typo Documento</label>
-                <input type="text" id="document_type_id" name="document_type_id" value="25"
-                    class="form-control" placeholder="Tipo Documento">
-            </div>
-        </div>
-    @endif
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="posActive">
         <div class="form-group">
             <label class="form-control-label" for="pos_active">Post Activado</label>
@@ -247,6 +247,40 @@
                 class="form-control" placeholder="tope de pos">
         </div>
     </div>
+    @if ($indicator->barcode == 'on')
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" id="barcodeId">
+            <div class="form-group">
+                <label for="barcode_product_id">id Barcode</label>
+                <input type="number" name="barcode_product_id" id="barcode_product_id" value=""
+                    class="form-control" placeholder="">
+
+            </div>
+        </div>
+
+        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="productBarcode">
+            <div class="form-group">
+                <label for="product_barcode">Producto</label>
+                <input type="text" name="product_barcode" id="product_barcode" value=""
+                    class="form-control" placeholder="">
+
+            </div>
+        </div>
+    @endif
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="taxType">
+        <div class="form-group">
+            <label class="form-control-label" for="tax_type">Iva</label>
+            <input type="number" id="tax_type" name="tax_type" class="form-control" value="0" disabled
+                pattern="[0-9]{0,15}">
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="addTypeProduct">
+        <div class="form-group">
+            <label class="form-control-label" for="typeProduct">Typo Producto</label>
+            <input type="text" id="typeProduct" name="typeProduct" class="form-control" value="{{ $typeProduct }}">
+        </div>
+    </div>
+</div>
+<div class="box-body row" id="doNotLook">
     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="stock">Stock</label>
@@ -261,12 +295,14 @@
                 pattern="[0-9]{0,15}">
         </div>
     </div>
+
     <div class="col-lg-3 col-md-2 col-sm-4 col-xs-12">
         <div class="form-group">
             <label for="vprice">V/Actual</label>
             <input type="number" name="vprice" id="vprice" class="form-control" readonly>
         </div>
     </div>
+    <!--
     <div class="col-lg-3 col-md-2 col-sm-4 col-xs-12">
         <div class="form-group">
             <label for="utility">% Utilidad</label>
@@ -278,45 +314,5 @@
             <label for="totalPartial">Total</label>
             <input type="number" name="totalPartial" id="totalPartial" class="form-control" readonly>
         </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="taxType">
-        <div class="form-group">
-            <label class="form-control-label" for="tax_type">Iva</label>
-            <input type="number" id="tax_type" name="tax_type" class="form-control" value="0" disabled
-                pattern="[0-9]{0,15}">
-        </div>
-    </div>
-    @if ($indicator->barcode == 'on')
-        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" id="barcodeId">
-            <div class="form-group">
-                <label for="barcode_product_id">id Barcode</label>
-                <input type="number" name="barcode_product_id" id="barcode_product_id" value=""
-                    class="form-control" placeholder="">
-
-            </div>
-        </div>
-        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="productBarcode">
-            <div class="form-group">
-                <label for="product_barcode">Producto</label>
-                <input type="text" name="product_barcode" id="product_barcode" value=""
-                    class="form-control" placeholder="">
-
-            </div>
-        </div>
-    @endif
-</div>
-<div class="box-body row" id="doNotLook">
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="taxType">
-        <div class="form-group">
-            <label class="form-control-label" for="tax_type">Tipo Impuesto</label>
-            <input type="number" id="tax_type" name="tax_type" class="form-control" value="0" disabled
-                pattern="[0-9]{0,15}">
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="addTypeProduct">
-        <div class="form-group">
-            <label class="form-control-label" for="typeProduct">Typo Producto</label>
-            <input type="text" id="typeProduct" name="typeProduct" class="form-control" value="product">
-        </div>
-    </div>
+    </div> -->
 </div>

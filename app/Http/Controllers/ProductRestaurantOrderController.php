@@ -204,7 +204,7 @@ class ProductRestaurantOrderController extends Controller
             $invoice->payment_method_id = $request->payment_method_id[0];
             $invoice->resolution_id = $resolutions->id;
             $invoice->document_type_id = $documentType;
-            $invoice->document = $resolutions->prefix . '-' . $resolutions->consecutive;
+            $invoice->document = $resolutions->prefix . $resolutions->consecutive;
             $invoice->voucher_type_id = $voucherType;
             $invoice->cash_register_id = cashregisterModel()->id;
             $invoice->status = 'invoice';

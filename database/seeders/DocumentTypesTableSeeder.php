@@ -283,7 +283,7 @@ class DocumentTypesTableSeeder extends Seeder
                 'id' => 101,
                 'code' => '101',
                 'name' => 'Factura de Compra A obligados a Facturar',
-                'prefix' => 'FCO',
+                'prefix' => 'DSE',
                 'cufe_algorithm' => 'CUDS-SHA384',
                 'created_at' => '2023-01-12 21:07:44',
                 'updated_at' => '2023-01-12 21:07:44',

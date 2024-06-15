@@ -44,6 +44,14 @@
             });
         });
     });
+    jQuery(document).ready(function($) {
+        $(document).ready(function() {
+            $('#document_type_id').select2({
+                theme: "classic",
+                width: "100%",
+            });
+        });
+    });
     var cont = 0;
     var total = 0;
     var subtotal = [];
