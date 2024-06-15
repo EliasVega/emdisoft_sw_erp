@@ -33,7 +33,7 @@ class ResolutionController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $resolutions = Resolution::where('status', 'active')->get();
+            $resolutions = Resolution::get();
 
             return DataTables::of($resolutions)
             ->addIndexColumn()
