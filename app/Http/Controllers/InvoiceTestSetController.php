@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\InvoiceTestSet;
 use App\Http\Requests\StoreInvoiceTestSetRequest;
 use App\Http\Requests\UpdateInvoiceTestSetRequest;
+use App\Models\ApiResponse;
 use App\Models\Company;
 use App\Models\Configuration;
 use App\Models\Environment;
@@ -98,6 +99,12 @@ class InvoiceTestSetController extends Controller
                 $store = $requestResponse['store'];
                 $service = $requestResponse['response'];
                 $errorMessages = $requestResponse['errorMessages'];
+                $responseApi = json_encode($service);
+
+                $apiResponse = new ApiResponse();
+                $apiResponse->document = $resolutions->prefix . $resolutions->consecutive;
+                $apiResponse->response_api = $responseApi;
+                $apiResponse->save();
 
             } else {
                 toast('No es posible sin envio a la dian activado.','danger');
