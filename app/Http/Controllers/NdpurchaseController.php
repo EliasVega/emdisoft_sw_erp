@@ -203,11 +203,6 @@ class NdpurchaseController extends Controller
                     for ($i=0; $i < count($product_id); $i++) {
                         $id = $product_id[$i];
                         if ($purchase->type_product == 'product') {
-                            $this->ndpurchaseProductCreate($request, $document);//crear ndpurchaseProduct
-                        } else {
-                            $this->ndpurchaseRawmaterials($request, $document);//crear ndpurchaseProduct
-                        }
-                        if ($purchase->type_product == 'product') {
                             $product = Product::findOrFail($id);
                             $branchProduct = BranchProduct::where('branch_id', $purchase->branch_id)->where('product_id', $id)->first();
                         } else {
@@ -228,6 +223,11 @@ class NdpurchaseController extends Controller
                             $quantityLocal = $quantity[$i];
                             $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
                         }
+                    }
+                    if ($purchase->type_product == 'product') {
+                        $this->ndpurchaseProductCreate($request, $document);//crear ndpurchaseProduct
+                    } else {
+                        $this->ndpurchaseRawmaterials($request, $document);//crear ndpurchaseProduct
                     }
                 break;
                 case(2):

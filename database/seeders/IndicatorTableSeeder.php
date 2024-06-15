@@ -33,7 +33,7 @@ class IndicatorTableSeeder extends Seeder
                 'work_labor' => 'off',
                 'accounting' => 'off',
                 'inventory' => 'on',
-                'product_price' => 'manual',
+                'product_price' => 'automatic',
                 'raw_material' => 'off',
                 'restaurant' => 'off',
                 'barcode' => 'off',

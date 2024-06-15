@@ -45,7 +45,5 @@ trait OvertimeDateChanges {
         $variableDay = $variableDay->format('Y-m-d');
         $dateChange[2] = $variableDay;
         return $dateChange;
-
-
     }
 }

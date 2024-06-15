@@ -28,14 +28,7 @@
             @endif
             {!!Form::open(array('url'=>'ndpurchase', 'method'=>'POST', 'autocomplete'=>'off'))!!}
             {!!Form::token()!!}
-            <div class="row m-1">
-                <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
-                    @include('admin/ndpurchase.form_ndpurchase')
-                </div>
-                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                    @include('admin/ndpurchase.form_retention')
-                </div>
-            </div>
+                @include('admin/ndpurchase.form_ndpurchase')
             {!!Form::close()!!}
         </div>
     </div>
