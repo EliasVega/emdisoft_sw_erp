@@ -1,9 +1,7 @@
 <div class="box-body row">
     <div class="col-md-5" id="formPayCard">
         <div class="card card-primary card-outline">
-            <div class="row">
-                @include('admin/generalview.form_pay')
-            </div>
+            @include('admin/generalview.form_pay')
         </div>
     </div>
     <div class="col-md-5" id="formRetentions">

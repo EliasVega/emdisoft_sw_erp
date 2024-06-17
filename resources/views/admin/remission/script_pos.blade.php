@@ -4,14 +4,6 @@
     });*/
     jQuery(document).ready(function($){
         $(document).ready(function() {
-            $('#resolution_id').select2({
-                theme: "classic",
-                width: "100%",
-            });
-        });
-    });
-    jQuery(document).ready(function($){
-        $(document).ready(function() {
             $('#customer_id').select2({
                 theme: "classic",
                 width: "100%",

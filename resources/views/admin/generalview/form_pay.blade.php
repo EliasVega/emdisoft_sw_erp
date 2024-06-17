@@ -1,4 +1,4 @@
-<div class="box-body row">
+<div class="box-body">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="fpay">
         <div class="form-group">
             <label for="payment_form_id">F/Pago</label>
@@ -24,7 +24,7 @@
         </div>
     </div>
 </div>
-<div class="box-body row" id="payPaymentButtons">
+<div id="payPaymentButtons">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="payPayment">
         <div class="form-group">
             <button class="btn btn-lightBlueGrad btn-sm" type="button" id="addpay" data-toggle="tooltip"

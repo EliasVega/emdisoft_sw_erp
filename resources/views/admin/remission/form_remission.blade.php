@@ -1,29 +1,12 @@
 <div class="box-body row">
     <div class="col-md-5" id="formPayCard">
         <div class="card card-primary card-outline">
-            <div class="row">
-                @include('admin/generalview.form_pay')
-            </div>
+            @include('admin/generalview.form_pay')
         </div>
     </div>
     <div class="col-md-5" id="formCard">
         <div class="card card-primary card-outline">
             <div class="row">
-                @if (indicator()->dian == 'on')
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="resolution">
-                        <div class="form-group">
-                            <label class="form-control-label required" for="resolution_id">Resolucion</label>
-                            <select name="resolution_id" class="form-control selectpicker" id="resolution_id"
-                                data-live-search="true" required>
-                                <option value="" selected>Resolucion</option>
-                                @foreach ($resolutions as $resolution)
-                                    <option value="{{ $resolution->id }}">{{ $resolution->prefix }}
-                                        {{ $resolution->resolution }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                @endif
                 @if (indicator()->barcode == 'on')
                     <div class="col-lg-12 col-md-12 col-sm-14 col-xs-12" id="codeBarcode">
                         <div class="form-group">
