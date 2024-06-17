@@ -68,7 +68,7 @@ class ResolutionController extends Controller
      */
     public function store(StoreResolutionRequest $request)
     {
-        dd($request->all());
+        //dd($request->all());
         $company = Company::findOrFail(current_user()->company_id);
         $store = false;
 
