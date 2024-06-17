@@ -24,9 +24,9 @@ class UpdatePayRequest extends FormRequest
     public function rules()
     {
         return [
-            'pay' => 'required|numeric',
+            'pay' => 'required',
             'balance' => 'numeric',
-            'type' => 'in:purchase,invoice,advance',
+            'type' => 'in:purchase,invoice,expense,remission,advance,work_labor,payroll',
             'user_id' => 'integer',
             'branch_id' => 'integer'
         ];

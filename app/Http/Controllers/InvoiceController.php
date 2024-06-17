@@ -388,7 +388,7 @@ class InvoiceController extends Controller
                 $url = $environment->protocol . $configuration->ip . $environment->url;
             }
             //dd($url);
-            $requestResponse = sendDocuments($company, $url, $data);
+            $requestResponse = sendDocuments($url, $data);
             //dd($requestResponse);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
