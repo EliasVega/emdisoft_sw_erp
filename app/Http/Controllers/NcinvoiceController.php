@@ -153,7 +153,7 @@ class NcinvoiceController extends Controller
             $environment = Environment::where('id', 12)->first();
             $url = $environment->protocol . $configuration->ip . $environment->url;
             $data = ncinvoiceData($request, $invoice);
-            $requestResponse = sendDocuments($company, $url, $data);
+            $requestResponse = sendDocuments($url, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];

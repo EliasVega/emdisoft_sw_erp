@@ -88,7 +88,7 @@ class PurchaseOrderProductController extends Controller
             $environment = Environment::where('code', 'SD')->first();
             $url = $environment->protocol . $configuration->ip . $environment->url;
             $data = supportDocumentData($request);
-            $requestResponse = sendDocuments($company, $url, $data);
+            $requestResponse = sendDocuments($url, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];

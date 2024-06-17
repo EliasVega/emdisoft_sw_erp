@@ -286,7 +286,7 @@ class PurchaseController extends Controller
             $configuration = Configuration::where('company_id', $company->id)->first();
             $url = $environment->protocol . $configuration->ip . $environment->url;
             $data = supportDocumentData($request);
-            $requestResponse = sendDocuments($company, $url, $data);
+            $requestResponse = sendDocuments($url, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];

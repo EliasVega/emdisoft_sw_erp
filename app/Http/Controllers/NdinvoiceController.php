@@ -162,7 +162,7 @@ class NdinvoiceController extends Controller
             //dd($data);
             $environment = Environment::where('id', 13)->first();//Url nota de ajuste documento soporte
             $url = $environment->protocol . $configuration->ip . $environment->url;
-            $requestResponse = sendDocuments($company, $url, $data);
+            $requestResponse = sendDocuments($url, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];

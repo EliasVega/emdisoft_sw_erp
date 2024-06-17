@@ -186,7 +186,7 @@ class ProductRestaurantOrderController extends Controller
             }
             $data = invoiceData($request);
             //dd($data);
-            $requestResponse = sendDocuments($company, $url, $data);
+            $requestResponse = sendDocuments($url, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];

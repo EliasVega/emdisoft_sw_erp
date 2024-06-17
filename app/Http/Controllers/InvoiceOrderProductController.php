@@ -133,7 +133,7 @@ class InvoiceOrderProductController extends Controller
                 $url = $environment->protocol . $configuration->ip . $environment->url;
             }
             //dd($data);
-            $requestResponse = sendDocuments($company, $url, $data);
+            $requestResponse = sendDocuments($url, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];

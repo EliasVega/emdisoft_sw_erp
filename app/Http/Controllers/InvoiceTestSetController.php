@@ -94,7 +94,7 @@ class InvoiceTestSetController extends Controller
                     $data = equiDocPosTestSetData();
                 }
                 //dd($data);
-                $requestResponse = sendInvoiceTestSet($company, $url, $data);
+                $requestResponse = sendInvoiceTestSet($url, $data);
                 //dd($requestResponse);
                 $store = $requestResponse['store'];
                 $service = $requestResponse['response'];

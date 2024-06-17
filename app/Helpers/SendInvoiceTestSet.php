@@ -3,12 +3,12 @@
 use Illuminate\Support\Facades\Http;
 
 if (! function_exists('sendInvoiceTestSet')) {
-    function sendInvoiceTestSet($company, $url, $data)
+    function sendInvoiceTestSet($url, $data)
     {
         $requestResponse = [];
         $errorMessages = null;
         $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $company->api_token,
+            'Authorization' => 'Bearer ' . company()->api_token,
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
         ])->post($url, $data);
