@@ -55,6 +55,7 @@
     $("#addTypeDocument").hide();
     $("#formRetentions").hide();
     $("#addTypeProduct").hide();
+    $("#addPriceWithTax").hide();
 
 
     $(document).ready(function(){

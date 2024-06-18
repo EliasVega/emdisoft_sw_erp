@@ -66,6 +66,7 @@
     $("#addTypeProduct").hide();
     $("#addPay").hide();
     $("#addRetentions").hide();
+    $("#addPriceWithTax").hide();
 
     $(document).ready(function(){
         typeInvoice = $("#pos_active").val();
