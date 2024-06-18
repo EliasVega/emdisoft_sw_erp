@@ -303,7 +303,7 @@ class InvoiceController extends Controller
     {
         //dd($request->all());
         $company = Company::findOrFail(current_user()->company_id);
-        $configuration = Configuration::findOrFail($company->id);
+        $configuration = Configuration::findOrFail(company()->id);
         //$indicator = Indicator::findOrFail(1);
         $cashRegister = cashRegisterComprobation();
         $resolutions = '';

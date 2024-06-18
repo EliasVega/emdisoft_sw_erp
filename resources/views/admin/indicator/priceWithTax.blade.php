@@ -1,5 +1,5 @@
 @can('indicator.priceWithTaxStatus')
-    @if ($barcode == 'on')
+    @if ($priceWithTax == 'on')
         <a href="{{ route('priceWithTaxStatus', $id) }}" class="btn btn-success btn-sm"
         data-toggle="tooltip" data-placement="top" title="Activa"><i class="far fa-edit"></i></a>
     @else
