@@ -238,7 +238,7 @@ class RemissionController extends Controller
      */
     public function store(StoreRemissionRequest $request)
     {
-        dd($request->all());
+        //dd($request->all());
         $customer = $request->customer_id;
         if (is_null($customer)) {
             return Redirect::back()->withErrors(['msg' => 'no selecionaste el cliente']);
@@ -306,7 +306,7 @@ class RemissionController extends Controller
         $remission->balance = $total_pay - $totalpay;
         $remission->grand_total = $total_pay - $retention;
         $remission->save();
-
+        dd($remission);
         $voucherTypes->consecutive += 1;
         $voucherTypes->update();
 
