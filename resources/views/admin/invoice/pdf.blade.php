@@ -20,12 +20,12 @@
             <div class="company">
                 <p><strong id="companyName">{{  $company->name  }}</strong></p>
 
-                <p id="companyData">Nit: {{ $company->nit }} -- {{ $company->dv }} --  {{ $company->liability->name }} -- <br> R. fiscal. {{ $company->regime->name }}  <br> {{ $company->organization->name }}  {{ $company->address }} <br> {{ $company->municipality->name }} -- {{ $company->department->name }} <br> Email: {{ $company->email }}
+                <p id="companyData">Nit: {{ $company->nit }} -- {{ $company->dv }} --  {{ $company->liability->name }} -- <br> {{ $company->regime->name }}  <br> {{ $company->organization->name }} <br> {{ $company->address }} <br> {{ $company->municipality->name }} -- {{ $company->department->name }} <br> Email: {{ $company->email }}
                     </p>
             </div>
             <!--DATOS FACTURA -->
             <div id="document">
-                <p> <h4>VENTA <br> <strong id="documentNumber">N°.{{ $invoice->id }}</strong>  </h4>
+                <p> <h4>FACTURA ELECTRONICA DE VENTA <br> <strong id="documentNumber">{{ $invoice->document }}</strong>  </h4>
                 </p>
                 <p> <h4>FECHA DE EMISION <br> <strong id="documentData">{{ date('d-m-Y', strtotime($invoice->generation_date)) }}</strong>  </h4>
                 </p>

@@ -10,7 +10,7 @@ $medidaTicket = 180;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ 'css/post.css' }}">
-    <title>Documento Equivalente de Venta</title>
+    <title>Documento Equivalente pos</title>
 
 </head>
 
@@ -43,7 +43,7 @@ $medidaTicket = 180;
         </div>
         <!--DATOS FACTURA -->
         <div id="document">
-            <p> {{ $company->pos_invoice }}: <strong id="numfact">N°.{{ $invoice->id }}</strong> <br>
+            <p> {{ company()->pos_invoice }}: <strong id="numfact">{{ $invoice->document }}</strong> <br>
                 FECHA DE EMISION: <strong
                     id="datfact">{{ date('d-m-Y', strtotime($invoice->generation_date)) }}</strong>
             </p>
