@@ -38,16 +38,6 @@ class CompanyTaxSeeder extends Seeder
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43',
             ),
-            2 =>
-            array (
-                'id' => 3,
-                'name' => 'INC 8%',
-                'description' => 'productos con impuesto al consumo',
-                'tax_type_id' => 4,
-                'percentage_id' => 45,
-                'created_at' => '2023-01-12 21:07:43',
-                'updated_at' => '2023-01-12 21:07:43',
-            ),
         ));
     }
 }

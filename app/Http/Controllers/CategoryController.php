@@ -61,8 +61,10 @@ class CategoryController extends Controller
         //$companyTaxes = CompanyTax::where('type_tax', 'tax_item')->get();
         $companyTaxes = CompanyTax::from('company_taxes as ct')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-        ->where('tt.type_tax', 'tax_item')
-        ->get();
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->select('ct.id', 'ct.name', 'per.percentage')
+        ->where('tt.type_tax', 'tax_item')->get();
+        //dd($companyTaxes);
         return view('admin.category.create', compact('companyTaxes'));
     }
 
@@ -79,6 +81,7 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
+        //dd($request->all());
         $message = 'Creada Satisfactoriamente';
         $category = new Category();
         $category->name = $request->name;
@@ -125,6 +128,8 @@ class CategoryController extends Controller
     {
         $companyTaxes = CompanyTax::from('company_taxes as ct')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->select('ct.id', 'ct.name', 'per.percentage')
         ->where('tt.type_tax', 'tax_item')->get();
         return view('admin.category.edit', compact('category', 'companyTaxes'));
     }
@@ -138,6 +143,7 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
+        //dd($request->all());
         $category->name = $request->name;
         $category->description = $request->description;
         $category->utility_rate = $request->utility_rate;

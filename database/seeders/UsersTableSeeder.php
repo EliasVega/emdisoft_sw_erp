@@ -43,13 +43,13 @@ class UsersTableSeeder extends Seeder
 
         User::create([
             'id' => 2,
-            'name' => 'SOCIAL SCANDALO S.A.S.',
-            'number' => '901797137',
-            'address' => 'CARRERA 35 # 48 - 86 BARRIO CABECERA DEL LLANO',
-            'phone' => '3172591085',
-            'email' => 'scandalobga@gmail.com',
+            'name' => 'SUB FERRETERIA CIUDAD MUTIS',
+            'number' => '901628379',
+            'address' => 'CALLE 56 # 3W - 04 BARRIO MUTIS',
+            'phone' => '6076410927',
+            'email' => 'ciudadmutisferreteria@gmail.com',
             'email_verified_at' => NULL,
-            'password' => bcrypt('901797137'),
+            'password' => bcrypt('901628379'),
             'two_factor_secret' => NULL,
             'two_factor_recovery_codes' => NULL,
             'two_factor_confirmed_at' => NULL,
@@ -62,8 +62,8 @@ class UsersTableSeeder extends Seeder
             'company_id' => 1,
             'branch_id' => 1,
             'identification_type_id' => 3,
-            'created_at' => '2024-05-16 21:07:43',
-            'updated_at' => '2024-05-16 21:07:43'
+            'created_at' => '2023-01-12 21:07:43',
+            'updated_at' => '2023-01-12 21:07:43'
 
         ])->assignRole(2);
     }

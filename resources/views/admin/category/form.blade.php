@@ -11,16 +11,16 @@
             <input type="text" name="description" value="{{ old('description', $category->description ?? '') }}" class="form-control" placeholder="Descripcion">
         </div>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12">
         <label for="company_tax_id">Impuesto</label>
         <div class="select">
-            <select id="company_tax_id" name="company_tax_id" class="form-control selectpicker" data-live-search="true" required>
-                <option {{ old('company_tax_id', $category->company_tax_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar porcentage</option>
+            <select id="company_tax_id" name="company_tax_id" class="form-control selectpicker" data-live-search="true">
+                <option {{ old('company_tax_id', $category->company_tax_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Cliente</option>
                 @foreach($companyTaxes as $companyTax)
                     @if(old('company_tax_id', $category->company_tax_id ?? '') == $companyTax->id)
-                        <option value="{{ $companyTax->id }}" selected>{{ $companyTax->name }} - {{ $companyTax->percentage->percentage }}</option>
+                        <option value="{{ $companyTax->id }}" selected>{{ $companyTax->name }} - {{ $companyTax->percentage }}</option>
                     @else
-                        <option value="{{ $companyTax->id }}">{{ $companyTax->name }} - {{ $companyTax->percentage->percentage }}</option>
+                        <option value="{{ $companyTax->id }}">{{ $companyTax->name }} - {{ $companyTax->percentage }}</option>
                     @endif
                 @endforeach
             </select>

@@ -41,9 +41,4 @@ class CompanyTax extends Model
     {
         return $this->hasMany(Category::class);
     }
-
-    public function retentions()
-    {
-        return $this->hasMany(Retention::class);
-    }
 }
