@@ -36,6 +36,7 @@ return new class extends Migration
             $table->enum('sqio', ['on', 'off'])->default('off'); //si no tiene cantidad la orden de venta
             $table->enum('cmep', ['employee', 'product'])->default('employee'); //manejo de comision en empleados o productos
             $table->enum('imgp', ['on', 'off'])->default('off'); //maneja imagen en productos
+            $table->enum('price_with_tax', ['on', 'off'])->default('off');//valor compimpuesto agregado
 
             $table->foreignId('company_id')->constrained();
 

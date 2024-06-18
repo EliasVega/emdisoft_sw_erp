@@ -59,6 +59,7 @@ class IndicatorController extends Controller
             ->addColumn('sqio', 'admin/indicator/sqio')
             ->addColumn('sqio', 'admin/indicator/cmep')
             ->addColumn('imgp', 'admin/indicator/imgp')
+            ->addColumn('price_with_tax', 'admin/indicator/priceWithTax')
             ->rawColumns([
                 'edit',
                 'dian',
@@ -75,7 +76,8 @@ class IndicatorController extends Controller
                 'cvpinvoice',
                 'sqio',
                 'cmep',
-                'imgp'
+                'imgp',
+                'priceWithTax'
                 ])
             ->make(true);
         }
@@ -358,6 +360,20 @@ class IndicatorController extends Controller
             $indicator->imgp = 'off';
         } else {
             $indicator->imgp = 'on';
+        }
+        $indicator->update();
+
+        return redirect('indicator');
+    }
+
+    public function priceWithTaxStatus($id)
+    {
+        $indicator = Indicator::findOrFail($id);
+
+        if ($indicator->price_with_tax == 'on') {
+            $indicator->price_with_tax = 'off';
+        } else {
+            $indicator->price_with_tax = 'on';
         }
         $indicator->update();
 

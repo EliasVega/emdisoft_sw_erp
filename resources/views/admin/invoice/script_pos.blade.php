@@ -152,8 +152,12 @@
         price= $("#price").val();
         stock= $("#stock").val();
         tax_rate= $("#tax_rate").val();
+        pwx = $("#pwx").val();
+        if (pwx == 'on') {
+            taxRate = parseFloat(tax_rate) + 100;
+            price = (parseFloat(price) / parseFloat(taxRate)) * 100;
+        }
         tax_type = $("#tax_type").val();
-        uvt = $("#uvtmax").val();
         employee_id = $("#employee_id").val();
         cvindicator = $("#indicatorCV").val();
         cv = 2;
@@ -217,6 +221,11 @@
         price= $("#price").val();
         stock= $("#stock").val();
         tax_rate= $("#tax_rate").val();
+        pwx = $("#pwx").val();
+        if (pwx == 'on') {
+            taxRate = parseFloat(tax_rate) + 100;
+            price = (parseFloat(price) / parseFloat(taxRate)) * 100;
+        }
         tax_type = $("#tax_type").val();
         uvt = $("#uvtmax").val();
         employee_id = $("#employee_id").val();
@@ -350,6 +359,11 @@
         quantity = $("#quantityModal").val();
         price = $("#priceModal").val();
         tax_rate = $("#taxModal").val();
+        pwx = $("#pwx").val();
+        if (pwx == 'on') {
+            taxRate = parseFloat(tax_rate) + 100;
+            price = (parseFloat(price) / parseFloat(taxRate)) * 100;
+        }
 
         let cvpinv = $(("#cvpinvoice1")).prop("checked");// == true ? 1 : 0;
         if (cvpinv == true) {

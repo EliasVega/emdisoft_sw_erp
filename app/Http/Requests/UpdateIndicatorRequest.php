@@ -44,6 +44,7 @@ class UpdateIndicatorRequest extends FormRequest
             'sqio' => 'in:on,off',
             'cmep' => 'in:employee,product',
             'imgp' => 'in:on,off',
+            'price_with_tax' => 'in:on,off',
         ];
     }
 }

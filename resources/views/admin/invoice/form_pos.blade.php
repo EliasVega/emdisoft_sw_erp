@@ -349,4 +349,10 @@
             <input type="text" id="typeProduct" name="typeProduct" class="form-control" value="product">
         </div>
     </div>
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="addPriceWithTax">
+        <div class="form-group">
+            <label class="form-control-label" for="pwx">Precio con impuesto</label>
+            <input type="text" id="pwx" name="pwx" class="form-control" value="{{ indicator()->price_with_tax }}">
+        </div>
+    </div>
 </div>

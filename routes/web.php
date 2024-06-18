@@ -284,6 +284,7 @@ Route::get('indicator/cvpinvoiceStatus/{id}', [IndicatorController::class, 'cvpi
 Route::get('indicator/sqioStatus/{id}', [IndicatorController::class, 'sqioStatus'])->name('sqioStatus');
 Route::get('indicator/cmepStatus/{id}', [IndicatorController::class, 'cmepStatus'])->name('cmepStatus');
 Route::get('indicator/imgpStatus/{id}', [IndicatorController::class, 'imgpStatus'])->name('imgpStatus');
+Route::get('indicator/priceWithTaxStatus/{id}', [IndicatorController::class, 'priceWithTaxStatus'])->name('priceWithTaxStatus');
 
 Route::get('invoice/create/{id}', [InvoiceController::class, 'getMunicipalities']);
 

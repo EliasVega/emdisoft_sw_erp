@@ -35,7 +35,8 @@ class Indicator extends Model
         'cvpinvoice',
         'sqio',
         'cmep',
-        'imgp'
+        'imgp',
+        'price_with_tax'
     ];
 
     protected $guarded = [
