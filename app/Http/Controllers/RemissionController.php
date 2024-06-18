@@ -306,7 +306,7 @@ class RemissionController extends Controller
         $remission->balance = $total_pay - $totalpay;
         $remission->grand_total = $total_pay - $retention;
         $remission->save();
-        dd($remission);
+
         $voucherTypes->consecutive += 1;
         $voucherTypes->update();
 
