@@ -187,27 +187,27 @@
                     <b>MANEJO DE MATERIAS PRIMAS</b>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mb-3">
-                    @can('indicator.barcodeStatus')
-                        @if ($indicators->barcode == 'on')
-                            <a href="{{ route('barcodeStatus', $indicators->id) }}" class="btn btn-success btn-md" data-toggle="tooltip"
-                            data-placement="top" title="Activo"><i class="far fa-edit"></i> PWX</a>
-                        @else
-                            <a href="{{ route('barcodeStatus', $indicators->id) }}" class="btn btn-danger btn-md" data-toggle="tooltip"
-                            data-placement="top" title="Inactivo"><i class="far fa-edit"> PWX</i></a>
-                        @endif
-                    @endcan
+                    @if ($indicators->price_with_tax == 'on')
+                        <a href="{{ route('priceWithTaxStatus', $indicators->id) }}" class="btn btn-success btn-md" data-toggle="tooltip"
+                        data-placement="top" title="Activo"><i class="far fa-edit"></i> PWX</a>
+                    @else
+                        <a href="{{ route('priceWithTaxStatus', $indicators->id) }}" class="btn btn-danger btn-md" data-toggle="tooltip"
+                        data-placement="top" title="Inactivo"><i class="far fa-edit"> PWX</i></a>
+                    @endif
                 </div>
                 <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 mb-3">
                     <b>VALOR DE IMPUESTO INCLUIDO</b>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mb-3">
-                    @if ($indicators->price_withTax == 'on')
-                        <a href="priceWithTaxStatus', $indicators->id) }}" class="btn btn-success btn-md" data-toggle="tooltip"
-                        data-placement="top" title="Activo"><i class="far fa-edit"></i> CBAR</a>
-                    @else
-                        <a href="priceWithTaxStatus', $indicators->id) }}" class="btn btn-danger btn-md" data-toggle="tooltip"
-                        data-placement="top" title="Inactivo"><i class="far fa-edit"> CBAR</i></a>
-                    @endif
+                    @can('indicator.barcodeStatus')
+                        @if ($indicators->barcode == 'on')
+                            <a href="{{ route('barcodeStatus', $indicators->id) }}" class="btn btn-success btn-md" data-toggle="tooltip"
+                            data-placement="top" title="Activo"><i class="far fa-edit"></i> CBAR</a>
+                        @else
+                            <a href="{{ route('barcodeStatus', $indicators->id) }}" class="btn btn-danger btn-md" data-toggle="tooltip"
+                            data-placement="top" title="Inactivo"><i class="far fa-edit"> CBAR</i></a>
+                        @endif
+                    @endcan
                 </div>
                 <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 mb-3">
                     <b>USO DE LECTOR DE CODIGO DE BARRAS</b>

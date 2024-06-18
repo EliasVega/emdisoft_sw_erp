@@ -6,9 +6,7 @@
     </div>
     <div class="col-md-5" id="formRetentions">
         <div class="card card-primary card-outline">
-            <div class="row">
-                @include('admin/invoice.form_retention')
-            </div>
+            @include('admin/invoice.form_retention')
         </div>
     </div>
     <div class="col-md-5" id="formCard">
