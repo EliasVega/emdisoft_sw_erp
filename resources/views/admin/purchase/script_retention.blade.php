@@ -15,7 +15,6 @@
 
     $("#fPercentage").hide();
     $("#purchase").hide();
-    $("#infoIva").hide();
     $("#infoType").hide();
     $("#infoBase").hide();
 
@@ -48,7 +47,7 @@
         total_purchase = $("#total_purchase").val();
 
         ttid = $("#taxTypeId").val();
-        iva = $("#tax_iva").val();
+        iva = tax_iva;
         balance = $("#balance").val();
         base = parseFloat($("#base").val());
         if(company_tax_id !="" && companyTax!="" && percentage!=""  && percentage>0 ){

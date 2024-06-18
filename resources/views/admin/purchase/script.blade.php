@@ -87,14 +87,12 @@
     $("#sucursalBis").hide();
     $("#documentBis").hide();
 
-
-
     $(document).ready(function() {
 
         typeInvoice = $("#pos_active").val();
         if (typeInvoice == 'on') {
             $("#resolution").show();
-            $('#resolution_id').prop("required", true)
+            //$('#resolution_id').prop("required", true)
         }
 
         let barcodestart = $(("#switch_barcode")).prop("checked"); // == true ? 1 : 0;
@@ -227,21 +225,19 @@
                 $("#invoiceCode").hide();
                 $("#invoice_code").val(1);
                 //$("#noteDocument").show();
-            } else if (documentType == 25) {
+            } else if (documentType == 101) {
                 $("#resolution").hide();
                 $("#generat").hide();
                 $("#startd").hide();
                 $("#invoiceCode").show();
-                $("#resolution_id").val(1);
-                //$("#noteDocument").show();
-                $("#resolution_id").val(1);
+                $("#resolution_id").val(13);
             } else {
                 $("#resolution").hide();
                 $("#generat").hide();
                 $("#startd").hide();
                 $("#invoiceCode").hide();
                 //$("#noteDocument").hide();
-                $("#resolution_id").val(1);
+                $("#resolution_id").val(13);
             }
         });
     });
@@ -324,7 +320,6 @@
         $("#balance").val(total_pay.toFixed(2));
         $("#pendient").val(total_pay.toFixed(2));
         $("#total_purchase").val(total.toFixed(2));
-        $("#tax_iva").val(tax_iva);
     }
 
     function assess() {

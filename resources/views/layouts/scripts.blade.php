@@ -45,7 +45,7 @@
 <script src="{{ asset('vendor/bootstrap-fileinput/themes/fa5/theme.min.js') }}" type="text/javascript"></script>
 
 <!-- Select2 -->
-<script src="{{ asset('vendor/select2/js/select2.min.js') }}"></script>
+<script src="{{ asset('vendor/select2/js/select2.full.min.js') }}"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>

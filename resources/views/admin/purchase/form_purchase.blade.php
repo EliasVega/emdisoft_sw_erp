@@ -60,28 +60,32 @@
                             </select>
                         </div>
                     </div>
-                @else
-                    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="documentBis">
-                        <div class="form-group">
-                            <label class="form-control-label" for="document_type_id">Typo Documento</label>
-                            <input type="text" id="document_type_id" name="document_type_id" value="25"
-                                class="form-control" placeholder="Tipo Documento">
-                        </div>
-                    </div>
-                @endif
-
-                @if ($indicator->dian == 'on')
                     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="resolution">
                         <div class="form-group">
                             <label class="form-control-label required" for="resolution_id">Resolucion</label>
                             <select name="resolution_id" class="form-control selectpicker" id="resolution_id"
-                                data-live-search="true" required>
+                                data-live-search="true">
                                 <option value="" selected>Resolucion</option>
                                 @foreach ($resolutions as $resolution)
                                     <option value="{{ $resolution->id }}">{{ $resolution->prefix }}
                                         {{ $resolution->resolution }}</option>
                                 @endforeach
                             </select>
+                        </div>
+                    </div>
+                @else
+                    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="documentBis" >
+                        <div class="form-group">
+                            <label class="form-control-label" for="document_type_id">Typo Documento</label>
+                            <input type="text" id="document_type_id" name="document_type_id" value="25"
+                                class="form-control" placeholder="Tipo Documento">
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="resolution">
+                        <div class="form-group">
+                            <label class="form-control-label" for="resolution_id">resolucion</label>
+                            <input type="text" id="resolution_id" name="resolution_id" value="13"
+                                class="form-control" placeholder="Resolucion">
                         </div>
                     </div>
                 @endif
@@ -148,15 +152,14 @@
 
                 @include('admin/generalview.button_add')
 
-
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="addPayButton">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="addPayButton">
                     <div class="form-group">
                         <button class="btn btn-blueGrad btn-sm mb-2 ml-3" type="button" id="addPay"
                             data-toggle="tooltip" data-placement="top" title="Pagos"><i
                                 class="fas fa-check"></i>Agrepar Pago</button>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="addRetentionButton">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="addRetentionButton">
                     <div class="form-group">
                         <button class="btn btn-blueGrad btn-sm mb-2 ml-3" type="button" id="addRetentions"
                             data-toggle="tooltip" data-placement="top" title="Retenciones"><i
