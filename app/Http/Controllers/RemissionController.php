@@ -238,7 +238,7 @@ class RemissionController extends Controller
      */
     public function store(StoreRemissionRequest $request)
     {
-        //dd($request->all());
+        dd($request->all());
         $customer = $request->customer_id;
         if (is_null($customer)) {
             return Redirect::back()->withErrors(['msg' => 'no selecionaste el cliente']);
