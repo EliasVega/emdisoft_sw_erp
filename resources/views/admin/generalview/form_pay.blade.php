@@ -30,46 +30,21 @@
             <button class="btn btn-lightBlueGrad btn-sm" type="button" id="addpay" data-toggle="tooltip"
                 data-placement="top" title="Desea Agregar Abono">Agregar abono </button>
         </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="payCash">
+    </div><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="buttonPay">
         <div class="form-group">
-            <button class="btn btn-lightBlueGrad btn-sm" type="button" id="cash" data-toggle="tooltip"
+            <button class="btn btn-lightBlueGrad btn-sm mt-2" type="button" id="cash" data-toggle="tooltip"
                 data-placement="top" title="Efectivo">Efectivo</button>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="payAdvance">
-        <div class="form-group">
-            <button class="btn btn-lightBlueGrad btn-sm" type="button" id="advance" data-toggle="tooltip"
-                data-placement="top" title="Anticipo">P/Anticipado</button>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="payTransfer">
-        <div class="form-group">
-            <button class="btn btn-lightBlueGrad btn-sm" type="button" id="transfer" data-toggle="tooltip"
+                <button class="btn btn-lightBlueGrad btn-sm mt-2" type="button" id="transfer" data-toggle="tooltip"
                 data-placement="top" title="Transferencia">Transferencia</button>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="payNequi">
-        <div class="form-group">
-            <button class="btn btn-lightBlueGrad btn-sm" type="button" id="nequi" data-toggle="tooltip"
+                <button class="btn btn-lightBlueGrad btn-sm mt-2" type="button" id="nequi" data-toggle="tooltip"
                 data-placement="top" title="Nequi">Nequi</button>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="payCard1">
-        <div class="form-group">
-            <button class="btn btn-lightBlueGrad btn-sm" type="button" id="card1" data-toggle="tooltip"
+                <button class="btn btn-lightBlueGrad btn-sm mt-2" type="button" id="card1" data-toggle="tooltip"
                 data-placement="top" title="Tarjetas">T/Credito</button>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="payCard2">
-        <div class="form-group">
-            <button class="btn btn-lightBlueGrad btn-sm" type="button" id="card2" data-toggle="tooltip"
+                <button class="btn btn-lightBlueGrad btn-sm mt-2" type="button" id="card2" data-toggle="tooltip"
                 data-placement="top" title="Tarjetas">T/Debito</button>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="payUndefined">
-        <div class="form-group">
-            <button class="btn btn-lightBlueGrad btn-sm" type="button" id="noDefined" data-toggle="tooltip"
+                <button class="btn btn-lightBlueGrad btn-sm mt-2" type="button" id="advance" data-toggle="tooltip"
+                data-placement="top" title="Anticipo">P/Anticipado</button>
+                <button class="btn btn-lightBlueGrad btn-sm mt-2" type="button" id="noDefined" data-toggle="tooltip"
                 data-placement="top" title="Metodo no definido">Indefinido </button>
         </div>
     </div>
