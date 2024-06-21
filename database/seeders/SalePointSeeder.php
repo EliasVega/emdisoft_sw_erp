@@ -18,7 +18,7 @@ class SalePointSeeder extends Seeder
                 'branch_id' => 1,
 
                 'plate_number'=> 'CVBN2132648',
-                'location' => 'FCA VILLA DE LEYVA KM 26 VIA BARRANCA',
+                'location' => 'CALLE 56 # 3W - 04 BARRIO MUTIS',
                 'cash_type' => 'PRINCIPAL'
             ]
         ];

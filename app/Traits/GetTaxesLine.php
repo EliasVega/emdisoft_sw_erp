@@ -14,7 +14,6 @@ trait GetTaxesLine {
         $tax_rate = $request->tax_rate;
         $taxes[] = [];
         $contax = 0;
-
         for ($i=0; $i < count($product_id); $i++) {
             $id = $product_id[$i];
             $typeProduct = $request->typeProduct;

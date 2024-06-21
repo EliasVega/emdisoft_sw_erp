@@ -56,6 +56,7 @@
     //$("#addProductId").hide();
     $("#barcodeId").hide();
     //$("#productBarcode").hide();
+    $("#addTypeProduct").hide();
 
 
     $(document).ready(function(){

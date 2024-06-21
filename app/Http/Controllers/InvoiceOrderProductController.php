@@ -55,7 +55,7 @@ class InvoiceOrderProductController extends Controller
     public function store(StoreInvoiceOrderProductRequest $request)
     {
         //dd($request->all());
-        $totalpay = $request->total_pay;
+        $totalpay = $request->pay;
         if ($totalpay == null) {
             toast('No adicionaste ningun tipo de pago.','error');
             return redirect('invoiceOrder');

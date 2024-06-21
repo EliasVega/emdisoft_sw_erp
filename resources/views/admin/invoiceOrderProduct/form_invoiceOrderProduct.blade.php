@@ -89,6 +89,12 @@
                 placeholder="" readonly>
         </div>
     </div>
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="addTypeProduct">
+        <div class="form-group">
+            <label class="form-control-label" for="typeProduct">Typo Producto</label>
+            <input type="text" id="typeProduct" name="typeProduct" class="form-control" value="product">
+        </div>
+    </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="table-responsive">
             <table id="details" class="table table-striped table-bordered table-condensed table-hover">
