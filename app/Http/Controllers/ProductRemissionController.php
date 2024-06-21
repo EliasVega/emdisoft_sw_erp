@@ -48,6 +48,11 @@ class ProductRemissionController extends Controller
     public function store(StoreProductRemissionRequest $request)
     {
         //dd($request->all());
+        $totalpay = $request->totalpay;
+        if ($totalpay == null) {
+            toast('No adicionaste ningun tipo de pago.','error');
+            return redirect('remission');
+        }
         $remissionId = $request->remission_id;
         $remission = Remission::findOrFail($remissionId);
         $configuration = Configuration::findOrFail(company()->id);
@@ -93,7 +98,6 @@ class ProductRemissionController extends Controller
         $employee_id = $request->employee_id;
         $paymentForm = $request->payment_form_id;
         $payment = $request->total_pay;
-        $totalpay = $request->totalpay;
 
         if (isset($payment)) {
             $totalpay = $request->totalpay;

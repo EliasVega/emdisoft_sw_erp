@@ -302,6 +302,11 @@ class InvoiceController extends Controller
     public function store(StoreInvoiceRequest $request)
     {
         //dd($request->all());
+        $totalpay = $request->totalpay;
+        if ($totalpay == null) {
+            toast('No adicionaste ningun tipo de pago.','error');
+            return redirect('invoice');
+        }
         $company = Company::findOrFail(current_user()->company_id);
         $configuration = Configuration::findOrFail(company()->id);
         //$indicator = Indicator::findOrFail(1);
@@ -348,7 +353,7 @@ class InvoiceController extends Controller
         $paymentForm = $request->payment_form_id;
         $cvp = $request->cv;
         //$payment = $request->total_pay;
-        $totalpay = $request->totalpay;
+
 
         if (isset($employee_id)) {
             $employee_id = $request->employee_id;

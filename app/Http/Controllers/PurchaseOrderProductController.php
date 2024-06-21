@@ -55,6 +55,11 @@ class PurchaseOrderProductController extends Controller
     public function store(StorePurchaseOrderProductRequest $request)
     {
         //dd($request->all());
+        $totalpay = $request->totalpay;
+        if ($totalpay == null) {
+            toast('No adicionaste ningun tipo de pago.','error');
+            return redirect('purchaseOrder');
+        }
         $company = Company::findOrFail(current_user()->company_id);
         $configuration = Configuration::findOrFail($company->id);
         $purchaseOrder = PurchaseOrder::findOrFail($request->purchaseOrder);
@@ -74,7 +79,6 @@ class PurchaseOrderProductController extends Controller
         $tax_rate = $request->tax_rate;
         $branch = $request->branch_id;//variable de la sucursal de destino
         $total_pay = $request->total_pay;
-        $totalpay = $request->totalpay;
         $retention = 0;
         //variables del request
         $quantityBag = 0;

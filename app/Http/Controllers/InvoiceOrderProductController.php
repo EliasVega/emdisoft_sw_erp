@@ -55,6 +55,11 @@ class InvoiceOrderProductController extends Controller
     public function store(StoreInvoiceOrderProductRequest $request)
     {
         //dd($request->all());
+        $totalpay = $request->total_pay;
+        if ($totalpay == null) {
+            toast('No adicionaste ningun tipo de pago.','error');
+            return redirect('invoiceOrder');
+        }
         $invoiceOrder = InvoiceOrder::findOrFail($request->invoice_order_id);
         $company = Company::findOrFail(current_user()->company_id);
         $configuration = Configuration::findOrFail($company->id);
@@ -104,12 +109,14 @@ class InvoiceOrderProductController extends Controller
             $employee_id = "null";
         }
 
-        if (indicator()->pos == 'on'  && $paymentForm == 1) {
-            $totalpay = $request->total_pay;
-        } else if(indicator()->pos == 'on'  && $paymentForm == 2) {
-            $totalpay = 0;
-        } else {
+        if (isset($totalpay)) {
             $totalpay = $request->totalpay;
+        } else {
+            if (indicator()->pos == 'on'  && $paymentForm == 1) {
+                $totalpay = $request->total_pay;
+            } else if(indicator()->pos == 'on'  && $paymentForm == 2){
+                $totalpay = 0;
+            }
         }
         $retention = 0;
         //variables del request

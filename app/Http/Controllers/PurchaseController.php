@@ -249,6 +249,11 @@ class PurchaseController extends Controller
     public function store(StorePurchaseRequest $request)
     {
         //dd($request->all());
+        $totalpay = $request->totalpay;
+        if ($totalpay == null) {
+            toast('No adicionaste ningun tipo de pago.','error');
+            return redirect('purchase');
+        }
         $resolution = $request->resolution_id;
         $company = Company::findOrFail(current_user()->company_id);
         $cashRegister = cashRegisterComprobation();
@@ -260,7 +265,6 @@ class PurchaseController extends Controller
         $tax_rate = $request->tax_rate;
         $branch = $request->branch_id;//variable de la sucursal de destino
         $total_pay = $request->total_pay;
-        $totalpay = $request->totalpay;
         $retention = 0;
         //variables del request
         $quantityBag = 0;

@@ -117,6 +117,11 @@ class ProductRestaurantOrderController extends Controller
     public function store(StoreProductRestaurantOrderRequest $request)
     {
         //dd($request->all());
+        $totalpay = $request->totalpay;
+        if ($totalpay == null) {
+            toast('No adicionaste ningun tipo de pago.','error');
+            return redirect('restaurantOrder');
+        }
         $company = Company::findOrFail(current_user()->company_id);
         $configuration = Configuration::where('company_id', $company->id)->first();
         $environment = Environment::where('id', 11)->first();
@@ -152,7 +157,6 @@ class ProductRestaurantOrderController extends Controller
         $price = $request->price;
         $tax_rate = $request->tax_rate;
         $total_pay = $restaurantOrder->total_pay;
-        $totalpay = $request->totalpay;
         $retention = 0;
         //dd($restaurantOrder);
         $restaurantService = $restaurantOrder->restaurant_table_id;

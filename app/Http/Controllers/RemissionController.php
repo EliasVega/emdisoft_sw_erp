@@ -239,6 +239,11 @@ class RemissionController extends Controller
     public function store(StoreRemissionRequest $request)
     {
         //dd($request->all());
+        $totalpay = $request->totalpay;
+        if ($totalpay == null) {
+            toast('No adicionaste ningun tipo de pago.','error');
+            return redirect('remission');
+        }
         $customer = $request->customer_id;
         if (is_null($customer)) {
             return Redirect::back()->withErrors(['msg' => 'no selecionaste el cliente']);
@@ -259,7 +264,6 @@ class RemissionController extends Controller
         $paymentForm = $request->payment_form_id;
 
         $payment = $request->total_pay;
-        $totalpay = $request->totalpay;
 
         if (isset($payment)) {
             $totalpay = $request->totalpay;
