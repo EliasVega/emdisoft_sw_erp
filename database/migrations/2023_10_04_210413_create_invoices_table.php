@@ -27,15 +27,15 @@ return new class extends Migration
             $table->enum('status',['invoice', 'credit_note', 'debit_note', 'complete'])->default('invoice');
             $table->string('note', 255)->nullable();
 
-            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete();
-            $table->foreignId('branch_id')->constrained()->onUpdate('cascade')->onDelete();
-            $table->foreignId('customer_id')->constrained()->onUpdate('cascade')->onDelete();
-            $table->foreignId('payment_form_id')->constrained()->onUpdate('cascade')->onDelete();
-            $table->foreignId('payment_method_id')->constrained()->onUpdate('cascade')->onDelete();
-            $table->foreignId('resolution_id')->constrained()->onUpdate('cascade')->onDelete();
-            $table->foreignId('voucher_type_id')->constrained()->onUpdate('cascade')->onDelete();
-            $table->foreignId('document_type_id')->constrained()->onUpdate('cascade')->onDelete();
-            $table->foreignId('cash_register_id')->nullable()->constrained()->onUpdate('cascade')->onDelete();
+            $table->foreignId('user_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('customer_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('payment_form_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('payment_method_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('resolution_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('voucher_type_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('document_type_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('cash_register_id')->nullable()->constrained()->onUpdate('cascade');
 
             $table->timestamps();
         });
