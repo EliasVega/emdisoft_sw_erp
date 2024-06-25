@@ -50,7 +50,7 @@
                 <table class="table table-striped table-bordered table-condensed table-hover" id="invoices">
                     <thead>
                         <tr class="trdatacolor">
-                            <th>Id</th>
+                            <th hidden="true">Id</th>
                             <th>Cliente</th>
                             <th>#Fac_Compra</th>
                             <th>Valor</th>
@@ -110,7 +110,7 @@
                     order: [[0, "desc"]],
                     columns:
                     [
-                        {data: 'id'},
+                        {data: 'id', visible:false, searchable:false },
                         {data: 'customer'},
                         {data: 'document'},
                         {data: 'total_pay', className: 'dt-body-right', render: $.fn.dataTable.render.number( '.', ',', 2, '$')},
