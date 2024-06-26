@@ -73,34 +73,34 @@
         </div>
     </div>
 
-    <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12" id="valuePay">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="valuePay">
         <div class="form-group">
             <label class="form-control-label requerido" for="pay">Abono</label>
             <input type="number" id="pay" name="pay" value="0" class="form-control blanco"
                 placeholder="pay" pattern="[0-9]{0,15}">
         </div>
     </div>
-    <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12" id="advancePay">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="advancePay">
         <div class="form-group">
             <label class="form-control-label requerido" for="abpayment">abono anticipado</label>
             <input type="number" id="abpayment" name="abpayment" class="form-control blanco">
         </div>
     </div>
-    <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12" id="advancePayValue">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="advancePayValue">
         <div class="form-group">
             <label class="form-control-label" for="payment">Abono +</label>
             <input type="number" id="payment" name="payment" value="0" class="form-control blanco"
                 placeholder="valor" pattern="[0-9]{0,15}">
         </div>
     </div>
-    <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12" id="transactions">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="transactions">
         <div class="form-group">
             <label class="form-control-label" for="transaction">#Transaccion</label>
             <input type="text" id="transaction" name="transaction" class="form-control" placeholder="Operacion">
         </div>
     </div>
 
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="banks">
+    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="banks">
         <div class="form-group">
             <label class="requerido" for="bank_id">Bancos</label>
             <select name="bank_id" class="form-control selectpicker" id="bank_id" data-live-search="true">
@@ -111,7 +111,7 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="cards">
+    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="cards">
         <div class="form-group">
             <label for="card_id">Tipo Tarjeta</label>
             <select name="card_id" class="form-control selectpicker" id="card_id" data-live-search="true">
@@ -122,7 +122,7 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="advancePayment">
+    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="advancePayment">
         <div class="form-group">
             <label for="advance_id">Anticipo</label>
             <select name="advance_id" class="form-control selectpicker" id="advance_id" data-live-search="true">

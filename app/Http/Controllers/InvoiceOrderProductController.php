@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\InvoiceOrderProduct;
 use App\Http\Requests\StoreInvoiceOrderProductRequest;
 use App\Http\Requests\UpdateInvoiceOrderProductRequest;
+use App\Models\ApiResponse;
 use App\Models\BranchProduct;
 use App\Models\Company;
 use App\Models\Configuration;
@@ -144,6 +145,12 @@ class InvoiceOrderProductController extends Controller
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];
+            $responseApi = json_encode($service);
+
+            $apiResponse = new ApiResponse();
+            $apiResponse->document = $resolutions->prefix . $resolutions->consecutive;
+            $apiResponse->response_api = $responseApi;
+            $apiResponse->save();
         } else {
             $store = true;
         }
@@ -189,11 +196,9 @@ class InvoiceOrderProductController extends Controller
                     $cashRegister->update();
             }
             $document = $invoice;
-
             //Ingresa los productos que vienen en el array
             for ($i=0; $i < count($product_id); $i++) {
                 $id = $product_id[$i];
-
                 //Metodo para registrar la relacion entre producto y compra
                 $invoiceProduct = new InvoiceProduct();
                 $invoiceProduct->invoice_id = $invoice->id;
@@ -311,6 +316,7 @@ class InvoiceOrderProductController extends Controller
                     ['SendBillSyncResult']['StatusMessage'];
 
                 $invoiceResponse = new InvoiceResponse();
+                $invoiceResponse->invoice_id = $invoice->id;
                 $invoiceResponse->document = $invoice->document;
                 $invoiceResponse->message = $service['message'];
                 $invoiceResponse->valid = $valid;
@@ -318,7 +324,7 @@ class InvoiceOrderProductController extends Controller
                 $invoiceResponse->description = $description;
                 $invoiceResponse->status_message = $statusMessage;
                 $invoiceResponse->cufe = $service['cufe'];
-                $invoiceResponse->invoice_id = $invoice->id;
+                $invoiceResponse->response_api = $responseApi;
                 $invoiceResponse->save();
 
                 $environmentPdf = Environment::where('code', 'PDF')->first();

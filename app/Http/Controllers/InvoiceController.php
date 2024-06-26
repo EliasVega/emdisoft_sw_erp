@@ -385,14 +385,13 @@ class InvoiceController extends Controller
             if ($typeDocument == 'invoice') {
                 $data = invoiceData($request);
                 $environment = Environment::where('id', 11)->first();
-
                 $url = $environment->protocol . $configuration->ip . $environment->url;
             } else {
                 $data = equiDocPosData($request);
                 $environment = Environment::where('id', 21)->first();
                 $url = $environment->protocol . $configuration->ip . $environment->url;
             }
-            //dd($url);
+            //dd($data);
             $requestResponse = sendDocuments($url, $data);
             //dd($requestResponse);
             $store = $requestResponse['store'];
