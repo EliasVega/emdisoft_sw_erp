@@ -52,7 +52,7 @@
                         <tr class="trdatacolor">
                             <th hidden="true">Id</th>
                             <th>Cliente</th>
-                            <th>#Fac_Compra</th>
+                            <th>#Fac_Venta</th>
                             <th>Valor</th>
                             <th>Abonos</th>
                             <th>Retenciones</th>
