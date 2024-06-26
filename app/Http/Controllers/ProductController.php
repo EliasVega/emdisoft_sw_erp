@@ -143,7 +143,7 @@ class ProductController extends Controller
         $product->type_product = $request->type_product;
         $product->stock = $request->stock;
         $product->stock_min = $request->stock_min;
-
+        $product->status = $request->status;
         //$product->stock = 0;
         //Handle File Upload
         if($request->hasFile('image')){
@@ -268,7 +268,7 @@ class ProductController extends Controller
         $product->type_product = $request->type_product;
         $product->stock = $request->stock;
         $product->stock_min = $request->stock_min;
-
+        $product->status = $request->status;
         $currentImage = $product->imageName;
         //Handle File Upload
         if($request->hasFile('image')){

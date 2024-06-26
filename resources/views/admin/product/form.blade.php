@@ -99,6 +99,16 @@
                         <input type="number" name="stock_min" id="stock_min" value="{{ old('stock_min', $product->stock_min ?? '0.00') }}" class="form-control" placeholder="Stock minimo">
                     </div>
                 </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <label for="status">estado</label>
+                    <div class="select">
+                        <select id="status" name="status" class="form-control selectpicker" data-live-search="true" required>
+                            <option {{ ($product->status ?? '') == '' ? "selected" : "" }} disabled>Estado</option>
+                                <option value="active">ACTIVO</option>
+                                <option value="inactive">INACTIVO</option>
+                        </select>
+                    </div>
+                </div>
                 @if ($indicator->work_labor == 'on' && $indicator->cmep == 'product')
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="form-group">

@@ -148,6 +148,7 @@
             $("#tax_rate").val(data.percentage);
             $("#tax_type").val(data.tt);
             $("#vprice").val(data.price);
+            $("#sale_price").val(data.sale_price);
         }).fail(function() {
             //alert("Algo salió mal");
         }).always(function() {
@@ -162,6 +163,7 @@
         product = $("#product_barcode").val();
         quantity = $("#quantityadd").val();
         price = $("#price").val();
+        salePrice = $("#sale_price").val();
         stock = $("#stock").val();
         tax_rate = $("#tax_rate").val();
         tax_type = $("#tax_type").val();
@@ -182,6 +184,7 @@
                 product_id + '">' + product_id + '</td><td><input type="hidden" name="product[]" value="' + product +
                 '">' + product + '</td>   <td><input type="hidden" name="quantity[]" value="' + quantity + '">' +
                 quantity + '</td> <td><input type="hidden" name="price[]"  value="' + price + '">' + price +
+                '</td><td><input type="hidden" name="sale_price[]"  value="' + salePrice + '">' + salePrice +
                 '</td> <td><input type="hidden" name="tax_rate[]"  value="' + tax_rate + '">' + tax_rate +
                 '</td><td> $' + parseFloat(subtotal[cont]).toFixed(2) + '</td></tr>';
             cont++;
@@ -212,6 +215,7 @@
         $("#tax_rate").val(dataProduct[3]);
         $("#tax_type").val(dataProduct[4]);
         $("#price").val(dataProduct[2]);
+        $("#sale_price").val(dataProduct[5]);
     }
 
     //Mostrar u ocultar elementos de acuerdo al tipo de documento
@@ -256,6 +260,7 @@
         product = $("#product_id option:selected").text();
         quantity = $("#quantityadd").val();
         price = $("#price").val();
+        salePrice = $("#sale_price").val();
         stock = $("#stock").val();
         tax_rate = $("#tax_rate").val();
         tax_type = $("#tax_type").val();
@@ -276,6 +281,7 @@
                 product_id + '">' + product_id + '</td><td><input type="hidden" name="product[]" value="' + product +
                 '">' + product + '</td>   <td><input type="hidden" name="quantity[]" value="' + quantity + '">' +
                 quantity + '</td> <td><input type="hidden" name="price[]"  value="' + price + '">' + price +
+                '</td><td><input type="hidden" name="sale_price[]"  value="' + salePrice + '">' + salePrice +
                 '</td> <td><input type="hidden" name="tax_rate[]"  value="' + tax_rate + '">' + tax_rate +
                 '</td><td>$' + subtotal[cont] + ' </td></tr>';
             cont++;
@@ -303,6 +309,7 @@
         $("#code").val("");
         $("#quantityadd").val("");
         $("#price").val("");
+        $("#sale_price").val("");
     }
 
     function totals() {
@@ -370,8 +377,9 @@
             $("#productModal").val(row.find("td:eq(3)").text());
             $("#quantityModal").val(row.find("td:eq(4)").text());
             $("#priceModal").val(row.find("td:eq(5)").text());
-            $("#taxModal").val(row.find("td:eq(6)").text());
-            $("#subtotalModal").val(row.find("td:eq(7)").text());
+            $("#salePriceModal").val(row.find("td:eq(6)").text());
+            $("#taxModal").val(row.find("td:eq(7)").text());
+            $("#subtotalModal").val(row.find("td:eq(8)").text());
 
             // Mostrar modal
             $('#editModal').modal('show');
@@ -392,6 +400,7 @@
         product = $("#productModal").val();
         quantity = $("#quantityModal").val();
         price = $("#priceModal").val();
+        salePrice = $("#salePriceModal").val();
         tax_rate = $("#taxModal").val();
         $('#priceModal').prop("readonly", true);
 
@@ -408,6 +417,7 @@
                 product_id + '">' + product_id + '</td><td><input type="hidden" name="product[]" value="' + product +
                 '">' + product + '</td>   <td><input type="hidden" name="quantity[]" value="' + quantity + '">' +
                 quantity + '</td> <td><input type="hidden" name="price[]"  value="' + price + '">' + price +
+                '</td><td><input type="hidden" name="sale_price[]"  value="' + salePrice + '">' + salePrice +
                 '</td> <td><input type="hidden" name="tax_rate[]"  value="' + tax_rate + '">' + tax_rate +
                 '</td><td>$' + subtotal[cont] + ' </td></tr>';
             cont++;

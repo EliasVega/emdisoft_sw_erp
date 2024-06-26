@@ -150,7 +150,7 @@ class PurchaseController extends Controller
         ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
         ->join('percentages as per', 'ct.percentage_id', 'per.id')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-        ->select('pro.id', 'pro.code', 'pro.stock', 'pro.price', 'pro.name', 'per.percentage', 'tt.id as tt')
+        ->select('pro.id', 'pro.code', 'pro.stock', 'pro.price', 'pro.sale_price', 'pro.name', 'per.percentage', 'tt.id as tt')
         ->where('pro.status', '=', 'active')
         ->get();
         $companyTaxes = CompanyTax::from('company_taxes', 'ct')
@@ -262,6 +262,7 @@ class PurchaseController extends Controller
         $product_id = $request->product_id;
         $quantity = $request->quantity;
         $price = $request->price;
+        $salePrice = $request->salePrice;
         $tax_rate = $request->tax_rate;
         $branch = $request->branch_id;//variable de la sucursal de destino
         $total_pay = $request->total_pay;
@@ -381,9 +382,21 @@ class PurchaseController extends Controller
 
                     $quantityLocal = $quantity[$i];
                     $priceLocal = $price[$i];
-                    $this->inventoryPurchases($product, $branchProducts, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
-                    $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
-
+                    $salePriceLocal = $salePrice[$i];
+                    $this->inventoryPurchases(
+                        $product,
+                        $branchProducts,
+                        $quantityLocal,
+                        $priceLocal,
+                        $branch,
+                        $salePriceLocal);//trait para actualizar inventario
+                    $this->kardexCreate(
+                        $product,
+                        $branch,
+                        $voucherType,
+                        $document,
+                        $quantityLocal,
+                        $typeDocument);//trait crear Kardex
                 }
             } else {
                 for ($i=0; $i < count($product_id); $i++) {
@@ -408,9 +421,19 @@ class PurchaseController extends Controller
                     $product = $rawMaterial;
                     $quantityLocal = $quantity[$i];
                     $priceLocal = $price[$i];
-                    $this->rawMaterialPurchases($rawMaterial, $branchRawmaterials, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
-                    $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
-
+                    $this->rawMaterialPurchases(
+                        $rawMaterial,
+                        $branchRawmaterials,
+                        $quantityLocal,
+                        $priceLocal,
+                        $branch);//trait para actualizar inventario
+                    $this->kardexCreate(
+                        $product,
+                        $branch,
+                        $voucherType,
+                        $document,
+                        $quantityLocal,
+                        $typeDocument);//trait crear Kardex
                 }
                 $purchase->type_product = 'raw_material';
                 $purchase->update();
@@ -1442,7 +1465,7 @@ class PurchaseController extends Controller
             ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
             ->join('percentages as per', 'ct.percentage_id', 'per.id')
             ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-            ->select('pro.id', 'pro.name', 'pro.stock', 'pro.price', 'per.percentage', 'tt.id as tt')
+            ->select('pro.id', 'pro.name', 'pro.stock', 'pro.price', 'pro.sale_price', 'per.percentage', 'tt.id as tt')
             ->where('pro.code', $request->code)
             ->first();
             if ($products) {

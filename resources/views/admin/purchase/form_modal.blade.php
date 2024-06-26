@@ -37,6 +37,12 @@
             <input type="number" name="priceModal" id="priceModal" class="form-control" placeholder="precio">
         </div>
     </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for="salePriceModal">Precio Venta</label>
+            <input type="number" name="salePriceModal" id="salePriceModal" class="form-control" placeholder="precio venta">
+        </div>
+    </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="subtotalMod">
         <div class="form-group">
             <label for="subtotalModal">Subtotal</label>

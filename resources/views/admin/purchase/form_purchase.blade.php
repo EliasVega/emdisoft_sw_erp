@@ -129,24 +129,30 @@
                             <option value="0" disabled selected>Seleccionar</option>
                             @foreach ($products as $product)
                                 <option
-                                    value="{{ $product->id }}_{{ $product->stock }}_{{ $product->price }}_{{ $product->percentage }}_{{ $product->tt }}">
+                                    value="{{ $product->id }}_{{ $product->stock }}_{{ $product->price }}_{{ $product->percentage }}_{{ $product->tt }}_{{ $product->sale_price }}">
                                     {{ $product->code }} -- {{ $product->name }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
-                <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label class="form-control-label" for="quantityadd">Cantidad</label>
                         <input type="number" id="quantityadd" name="quantityadd" class="form-control"
                             placeholder="Cant." pattern="[0-9]{0,15}">
                     </div>
                 </div>
-                <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label class="form-control-label" for="price">Precio</label>
                         <input type="number" id="price" name="price" class="form-control"
                             placeholder="Precio">
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-2 col-sm-4 col-xs-12">
+                    <div class="form-group">
+                        <label for="sale_price">P/Venta</label>
+                        <input type="number" name="sale_price" id="sale_price" class="form-control" placeholder="Precio de venta">
                     </div>
                 </div>
 
@@ -211,25 +217,26 @@
                             <th>Producto</th>
                             <th>Cant</th>
                             <th>precio</th>
+                            <th>P/Venta</th>
                             <th>imp(%)</th>
                             <th>SubTotal ($)</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th colspan="7" class="rightfoot">TOTAL:</th>
+                            <th colspan="8" class="rightfoot">TOTAL:</th>
                             <td class="rightfoot thfoot"><strong id="total_html">$ 0.00</strong>
                                 <input type="hidden" name="total" id="total">
                             </td>
                         </tr>
                         <tr>
-                            <th colspan="7" class="rightfoot">IMPUESTO:</th>
+                            <th colspan="8" class="rightfoot">IMPUESTO:</th>
                             <td class="rightfoot thfoot"><strong id="total_tax_html">$ 0.00</strong>
                                 <input type="hidden" name="total_tax" id="total_tax">
                             </td>
                         </tr>
                         <tr>
-                            <th colspan="7" class="rightfoot">TOTAL COMPRA:</th>
+                            <th colspan="8" class="rightfoot">TOTAL COMPRA:</th>
                             <td class="rightfoot thfoot"><strong id="total_pay_html">$ 0.00</strong>
                                 <input type="hidden" name="total_pay" id="total_pay">
                             </td>
