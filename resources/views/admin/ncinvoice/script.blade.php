@@ -5,26 +5,12 @@
 
     jQuery(document).ready(function($){
         $(document).ready(function() {
-            $('#resolution_id').select2({
+            $('#discrepancy_id').select2({
                 theme: "classic",
                 width: "100%",
             });
         });
     });
-
-    jQuery(document).on("click", "#editrow", function () {
-        editrow();
-    });
-    jQuery(document).on("click", "#updateNdinvoice", function () {
-        updaterow();
-    })
-
-        /*
-    $(document).ready(function(){
-        $("#updateInvoice").click(function(){
-            editrow();
-        });
-    });*/
 
     let cont=0;
     let total=0;
@@ -34,6 +20,7 @@
     //let tax_ivaedit = 0;
     $("#save").hide();
     $("#idCustomer").hide();
+
     $("#addproduct").hide();
     $("#addquantity").hide();
     $("#addprice").hide();
@@ -46,129 +33,85 @@
     $("#addResolution").hide();
     $("#addTypeProduct").hide();
 
-    /*
-    supportDocument = $("#document_type_id").val();
-    if (supportDocument == 11) {
-        $("#discrepancy_id").val(2);
-        $("#discrepancy").hide();
-        cont = 0;
-        total = 0;
-        subtotal = [];
-        total_tax = 0;
-        $("#addproduct").hide();
-        $("#addquantity").hide();
-        $("#addprice").hide();
-        $("#added").hide();
-        $("#cancelled").hide();
-        //$("#updateInvoice").hide();
-        $("#addReverse").show();
-        $("#addResolution").show();
-        editing();
-    } else {
-        $("#resolution_id").val(3);
-    }*/
-    /*
-    $("#resolution_id").change(function(){
-        retentionLoad();
-    });*/
 
     $(document).ready(function(){
-        /*
-        supportDocument = $("#document_type").val();
-        if (supportDocument == 11) {
-            $("#discrepancy").hide();
-            $("#discrepancy_id").val(2);
-            cont = 0;
-            total = 0;
-            subtotal = [];
-            total_tax = 0;
-            $("#addproduct").hide();
-            $("#addquantity").hide();
-            $("#addprice").hide();
-            $("#added").hide();
-            $("#cancelled").hide();
-            //$("#updateInvoice").hide();
-            $("#addReverse").show();
-            $("#addResolution").show();
-            editing();
-        } else {*/
-            $("#discrepancy_id").change(function(){
-                var discrepancy = $("#discrepancy_id").val();
-                if(discrepancy == 1){
-                    $("#discrepancy").hide();
-                    $('#priceModal').prop("readonly", true);
-                    cont=0;
-                    total=0;
-                    subtotal=[];
-                    total_tax = 0;
+        $("#discrepancy_id").change(function(){
+            var discrepancy = $("#discrepancy_id").val();
+            if(discrepancy == 1){
+                $("#discrepancy").hide();
+                $('#priceModal').prop("readonly", true);
+                cont=0;
+                total=0;
+                subtotal=[];
+                total_tax = 0;
+                /*
+                $("#addproduct").hide();
+                $("#addquantity").hide();
+                $("#addprice").hide();
+                $("#addtax_rate").hide();
+                $("#addstock").hide();
+                $("#added").hide();*/
+                //$("#addResolution").show();
+                $("#addReverse").show();
 
-                    $("#addproduct").hide();
-                    $("#addquantity").hide();
-                    $("#addprice").hide();
-                    $("#addtax_rate").hide();
-                    $("#addstock").hide();
-                    $("#added").hide();
-                    //$("#addResolution").show();
-                    $("#addReverse").show();
-
-                    editing();
-                    retentionLoad();
-                } else if (discrepancy == 2) {
-                    $("#discrepancy").hide();
-                    cont = 0;
-                    total = 0;
-                    subtotal = [];
-                    total_tax = 0;
-                    $("#addproduct").hide();
-                    $("#addquantity").hide();
-                    $("#addprice").hide();
-                    $("#added").hide();
-                    $("#cancelled").hide();
-                    //$("#addResolution").show();
-                    $("#addReverse").show();
-                    editing();
-                    retentionLoad();
-                } else if (discrepancy == 3) {
-                    $("#discrepancy").hide();
-                    $('#quantityModal').prop("readonly", true);
-                    $('#priceModal').prop("readonly", false);
-                    cont=0;
-                    total=0;
-                    subtotal=[];
-                    total_tax = 0;
-
-                    $("#addproduct").hide();
-                    $("#addquantity").hide();
-                    $("#addprice").hide();
-                    $("#addtax_rate").hide();
-                    $("#addstock").hide();
-                    $("#added").hide();
-                    //$("#addResolution").show();
-                    $("#addReverse").show();
-                    editing();
-                    retentionLoad();
-                } else if (discrepancy == 4) {
-                    $("#discrepancy").hide();
-                    $('#quantityModal').prop("readonly", true);
-                    $('#priceModal').prop("readonly", false);
-                    cont=0;
-                    total=0;
-                    subtotal=[];
-                    total_tax = 0;
-
-                    $("#addproduct").hide();
-                    $("#addquantity").hide();
-                    $("#addprice").hide();
-                    $("#addtax_rate").hide();
-                    $("#addstock").hide();
-                    $("#added").hide();
-                    //$("#addResolution").show();
-                    $("#addReverse").show();
-                    editing();
-                    retentionLoad();
-                }
-            });
-        //}
+                editing();
+                retentionLoad();
+            } else if (discrepancy == 2) {
+                $("#discrepancy").hide();
+                cont = 0;
+                total = 0;
+                subtotal = [];
+                total_tax = 0;
+                /*
+                $("#addproduct").hide();
+                $("#addquantity").hide();
+                $("#addprice").hide();
+                $("#added").hide();
+                $("#cancelled").hide();*/
+                //$("#addResolution").show();
+                $("#addReverse").show();
+                editing();
+                retentionLoad();
+            } else if (discrepancy == 3) {
+                $("#discrepancy").hide();
+                $('#quantityModal').prop("readonly", true);
+                $('#priceModal').prop("readonly", false);
+                cont=0;
+                total=0;
+                subtotal=[];
+                total_tax = 0;
+                /*
+                $("#addproduct").hide();
+                $("#addquantity").hide();
+                $("#addprice").hide();
+                $("#addtax_rate").hide();
+                $("#addstock").hide();
+                $("#added").hide();*/
+                //$("#addResolution").show();
+                $("#addReverse").show();
+                editing();
+                retentionLoad();
+            } else if (discrepancy == 4) {
+                $("#discrepancy").hide();
+                $('#quantityModal').prop("readonly", true);
+                $('#priceModal').prop("readonly", false);
+                cont=0;
+                total=0;
+                subtotal=[];
+                total_tax = 0;
+                /*
+                $("#addproduct").hide();
+                $("#addquantity").hide();
+                $("#addprice").hide();
+                $("#addtax_rate").hide();
+                $("#addstock").hide();
+                $("#added").hide();*/
+                //$("#addResolution").show();
+                $("#addReverse").show();
+                editing();
+                retentionLoad();
+            }
+        });
     });
 
     function editing(){
@@ -202,9 +145,9 @@
                     totals();
                     assess();
                     $('#details').append(row);
-
+                    /*
                     $('#product_id option:selected').remove();
-                    clean();
+                    clean();*/
 
                     if (discrep == 1) {
                         $('.btnedit').prop("disabled", false);
@@ -230,6 +173,13 @@
             }
         });
     }
+
+    jQuery(document).on("click", "#editrow", function () {
+        editrow();
+    });
+    jQuery(document).on("click", "#updateNcinvoice", function () {
+        updaterow();
+    })
 
     function editrow(index) {
         $("#contMod").hide();
@@ -308,7 +258,7 @@
             })
         }
     }
-
+    /*
     $("#product_id").change(productValue);
 
     function productValue(){
@@ -318,8 +268,8 @@
         $("#tax_rate").val(dataProduct[3]);
         $("#tax_type").val(dataProduct[4]);
 
-    }
-
+    }*/
+    /*
     $(document).ready(function(){
         $("#add").click(function(){
             add();
@@ -362,9 +312,9 @@
             text: 'Los campos deben ser mayores a 0, o faltan campos por llenar',
             })
         }
-    }
+    }*/
 
-
+    /*
     function clean(){
         $("#product_id").val("");
         $("#quantityI").val("");
@@ -372,7 +322,7 @@
         $("#price").val("");
         $("#tax_rate").val("");
         $("#stock").val("");
-    }
+    }*/
 
     function totals(){
         total_pay=total+total_tax;

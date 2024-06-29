@@ -101,20 +101,31 @@ class NcinvoiceController extends Controller
         $typeDocument = 'ncinvoice';
         $branch = current_user()->branch_id;
 
-        $company = Company::findOrFail(current_user()->company_id);
         $invoice = Invoice::findOrFail($request->invoice_id);//encontrando la factura
-        $configuration = Configuration::where('company_id', $company->id)->first();
+        $configuration = Configuration::where('company_id', company()->id)->first();
         $cashRegister = cashRegisterComprobation();
         $pay = Pay::where('type', 'invoice')->where('payable_id', $invoice->id)->get();//pagos hechos a esta factura
-        $voucherTypes = VoucherType::findOrFail(5);
+
+
+
         $voucherTypes = '';
         $resolution = '';
-        if ($invoice->document_type_id == 1) {
-            $resolution = Resolution::findOrFail(8);//NC factura de venta
-            $voucherTypes = VoucherType::findOrFail(5);//NC factura de venta
+        if (indicator()->dian == 'on') {
+            if ($invoice->document_type_id == 1) {
+                $resolution = Resolution::findOrFail(8);//NC factura de venta
+                $voucherTypes = VoucherType::findOrFail(5);//voucher type FV
+            } else if ($invoice->document_type_id == 15) {
+                $resolution = Resolution::findOrFail(11);//NC factura de venta pos
+                $voucherTypes = VoucherType::findOrFail(21); //voucher type pos
+            }
         } else {
-            $resolution = Resolution::findOrFail(5);//ND favtura de post
-            $voucherTypes = VoucherType::findOrFail(21);// NC factura post
+            if ($invoice->document_type_id == 1) {
+                $resolution = Resolution::findOrFail(8);//NC factura de venta
+                $voucherTypes = VoucherType::findOrFail(5);//voucher type FV
+            } else if ($invoice->document_type_id == 104) {
+                $resolution = Resolution::findOrFail(5);//NC factura de venta pos
+                $voucherTypes = VoucherType::findOrFail(21); //voucher type pos
+            }
         }
         //variables del request
         $quantity = $request->quantity;
@@ -147,7 +158,7 @@ class NcinvoiceController extends Controller
         $voucherType = $voucherTypes->id;
         $service = '';
         $errorMessages = '';
-        $store = false;
+        $store = true;
 
         if (indicator()->dian == 'on') {
             $environment = Environment::where('id', 12)->first();
@@ -457,7 +468,7 @@ class NcinvoiceController extends Controller
                 $environmentPdf = Environment::findOrFail(10);
                 $urlpdf = $environmentPdf->protocol . $configuration->ip . $environmentPdf->url;
 
-                $pdf = file_get_contents($urlpdf . $company->nit ."/NCS-" . $ncinvoice->document .".pdf");
+                $pdf = file_get_contents($urlpdf . company()->nit ."/NCS-" . $ncinvoice->document .".pdf");
                 Storage::disk('public')->put('files/graphical_representations/ncinvoice/' .
                 $ncinvoice->document . '.pdf', $pdf);
             }

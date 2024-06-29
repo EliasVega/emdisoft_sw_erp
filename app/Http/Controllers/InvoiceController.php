@@ -301,14 +301,14 @@ class InvoiceController extends Controller
      */
     public function store(StoreInvoiceRequest $request)
     {
-        //dd($request->all());
+        dd($request->all());
         set_time_limit(60);
         $totalpay = $request->totalpay;
         if ($totalpay == null) {
             toast('No adicionaste ningun tipo de pago.','error');
             return redirect('invoice');
         }
-        $company = Company::findOrFail(current_user()->company_id);
+
         $configuration = Configuration::findOrFail(company()->id);
         //$indicator = Indicator::findOrFail(1);
         $cashRegister = cashRegisterComprobation();
@@ -592,7 +592,7 @@ class InvoiceController extends Controller
                 $environmentPdf = Environment::where('code', 'PDF')->first();
                 $urlpdf = $environmentPdf->protocol . $configuration->ip . $environmentPdf->url;
 
-                $pdf = file_get_contents($urlpdf . $company->nit ."/FES-" . $invoice->document .".pdf");
+                $pdf = file_get_contents($urlpdf . company()->nit ."/FES-" . $invoice->document .".pdf");
                 Storage::disk('public')->put('files/graphical_representations/invoices/' .
                 $invoice->document . '.pdf', $pdf);
             }

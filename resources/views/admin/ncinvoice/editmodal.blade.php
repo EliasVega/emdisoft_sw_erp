@@ -15,7 +15,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-lightBlueGrad" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-blueGrad" id="updateNdinvoice">Guardar</button>
+                <button type="button" class="btn btn-blueGrad" id="updateNcinvoice">Guardar</button>
             </div>
         </div>
     </div>

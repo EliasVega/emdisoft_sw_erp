@@ -22,7 +22,7 @@ class VerificationCodeTableSeeder extends Seeder
             array (
                 'id' => 1,
                 'user_id' => 1,
-                'code' => 'emdisoft2024',
+                'code' => 'matrix2012',
                 'created_at' => '2023-05-12 21:07:43',
                 'updated_at' => '2023-05-12 21:07:43'
             ),
@@ -30,7 +30,7 @@ class VerificationCodeTableSeeder extends Seeder
             array (
                 'id' => 2,
                 'user_id' => 2,
-                'code' => '1005330237',
+                'code' => 'admin2024',
                 'created_at' => '2023-05-12 21:07:43',
                 'updated_at' => '2023-05-12 21:07:43'
             ),
