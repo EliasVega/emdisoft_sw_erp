@@ -301,7 +301,7 @@ class InvoiceController extends Controller
      */
     public function store(StoreInvoiceRequest $request)
     {
-        dd($request->all());
+        //dd($request->all());
         set_time_limit(60);
         $totalpay = $request->totalpay;
         if ($totalpay == null) {
