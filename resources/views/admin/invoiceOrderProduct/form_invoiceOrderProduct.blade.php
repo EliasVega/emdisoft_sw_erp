@@ -68,13 +68,6 @@
             </div>
         </div>
     @endif
-    <div class="col-lg-8 col-md-6 col-sm-10 col-xs-12" id="noteDocument">
-        <div class="form-group">
-            <label class="form-control-label" for="note">Observaciones</label>
-            <input type="text" id="note" name="note" value="{{ old('note') }}" class="form-control"
-                placeholder="Observaciones">
-        </div>
-    </div>
     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="bags">Bolsas</label>

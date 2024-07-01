@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('postal_code', 6);
+            $table->string('type', 10);
             $table->foreignId('municipality_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
 
             $table->timestamps();

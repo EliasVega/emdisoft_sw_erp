@@ -170,7 +170,7 @@ class InvoiceOrderProductController extends Controller
             $invoice->voucher_type_id = $voucherType;
             $invoice->cash_register_id = $cashRegister->id;
             $invoice->status = 'invoice';
-            $invoice->note = $request->note;
+            $invoice->note = $invoiceOrder->note;
             $invoice->generation_date = $request->generation_date;
             $invoice->due_date = $request->due_date;
             $invoice->retention = $retention;

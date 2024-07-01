@@ -184,7 +184,14 @@ class PurchaseOrderProductController extends Controller
 
                     $quantityLocal = $quantity[$i];
                     $priceLocal = $price[$i];
-                    $this->inventoryPurchases($product, $branchProducts, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
+                    $salePriceLocal = $product->sale_price;
+                    $this->inventoryPurchases(
+                        $product,
+                        $branchProducts,
+                        $quantityLocal,
+                        $priceLocal,
+                        $branch,
+                        $salePriceLocal);//trait para actualizar inventario
                     $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
 
                 }

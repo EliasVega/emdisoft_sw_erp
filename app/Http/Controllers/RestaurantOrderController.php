@@ -1063,7 +1063,7 @@ class RestaurantOrderController extends Controller
             ))->render();
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
-        $pdf->setPaper (array(0,0,226.76,846.64), 'portrait');
+        $pdf->setPaper (array(0,0,297.64,1246.53), 'portrait');
 
         return $pdf->stream('vista-pdf', "$restaurantOrderpdf.pdf");
         //return $pdf->download("$orderpdf.pdf");
@@ -1089,7 +1089,7 @@ class RestaurantOrderController extends Controller
             ))->render();
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
-        $pdf->setPaper (array(0,0,226.76,846.64), 'portrait');
+        $pdf->setPaper (array(0,0,297.64,1246.53), 'portrait');
 
         return $pdf->stream('vista-pdf', "$restaurantOrderpos.pdf");
         //return $pdf->download("$orderpdf.pdf");

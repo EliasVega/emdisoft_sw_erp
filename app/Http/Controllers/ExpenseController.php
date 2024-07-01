@@ -219,7 +219,14 @@ class ExpenseController extends Controller
             $quantityLocal = $quantity[$i];
             $priceLocal = $price[$i];
             $voucherType = 20;
-            $this->inventoryPurchases($product, $branchProducts, $quantityLocal, $priceLocal, $branch);//trait para actualizar inventario
+            $salePriceLocal = $salePrice[$i];
+            $this->inventoryPurchases(
+                $product,
+                $branchProducts,
+                $quantityLocal,
+                $priceLocal,
+                $branch,
+                $salePriceLocal);//trait para actualizar inventario
             $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
         }
         //variables necesarias
@@ -518,7 +525,7 @@ class ExpenseController extends Controller
         ))->render();
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
-        $pdf->setPaper (array(0,0,226.76,497.64), 'portrait');
+        $pdf->setPaper (array(0,0,297.64,1246.53), 'portrait');
 
         return $pdf->stream('vista-pdf', "$expensepdf.pdf");
    }
@@ -542,7 +549,7 @@ class ExpenseController extends Controller
             ))->render();
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
-        $pdf->setPaper (array(0,0,226.76,497.64), 'portrait');
+        $pdf->setPaper (array(0,0,297.64,1246.53), 'portrait');
 
         return $pdf->stream('vista-pdf', "$expensepdf.pdf");
    }

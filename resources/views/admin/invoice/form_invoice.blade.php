@@ -41,21 +41,22 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label class="form-control-label" for="product_id">Producto </label>
-                            <select name="product_id" class="form-control selectpicker" id="product_id" data-live-search="true">
-                                <option value="0" disabled selected>Seleccionar</option>
-                                @foreach ($products as $product)
-                                    <option
-                                        value="{{ $product->id }}_{{ $product->stock }}_{{ $product->sale_price }}_{{ $product->percentage }}_{{ $product->tt }}_{{ $product->utility_rate }}">
-                                        {{ $product->code }} -- {{ $product->name }}</option>
-                                @endforeach
-                            </select>
+                        <select name="product_id" class="form-control selectpicker" id="product_id"
+                            data-live-search="true">
+                            <option value="0" disabled selected>Seleccionar</option>
+                            @foreach ($products as $product)
+                                <option
+                                    value="{{ $product->id }}_{{ $product->stock }}_{{ $product->sale_price }}_{{ $product->percentage }}_{{ $product->tt }}_{{ $product->utility_rate }}">
+                                    {{ $product->code }} -- {{ $product->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label class="form-control-label" for="quantityadd">Cantidad</label>
-                        <input type="number" id="quantityadd" name="quantityadd" value="1" class="form-control" placeholder="Cant."
-                            pattern="[0-9]{0,15}">
+                        <input type="number" id="quantityadd" name="quantityadd" value="1" class="form-control"
+                            placeholder="Cant." pattern="[0-9]{0,15}">
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -64,6 +65,35 @@
                         <input type="number" id="price" name="price" class="form-control" placeholder="Precio">
                     </div>
                 </div>
+                @if (indicator()->work_labor == 'on')
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="addEmployeeId">
+                        <div class="form-group row">
+                            <label class="form-control-label" for="employee_id">Operario</label>
+                            <select name="employee_id" class="form-control selectpicker" id="employee_id"
+                                data-live-search="true">
+                                <option value="0" disabled selected>Seleccionar</option>
+                                @foreach ($employees as $employee)
+                                    <option value="{{ $employee->id }}">{{ $employee->identification }} --
+                                        {{ $employee->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                @else
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="addEid">
+                        <div class="form-group row">
+                            <label class="form-control-label" for="employee_id">Operario</label>
+                            <select name="employee_id" class="form-control selectpicker" id="employee_id"
+                                data-live-search="true">
+                                <option value="0" disabled selected>Seleccionar</option>
+                                @foreach ($employees as $employee)
+                                    <option value="{{ $employee->id }}">{{ $employee->identification }} --
+                                        {{ $employee->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                @endif
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label class="form-control-label">Add</label><br>
@@ -81,20 +111,22 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="noteDocument">
                     <div class="form-group">
                         <label class="form-control-label" for="note">Observaciones</label>
-                        <input type="text" id="note" name="note" value="{{ old('note') }}" class="form-control"
-                            placeholder="Observaciones">
+                        <input type="text" id="note" name="note" value="{{ old('note') }}"
+                            class="form-control" placeholder="Observaciones">
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
-                        <button class="btn btn-blueGrad btn-sm mb-2 ml-3" type="button" id="addPay" data-toggle="tooltip"
-                            data-placement="top" title="Pagos"><i class="fas fa-check"></i>Agrepar Pago</button>
+                        <button class="btn btn-blueGrad btn-sm mb-2 ml-3" type="button" id="addPay"
+                            data-toggle="tooltip" data-placement="top" title="Pagos"><i
+                                class="fas fa-check"></i>Agrepar Pago</button>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
-                        <button class="btn btn-blueGrad btn-sm mb-2 ml-3" type="button" id="addRetentions" data-toggle="tooltip"
-                            data-placement="top" title="Retenciones"><i class="fas fa-check"></i>Agrepar Retenciones</button>
+                        <button class="btn btn-blueGrad btn-sm mb-2 ml-3" type="button" id="addRetentions"
+                            data-toggle="tooltip" data-placement="top" title="Retenciones"><i
+                                class="fas fa-check"></i>Agrepar Retenciones</button>
                     </div>
                 </div>
             </div>
@@ -105,11 +137,12 @@
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label for="customer_id"> Cliente </label>
-                    <select name="customer_id" class="form-control selectpicker" id="customer_id" data-live-search="true"
-                        required>
+                    <select name="customer_id" class="form-control selectpicker" id="customer_id"
+                        data-live-search="true" required>
                         <option value="" disabled selected>Seleccionar</option>
                         @foreach ($customers as $customer)
-                            <option value="{{ $customer->id }}">{{ $customer->identification }} - {{ $customer->name }}</option>
+                            <option value="{{ $customer->id }}">{{ $customer->identification }} -
+                                {{ $customer->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -125,8 +158,8 @@
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="form-group">
                     <label class="form-control-label" for="due_date">Vencimiento</label>
-                    <input type="date" name="due_date" id="due_date" class="form-control" value="<?php echo date('Y-m-d'); ?>"
-                        placeholder="Fecha Vencimiento">
+                    <input type="date" name="due_date" id="due_date" class="form-control"
+                        value="<?php echo date('Y-m-d'); ?>" placeholder="Fecha Vencimiento">
                 </div>
             </div>
         </div>
@@ -189,8 +222,8 @@
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="posActive">
         <div class="form-group">
             <label class="form-control-label" for="pos_active">Post Activado</label>
-            <input type="text" id="pos_active" name="pos_active" value="{{ $indicator->dian }}" class="form-control"
-                placeholder="tope de pos">
+            <input type="text" id="pos_active" name="pos_active" value="{{ $indicator->dian }}"
+                class="form-control" placeholder="tope de pos">
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
@@ -254,33 +287,7 @@
         </div>
     </div>
 
-    @if ($indicator->work_labor == 'on')
-        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12" id="addEmployeeId">
-            <div class="form-group row">
-                <label class="form-control-label" for="employee_id">Operario</label>
-                <select name="employee_id" class="form-control selectpicker" id="employee_id" data-live-search="true">
-                    <option value="0" disabled selected>Seleccionar</option>
-                    @foreach ($employees as $employee)
-                        <option
-                            value="{{ $employee->id }}">{{ $employee->identification }} -- {{ $employee->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-    @else
-        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12" id="addEid">
-            <div class="form-group row">
-                <label class="form-control-label" for="employee_id">Operario</label>
-                <select name="employee_id" class="form-control selectpicker" id="employee_id" data-live-search="true">
-                    <option value="0" disabled selected>Seleccionar</option>
-                    @foreach ($employees as $employee)
-                        <option
-                            value="{{ $employee->id }}">{{ $employee->identification }} -- {{ $employee->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-    @endif
+
     @if ($indicator->cvpinvoice == 'on')
         <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mt-3" id="addcvp">
             <div class="form-check">
@@ -290,7 +297,8 @@
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input cvp" type="radio" name="cvp" value="2" id="cvpinvoice2" checked>
+                <input class="form-check-input cvp" type="radio" name="cvp" value="2" id="cvpinvoice2"
+                    checked>
                 <label class="form-check-label" for="cvpinvoice2">
                     No guardar Precio producto
                 </label>
@@ -300,19 +308,22 @@
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="indCV">
         <div class="form-group">
             <label class="form-control-label" for="indicatorcv">CV</label>
-            <input type="text" id="indicatorcv" name="indicatorcv" value="{{ $indicator->cvpinvoice }}" class="form-control">
+            <input type="text" id="indicatorcv" name="indicatorcv" value="{{ $indicator->cvpinvoice }}"
+                class="form-control">
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="indWL">
         <div class="form-group">
             <label class="form-control-label" for="indicatorwl">WL</label>
-            <input type="text" id="indicatorwl" name="indicatorwl" value="{{ $indicator->work_labor }}" class="form-control">
+            <input type="text" id="indicatorwl" name="indicatorwl" value="{{ $indicator->work_labor }}"
+                class="form-control">
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="addTypeDocument">
         <div class="form-group">
             <label class="form-control-label" for="typeDocument">tipo documento</label>
-            <input type="text" id="typeDocument" name="typeDocument" value="{{ $type }}" class="form-control">
+            <input type="text" id="typeDocument" name="typeDocument" value="{{ $type }}"
+                class="form-control">
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="addTypeProduct">
@@ -324,8 +335,8 @@
     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="addPriceWithTax">
         <div class="form-group">
             <label class="form-control-label" for="pwx">Precio con impuesto</label>
-            <input type="text" id="pwx" name="pwx" class="form-control" value="{{ indicator()->price_with_tax }}">
+            <input type="text" id="pwx" name="pwx" class="form-control"
+                value="{{ indicator()->price_with_tax }}">
         </div>
     </div>
 </div>
-
