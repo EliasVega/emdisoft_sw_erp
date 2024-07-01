@@ -18,7 +18,7 @@ class SalePointSeeder extends Seeder
                 'branch_id' => 1,
 
                 'plate_number'=> 'CVBN2132648',
-                'location' => 'CL 18 19 27',
+                'location' => 'CALLE 56 # 3W - 04 BARRIO MUTIS',
                 'cash_type' => 'PRINCIPAL'
             ]
         ];
