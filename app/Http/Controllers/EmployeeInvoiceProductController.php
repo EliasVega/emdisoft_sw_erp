@@ -283,4 +283,20 @@ class EmployeeInvoiceProductController extends Controller
     {
         //
     }
+
+    public function empInvProStatus($id)
+    {
+        $employeeInvoiceProduct = EmployeeInvoiceProduct::findOrFail($id);
+
+        if ($employeeInvoiceProduct->status == 'pendient') {
+            $employeeInvoiceProduct->status = 'canceled';
+        } else if ($employeeInvoiceProduct->status == 'canceled'){
+            $employeeInvoiceProduct->status = 'credit_note';
+        } else if ($employeeInvoiceProduct->status == 'credit_note'){
+            $employeeInvoiceProduct->status = 'pendient';
+        }
+        $employeeInvoiceProduct->update();
+
+        return redirect('employeeInvoiceProduct');
+    }
 }

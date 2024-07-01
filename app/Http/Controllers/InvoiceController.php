@@ -69,10 +69,9 @@ class InvoiceController extends Controller
     public function index(Request $request)
     {
         $invoice = session('invoice');
-        $indicator = Indicator::findOrFail(1);
         $typeDocument = session('typeDocument');
         /*
-        if ($indicator->pos == 'off') {
+        if (indicator()->pos == 'off') {
             $typeDocument = 'document';
         } else {
             $typeDocument = 'pos';
@@ -132,7 +131,7 @@ class InvoiceController extends Controller
             ->rawColumns(['btn'])
             ->make(true);
         }
-        return view('admin.invoice.index', compact('invoice', 'indicator', 'typeDocument'));
+        return view('admin.invoice.index', compact('invoice', 'typeDocument'));
     }
 
     /**
@@ -140,18 +139,16 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        $company = Company::findOrFail(1);
-        $indicator = indicator();
         $pos = indicator()->pos;
         $cashRegister = cashRegisterComprobation();
         if ($cashRegister == null) {
             return redirect('branch');
         }
         $cols = 9;
-        if ($indicator->cvpinvoice == 'off') {
+        if (indicator()->cvpinvoice == 'off') {
             $cols--;
         }
-        if ($indicator->work_labor == 'off') {
+        if (indicator()->work_labor == 'off') {
             $cols--;
         }
         $customers = Customer::get();
@@ -162,10 +159,9 @@ class InvoiceController extends Controller
         $banks = Bank::get();
         $cards = Card::get();
         $branchs = Branch::get();
-        $uvtmax = $indicator->uvt * 5;
         $advances = Advance::where('status', '!=', 'aplicado')->get();
         $date = Carbon::now();
-        if ($indicator->inventory == 'on') {
+        if (indicator()->inventory == 'on') {
             $products = BranchProduct::from('branch_products as bp')
             ->join('products as pro', 'bp.product_id', 'pro.id')
             ->join('categories as cat', 'pro.category_id', 'cat.id')
@@ -208,9 +204,6 @@ class InvoiceController extends Controller
             'products',
             'date',
             'companyTaxes',
-            'uvtmax',
-            'indicator',
-            'company',
             'cols',
             'type'
         ));
@@ -218,8 +211,6 @@ class InvoiceController extends Controller
 
     public function createPos()
     {
-        $company = Company::findOrFail(1);
-        $indicator = indicator();
         //$pos = indicator()->pos;
         $cashRegister = cashRegisterComprobation();
         if ($cashRegister == null) {
@@ -227,10 +218,10 @@ class InvoiceController extends Controller
         }
 
         $cols = 9;
-        if ($indicator->cvpinvoice == 'off') {
+        if (indicator()->cvpinvoice == 'off') {
             $cols--;
         }
-        if ($indicator->work_labor == 'off') {
+        if (indicator()->work_labor == 'off') {
             $cols--;
         }
 
@@ -242,10 +233,9 @@ class InvoiceController extends Controller
         $banks = Bank::get();
         $cards = Card::get();
         $branchs = Branch::get();
-        $uvtmax = $indicator->uvt * 5;
         $advances = Advance::where('status', '!=', 'aplicado')->get();
         $date = Carbon::now();
-        if ($indicator->inventory == 'on') {
+        if (indicator()->inventory == 'on') {
             $products = BranchProduct::from('branch_products as bp')
             ->join('products as pro', 'bp.product_id', 'pro.id')
             ->join('categories as cat', 'pro.category_id', 'cat.id')
@@ -289,7 +279,6 @@ class InvoiceController extends Controller
             'date',
             'companyTaxes',
             'uvtmax',
-            'indicator',
             'company',
             'cols',
             'type'
@@ -310,7 +299,6 @@ class InvoiceController extends Controller
         }
 
         $configuration = Configuration::findOrFail(company()->id);
-        //$indicator = Indicator::findOrFail(1);
         $cashRegister = cashRegisterComprobation();
         $resolutions = '';
         //$resolut = $request->resolution_id;
@@ -615,7 +603,6 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-        $indicator = indicator();
         $voucher = VoucherType::findOrFail(1);
         $debitNotes = Ndinvoice::where('invoice_id', $invoice->id)->first();
         $creditNotes = Ncinvoice::where('invoice_id', $invoice->id)->first();
@@ -691,7 +678,6 @@ class InvoiceController extends Controller
 
         $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->where('quantity', '>', 0)->get();
         return view('admin.invoice.show', compact(
-            'indicator',
             'invoice',
             'debitNotes',
             'creditNotes',
@@ -716,7 +702,6 @@ class InvoiceController extends Controller
         $customers = Customer::get();
         $employees = Employee::get();
         $branchs = Branch::get();
-        //$uvtmax = $indicator->uvt * 5;
         $advances = Advance::where('status', '!=', 'aplicado')->get();
         $date = Carbon::now();
         if (indicator()->inventory == 'on') {
@@ -889,9 +874,8 @@ class InvoiceController extends Controller
             return redirect('branch');
         }
         $invoice = Invoice::where('id', $id)->first();
-        $indicator = Indicator::findOrFail(1);
         //$invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->get();
-        if ($indicator->inventory == 'on') {
+        if (indicator()->inventory == 'on') {
             $products = Product::where('status', 'active')->where('stock', '>', 0)->get();
         } else {
             $products = Product::where('status', 'active')->get();
@@ -959,13 +943,10 @@ class InvoiceController extends Controller
     {
         $invoice = Invoice::findOrFail($id);
         $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->where('quantity', '>', 0)->get();
-        $company = Company::findOrFail(1);
-        $indicator = Indicator::findOrFail(1);
         $debitNotes = Ndinvoice::where('invoice_id', $id)->first();
         $creditNotes = Ncinvoice::where('invoice_id', $id)->first();
         $days = $invoice->created_at->diffInDays($invoice->due_date);
         $invoicepdf = $invoice->document;
-        //$logo = './imagenes/logos'.$company->logo;
         $retentions = Tax::from('taxes as tax')
         ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
@@ -1023,8 +1004,6 @@ class InvoiceController extends Controller
             'invoice',
             'days',
             'invoiceProducts',
-            'company',
-            'indicator',
             'debitNotes',
             'creditNotes',
             'retentions',
@@ -1048,13 +1027,10 @@ class InvoiceController extends Controller
         $invoice = Invoice::findOrFail($invoices);
         session()->forget('invoice');
         $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->where('quantity', '>', 0)->get();
-        $company = Company::findOrFail(1);
-        $indicator = Indicator::findOrFail(1);
         $debitNotes = Ndinvoice::where('invoice_id', $invoice->id)->first();
         $creditNotes = Ncinvoice::where('invoice_id', $invoice->id)->first();
         $days = $invoice->created_at->diffInDays($invoice->due_date);
         $invoicepdf = $invoice->document;
-        //$logo = './imagenes/logos'.$company->logo;
         $retentions = Tax::from('taxes as tax')
         ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
@@ -1088,8 +1064,6 @@ class InvoiceController extends Controller
             'invoice',
             'days',
             'invoiceProducts',
-            'company',
-            'indicator',
             'debitNotes',
             'creditNotes',
             'retentions',
@@ -1109,9 +1083,7 @@ class InvoiceController extends Controller
     {
         $invoice = Invoice::findOrFail($id);
         $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->where('quantity', '>', 0)->get();
-        $company = Company::findOrFail(1);
-        $indicator = Indicator::findOrFail(1);
-        if ($indicator->restaurant == 'on') {
+        if (indicator()->restaurant == 'on') {
             $restaurantOrder = RestaurantOrder::where('invoice_id', $invoice->id)->first();
             $homeOrder = HomeOrder::where('restaurant_order_id', $restaurantOrder->id)->first();
         } else {
@@ -1123,7 +1095,6 @@ class InvoiceController extends Controller
         $days = $invoice->created_at->diffInDays($invoice->due_date);
         $invoicepdf = $invoice->document;
         $user = current_user()->name;
-        $logo = './imagenes/logos'.$company->logo;
         $retention = Tax::where('type', 'invoice')->where('taxable_id', $invoice->id)->get();
         $retentions = Tax::from('taxes as tax')
         ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
@@ -1161,8 +1132,6 @@ class InvoiceController extends Controller
             'homeOrder',
             'days',
             'invoiceProducts',
-            'company',
-            'indicator',
             'debitNotes',
             'creditNotes',
             'retentions',
@@ -1187,8 +1156,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::findOrFail($invoices);
         $request->session()->forget('invoice');
         //session()->forget('invoice');
-        $indicator = Indicator::findOrFail(1);
-        if ($indicator->restaurant == 'on') {
+        if (indicator()->restaurant == 'on') {
             $restaurantOrder = RestaurantOrder::where('invoice_id', $invoice->id)->first();
             $homeOrder = HomeOrder::where('restaurant_order_id', $restaurantOrder->id)->first();
         } else {
@@ -1196,13 +1164,11 @@ class InvoiceController extends Controller
             $homeOrder = null;
         }
         $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->where('quantity', '>', 0)->get();
-        $company = Company::findOrFail(1);
         $user = current_user()->name;
         $debitNotes = Ndinvoice::where('invoice_id', $invoice->id)->first();
         $creditNotes = Ncinvoice::where('invoice_id', $invoice->id)->first();
         $days = $invoice->created_at->diffInDays($invoice->due_date);
         $invoicepdf = $invoice->document;
-        $logo = './imagenes/logos'.$company->logo;
         //$retention = Tax::where('type', 'invoice')->where('taxable_id', $invoice->id)->get();
         $retentions = Tax::from('taxes as tax')
         ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
@@ -1241,8 +1207,6 @@ class InvoiceController extends Controller
             'days',
             'invoiceProducts',
             'restaurantOrder',
-            'company',
-            'indicator',
             'debitNotes',
             'creditNotes',
             'retentions',
@@ -1281,13 +1245,11 @@ class InvoiceController extends Controller
 
     public function posPdf(Request $request, Invoice $invoice)
     {
-        $company = Company::findOrFail(Auth::user()->company->id);
         $thirdPartyType = 'customer';
         $logoHeight = 26;
 
-        if ($company->logo != null) {
-            //$logo = asset('app/public' . $company->logo);
-            $logo = storage_path('app/public/images/logos/' . $company->imageName);
+        if (company()->logo != null) {
+            $logo = storage_path('app/public/images/logos/' . company()->imageName);
 
             $image = list($width, $height, $type, $attr) = getimagesize($logo);
             $multiplier = $image[0]/$image[1];
@@ -1299,7 +1261,7 @@ class InvoiceController extends Controller
             }
         }
 
-        $pdfHeight = ticketHeight($logoHeight, $company, $invoice, "invoice");
+        $pdfHeight = ticketHeight($logoHeight, company(), $invoice, "invoice");
 
         $pdf = new Ticket('P', 'mm', array(80, $pdfHeight), true, 'UTF-8');
         $pdf->SetMargins(4, 10, 4);
@@ -1307,12 +1269,12 @@ class InvoiceController extends Controller
         $pdf->SetAutoPageBreak(false);
         $pdf->addPage();
 
-        if ($company->logo != null) {
+        if (company()->logo != null) {
             if (file_exists($logo)) {
                 $pdf->generateLogo($logo, $width, $height);
             }
         }
-        $pdf->generateCompanyInformation($company, $invoice);
+        $pdf->generateCompanyInformation(company(), $invoice);
 
         $barcodeGenerator = new BarcodeGeneratorPNG();
         $barcodeCode = $barcodeGenerator->getBarcode($invoice->id, $barcodeGenerator::TYPE_CODE_128);
@@ -1329,7 +1291,7 @@ class InvoiceController extends Controller
         $data = [
             'NumFac' => $invoice->document,
             'FecFac' => $invoice->created_at->format('Y-m-d'),
-            'NitFac' => $company->nit,
+            'NitFac' => company()->nit,
             'DocAdq' => $invoice->third->identification,
             'ValFac' => $invoice->total,
             'ValIva' => $invoice->total_tax,

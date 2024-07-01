@@ -17,10 +17,10 @@ $medidaTicket = 180;
 <header id="header">
     <!-- LOGGO -->
     <div class="center">
-        @if ($indicator->logo == 'on')
+        @if (indicator()->logo == 'on')
             <div class="center">
                 <div id="logo">
-                    <img src="{{ asset($company->logo) }}" alt="{{ $company->name }}">
+                    <img src="{{ asset(company()->logo) }}" alt="{{ company()->name }}">
                 </div>
             </div>
         @endif
@@ -30,13 +30,13 @@ $medidaTicket = 180;
     <div class="center">
         <!--DATOS company -->
         <div class="company">
-            <p><strong id="companyName">{{ $company->name }}</strong></p>
+            <p><strong id="companyName">{{ company()->name }}</strong></p>
 
-            <p id="companyData">Nit: {{ $company->nit }} - {{ $company->dv }} <br> - {{ $invoice->branch->address }} -
+            <p id="companyData">Nit: {{ company()->nit }} - {{ company()->dv }} <br> - {{ $invoice->branch->address }} -
                 {{ $invoice->branch->municipality->name }} - {{ $invoice->branch->department->name }} <br>- Email:
                 {{ $invoice->branch->email }}
-                @if ($indicator->dian == 'on')
-                    {{ $company->regime->name }} - {{ $company->nameO }}
+                @if (indicator()->dian == 'on')
+                    {{ company()->regime->name }} - {{ company()->nameO }}
                 @endif
                 <br>
             </p>

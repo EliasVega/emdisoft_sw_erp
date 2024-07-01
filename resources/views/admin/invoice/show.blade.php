@@ -84,7 +84,7 @@
                 <table class="table table-striped table-bordered table-condensed table-hover">
                     <thead>
                         <tr class="bg-info">
-                            @if ($indicator->work_labor == 'on')
+                            @if (indicator()->work_labor == 'on')
                                 <th>Operario</th>
                             @else
                                 <th>ID</th>
@@ -159,7 +159,7 @@
                     <tbody>
                         @foreach($invoiceProducts as $invoiceProduct)
                             <tr>
-                                @if ($indicator->work_labor == 'on')
+                                @if (indicator()->work_labor == 'on')
                                     @if ($invoiceProduct->employeeInvoiceProduct == null)
                                         <td><p>No aplica</p></td>
                                     @else
@@ -168,7 +168,7 @@
                                 @else
                                 <td>{{ $invoiceProduct->id }}</td>
                                 @endif
-                                @if ($indicator->work_labor == 'on')
+                                @if (indicator()->work_labor == 'on')
 
                                 @endif
                                 <td>{{ $invoiceProduct->product->name }}</td>

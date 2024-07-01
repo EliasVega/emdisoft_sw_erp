@@ -27,6 +27,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DiscrepancyController;
 use App\Http\Controllers\DocumentTypeController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\EmployeeInvoiceOrderProductController;
 use App\Http\Controllers\EmployeeInvoiceProductController;
 use App\Http\Controllers\EmployeeSubtypeController;
 use App\Http\Controllers\EmployeeTypeController;
@@ -261,6 +262,7 @@ Route::put('updateCommission', [EmployeeController::class, 'updateCommission'])-
 Route::get('indexCanceled', [EmployeeInvoiceProductController::class, 'indexCanceled'])->name('indexCanceled');
 Route::get('indexPendient', [EmployeeInvoiceProductController::class, 'indexPendient'])->name('indexPendient');
 Route::put('updateEmployee', [EmployeeInvoiceProductController::class, 'updateEmployee'])->name('updateEmployee');
+Route::get('employeeInvoiceProduct/empInvProStatus/{id}', [EmployeeInvoiceProductController::class, 'empInvProStatus'])->name('empInvProStatus');
 
 Route::get('expense/create/{id}', [ExpenseController::class, 'getMunicipalities']);
 Route::get('expense/expensePay/{id}', [ExpenseController::class, 'expensePay'])->name('expensePay');

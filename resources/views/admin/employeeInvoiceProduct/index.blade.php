@@ -40,6 +40,7 @@
                 </h5>
             </div>
         </div>
+
         <div class="text-center py-3">
             <a class="toggle-vis btn btn-sm btn-info" data-column="1">Id</a>
             <a class="toggle-vis btn btn-sm btn-info" data-column="2">Tercero</a>
@@ -48,13 +49,10 @@
             <a class="toggle-vis btn btn-sm btn-info" data-column="5">Factura</a>
             <a class="toggle-vis btn btn-sm btn-info" data-column="6">Estado</a>
             <a class="toggle-vis btn btn-sm btn-info" data-column="7">Nombre Item</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="8">Tipo</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="9">Cantidad</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="10">Valor</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="11">Subtotal</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="12">%</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="13">Comision</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="14">Editar</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="8">Subtotal</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="9">%</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="10">Comision</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="11">Editar</a>
         </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -70,9 +68,6 @@
                                 <th>Factura</th>
                                 <th>Estado</th>
                                 <th>Nombre Item</th>
-                                <th>Tipo</th>
-                                <th>Cant.</th>
-                                <th>Valor</th>
                                 <th>Subtotal</th>
                                 <th>%</th>
                                 <th>V/Comision</th>
@@ -81,7 +76,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <th colspan="15" style="text-align:right">Total:</th>
+                                <th colspan="12" style="text-align:right">Total:</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -92,7 +87,7 @@
             <script type="text/javascript">
             function format(d) {
                 return `
-                    <table cellpadding="2" cellspacing="0" border="0" style="padding-left:50px;">
+                    <table cellpadding="0" cellspacing="0" border="0" style="padding-left:50px;">
                         <tr>
                             <td>Observaciones</td>
                             <td>${d.observations}</td>
@@ -104,7 +99,7 @@
                     var invoices = $('#employeeInvoiceProducts').DataTable({
                         info: true,
                         paging: true,
-                        ordering: true,
+                        //ordering: true,
                         searching: true,
                         responsive: true,
                         autoWidth: true,
@@ -115,6 +110,7 @@
                             url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
                         },
                         ajax: '{{ route('employeeInvoiceProduct.index') }}',
+                        order: [[1, "desc"]],
                         columns: [
                             {
                                 className: 'details-control',
@@ -123,10 +119,10 @@
                                 defaultContent: ''
                             },
                             {
-                                data: 'id'
+                                data: 'id',
                             },
                             {
-                                data: 'employee'
+                                data: 'employee',
                             },
                             {
                                 data: 'identification'
@@ -144,17 +140,6 @@
                                 data: 'product'
                             },
                             {
-                                data: 'type'
-                            },
-                            {
-                                data: 'quantity',
-                            },
-                            {
-                                data: 'price',
-                                className: 'dt-body-right',
-                                render: $.fn.dataTable.render.number('.', ',', 2, '$')
-                            },
-                            {
                                 data: 'subtotal',
                                 className: 'dt-body-right',
                                 render: $.fn.dataTable.render.number('.', ',', 2, '$')
@@ -162,7 +147,6 @@
                             {
                                 data: 'percentage',
                             },
-
                             {
                                 data: 'value_commission',
                                 className: 'dt-body-right',
@@ -185,25 +169,22 @@
                             {targets: 9},
                             {targets: 10},
                             {targets: 11},
-                            {targets: 12},
-                            {targets: 13},
-                            {targets: 14},
                         ],
                         dom: 'Bfltip',
                         lengthMenu: [
-                            [10, 20, 50, 100, 500, -1],
-                            [10, 20, 50, 100, 500, 'Todos']
+                            [10, 20, 50, 100, 500],
+                            [10, 20, 50, 100, 500]
                         ],
                         buttons: [{
                                 extend: 'copy',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
                                 }
                             },
                             {
                                 extend: 'excel',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
                                 }
                             },
                             {
@@ -212,16 +193,17 @@
                                 orientation: 'landscape',
                                 pageSize: 'LEGAL',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
                                 }
                             },
                             {
                                 extend: 'print',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
                                 }
                             },
                         ],
+                        //agrupa los datos por una columna
                         drawCallback: function (settings) {
                             var api = this.api();
                             var rows = api.rows({page: 'current'}).nodes();
@@ -229,13 +211,14 @@
                             api.column(2, {page: 'current'}).data().each(function (group, i) {
                                 if (last !== group) {
                                     $(rows).eq(i).before(
-                                        `<tr class="highlight"><td colspan="15">${group}</td></tr>`
+                                        `<tr class="highlight"><td colspan="12">${group}</td></tr>`
                                     );
-
                                     last = group;
                                 }
                             });
                         },
+
+                       //coloca los totales a pie de pagina
                         footerCallback: function(row, data, start, end, display) {
                             var api = this.api(),
                                 data;
@@ -248,14 +231,14 @@
                             };
 
                             var total = api
-                                .column(13)
+                                .column(10)
                                 .data()
                                 .reduce(function(a, b) {
                                     return intVal(a) + intVal(b);
                                 }, 0);
 
                             var totalPage = api
-                                .column(13, {
+                                .column(10, {
                                     page: 'current'
                                 })
                                 .data()
@@ -263,11 +246,13 @@
                                     return intVal(a) + intVal(b);
                                 }, 0);
                             var formatNumberData = $.fn.dataTable.render.number(',', '.', 0, '').display;
-                            $(api.column(13).footer()).html(
+                            $(api.column(10).footer()).html(
                                 `$ ${formatNumberData(totalPage)} ($ ${formatNumberData( total )})`
                             )
                         }
                     });
+
+                    //muestra los detalles
                     $('#employeeInvoiceProducts tbody').on('click', 'td.details-control', function () {
                         let tr = $(this).closest('tr');
                         let row = invoices.row(tr);
@@ -280,12 +265,13 @@
                             tr.addClass('shown');
                         }
                     });
-
+                    //esconde columnas
                     $("a.toggle-vis").on("click", function(e) {
                         e.preventDefault();
                         var column = invoices.column($(this).data("column"));
                         column.visible(!column.visible());
                     });
+                    //Buscadores
                     $('#search_button').click(function() {
                         var startDate = $('#start_date').val();
                         var endDate = $('#end_date').val();
@@ -300,12 +286,13 @@
                                 startDate + "&end_date=" + endDate).load();
                         }
                     });
-
+                    //refrescar la pagina
                     $(document).on('click', '#show_all_button', function() {
                         $('#start_date').val('');
                         $('#end_date').val('');
+                        location.reload();
+                        //invoices.ajax.url("{{ route('employeeInvoiceProduct.index') }}").reload();
 
-                        invoices.ajax.url("{{ route('employeeInvoiceProduct.index') }}").load();
                     });
                 });
 

@@ -48,12 +48,9 @@
             <a class="toggle-vis btn btn-sm btn-info" data-column="4">Factura</a>
             <a class="toggle-vis btn btn-sm btn-info" data-column="5">Estado</a>
             <a class="toggle-vis btn btn-sm btn-info" data-column="6">Nombre Item</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="7">Tipo</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="8">Cantidad</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="9">Valor</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="10">Subtotal</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="11">%</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="12">Comision</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="7">Subtotal</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="8">%</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="9">Comision</a>
         </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -68,9 +65,6 @@
                                 <th>Factura</th>
                                 <th>Estado</th>
                                 <th>Nombre Item</th>
-                                <th>Tipo</th>
-                                <th>Cant.</th>
-                                <th>Valor</th>
                                 <th>Subtotal</th>
                                 <th>%</th>
                                 <th>V/Comision</th>
@@ -78,7 +72,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <th colspan="13" style="text-align:right">Totales:</th>
+                                <th colspan="10" style="text-align:right">Totales:</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -141,17 +135,6 @@
                                 data: 'product'
                             },
                             {
-                                data: 'type'
-                            },
-                            {
-                                data: 'quantity',
-                            },
-                            {
-                                data: 'price',
-                                className: 'dt-body-right',
-                                render: $.fn.dataTable.render.number('.', ',', 2, '$')
-                            },
-                            {
                                 data: 'subtotal',
                                 className: 'dt-body-right',
                                 render: $.fn.dataTable.render.number('.', ',', 2, '$')
@@ -176,9 +159,6 @@
                             {targets: 7},
                             {targets: 8},
                             {targets: 9},
-                            {targets: 10},
-                            {targets: 11},
-                            {targets: 12},
                         ],
                         dom: 'Bfltip',
                         lengthMenu: [
@@ -188,13 +168,13 @@
                         buttons: [{
                                 extend: 'copy',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
                                 }
                             },
                             {
                                 extend: 'excel',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
                                 }
                             },
                             {
@@ -203,13 +183,13 @@
                                 orientation: 'landscape',
                                 pageSize: 'LEGAL',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
                                 }
                             },
                             {
                                 extend: 'print',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
                                 }
                             },
                         ],
@@ -239,14 +219,14 @@
                             };
 
                             var total = api
-                                .column(12)
+                                .column(9)
                                 .data()
                                 .reduce(function(a, b) {
                                     return intVal(a) + intVal(b);
                                 }, 0);
 
                             var totalPage = api
-                                .column(12, {
+                                .column(9, {
                                     page: 'current'
                                 })
                                 .data()
@@ -254,7 +234,7 @@
                                     return intVal(a) + intVal(b);
                                 }, 0);
                             var formatNumberData = $.fn.dataTable.render.number(',', '.', 0, '').display;
-                            $(api.column(12).footer()).html(
+                            $(api.column(9).footer()).html(
                                 `$ ${formatNumberData(totalPage)} ($ ${formatNumberData( total )})`
                             )
                         }
@@ -296,8 +276,8 @@
                     $(document).on('click', '#show_all_button', function() {
                         $('#start_date').val('');
                         $('#end_date').val('');
-
-                        invoices.ajax.url("{{ route('employeeInvoiceProduct.index') }}").load();
+                        location.reload();
+                        //invoices.ajax.url("{{ route('employeeInvoiceProduct.index') }}").load();
                     });
                 });
             </script>

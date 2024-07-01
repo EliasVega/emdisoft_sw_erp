@@ -24,37 +24,15 @@
             @endif
             {!!Form::open(array('url'=>'invoiceOrderProduct', 'method'=>'POST', 'autocomplete'=>'off'))!!}
             {!!Form::token()!!}
-            <div class="row m-1">
-                @if ($indicator->pos == 'on')
-                    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
-                        @include('admin/invoiceOrderProduct.form_invoiceOrderProduct')
-                    </div>
-                    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 colorpay">
-                        @include('admin/invoiceOrderProduct.form_paypos')
-                    </div>
-                @else
-                    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
-                        @include('admin/invoiceOrderProduct.form_invoiceOrderProduct')
-                    </div>
-                    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 colorpay">
-                        @include('admin/invoiceOrderProduct.form_pay')
-                    </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 colorretentions">
-                        @include('admin/invoiceOrderProduct.form_retention')
-                    </div>
-                @endif
-            </div>
+                @include('admin/invoiceOrderProduct.form_invoiceOrderProduct')
+                @include('admin/generalview.form_register')
             {!!Form::close()!!}
         </div>
     </div>
 </div>
 @endsection
 @section('scripts')
-@include('admin/invoiceOrderProduct.script')
-    @if ($indicator->pos == 'on')
-        @include('admin/invoiceOrderProduct.script_paypos')
-    @else
-        @include('admin/generalview.script_pay')
-        @include('admin/invoiceOrderProduct.script_retention')
-    @endif
+    @include('admin/invoiceOrderProduct.script')
+    @include('admin/generalview.script_pay')
+    @include('admin/invoiceOrderProduct.script_retention')
 @endsection

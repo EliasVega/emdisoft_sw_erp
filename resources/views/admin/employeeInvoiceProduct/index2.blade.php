@@ -36,46 +36,52 @@
                 <h5>Reportes
                         <a href="indexCanceled" class="btn btn-blueGrad btn-sm"><i class="fa fa-plus"></i> Cancelados</a>
                         <a href="{{ route('indexPendient') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Pendientes</a>
-                        <a href="{{ route('employeeInvoiceProduct.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Todas</a>
                         <a href="employee" class="btn btn-blueGrad btn-sm"><i class="fa fa-plus"></i> Operarios</a>
                 </h5>
             </div>
         </div>
         <div class="text-center py-3">
-            <a class="toggle-vis btn btn-sm btn-info" data-column="1">Tercero</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="2">Identificacion</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="3">Fecha</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="4">Factura</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="5">Estado</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="6">Nombre Item</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="7">Tipo</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="8">Cantidad</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="9">Valor</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="10">Subtotal</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="11">%</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="12">Comision</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="1">Id</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="2">Tercero</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="3">Identificacion</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="4">Fecha</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="5">Factura</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="6">Estado</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="7">Nombre Item</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="8">Tipo</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="9">Cantidad</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="10">Valor</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="11">Subtotal</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="12">%</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="13">Comision</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="14">Editar</a>
         </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-condensed table-hover" id="commissionPendients">
+                    <table class="table table-striped table-bordered table-condensed table-hover" id="employeeInvoiceProducts">
                         <thead class="trdatacolor">
                             <tr>
                                 <th></th>
+                                <th>id</th>
                                 <th>Tercero</th>
                                 <th>CC-NIT</th>
                                 <th>Fecha</th>
                                 <th>Factura</th>
                                 <th>Estado</th>
                                 <th>Nombre Item</th>
+                                <th>Tipo</th>
+                                <th>Cant.</th>
+                                <th>Valor</th>
                                 <th>Subtotal</th>
                                 <th>%</th>
                                 <th>V/Comision</th>
+                                <th>editar</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th colspan="10" style="text-align:right">Totales:</th>
+                                <th colspan="15" style="text-align:right">Total:</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -86,7 +92,7 @@
             <script type="text/javascript">
             function format(d) {
                 return `
-                    <table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">
+                    <table cellpadding="2" cellspacing="0" border="0" style="padding-left:50px;">
                         <tr>
                             <td>Observaciones</td>
                             <td>${d.observations}</td>
@@ -95,7 +101,7 @@
                 `;
             }
                 $(document).ready(function() {
-                    let invoices = $('#commissionPendients').DataTable({
+                    var invoices = $('#employeeInvoiceProducts').DataTable({
                         info: true,
                         paging: true,
                         ordering: true,
@@ -108,16 +114,16 @@
                         language: {
                             url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
                         },
-                        ajax: '{{ route('indexPendient') }}',
-                        order: [
-                            [1, "asc"]
-                        ],
+                        ajax: '{{ route('employeeInvoiceProduct.index') }}',
                         columns: [
                             {
                                 className: 'details-control',
                                 orderable: false,
                                 data: null,
                                 defaultContent: ''
+                            },
+                            {
+                                data: 'id'
                             },
                             {
                                 data: 'employee'
@@ -138,6 +144,17 @@
                                 data: 'product'
                             },
                             {
+                                data: 'type'
+                            },
+                            {
+                                data: 'quantity',
+                            },
+                            {
+                                data: 'price',
+                                className: 'dt-body-right',
+                                render: $.fn.dataTable.render.number('.', ',', 2, '$')
+                            },
+                            {
                                 data: 'subtotal',
                                 className: 'dt-body-right',
                                 render: $.fn.dataTable.render.number('.', ',', 2, '$')
@@ -145,10 +162,14 @@
                             {
                                 data: 'percentage',
                             },
+
                             {
                                 data: 'value_commission',
                                 className: 'dt-body-right',
                                 render: $.fn.dataTable.render.number('.', ',', 2, '$')
+                            },
+                            {
+                                data: 'btn'
                             },
                         ],
                         columnDefs: [
@@ -162,22 +183,27 @@
                             {targets: 7},
                             {targets: 8},
                             {targets: 9},
+                            {targets: 10},
+                            {targets: 11},
+                            {targets: 12},
+                            {targets: 13},
+                            {targets: 14},
                         ],
                         dom: 'Bfltip',
                         lengthMenu: [
-                            [10, 20, 50, 100, 500],
-                            [10, 20, 50, 100, 500]
+                            [10, 20, 50, 100, 500, -1],
+                            [10, 20, 50, 100, 500, 'Todos']
                         ],
                         buttons: [{
                                 extend: 'copy',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
                                 }
                             },
                             {
                                 extend: 'excel',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
                                 }
                             },
                             {
@@ -186,13 +212,13 @@
                                 orientation: 'landscape',
                                 pageSize: 'LEGAL',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
                                 }
                             },
                             {
                                 extend: 'print',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
                                 }
                             },
                         ],
@@ -200,12 +226,11 @@
                             var api = this.api();
                             var rows = api.rows({page: 'current'}).nodes();
                             var last = null;
-                            api.column(1, {page: 'current'}).data().each(function (group, i) {
+                            api.column(2, {page: 'current'}).data().each(function (group, i) {
                                 if (last !== group) {
                                     $(rows).eq(i).before(
-                                        `<tr class="highlight"><td colspan="13">${group}</td></tr>`
+                                        `<tr class="highlight"><td colspan="15">${group}</td></tr>`
                                     );
-
                                     last = group;
                                 }
                             });
@@ -222,14 +247,14 @@
                             };
 
                             var total = api
-                                .column(9)
+                                .column(13)
                                 .data()
                                 .reduce(function(a, b) {
                                     return intVal(a) + intVal(b);
                                 }, 0);
 
                             var totalPage = api
-                                .column(9, {
+                                .column(13, {
                                     page: 'current'
                                 })
                                 .data()
@@ -237,13 +262,12 @@
                                     return intVal(a) + intVal(b);
                                 }, 0);
                             var formatNumberData = $.fn.dataTable.render.number(',', '.', 0, '').display;
-                            $(api.column(9).footer()).html(
+                            $(api.column(13).footer()).html(
                                 `$ ${formatNumberData(totalPage)} ($ ${formatNumberData( total )})`
                             )
                         }
                     });
-
-                    $('#commissionPendients tbody').on('click', 'td.details-control', function () {
+                    $('#employeeInvoiceProducts tbody').on('click', 'td.details-control', function () {
                         let tr = $(this).closest('tr');
                         let row = invoices.row(tr);
 
@@ -279,10 +303,11 @@
                     $(document).on('click', '#show_all_button', function() {
                         $('#start_date').val('');
                         $('#end_date').val('');
-                        location.reload();
-                        //invoices.ajax.url("{{ route('employeeInvoiceProduct.index') }}").load();
+
+                        invoices.ajax.url("{{ route('employeeInvoiceProduct.index') }}").load();
                     });
                 });
+
             </script>
         @endpush
     </main>

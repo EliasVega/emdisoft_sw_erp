@@ -11,16 +11,16 @@
     <header id="header">
         <!-- LOGGO -->
         <div class="center">
-            @if ($indicator->logo == 'on')
+            @if (indicator()->logo == 'on')
                 <div id="logo">
-                    <img src="{{ asset($company->logo) }}" alt="{{ $company->name }}" width="150px" height="50px" class="app-logo">
+                    <img src="{{ asset(company()->logo) }}" alt="{{ company()->name }}" width="150px" height="50px" class="app-logo">
                 </div>
             @endif
         <!--DATOS company -->
             <div class="company">
-                <p><strong id="companyName">{{  $company->name  }}</strong></p>
+                <p><strong id="companyName">{{  company()->name  }}</strong></p>
 
-                <p id="companyData">Nit: {{ $company->nit }} -- {{ $company->dv }} --  {{ $company->liability->name }} -- <br> {{ $company->regime->name }}  <br> {{ $company->organization->name }} <br> {{ $company->address }} <br> {{ $company->municipality->name }} -- {{ $company->department->name }} <br> Email: {{ $company->email }}
+                <p id="companyData">Nit: {{ company()->nit }} -- {{ company()->dv }} --  {{ company()->liability->name }} -- <br> {{ company()->regime->name }}  <br> {{ company()->organization->name }} <br> {{ company()->address }} <br> {{ company()->municipality->name }} -- {{ company()->department->name }} <br> Email: {{ company()->email }}
                     </p>
             </div>
             <!--DATOS FACTURA -->

@@ -236,6 +236,7 @@ class NcinvoiceController extends Controller
                                 $employeeInvoiceProduct->quantity -= $quantity[$i];
                                 $employeeInvoiceProduct->subtotal -= $subtotal;
                                 $employeeInvoiceProduct->value_commission -= $valueCommission;
+                                $employeeInvoiceProduct->status = 'credit_note';
                                 $employeeInvoiceProduct->update();
                             }
                         }
@@ -287,7 +288,7 @@ class NcinvoiceController extends Controller
                                     $employeeInvoiceProduct->price = 0;
                                     $employeeInvoiceProduct->subtotal = 0;
                                     $employeeInvoiceProduct->value_commission = 0;
-                                    $employeeInvoiceProduct->status = 'canceled';
+                                    $employeeInvoiceProduct->status = 'credit_note';
                                     $employeeInvoiceProduct->update();
                                 }
                             }
@@ -325,6 +326,7 @@ class NcinvoiceController extends Controller
                                 $employeeInvoiceProduct->price -= $price[$i];
                                 $employeeInvoiceProduct->subtotal -= $subtotal;
                                 $employeeInvoiceProduct->value_commission -= $valueCommission;
+                                $employeeInvoiceProduct->status = 'credit_note';
                                 $employeeInvoiceProduct->update();
                             }
                         }
@@ -366,6 +368,7 @@ class NcinvoiceController extends Controller
                                 $employeeInvoiceProduct->price -= $price[$i];
                                 $employeeInvoiceProduct->subtotal -= $subtotal;
                                 $employeeInvoiceProduct->value_commission -= $valueCommission;
+                                $employeeInvoiceProduct->status = 'credit_note';
                                 $employeeInvoiceProduct->update();
                             }
                         }

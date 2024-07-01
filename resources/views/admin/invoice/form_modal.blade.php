@@ -37,7 +37,7 @@
             <input type="number" name="priceModal" id="priceModal" class="form-control" placeholder="precio">
         </div>
     </div>
-    @if ($indicator->cvpinvoice == 'on')
+    @if (indicator()->cvpinvoice == 'on')
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-3">
             <div class="form-check">
                 <input class="form-check-input cvpinvoice" type="radio" name="cvpinvoice" value="1" id="cvpinvoice1">

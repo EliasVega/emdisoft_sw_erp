@@ -53,28 +53,19 @@
     $("#posActive").hide();
     $("#save").hide();
     $("#posavtivity").hide();
-    //$("#addProductId").hide();
-    $("#barcodeId").hide();
-    //$("#productBarcode").hide();
     $("#addTypeProduct").hide();
 
+    $("#posActive").hide();
+    $("#invoicenegative").hide();
+    $("#formPayCard").hide();
+    $("#formRetentions").hide();
+    $("#addTypeProduct").hide();
 
     $(document).ready(function(){
         typeInvoice = $("#pos_active").val();
         if (typeInvoice == 'on') {
             $("#resolution").show();
             $('#resolution_id').prop("required", true)
-        }
-
-        let barcodestart = $(("#switch_barcode")).prop("checked");// == true ? 1 : 0;
-        if (barcodestart == true) {
-            $("#addProductId").hide();
-            $("#codeBarcode").show();
-            $("#productBarcode").show();
-        } else if(barcodestart == false){
-            $("#codeBarcode").hide();
-            $("#productBarcode").hide();
-            $("#addProductId").show();
         }
     });
 
@@ -96,13 +87,12 @@
         $("#tax_iva").val(tax_iva);
     }
     function assess(){
-
+        /*
         if(total>0){
-
         $("#save").show();
         } else{
             $("#save").hide();
-        }
+        }*/
     }
     function deleterow(index){
         total = total - subtotal[index];
@@ -162,4 +152,46 @@
             }
         });
     //}
+
+
+    $(document).ready(function(){
+        $("#addPay").click(function(){
+            $("#formCard").hide();
+            $("#formRetentions").hide();
+            $("#formPayCard").show();
+        });
+    });
+    $(document).ready(function(){
+        $("#addRetentions").click(function(){
+            $("#formCard").hide();
+            $("#formPayCard").hide();
+            $("#formRetentions").show();
+        });
+    });
+    $(document).ready(function(){
+        $("#goBack").click(function(){
+            $("#formCard").show();
+            $("#formPayCard").hide();
+            $("#formRetentions").hide();
+        });
+    });
+    $(document).ready(function(){
+        $("#goBack2").click(function(){
+            $("#formCard").show();
+            $("#formPayCard").hide();
+            $("#formRetentions").hide();
+        });
+    });
+
+    $("#customer_id").change(function(event){
+        $.get("advance/" + event.target.value + "", function(response){
+            $("#advance_id").empty();
+            $("#advance_id").append("<option value = '#' disabled selected>Seleccionar ...</option>");
+            for(i = 0; i < response.length; i++){
+                $("#advance_id").append("<option value = '" + response[i].id + "'>" + response[i].origin + response[i].balance + "</option>");
+                advanceBalance = response[i].balance;
+            }
+            $("#advance_id").selectpicker('refresh');
+        });
+    });
 </script>

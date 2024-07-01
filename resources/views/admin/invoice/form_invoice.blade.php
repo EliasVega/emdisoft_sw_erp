@@ -12,7 +12,20 @@
     <div class="col-md-5" id="formCard">
         <div class="card card-primary card-outline">
             <div class="row">
-                @if ($indicator->dian == 'on')
+                <div class="col-lg-12 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="customer_id"> Cliente </label>
+                        <select name="customer_id" class="form-control selectpicker" id="customer_id"
+                            data-live-search="true" required>
+                            <option value="" disabled selected>Seleccionar</option>
+                            @foreach ($customers as $customer)
+                                <option value="{{ $customer->id }}">{{ $customer->identification }} -
+                                    {{ $customer->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                @if (indicator()->dian == 'on')
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="resolution">
                         <div class="form-group">
                             <label class="form-control-label required" for="resolution_id">Resolucion</label>
@@ -27,7 +40,7 @@
                         </div>
                     </div>
                 @endif
-                @if ($indicator->barcode == 'on')
+                @if (indicator()->barcode == 'on')
                     <div class="col-lg-12 col-md-12 col-sm-14 col-xs-12" id="codeBarcode">
                         <div class="form-group">
                             <label for="code">Codigo</label>
@@ -66,8 +79,8 @@
                     </div>
                 </div>
                 @if (indicator()->work_labor == 'on')
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="addEmployeeId">
-                        <div class="form-group row">
+                    <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12" id="addEmployeeId">
+                        <div class="form-group">
                             <label class="form-control-label" for="employee_id">Operario</label>
                             <select name="employee_id" class="form-control selectpicker" id="employee_id"
                                 data-live-search="true">
@@ -80,8 +93,8 @@
                         </div>
                     </div>
                 @else
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="addEid">
-                        <div class="form-group row">
+                    <div class="col-lg-10 col-md-9 col-sm-12 col-xs-12" id="addEid">
+                        <div class="form-group">
                             <label class="form-control-label" for="employee_id">Operario</label>
                             <select name="employee_id" class="form-control selectpicker" id="employee_id"
                                 data-live-search="true">
@@ -94,7 +107,7 @@
                         </div>
                     </div>
                 @endif
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label class="form-control-label">Add</label><br>
                         <button class="btn btn-lightBlueGrad" type="button" id="add" data-toggle="tooltip"
@@ -108,22 +121,11 @@
                             placeholder="Bolsas">
                     </div>
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="noteDocument">
-                    <div class="form-group">
-                        <label class="form-control-label" for="note">Observaciones</label>
-                        <input type="text" id="note" name="note" value="{{ old('note') }}"
-                            class="form-control" placeholder="Observaciones">
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <button class="btn btn-blueGrad btn-sm mb-2 ml-3" type="button" id="addPay"
                             data-toggle="tooltip" data-placement="top" title="Pagos"><i
                                 class="fas fa-check"></i>Agrepar Pago</button>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
                         <button class="btn btn-blueGrad btn-sm mb-2 ml-3" type="button" id="addRetentions"
                             data-toggle="tooltip" data-placement="top" title="Retenciones"><i
                                 class="fas fa-check"></i>Agrepar Retenciones</button>
@@ -134,17 +136,11 @@
     </div>
     <div class="col-md-7">
         <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="noteDocument">
                 <div class="form-group">
-                    <label for="customer_id"> Cliente </label>
-                    <select name="customer_id" class="form-control selectpicker" id="customer_id"
-                        data-live-search="true" required>
-                        <option value="" disabled selected>Seleccionar</option>
-                        @foreach ($customers as $customer)
-                            <option value="{{ $customer->id }}">{{ $customer->identification }} -
-                                {{ $customer->name }}</option>
-                        @endforeach
-                    </select>
+                    <label class="form-control-label" for="note">Observaciones</label>
+                    <input type="text" id="note" name="note" value="{{ old('note') }}"
+                        class="form-control" placeholder="Observaciones">
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -170,10 +166,10 @@
                         <tr>
                             <th>Elim</th>
                             <th>Edit</th>
-                            @if ($indicator->cvinvoice == 'on')
+                            @if (indicator()->cvinvoice == 'on')
                                 <th>CV</th>
                             @endif
-                            @if ($indicator->work_labor == 'on')
+                            @if (indicator()->work_labor == 'on')
                                 <th>Oper.</th>
                             @endif
                             <th>Id</th>
@@ -222,7 +218,7 @@
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="posActive">
         <div class="form-group">
             <label class="form-control-label" for="pos_active">Post Activado</label>
-            <input type="text" id="pos_active" name="pos_active" value="{{ $indicator->dian }}"
+            <input type="text" id="pos_active" name="pos_active" value="{{ indicator()->dian }}"
                 class="form-control" placeholder="tope de pos">
         </div>
     </div>
@@ -258,7 +254,7 @@
             <input type="number" name="totalPartial" id="totalPartial" class="form-control" readonly>
         </div>
     </div>
-    @if ($indicator->barcode == 'on')
+    @if (indicator()->barcode == 'on')
         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" id="barcodeId">
             <div class="form-group">
                 <label for="barcode_product_id">id Barcode</label>
@@ -288,7 +284,7 @@
     </div>
 
 
-    @if ($indicator->cvpinvoice == 'on')
+    @if (indicator()->cvpinvoice == 'on')
         <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mt-3" id="addcvp">
             <div class="form-check">
                 <input class="form-check-input cvp" type="radio" name="cvp" value="1" id="cvpinvoice1">
@@ -308,14 +304,14 @@
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="indCV">
         <div class="form-group">
             <label class="form-control-label" for="indicatorcv">CV</label>
-            <input type="text" id="indicatorcv" name="indicatorcv" value="{{ $indicator->cvpinvoice }}"
+            <input type="text" id="indicatorcv" name="indicatorcv" value="{{ indicator()->cvpinvoice }}"
                 class="form-control">
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="indWL">
         <div class="form-group">
             <label class="form-control-label" for="indicatorwl">WL</label>
-            <input type="text" id="indicatorwl" name="indicatorwl" value="{{ $indicator->work_labor }}"
+            <input type="text" id="indicatorwl" name="indicatorwl" value="{{ indicator()->work_labor }}"
                 class="form-control">
         </div>
     </div>

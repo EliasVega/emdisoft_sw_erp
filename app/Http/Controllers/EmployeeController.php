@@ -260,7 +260,7 @@ class EmployeeController extends Controller
         }
     }
 
-    public function paymentCommission(Request $request, $id)
+    public function paymentCommission($id)
     {
         $employee = Employee::findOrFail($id);
         $paymentMethods = PaymentMethod::get();
@@ -299,13 +299,20 @@ class EmployeeController extends Controller
     {
         //dd($request->all());
         //variables del request
-        $paymentMethod = $request->payment_method_id;
-        $bank = $request->bank_id;
-        $card = $request->card_id;
-        $advance_id = $request->advance_id;
-        $payment = $request->pay;
-        $transaction = $request->transaction;
-        $payAdvance = $request->payment;
+
+        $totalpay = $request->totalpay;
+        if (isset($totalpay)) {
+            $paymentMethod = $request->payment_method_id;
+            $bank = $request->bank_id;
+            $card = $request->card_id;
+            $advance_id = $request->advance_id;
+            $payment = $request->pay;
+            $transaction = $request->transaction;
+            $payAdvance = $request->payment;
+        } else {
+            toast('Se supero la cantidad de items debes realizarlo en dos pagos.','error');
+            return redirect('employee');
+        }
 
         //registro nuevo pago obra labor
         $workLabor = new WorkLabor();
@@ -322,7 +329,7 @@ class EmployeeController extends Controller
         $pay = new Pay();
         $pay->user_id = current_user()->id;
         $pay->branch_id = current_user()->branch_id;
-        $pay->pay = $request->totalpay;
+        $pay->pay = $totalpay;
         $pay->balance = 0;
         $pay->type = 'work_labor';
         $workLabor->pays()->save($pay);

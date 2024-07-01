@@ -37,7 +37,7 @@
             <input type="number" name="priceModal" id="priceModal" class="form-control" placeholder="precio" readonly>
         </div>
     </div>
-    @if ($indicator->work_labor == 'on')
+    @if (indicator()->work_labor == 'on')
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="addEmployeeId">
             <div class="form-group row">
                 <label class="form-control-label" for="employee_idModal">Operario</label>

@@ -38,8 +38,8 @@
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
             <div class="form-group">
-                <label class="form-control-label" for="Fecha">FECHA EMISION</label>
-                <h6>{{ date('d-m-Y', strtotime($invoiceOrder->created_at)) }}</h6>
+                <label class="form-control-label" for="Fecha">GENERADA</label>
+                <h6>{{ date('d-m-Y', strtotime($invoiceOrder->generation_date)) }}</h6>
             </div>
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">

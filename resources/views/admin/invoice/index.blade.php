@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h5>Listado de Ventas</h5>
-            @if ($indicator->restaurant == 'off')
+            @if (indicator()->restaurant == 'off')
                     @can('invoice.create')
                         <a href="createPos" class="btn btn-blueGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Ventas pos</a>
                     @endcan
