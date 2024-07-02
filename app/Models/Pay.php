@@ -20,8 +20,7 @@ class Pay extends Model
         'balance',
         'type',
         'user_id',
-        'branch_id',
-        'payment_id'
+        'branch_id'
     ];
 
     protected $guarded = [
