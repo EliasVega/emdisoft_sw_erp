@@ -303,6 +303,7 @@ class InvoiceController extends Controller
 
         $typeDocument = $request->typeDocument;
         $documentType = '';
+        $voucherType = '';
 
 
         //Metodo si los envios a la dian es si trae resolucion
@@ -327,9 +328,10 @@ class InvoiceController extends Controller
                 $documentType = 104;
             }
         }
-
-        $voucherTypes = VoucherType::findOrFail($voucherType);
+        //dd($voucherType);
+        $voucherTypes = VoucherType::findOrFail(24);
         //Variables del request
+
         $product_id = $request->product_id;
         $quantity = $request->quantity;
         $price = $request->price;

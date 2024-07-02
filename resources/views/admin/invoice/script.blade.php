@@ -42,7 +42,6 @@
     var tax_iva = 0;
     var total_pay = 0;
     var total_desc = 0;
-    var uvt = '';
     //form invoice
     $("#idPro").hide();
     $("#percent").hide();
@@ -155,7 +154,6 @@
             price = (parseFloat(price) / parseFloat(taxRate)) * 100;
         }
         tax_type = $("#tax_type").val();
-        uvt = $("#uvtmax").val();
         employee_id = $("#employee_id").val();
         cv = 2;
         if(product_id !="" && quantity!="" && quantity>0  && price!=""){
@@ -223,7 +221,6 @@
             price = (parseFloat(price) / parseFloat(taxRate)) * 100;
         }
         tax_type = $("#tax_type").val();
-        uvt = $("#uvtmax").val();
         employee_id = $("#employee_id").val();
         cv = $(".cvp").val();
         if(product_id !="" && quantity!="" && quantity>0  && price!=""){

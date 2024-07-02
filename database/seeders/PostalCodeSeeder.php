@@ -9016,6 +9016,8 @@ class PostalCodeSeeder extends Seeder
                 'created_at' => '2024-05-20 12:00:00',
                 'updated_at' => '2024-05-20 12:00:00'
             ),
+        ));
+        DB::table('postal_codes')->insert(array (
             0 =>
             array (
                 'id' => 1001,
@@ -18016,6 +18018,8 @@ class PostalCodeSeeder extends Seeder
                 'created_at' => '2024-05-20 12:00:00',
                 'updated_at' => '2024-05-20 12:00:00'
             ),
+        ));
+        DB::table('postal_codes')->insert(array (
             0 =>
             array (
                 'id' => 2001,
@@ -27016,6 +27020,8 @@ class PostalCodeSeeder extends Seeder
                 'created_at' => '2024-05-20 12:00:00',
                 'updated_at' => '2024-05-20 12:00:00'
             ),
+        ));
+        DB::table('postal_codes')->insert(array (
             0 =>
             array (
                 'id' => 3001,
