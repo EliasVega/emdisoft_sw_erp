@@ -278,8 +278,6 @@ class InvoiceController extends Controller
             'products',
             'date',
             'companyTaxes',
-            'uvtmax',
-            'company',
             'cols',
             'type'
         ));
