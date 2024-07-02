@@ -1,4 +1,4 @@
-<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="infoIva">
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
     <div class="form-group">
         <label class="form-control-label" for="tax_iva">Iva</label>
         <input type="number" id="tax_iva" name="tax_iva" class="form-control" value="0"
@@ -26,7 +26,7 @@
             <input type="number" name="percentage" id="percentage" class="form-control" value="0" placeholder="porcentage">
         </div>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="ncinvoiceretention">
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
         <div class="form-group">
             <label class="form-control-label" for="total_ncinvoice">Total factura</label>
             <input type="number" name="total_ncinvoice" id="total_ncinvoice" class="form-control" value="0" placeholder="total">
