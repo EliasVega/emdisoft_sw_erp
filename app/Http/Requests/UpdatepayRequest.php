@@ -22,11 +22,11 @@ class UpdatePayRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'pay' => '',
-            'balance' => '',
-            'type' => '',
-            'user_id' => '',
-            'branch_id' => ''
+            'pay' => 'required',
+            'balance' => 'numeric',
+            'type' => 'in:purchase,invoice,expense,remission,advance,work_labor,payroll',
+            'user_id' => 'integer',
+            'branch_id' => 'integer'
         ];
     }
 }
