@@ -336,8 +336,8 @@
         $("#total_pay_html").html("$ " + total_pay.toFixed(2));
         $("#total_pay").val(total_pay.toFixed(2));
 
-        $("#total_ncinvoice").val(total.toFixed(2));
-        $("#tax_iva").val(tax_iva);
+        //$("#total_ncinvoice").val(total.toFixed(2));
+        //$("#tax_iva").val(tax_iva);
     }
     function assess(){
 
@@ -409,8 +409,8 @@
         taxiva = subtotal[index]*tax_rate/100;
         tax_iva = tax_iva-taxiva;
 
-        $("#total_ncinvoice").val(total.toFixed(2));
-        $("#tax_iva").val(tax_iva);
+        //$("#total_ncinvoice").val(total.toFixed(2));
+        //$("#tax_iva").val(tax_iva);
 
         $("#row" + index).remove();
         assess();
