@@ -28,16 +28,6 @@ class CompanyTaxSeeder extends Seeder
                 'created_at' => '2023-01-12 21:07:43',
                 'updated_at' => '2023-01-12 21:07:43',
             ),
-            1 =>
-            array (
-                'id' => 2,
-                'name' => 'INC 8%',
-                'description' => 'productos con iva del 19 %',
-                'tax_type_id' => 1,
-                'percentage_id' => 43,
-                'created_at' => '2023-01-12 21:07:43',
-                'updated_at' => '2023-01-12 21:07:43',
-            ),
         ));
     }
 }
