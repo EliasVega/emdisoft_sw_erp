@@ -66,7 +66,7 @@ class InvoiceTestSetController extends Controller
     {
         //dd($request->all());
         $typeDocument = $request->typeDocument;
-        $company = Company::findOrFail(current_user()->company_id);
+        $company = Company::findOrFail(company()->id);
         $configuration = Configuration::where('company_id', $company->id)->first();
         $software = Software::where('company_id', $company->id)->first();
         if ($typeDocument == 'invoice') {

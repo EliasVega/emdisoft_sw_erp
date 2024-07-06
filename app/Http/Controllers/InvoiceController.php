@@ -581,7 +581,7 @@ class InvoiceController extends Controller
                 $urlpdf = $environmentPdf->protocol . $configuration->ip . $environmentPdf->url;
                 if ($typeDocument == 'invoice') {
                     $pdf = file_get_contents($urlpdf . company()->nit ."/FES-" . $invoice->document .".pdf");
-                } else {
+                } else if ($typeDocument == 'pos') {
                     $pdf = file_get_contents($urlpdf . company()->nit ."/POSS-" . $invoice->document .".pdf");
                 }
                 Storage::disk('public')->put('files/graphical_representations/invoices/' .
