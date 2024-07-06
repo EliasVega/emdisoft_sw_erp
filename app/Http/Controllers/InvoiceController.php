@@ -555,7 +555,7 @@ class InvoiceController extends Controller
                 }
             }
 
-            if ($documentType == 1 && indicator()->dian == 'on') {
+            if (indicator()->dian == 'on') {
                 $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
                     ['SendBillSyncResult']['IsValid'];
                 $code = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
