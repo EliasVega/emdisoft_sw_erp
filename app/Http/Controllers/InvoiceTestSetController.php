@@ -84,9 +84,16 @@ class InvoiceTestSetController extends Controller
 
         $service = '';
         $errorMessages = '';
+        $docs = 0;
         $store = false;
+        if ($typeDocument == 'invoice') {
+            $docs = 10;
+        } else {
+            $docs = 2;
+        }
 
-        for ($i=0; $i < 10; $i++) {
+
+        for ($i=0; $i < $docs; $i++) {
             if (indicator()->dian == 'on') {
                 if ($typeDocument == 'invoice') {
                     $data = invoiceTestSetData();
