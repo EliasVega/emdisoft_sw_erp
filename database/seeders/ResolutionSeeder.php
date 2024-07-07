@@ -291,6 +291,23 @@ class ResolutionSeeder extends Seeder
                 'company_id' => 1,
                 'document_type_id' => 13
             ),
+            15 =>
+            array (
+                'id' => 16,
+                'prefix' => 'FE',
+                'resolution' => '18764064242347',
+                'resolution_date' => '2024-01-24',
+                'technical_key' => 'e67d17f771667027cf702baf69e7807aaed8c21647c20eac58528b62c4976f5f',
+                'start_number' => 1,
+                'end_number' => 1000,
+                'consecutive' => 1,
+                'start_date' => '2024-01-24',
+                'end_date' => '2025-01-24',
+                'status' => 'active',
+                'description' => 'FE',
+                'company_id' => 1,
+                'document_type_id' => 1
+            ),
         ));
     }
 }
