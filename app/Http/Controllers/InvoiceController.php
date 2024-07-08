@@ -1301,8 +1301,8 @@ class InvoiceController extends Controller
             'ValIva' => $invoice->total_tax,
             'ValOtroIm' => '0.00',
             'ValTotal' => $invoice->total_pay,
-            'CUFE' => $invoice->response->cufe,
-            'URL' => $url . $invoice->response->cufe,
+            'CUFE' => $invoice->invoiceResponse->cufe,
+            'URL' => $url . $invoice->invoiceResponse->cufe,
         ];
 
         $writer = new PngWriter();
@@ -1316,7 +1316,7 @@ class InvoiceController extends Controller
         $pdf->generateQr($qrImage);
 
         //$confirmationCode = formatText("CUFE: " . $invoice->response->cufe);
-        $confirmationCode = formatText("CUFE: " . $invoice->response->cufe);
+        $confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
         //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
         $pdf->generateConfirmationCode($confirmationCode);
 
