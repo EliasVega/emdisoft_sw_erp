@@ -2,11 +2,9 @@
 namespace App\Traits;
 
 use App\Models\BranchProduct;
-use App\Models\Indicator;
 
 trait InventoryPurchases {
-    public function inventoryPurchases($product, $branchProducts, $quantityLocal, $priceLocal, $salePriceLocal, $branch){
-
+    public function inventoryPurchases($product, $branchProducts, $quantityLocal, $priceLocal, $branch, $salePriceLocal ){
         if ($product->type_product == 'product') {
             if (indicator()->inventory == 'on') {
                 if (indicator()->product_price == 'automatic') {
@@ -51,6 +49,7 @@ trait InventoryPurchases {
                 //Actualizar stock y precio del producto
                 $product->stock += $quantityLocal;
                 $product->price = $priceLocal;
+                $product->sale_price = $salePriceLocal;
                 $product->update();
 
                 //Actualizando o creando productos en determinada sucursal

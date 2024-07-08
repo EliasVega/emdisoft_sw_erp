@@ -43,13 +43,13 @@ class UsersTableSeeder extends Seeder
 
         User::create([
             'id' => 2,
-            'name' => 'JAIRO ENRIQUE SUAREZ PREREZ ',
-            'number' => '91343991',
+            'name' => 'USUARIO TESTING',
+            'number' => '99999999',
             'address' => 'BUCARAMANGA',
-            'phone' => '3014109204',
-            'email' => 'comercial.ecounts@gmail.com',
+            'phone' => '3139999999',
+            'email' => 'testing@gmail.com',
             'email_verified_at' => NULL,
-            'password' => bcrypt('91343991'),
+            'password' => bcrypt('admin2024'),
             'two_factor_secret' => NULL,
             'two_factor_recovery_codes' => NULL,
             'two_factor_confirmed_at' => NULL,

@@ -283,7 +283,7 @@ class DocumentTypesTableSeeder extends Seeder
                 'id' => 101,
                 'code' => '101',
                 'name' => 'Factura de Compra A obligados a Facturar',
-                'prefix' => 'FCO',
+                'prefix' => 'DSE',
                 'cufe_algorithm' => 'CUDS-SHA384',
                 'created_at' => '2023-01-12 21:07:44',
                 'updated_at' => '2023-01-12 21:07:44',
@@ -321,7 +321,7 @@ class DocumentTypesTableSeeder extends Seeder
             30 =>
             array (
                 'id' => 105,
-                'code' => '105',
+                'code' => '104',
                 'name' => 'Nota Credito pos Interna',
                 'prefix' => 'NCFP',
                 'cufe_algorithm' => 'CUDS-SHA384',
@@ -331,7 +331,7 @@ class DocumentTypesTableSeeder extends Seeder
             31 =>
             array (
                 'id' => 106,
-                'code' => '106',
+                'code' => '105',
                 'name' => 'Nota Debito pos Interna',
                 'prefix' => 'NDFP',
                 'cufe_algorithm' => 'CUDS-SHA384',

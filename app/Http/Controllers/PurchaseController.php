@@ -262,7 +262,7 @@ class PurchaseController extends Controller
         $product_id = $request->product_id;
         $quantity = $request->quantity;
         $price = $request->price;
-        $salePrice = $request->salePrice;
+        $salePrice = $request->sale_price;
         $tax_rate = $request->tax_rate;
         $branch = $request->branch_id;//variable de la sucursal de destino
         $total_pay = $request->total_pay;
