@@ -12,7 +12,6 @@ use App\Models\Bank;
 use App\Models\Branch;
 use App\Models\BranchProduct;
 use App\Models\Card;
-use App\Models\Company;
 use App\Models\CompanyTax;
 use App\Models\Configuration;
 use App\Models\Customer;
@@ -21,7 +20,6 @@ use App\Models\Employee;
 use App\Models\EmployeeInvoiceProduct;
 use App\Models\Environment;
 use App\Models\HomeOrder;
-use App\Models\Indicator;
 use App\Models\InvoiceProduct;
 use App\Models\InvoiceResponse;
 use App\Models\Ncinvoice;
@@ -47,7 +45,6 @@ use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 
 use function App\Helpers\Tickets\formatText;
@@ -70,12 +67,6 @@ class InvoiceController extends Controller
     {
         $invoice = session('invoice');
         $typeDocument = session('typeDocument');
-        /*
-        if (indicator()->pos == 'off') {
-            $typeDocument = 'document';
-        } else {
-            $typeDocument = 'pos';
-        }*/
         if ($request->ajax()) {
             $users = current_user();
             $user = $users->Roles[0]->name;

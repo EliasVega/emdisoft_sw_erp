@@ -1,6 +1,12 @@
 @if ($dian == 'on')
-    <a class="btn btn-primary btn-sm" href="{{ Storage::url('files/graphical_representations/invoices/'.$document.'.pdf') }}" title="Representación grafica" target="_blank">
-        <i class="fas fa-download fa-fw"></i> Pdf
+
+    @if ($document_type_id == 1)
+        <a class="btn btn-primary btn-sm" href="{{ Storage::url('files/graphical_representations/invoices/'.$document.'.pdf') }}" title="Representación grafica" target="_blank">
+            <i class="fas fa-download fa-fw"></i> Pdf</a>
+    @elseif ($document_type_id == 15)
+        <a href="{{ route('posPdf', $id) }}" class="btn btn-success btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="pdf pos" >
+            <i class="fas fa-receipt"></i></a>
+    @endif
 @else
     <a href="{{ route('invoicePos', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="pdf pos" >
         <i class="fas fa-receipt"></i>
