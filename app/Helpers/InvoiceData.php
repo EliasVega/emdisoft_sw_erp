@@ -169,7 +169,7 @@ if (! function_exists('invoiceData')) {
             "establishment_email" => $company->email,
             "sendmail" => true,
             "sendmailtome" => true,
-            "seze" => "2021-2017",
+            "seze" => "",
             "email_cc_list" => [
                 [
                     "email" => $company->email

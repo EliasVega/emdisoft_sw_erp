@@ -72,6 +72,7 @@
             $(document).ready(function ()
             {
                 var typeDocument = "{{ $typeDocument ?? '' }}";
+                var dian = "{{ $dian ?? '' }}";
                 function print(){
                     if (typeDocument == 'invoice') {
                         var invoice = "{{ $invoice ?? '' }}";
@@ -84,10 +85,18 @@
 
                     } else {
                         var invoice = "{{ $invoice ?? '' }}";
-                        if (invoice != '') {
-                            var imprimir = "{{ route('posInvoice', ['invoice' => ':invoice']) }}";
-                            imprimir = imprimir.replace(':invoice', invoice);
-                            window.open(imprimir, "_blank");
+                        if (dian == 'on') {
+                            if (invoice != '') {
+                                var imprimir = "{{ route('posPdf', ['invoice' => ':invoice']) }}";
+                                imprimir = imprimir.replace(':invoice', invoice);
+                                window.open(imprimir, "_blank");
+                            }
+                        } else {
+                            if (invoice != '') {
+                                var imprimir = "{{ route('posInvoice', ['invoice' => ':invoice']) }}";
+                                imprimir = imprimir.replace(':invoice', invoice);
+                                window.open(imprimir, "_blank");
+                            }
                         }
                     }
                 }

@@ -67,6 +67,7 @@ class InvoiceController extends Controller
     {
         $invoice = session('invoice');
         $typeDocument = session('typeDocument');
+        $dian = indicator()->dian;
         if ($request->ajax()) {
             $users = current_user();
             $user = $users->Roles[0]->name;
@@ -122,7 +123,7 @@ class InvoiceController extends Controller
             ->rawColumns(['btn'])
             ->make(true);
         }
-        return view('admin.invoice.index', compact('invoice', 'typeDocument'));
+        return view('admin.invoice.index', compact('invoice', 'typeDocument', 'dian'));
     }
 
     /**
