@@ -1251,7 +1251,8 @@ class InvoiceController extends Controller
         $thirdPartyType = 'customer';
         $logoHeight = 26;
 
-        if (company()->logo != null) {
+
+        if (indicator()->logo == 'on') {
             $logo = storage_path('app/public/images/logos/' . company()->imageName);
 
             $image = list($width, $height, $type, $attr) = getimagesize($logo);
@@ -1300,8 +1301,8 @@ class InvoiceController extends Controller
             'ValIva' => $invoice->total_tax,
             'ValOtroIm' => '0.00',
             'ValTotal' => $invoice->total_pay,
-            'CUFE' => 'dc3dd77f1bc516721c9f196bc225b68d6ab326f355139b23cde8c2a7b9149e4fe09ab2c3487f11375116f939ed8d4d52',
-            'URL' => $url . 'dc3dd77f1bc516721c9f196bc225b68d6ab326f355139b23cde8c2a7b9149e4fe09ab2c3487f11375116f939ed8d4d52',
+            'CUFE' => $invoice->response->cufe,
+            'URL' => $url . $invoice->response->cufe,
         ];
 
         $writer = new PngWriter();
@@ -1315,7 +1316,7 @@ class InvoiceController extends Controller
         $pdf->generateQr($qrImage);
 
         //$confirmationCode = formatText("CUFE: " . $invoice->response->cufe);
-        $confirmationCode = formatText("CUFE: " . 'dc3dd77f1bc516721c9f196bc225b68d6ab326f355139b23cde8c2a7b9149e4fe09ab2c3487f11375116f939ed8d4d52');
+        $confirmationCode = formatText("CUFE: " . $invoice->response->cufe);
         //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
         $pdf->generateConfirmationCode($confirmationCode);
 
