@@ -1264,7 +1264,7 @@ class InvoiceController extends Controller
         $pdf->SetAutoPageBreak(false);
         $pdf->addPage();
 
-        if (company()->logo != null) {
+        if (indicator()->logo == 'on') {
             if (file_exists($logo)) {
                 $pdf->generateLogo($logo, $width, $height);
             }
