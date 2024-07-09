@@ -15,10 +15,16 @@ if (!function_exists('ncinvoiceData')) {
     {
         $invoiceResponse = InvoiceResponse::where('invoice_id', $invoice->id)->first();//respuesta factura a NC
         $discrepancy = Discrepancy::findOrFail($request->discrepancy_id);//mtivos de la nota Credito
-        $resolution = Resolution::findOrFail(8);//resolucion de la nota credito
         $date = Carbon::now();//fecha de hoy
         $company = Company::findOrFail(current_user()->company_id);//compañia
         $customer = Customer::findOrFail($request->customer_id);//cliente de la factura y nota credito
+        $resolution = '';
+        if ($invoice->document_type_id == 1) {
+            $resolution = Resolution::findOrFail(8);//NC factura de venta
+        } else if ($invoice->document_type_id == 15) {
+            $resolution = Resolution::findOrFail(11);//NC factura de venta pos
+        }
+
         $product_id = $request->id; //Array de request id de productos
         $quantity = $request->quantity;//array de request de cantidades
         $price = $request->price;// array de request de precios

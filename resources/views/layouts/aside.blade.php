@@ -473,7 +473,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            @if (current_user()->company->indicator->work_labor == 'on')
+                            @if (indicator()->work_labor == 'on')
                                 <li class="nav-item has-treeview">
                                     <a href="#" class="nav-link">
                                         <i class="fas fa-fw fa-users"></i>

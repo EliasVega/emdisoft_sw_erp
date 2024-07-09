@@ -45,15 +45,13 @@
             <a class="toggle-vis btn btn-sm btn-info" data-column="1">Tercero</a>
             <a class="toggle-vis btn btn-sm btn-info" data-column="2">Identificacion</a>
             <a class="toggle-vis btn btn-sm btn-info" data-column="3">Fecha</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="4">Factura</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="5">Estado</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="6">Nombre Item</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="7">Tipo</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="8">Cantidad</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="9">Valor</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="10">Subtotal</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="11">%</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="12">Comision</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="4">Cliente</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="5">Factura</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="6">Estado</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="7">Nombre Item</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="8">Subtotal</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="9">%</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="10">Comision</a>
         </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -65,6 +63,7 @@
                                 <th>Tercero</th>
                                 <th>CC-NIT</th>
                                 <th>Fecha</th>
+                                <th>Cliente</th>
                                 <th>Factura</th>
                                 <th>Estado</th>
                                 <th>Nombre Item</th>
@@ -75,7 +74,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <th colspan="10" style="text-align:right">Totales:</th>
+                                <th colspan="11" style="text-align:right">Totales:</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -127,6 +126,9 @@
                             },
                             {
                                 data: 'generation_date'
+                            },
+                            {
+                                data: 'customer'
                             },
                             {
                                 data: 'document'

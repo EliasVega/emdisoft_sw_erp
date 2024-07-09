@@ -45,6 +45,9 @@ class EmployeeInvoiceProductController extends Controller
             ->addColumn('identification', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
                 return $employeeInvoiceProduct->employee->identification;
             })
+            ->addColumn('customer', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
+                return $employeeInvoiceProduct->invoiceProduct->invoice->third->name;
+            })
             ->addColumn('product', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
                 return $employeeInvoiceProduct->invoiceProduct->product->name;
             })
@@ -108,6 +111,9 @@ class EmployeeInvoiceProductController extends Controller
             ->addColumn('identification', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
                 return $employeeInvoiceProduct->employee->identification;
             })
+            ->addColumn('customer', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
+                return $employeeInvoiceProduct->invoiceProduct->invoice->third->name;
+            })
             ->addColumn('product', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
                 return $employeeInvoiceProduct->employee->name;
             })
@@ -170,6 +176,9 @@ class EmployeeInvoiceProductController extends Controller
             })
             ->addColumn('identification', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
                 return $employeeInvoiceProduct->employee->identification;
+            })
+            ->addColumn('customer', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
+                return $employeeInvoiceProduct->invoiceProduct->invoice->third->name;
             })
             ->addColumn('product', function (EmployeeInvoiceProduct $employeeInvoiceProduct) {
                 return $employeeInvoiceProduct->invoiceProduct->product->name;

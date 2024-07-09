@@ -106,8 +106,6 @@ class NcinvoiceController extends Controller
         $cashRegister = cashRegisterComprobation();
         $pay = Pay::where('type', 'invoice')->where('payable_id', $invoice->id)->get();//pagos hechos a esta factura
 
-
-
         $voucherTypes = '';
         $resolution = '';
         if (indicator()->dian == 'on') {
@@ -127,6 +125,7 @@ class NcinvoiceController extends Controller
                 $voucherTypes = VoucherType::findOrFail(21); //voucher type pos
             }
         }
+
         //variables del request
         $quantity = $request->quantity;
         $price = $request->price;
@@ -194,12 +193,6 @@ class NcinvoiceController extends Controller
             $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->get();
             switch($discrepancy) {
                 case(1):
-                    /*
-                    if ($total_pay <= 0) {
-                        toast(' Nota debito no debe ser menor o igual a 0.','warning');
-                        return redirect("invoice");
-                    }*/
-
                     //creando registro de ncinvoice productos
                     $this->ncinvoiceProductCreate($request, $document);//crear ncinvoiceProduct
                     for ($i=0; $i < count($product_id); $i++) {

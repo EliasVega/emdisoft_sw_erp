@@ -104,6 +104,9 @@ class InvoiceController extends Controller
                     return $invoice->status == 'complete' ? 'NC - ND' : 'NC - ND';
                 }
             })
+            ->addColumn('observation', function (Invoice $invoice) {
+                return $invoice->note;
+            })
             ->addColumn('role', function (Invoice $invoice) {
                 return $invoice->user->roles[0]->name;
             })

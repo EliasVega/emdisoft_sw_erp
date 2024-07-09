@@ -50,6 +50,7 @@
                 <table class="table table-striped table-bordered table-condensed table-hover" id="invoices">
                     <thead>
                         <tr class="trdatacolor">
+                            <th></th>
                             <th hidden="true">Id</th>
                             <th>Cliente</th>
                             <th>#Fac_Venta</th>
@@ -100,9 +101,18 @@
                         }
                     }
                 }
-
                 print();
-                $('#invoices').DataTable(
+                function format(d) {
+                return `
+                    <table cellpadding="3" cellspacing="0" border="0" style="padding-left:50px;">
+                        <tr>
+                            <td>Observacione</td>
+                            <td>${d.observation}</td>
+                        </tr>
+                    </table>
+                    `;
+                }
+                var invoices = $('#invoices').DataTable(
                 {
                     info: true,
                     paging: true,
@@ -116,9 +126,15 @@
                         url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
                     },
                     ajax: '{{ route('invoice.index') }}',
-                    order: [[0, "desc"]],
+                    order: [[1, "desc"]],
                     columns:
                     [
+                        {
+                            className: 'details-control',
+                            orderable: false,
+                            data: null,
+                            defaultContent: ''
+                        },
                         {data: 'id', visible:false, searchable:false },
                         {data: 'customer'},
                         {data: 'document'},
@@ -131,6 +147,20 @@
                         {data: 'status'},
                         {data: 'btn'},
                     ],
+                    columnDefs: [
+                            {targets: 0},
+                            {targets: 1},
+                            {targets: 2},
+                            {targets: 3},
+                            {targets: 4},
+                            {targets: 5},
+                            {targets: 6},
+                            {targets: 7},
+                            {targets: 8},
+                            {targets: 9},
+                            {targets: 10},
+                            {targets: 11},
+                        ],
                     dom: 'Blfrtip',
                     lengthMenu: [
                         [10, 20, 50, 100, 500, -1], [10, 20, 50, 100, 500, 'Todos']
@@ -139,13 +169,13 @@
                         {
                             extend: 'copy',
                             exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
                             }
                         },
                         {
                             extend: 'excel',
                             exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
                             }
                         },
                         {
@@ -154,17 +184,29 @@
                             orientation: 'landscape',
                             pageSize: 'LEGAL',
                             exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
                             }
                         },
                         {
                             extend: 'print',
                             exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
                             }
                         },
                     ],
                 });
+                $('#invoices tbody').on('click', 'td.details-control', function () {
+                        let tr = $(this).closest('tr');
+                        let row = invoices.row(tr);
+
+                        if (row.child.isShown()) {
+                            row.child.hide();
+                            tr.removeClass('shown');
+                        } else {
+                            row.child(format(row.data())).show();
+                            tr.addClass('shown');
+                        }
+                    });
             });
         </script>
     @endpush

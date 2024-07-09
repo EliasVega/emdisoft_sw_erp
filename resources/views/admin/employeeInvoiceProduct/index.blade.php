@@ -46,13 +46,14 @@
             <a class="toggle-vis btn btn-sm btn-info" data-column="2">Tercero</a>
             <a class="toggle-vis btn btn-sm btn-info" data-column="3">Identificacion</a>
             <a class="toggle-vis btn btn-sm btn-info" data-column="4">Fecha</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="5">Factura</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="6">Estado</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="7">Nombre Item</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="8">Subtotal</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="9">%</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="10">Comision</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="11">Editar</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="5">Cliente</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="6">Factura</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="7">Estado</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="8">Nombre Item</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="9">Subtotal</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="10">%</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="11">Comision</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="12">Editar</a>
         </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -65,6 +66,7 @@
                                 <th>Tercero</th>
                                 <th>CC-NIT</th>
                                 <th>Fecha</th>
+                                <th>Cliente</th>
                                 <th>Factura</th>
                                 <th>Estado</th>
                                 <th>Nombre Item</th>
@@ -76,7 +78,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <th colspan="12" style="text-align:right">Total:</th>
+                                <th colspan="13" style="text-align:right">Total:</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -131,6 +133,9 @@
                                 data: 'generation_date'
                             },
                             {
+                                data: 'customer'
+                            },
+                            {
                                 data: 'document'
                             },
                             {
@@ -169,6 +174,7 @@
                             {targets: 9},
                             {targets: 10},
                             {targets: 11},
+                            {targets: 12},
                         ],
                         dom: 'Bfltip',
                         lengthMenu: [
@@ -178,13 +184,13 @@
                         buttons: [{
                                 extend: 'copy',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12 ]
                                 }
                             },
                             {
                                 extend: 'excel',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12 ]
                                 }
                             },
                             {
@@ -193,13 +199,13 @@
                                 orientation: 'landscape',
                                 pageSize: 'LEGAL',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12 ]
                                 }
                             },
                             {
                                 extend: 'print',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12 ]
                                 }
                             },
                         ],
@@ -211,7 +217,7 @@
                             api.column(2, {page: 'current'}).data().each(function (group, i) {
                                 if (last !== group) {
                                     $(rows).eq(i).before(
-                                        `<tr class="highlight"><td colspan="12">${group}</td></tr>`
+                                        `<tr class="highlight"><td colspan="13">${group}</td></tr>`
                                     );
                                     last = group;
                                 }
@@ -231,14 +237,14 @@
                             };
 
                             var total = api
-                                .column(10)
+                                .column(11)
                                 .data()
                                 .reduce(function(a, b) {
                                     return intVal(a) + intVal(b);
                                 }, 0);
 
                             var totalPage = api
-                                .column(10, {
+                                .column(11, {
                                     page: 'current'
                                 })
                                 .data()
@@ -246,7 +252,7 @@
                                     return intVal(a) + intVal(b);
                                 }, 0);
                             var formatNumberData = $.fn.dataTable.render.number(',', '.', 0, '').display;
-                            $(api.column(10).footer()).html(
+                            $(api.column(11).footer()).html(
                                 `$ ${formatNumberData(totalPage)} ($ ${formatNumberData( total )})`
                             )
                         }
