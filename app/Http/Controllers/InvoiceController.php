@@ -67,7 +67,6 @@ class InvoiceController extends Controller
     {
         $invoice = session('invoice');
         $typeDocument = session('typeDocument');
-        $dian = indicator()->dian;
         if ($request->ajax()) {
             $users = current_user();
             $user = $users->Roles[0]->name;
@@ -126,7 +125,7 @@ class InvoiceController extends Controller
             ->rawColumns(['btn'])
             ->make(true);
         }
-        return view('admin.invoice.index', compact('invoice', 'typeDocument', 'dian'));
+        return view('admin.invoice.index', compact('invoice', 'typeDocument'));
     }
 
     /**
@@ -1243,6 +1242,8 @@ class InvoiceController extends Controller
 
     public function posPdf(Request $request, Invoice $invoice)
     {
+        $typeDocument = 'invoice';
+        $document = $invoice;
         $thirdPartyType = 'customer';
         $logoHeight = 26;
 
@@ -1280,12 +1281,13 @@ class InvoiceController extends Controller
         $barcode = "data:image/png;base64," . base64_encode($barcodeCode);
 
         $pdf->generateBarcode($barcode);
-        $pdf->generateBranchInformation($invoice);
+        $pdf->generateBranchInformation($document);
         $pdf->generateThirdPartyInformation($invoice->third, $thirdPartyType);
-        $pdf->generateProductsTable($invoice);
-        $pdf->generateSummaryInformation($invoice);
-        $pdf->generateInvoiceInformation($invoice);
+        $pdf->generateProductsTable($document, $typeDocument);
+        $pdf->generateSummaryInformation($document);
+        $pdf->generateInvoiceInformation($document);
 
+        $cufe =  $invoice->invoiceResponse->cufe;
         $url = 'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=';
         $data = [
             'NumFac' => $invoice->document,
@@ -1296,8 +1298,8 @@ class InvoiceController extends Controller
             'ValIva' => $invoice->total_tax,
             'ValOtroIm' => '0.00',
             'ValTotal' => $invoice->total_pay,
-            'CUFE' => $invoice->invoiceResponse->cufe,
-            'URL' => $url . $invoice->invoiceResponse->cufe,
+            'CUFE' => $cufe,
+            'URL' => $url . $cufe,
         ];
 
         $writer = new PngWriter();

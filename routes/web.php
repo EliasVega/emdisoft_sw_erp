@@ -321,6 +321,7 @@ Route::get('municipality/postalCode/{id}', [MunicipalityController::class, 'getP
 
 Route::get('ncinvoice/ncinvoicePdf/{id}', [NcinvoiceController::class, 'ncinvoicePdf'])->name('ncinvoicePdf');
 Route::get('pdfNcinvoice', [NcinvoiceController::class, 'pdfNcinvoice'])->name('pdfNcinvoice');
+Route::get('ncinvoice/posPdfNcinvoice/{ncinvoice}', [NcinvoiceController::class, 'posPdfNcinvoice'])->name('posPdfNcinvoice');
 
 Route::get('ncpurchase/ncpurchasePdf/{id}', [NcpurchaseController::class, 'ncpurchasePdf'])->name('ncpurchasePdf');
 Route::get('pdfNcpurchase', [NcpurchaseController::class, 'pdfNcpurchase'])->name('pdfNcpurchase');

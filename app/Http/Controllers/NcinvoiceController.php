@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Tickets\Ticket;
 use App\Models\Ncinvoice;
 use App\Http\Requests\StoreNcinvoiceRequest;
 use App\Http\Requests\UpdateNcinvoiceRequest;
@@ -31,6 +32,13 @@ use App\Traits\AdvanceCreate;
 use App\Traits\KardexCreate;
 use App\Traits\GetTaxesLine;
 use App\Traits\NcinvoiceProductCreate;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
+use Picqer\Barcode\BarcodeGeneratorPNG;
+
+use function App\Helpers\Tickets\formatText;
+use function App\Helpers\Tickets\ticketHeight;
+use function App\Helpers\Tickets\ticketHeightNcinvoice;
 
 class NcinvoiceController extends Controller
 {
@@ -47,6 +55,7 @@ class NcinvoiceController extends Controller
     public function index(Request $request)
     {
         $ncinvoice = session('ncinvoice');
+        $typeDocument = session('typeDocument');
         if ($request->ajax()) {
             $users = current_user();
             $user = $users->Roles[0]->name;
@@ -81,7 +90,7 @@ class NcinvoiceController extends Controller
             ->rawColumns(['btn'])
             ->make(true);
         }
-        return view('admin.ncinvoice.index', compact('ncinvoice'));
+        return view('admin.ncinvoice.index', compact('ncinvoice', 'typeDocument'));
     }
 
     /**
@@ -473,9 +482,11 @@ class NcinvoiceController extends Controller
             $resolution->update();
 
             session()->forget('ncinvoice');
+            session()->forget('typeDocument');
             session(['ncinvoice' => $ncinvoice->id]);
+            session(['typeDocument' => $typeDocument]);
 
-            toast('Nota Debito Registrada satisfactoriamente.','success');
+            toast('Nota Credito Registrada satisfactoriamente.','success');
             return redirect('ncinvoice');
         } else {
             toast($errorMessages,'Danger');
@@ -616,5 +627,89 @@ class NcinvoiceController extends Controller
         $pdf->loadHTML($view);
 
         return $pdf->stream('vista-pdf', "$ncinvoicepdf.pdf");
+    }
+
+    public function posPdfNcinvoice(Request $request, Ncinvoice $ncinvoice)
+    {
+        $document = $ncinvoice;
+        $typeDocument = 'ncpurchase';
+        $thirdPartyType = 'customer';
+        $logoHeight = 26;
+        if (indicator()->logo == 'on') {
+            $logo = storage_path('app/public/images/logos/' . company()->imageName);
+
+            $image = list($width, $height, $type, $attr) = getimagesize($logo);
+            $multiplier = $image[0]/$image[1];
+            $height = 26;
+            $width = $height * $multiplier;
+            if ($width > 60) {
+                $width = 60;
+                $height = 60/$multiplier;
+            }
+        }
+
+        $pdfHeight = ticketHeightNcinvoice($logoHeight, $ncinvoice, "ncinvoice");
+
+        $pdf = new Ticket('P', 'mm', array(80, $pdfHeight), true, 'UTF-8');
+        $pdf->SetMargins(4, 10, 4);
+        $pdf->SetTitle($ncinvoice->document);
+        $pdf->SetAutoPageBreak(false);
+        $pdf->addPage();
+
+        if (indicator()->logo == 'on') {
+            if (file_exists($logo)) {
+                $pdf->generateLogo($logo, $width, $height);
+            }
+        }
+        $pdf->generateCompanyInformation();
+
+        $barcodeGenerator = new BarcodeGeneratorPNG();
+        $barcodeCode = $barcodeGenerator->getBarcode($ncinvoice->id, $barcodeGenerator::TYPE_CODE_128);
+        $barcode = "data:image/png;base64," . base64_encode($barcodeCode);
+
+        $pdf->generateBarcode($barcode);
+        $pdf->generateBranchInformation($document);
+        $pdf->generateThirdPartyInformation($ncinvoice->third, $thirdPartyType);
+        $pdf->generateProductsTable($document, $typeDocument);
+        $pdf->generateSummaryInformation($document);
+        $pdf->generateInvoiceInformation($document);
+
+        $cufe = 'este-es-un-cufe-de-prueba';
+        //$cufe = $ncinvoice->invoiceResponse->cude;
+        $url = 'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=';
+        $data = [
+            'NumFac' => $ncinvoice->document,
+            'FecFac' => $ncinvoice->created_at->format('Y-m-d'),
+            'NitFac' => company()->nit,
+            'DocAdq' => $ncinvoice->third->identification,
+            'ValFac' => $ncinvoice->total,
+            'ValIva' => $ncinvoice->total_tax,
+            'ValOtroIm' => '0.00',
+            'ValTotal' => $ncinvoice->total_pay,
+            'CUFE' => $cufe,
+            'URL' => $url . $cufe,
+        ];
+
+        $writer = new PngWriter();
+        $qrCode = new QrCode(implode("\n", $data));
+        $qrCode->setSize(300);
+        $qrCode->setMargin(10);
+        $result = $writer->write($qrCode);
+
+        $qrCodeImage = $result->getString();
+        $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
+        $pdf->generateQr($qrImage);
+
+        //$confirmationCode = formatText("CUFE: " . $invoice->response->cufe);
+        $confirmationCode = formatText("CUFE: " . $cufe);
+        //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
+        $pdf->generateConfirmationCode($confirmationCode);
+
+        $refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
+        $pdf->generateDisclaimerInformation($refund);
+
+        $pdf->Output("I", $ncinvoice->document . ".pdf", true);
+
+        exit;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Helpers\Tickets;
 
 use App\Models\InvoiceProduct;
+use App\Models\NcinvoiceProduct;
 use App\Models\Resolution;
 use App\Models\Tax;
 use FPDF;
@@ -18,18 +19,18 @@ class Ticket extends FPDF
         $this->SetY($this->GetY() + $height);
     }
 
-    public function generateCompanyInformation($company)
+    public function generateCompanyInformation()
     {
-        $identificationType = formatText($company->identificationType->initial);
-        $nit = formatText($company->nit);
-        $dv = formatText($company->dv);
-        $address = formatText('Dirección: ' . $company->address);
-        $phone = formatText('Teléfono: ' . $company->phone);
-        $email = formatText('Email: ' . $company->email);
+        $identificationType = formatText(company()->identificationType->initial);
+        $nit = formatText(company()->nit);
+        $dv = formatText(company()->dv);
+        $address = formatText('Dirección: ' . company()->address);
+        $phone = formatText('Teléfono: ' . company()->phone);
+        $email = formatText('Email: ' . company()->email);
 
         $this->SetFont('Arial', 'B', 12);
         $this->SetTextColor(0, 0, 0);
-        $this->MultiCell(72, 5, strtoupper($company->name), 0, 'C', false);
+        $this->MultiCell(72, 5, strtoupper(company()->name), 0, 'C', false);
         $this->SetFont('Arial', '', 9);
         $this->MultiCell(72, 3, $identificationType . ":" . $nit . " - " . $dv, 0, 'C', false);
         $this->MultiCell(72, 3, $address, 0, 'C', false);
@@ -104,9 +105,19 @@ class Ticket extends FPDF
         $this->MultiCell(0, 3, $email, 0, 'C', false);
     }
 
-    public function generateProductsTable($invoice)
+    public function generateProductsTable($document, $typeDocument)
     {
-        $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->get();
+        switch ($typeDocument) {
+            case 'invoice':
+                $products = InvoiceProduct::where('invoice_id', $document->id)->get();
+                break;
+            case 'invoice':
+                $products = NcinvoiceProduct::where('ncinvoice_id', $document->id)->get();
+                break;
+            default:
+                # code...
+                break;
+        }
 
         $this->SetFont('Arial', '', 9);
         $this->generateBreakLine(1, 'long', 3);
@@ -116,22 +127,22 @@ class Ticket extends FPDF
         $this->Cell(20, 5, formatText('Subtotal'), 0, 0, 'C');
         $this->generateBreakLine(3, 'long', 3);
 
-        foreach ($invoiceProducts as $invoiceProduct) {
-            $length = strlen($invoiceProduct->product->name);
+        foreach ($products as $product) {
+            $length = strlen($product->product->name);
 
             //$this->Multicell(30,5, formatText($invoiceProduct->product->name),'J',1);
             //$this->MultiCell(0, 10, formatText($invoiceProduct->product->name), 0, 'L');
             $this->SetFont('Arial', '', 7);
             if ($length > 20) {
-                $this->Multicell(50,5, formatText($invoiceProduct->product->name),'J',1);
-                $this->Cell(38, 5, $invoiceProduct->quantity, 0, 0, 'R');
+                $this->Multicell(50,5, formatText($product->product->name),'J',1);
+                $this->Cell(38, 5, $product->quantity, 0, 0, 'R');
             } else {
-                $this->Cell(29, 5, formatText($invoiceProduct->product->name), 0, 0, 'L');
-                $this->Cell(9, 5, $invoiceProduct->quantity, 0, 0, 'R');
+                $this->Cell(29, 5, formatText($product->product->name), 0, 0, 'L');
+                $this->Cell(9, 5, $product->quantity, 0, 0, 'R');
             }
-            $this->Cell(14, 5, "$" . number_format($invoiceProduct->price), 0, 0, 'R');
-            $this->Cell(19, 5, "$" . number_format($invoiceProduct->price * $invoiceProduct->quantity,2), 0, 0, 'R');
-            if ($invoiceProducts->last() != $invoiceProduct) {
+            $this->Cell(14, 5, "$" . number_format($product->price), 0, 0, 'R');
+            $this->Cell(19, 5, "$" . number_format($product->price * $product->quantity,2), 0, 0, 'R');
+            if ($products->last() != $product) {
                 $this->Ln(4);
             }
         }
@@ -165,9 +176,9 @@ class Ticket extends FPDF
         $this->Ln(10);
     }
 
-    public function generateInvoiceInformation($invoice)
+    public function generateInvoiceInformation($document)
     {
-        $resolution_id = $invoice->resolution_id;
+        $resolution_id = $document->resolution_id;
         $resolution = Resolution::findOrFail($resolution_id);
         $startDate = $resolution->start_date;
         $endDate = $resolution->end_date;
