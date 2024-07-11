@@ -111,7 +111,7 @@ class Ticket extends FPDF
             case 'invoice':
                 $products = InvoiceProduct::where('invoice_id', $document->id)->get();
                 break;
-            case 'invoice':
+            case 'ncinvoice':
                 $products = NcinvoiceProduct::where('ncinvoice_id', $document->id)->get();
                 break;
             default:

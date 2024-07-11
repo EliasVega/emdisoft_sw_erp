@@ -83,8 +83,11 @@ class NcinvoiceController extends Controller
             ->addColumn('dian', function (Ncinvoice $ncinvoice) {
                 return $ncinvoice->branch->company->indicator->dian;
             })
+            ->addColumn('documentType', function (Ncinvoice $ncinvoice) {
+                return $ncinvoice->invoice->document_type_id;
+            })
             ->editColumn('created_at', function(Ncinvoice $ncinvoice){
-                return $ncinvoice->created_at->format('yy-m-d: h:m');
+                return $ncinvoice->created_at->format('Y-m-d: h:m');
             })
             ->addColumn('btn', 'admin/ncinvoice/actions')
             ->rawColumns(['btn'])
@@ -632,7 +635,7 @@ class NcinvoiceController extends Controller
     public function posPdfNcinvoice(Request $request, Ncinvoice $ncinvoice)
     {
         $document = $ncinvoice;
-        $typeDocument = 'ncpurchase';
+        $typeDocument = 'ncinvoice';
         $thirdPartyType = 'customer';
         $logoHeight = 26;
         if (indicator()->logo == 'on') {
@@ -674,8 +677,8 @@ class NcinvoiceController extends Controller
         $pdf->generateSummaryInformation($document);
         $pdf->generateInvoiceInformation($document);
 
-        $cufe = 'este-es-un-cufe-de-prueba';
-        //$cufe = $ncinvoice->invoiceResponse->cude;
+        //$cufe = 'este-es-un-cufe-de-prueba';
+        $cufe = $ncinvoice->invoiceResponse->cude;
         $url = 'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=';
         $data = [
             'NumFac' => $ncinvoice->document,

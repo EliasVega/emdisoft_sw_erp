@@ -14,7 +14,7 @@ class Product extends Model
 
     protected $primaryKey = 'id';
 
-    public $timestamps = true;
+    public $timestamps = false;
 
     protected $fillable = [
         'code',
@@ -49,8 +49,8 @@ class Product extends Model
         return $this->belongsTo(MeasureUnit::class);
     }
 
-    public function branchProduct(){
-        return $this->belongsTo(BranchProduct::class);
+    public function branchProducts(){
+        return $this->hasMany(BranchProduct::class);
     }
 
     public function productBranch(){

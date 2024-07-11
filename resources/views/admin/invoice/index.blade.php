@@ -82,9 +82,7 @@
                             imprimir = imprimir.replace(':invoice', invoice);
                             window.open(imprimir, "_blank");
                         }
-                    } else if (typeDocument == ''){
-
-                    } else {
+                    } else if (typeDocument == 'pos'){
                         var invoice = "{{ $invoice ?? '' }}";
                         if (dian == 'on') {
                             if (invoice != '') {

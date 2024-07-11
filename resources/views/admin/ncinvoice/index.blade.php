@@ -40,12 +40,32 @@
 <script type="text/javascript">
 $(document).ready(function ()
     {
+        var typeDocument = "{{ $typeDocument ?? '' }}";
+        var dian = "{{ $dian ?? '' }}";
+        var documentType = "{{ $documentType ?? '' }}";
         function print(){
-            var ncinvoice = "{{ $ncinvoice ?? '' }}";
-            if (ncinvoice != '') {
-                var imprimir = "{{ route('pdfNcinvoice', ['ncinvoice' => ':ncinvoice']) }}";
-                imprimir = imprimir.replace(':ncinvoice', ncinvoice);
-                window.open(imprimir, "_blank");
+            if ($documentType == 1) {
+                var ncinvoice = "{{ $ncinvoice ?? '' }}";
+                if (ncinvoice != '') {
+                    var imprimir = "{{ route('pdfNcinvoice', ['ncinvoice' => ':ncinvoice']) }}";
+                    imprimir = imprimir.replace(':ncinvoice', ncinvoice);
+                    window.open(imprimir, "_blank");
+                }
+            } else if (documentType == 15){
+                var ncinvoice = "{{ $ncinvoice ?? '' }}";
+                if (dian == 'on') {
+                    if (ncinvoice != '') {
+                        var imprimir = "{{ route('posPdfNcinvoice', ['ncinvoice' => ':ncinvoice']) }}";
+                        imprimir = imprimir.replace(':ncinvoice', ncinvoice);
+                        window.open(imprimir, "_blank");
+                    }
+                } else {
+                    if (ncinvoice != '') {
+                        var imprimir = "{{ route('posNcinvoice', ['ncinvoice' => ':ncinvoice']) }}";
+                        imprimir = imprimir.replace(':ncinvoice', ncinvoice);
+                        window.open(imprimir, "_blank");
+                    }
+                }
             }
         }
         print();

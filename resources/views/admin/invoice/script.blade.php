@@ -2,6 +2,7 @@
     /*$(document).ready(function(){
             alert('estoy funcionando correctamanete empresa');
         });*/
+
     jQuery(document).ready(function($){
         $(document).ready(function() {
             $('#resolution_id').select2({
@@ -18,6 +19,7 @@
             });
         });
     });
+
     jQuery(document).ready(function($){
         $(document).ready(function() {
             $('#product_id').select2({

@@ -168,6 +168,21 @@ class InvoiceController extends Controller
             ->where('pro.status', '=', 'active')
             ->get();
         } else {
+
+            //Benchmark::dd( fn () => Product::with('category'));
+            /*
+            Benchmark::dd([
+                'Eloquent All' => fn () => Product::with('category'),
+                'Eloquent Select' => fn () => Product::select('id', 'name', 'stock')->get(),
+                'Query Builder' => fn () => DB::table('products')->select('id', 'name', 'stock')->get(),
+            ]);*/
+            /*
+            Benchmark::measure([
+                'Product 1' => fn() => Product::find(1),
+                'Product 5' => fn() => Product::find(5),
+            ], 3);*/
+            //[$count, $duration] = Benchmark::value(fn () => Product::count());
+
             $products = Product::from('products as pro')
             ->join('categories as cat', 'pro.category_id', 'cat.id')
             ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
