@@ -306,6 +306,9 @@
         $("#total_pay_html").html("$ " + total_pay.toFixed(2));
         $("#total_pay").val(total_pay.toFixed(2));
 
+        $("#balance").val(total_pay.toFixed(2));
+        $("#pendient").val(total_pay.toFixed(2));
+
         $("#row" + index).remove();
 
         assess();
