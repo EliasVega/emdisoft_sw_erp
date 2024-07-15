@@ -7,9 +7,8 @@
             <i class="fas fa-receipt"></i></a>
     @endif
 @else
-    <a href="{{ route('invoicePos', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="pdf pos" >
-        <i class="fas fa-receipt"></i>
-    </a>
+    <a href="{{ route('posPdf', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="pdf pos" >
+        <i class="fas fa-receipt"></i></a>
     <a href="{{ route('invoicePdf', $id) }}" class="btn btn-pdf btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="Venta pdf">
         <i class="fas fa-file-pdf"></i>
     </a>
@@ -27,12 +26,6 @@
         <i class="fas fa-file-invoice-dollar"></i>
     </a>
 @endif
-    </a>@can('superAdmin')
-        <a href="{{ route('posPdf', $id) }}" class="btn btn-success btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="pdf pos" >
-            <i class="fas fa-receipt"></i>
-        </a>
-    @endcan
-
 
 @if ($restaurant == 'off')
     @if ($status == 'invoice')

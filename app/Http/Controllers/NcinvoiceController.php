@@ -659,6 +659,8 @@ class NcinvoiceController extends Controller
         $pdf->SetAutoPageBreak(false);
         $pdf->addPage();
 
+        $pdf->generateTitle();
+
         if (indicator()->logo == 'on') {
             if (file_exists($logo)) {
                 $pdf->generateLogo($logo, $width, $height);
@@ -675,44 +677,47 @@ class NcinvoiceController extends Controller
         $pdf->generateThirdPartyInformation($ncinvoice->third, $thirdPartyType);
         $pdf->generateProductsTable($document, $typeDocument);
         $pdf->generateSummaryInformation($document);
-        $pdf->generateInvoiceInformation($document);
 
-        //$cufe = 'este-es-un-cufe-de-prueba';
-        $cufe = $ncinvoice->invoiceResponse->cude;
-        $url = 'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=';
-        $data = [
-            'NumFac' => $ncinvoice->document,
-            'FecFac' => $ncinvoice->created_at->format('Y-m-d'),
-            'NitFac' => company()->nit,
-            'DocAdq' => $ncinvoice->third->identification,
-            'ValFac' => $ncinvoice->total,
-            'ValIva' => $ncinvoice->total_tax,
-            'ValOtroIm' => '0.00',
-            'ValTotal' => $ncinvoice->total_pay,
-            'CUFE' => $cufe,
-            'URL' => $url . $cufe,
-        ];
+        if (indicator()->dian == 'on') {
+            $pdf->generateInvoiceInformation($document);
 
-        $writer = new PngWriter();
-        $qrCode = new QrCode(implode("\n", $data));
-        $qrCode->setSize(300);
-        $qrCode->setMargin(10);
-        $result = $writer->write($qrCode);
+            //$cufe = 'este-es-un-cufe-de-prueba';
+            $cufe = $ncinvoice->invoiceResponse->cude;
+            $url = 'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=';
+            $data = [
+                'NumFac' => $ncinvoice->document,
+                'FecFac' => $ncinvoice->created_at->format('Y-m-d'),
+                'NitFac' => company()->nit,
+                'DocAdq' => $ncinvoice->third->identification,
+                'ValFac' => $ncinvoice->total,
+                'ValIva' => $ncinvoice->total_tax,
+                'ValOtroIm' => '0.00',
+                'ValTotal' => $ncinvoice->total_pay,
+                'CUFE' => $cufe,
+                'URL' => $url . $cufe,
+            ];
 
-        $qrCodeImage = $result->getString();
-        $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
-        $pdf->generateQr($qrImage);
+            $writer = new PngWriter();
+            $qrCode = new QrCode(implode("\n", $data));
+            $qrCode->setSize(300);
+            $qrCode->setMargin(10);
+            $result = $writer->write($qrCode);
 
-        //$confirmationCode = formatText("CUFE: " . $invoice->response->cufe);
-        $confirmationCode = formatText("CUFE: " . $cufe);
-        //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
-        $pdf->generateConfirmationCode($confirmationCode);
+            $qrCodeImage = $result->getString();
+            $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
+            $pdf->generateQr($qrImage);
 
+            //$confirmationCode = formatText("CUFE: " . $invoice->response->cufe);
+            $confirmationCode = formatText("CUFE: " . $cufe);
+            //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
+            $pdf->generateConfirmationCode($confirmationCode);
+        }
         $refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
         $pdf->generateDisclaimerInformation($refund);
 
-        $pdf->Output("I", $ncinvoice->document . ".pdf", true);
+        $pdf->footer();
 
+        $pdf->Output("I", $ncinvoice->document . ".pdf", true);
         exit;
     }
 }

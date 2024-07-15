@@ -11,10 +11,11 @@
                 <table class="table table-striped table-bordered table-condensed table-hover" id="apiResponses">
                     <thead>
                         <tr>
+                            <th>Acciones</th>
                             <th>Id</th>
                             <th>Documento</th>
                             <th>Respuesta Api</th>
-                            <th>Acciones</th>
+
                         </tr>
                     </thead>
                 </table>
@@ -41,10 +42,11 @@ $(document).ready(function ()
             ajax: '{{ route('apiResponse.index') }}',
             columns:
             [
+                {data: 'edit'},
                 {data: 'id'},
                 {data: 'document'},
                 {data: 'response_api'},
-                {data: 'edit'},
+
             ],
             dom: 'Bfltip',
             lengthMenu: [

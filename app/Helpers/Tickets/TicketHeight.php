@@ -5,7 +5,7 @@ namespace App\Helpers\Tickets;
 use App\Models\InvoiceProduct;
 
 if (!function_exists('ticketHeight')) {
-    function ticketHeight($logoHeight, $company, $document, $type)
+    function ticketHeight($logoHeight, $company, $document)
     {
         $logo = $logoHeight;
         $companyInformation = 17;
@@ -21,10 +21,10 @@ if (!function_exists('ticketHeight')) {
         $invoiceInformation = 104;
         $refund = 22;
         $copyright = 15;
-
+        $disclaimerInformation = 10;
         $pdfHeight = 0;
 
-        if ($company->logo != null) {
+        if (company()->logo != null) {
             $image = storage_path('app/public/images/logos/' . $company->imageName);
 
             if (file_exists($image)) {
@@ -51,6 +51,10 @@ if (!function_exists('ticketHeight')) {
 
         $pdfHeight += $total;
 
+        if (indicator()->dian == 'on') {
+            $pdfHeight += $invoiceInformation;
+        }
+        /*
         if ($type == "retail") {
             if ($document->invoice == 'enabled') {
                 $pdfHeight += $invoiceInformation;
@@ -61,7 +65,7 @@ if (!function_exists('ticketHeight')) {
             }
         } else {
             $pdfHeight += $invoiceInformation;
-        }
+        }*/
 
         $pdfHeight += $refund + $copyright;
 
@@ -72,6 +76,7 @@ if (!function_exists('ticketHeight')) {
 if (!function_exists('ticketHeightNcinvoice')) {
     function ticketHeightNcinvoice($logoHeight, $document, $type)
     {
+        $title = 24;
         $logo = $logoHeight;
         $companyInformation = 17;
         $barcode = 25;
@@ -86,7 +91,7 @@ if (!function_exists('ticketHeightNcinvoice')) {
         $invoiceInformation = 104;
         $refund = 22;
         $copyright = 15;
-
+        $disclaimerInformation = 10;
         $pdfHeight = 0;
 
         if (company()->logo != null) {
@@ -97,7 +102,7 @@ if (!function_exists('ticketHeightNcinvoice')) {
             }
         }
 
-        $pdfHeight += $companyInformation + $barcode + $complementaryInformation + $thirdPartyInformation;
+        $pdfHeight += $title + $companyInformation + $barcode + $complementaryInformation + $thirdPartyInformation;
 
         $invoiceProducts = InvoiceProduct::where('invoice_id', $document->id)->get();
 
@@ -116,6 +121,10 @@ if (!function_exists('ticketHeightNcinvoice')) {
 
         $pdfHeight += $total;
 
+        if (indicator()->dian == 'on') {
+            $pdfHeight += $invoiceInformation;
+        }
+        /*
         if ($type == "retail") {
             if ($document->invoice == 'enabled') {
                 $pdfHeight += $invoiceInformation;
@@ -126,9 +135,9 @@ if (!function_exists('ticketHeightNcinvoice')) {
             }
         } else {
             $pdfHeight += $invoiceInformation;
-        }
+        }*/
 
-        $pdfHeight += $refund + $copyright;
+        $pdfHeight += $disclaimerInformation + $refund + $copyright;
 
         return $pdfHeight;
     }

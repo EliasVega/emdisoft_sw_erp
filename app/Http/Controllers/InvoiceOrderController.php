@@ -73,6 +73,9 @@ class InvoiceOrderController extends Controller
                     return $invoiceOrder->status == 'canceled' ? 'Anulada' : 'Anulada';
                 }
             })
+            ->addColumn('observation', function (InvoiceOrder $invoiceOrder) {
+                return $invoiceOrder->note;
+            })
             ->addColumn('pos', function (InvoiceOrder $invoiceOrder) {
                 return $invoiceOrder->branch->company->indicator->pos;
             })
@@ -115,7 +118,15 @@ class InvoiceOrderController extends Controller
             ->where('pro.status', '=', 'active')
             ->get();
         } else {
-            $products = Product::where('status', 'active')->get();
+            $products = Product::from('products as pro')
+            ->join('categories as cat', 'pro.category_id', 'cat.id')
+            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+            ->join('percentages as per', 'ct.percentage_id', 'per.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('pro.id', 'pro.code', 'pro.stock', 'pro.sale_price', 'pro.name', 'cat.utility_rate', 'per.percentage', 'tt.id as tt')
+            ->where('pro.stock', '>=', 0)
+            ->where('pro.status', '=', 'active')
+            ->get();
         }
         $companyTaxes = CompanyTax::from('company_taxes', 'ct')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
@@ -164,7 +175,15 @@ class InvoiceOrderController extends Controller
             ->where('pro.status', '=', 'active')
             ->get();
         } else {
-            $products = Product::where('status', 'active')->get();
+            $products = Product::from('products as pro')
+            ->join('categories as cat', 'pro.category_id', 'cat.id')
+            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+            ->join('percentages as per', 'ct.percentage_id', 'per.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('pro.id', 'pro.code', 'pro.stock', 'pro.sale_price', 'pro.name', 'cat.utility_rate', 'per.percentage', 'tt.id as tt')
+            ->where('pro.stock', '>=', 0)
+            ->where('pro.status', '=', 'active')
+            ->get();
         }
         $companyTaxes = CompanyTax::from('company_taxes', 'ct')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')

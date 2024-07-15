@@ -11,6 +11,16 @@ use Symfony\Polyfill\Mbstring\Mbstring;
 
 class Ticket extends FPDF
 {
+    public function generateTitle()
+    {
+        $title = 'DOCUMENTO EQUIVALENTE ELECTRONICO DEL TIQUETE DE MAQUINA REGISTRADORA CON SISTEMA P.O.S.';
+
+        $this->SetFont('Arial', 'B', 12);
+        $this->SetTextColor(0, 0, 0);
+        $this->MultiCell(72, 5, strtoupper($title), 0, 'C', false);
+        $this->SetFont('Arial', '', 9);
+        $this->ln(2);
+    }
     public function generateLogo($logo, $width, $height)
     {
         $xPos = ($this->GetPageWidth() - $width) / 2;
@@ -120,12 +130,12 @@ class Ticket extends FPDF
         }
 
         $this->SetFont('Arial', '', 9);
-        $this->generateBreakLine(1, 'long', 3);
+        $this->generateBreakLine(1, 'long', 5);
         $this->Cell(29, 5, formatText('Producto'), 0, 0, 'C');
         $this->Cell(10, 5, formatText('Cant.'), 0, 0, 'C');
         $this->Cell(15, 5, formatText('Precio'), 0, 0, 'C');
         $this->Cell(20, 5, formatText('Subtotal'), 0, 0, 'C');
-        $this->generateBreakLine(3, 'long', 3);
+        $this->generateBreakLine(3, 'long', 5);
 
         foreach ($products as $product) {
             $length = strlen($product->product->name);
@@ -146,7 +156,7 @@ class Ticket extends FPDF
                 $this->Ln(4);
             }
         }
-        $this->generateBreakLine(3, 'long', 3);
+        $this->generateBreakLine(3, 'long', 5);
     }
 
     public function generateSummaryInformation($document)
@@ -229,12 +239,12 @@ class Ticket extends FPDF
             $this->Cell(0, 5, "------------------------------------------------------------------------", 0, 0, 'C');
         }
         $this->Ln($marginBottom);
-    }/*
+    }
 
     public function footer()
     {
         $this->setY(-10);
         $this->SetFont('Arial', '', 9);
-        $this->Cell(0, 10, formatText("Generado por emdisoft.sas"), '', 0, 'C');
-    }*/
+        $this->Cell(0, 10, formatText("Modo de operación: Software Propio - by Emdisoft"), '', 0, 'C');
+    }
 }
