@@ -92,7 +92,10 @@
         typeInvoice = $("#pos_active").val();
         if (typeInvoice == 'on') {
             $("#resolution").show();
+            $('#generation_date').prop("readonly", true);
             //$('#resolution_id').prop("required", true)
+        } else {
+            $('#generation_date').prop("readonly", false);
         }
 
         let barcodestart = $(("#switch_barcode")).prop("checked"); // == true ? 1 : 0;

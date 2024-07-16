@@ -44,12 +44,7 @@ class RemissionController extends Controller
         $remission = session('remission');
         $indicator = indicator();
         $typeDocument = session('typeDocument');
-        /*
-        if ($indicator->pos == 'off') {
-            $typeDocument = 'document';
-        } else {
-            $typeDocument = 'pos';
-        }*/
+
         if ($request->ajax()) {
             $users = current_user();
             $user = $users->Roles[0]->name;

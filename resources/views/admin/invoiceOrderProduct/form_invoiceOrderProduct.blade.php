@@ -84,13 +84,13 @@
                     </div>
                 </div>
             @else
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="form-group">
-                    <label class="form-control-label" for="generation_date">Generacion</label>
-                    <input type="date" name="generation_date" id="generation_date" class="form-control"
-                        value="{{ $invoiceOrder->generation_date }}" placeholder="Fecha Generacion">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label class="form-control-label" for="generation_date">Generacion</label>
+                        <input type="date" name="generation_date" id="generation_date" class="form-control"
+                            value="{{ $invoiceOrder->generation_date }}" placeholder="Fecha Generacion">
+                    </div>
                 </div>
-            </div>
             @endif
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="form-group">

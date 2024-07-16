@@ -93,7 +93,7 @@
                     <div class="form-group">
                         <label class="form-control-label" for="generation_date">Generacion</label>
                         <input type="date" name="generation_date" id="generation_date" class="form-control"
-                            value="<?php echo date('Y-m-d'); ?>" placeholder="Fecha Vencimiento" readonly>
+                            value="<?php echo date('Y-m-d'); ?>" placeholder="Fecha Vencimiento">
                     </div>
                 </div>
 

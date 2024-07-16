@@ -27,7 +27,6 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DiscrepancyController;
 use App\Http\Controllers\DocumentTypeController;
 use App\Http\Controllers\EmployeeController;
-use App\Http\Controllers\EmployeeInvoiceOrderProductController;
 use App\Http\Controllers\EmployeeInvoiceProductController;
 use App\Http\Controllers\EmployeeSubtypeController;
 use App\Http\Controllers\EmployeeTypeController;
@@ -97,8 +96,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerificationCodeController;
 use App\Http\Controllers\VoucherTypeController;
 use App\Http\Controllers\WorkLaborController;
-use App\Models\Remission;
-use FontLib\Table\Type\name;
 use Illuminate\Support\Facades\Route;
 
 /*
