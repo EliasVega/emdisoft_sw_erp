@@ -16,13 +16,6 @@
     $("#percent").hide();
     $("#save").hide();
 
-    $("#invoicenegative").hide();
-    $("#formPayCard").hide();
-    $("#formRetentions").hide();
-    $("#addTypeProduct").hide();
-    $("#addPayButton").hide();
-    $("#addRetentionButton").hide();
-
     $("#generat").hide();
     $("#startd").hide();
     $("#resolution").hide();
@@ -32,18 +25,6 @@
     /*
     $("#percentage").val(0);
     */
-
-    $(document).ready(function() {
-
-    typeInvoice = $("#pos_active").val();
-        if (typeInvoice == 'on') {
-            $("#resolution").show();
-            $('#generation_date').prop("readonly", true);
-            //$('#resolution_id').prop("required", true)
-        } else {
-            $('#generation_date').prop("readonly", false);
-        }
-    });
 
     //Mostrar u ocultar elementos de acuerdo al tipo de documento
     $(document).ready(function() {
@@ -56,7 +37,7 @@
                 $("#invoiceCode").hide();
                 $("#invoice_code").val(1);
                 //$("#noteDocument").show();
-            } else if (documentType == 101) {
+            } else if (documentType == 25) {
                 $("#resolution").hide();
                 $("#generat").hide();
                 $("#startd").hide();
@@ -126,55 +107,12 @@
         $("#total_purchase").val(total.toFixed(2));
         $("#tax_iva").val(tax_iva);
     }
-    function assess() {
+    function assess(){
 
-        if (total > 0) {
-            $("#addPayButton").show();
-            $("#addRetentionButton").show();
-        } else {
-            $("#addPayButton").hide();
-            $("#addRetentionButton").hide();
+        if(total>0){
+            $("#save").show();
+        } else{
+            $("#save").hide();
         }
     }
-
-    $(document).ready(function(){
-        $("#addPay").click(function(){
-            $("#formCard").hide();
-            $("#formRetentions").hide();
-            $("#formPayCard").show();
-        });
-    });
-    $(document).ready(function(){
-        $("#addRetentions").click(function(){
-            $("#formCard").hide();
-            $("#formPayCard").hide();
-            $("#formRetentions").show();
-        });
-    });
-    $(document).ready(function(){
-        $("#goBack").click(function(){
-            $("#formCard").show();
-            $("#formPayCard").hide();
-            $("#formRetentions").hide();
-        });
-    });
-    $(document).ready(function(){
-        $("#goBack2").click(function(){
-            $("#formCard").show();
-            $("#formPayCard").hide();
-            $("#formRetentions").hide();
-        });
-    });
-
-    $("#provider_id").change(function(event){
-        $.get("advance/" + event.target.value + "", function(response){
-            $("#advance_id").empty();
-            $("#advance_id").append("<option value = '#' disabled selected>Seleccionar ...</option>");
-            for(i = 0; i < response.length; i++){
-                $("#advance_id").append("<option value = '" + response[i].id + "'>" + response[i].origin + response[i].balance + "</option>");
-                advanceBalance = response[i].balance;
-            }
-            $("#advance_id").selectpicker('refresh');
-        });
-    });
 </script>

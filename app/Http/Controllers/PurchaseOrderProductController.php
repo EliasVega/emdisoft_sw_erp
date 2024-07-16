@@ -193,7 +193,6 @@ class PurchaseOrderProductController extends Controller
                         $branch,
                         $salePriceLocal);//trait para actualizar inventario
                     $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
-
                 }
             } else {
                 for ($i=0; $i < count($product_id); $i++) {
@@ -228,7 +227,6 @@ class PurchaseOrderProductController extends Controller
             //taxesGlobals($document, $quantityBag, $typeDocument);
             taxesLines($document, $taxes, $typeDocument);
             retentions($request, $document, $typeDocument);
-
 
             if ($totalpay > 0) {
                 pays($request, $document, $typeDocument);

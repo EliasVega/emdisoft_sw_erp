@@ -3,10 +3,13 @@
 namespace App\Helpers\Tickets;
 
 use App\Models\InvoiceProduct;
+use App\Models\NcinvoiceProduct;
+use App\Models\Product;
 
 if (!function_exists('ticketHeight')) {
     function ticketHeight($logoHeight, $company, $document)
     {
+        $title = 24;
         $logo = $logoHeight;
         $companyInformation = 17;
         $barcode = 25;
@@ -32,13 +35,20 @@ if (!function_exists('ticketHeight')) {
             }
         }
 
-        $pdfHeight += $companyInformation + $barcode + $complementaryInformation + $thirdPartyInformation;
+        $pdfHeight += $title + $companyInformation + $barcode + $complementaryInformation + $thirdPartyInformation;
 
         $invoiceProducts = InvoiceProduct::where('invoice_id', $document->id)->get();
 
         $pdfHeight += $productHeader;
         foreach ($invoiceProducts as $invoiceProduct) {
-            $pdfHeight += $productRow;
+
+            $product = Product::findOrFail($invoiceProduct->product_id);
+            $length = strlen($product->name);
+            if ($length > 20) {
+                $pdfHeight += 12;
+            } else {
+                $pdfHeight += $productRow;
+            }
         }
         $pdfHeight += $productFooter;
 
@@ -76,14 +86,14 @@ if (!function_exists('ticketHeight')) {
 if (!function_exists('ticketHeightNcinvoice')) {
     function ticketHeightNcinvoice($logoHeight, $document, $type)
     {
-        $title = 24;
+        $title = 32;
         $logo = $logoHeight;
         $companyInformation = 17;
         $barcode = 25;
         $complementaryInformation = 26;
         $thirdPartyInformation = 16;
         $productHeader = 10;
-        $productRow = 4;
+        $productRow = 5;
         $productFooter = 4;
         $subtotal = 5;
         $taxRow = 5;
@@ -92,6 +102,7 @@ if (!function_exists('ticketHeightNcinvoice')) {
         $refund = 22;
         $copyright = 15;
         $disclaimerInformation = 10;
+        $footer = 10;
         $pdfHeight = 0;
 
         if (company()->logo != null) {
@@ -104,11 +115,17 @@ if (!function_exists('ticketHeightNcinvoice')) {
 
         $pdfHeight += $title + $companyInformation + $barcode + $complementaryInformation + $thirdPartyInformation;
 
-        $invoiceProducts = InvoiceProduct::where('invoice_id', $document->id)->get();
+        $ncinvoiceProducts = NcinvoiceProduct::where('ncinvoice_id', $document->id)->get();
 
         $pdfHeight += $productHeader;
-        foreach ($invoiceProducts as $invoiceProduct) {
-            $pdfHeight += $productRow;
+        foreach ($ncinvoiceProducts as $ncinvoiceProduct) {
+            $product = Product::findOrFail($ncinvoiceProduct->product_id);
+            $length = strlen($product->product->name);
+            if ($length > 20) {
+                $pdfHeight += 12;
+            } else {
+                $pdfHeight += $productRow;
+            }
         }
         $pdfHeight += $productFooter;
 

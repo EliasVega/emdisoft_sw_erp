@@ -1283,14 +1283,15 @@ class InvoiceController extends Controller
         $pdf->SetAutoPageBreak(false);
         $pdf->addPage();
 
-        $pdf->generateTitle();
+
 
         if (indicator()->logo == 'on') {
             if (file_exists($logo)) {
                 $pdf->generateLogo($logo, $width, $height);
             }
         }
-        $pdf->generateCompanyInformation(company(), $invoice);
+        $pdf->generateTitle();
+        $pdf->generateCompanyInformation();
 
         $barcodeGenerator = new BarcodeGeneratorPNG();
         $barcodeCode = $barcodeGenerator->getBarcode($invoice->id, $barcodeGenerator::TYPE_CODE_128);

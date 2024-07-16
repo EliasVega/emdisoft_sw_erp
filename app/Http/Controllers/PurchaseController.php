@@ -1265,7 +1265,6 @@ class PurchaseController extends Controller
         if ($debitNotes != null) {
             $debitNote = $debitNotes->total_pay;
             $retnd = Tax::where('type', 'ndpurchase')->where('taxable_id', $debitNotes->id)->first();
-            dd($retnd);
             $retentionnd = $retnd->tax_value;
         }
         if ($creditNotes != null) {

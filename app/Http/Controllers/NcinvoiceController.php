@@ -659,13 +659,14 @@ class NcinvoiceController extends Controller
         $pdf->SetAutoPageBreak(false);
         $pdf->addPage();
 
-        $pdf->generateTitle();
+
 
         if (indicator()->logo == 'on') {
             if (file_exists($logo)) {
                 $pdf->generateLogo($logo, $width, $height);
             }
         }
+        $pdf->generateTitle();
         $pdf->generateCompanyInformation();
 
         $barcodeGenerator = new BarcodeGeneratorPNG();

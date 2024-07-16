@@ -11,6 +11,15 @@ use Symfony\Polyfill\Mbstring\Mbstring;
 
 class Ticket extends FPDF
 {
+
+    public function generateLogo($logo, $width, $height)
+    {
+        $xPos = ($this->GetPageWidth() - $width) / 2;
+
+        $this->Image($logo, $xPos, 5, $width, $height);
+        $this->SetY($this->GetY() + $height);
+    }
+
     public function generateTitle()
     {
         $title = 'DOCUMENTO EQUIVALENTE ELECTRONICO DEL TIQUETE DE MAQUINA REGISTRADORA CON SISTEMA P.O.S.';
@@ -20,13 +29,6 @@ class Ticket extends FPDF
         $this->MultiCell(72, 5, strtoupper($title), 0, 'C', false);
         $this->SetFont('Arial', '', 9);
         $this->ln(2);
-    }
-    public function generateLogo($logo, $width, $height)
-    {
-        $xPos = ($this->GetPageWidth() - $width) / 2;
-
-        $this->Image($logo, $xPos, 5, $width, $height);
-        $this->SetY($this->GetY() + $height);
     }
 
     public function generateCompanyInformation()
