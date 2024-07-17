@@ -112,7 +112,7 @@ class PurchaseController extends Controller
                 return $purchase->user->roles[0]->name;
             })
             ->editColumn('created_at', function(Purchase $purchase){
-                return $purchase->created_at->format('yy-m-d: h:m');
+                return $purchase->created_at->format('Y-m-d: h:m');
             })
             ->addColumn('btn', 'admin/purchase/actions')
             ->rawColumns(['btn'])

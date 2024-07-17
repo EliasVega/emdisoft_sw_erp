@@ -88,7 +88,7 @@ class PurchaseOrderController extends Controller
             })
 
             ->editColumn('created_at', function(PurchaseOrder $purchaseOrder) {
-                return $purchaseOrder->created_at->format('yy-m-d: h:m');
+                return $purchaseOrder->created_at->format('Y-m-d: h:m');
             })
             ->addColumn('btn', 'admin/purchaseOrder/actions')
             ->rawColumns(['btn'])

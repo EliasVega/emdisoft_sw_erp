@@ -64,7 +64,7 @@ class NcpurchaseController extends Controller
             })
 
             ->editColumn('created_at', function(Ncpurchase $ncpurchase){
-                return $ncpurchase->created_at->format('yy-m-d: h:m');
+                return $ncpurchase->created_at->format('Y-m-d: h:m');
             })
             ->addColumn('btn', 'admin/ncpurchase/actions')
             ->rawColumns(['btn'])

@@ -84,7 +84,7 @@ class NdpurchaseController extends Controller
             })
 
             ->editColumn('created_at', function(ndpurchase $ndpurchase){
-                return $ndpurchase->created_at->format('yy-m-d: h:m');
+                return $ndpurchase->created_at->format('Y-m-d: h:m');
             })
             ->addColumn('btn', 'admin/ndpurchase/actions')
             ->rawColumns(['btn'])

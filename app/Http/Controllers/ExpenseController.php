@@ -79,7 +79,7 @@ class ExpenseController extends Controller
                 return $expense->user->roles[0]->name;
             })
             ->editColumn('created_at', function(Expense $expense){
-                return $expense->created_at->format('yy-m-d: h:m');
+                return $expense->created_at->format('Y-m-d: h:m');
             })
             ->addColumn('btn', 'admin/expense/actions')
             ->rawColumns(['btn'])
@@ -219,7 +219,7 @@ class ExpenseController extends Controller
             $quantityLocal = $quantity[$i];
             $priceLocal = $price[$i];
             $voucherType = 20;
-            $salePriceLocal = $salePrice[$i];
+            $salePriceLocal = $product->sale_price;
             $this->inventoryPurchases(
                 $product,
                 $branchProducts,

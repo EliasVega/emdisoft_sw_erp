@@ -80,7 +80,7 @@ class InvoiceOrderController extends Controller
                 return $invoiceOrder->branch->company->indicator->pos;
             })
             ->editColumn('created_at', function(InvoiceOrder $invoiceOrder) {
-                return $invoiceOrder->created_at->format('yy-m-d: h:m');
+                return $invoiceOrder->created_at->format('Y-m-d: h:m');
             })
             ->addColumn('btn', 'admin/invoiceOrder/actions')
             ->rawColumns(['btn'])

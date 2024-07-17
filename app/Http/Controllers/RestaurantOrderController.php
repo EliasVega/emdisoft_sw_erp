@@ -69,7 +69,7 @@ class RestaurantOrderController extends Controller
             })
 
             ->editColumn('created_at', function(RestaurantOrder $restaurantOrder) {
-                return $restaurantOrder->created_at->format('yy-m-d: h:m');
+                return $restaurantOrder->created_at->format('Y-m-d: h:m');
             })
             ->addColumn('btn', 'admin/restaurantOrder/actions')
             ->rawColumns(['btn'])

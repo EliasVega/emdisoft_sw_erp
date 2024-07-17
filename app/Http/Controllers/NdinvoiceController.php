@@ -71,7 +71,7 @@ class NdinvoiceController extends Controller
             })
 
             ->editColumn('created_at', function(ndinvoice $ndinvoice){
-                return $ndinvoice->created_at->format('yy-m-d: h:m');
+                return $ndinvoice->created_at->format('Y-m-d: h:m');
             })
             ->addColumn('btn', 'admin/ndinvoice/actions')
             ->rawColumns(['btn'])
