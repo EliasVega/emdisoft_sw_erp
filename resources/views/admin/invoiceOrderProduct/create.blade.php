@@ -22,10 +22,9 @@
                     </ul>
                 </div>
             @endif
-            {!!Form::open(array('url'=>'invoiceOrderProduct', 'method'=>'POST', 'autocomplete'=>'off'))!!}
+            {!!Form::open(array('url'=>'invoiceOrderProduct', 'method'=>'POST', 'autocomplete'=>'off', 'id' => 'registerForm'))!!}
             {!!Form::token()!!}
                 @include('admin/invoiceOrderProduct.form_invoiceOrderProduct')
-                @include('admin/generalview.form_register')
             {!!Form::close()!!}
         </div>
     </div>

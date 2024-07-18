@@ -411,4 +411,9 @@
             $("#formRetentions").hide();
         });
     });
+    function disabledButton() {
+        document.getElementById('registerForm').addEventListener('submit', function() {
+            document.getElementById('register').setAttribute('disabled', 'true');
+        });
+    }
 </script>

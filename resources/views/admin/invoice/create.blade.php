@@ -33,7 +33,7 @@
                     </ul>
                 </div>
             @endif
-            {!!Form::open(array('url'=>'invoice', 'method'=>'POST', 'autocomplete'=>'off'))!!}
+            {!!Form::open(array('url'=>'invoice', 'method'=>'POST', 'autocomplete'=>'off', 'id' => 'registerForm'))!!}
             {!!Form::token()!!}
             <div class="row m-1">
                 @if ($type == 'pos')
@@ -46,9 +46,6 @@
                 @else
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         @include('admin/invoice.form_invoice')
-                    </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        @include('admin/generalview.form_register')
                     </div>
                 @endif
             </div>

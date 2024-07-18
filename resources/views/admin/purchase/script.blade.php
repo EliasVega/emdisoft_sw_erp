@@ -196,7 +196,12 @@
 
             $('#details').append(row);
             clean();
-
+            swal.fire({
+                icon: 'success',
+                text: product + '--' + 'Agregado correctamente',
+                showConfirmButton: false,
+                timer: 1000 // es ms (mili-segundos)
+            });
 
         } else {
             //alert("Rellene todos los campos del detalle para esta compra");
@@ -482,4 +487,9 @@
             $("#advance_id").selectpicker('refresh');
         });
     });
+    function disabledButton() {
+        document.getElementById('registerForm').addEventListener('submit', function() {
+            document.getElementById('register').setAttribute('disabled', 'true');
+        });
+    }
 </script>

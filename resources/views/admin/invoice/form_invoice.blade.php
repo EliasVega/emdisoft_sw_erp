@@ -131,6 +131,7 @@
                                 class="fas fa-check"></i>Agrepar Retenciones</button>
                     </div>
                 </div>
+                @include('admin/generalview.form_register')
             </div>
         </div>
     </div>

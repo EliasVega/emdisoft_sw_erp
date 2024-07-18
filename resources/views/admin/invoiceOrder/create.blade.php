@@ -25,7 +25,7 @@
                     </ul>
                 </div>
             @endif
-            {!!Form::open(array('url'=>'invoiceOrder', 'method'=>'POST', 'autocomplete'=>'off'))!!}
+            {!!Form::open(array('url'=>'invoiceOrder', 'method'=>'POST', 'autocomplete'=>'off', 'id' => 'registerForm'))!!}
             {!!Form::token()!!}
 
             <div class="row m-1">

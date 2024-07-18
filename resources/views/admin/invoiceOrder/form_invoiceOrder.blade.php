@@ -89,15 +89,7 @@
                             class="form-control" placeholder="Observaciones">
                     </div>
                 </div>
-                <div class="modal-footer" id="save">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="form-group">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <button class="btn btn-lightBlueGrad" type="submit"><i class="fa fa-save"></i>&nbsp;
-                                Registrar</button>
-                        </div>
-                    </div>
-                </div>
+                @include('admin/generalview.form_register')
             </div>
         </div>
     </div>
@@ -277,6 +269,13 @@
             <label class="form-control-label" for="typeDocument">tipo documento</label>
             <input type="text" id="typeDocument" name="typeDocument" value="{{ $type }}"
                 class="form-control">
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="addPriceWithTax">
+        <div class="form-group">
+            <label class="form-control-label" for="pwx">Precio con impuesto</label>
+            <input type="text" id="pwx" name="pwx" class="form-control"
+                value="{{ indicator()->price_with_tax }}">
         </div>
     </div>
 </div>

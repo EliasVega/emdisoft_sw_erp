@@ -25,7 +25,7 @@
                     </ul>
                 </div>
             @endif
-            {!!Form::open(array('url'=>'purchaseOrder', 'method'=>'POST', 'autocomplete'=>'off'))!!}
+            {!!Form::open(array('url'=>'purchaseOrder', 'method'=>'POST', 'autocomplete'=>'off', 'id' => 'registerForm'))!!}
             {!!Form::token()!!}
             <div class="row m-1">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 colorbody">

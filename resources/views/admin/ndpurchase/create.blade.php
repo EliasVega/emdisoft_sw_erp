@@ -26,7 +26,7 @@
                     </ul>
                 </div>
             @endif
-            {!!Form::open(array('url'=>'ndpurchase', 'method'=>'POST', 'autocomplete'=>'off'))!!}
+            {!!Form::open(array('url'=>'ndpurchase', 'method'=>'POST', 'autocomplete'=>'off', 'id' => 'registerForm'))!!}
             {!!Form::token()!!}
                 @include('admin/ndpurchase.form_ndpurchase')
             {!!Form::close()!!}

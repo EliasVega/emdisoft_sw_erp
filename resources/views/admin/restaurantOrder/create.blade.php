@@ -23,7 +23,7 @@
                 </ul>
             </div>
             @endif
-            <form action="{{route('restaurantOrder.store')}}" method="POST" class="formulario">
+            <form action="{{route('restaurantOrder.store')}}" method="POST" class="formulario" id="registerForm">
                 {{csrf_field()}}
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -42,7 +42,7 @@
                         @include('admin/restaurantOrder.form_rawMaterial')
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="homeOrder">
-                        @include('admin/restaurantOrder.form_register')
+                        @include('admin/generalview.form_register')
                     </div>
                 </div>
             </form>

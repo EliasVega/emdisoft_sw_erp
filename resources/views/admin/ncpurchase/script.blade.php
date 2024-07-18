@@ -325,11 +325,16 @@
 
     function detailclear(){
 
-        ndpurchase = {!! json_encode($productPurchases) !!};
+    ndpurchase = {!! json_encode($productPurchases) !!};
         ndpurchase.forEach((value, i) => {
             if (value['quantity'] > 0) {
                 deleterow(i);
-        }
-    });
-}
+            }
+        });
+    }
+    function disabledButton() {
+        document.getElementById('registerForm').addEventListener('submit', function() {
+            document.getElementById('register').setAttribute('disabled', 'true');
+        });
+    }
 </script>

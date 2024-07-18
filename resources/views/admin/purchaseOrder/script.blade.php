@@ -134,7 +134,12 @@
 
             $('#details').append(row);
             clean();
-
+            swal.fire({
+                icon: 'success',
+                text: product + '--' + 'Agregado correctamente',
+                showConfirmButton: false,
+                timer: 1000 // es ms (mili-segundos)
+            });
 
         } else {
             //alert("Rellene todos los campos del detalle para esta compra");
@@ -351,5 +356,10 @@
                 text: 'Rellene todos los campos del detalle de la compra',
             })
         }
+    }
+    function disabledButton() {
+        document.getElementById('registerForm').addEventListener('submit', function() {
+            document.getElementById('register').setAttribute('disabled', 'true');
+        });
     }
 </script>

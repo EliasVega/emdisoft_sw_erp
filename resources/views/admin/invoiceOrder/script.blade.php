@@ -70,6 +70,7 @@
 
     function productValue(){
         dataProduct = document.getElementById('product_id').value.split('_');
+
         $("#stock").val(dataProduct[1]);
         $("#vprice").val(dataProduct[2]);
         $("#tax_rate").val(dataProduct[3]);
@@ -94,6 +95,22 @@
             $("#employee_id").val(0);
         }
     })
+
+    function enabledInputCode(inputId, tiempoEnMs) {
+        setTimeout(function() {
+            var input = document.getElementById(inputId);
+            if (input) {
+                input.disabled = false;
+            }
+        }, tiempoEnMs);
+    }
+
+    function disabledInputCode() {
+        document.getElementById('code').disabled = true;
+    }
+
+    // Ejemplo de uso: deshabilitar el input con id "miInput" después de 3 segundos (3000 milisegundos)
+
 
     $(document).on('keyup', '#code', function(){
         var codes = $(this).val();
@@ -130,6 +147,50 @@
             //alert("Siempre se ejecuta")
         });
 
+    }
+
+    //adicionar productos a la compra
+    function addBarcode(){
+        product_id= $("#barcode_product_id").val();
+        product= $("#product_barcode").val();
+        quantity= $("#quantityadd").val();
+        price= $("#price").val();
+        stock= $("#stock").val();
+        tax_rate= $("#tax_rate").val();
+        tax_type = $("#tax_type").val();
+        employee_id = $("#employee_id").val();
+        pos_on = $("#pos_active").val();
+        if(product_id !="" && quantity!="" && quantity>0  && price!=""){
+            subtotal[cont] = parseFloat(quantity) * parseFloat(price);
+            total = total+subtotal[cont];
+            ivita = subtotal[cont]*tax_rate/100;
+            tax_cont[cont] = ivita;
+            total_tax = total_tax+ivita;
+            if(tax_type == 1){
+                tax_iva += ivita;
+            }
+            var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';
+            cont++;
+            totals();
+            assess();
+
+            $('#details').append(row);
+            $("#totalPartial").val(total);
+            clean();
+            swal.fire({
+                icon: 'success',
+                text: product + '--' + 'Agregado correctamente',
+                showConfirmButton: false,
+                timer: 1000 // es ms (mili-segundos)
+            });
+        }else{
+            //alert("Rellene todos los campos del detalle para esta compra");
+            Swal.fire({
+            type: 'error',
+            //title: 'Oops...',
+            text: 'Rellene todos los campos del detalle para esta compra',
+            })
+        }
     }
 
     $(document).ready(function(){
@@ -178,45 +239,6 @@
             clean();
 
 
-        }else{
-            //alert("Rellene todos los campos del detalle para esta compra");
-            Swal.fire({
-            type: 'error',
-            //title: 'Oops...',
-            text: 'Rellene todos los campos del detalle para esta compra',
-            })
-        }
-    }
-
-    //adicionar productos a la compra
-    function addBarcode(){
-        product_id= $("#barcode_product_id").val();
-        product= $("#product_barcode").val();
-        quantity= $("#quantityadd").val();
-        price= $("#price").val();
-        stock= $("#stock").val();
-        tax_rate= $("#tax_rate").val();
-        tax_type = $("#tax_type").val();
-        uvt = $("#uvtmax").val();
-        employee_id = $("#employee_id").val();
-        pos_on = $("#pos_active").val();
-        if(product_id !="" && quantity!="" && quantity>0  && price!=""){
-            subtotal[cont] = parseFloat(quantity) * parseFloat(price);
-            total = total+subtotal[cont];
-            ivita = subtotal[cont]*tax_rate/100;
-            tax_cont[cont] = ivita;
-            total_tax = total_tax+ivita;
-            if(tax_type == 1){
-                tax_iva += ivita;
-            }
-            var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';
-            cont++;
-            totals();
-            assess();
-
-            $('#details').append(row);
-            $("#totalPartial").val(total);
-            clean();
         }else{
             //alert("Rellene todos los campos del detalle para esta compra");
             Swal.fire({
@@ -353,5 +375,10 @@
                 text: 'Rellene todos los campos del detalle de la compra',
             })
         }
+    }
+    function disabledButton() {
+        document.getElementById('registerForm').addEventListener('submit', function() {
+            document.getElementById('register').setAttribute('disabled', 'true');
+        });
     }
 </script>

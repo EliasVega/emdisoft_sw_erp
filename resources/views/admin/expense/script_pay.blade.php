@@ -24,13 +24,6 @@
     var cont=0;
     totalpay=0;
     //form pay
-    $("#cash").hide();
-    $("#transfer").hide();
-    $("#nequi").hide();
-    $("#card1").hide();
-    $("#card2").hide();
-    $("#noDefined").hide();
-    $("#advance").hide();
     $("#paypPyment").hide();
 
     $("#valuePay").hide();
@@ -41,6 +34,8 @@
     $("#cards").hide();
     $("#advancePayment").hide();
     $("#types").hide();
+    $("#methodPay").hide();
+    $("#buttonPay").hide();
     /*
     $("#percentage").val(0);
     */
@@ -48,28 +43,22 @@
     //mostrar u ocultar de acuerdo a la forma de pago
     $(document).ready(function(){
         $("#payment_form_id").change(function(){
-        form = $("#payment_form_id").val();
-        if(form == 1){
-            $("#noDefined").show();
-            $("#cash").show();
-            $("#advance").show();
-            $("#transfer").show();
-            $("#nequi").show();
-            $("#card1").show();
-            $("#card2").show();
-            $("#payPayment").hide();
-        }else{
-            $("#payPayment").show();
-            $("#noDefined").hide();
-            $("#cash").hide();
-            $("#advance").hide();
-            $("#transfer").hide();
-            $("#nequi").hide();
-            $("#card1").hide();
-            $("#card2").hide();
-            $("#payment_method_id").val(1);
-            $("#totalpay").val(0);
-        }
+            form = $("#payment_form_id").val();
+            if(form == 1){
+                $("#paypPyment").hide();
+                $("#buttonPay").show();
+                $("#addPayPayment").hide();
+                $("#payingButton").show();
+                $("#save").show();
+            }else{
+                $("#buttonPay").hide();
+                $("#addPayPayment").show();
+                $("#payment_method_id").val(1);
+                $("#totalpay").val(0);
+                $("#payingButton").hide();
+                $("#payPayment").show();
+                $("#save").show();
+            }
         });
     });
 
@@ -79,16 +68,10 @@
         });
     });
     function see(){
-        $("#noDefined").show();
-        $("#cash").show();
-        $("#advance").show();
-        $("#transfer").show();
-        $("#nequi").show();
-        $("#card1").show();
-        $("#card2").show();
+        $("#buttonPay").show();
         $("#methodPay").hide();
-        $("#payPayment").hide();
-
+        $("#addPayPayment").hide();
+        $("#payingButton").show();
     }
 
     $(document).ready(function(){

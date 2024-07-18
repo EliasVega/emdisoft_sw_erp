@@ -422,11 +422,16 @@
 
     function detailclear(){
 
-        ncinvoice = {!! json_encode($invoiceProducts) !!};
-        ncinvoice.forEach((value, i) => {
-            if (value['quantity'] > 0) {
-                deleterow(i);
-                }
-            });
-        }
+    ncinvoice = {!! json_encode($invoiceProducts) !!};
+    ncinvoice.forEach((value, i) => {
+        if (value['quantity'] > 0) {
+            deleterow(i);
+            }
+        });
+    }
+    function disabledButton() {
+        document.getElementById('registerForm').addEventListener('submit', function() {
+            document.getElementById('register').setAttribute('disabled', 'true');
+        });
+    }
 </script>

@@ -2,18 +2,6 @@
     /*$(document).ready(function(){
             alert('estoy funcionando correctamanete empresa');
         });*/
-
-        //Selecciona el municipio de acuerdo al departamento
-    $("#department_id").change(function(event){
-        $.get("create/" + event.target.value + "", function(response){
-            $("#municipality_id").empty();
-            $("#municipality_id").append("<option value = '#' disabled selected>Seleccionar ...</option>");
-            for(i = 0; i < response.length; i++){
-                $("#municipality_id").append("<option value = '" + response[i].id +"'>" + response[i].name + "</option>");
-            }
-            $("#municipality_id").selectpicker('refresh');
-        });
-    });
     jQuery(document).ready(function($){
         $(document).ready(function() {
             $('#branch_id').select2({
@@ -48,6 +36,10 @@
     $("#addTaxRate").hide();
     $("#save").hide();
 
+    $("#invoicenegative").hide();
+    $("#formPayCard").hide();
+    $("#addPayButton").hide();
+
 
     //Mostrar u ocultar elementos de acuerdo al tipo de documento
 
@@ -75,7 +67,7 @@
         dataProduct = document.getElementById('product_id').value.split('_');
         product_id= dataProduct[0];
         product= $("#product_id option:selected").text();
-        quantity= $("#quantity").val();
+        quantity= $("#quantityadd").val();
         price= $("#price").val();
         stock= $("#stock").val();
         tax_rate= $("#tax_rate").val();
@@ -114,39 +106,24 @@
 
         $("#total_html").html("$ " + total.toFixed(2));
         $("#total").val(total.toFixed(2));
-        /*
-        $("#total_tax_html").html("$ " + total_tax.toFixed(2));
-        $("#total_tax").val(total_tax.toFixed(2));
-
-        $("#total_pay_html").html("$ " + total_pay.toFixed(2));
-        $("#total_pay").val(total_pay.toFixed(2));*/
 
         $("#balance").val(total.toFixed(2));
         $("#pendient").val(total.toFixed(2));
     }
-    function assess(){
-
-        if(total>0){
-
-        $("#save").show();
-        } else{
-            $("#save").hide();
+    function assess() {
+        if (total > 0) {
+            $("#addPayButton").show();
+            $("#addRetentionButton").show();
+        } else {
+            $("#addPayButton").hide();
+            $("#addRetentionButton").hide();
         }
     }
     function deleterow(index){
         total = total - subtotal[index];
-        //total_tax = total*tax_rate/100;
-        //total_pay = total + total_tax;
 
         $("#total_html").html("$ " + total.toFixed(2));
         $("#total").val(total.toFixed(2));
-        /*
-        total_pay=total+total_tax;
-        $("#total_tax_html").html("$ " + total_tax.toFixed(2));
-        $("#total_tax").val(total_tax.toFixed(2));
-
-        $("#total_pay_html").html("$ " + total_pay.toFixed(2));
-        $("#total_pay").val(total_pay.toFixed(2));*/
 
         $("#row" + index).remove();
         assess();
@@ -218,5 +195,35 @@
                 text: 'Rellene todos los campos del detalle de la compra',
             })
         }
+    }
+
+    $(document).ready(function(){
+        $("#addPay").click(function(){
+            $("#formCard").hide();
+            $("#formPayCard").show();
+        });
+    });
+    $(document).ready(function(){
+        $("#goBack").click(function(){
+            $("#formCard").show();
+            $("#formPayCard").hide();
+        });
+    });
+
+    $("#provider_id").change(function(event){
+        $.get("advance/" + event.target.value + "", function(response){
+            $("#advance_id").empty();
+            $("#advance_id").append("<option value = '#' disabled selected>Seleccionar ...</option>");
+            for(i = 0; i < response.length; i++){
+                $("#advance_id").append("<option value = '" + response[i].id + "'>" + response[i].origin + response[i].balance + "</option>");
+                advanceBalance = response[i].balance;
+            }
+            $("#advance_id").selectpicker('refresh');
+        });
+    });
+    function disabledButton() {
+        document.getElementById('registerForm').addEventListener('submit', function() {
+            document.getElementById('register').setAttribute('disabled', 'true');
+        });
     }
 </script>

@@ -26,14 +26,6 @@
     var paycont = [];
     var pendient = 0;
     var advanceBalance = [];
-    //form pay
-    //$("#payCash").hide();
-    //$("#payTransfer").hide();
-    //$("#payNequi").hide();
-    //$("#payCard1").hide();
-    //$("#payCard2").hide();
-    //$("#payUndefined").hide();
-    //$("#payAdvance").hide();
     $("#payPayment").hide();
 
     $("#valuePay").hide();
@@ -46,42 +38,25 @@
     $("#types").hide();
     $("#methodPay").hide();
     $("#buttonPay").hide();
-    /*
-    $("#percentage").val(0);
-    */
 
     //mostrar u ocultar de acuerdo a la forma de pago
     $(document).ready(function(){
         $("#payment_form_id").change(function(){
-        form = $("#payment_form_id").val();
-        if(form == 1){
-            $("#buttonPay").show();
-            //$("#payUndefined").show();
-            //$("#payCash").show();
-            //$("#payAdvance").show();
-            //$("#payTransfer").show();
-            //$("#payNequi").show();
-            //$("#payCard1").show();
-            //$("#payCard2").show();
-            $("#addPayPayment").hide();
-            $("#payingButton").show();
-            $("#save").show();
-        }else{
-            $("#buttonPay").hide();
-            $("#addPayPayment").show();
-            //$("#payUndefined").hide();
-            //$("#payCash").hide();
-            //$("#payAdvance").hide();
-            //$("#payTransfer").hide();
-            //$("#payNequi").hide();
-            //$("#payCard1").hide();
-            //$("#payCard2").hide();
-            $("#payment_method_id").val(1);
-            $("#totalpay").val(0);
-            $("#payingButton").hide();
-            $("#payPayment").show();
-            $("#save").show();
-        }
+            form = $("#payment_form_id").val();
+            if(form == 1){
+                $("#buttonPay").show();
+                $("#addPayPayment").hide();
+                $("#payingButton").show();
+                $("#save").show();
+            }else{
+                $("#buttonPay").hide();
+                $("#addPayPayment").show();
+                $("#payment_method_id").val(1);
+                $("#totalpay").val(0);
+                $("#payingButton").hide();
+                $("#payPayment").show();
+                $("#save").show();
+            }
         });
     });
 
@@ -92,17 +67,9 @@
     });
     function see(){
         $("#buttonPay").show();
-        //$("#payUndefined").show();
-        //$("#payCash").show();
-        //$("#payAdvance").show();
-        //$("#payTransfer").show();
-        //$("#payNequi").show();
-        //$("#payCard1").show();
-        //$("#payCard2").show();
         $("#methodPay").hide();
         $("#addPayPayment").hide();
         $("#payingButton").show();
-
     }
 
     $(document).ready(function(){

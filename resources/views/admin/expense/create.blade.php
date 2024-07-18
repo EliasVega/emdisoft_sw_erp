@@ -25,14 +25,11 @@
                     </ul>
                 </div>
             @endif
-            {!!Form::open(array('url'=>'expense', 'method'=>'POST', 'autocomplete'=>'off'))!!}
+            {!!Form::open(array('url'=>'expense', 'method'=>'POST', 'autocomplete'=>'off', 'id' => 'registerForm'))!!}
             {!!Form::token()!!}
             <div class="row m-1">
-                <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     @include('admin/expense.form_expense')
-                </div>
-                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                    @include('admin/expense.form_pay')
                 </div>
             </div>
             {!!Form::close()!!}
@@ -40,12 +37,9 @@
     </div>
 </div>
 <!--Inicio del modal cliente-->
-@include('admin/expense.provider')
-@include('admin/expense.editmodal')
 <!--Fin del modal-->
 @endsection
 @section('scripts')
     @include('admin/expense.script')
-    @include('admin/expense.script_pay')
-    @include('admin/expense.script_provider')
+    @include('admin/generalview.script_pay')
 @endsection
