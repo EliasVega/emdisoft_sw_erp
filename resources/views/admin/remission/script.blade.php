@@ -75,8 +75,23 @@
         }
     })
 
+    function enabledInputCode(inputId, tiempoEnMs) {
+        setTimeout(function() {
+            var input = document.getElementById(inputId);
+            if (input) {
+                input.disabled = false;
+            }
+        }, tiempoEnMs);
+    }
+
+    function disabledInputCode() {
+        document.getElementById('code').disabled = true;
+    }
+
     $(document).on('keyup', '#code', function(){
         var codes = $(this).val();
+        disabledInputCode();
+        enabledInputCode('code', 2000);
         if (codes != "") {
             obtener_registro(codes);
         } else {
