@@ -28,7 +28,7 @@ class CompaniesTableSeeder extends Seeder
                 'dv' => '4',
                 'address' => 'CL 61 17 A 60 BRR LA CEIBA',
                 'phone' => '6448594',
-                'api_token' => '0',
+                'api_token' => 'efc778d39a5a78b2f6829557f4d2032047148a8e1099504bb44b6cf3e86bb543',
                 'email' => 'jomiarme1454@hotmail.com',
                 'emailfe' => 'jomiarme1454@hotmail.com',
                 'merchant_registration' => '000.00',

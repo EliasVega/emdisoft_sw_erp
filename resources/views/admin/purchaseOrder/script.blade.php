@@ -109,8 +109,9 @@
 
     $(document).on('keyup', '#code', function() {
         let codes = $(this).val();
+        /*
         disabledInputCode();
-        enabledInputCode('code', 2000);
+        enabledInputCode('code', 2000);*/
         if (codes != "") {
             obtener_registro(codes);
         } else {
