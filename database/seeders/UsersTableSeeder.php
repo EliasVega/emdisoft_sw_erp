@@ -43,13 +43,13 @@ class UsersTableSeeder extends Seeder
 
         User::create([
             'id' => 2,
-            'name' => 'USUARIO TESTING',
-            'number' => '99999999',
+            'name' => 'ARISMENDI MENDOZA JOSE MIGUEL',
+            'number' => '19250556',
             'address' => 'BUCARAMANGA',
-            'phone' => '3139999999',
-            'email' => 'testing@gmail.com',
+            'phone' => '6448594',
+            'email' => 'jomiarme1454@hotmail.com',
             'email_verified_at' => NULL,
-            'password' => bcrypt('admin2024'),
+            'password' => bcrypt('19250556'),
             'two_factor_secret' => NULL,
             'two_factor_recovery_codes' => NULL,
             'two_factor_confirmed_at' => NULL,
