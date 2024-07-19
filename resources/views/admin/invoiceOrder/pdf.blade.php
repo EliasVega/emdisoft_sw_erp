@@ -25,7 +25,7 @@
             </div>
             <!--DATOS FACTURA -->
             <div id="document">
-                <p> <h4>VENTA <br> <strong id="documentNumber">N°.{{ $invoiceOrder->id }}</strong>  </h4>
+                <p> <h4>ORDEN DE VENTA <br> <strong id="documentNumber">N°.{{ $invoiceOrder->id }}</strong>  </h4>
                 </p>
                 <p> <h4>FECHA DE EMISION <br> <strong id="documentData">{{ date('d-m-Y', strtotime($invoiceOrder->generation_date)) }}</strong>  </h4>
                 </p>
