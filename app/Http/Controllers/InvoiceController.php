@@ -1277,8 +1277,8 @@ class InvoiceController extends Controller
 
         $pdfHeight = ticketHeight($logoHeight, company(), $invoice, "invoice");
 
-        $pdf = new Ticket('P', 'mm', array(76, $pdfHeight), true, 'UTF-8');
-        $pdf->SetMargins(2, 10, 2);
+        $pdf = new Ticket('P', 'mm', array(72, $pdfHeight), true, 'UTF-8');
+        $pdf->SetMargins(2, 10, 6);
         $pdf->SetTitle($invoice->document);
         $pdf->SetAutoPageBreak(false);
         $pdf->addPage();
