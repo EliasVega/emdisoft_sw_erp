@@ -224,14 +224,14 @@
                             };
 
                             var total = api
-                                .column(9)
+                                .column(10)
                                 .data()
                                 .reduce(function(a, b) {
                                     return intVal(a) + intVal(b);
                                 }, 0);
 
                             var totalPage = api
-                                .column(9, {
+                                .column(10, {
                                     page: 'current'
                                 })
                                 .data()
@@ -239,7 +239,7 @@
                                     return intVal(a) + intVal(b);
                                 }, 0);
                             var formatNumberData = $.fn.dataTable.render.number(',', '.', 0, '').display;
-                            $(api.column(9).footer()).html(
+                            $(api.column(10).footer()).html(
                                 `$ ${formatNumberData(totalPage)} ($ ${formatNumberData( total )})`
                             )
                         }
