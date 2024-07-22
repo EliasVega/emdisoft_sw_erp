@@ -245,8 +245,12 @@ class Ticket extends FPDF
 
     public function footer()
     {
+        $messageFooter = "Modo de operación: Software Propio";
+        $messageName = "by Emdisoft";
         $this->setY(-10);
         $this->SetFont('Arial', '', 9);
-        $this->Cell(0, 10, formatText("Modo de operación: Software Propio - by Emdisoft"), '', 0, 'C');
+        //$this->Cell(0, 10, formatText(), '', 0, 'C');
+        $this->MultiCell(0, 5, $messageFooter, 0, 'C', false);
+        $this->MultiCell(0, 5, $messageName, 0, 'C', false);
     }
 }
