@@ -133,10 +133,10 @@ class Ticket extends FPDF
 
         $this->SetFont('Arial', '', 9);
         $this->generateBreakLine(1, 'long', 5);
-        $this->Cell(29, 5, formatText('Producto'), 0, 0, 'C');
+        $this->Cell(28, 5, formatText('Producto'), 0, 0, 'C');
         $this->Cell(10, 5, formatText('Cant.'), 0, 0, 'C');
-        $this->Cell(15, 5, formatText('Precio'), 0, 0, 'C');
-        $this->Cell(20, 5, formatText('Subtotal'), 0, 0, 'C');
+        $this->Cell(14, 5, formatText('Precio'), 0, 0, 'C');
+        $this->Cell(19, 5, formatText('Subtotal'), 0, 0, 'C');
         $this->generateBreakLine(3, 'long', 5);
 
         foreach ($products as $product) {
