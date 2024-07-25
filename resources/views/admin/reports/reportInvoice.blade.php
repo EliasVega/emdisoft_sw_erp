@@ -39,11 +39,13 @@
             <a class="toggle-vis btn btn-sm btn-info" data-column="3">F/ven</a>
             <a class="toggle-vis btn btn-sm btn-info" data-column="4">Tercero</a>
             <a class="toggle-vis btn btn-sm btn-info" data-column="5">CC-NIT</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="6">Valor</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="7">Abonos</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="8">Retencion</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="9">Saldo</a>
-            <a class="toggle-vis btn btn-sm btn-info" data-column="10">Valor/fecha</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="6">Abonos</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="7">Retencion</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="8">Saldo</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="9">Valor/fecha</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="10">Total</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="11">Impuesto</a>
+            <a class="toggle-vis btn btn-sm btn-info" data-column="12">V/Total</a>
         </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -57,16 +59,18 @@
                                 <th>F/venc</th>
                                 <th>Tercero</th>
                                 <th>CC-NIT</th>
-                                <th>Valor</th>
                                 <th>Abonos</th>
                                 <th>Retenciones</th>
                                 <th>Saldo</th>
-                                <th>Total - NC + ND</th>
+                                <th>NC + ND</th>
+                                <th>Total</th>
+                                <th>Impuesto</th>
+                                <th>V/Total</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th colspan="11" style="text-align:right">Totales:</th>
+                                <th colspan="13" style="text-align:right">Totales:</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -112,11 +116,6 @@
                                 data: 'identification'
                             },
                             {
-                                data: 'total_pay',
-                                className: 'dt-body-right',
-                                render: $.fn.dataTable.render.number('.', ',', 2, '$')
-                            },
-                            {
                                 data: 'pay',
                                 className: 'dt-body-right',
                                 render: $.fn.dataTable.render.number('.', ',', 2, '$')
@@ -136,6 +135,21 @@
                                 className: 'dt-body-right',
                                 render: $.fn.dataTable.render.number('.', ',', 2, '$')
                             },
+                            {
+                                data: 'total',
+                                className: 'dt-body-right',
+                                render: $.fn.dataTable.render.number('.', ',', 2, '$')
+                            },
+                            {
+                                data: 'total_tax',
+                                className: 'dt-body-right',
+                                render: $.fn.dataTable.render.number('.', ',', 2, '$')
+                            },
+                            {
+                                data: 'total_pay',
+                                className: 'dt-body-right',
+                                render: $.fn.dataTable.render.number('.', ',', 2, '$')
+                            },
                         ],
                         dom: 'Bfltip',
                         lengthMenu: [
@@ -145,13 +159,13 @@
                         buttons: [{
                                 extend: 'copy',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
                                 }
                             },
                             {
                                 extend: 'excel',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
                                 }
                             },
                             {
@@ -160,13 +174,13 @@
                                 orientation: 'landscape',
                                 pageSize: 'LEGAL',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
                                 }
                             },
                             {
                                 extend: 'print',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
                                 }
                             },
                         ],
@@ -199,23 +213,26 @@
                             };
 
                             var total = api
-                                .column(10)
-                                .data()
-                                .reduce(function(a, b) {
-                                    return intVal(a) + intVal(b);
-                                }, 0);
-
-                            var totalPage = api
-                                .column(10, {
-                                    page: 'current'
-                                })
-                                .data()
-                                .reduce(function(a, b) {
-                                    return intVal(a) + intVal(b);
-                                }, 0);
+                            .column(10)
+                            .data()
+                            .reduce(function(a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0);
+                            var totaltax = api
+                            .column(11)
+                            .data()
+                            .reduce(function(a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0);
+                            var valuetotal = api
+                            .column(12)
+                            .data()
+                            .reduce(function(a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0);
                             var formatNumberData = $.fn.dataTable.render.number(',', '.', 0, '').display;
-                            $(api.column(10).footer()).html(
-                                `$ ${formatNumberData(totalPage)} ($ ${formatNumberData( total )})`
+                            $(api.column(11).footer()).html(
+                                `(total = $ ${formatNumberData(total)}) (imp = $ ${formatNumberData( totaltax )}) (v/toal = $ ${formatNumberData( valuetotal )})`
                             )
                         }
                     });
