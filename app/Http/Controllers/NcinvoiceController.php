@@ -74,7 +74,7 @@ class NcinvoiceController extends Controller
             ->addColumn('customer', function (Ncinvoice $ncinvoice) {
                 return $ncinvoice->third->name;
             })
-            ->addColumn('document', function (Ncinvoice $ncinvoice) {
+            ->addColumn('invoice', function (Ncinvoice $ncinvoice) {
                 return $ncinvoice->invoice->document;
             })
             ->addColumn('user', function (Ncinvoice $ncinvoice) {

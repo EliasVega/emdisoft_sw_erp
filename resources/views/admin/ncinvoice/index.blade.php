@@ -26,6 +26,7 @@
                             <tr>
                                 <th></th>
                                 <th hidden="true">Id</th>
+                                <th>NC#</th>
                                 <th>Sucursal</th>
                                 <th>Proveedor</th>
                                 <th>Venta N°</th>
@@ -110,13 +111,16 @@
                                 searchable: false
                             },
                             {
+                                data: 'document'
+                            },
+                            {
                                 data: 'branch'
                             },
                             {
                                 data: 'customer'
                             },
                             {
-                                data: 'document'
+                                data: 'invoice'
                             },
                             {
                                 data: 'total_pay',

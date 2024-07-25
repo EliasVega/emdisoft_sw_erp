@@ -23,6 +23,7 @@
                     <thead>
                         <tr>
                             <th>Id</th>
+                            <th>ND#</th>
                             <th>Sucursal</th>
                             <th>Cliente</th>
                             <th>Venta N°</th>
@@ -67,9 +68,10 @@ $(document).ready(function ()
             columns:
             [
                 {data: 'id'},
+                {data: 'document'},
                 {data: 'branch'},
                 {data: 'customer'},
-                {data: 'document'},
+                {data: 'invoice'},
                 {data: 'total_pay', render: $.fn.dataTable.render.number( '.', ',', 2)},
                 {data: 'user'},
                 {data: 'created_at'},

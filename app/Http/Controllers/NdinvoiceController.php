@@ -62,7 +62,7 @@ class NdinvoiceController extends Controller
             ->addColumn('customer', function (ndinvoice $ndinvoice) {
                 return $ndinvoice->third->name;
             })
-            ->addColumn('document', function (ndinvoice $ndinvoice) {
+            ->addColumn('invoice', function (ndinvoice $ndinvoice) {
                 return $ndinvoice->invoice->document;
             })
 
