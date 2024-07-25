@@ -56,7 +56,8 @@ if (! function_exists('invoiceData')) {
             $companyTax = CompanyTax::findOrFail($companyTaxProduct);
             $amount = $quantity[$i] * $price[$i];
             $taxAmount =number_format(($quantity[$i] * $price[$i] * $taxRate[$i])/100, 3, '.', '');
-            $amount = number_format($amount, 3, '.', '');
+            //$amount = number_format($amount, 3, '.', '');
+            $amount = number_format(round($amount), 2, '.', '');
 
             if ($taxes[0] != []) { //contax > 0
                 $contsi = 0;

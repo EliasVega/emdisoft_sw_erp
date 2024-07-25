@@ -43,6 +43,7 @@ if (!function_exists('ndinvoiceData')) {
 
             $taxAmount = ($quantity[$i] * $price[$i] * $taxRate[$i])/100;
             $amount = $quantity[$i] * $price[$i];
+            $amount = number_format(round($amount), 2, '.', '');
 
             if ($taxes[0] != []) { //contax > 0
                 $contsi = 0;

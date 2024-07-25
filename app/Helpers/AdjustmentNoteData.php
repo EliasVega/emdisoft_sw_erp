@@ -52,7 +52,8 @@ if (! function_exists('adjustmentNoteData')) {
             $companyTaxProduct = $product->category->company_tax_id;
             $companyTax = CompanyTax::findOrFail($companyTaxProduct);
             $taxAmount = ($quantity[$i] * $price[$i] * $taxRate[$i])/100;
-            $amount = $quantity[$i] * $price[$i];
+            //$amount = $quantity[$i] * $price[$i];
+            $amount = number_format(round($amount), 2, '.', '');
 
             if ($taxes[0] != []) { //contax > 0
                 $contsi = 0;

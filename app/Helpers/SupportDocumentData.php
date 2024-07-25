@@ -56,7 +56,8 @@ if (! function_exists('supportDocumentData')) {
             $taxAmount = ($quantity[$i] * $price[$i] * $taxRate[$i])/100;
             $amount = $quantity[$i] * $price[$i];
             $taxAmount =number_format($taxAmount, 3, '.', '');
-            $amount = number_format($amount, 3, '.', '');
+            //$amount = number_format($amount, 3, '.', '');
+            $amount = number_format(round($amount), 2, '.', '');
 
             if ($taxes[0] != []) { //contax > 0
                 $contsi = 0;

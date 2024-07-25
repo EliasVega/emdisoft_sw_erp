@@ -60,7 +60,8 @@ if (! function_exists('EquiDocPosData')) {
             $taxAmount = ($quantity[$i] * $price[$i] * $taxRate[$i])/100;
             $amount = $quantity[$i] * $price[$i];
             $taxAmount =number_format($taxAmount, 2, '.', '');
-            $amount = number_format($amount, 2, '.', '');
+            //$amount = number_format($amount, 2, '.', '');
+            $amount = number_format(round($amount), 2, '.', '');
 
 
 
