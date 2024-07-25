@@ -59,8 +59,8 @@ if (! function_exists('EquiDocPosData')) {
             $companyTax = CompanyTax::findOrFail($companyTaxProduct);
             $taxAmount = ($quantity[$i] * $price[$i] * $taxRate[$i])/100;
             $amount = $quantity[$i] * $price[$i];
-            $taxAmount =number_format(round($taxAmount), 2, '.', '');
-            $amount = number_format(round($amount), 2, '.', '');
+            $taxAmount =number_format($taxAmount, 2, '.', '');
+            $amount = number_format($amount, 2, '.', '');
 
 
 
@@ -83,7 +83,7 @@ if (! function_exists('EquiDocPosData')) {
                 $taxes[$contax] = [$companyTax->id, $companyTax->tax_type_id, $taxAmount, $amount, $taxRate[$i]];
                 $contax++;
             }
-            $quantityProducts = number_format(round($quantity[$i]), 2, '.', '');
+            $quantityProducts = number_format($quantity[$i], 2, '.', '');
             $productLine = [
                 "unit_measure_id" => $product->measure_unit_id,
                 "invoiced_quantity" => $quantityProducts,

@@ -45,7 +45,7 @@ if (! function_exists('invoiceData')) {
         $withholdingLines = [];
         $withholdingCont = 0;
 
-        $payableAmount = number_format($total - $discountTotal + $chargeTotal, 2, '.', '');
+        $payableAmount = number_format($total - $discountTotal + $chargeTotal, 3, '.', '');
 
         $taxes[] = [];
         $contax = 0;
@@ -77,7 +77,7 @@ if (! function_exists('invoiceData')) {
                 $taxes[$contax] = [$companyTax->id, $companyTax->tax_type_id, $taxAmount, $amount, $taxRate[$i]];
                 $contax++;
             }
-            $quantityProducts = number_format(round($quantity[$i]), 2, '.', '');
+            $quantityProducts = number_format($quantity[$i], 3, '.', '');
             $productLine = [
                 "unit_measure_id" => $product->measure_unit_id,
                 "invoiced_quantity" => $quantityProducts,

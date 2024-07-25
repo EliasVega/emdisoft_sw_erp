@@ -55,8 +55,8 @@ if (! function_exists('supportDocumentData')) {
             $companyTax = CompanyTax::findOrFail($companyTaxProduct);
             $taxAmount = ($quantity[$i] * $price[$i] * $taxRate[$i])/100;
             $amount = $quantity[$i] * $price[$i];
-            $taxAmount =number_format(round($taxAmount), 2, '.', '');
-            $amount = number_format(round($amount), 2, '.', '');
+            $taxAmount =number_format($taxAmount, 3, '.', '');
+            $amount = number_format($amount, 3, '.', '');
 
             if ($taxes[0] != []) { //contax > 0
                 $contsi = 0;
