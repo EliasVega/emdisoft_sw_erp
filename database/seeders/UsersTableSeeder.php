@@ -43,13 +43,13 @@ class UsersTableSeeder extends Seeder
 
         User::create([
             'id' => 2,
-            'name' => 'MONTALVO QUINTERO LORENZO',
-            'number' => '1065576587',
-            'address' => 'PUENTE NARIÑO CA 2 BRR BAVARIA II',
-            'phone' => '3165387776',
-            'email' => 'lorenzomontalvo1986@gmail.com',
+            'name' => 'BRACHA MATZA S.A.S',
+            'number' => '901839939',
+            'address' => 'CALLE 65 # 12W - 78 LOCAL 2 - 3 CONJUNTO TORRES DE MONTE REDONDO 2',
+            'phone' => '3224599940',
+            'email' => 'contadora.lebrija@gmail.com',
             'email_verified_at' => NULL,
-            'password' => bcrypt('1065576587'),
+            'password' => bcrypt('901839939'),
             'two_factor_secret' => NULL,
             'two_factor_recovery_codes' => NULL,
             'two_factor_confirmed_at' => NULL,
@@ -61,7 +61,7 @@ class UsersTableSeeder extends Seeder
             'status' => 'active',
             'company_id' => 1,
             'branch_id' => 1,
-            'identification_type_id' => 3,
+            'identification_type_id' => 6,
             'created_at' => '2024-07-20 21:07:43',
             'updated_at' => '2024-07-20 21:07:43'
 
