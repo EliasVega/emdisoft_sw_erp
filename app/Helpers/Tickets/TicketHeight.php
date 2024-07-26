@@ -88,7 +88,7 @@ if (!function_exists('ticketHeightNcinvoice')) {
     {
         $title = 32;
         $logo = $logoHeight;
-        $companyInformation = 17;
+        $companyInformation = 30;
         $barcode = 25;
         $complementaryInformation = 26;
         $thirdPartyInformation = 16;

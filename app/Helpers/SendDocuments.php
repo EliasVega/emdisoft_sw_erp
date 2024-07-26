@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Http;
 if (! function_exists('sendDocuments')) {
     function sendDocuments($url, $data)
     {
+        set_time_limit(60);
         $requestResponse = [];
         $errorMessages = null;
         //dd($data);
