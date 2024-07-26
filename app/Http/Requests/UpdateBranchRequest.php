@@ -25,7 +25,7 @@ class UpdateBranchRequest extends FormRequest
     {
         return [
             'name'            => 'required|max:50',
-            'address'         => 'required|max:50',
+            'address'         => 'required|max:100',
             'phone'           => 'max:15',
             'mobile'          => 'max:15',
             'email'           => 'required|max:50',
