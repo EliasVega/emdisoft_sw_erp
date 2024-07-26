@@ -88,7 +88,7 @@ if (!function_exists('ticketHeightNcinvoice')) {
     {
         $title = 32;
         $logo = $logoHeight;
-        $companyInformation = 30;
+        $companyInformation = 17;
         $barcode = 25;
         $complementaryInformation = 26;
         $thirdPartyInformation = 16;
@@ -154,7 +154,7 @@ if (!function_exists('ticketHeightNcinvoice')) {
             $pdfHeight += $invoiceInformation;
         }*/
 
-        $pdfHeight += $disclaimerInformation + $refund + $copyright;
+        $pdfHeight += $disclaimerInformation + $refund + $copyright + 15;
 
         return $pdfHeight;
     }
