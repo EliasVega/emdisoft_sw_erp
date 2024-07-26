@@ -9,7 +9,7 @@ use App\Models\Product;
 if (!function_exists('ticketHeight')) {
     function ticketHeight($logoHeight, $company, $document)
     {
-        $title = 24;
+        $title = 28;
         $logo = $logoHeight;
         $companyInformation = 17;
         $barcode = 25;
