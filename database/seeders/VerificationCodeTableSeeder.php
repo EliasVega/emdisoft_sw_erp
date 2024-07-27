@@ -30,7 +30,7 @@ class VerificationCodeTableSeeder extends Seeder
             array (
                 'id' => 2,
                 'user_id' => 2,
-                'code' => '901839939',
+                'code' => '901286970',
                 'created_at' => '2023-05-12 21:07:43',
                 'updated_at' => '2023-05-12 21:07:43'
             ),

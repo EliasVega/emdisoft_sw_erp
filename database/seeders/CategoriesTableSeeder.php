@@ -17,25 +17,369 @@ class CategoriesTableSeeder extends Seeder
         DB::table('categories')->delete();
 
         DB::table('categories')->insert(array (
-            0 => array ( 'id' => 1, 'name' => 'CHATARRA', 'description' => 'RESIDUOS METALICOS', 'utility_rate' => 0, 'status' => 'active', 'company_tax_id' => 1, 'created_at' => '2024-07-23 12:00:00', 'updated_at' => '2024-07-23 12:00:00'),
-            1 => array ( 'id' => 2, 'name' => 'COBRES Y BRONCES', 'description' => 'COBRES Y BRONCES', 'utility_rate' => 0, 'status' => 'active', 'company_tax_id' => 1, 'created_at' => '2024-07-23 12:00:00', 'updated_at' => '2024-07-23 12:00:00'),
-            2 => array ( 'id' => 3, 'name' => 'RADIADORES', 'description' => 'RADIADORES', 'utility_rate' => 0, 'status' => 'active', 'company_tax_id' => 1, 'created_at' => '2024-07-23 12:00:00', 'updated_at' => '2024-07-23 12:00:00'),
-            3 => array ( 'id' => 4, 'name' => 'ALUMINIOS', 'description' => 'ALUMINIO', 'utility_rate' => 0, 'status' => 'active', 'company_tax_id' => 1, 'created_at' => '2024-07-23 12:00:00', 'updated_at' => '2024-07-23 12:00:00'),
-            4 => array ( 'id' => 5, 'name' => 'PLOMO', 'description' => 'PLOMO', 'utility_rate' => 0, 'status' => 'active', 'company_tax_id' => 1, 'created_at' => '2024-07-23 12:00:00', 'updated_at' => '2024-07-23 12:00:00'),
-            5 => array ( 'id' => 6, 'name' => 'VIRUTAS', 'description' => 'VIRUTAS', 'utility_rate' => 0, 'status' => 'active', 'company_tax_id' => 1, 'created_at' => '2024-07-23 12:00:00', 'updated_at' => '2024-07-23 12:00:00'),
-            6 => array ( 'id' => 7, 'name' => 'HIERRO', 'description' => 'HIERRO', 'utility_rate' => 0, 'status' => 'active', 'company_tax_id' => 1, 'created_at' => '2024-07-23 12:00:00', 'updated_at' => '2024-07-23 12:00:00'),
-            7 => array ( 'id' => 8, 'name' => 'UNIDADES', 'description' => 'UNIDADES', 'utility_rate' => 0, 'status' => 'active', 'company_tax_id' => 1, 'created_at' => '2024-07-23 12:00:00', 'updated_at' => '2024-07-23 12:00:00'),
-            8 => array ( 'id' => 9, 'name' => 'ACERO', 'description' => 'ACERO', 'utility_rate' => 0, 'status' => 'active', 'company_tax_id' => 1, 'created_at' => '2024-07-23 12:00:00', 'updated_at' => '2024-07-23 12:00:00'),
-            9 => array ( 'id' => 10, 'name' => 'BATERIAS', 'description' => 'BATERIAS', 'utility_rate' => 0, 'status' => 'active', 'company_tax_id' => 1, 'created_at' => '2024-07-23 12:00:00', 'updated_at' => '2024-07-23 12:00:00'),
-            10 => array ( 'id' => 11, 'name' => 'PASTA', 'description' => 'PASTA', 'utility_rate' => 0, 'status' => 'active', 'company_tax_id' => 1, 'created_at' => '2024-07-23 12:00:00', 'updated_at' => '2024-07-23 12:00:00'),
-            11 => array ( 'id' => 12, 'name' => 'RINES', 'description' => 'RINES', 'utility_rate' => 0, 'status' => 'active', 'company_tax_id' => 1, 'created_at' => '2024-07-23 12:00:00', 'updated_at' => '2024-07-23 12:00:00'),
-            12 => array ( 'id' => 13, 'name' => 'CHATARRA ELECTRONICA', 'description' => 'CHATARRA ELECTRONICA', 'utility_rate' => 0, 'status' => 'active', 'company_tax_id' => 1, 'created_at' => '2024-07-23 12:00:00', 'updated_at' => '2024-07-23 12:00:00'),
-            13 => array ( 'id' => 14, 'name' => 'RECICLAJE', 'description' => 'RECICLAJE', 'utility_rate' => 0, 'status' => 'active', 'company_tax_id' => 1, 'created_at' => '2024-07-23 12:00:00', 'updated_at' => '2024-07-23 12:00:00'),
-            14 => array ( 'id' => 15, 'name' => 'PET', 'description' => 'ENVASE', 'utility_rate' => 0, 'status' => 'active', 'company_tax_id' => 1, 'created_at' => '2024-07-23 12:00:00', 'updated_at' => '2024-07-23 12:00:00'),
-            15 => array ( 'id' => 16, 'name' => 'MATERIAL', 'description' => 'RESIDUOS METALICOS', 'utility_rate' => 0, 'status' => 'active', 'company_tax_id' => 1, 'created_at' => '2024-07-23 12:00:00', 'updated_at' => '2024-07-23 12:00:00'),
-            16 => array ( 'id' => 17, 'name' => 'GASTOS', 'description' => 'GASTOS', 'utility_rate' => 0, 'status' => 'active', 'company_tax_id' => 1, 'created_at' => '2024-07-23 12:00:00', 'updated_at' => '2024-07-23 12:00:00'),
-            17 => array ( 'id' => 18, 'name' => 'VENTAS', 'description' => 'VENTAS', 'utility_rate' => 0, 'status' => 'active', 'company_tax_id' => 1, 'created_at' => '2024-07-23 12:00:00', 'updated_at' => '2024-07-23 12:00:00'),
-            18 => array ( 'id' => 19, 'name' => 'MENUDEO', 'description' => 'MENUDEO', 'utility_rate' => 0, 'status' => 'active', 'company_tax_id' => 1, 'created_at' => '2024-07-23 12:00:00', 'updated_at' => '2024-07-23 12:00:00'),
+            0 =>
+            array (
+                'id' => 1,
+                'name' => 'CHATARRA MIXTA',
+                'description' => 'CHATARRA MIXTA',
+                'utility_rate' => 30,
+                'status' => 'inactive',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            1 =>
+            array (
+                'id' => 2,
+                'name' => 'HIERRO GRIS',
+                'description' => 'HIERRO GRIS',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            2 =>
+            array (
+                'id' => 3,
+                'name' => 'CHATARRA ESPECIAL',
+                'description' => 'CHATARRA ESPECIAL',
+                'utility_rate' => 30,
+                'status' => 'inactive',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            3 =>
+            array (
+                'id' => 4,
+                'name' => 'CANASTAS',
+                'description' => 'CANASTAS',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            4 =>
+            array (
+                'id' => 5,
+                'name' => 'PLASTICO',
+                'description' => 'PLASTICO',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            5 =>
+            array (
+                'id' => 6,
+                'name' => 'ARCHIVO',
+                'description' => 'ARCHIVO',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            6 =>
+            array (
+                'id' => 7,
+                'name' => 'CARTON',
+                'description' => 'CARTON',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            7 =>
+            array (
+                'id' => 8,
+                'name' => 'VIDRIO',
+                'description' => 'VIDRIO',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            8 =>
+            array (
+                'id' => 9,
+                'name' => 'PERIODICO',
+                'description' => 'PERIODICO',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            9 =>
+            array (
+                'id' => 10,
+                'name' => 'ALUMINIO',
+                'description' => 'ALUMINIO',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            10 =>
+            array (
+                'id' => 11,
+                'name' => 'COBRE',
+                'description' => 'COBRE',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            11 =>
+            array (
+                'id' => 12,
+                'name' => 'RADIADOR',
+                'description' => 'RADIADOR',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            12 =>
+            array (
+                'id' => 13,
+                'name' => 'UNIDAD NEV',
+                'description' => 'UNIDAD NEV',
+                'utility_rate' => 30,
+                'status' => 'inactive',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            13 =>
+            array (
+                'id' => 14,
+                'name' => 'VIRUTA',
+                'description' => 'VIRUTA',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            14 =>
+            array (
+                'id' => 15,
+                'name' => 'BATERIAS',
+                'description' => 'BATERIAS',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            15 =>
+            array (
+                'id' => 16,
+                'name' => 'VIRUTA_BR',
+                'description' => 'VIRUTA_BR',
+                'utility_rate' => 30,
+                'status' => 'inactive',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            16 =>
+            array (
+                'id' => 17,
+                'name' => 'ACERO',
+                'description' => 'ACERO',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            17 =>
+            array (
+                'id' => 18,
+                'name' => 'PLOMO',
+                'description' => 'PLOMO',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            18 =>
+            array (
+                'id' => 19,
+                'name' => 'CHATARRA',
+                'description' => 'CHATARRA',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            19 =>
+            array (
+                'id' => 20,
+                'name' => 'ANTIMONIO',
+                'description' => 'ANTIMONIO',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            20 =>
+            array (
+                'id' => 21,
+                'name' => 'SALCHICHA',
+                'description' => 'SALCHICHA',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            21 =>
+            array (
+                'id' => 22,
+                'name' => 'PLANCHA Y BANDA',
+                'description' => 'PLANCHA Y BANDA',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            22 =>
+            array (
+                'id' => 23,
+                'name' => 'PASTA',
+                'description' => 'PASTA',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            23 =>
+            array (
+                'id' => 24,
+                'name' => 'PANAM',
+                'description' => 'PANAM',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            24 =>
+            array (
+                'id' => 25,
+                'name' => 'CD LIMPIO',
+                'description' => 'CD LIMPIO',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            25 =>
+            array (
+                'id' => 26,
+                'name' => 'CELULARES',
+                'description' => 'CELULARES',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            26 =>
+            array (
+                'id' => 27,
+                'name' => 'TAPA PLASTICA',
+                'description' => 'TAPA PLASTICA',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            27 =>
+            array (
+                'id' => 28,
+                'name' => 'RESISTENCIA',
+                'description' => 'RESISTENCIA',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            28 =>
+            array (
+                'id' => 29,
+                'name' => 'RINES',
+                'description' => 'RINES',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            29 =>
+            array (
+                'id' => 30,
+                'name' => 'UNIDADES NEV',
+                'description' => 'UNIDADES NEV',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            30 =>
+            array (
+                'id' => 31,
+                'name' => 'MATERIAL',
+                'description' => 'MATERIAL',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            31 =>
+            array (
+                'id' => 32,
+                'name' => 'VARIOS',
+                'description' => 'VARIOS',
+                'utility_rate' => 30,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            32 =>
+            array (
+                'id' => 33,
+                'name' => 'BRONCES',
+                'description' => 'TIPO DE     BRONCES',
+                'utility_rate' => 0,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
 
         ));
     }

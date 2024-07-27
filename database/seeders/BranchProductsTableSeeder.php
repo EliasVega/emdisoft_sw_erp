@@ -23,7 +23,7 @@ class BranchProductsTableSeeder extends Seeder
             0 =>
             array (
                 'id' => 1,
-                'stock' => '6231.55',
+                'stock' => '13.70',
                 'branch_id' => 1,
                 'product_id' => 1,
                 'created_at' => '2024-07-23 12:00:00',
@@ -32,7 +32,7 @@ class BranchProductsTableSeeder extends Seeder
             1 =>
             array (
                 'id' => 2,
-                'stock' => '107.90',
+                'stock' => '0.70',
                 'branch_id' => 1,
                 'product_id' => 2,
                 'created_at' => '2024-07-23 12:00:00',
@@ -41,7 +41,7 @@ class BranchProductsTableSeeder extends Seeder
             2 =>
             array (
                 'id' => 3,
-                'stock' => '94.10',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 3,
                 'created_at' => '2024-07-23 12:00:00',
@@ -50,7 +50,7 @@ class BranchProductsTableSeeder extends Seeder
             3 =>
             array (
                 'id' => 4,
-                'stock' => '81.60',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 4,
                 'created_at' => '2024-07-23 12:00:00',
@@ -59,7 +59,7 @@ class BranchProductsTableSeeder extends Seeder
             4 =>
             array (
                 'id' => 5,
-                'stock' => '45.20',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 5,
                 'created_at' => '2024-07-23 12:00:00',
@@ -68,7 +68,7 @@ class BranchProductsTableSeeder extends Seeder
             5 =>
             array (
                 'id' => 6,
-                'stock' => '48.00',
+                'stock' => '24.40',
                 'branch_id' => 1,
                 'product_id' => 6,
                 'created_at' => '2024-07-23 12:00:00',
@@ -77,7 +77,7 @@ class BranchProductsTableSeeder extends Seeder
             6 =>
             array (
                 'id' => 7,
-                'stock' => '1104.40',
+                'stock' => '335.00',
                 'branch_id' => 1,
                 'product_id' => 7,
                 'created_at' => '2024-07-23 12:00:00',
@@ -86,7 +86,7 @@ class BranchProductsTableSeeder extends Seeder
             7 =>
             array (
                 'id' => 8,
-                'stock' => '1022.90',
+                'stock' => '368.40',
                 'branch_id' => 1,
                 'product_id' => 8,
                 'created_at' => '2024-07-23 12:00:00',
@@ -95,7 +95,7 @@ class BranchProductsTableSeeder extends Seeder
             8 =>
             array (
                 'id' => 9,
-                'stock' => '1309.10',
+                'stock' => '307.00',
                 'branch_id' => 1,
                 'product_id' => 9,
                 'created_at' => '2024-07-23 12:00:00',
@@ -104,7 +104,7 @@ class BranchProductsTableSeeder extends Seeder
             9 =>
             array (
                 'id' => 10,
-                'stock' => '200.30',
+                'stock' => '386.40',
                 'branch_id' => 1,
                 'product_id' => 10,
                 'created_at' => '2024-07-23 12:00:00',
@@ -113,7 +113,7 @@ class BranchProductsTableSeeder extends Seeder
             10 =>
             array (
                 'id' => 11,
-                'stock' => '13.70',
+                'stock' => '50.00',
                 'branch_id' => 1,
                 'product_id' => 11,
                 'created_at' => '2024-07-23 12:00:00',
@@ -122,7 +122,7 @@ class BranchProductsTableSeeder extends Seeder
             11 =>
             array (
                 'id' => 12,
-                'stock' => '16.90',
+                'stock' => '3.60',
                 'branch_id' => 1,
                 'product_id' => 12,
                 'created_at' => '2024-07-23 12:00:00',
@@ -131,7 +131,7 @@ class BranchProductsTableSeeder extends Seeder
             12 =>
             array (
                 'id' => 13,
-                'stock' => '505.40',
+                'stock' => '9.00',
                 'branch_id' => 1,
                 'product_id' => 13,
                 'created_at' => '2024-07-23 12:00:00',
@@ -140,7 +140,7 @@ class BranchProductsTableSeeder extends Seeder
             13 =>
             array (
                 'id' => 14,
-                'stock' => '1239.90',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 14,
                 'created_at' => '2024-07-23 12:00:00',
@@ -149,7 +149,7 @@ class BranchProductsTableSeeder extends Seeder
             14 =>
             array (
                 'id' => 15,
-                'stock' => '71.50',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 15,
                 'created_at' => '2024-07-23 12:00:00',
@@ -158,7 +158,7 @@ class BranchProductsTableSeeder extends Seeder
             15 =>
             array (
                 'id' => 16,
-                'stock' => '0.00',
+                'stock' => '250.00',
                 'branch_id' => 1,
                 'product_id' => 16,
                 'created_at' => '2024-07-23 12:00:00',
@@ -167,7 +167,7 @@ class BranchProductsTableSeeder extends Seeder
             16 =>
             array (
                 'id' => 17,
-                'stock' => '123.00',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 17,
                 'created_at' => '2024-07-23 12:00:00',
@@ -176,7 +176,7 @@ class BranchProductsTableSeeder extends Seeder
             17 =>
             array (
                 'id' => 18,
-                'stock' => '1106.60',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 18,
                 'created_at' => '2024-07-23 12:00:00',
@@ -185,7 +185,7 @@ class BranchProductsTableSeeder extends Seeder
             18 =>
             array (
                 'id' => 19,
-                'stock' => '508.00',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 19,
                 'created_at' => '2024-07-23 12:00:00',
@@ -194,7 +194,7 @@ class BranchProductsTableSeeder extends Seeder
             19 =>
             array (
                 'id' => 20,
-                'stock' => '113.00',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 20,
                 'created_at' => '2024-07-23 12:00:00',
@@ -203,7 +203,7 @@ class BranchProductsTableSeeder extends Seeder
             20 =>
             array (
                 'id' => 21,
-                'stock' => '4154.60',
+                'stock' => '0.20',
                 'branch_id' => 1,
                 'product_id' => 21,
                 'created_at' => '2024-07-23 12:00:00',
@@ -212,7 +212,7 @@ class BranchProductsTableSeeder extends Seeder
             21 =>
             array (
                 'id' => 22,
-                'stock' => '2.00',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 22,
                 'created_at' => '2024-07-23 12:00:00',
@@ -221,7 +221,7 @@ class BranchProductsTableSeeder extends Seeder
             22 =>
             array (
                 'id' => 23,
-                'stock' => '1.00',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 23,
                 'created_at' => '2024-07-23 12:00:00',
@@ -230,7 +230,7 @@ class BranchProductsTableSeeder extends Seeder
             23 =>
             array (
                 'id' => 24,
-                'stock' => '2.00',
+                'stock' => '4.00',
                 'branch_id' => 1,
                 'product_id' => 24,
                 'created_at' => '2024-07-23 12:00:00',
@@ -248,7 +248,7 @@ class BranchProductsTableSeeder extends Seeder
             25 =>
             array (
                 'id' => 26,
-                'stock' => '1.00',
+                'stock' => '75.50',
                 'branch_id' => 1,
                 'product_id' => 26,
                 'created_at' => '2024-07-23 12:00:00',
@@ -266,7 +266,7 @@ class BranchProductsTableSeeder extends Seeder
             27 =>
             array (
                 'id' => 28,
-                'stock' => '0.00',
+                'stock' => '321.50',
                 'branch_id' => 1,
                 'product_id' => 28,
                 'created_at' => '2024-07-23 12:00:00',
@@ -275,7 +275,7 @@ class BranchProductsTableSeeder extends Seeder
             28 =>
             array (
                 'id' => 29,
-                'stock' => '45.60',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 29,
                 'created_at' => '2024-07-23 12:00:00',
@@ -293,7 +293,7 @@ class BranchProductsTableSeeder extends Seeder
             30 =>
             array (
                 'id' => 31,
-                'stock' => '1017.80',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 31,
                 'created_at' => '2024-07-23 12:00:00',
@@ -302,7 +302,7 @@ class BranchProductsTableSeeder extends Seeder
             31 =>
             array (
                 'id' => 32,
-                'stock' => '342.25',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 32,
                 'created_at' => '2024-07-23 12:00:00',
@@ -311,7 +311,7 @@ class BranchProductsTableSeeder extends Seeder
             32 =>
             array (
                 'id' => 33,
-                'stock' => '464.00',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 33,
                 'created_at' => '2024-07-23 12:00:00',
@@ -320,7 +320,7 @@ class BranchProductsTableSeeder extends Seeder
             33 =>
             array (
                 'id' => 34,
-                'stock' => '19.00',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 34,
                 'created_at' => '2024-07-23 12:00:00',
@@ -329,7 +329,7 @@ class BranchProductsTableSeeder extends Seeder
             34 =>
             array (
                 'id' => 35,
-                'stock' => '130.00',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 35,
                 'created_at' => '2024-07-23 12:00:00',
@@ -338,7 +338,7 @@ class BranchProductsTableSeeder extends Seeder
             35 =>
             array (
                 'id' => 36,
-                'stock' => '236.00',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 36,
                 'created_at' => '2024-07-23 12:00:00',
@@ -347,7 +347,7 @@ class BranchProductsTableSeeder extends Seeder
             36 =>
             array (
                 'id' => 37,
-                'stock' => '131.90',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 37,
                 'created_at' => '2024-07-23 12:00:00',
@@ -356,7 +356,7 @@ class BranchProductsTableSeeder extends Seeder
             37 =>
             array (
                 'id' => 38,
-                'stock' => '3.30',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 38,
                 'created_at' => '2024-07-23 12:00:00',
@@ -374,7 +374,7 @@ class BranchProductsTableSeeder extends Seeder
             39 =>
             array (
                 'id' => 40,
-                'stock' => '38.50',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 40,
                 'created_at' => '2024-07-23 12:00:00',
@@ -383,7 +383,7 @@ class BranchProductsTableSeeder extends Seeder
             40 =>
             array (
                 'id' => 41,
-                'stock' => '6.30',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 41,
                 'created_at' => '2024-07-23 12:00:00',
@@ -392,7 +392,7 @@ class BranchProductsTableSeeder extends Seeder
             41 =>
             array (
                 'id' => 42,
-                'stock' => '0.00',
+                'stock' => '48.50',
                 'branch_id' => 1,
                 'product_id' => 42,
                 'created_at' => '2024-07-23 12:00:00',
@@ -401,7 +401,7 @@ class BranchProductsTableSeeder extends Seeder
             42 =>
             array (
                 'id' => 43,
-                'stock' => '0.00',
+                'stock' => '65.50',
                 'branch_id' => 1,
                 'product_id' => 43,
                 'created_at' => '2024-07-23 12:00:00',
@@ -410,7 +410,7 @@ class BranchProductsTableSeeder extends Seeder
             43 =>
             array (
                 'id' => 44,
-                'stock' => '5712.80',
+                'stock' => '73.00',
                 'branch_id' => 1,
                 'product_id' => 44,
                 'created_at' => '2024-07-23 12:00:00',
@@ -419,7 +419,7 @@ class BranchProductsTableSeeder extends Seeder
             44 =>
             array (
                 'id' => 45,
-                'stock' => '959.70',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 45,
                 'created_at' => '2024-07-23 12:00:00',
@@ -428,7 +428,7 @@ class BranchProductsTableSeeder extends Seeder
             45 =>
             array (
                 'id' => 46,
-                'stock' => '34.00',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 46,
                 'created_at' => '2024-07-23 12:00:00',
@@ -437,7 +437,7 @@ class BranchProductsTableSeeder extends Seeder
             46 =>
             array (
                 'id' => 47,
-                'stock' => '1236.05',
+                'stock' => '183.50',
                 'branch_id' => 1,
                 'product_id' => 47,
                 'created_at' => '2024-07-23 12:00:00',
@@ -446,7 +446,7 @@ class BranchProductsTableSeeder extends Seeder
             47 =>
             array (
                 'id' => 48,
-                'stock' => '3548.94',
+                'stock' => '28.00',
                 'branch_id' => 1,
                 'product_id' => 48,
                 'created_at' => '2024-07-23 12:00:00',
@@ -455,7 +455,7 @@ class BranchProductsTableSeeder extends Seeder
             48 =>
             array (
                 'id' => 49,
-                'stock' => '7404.00',
+                'stock' => '28.50',
                 'branch_id' => 1,
                 'product_id' => 49,
                 'created_at' => '2024-07-23 12:00:00',
@@ -464,7 +464,7 @@ class BranchProductsTableSeeder extends Seeder
             49 =>
             array (
                 'id' => 50,
-                'stock' => '7926.80',
+                'stock' => '4.00',
                 'branch_id' => 1,
                 'product_id' => 50,
                 'created_at' => '2024-07-23 12:00:00',
@@ -473,7 +473,7 @@ class BranchProductsTableSeeder extends Seeder
             50 =>
             array (
                 'id' => 51,
-                'stock' => '2523.32',
+                'stock' => '39.50',
                 'branch_id' => 1,
                 'product_id' => 51,
                 'created_at' => '2024-07-23 12:00:00',
@@ -482,7 +482,7 @@ class BranchProductsTableSeeder extends Seeder
             51 =>
             array (
                 'id' => 52,
-                'stock' => '1410.90',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 52,
                 'created_at' => '2024-07-23 12:00:00',
@@ -491,7 +491,7 @@ class BranchProductsTableSeeder extends Seeder
             52 =>
             array (
                 'id' => 53,
-                'stock' => '615.00',
+                'stock' => '214.50',
                 'branch_id' => 1,
                 'product_id' => 53,
                 'created_at' => '2024-07-23 12:00:00',
@@ -500,7 +500,7 @@ class BranchProductsTableSeeder extends Seeder
             53 =>
             array (
                 'id' => 54,
-                'stock' => '50.50',
+                'stock' => '15.50',
                 'branch_id' => 1,
                 'product_id' => 54,
                 'created_at' => '2024-07-23 12:00:00',
@@ -509,7 +509,7 @@ class BranchProductsTableSeeder extends Seeder
             54 =>
             array (
                 'id' => 55,
-                'stock' => '460.40',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 55,
                 'created_at' => '2024-07-23 12:00:00',
@@ -518,7 +518,7 @@ class BranchProductsTableSeeder extends Seeder
             55 =>
             array (
                 'id' => 56,
-                'stock' => '229.00',
+                'stock' => '21.00',
                 'branch_id' => 1,
                 'product_id' => 56,
                 'created_at' => '2024-07-23 12:00:00',
@@ -527,7 +527,7 @@ class BranchProductsTableSeeder extends Seeder
             56 =>
             array (
                 'id' => 57,
-                'stock' => '428.00',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 57,
                 'created_at' => '2024-07-23 12:00:00',
@@ -536,7 +536,7 @@ class BranchProductsTableSeeder extends Seeder
             57 =>
             array (
                 'id' => 58,
-                'stock' => '0.00',
+                'stock' => '1.00',
                 'branch_id' => 1,
                 'product_id' => 58,
                 'created_at' => '2024-07-23 12:00:00',
@@ -545,7 +545,7 @@ class BranchProductsTableSeeder extends Seeder
             58 =>
             array (
                 'id' => 59,
-                'stock' => '42.00',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 59,
                 'created_at' => '2024-07-23 12:00:00',
@@ -554,7 +554,7 @@ class BranchProductsTableSeeder extends Seeder
             59 =>
             array (
                 'id' => 60,
-                'stock' => '147.00',
+                'stock' => '74.00',
                 'branch_id' => 1,
                 'product_id' => 60,
                 'created_at' => '2024-07-23 12:00:00',
@@ -563,7 +563,7 @@ class BranchProductsTableSeeder extends Seeder
             60 =>
             array (
                 'id' => 61,
-                'stock' => '4.50',
+                'stock' => '8.00',
                 'branch_id' => 1,
                 'product_id' => 61,
                 'created_at' => '2024-07-23 12:00:00',
@@ -572,7 +572,7 @@ class BranchProductsTableSeeder extends Seeder
             61 =>
             array (
                 'id' => 62,
-                'stock' => '9.00',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 62,
                 'created_at' => '2024-07-23 12:00:00',
@@ -581,7 +581,7 @@ class BranchProductsTableSeeder extends Seeder
             62 =>
             array (
                 'id' => 63,
-                'stock' => '90.00',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 63,
                 'created_at' => '2024-07-23 12:00:00',
@@ -590,7 +590,7 @@ class BranchProductsTableSeeder extends Seeder
             63 =>
             array (
                 'id' => 64,
-                'stock' => '412.55',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 64,
                 'created_at' => '2024-07-23 12:00:00',
@@ -599,7 +599,7 @@ class BranchProductsTableSeeder extends Seeder
             64 =>
             array (
                 'id' => 65,
-                'stock' => '154.50',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 65,
                 'created_at' => '2024-07-23 12:00:00',
@@ -608,7 +608,7 @@ class BranchProductsTableSeeder extends Seeder
             65 =>
             array (
                 'id' => 66,
-                'stock' => '2232.14',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 66,
                 'created_at' => '2024-07-23 12:00:00',
@@ -626,7 +626,7 @@ class BranchProductsTableSeeder extends Seeder
             67 =>
             array (
                 'id' => 68,
-                'stock' => '1063.60',
+                'stock' => '2.10',
                 'branch_id' => 1,
                 'product_id' => 68,
                 'created_at' => '2024-07-23 12:00:00',
@@ -635,7 +635,7 @@ class BranchProductsTableSeeder extends Seeder
             68 =>
             array (
                 'id' => 69,
-                'stock' => '143.60',
+                'stock' => '899.40',
                 'branch_id' => 1,
                 'product_id' => 69,
                 'created_at' => '2024-07-23 12:00:00',
@@ -644,7 +644,7 @@ class BranchProductsTableSeeder extends Seeder
             69 =>
             array (
                 'id' => 70,
-                'stock' => '821.80',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 70,
                 'created_at' => '2024-07-23 12:00:00',
@@ -653,7 +653,7 @@ class BranchProductsTableSeeder extends Seeder
             70 =>
             array (
                 'id' => 71,
-                'stock' => '199.00',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 71,
                 'created_at' => '2024-07-23 12:00:00',
@@ -671,7 +671,7 @@ class BranchProductsTableSeeder extends Seeder
             72 =>
             array (
                 'id' => 73,
-                'stock' => '0.00',
+                'stock' => '2.10',
                 'branch_id' => 1,
                 'product_id' => 73,
                 'created_at' => '2024-07-23 12:00:00',
@@ -680,7 +680,7 @@ class BranchProductsTableSeeder extends Seeder
             73 =>
             array (
                 'id' => 74,
-                'stock' => '0.00',
+                'stock' => '202.50',
                 'branch_id' => 1,
                 'product_id' => 74,
                 'created_at' => '2024-07-23 12:00:00',
@@ -689,7 +689,7 @@ class BranchProductsTableSeeder extends Seeder
             74 =>
             array (
                 'id' => 75,
-                'stock' => '37.00',
+                'stock' => '1.50',
                 'branch_id' => 1,
                 'product_id' => 75,
                 'created_at' => '2024-07-23 12:00:00',
@@ -698,7 +698,7 @@ class BranchProductsTableSeeder extends Seeder
             75 =>
             array (
                 'id' => 76,
-                'stock' => '30.00',
+                'stock' => '0.00',
                 'branch_id' => 1,
                 'product_id' => 76,
                 'created_at' => '2024-07-23 12:00:00',
@@ -707,7 +707,7 @@ class BranchProductsTableSeeder extends Seeder
             76 =>
             array (
                 'id' => 77,
-                'stock' => '40.00',
+                'stock' => '76.40',
                 'branch_id' => 1,
                 'product_id' => 77,
                 'created_at' => '2024-07-23 12:00:00',
@@ -716,7 +716,7 @@ class BranchProductsTableSeeder extends Seeder
             77 =>
             array (
                 'id' => 78,
-                'stock' => '995.00',
+                'stock' => '10.50',
                 'branch_id' => 1,
                 'product_id' => 78,
                 'created_at' => '2024-07-23 12:00:00',
@@ -725,7 +725,7 @@ class BranchProductsTableSeeder extends Seeder
             78 =>
             array (
                 'id' => 79,
-                'stock' => '69.90',
+                'stock' => '6.50',
                 'branch_id' => 1,
                 'product_id' => 79,
                 'created_at' => '2024-07-23 12:00:00',
@@ -734,7 +734,7 @@ class BranchProductsTableSeeder extends Seeder
             79 =>
             array (
                 'id' => 80,
-                'stock' => '31.10',
+                'stock' => '0.40',
                 'branch_id' => 1,
                 'product_id' => 80,
                 'created_at' => '2024-07-23 12:00:00',
@@ -743,7 +743,7 @@ class BranchProductsTableSeeder extends Seeder
             80 =>
             array (
                 'id' => 81,
-                'stock' => '5.70',
+                'stock' => '78.50',
                 'branch_id' => 1,
                 'product_id' => 81,
                 'created_at' => '2024-07-23 12:00:00',
@@ -761,279 +761,9 @@ class BranchProductsTableSeeder extends Seeder
             82 =>
             array (
                 'id' => 83,
-                'stock' => '0.00',
+                'stock' => '2.00',
                 'branch_id' => 1,
                 'product_id' => 83,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            83 =>
-            array (
-                'id' => 84,
-                'stock' => '0.00',
-                'branch_id' => 1,
-                'product_id' => 84,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            84 =>
-            array (
-                'id' => 85,
-                'stock' => '600.00',
-                'branch_id' => 1,
-                'product_id' => 85,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            85 =>
-            array (
-                'id' => 86,
-                'stock' => '1937.00',
-                'branch_id' => 1,
-                'product_id' => 86,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            86 =>
-            array (
-                'id' => 87,
-                'stock' => '9.00',
-                'branch_id' => 1,
-                'product_id' => 87,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            87 =>
-            array (
-                'id' => 88,
-                'stock' => '0.00',
-                'branch_id' => 1,
-                'product_id' => 88,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            88 =>
-            array (
-                'id' => 89,
-                'stock' => '0.00',
-                'branch_id' => 1,
-                'product_id' => 89,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            89 =>
-            array (
-                'id' => 90,
-                'stock' => '0.00',
-                'branch_id' => 1,
-                'product_id' => 90,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            90 =>
-            array (
-                'id' => 91,
-                'stock' => '0.00',
-                'branch_id' => 1,
-                'product_id' => 91,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            91 =>
-            array (
-                'id' => 92,
-                'stock' => '18.00',
-                'branch_id' => 1,
-                'product_id' => 92,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            92 =>
-            array (
-                'id' => 93,
-                'stock' => '0.00',
-                'branch_id' => 1,
-                'product_id' => 93,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            93 =>
-            array (
-                'id' => 94,
-                'stock' => '0.00',
-                'branch_id' => 1,
-                'product_id' => 94,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            94 =>
-            array (
-                'id' => 95,
-                'stock' => '126.00',
-                'branch_id' => 1,
-                'product_id' => 95,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            95 =>
-            array (
-                'id' => 96,
-                'stock' => '0.00',
-                'branch_id' => 1,
-                'product_id' => 96,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            96 =>
-            array (
-                'id' => 97,
-                'stock' => '263.00',
-                'branch_id' => 1,
-                'product_id' => 97,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            97 =>
-            array (
-                'id' => 98,
-                'stock' => '0.00',
-                'branch_id' => 1,
-                'product_id' => 98,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            98 =>
-            array (
-                'id' => 99,
-                'stock' => '0.00',
-                'branch_id' => 1,
-                'product_id' => 99,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            99 =>
-            array (
-                'id' => 100,
-                'stock' => '0.00',
-                'branch_id' => 1,
-                'product_id' => 100,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            100 =>
-            array (
-                'id' => 101,
-                'stock' => '164.00',
-                'branch_id' => 1,
-                'product_id' => 101,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            101 =>
-            array (
-                'id' => 102,
-                'stock' => '0.80',
-                'branch_id' => 1,
-                'product_id' => 102,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            102 =>
-            array (
-                'id' => 103,
-                'stock' => '2.30',
-                'branch_id' => 1,
-                'product_id' => 103,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            103 =>
-            array (
-                'id' => 104,
-                'stock' => '42.50',
-                'branch_id' => 1,
-                'product_id' => 104,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            104 =>
-            array (
-                'id' => 105,
-                'stock' => '0.00',
-                'branch_id' => 1,
-                'product_id' => 105,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            105 =>
-            array (
-                'id' => 106,
-                'stock' => '200.00',
-                'branch_id' => 1,
-                'product_id' => 106,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            106 =>
-            array (
-                'id' => 107,
-                'stock' => '92.00',
-                'branch_id' => 1,
-                'product_id' => 107,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            107 =>
-            array (
-                'id' => 108,
-                'stock' => '0.00',
-                'branch_id' => 1,
-                'product_id' => 108,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            108 =>
-            array (
-                'id' => 109,
-                'stock' => '0.00',
-                'branch_id' => 1,
-                'product_id' => 109,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            109 =>
-            array (
-                'id' => 110,
-                'stock' => '0.00',
-                'branch_id' => 1,
-                'product_id' => 110,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            110 =>
-            array (
-                'id' => 111,
-                'stock' => '5.00',
-                'branch_id' => 1,
-                'product_id' => 111,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            111 =>
-            array (
-                'id' => 112,
-                'stock' => '57.00',
-                'branch_id' => 1,
-                'product_id' => 112,
-                'created_at' => '2024-07-23 12:00:00',
-                'updated_at' => '2024-07-23 12:00:00'
-            ),
-            112 =>
-            array (
-                'id' => 113,
-                'stock' => '0.00',
-                'branch_id' => 1,
-                'product_id' => 113,
                 'created_at' => '2024-07-23 12:00:00',
                 'updated_at' => '2024-07-23 12:00:00'
             ),
