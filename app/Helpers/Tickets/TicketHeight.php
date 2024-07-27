@@ -120,7 +120,7 @@ if (!function_exists('ticketHeightNcinvoice')) {
         $pdfHeight += $productHeader;
         foreach ($ncinvoiceProducts as $ncinvoiceProduct) {
             $product = Product::findOrFail($ncinvoiceProduct->product_id);
-            $length = strlen($product->product->name);
+            $length = strlen($product->name);
             if ($length > 20) {
                 $pdfHeight += 12;
             } else {

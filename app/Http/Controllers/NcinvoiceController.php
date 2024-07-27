@@ -690,7 +690,7 @@ class NcinvoiceController extends Controller
             $pdf->generateInvoiceInformation($document);
 
             //$cufe = 'este-es-un-cufe-de-prueba';
-            $cufe = $ncinvoice->invoiceResponse->cude;
+            $cufe = $ncinvoice->ncinvoiceResponse->cude;
             $url = 'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=';
             $data = [
                 'NumFac' => $ncinvoice->document,

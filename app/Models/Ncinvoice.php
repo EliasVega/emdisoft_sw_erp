@@ -75,4 +75,8 @@ class Ncinvoice extends Model
     public function cashRegister() {
         return $this->belongsTo(CashRegister::class);
     }
+
+    public function ncinvoiceResponse() {
+        return $this->hasOne(NcinvoiceResponse::class);
+    }
 }
