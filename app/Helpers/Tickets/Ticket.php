@@ -20,9 +20,9 @@ class Ticket extends FPDF
         $this->SetY($this->GetY() + $height);
     }
 
-    public function generateTitle()
+    public function generateTitle($title)
     {
-        $title = 'DOCUMENTO EQUIVALENTE ELECTRONICO DEL TIQUETE DE MAQUINA REGISTRADORA CON SISTEMA P.O.S.';
+        //$title = 'DOCUMENTO EQUIVALENTE ELECTRONICO DEL TIQUETE DE MAQUINA REGISTRADORA CON SISTEMA P.O.S.';
 
         $this->SetFont('Arial', 'B', 10);
         $this->SetTextColor(0, 0, 0);

@@ -636,6 +636,13 @@ class NcinvoiceController extends Controller
     {
         $document = $ncinvoice;
         $typeDocument = 'ncinvoice';
+        $title = '';
+        $invoice = Invoice::findOrFail($ncinvoice->invoice_id);//encontrando la factura
+        if ($invoice->document_type_id == 1) {
+            $title = 'NOTA CREDITO';
+        } else if ($invoice->document_type_id == 15){
+            $title = 'NOTA DE AJUSTE DE TIPO CREDITO AL DOCUMENTO EQUIVALENTE.';
+        }
         $thirdPartyType = 'customer';
         $logoHeight = 26;
         if (indicator()->logo == 'on') {
@@ -666,7 +673,7 @@ class NcinvoiceController extends Controller
                 $pdf->generateLogo($logo, $width, $height);
             }
         }
-        $pdf->generateTitle();
+        $pdf->generateTitle($title);
         $pdf->generateCompanyInformation();
 
         $barcodeGenerator = new BarcodeGeneratorPNG();

@@ -13,6 +13,8 @@
         <i class="fas fa-file-pdf"></i>
     </a>
 @endif
+<a href="{{ route('posPdf', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="pdf pos" >
+    <i class="fas fa-receipt"></i></a>
 <!--
 </a>@can('superAdmin')
     <a href="{{ route('invoice.edit', $id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip"
