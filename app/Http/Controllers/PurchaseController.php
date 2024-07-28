@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Tickets\Ticket;
 use App\Models\Purchase;
 use App\Http\Requests\StorePurchaseRequest;
 use App\Http\Requests\UpdatePurchaseRequest;
@@ -42,6 +43,12 @@ use App\Traits\InventoryPurchases;
 use App\Traits\KardexCreate;
 use App\Traits\RawMaterialPurchases;
 use App\Traits\GetTaxesLine;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
+use Picqer\Barcode\BarcodeGeneratorPNG;
+
+use function App\Helpers\Tickets\formatText;
+use function App\Helpers\Tickets\ticketHeight;
 
 class PurchaseController extends Controller
 {
@@ -1455,6 +1462,106 @@ class PurchaseController extends Controller
         return $pdf->stream('vista-pdf', "$purchasepdf.pdf");
         //return $pdf->download("$purchasepdf.pdf");
    }
+
+   public function posPdfPurchase(Request $request, Purchase $purchase)
+    {
+        $typeDocument = 'purchase';
+        $title = '';
+        $documentType = $purchase->document_type_id;
+        if ($documentType == 11) {
+            $title = 'DOCUMENTO SOPORTE ELECTRONICO';
+        } else {
+            $title = 'COMPROBANTE DE COMPRA';
+        }
+
+
+        $document = $purchase;
+        $thirdPartyType = 'provider';
+        $logoHeight = 26;
+
+        if (indicator()->logo == 'on') {
+            $logo = storage_path('app/public/images/logos/' . company()->imageName);
+
+            $image = list($width, $height, $type, $attr) = getimagesize($logo);
+            $multiplier = $image[0]/$image[1];
+            $height = 26;
+            $width = $height * $multiplier;
+            if ($width > 60) {
+                $width = 60;
+                $height = 60/$multiplier;
+            }
+        }
+
+        $pdfHeight = ticketHeight($logoHeight, company(), $purchase, "purchase");
+
+        $pdf = new Ticket('P', 'mm', array(76, $pdfHeight), true, 'UTF-8');
+        $pdf->SetMargins(2, 10, 6);
+        $pdf->SetTitle($purchase->document);
+        $pdf->SetAutoPageBreak(false);
+        $pdf->addPage();
+
+
+
+        if (indicator()->logo == 'on') {
+            if (file_exists($logo)) {
+                $pdf->generateLogo($logo, $width, $height);
+            }
+        }
+        $pdf->generateTitle($title);
+        $pdf->generateCompanyInformation();
+
+        $barcodeGenerator = new BarcodeGeneratorPNG();
+        $barcodeCode = $barcodeGenerator->getBarcode($purchase->id, $barcodeGenerator::TYPE_CODE_128);
+        $barcode = "data:image/png;base64," . base64_encode($barcodeCode);
+
+        $pdf->generateBarcode($barcode);
+        $pdf->generateBranchInformation($document);
+        $pdf->generateThirdPartyInformation($purchase->third, $thirdPartyType);
+        $pdf->generateProductsTable($document, $typeDocument);
+        $pdf->generateSummaryInformation($document);
+
+        if (indicator()->dian == 'on' && $documentType == 11) {
+            $pdf->generateInvoiceInformation($document);
+            $cufe =  $purchase->supportDocumentResponse->cuds;
+            $url = 'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=';
+            $data = [
+                'NumFac' => $purchase->document,
+                'FecFac' => $purchase->created_at->format('Y-m-d'),
+                'NitFac' => company()->nit,
+                'DocAdq' => $purchase->third->identification,
+                'ValFac' => $purchase->total,
+                'ValIva' => $purchase->total_tax,
+                'ValOtroIm' => '0.00',
+                'ValTotal' => $purchase->total_pay,
+                'CUFE' => $cufe,
+                'URL' => $url . $cufe,
+            ];
+
+            $writer = new PngWriter();
+            $qrCode = new QrCode(implode("\n", $data));
+            $qrCode->setSize(300);
+            $qrCode->setMargin(10);
+            $result = $writer->write($qrCode);
+
+            $qrCodeImage = $result->getString();
+            $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
+            $pdf->generateQr($qrImage);
+
+            //$confirmationCode = formatText("CUFE: " . $invoice->response->cufe);
+            $confirmationCode = formatText("CUFE: " . $purchase->invoiceResponse->cufe);
+            //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
+            $pdf->generateConfirmationCode($confirmationCode);
+        }
+
+
+        $refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
+        $pdf->generateDisclaimerInformation($refund);
+
+        $pdf->footer();
+
+        $pdf->Output("I", $purchase->document . ".pdf", true);
+        exit;
+    }
 
    public function getProductPurchase(Request $request)
     {

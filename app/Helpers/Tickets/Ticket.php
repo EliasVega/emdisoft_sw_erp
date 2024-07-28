@@ -5,6 +5,7 @@ namespace App\Helpers\Tickets;
 use App\Models\InvoiceOrderProduct;
 use App\Models\InvoiceProduct;
 use App\Models\NcinvoiceProduct;
+use App\Models\ProductPurchase;
 use App\Models\Resolution;
 use App\Models\Tax;
 use FPDF;
@@ -130,6 +131,9 @@ class Ticket extends FPDF
             case 'invoiceOrder':
                 $products = InvoiceOrderProduct::where('invoice_order_id', $document->id)->get();
                 break;
+            case 'purchase':
+                $products = ProductPurchase::where('purchase_id', $document->id)->get();
+                break;
             default:
                 # code...
                 break;
@@ -149,7 +153,7 @@ class Ticket extends FPDF
             //$this->Multicell(30,5, formatText($invoiceProduct->product->name),'J',1);
             //$this->MultiCell(0, 10, formatText($invoiceProduct->product->name), 0, 'L');
             $this->SetFont('Arial', '', 7);
-            if ($length > 20) {
+            if ($length > 18) {
                 $this->Multicell(50,5, formatText($product->product->name),'J',1);
                 $this->Cell(38, 5, $product->quantity, 0, 0, 'R');
             } else {

@@ -368,6 +368,7 @@ Route::get('purchaseOrder/pos/{id}', [PurchaseOrderController::class, 'purchaseO
 Route::get('pdfPurchaseOrder', [PurchaseOrderController::class, 'pdfPurchaseOrder'])->name('pdfPurchaseOrder');
 Route::get('posPurchaseOrder', [PurchaseOrderController::class, 'posPurchaseOrder'])->name('posPurchaseOrder');
 Route::get('createRM', [PurchaseOrderController::class, 'createRawmaterial'])->name('createRM');
+Route::get('purchase/posPdfPurchase/{purchase}', [PurchaseController::class, 'posPdfPurchase'])->name('posPdfPurchase');
 
 Route::get('getProductPurchase', [PurchaseController::class, 'getProductPurchase'])->name('getProductPurchase');
 Route::get('purchase/create/{id}', [PurchaseController::class, 'getMunicipalities']);
