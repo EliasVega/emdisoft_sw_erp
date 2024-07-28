@@ -1,10 +1,10 @@
 @if ($dian == 'on')
         <a class="btn btn-primary btn-sm" href="{{ Storage::url('files/graphical_representations/invoices/'.$document.'.pdf') }}" title="Representación grafica" target="_blank">
             <i class="fas fa-download fa-fw"></i> Pdf</a>
-        <a href="{{ route('posPdf', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="pdf pos" >
-            <i class="fas fa-receipt"></i></a>
+
+        <a href="{{ route('posPdf', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="ticket" ><i class="fas fa-receipt"></i></a>
 @else
-    <a href="{{ route('posPdf', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="pdf pos" >
+    <a href="{{ route('posPdf', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="ticket" >
         <i class="fas fa-receipt"></i></a>
     <a href="{{ route('invoicePdf', $id) }}" class="btn btn-pdf btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="Venta pdf">
         <i class="fas fa-file-pdf"></i>

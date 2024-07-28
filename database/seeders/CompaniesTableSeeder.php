@@ -23,15 +23,15 @@ class CompaniesTableSeeder extends Seeder
             0 =>
             array (
                 'id' => 1,
-                'name' => 'EXCEDENTES ECOINDUSTRIALES LA QUINTA S.A.S.',
-                'nit' => '901286970',
-                'dv' => '5',
-                'address' => 'CL 5 16 22 BRR COMUNEROS',
-                'phone' => '3134468537',
-                'api_token' => '0',
-                'email' => 'exceecolaquinta@hotmail.com',
-                'emailfe' => 'exceecolaquinta@hotmail.com',
-                'merchant_registration' => '05-433336-16',
+                'name' => 'EMDISOFT S.A.S.',
+                'nit' => '901363767',
+                'dv' => '6',
+                'address' => 'CR 21 99 27 BRR FONTANA',
+                'phone' => '3168886468',
+                'api_token' => '12345',
+                'email' => 'emdisoft@gmail.com',
+                'emailfe' => 'emdisoft@gmail.com',
+                'merchant_registration' => '05-451997-16',
                 'imageName' => 'noimage.jpg',
                 'logo' => '/storage/images/logos/noimage.jpg',
                 'pos_invoice' => 'POS',
@@ -39,12 +39,14 @@ class CompaniesTableSeeder extends Seeder
                 'department_id' => 21,
                 'municipality_id' => 846,
                 'identification_type_id' => 6,
-                'liability_id' => 117,
-                'organization_id' => 2,
-                'regime_id' => 2,
+                'liability_id' => 14,
+                'organization_id' => 1,
+                'regime_id' => 1,
                 'created_at' => '2024-01-12 21:07:42',
                 'updated_at' => '2024-01-12 21:07:42',
             ),
         ));
+
+
     }
 }

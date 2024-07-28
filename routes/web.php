@@ -307,6 +307,7 @@ Route::get('pdfInvoiceOrder', [InvoiceOrderController::class, 'pdfInvoiceOrder']
 Route::get('posInvoiceOrder', [InvoiceOrderController::class, 'posInvoiceOrder'])->name('posInvoiceOrder');
 Route::get('invoiceOrder/invoiceOrderDelete/{id}', [InvoiceOrderController::class, 'invoiceOrderDelete'])->name('invoiceOrderDelete');
 Route::get('createPosOrder', [InvoiceOrderController::class, 'createPosOrder'])->name('createPosOrder');
+Route::get('invoiceOrder/posPdfInvoiceOrder/{invoiceOrder}', [InvoiceOrderController::class, 'posPdfInvoiceOrder'])->name('posPdfInvoiceOrder');
 
 Route::get('invoiceTestSet/statusQuery/{id}', [InvoiceTestSetController::class, 'statusQuery'])->name('statusQuery');
 Route::get('createSetPos', [InvoiceTestSetController::class, 'createSetPos'])->name('createSetPos');

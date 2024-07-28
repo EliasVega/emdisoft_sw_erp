@@ -2,6 +2,7 @@
 
 namespace App\Helpers\Tickets;
 
+use App\Models\InvoiceOrderProduct;
 use App\Models\InvoiceProduct;
 use App\Models\NcinvoiceProduct;
 use App\Models\Resolution;
@@ -66,7 +67,7 @@ class Ticket extends FPDF
     {
         $date = formatText('Fecha: ' . $document->generation_date);
         $branch = formatText('Sucursal: ' . $document->branch->name);
-        $number = formatText('Consecutivo: ' . $document->document);
+        $number = formatText('Consecutivo: ' . $document->id);
         $cashRegister = $document->cashRegister;
         $cashRegisterNumber = formatText('Caja Nro: ' . $cashRegister->id . ' - ' . $cashRegister->salePoint->plate_number);
         $cashierName = formatText('Cajero: ' . $cashRegister->user->name);
@@ -125,6 +126,9 @@ class Ticket extends FPDF
                 break;
             case 'ncinvoice':
                 $products = NcinvoiceProduct::where('ncinvoice_id', $document->id)->get();
+                break;
+            case 'invoiceOrder':
+                $products = InvoiceOrderProduct::where('invoice_order_id', $document->id)->get();
                 break;
             default:
                 # code...

@@ -43,13 +43,13 @@ class UsersTableSeeder extends Seeder
 
         User::create([
             'id' => 2,
-            'name' => 'EXCEDENTES ECOINDUSTRIALES LA QUINTA S.A.S.',
-            'number' => '901286970',
-            'address' => 'CL 5 16 22 BRR COMUNEROS',
-            'phone' => '3134468537',
-            'email' => 'exceecolaquinta@hotmail.com',
+            'name' => 'USUARIO TESTING',
+            'number' => '99999999',
+            'address' => 'BUCARAMANGA',
+            'phone' => '3139999999',
+            'email' => 'testing@gmail.com',
             'email_verified_at' => NULL,
-            'password' => bcrypt('901286970'),
+            'password' => bcrypt('admin2024'),
             'two_factor_secret' => NULL,
             'two_factor_recovery_codes' => NULL,
             'two_factor_confirmed_at' => NULL,
@@ -61,9 +61,9 @@ class UsersTableSeeder extends Seeder
             'status' => 'active',
             'company_id' => 1,
             'branch_id' => 1,
-            'identification_type_id' => 6,
-            'created_at' => '2024-07-20 21:07:43',
-            'updated_at' => '2024-07-20 21:07:43'
+            'identification_type_id' => 3,
+            'created_at' => '2024-05-16 21:07:43',
+            'updated_at' => '2024-05-16 21:07:43'
 
         ])->assignRole(2);
     }
