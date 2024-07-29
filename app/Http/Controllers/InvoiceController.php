@@ -1363,6 +1363,7 @@ class InvoiceController extends Controller
         $title = '';
         if ($invoice->document_type_id == 1) {
             $title = 'FACTURA DE VENTA';
+            //$title = 'DOCUMENTO EQUIVALENTE ELECTRONICO DEL TIQUETE DE MAQUINA REGISTRADORA CON SISTEMA P.O.S.';
         } else {
             $title = 'DOCUMENTO EQUIVALENTE ELECTRONICO DEL TIQUETE DE MAQUINA REGISTRADORA CON SISTEMA P.O.S.';
         }
@@ -1393,13 +1394,8 @@ class InvoiceController extends Controller
         $pdf->SetAutoPageBreak(false);
         $pdf->addPage();
 
-        /*
-        if (indicator()->logo == 'on') {
-            if (file_exists($logo)) {
-                $pdf->generateLogoPdf($logo, $width, $height);
-            }
-        }*/
         $pdf->generateHeader($logo, $width, $height, $title, $invoice);
+        $pdf->generateInformation($invoice->third, $thirdPartyType);
         //$pdf->generateHeader($logo, $width, $height);
         //$refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
         //$pdf->generateDisclaimerInformation($refund);

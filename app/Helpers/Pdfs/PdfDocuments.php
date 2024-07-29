@@ -8,6 +8,8 @@ namespace App\Helpers\Pdfs;
 //use App\Models\ProductPurchase;
 //use App\Models\Resolution;
 //use App\Models\Tax;
+
+use App\Models\Resolution;
 use FPDF;
 use Symfony\Polyfill\Mbstring\Mbstring;
 
@@ -17,27 +19,29 @@ class PdfDocuments extends FPDF
 {
     public function generateHeader($logo, $width, $height, $title, $document)
     {
-        $identificationType = formatText(company()->identificationType->initial);
-        $nit = formatText(company()->nit);
-        $dv = formatText(company()->dv);
-        $address = formatText('Dirección: ' . company()->address);
-        $phone = formatText('Teléfono: ' . company()->phone);
-        $email = formatText('Email: ' . company()->email);
-        $widthInitial = 10;
-        /*
-        // Logo
-        $this->Image('logo.png',10,8,33);
-        // Arial bold 15
-        $this->SetFont('Arial','B',15);
-        // Movernos a la derecha
-        $this->Cell(80);
-        // Título
-        $this->Cell(30,10,'Title',1,0,'C');
-        // Salto de línea
-        $this->Ln(20);*/
+        $identificationType = formatTextPdf(company()->identificationType->initial);
+        $nit = formatTextPdf(company()->nit);
+        $dv = formatTextPdf(company()->dv);
+        $address = formatTextPdf('Dirección: ' . company()->address);
+        $phone = formatTextPdf('Teléfono: ' . company()->phone);
+        $email = formatTextPdf('Email: ' . company()->email);
+        $regime = formatTextPdf(company()->regime->name);
+        $resolution = Resolution::findOrFail($document->resolution_id);
+        if (indicator()->dian == 'on') {
+            $resolutionNumber = 'Resolucion de Facturacion Electronica No.' . ' - ' . $resolution->resolution;
+            $resolutionPrefix = 'Prefijo: '. ' - ' . $resolution->prefix . ' - Rango - ' . $resolution->start_number . ' AL ' . $resolution->end_number;
+            $resolutionDates = 'Vigencia: ' . $resolution->start_date . ' HASTA ' . $resolution->end_date;
+        } else {
+            $resolutionNumber = '';
+            $resolutionPrefix = '';
+            $resolutionDates = '';
+        }
+        $companyInformation = $identificationType . ' - ' . $nit . ' - ' . $dv . ' - ' . $regime . ' - ' . $resolutionNumber . ' - ' . $resolutionPrefix . ' - ' . $resolutionDates . ' - ' . $address . ' - ' . $phone . ' - ' . $email;
+
+        $heigthInitial = 10;
         $documentType = $document->document_type_id;
         if ($documentType == 15) {
-            $widthInitial = 30;
+            $heigthInitial = 20;
             $this->SetFont('Arial','B',14);
             $page = $this->GetPageWidth();
             //$w = $this->GetStringWidth($title);
@@ -45,8 +49,10 @@ class PdfDocuments extends FPDF
             $this->SetDrawColor(0,80,180);
             $this->SetFillColor(230,230,0);
             $this->SetTextColor(220,50,50);
+            $this->SetX(0);
+            $this->setY(10);
             //$this->SetLineWidth(1);
-            $this->MultiCell(0,10,$title,0,'C',false);
+            $this->MultiCell(0,5,$title,0,'C',false);
         }
 
         $this->SetFont('Arial', 'B', 18);
@@ -56,112 +62,75 @@ class PdfDocuments extends FPDF
         $this->SetDrawColor(0,0,0);
         $this->SetFillColor(0,0,0);
         $this->SetTextColor(0,0,0);
+        $this->SetX(0);
+        $this->setY($heigthInitial);
         if ($nameComp < 200) {
-            $this->Cell(0,$widthInitial,strtoupper($nameCompany),0,0,'C', false);
+            $this->Cell(0,10,strtoupper($nameCompany),0,0,'C', false);
         } else {
             $this->MultiCell(0, 10, strtoupper($nameCompany), 0, 'C', false);
         }
-
+        $addWitch = 0;
         if ($documentType != 15) {
+            $addWitch = 10;
             $this->SetFont('Arial','B',14);
             $this->SetX(50);
-            $this->setY(20);
+            $this->setY($heigthInitial + 12);
             $this->SetDrawColor(0,80,180);
             $this->SetFillColor(230,230,0);
             $this->SetTextColor(220,50,50);
             $this->SetLineWidth(1);
-            $this->Cell(50,20,$title,0,0,'C',false);
+            $this->Cell(50,10,$title,0,0,'C',false);
 
         }
         $this->SetX(50);
-        $this->setY(20);
+        $this->setY($heigthInitial + 10 + $addWitch);
         $this->SetFont('Arial','B',16);
         $this->SetDrawColor(0,80,180);
         $this->SetFillColor(230,230,0);
         $this->SetTextColor(220,50,50);
-        $this->Cell(50,30,$document->document,0,0,'C',false);
+        $this->Cell(50,10,$document->document,0,0,'C',false);
+
         $this->SetFont('Arial','B',12);
         $this->SetX(50);
-        $this->setY(25);
+        $this->setY($heigthInitial + 15 + $addWitch);
         $this->SetDrawColor(0,0,0);
         $this->SetFillColor(0,0,0);
         $this->SetTextColor(0,0,0);
-        $this->Cell(50,30,'Fecha de Emision:',0,0,'C',false);
+        $this->Cell(50,10,'Fecha de Emision:',0,0,'C',false);
+
         $this->SetFont('Arial','B',12);
         $this->SetX(50);
-        $this->setY(30);
+        $this->setY($heigthInitial + 32);
+        $this->Cell(50,5,$document->created_at,0,0,'C',false);
 
 
-        $this->Cell(50,30,$document->created_at,0,0,'C',false);
         $this->SetFont('Arial', '', 9);
-        $this->setY(20);
-        $this->setX(105);
-        $this->Cell(10,20,$identificationType . ":" . $nit . " - " . $dv,0,0,'C');
-        //$this->Cell(0, 3, $identificationType . ":" . $nit . " - " . $dv, 0, 'C', false);
-        $this->SetFont('Arial', '', 9);
-        $this->setY(20);
-        $this->setX(105);
-        $this->Cell(10,28,$address,0,0,'C');
-        //$this->Cell(0, 3, $address, 0, 'C', false);
-        $this->SetFont('Arial', '', 9);
-        $this->setY(20);
-        $this->setX(105);
-        $this->Cell(10,36,$phone,0,0,'C');
-        //$this->Cell(0, 3, $phone, 0, 'C', false);
-        $this->SetFont('Arial', '', 9);
-        $this->setY(20);
-        $this->setX(105);
-        $this->Cell(10,44,$email,0,0,'C');
-        //$this->Cell(0, 3, $email, 0, 'C', false);
-        //$this->ln(2);
+        $this->setY($heigthInitial + 13);
+        $this->setX(60);
+        $this->MultiCell(80,5,$companyInformation,0,'C',false);
 
-
-        $this->Image($logo, 160, $widthInitial + 15, $width, $height);
-        /*
-        //$this->Image($logo, $xPos, 5, $width, $height);
-        //$this->SetY($this->GetY() + $height);
-        $this->SetFont('Arial','B',15);
-        // Movernos a la derecha
-        $this->Cell(120);
-        // Título
-        $this->Cell(30,10,'EMDISOFT S.A.S.',1,0,'C');
-        // Salto de línea
-        $this->Ln(20);*/
+        $this->Image($logo, 160, $heigthInitial + 13, $width, $height);
     }
 
-/*
-    public function generateTitle($title)
+    public function generateInformation($thirdParty, $thirdPartyType)
     {
-        //$title = 'DOCUMENTO EQUIVALENTE ELECTRONICO DEL TIQUETE DE MAQUINA REGISTRADORA CON SISTEMA P.O.S.';
+        if ($thirdPartyType == "provider") {
+            $name = formatText('Proveedor: ' . $thirdParty->name);
+        } elseif ($thirdPartyType == "customer") {
+            $name = formatText('Cliente: ' . $thirdParty->name);
+        }
+        $identificationType = $thirdParty->identificationType->initial;
+        $identification = formatText($thirdParty->identification);
+        $email = formatText('Correo: ' . $thirdParty->email);
 
         $this->SetFont('Arial', 'B', 10);
-        $this->SetTextColor(0, 0, 0);
-        $this->MultiCell(0, 5, strtoupper($title), 0, 'C', false);
+        $this->setY(80);
+        $this->setX(10);
+        $this->Cell(0, 5, $name, 0, 'C', false);
         $this->SetFont('Arial', '', 9);
-        $this->ln(2);
-    }
-*/
-/*
-    public function generateCompanyInformation()
-    {
-        $identificationType = formatText(company()->identificationType->initial);
-        $nit = formatText(company()->nit);
-        $dv = formatText(company()->dv);
-        $address = formatText('Dirección: ' . company()->address);
-        $phone = formatText('Teléfono: ' . company()->phone);
-        $email = formatText('Email: ' . company()->email);
-
-        $this->SetFont('Arial', 'B', 12);
-        $this->SetTextColor(0, 0, 0);
-        $this->MultiCell(0, 5, strtoupper(company()->name), 0, 'C', false);
-        $this->SetFont('Arial', '', 9);
-        $this->MultiCell(0, 3, $identificationType . ":" . $nit . " - " . $dv, 0, 'C', false);
-        $this->MultiCell(0, 3, $address, 0, 'C', false);
-        $this->MultiCell(0, 3, $phone, 0, 'C', false);
+        $this->MultiCell(0, 3, $identificationType . ': ' . $identification, 0, 'C', false);
         $this->MultiCell(0, 3, $email, 0, 'C', false);
-        $this->ln(2);
     }
-*/
 /*
     public function generateBarcode($barcode)
     {
