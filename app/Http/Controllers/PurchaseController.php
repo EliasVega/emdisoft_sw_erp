@@ -47,7 +47,6 @@ use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 
-use function App\Helpers\Tickets\formatText;
 use function App\Helpers\Tickets\ticketHeight;
 
 class PurchaseController extends Controller

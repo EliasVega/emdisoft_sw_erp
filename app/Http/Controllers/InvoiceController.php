@@ -50,7 +50,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Arr;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 
-use function App\Helpers\Tickets\formatText;
 use function App\Helpers\Tickets\ticketHeight;
 
 class InvoiceController extends Controller
