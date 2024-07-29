@@ -286,19 +286,20 @@ Route::get('indicator/imgpStatus/{id}', [IndicatorController::class, 'imgpStatus
 Route::get('indicator/priceWithTaxStatus/{id}', [IndicatorController::class, 'priceWithTaxStatus'])->name('priceWithTaxStatus');
 
 Route::get('invoice/create/{id}', [InvoiceController::class, 'getMunicipalities']);
-
+Route::get('createPos', [InvoiceController::class, 'createPos'])->name('createPos');
 Route::get('getProductInvoice', [InvoiceController::class, 'getProductInvoice'])->name('getProductInvoice');
 Route::get('invoice/invoicePay/{id}', [InvoiceController::class, 'invoicePay'])->name('invoicePay');
-Route::get('invoice/invoicePdf/{id}', [InvoiceController::class, 'invoicePdf'])->name('invoicePdf');
-Route::get('invoice/invoicePos/{id}', [InvoiceController::class, 'invoicePos'])->name('invoicePos');
 Route::get('invoice/creditNoteInvoice/{id}', [InvoiceController::class, 'creditNote'])->name('creditNoteInvoice');
 Route::get('invoice/debitNoteInvoice/{id}', [InvoiceController::class, 'debitNote'])->name('debitNoteInvoice');
-Route::get('pdfInvoice', [InvoiceController::class, 'pdfInvoice'])->name('pdfInvoice');
-Route::get('posInvoice', [InvoiceController::class, 'posInvoice'])->name('posInvoice');
-Route::get('invoice/posPdf/{invoice}', [InvoiceController::class, 'posPdf'])->name('posPdf');
-Route::get('createPos', [InvoiceController::class, 'createPos'])->name('createPos');
-Route::get('invoice/pdfFl/{id]', [InvoiceController::class, 'pdfFl'])->name('pdfFl');
 Route::get('invoice/advance/{id}', [InvoiceController::class, 'getAdvance']);
+
+Route::get('invoice/invoicePdf/{id}', [InvoiceController::class, 'invoicePdf'])->name('invoicePdf');
+Route::get('invoice/invoicePos/{id}', [InvoiceController::class, 'invoicePos'])->name('invoicePos');
+//Route::get('pdfInvoice', [InvoiceController::class, 'pdfInvoice'])->name('pdfInvoice');
+//Route::get('posInvoice', [InvoiceController::class, 'posInvoice'])->name('posInvoice');
+Route::get('invoice/posPdf/{invoice}', [InvoiceController::class, 'posPdf'])->name('posPdf');
+Route::get('invoice/pdfInvoice/{invoice}', [InvoiceController::class, 'pdfInvoice'])->name('pdfInvoice');
+
 
 Route::get('invoiceOrder/invoice/{id}', [InvoiceOrderController::class, 'invoice'])->name('invoiceOrderInvoice');
 Route::get('invoiceOrder/pdf/{id}', [InvoiceOrderController::class, 'invoiceOrderPdf'])->name('invoiceOrderPdf');

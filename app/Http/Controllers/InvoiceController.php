@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Tickets\Ticket;
+use App\Helpers\Pdfs\Pdf;
+use App\Helpers\Pdfs\PdfDocument;
+use App\Helpers\Pdfs\PdfDocuments;
 use App\Models\Invoice;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
@@ -1033,7 +1036,7 @@ class InvoiceController extends Controller
         //return $pdf->download("$invoicepdf.pdf");*/
     }
 
-    public function pdfInvoice(Request $request)
+    public function pdfInvoice2(Request $request)
    {
         $invoices = session('invoice');
         $invoice = Invoice::findOrFail($invoices);
@@ -1355,9 +1358,56 @@ class InvoiceController extends Controller
         exit;
     }
 
-    public function pdfFl($id) {
-        $document = Invoice::findOrFail($id);
-        return view('admin.invoice.pdfFl', compact('document'));
+    public function pdfInvoice(Request $request, Invoice $invoice) {
+        $typeDocument = 'invoice';
+        $title = '';
+        if ($invoice->document_type_id == 1) {
+            $title = 'FACTURA DE VENTA';
+        } else {
+            $title = 'DOCUMENTO EQUIVALENTE ELECTRONICO DEL TIQUETE DE MAQUINA REGISTRADORA CON SISTEMA P.O.S.';
+        }
+
+
+        $document = $invoice;
+        $thirdPartyType = 'customer';
+        $logoHeight = 26;
+
+        if (indicator()->logo == 'on') {
+            $logo = storage_path('app/public/images/logos/' . company()->imageName);
+
+            $image = list($width, $height, $type, $attr) = getimagesize($logo);
+            $multiplier = $image[0]/$image[1];
+            $height = 26;
+            $width = $height * $multiplier;
+            if ($width > 60) {
+                $width = 60;
+                $height = 60/$multiplier;
+            }
+        }
+
+        //$pdfHeight = ticketHeight($logoHeight, company(), $invoice, "invoice");
+
+        $pdf = new PdfDocuments('P', 'mm', 'Letter', true, 'UTF-8');
+        $pdf->SetMargins(10, 10, 6);
+        $pdf->SetTitle($invoice->document);
+        $pdf->SetAutoPageBreak(false);
+        $pdf->addPage();
+
+        /*
+        if (indicator()->logo == 'on') {
+            if (file_exists($logo)) {
+                $pdf->generateLogoPdf($logo, $width, $height);
+            }
+        }*/
+        $pdf->generateHeader($logo, $width, $height, $title, $invoice);
+        //$pdf->generateHeader($logo, $width, $height);
+        //$refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
+        //$pdf->generateDisclaimerInformation($refund);
+
+        $pdf->footer();
+
+        $pdf->Output("I", $invoice->document . ".pdf", true);
+        exit;
     }
 
     public function getAdvance(Request $request, $id)

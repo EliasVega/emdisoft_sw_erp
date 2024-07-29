@@ -2,7 +2,6 @@
 
 use App\Models\CompanyTax;
 use App\Models\Indicator;
-use App\Models\Purchase;
 use App\Models\Tax;
 
 if (! function_exists('taxesGlobals')) {
