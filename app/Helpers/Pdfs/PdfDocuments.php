@@ -90,68 +90,9 @@ class PdfDocuments extends FPDF
         $this->SetFont('Arial','B',12);
         $this->SetX(50);
         $this->setY(30);
+
+
         $this->Cell(50,30,$document->created_at,0,0,'C',false);
-
-        //$this->Ln(10);
-        /*
-        $this->SetX(70);
-        $this->setY(24);
-        $this->SetDrawColor(0,80,180);
-        $this->SetFillColor(230,230,0);
-        $this->SetTextColor(220,50,50);
-        $this->SetLineWidth(1);
-        $this->Cell(70,24,$title2,0,0,'C',false);
-        //$this->Ln(10);
-
-        $this->SetX(70);
-        $this->setY(28);
-        $this->SetDrawColor(0,80,180);
-        $this->SetFillColor(230,230,0);
-        $this->SetTextColor(220,50,50);
-        $this->SetLineWidth(1);
-        $this->Cell(70,28,$title3,0,0,'C',false);
-        //$this->Ln(10);
-        // Guardar ordenada
-        //$this->y = $this->GetY();
-        //$this->SetFont('Arial', '', 9);
-        //$this->ln(2);
-        */
-        /*
-        $this->SetFont('Arial', 'B', 18);
-        $this->SetTextColor(0, 0, 0);
-        $this->Cell(10,10,strtoupper(company()->name),0,0,'C');
-        //$this->Cell(5,0,"FACTURA");
-        //$this->Cell(120, 10, strtoupper(company()->name), 0, 0, 'C');
-        //$this->MultiCell(0, 10, strtoupper(company()->name), 0, 'C', false);
-        $this->SetFont('Arial', '', 9);
-        $this->Cell(10,20,$identificationType . ":" . $nit . " - " . $dv,0,0,'C');
-        //$this->Cell(0, 3, $identificationType . ":" . $nit . " - " . $dv, 0, 'C', false);
-        $this->SetFont('Arial', '', 9);
-        $this->setY(20);
-        $this->setX(10);
-        $this->Cell(10,28,$address,0,0,'C');
-        //$this->Cell(0, 3, $address, 0, 'C', false);
-        $this->SetFont('Arial', '', 9);
-        $this->setY(20);
-        $this->setX(10);
-        $this->Cell(10,36,$phone,0,0,'C');
-        //$this->Cell(0, 3, $phone, 0, 'C', false);
-        $this->SetFont('Arial', '', 9);
-        $this->setY(20);
-        $this->setX(10);
-        $this->Cell(10,44,$email,0,0,'C');
-        //$this->Cell(0, 3, $email, 0, 'C', false);
-        //$this->ln(2);*/
-
-/*
-        $this->SetFont('Arial', 'B', 18);
-        $this->setY(20);
-        $this->setX(10);
-        $this->SetTextColor(0, 0, 0);
-        $this->Cell(10,10,strtoupper(company()->name),0,0,'C');*/
-        //$this->Cell(5,0,"FACTURA");
-        //$this->Cell(120, 10, strtoupper(company()->name), 0, 0, 'C');
-        //$this->MultiCell(0, 10, strtoupper(company()->name), 0, 'C', false);
         $this->SetFont('Arial', '', 9);
         $this->setY(20);
         $this->setX(105);
