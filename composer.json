@@ -56,7 +56,6 @@
             "app/Helpers/CurrentUser.php",
             "app/Helpers/EquiDocPosData.php",
             "app/Helpers/EquiDocPosTestSetData.php",
-            "app/Helpers/formatTextPdf.php",
             "app/Helpers/Indicator.php",
             "app/Helpers/InvoiceData.php",
             "app/Helpers/InvoiceTestSetData.php",
@@ -83,6 +82,7 @@
             "app/Helpers/TaxesLines.php",
             "app/Helpers/UploadFile.php",
 
+            "app/Helpers/Pdfs/formatTextPdf.php",
             "app/Helpers/Pdfs/PdfDocuments.php",
             "app/Helpers/Tickets/formatText.php",
             "app/Helpers/Tickets/Ticket.php",
