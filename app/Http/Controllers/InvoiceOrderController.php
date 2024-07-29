@@ -29,6 +29,7 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Support\Arr;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 
+use function App\Helpers\Tickets\formatText;
 use function App\Helpers\Tickets\ticketHeight;
 use function PHPUnit\Framework\isNull;
 
