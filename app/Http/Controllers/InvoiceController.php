@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Tickets\Ticket;
-use App\Helpers\Pdfs\Pdf;
-use App\Helpers\Pdfs\PdfDocument;
 use App\Helpers\Pdfs\PdfDocuments;
 use App\Models\Invoice;
 use App\Http\Requests\StoreInvoiceRequest;
