@@ -2,13 +2,6 @@
 
 namespace App\Helpers\Pdfs;
 
-//use App\Models\InvoiceOrderProduct;
-//use App\Models\InvoiceProduct;
-//use App\Models\NcinvoiceProduct;
-//use App\Models\ProductPurchase;
-//use App\Models\Resolution;
-//use App\Models\Tax;
-
 use App\Models\InvoiceOrderProduct;
 use App\Models\InvoiceProduct;
 use App\Models\NcinvoiceProduct;
@@ -18,7 +11,7 @@ use App\Models\Tax;
 use FPDF;
 use Symfony\Polyfill\Mbstring\Mbstring;
 
-use function App\Helpers\Tickets\formatText;
+use function App\Helpers\Pdfs\formatTextPdf;
 
 class PdfDocuments extends FPDF
 {
