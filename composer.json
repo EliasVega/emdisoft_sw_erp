@@ -81,6 +81,7 @@
             "app/Helpers/TaxesGlobals.php",
             "app/Helpers/TaxesLines.php",
             "app/Helpers/UploadFile.php",
+            "app/Helpers/UtfEncoding.php",
 
             "app/Helpers/Pdfs/PdfFormatText.php",
             "app/Helpers/Pdfs/PdfDocuments.php",
