@@ -21,7 +21,7 @@ class PdfDocuments extends FPDF
         $address = pdfFormatText('Dirección: ' . company()->address);
         $phone = pdfFormatText('Teléfono: ' . company()->phone);
         $email = pdfFormatText('Email: ' . company()->email);
-
+        $compa = company();
         $resolution = Resolution::findOrFail($document->resolution_id);
         if (indicator()->dian == 'on') {
             $regime = pdfFormatText(company()->regime->name) . ' - ';
