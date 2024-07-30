@@ -84,7 +84,7 @@
 
             "app/Helpers/Pdfs/PdfFormatText.php",
             "app/Helpers/Pdfs/PdfDocuments.php",
-            "app/Helpers/Tickets/formatText.php",
+            "app/Helpers/Tickets/FormatText.php",
             "app/Helpers/Tickets/Ticket.php",
             "app/Helpers/Tickets/TicketHeight.php"
         ]
