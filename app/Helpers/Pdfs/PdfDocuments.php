@@ -16,16 +16,17 @@ class PdfDocuments extends FPDF
 {
     public function generateHeader($logo, $width, $height, $title, $document)
     {
-        $identificationType = utfEncoding(company()->identificationType->initial);
-        $nit = utfEncoding(company()->nit);
-        $dv = utfEncoding(company()->dv);
-        $address = utfEncoding('Dirección: ' . company()->address);
-        $phone = utfEncoding('Teléfono: ' . company()->phone);
-        $email = utfEncoding('Email: ' . company()->email);
+        $company = company();
+        $identificationType = utfEncoding($company->identificationType->initial);
+        $nit = utfEncoding($company->nit);
+        $dv = utfEncoding($company->dv);
+        $address = utfEncoding('Dirección: ' . $company->address);
+        $phone = utfEncoding('Teléfono: ' . $company->phone);
+        $email = utfEncoding('Email: ' . $company->email);
 
         $resolution = Resolution::findOrFail($document->resolution_id);
         if (indicator()->dian == 'on') {
-            $regime = utfEncoding(company()->regime->name) . ' - ';
+            $regime = utfEncoding($company->regime->name) . ' - ';
             $resolutionNumber = 'Resolucion de Facturacion Electronica No.' . ' - ' . $resolution->resolution . ' - ';
             $resolutionPrefix = 'Prefijo: '. ' - ' . $resolution->prefix . ' - Rango - ' . $resolution->start_number . ' AL ' . $resolution->end_number . ' - ';
             $resolutionDates = 'Vigencia: ' . $resolution->start_date . ' HASTA ' . $resolution->end_date . ' - ';
