@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Helpers\Pdfs;
+
 use Illuminate\Support\Facades\Http;
 
 if (!function_exists('pdfFormatText')) {
