@@ -11,22 +11,21 @@ use App\Models\Tax;
 use FPDF;
 use Symfony\Polyfill\Mbstring\Mbstring;
 
-use function App\Helpers\Pdfs\formatTextPdf;
 
 class PdfDocuments extends FPDF
 {
     public function generateHeader($logo, $width, $height, $title, $document)
     {
-        $identificationType = formatTextPdf(company()->identificationType->initial);
-        $nit = formatTextPdf(company()->nit);
-        $dv = formatTextPdf(company()->dv);
-        $address = formatTextPdf('Dirección: ' . company()->address);
-        $phone = formatTextPdf('Teléfono: ' . company()->phone);
-        $email = formatTextPdf('Email: ' . company()->email);
+        $identificationType = pdfFormatText(company()->identificationType->initial);
+        $nit = pdfFormatText(company()->nit);
+        $dv = pdfFormatText(company()->dv);
+        $address = pdfFormatText('Dirección: ' . company()->address);
+        $phone = pdfFormatText('Teléfono: ' . company()->phone);
+        $email = pdfFormatText('Email: ' . company()->email);
 
         $resolution = Resolution::findOrFail($document->resolution_id);
         if (indicator()->dian == 'on') {
-            $regime = formatTextPdf(company()->regime->name) . ' - ';
+            $regime = pdfFormatText(company()->regime->name) . ' - ';
             $resolutionNumber = 'Resolucion de Facturacion Electronica No.' . ' - ' . $resolution->resolution . ' - ';
             $resolutionPrefix = 'Prefijo: '. ' - ' . $resolution->prefix . ' - Rango - ' . $resolution->start_number . ' AL ' . $resolution->end_number . ' - ';
             $resolutionDates = 'Vigencia: ' . $resolution->start_date . ' HASTA ' . $resolution->end_date . ' - ';
@@ -109,21 +108,21 @@ class PdfDocuments extends FPDF
     public function generateInformation($thirdParty, $thirdPartyType, $document, $qrImage)
     {
         if ($thirdPartyType == "provider") {
-            $name = formatTextPdf('Proveedor: ' . $thirdParty->name);
+            $name = pdfFormatText('Proveedor: ' . $thirdParty->name);
         } elseif ($thirdPartyType == "customer") {
-            $name = formatTextPdf('Cliente: ' . $thirdParty->name);
+            $name = pdfFormatText('Cliente: ' . $thirdParty->name);
         }
         $identificationType = $thirdParty->identificationType->initial;
-        $identification = formatTextPdf($thirdParty->identification);
-        $dv = formatTextPdf($thirdParty->dv);
-        $regime = formatTextPdf('Regimen:' . ' - ' . $thirdParty->regime->name);
-        $municipality = formatTextPdf('Ciudad:' . ' - ' . $thirdParty->municipality->name);
-        $address = formatTextPdf('Direccion:' . ' - ' . $thirdParty->address);
-        $phone = formatTextPdf('Telefono:' . ' - ' . $thirdParty->phone);
-        $email = formatTextPdf('Correo: ' . $thirdParty->email);
-        $paymentForm = formatTextPdf('Forma de pago: ' . $document->paymentForm->name);
-        $paymentMethod = formatTextPdf('Medio de pago: ' . $document->paymentMethod->name);
-        $dueDate = formatTextPdf('Fecha Vencimiento: ' . $document->due_date);
+        $identification = pdfFormatText($thirdParty->identification);
+        $dv = pdfFormatText($thirdParty->dv);
+        $regime = pdfFormatText('Regimen:' . ' - ' . $thirdParty->regime->name);
+        $municipality = pdfFormatText('Ciudad:' . ' - ' . $thirdParty->municipality->name);
+        $address = pdfFormatText('Direccion:' . ' - ' . $thirdParty->address);
+        $phone = pdfFormatText('Telefono:' . ' - ' . $thirdParty->phone);
+        $email = pdfFormatText('Correo: ' . $thirdParty->email);
+        $paymentForm = pdfFormatText('Forma de pago: ' . $document->paymentForm->name);
+        $paymentMethod = pdfFormatText('Medio de pago: ' . $document->paymentMethod->name);
+        $dueDate = pdfFormatText('Fecha Vencimiento: ' . $document->due_date);
 
         $width = 40;
         $height = 35;
@@ -192,12 +191,12 @@ class PdfDocuments extends FPDF
         $this->SetTextColor(0,0,0);
         $this->SetFont('Arial', 'B', 10);
         $this->SetXY(10, 90);
-        $this->Cell(10, 8, formatText('#'), 1, 0, 'C', 1);
-        $this->Cell(25, 8, formatText('Codigo'), 1, 0, 'C', 1);
-        $this->Cell(90, 8, formatText('Producto'), 1, 0, 'C', 1);
-        $this->Cell(20, 8, formatText('Cant.'), 1, 0, 'C', 1);
-        $this->Cell(25, 8, formatText('Precio'), 1, 0, 'C', 1);
-        $this->Cell(30, 8, formatText('Subtotal'), 1, 1, 'C', 1);
+        $this->Cell(10, 8, pdfFormatText('#'), 1, 0, 'C', 1);
+        $this->Cell(25, 8, pdfFormatText('Codigo'), 1, 0, 'C', 1);
+        $this->Cell(90, 8, pdfFormatText('Producto'), 1, 0, 'C', 1);
+        $this->Cell(20, 8, pdfFormatText('Cant.'), 1, 0, 'C', 1);
+        $this->Cell(25, 8, pdfFormatText('Precio'), 1, 0, 'C', 1);
+        $this->Cell(30, 8, pdfFormatText('Subtotal'), 1, 1, 'C', 1);
         $this->ln(0.5);
         foreach ($products as $key => $product) {
             $length = strlen($product->product->name);
@@ -210,9 +209,9 @@ class PdfDocuments extends FPDF
             $this->Cell(10, 7, $key + 1, 1, 0, 'C',1);
             $this->Cell(25, 7, $product->product->code, 1, 0, 'R',1);
             if ($length > 60) {
-                $this->Multicell(90,7, formatText($product->product->name),'J',1);
+                $this->Multicell(90,7, pdfFormatText($product->product->name),'J',1);
             } else {
-                $this->Cell(90, 7, formatText($product->product->name), 1, 0, 'L',1);
+                $this->Cell(90, 7, pdfFormatText($product->product->name), 1, 0, 'L',1);
             }
             $this->Cell(20, 7, $product->quantity, 1, 0, 'R',1);
             $this->Cell(25, 7, "$" . number_format($product->price), 1, 0, 'R',1);
@@ -250,24 +249,24 @@ class PdfDocuments extends FPDF
         $this->SetTextColor(0,0,0);
         $this->SetFont('Arial', 'B', 10);
         $this->SetX(120);
-        $this->Cell(50, 8, formatText('Subtotal'), 1, 0, 'L', 1);
+        $this->Cell(50, 8, pdfFormatText('Subtotal'), 1, 0, 'L', 1);
         $this->Cell(40, 8, '$' . number_format($document->total,2), 1, 1, 'R', 1);
 
         foreach ($taxes as $tax) {
             $this->SetFont('Arial', 'B', 10);
             $this->SetX(120);
-            $this->Cell(50, 8, formatText($tax->name), 1, 0, 'L',1);
+            $this->Cell(50, 8, pdfFormatText($tax->name), 1, 0, 'L',1);
             $this->Cell(40, 8, "$" . number_format($tax->tax_value,2), 1, 1, 'R',1);
         }
         foreach ($retentions as $retention) {
             $this->SetFont('Arial', 'B', 10);
             $this->SetX(120);
-            $this->Cell(50, 8, formatText($retention->name), 1, 0, 'L',1);
+            $this->Cell(50, 8, pdfFormatText($retention->name), 1, 0, 'L',1);
             $this->Cell(40, 8, "$" . number_format($retention->tax_value,2), 1, 1, 'R',1);
         }
         $this->SetFont('Arial', 'B', 12);
         $this->SetX(120);
-        $this->Cell(50, 10, formatText("TOTAL"), 1, 0, 'L',1);
+        $this->Cell(50, 10, pdfFormatText("TOTAL"), 1, 0, 'L',1);
         $this->Cell(40, 10, "$" . number_format($document->total_pay,2), 1, 1, 'R',1);
     }
 
@@ -278,7 +277,7 @@ class PdfDocuments extends FPDF
         $cufe = $cufe;
         $this->setY($page - 20);
         $this->SetFont('Arial', '', 10);
-        //$this->Cell(0, 10, formatText(), '', 0, 'C');
+        //$this->Cell(0, 10, pdfFormatText(), '', 0, 'C');
         $this->Cell(0, 5, $documentInformation, 'T', 1, 'C',0);
         if (indicator()->dian == 'off') {
             $this->Cell(0, 5, $cufe, 0, 1, 'C',0);
@@ -291,7 +290,7 @@ class PdfDocuments extends FPDF
         $messageFooter = "Modo de operacion: Software Propio By  EMDISOFT S.A.S";
         $this->setY($page -10);
         $this->SetFont('Arial', '', 10);
-        //$this->Cell(0, 10, formatText(), '', 0, 'C');
+        //$this->Cell(0, 10, pdfFormatText(), '', 0, 'C');
         $this->Cell(0, 5, $messageFooter, 0, 0, 'C',0);
     }
 /*
@@ -309,12 +308,12 @@ class PdfDocuments extends FPDF
 /*
     public function generateBranchInformation($document)
     {
-        $date = formatText('Fecha: ' . $document->generation_date);
-        $branch = formatText('Sucursal: ' . $document->branch->name);
-        $number = formatText('Consecutivo: ' . $document->id);
+        $date = pdfFormatText('Fecha: ' . $document->generation_date);
+        $branch = pdfFormatText('Sucursal: ' . $document->branch->name);
+        $number = pdfFormatText('Consecutivo: ' . $document->id);
         $cashRegister = $document->cashRegister;
-        $cashRegisterNumber = formatText('Caja Nro: ' . $cashRegister->id . ' - ' . $cashRegister->salePoint->plate_number);
-        $cashierName = formatText('Cajero: ' . $cashRegister->user->name);
+        $cashRegisterNumber = pdfFormatText('Caja Nro: ' . $cashRegister->id . ' - ' . $cashRegister->salePoint->plate_number);
+        $cashierName = pdfFormatText('Cajero: ' . $cashRegister->user->name);
 
         $this->MultiCell(0, 3, $date, 0, 'C', false);
         $this->MultiCell(0, 3, $branch, 0, 'C', false);
@@ -329,11 +328,11 @@ class PdfDocuments extends FPDF
     /*
     public function generateCashboxInformation($document)
     {
-        $date = formatText('Fecha: ' . $document->created_at->format('Y-m-d'));
+        $date = pdfFormatText('Fecha: ' . $document->created_at->format('Y-m-d'));
         $cashRegister = $document->cashRegister;
-        $cashRegisterNumber = formatText('Caja Nro: ' . $cashRegister->id . ' - ' . $cashRegister->salePoint->plate_number);
-        $cashierName = formatText('Cajero: ' . $cashRegister->user->name);
-        $ticketNumber = formatText('Ticket Nro: ' . $document->id);
+        $cashRegisterNumber = pdfFormatText('Caja Nro: ' . $cashRegister->id . ' - ' . $cashRegister->salePoint->plate_number);
+        $cashierName = pdfFormatText('Cajero: ' . $cashRegister->user->name);
+        $ticketNumber = pdfFormatText('Ticket Nro: ' . $document->id);
 
         $this->MultiCell(0, 5, $date, 0, 'C', false);
         $this->MultiCell(0, 5, $cashRegisterNumber, 0, 'C', false);
@@ -347,13 +346,13 @@ class PdfDocuments extends FPDF
     public function generateThirdPartyInformation($thirdParty, $thirdPartyType)
     {
         if ($thirdPartyType == "provider") {
-            $name = formatText('Proveedor: ' . $thirdParty->name);
+            $name = pdfFormatText('Proveedor: ' . $thirdParty->name);
         } elseif ($thirdPartyType == "customer") {
-            $name = formatText('Cliente: ' . $thirdParty->name);
+            $name = pdfFormatText('Cliente: ' . $thirdParty->name);
         }
         $identificationType = $thirdParty->identificationType->initial;
-        $identification = formatText($thirdParty->identification);
-        $email = formatText('Correo: ' . $thirdParty->email);
+        $identification = pdfFormatText($thirdParty->identification);
+        $email = pdfFormatText('Correo: ' . $thirdParty->email);
 
         $this->SetFont('Arial', 'B', 10);
         $this->MultiCell(0, 5, $name, 0, 'C', false);
@@ -385,23 +384,23 @@ class PdfDocuments extends FPDF
 
         $this->SetFont('Arial', '', 9);
         $this->generateBreakLine(1, 'long', 5);
-        $this->Cell(28, 5, formatText('Producto'), 0, 0, 'C');
-        $this->Cell(10, 5, formatText('Cant.'), 0, 0, 'C');
-        $this->Cell(14, 5, formatText('Precio'), 0, 0, 'C');
-        $this->Cell(19, 5, formatText('Subtotal'), 0, 0, 'C');
+        $this->Cell(28, 5, pdfFormatText('Producto'), 0, 0, 'C');
+        $this->Cell(10, 5, pdfFormatText('Cant.'), 0, 0, 'C');
+        $this->Cell(14, 5, pdfFormatText('Precio'), 0, 0, 'C');
+        $this->Cell(19, 5, pdfFormatText('Subtotal'), 0, 0, 'C');
         $this->generateBreakLine(3, 'long', 5);
 
         foreach ($products as $product) {
             $length = strlen($product->product->name);
 
-            //$this->Multicell(30,5, formatText($invoiceProduct->product->name),'J',1);
-            //$this->MultiCell(0, 10, formatText($invoiceProduct->product->name), 0, 'L');
+            //$this->Multicell(30,5, pdfFormatText($invoiceProduct->product->name),'J',1);
+            //$this->MultiCell(0, 10, pdfFormatText($invoiceProduct->product->name), 0, 'L');
             $this->SetFont('Arial', '', 7);
             if ($length > 18) {
-                $this->Multicell(50,5, formatText($product->product->name),'J',1);
+                $this->Multicell(50,5, pdfFormatText($product->product->name),'J',1);
                 $this->Cell(38, 5, $product->quantity, 0, 0, 'R');
             } else {
-                $this->Cell(29, 5, formatText($product->product->name), 0, 0, 'L');
+                $this->Cell(29, 5, pdfFormatText($product->product->name), 0, 0, 'L');
                 $this->Cell(9, 5, $product->quantity, 0, 0, 'R');
             }
             $this->Cell(14, 5, "$" . number_format($product->price), 0, 0, 'R');
@@ -424,19 +423,19 @@ class PdfDocuments extends FPDF
         ->where('tt.type_tax', 'tax_item')
         ->get();
         $this->Cell(15, 5, "", 0, 0, 'C');
-        $this->Cell(22, 5, formatText("SUBTOTAL"), 0, 0, 'R');
+        $this->Cell(22, 5, pdfFormatText("SUBTOTAL"), 0, 0, 'R');
         $this->Cell(34, 5, "$" . number_format($document->total,2), 0, 0, 'R');
 
 
         foreach ($taxes as $tax) {
             $this->Ln(5);
             $this->Cell(15, 5, "", 0, 0, 'C');
-            $this->Cell(22, 5, formatText($tax->name), 0, 0, 'R');
+            $this->Cell(22, 5, pdfFormatText($tax->name), 0, 0, 'R');
             $this->Cell(34, 5, "$" . number_format($tax->tax_value,2), 0, 0, 'R');
         }
         $this->Ln(5);
         $this->Cell(15, 5, "", 0, 0, 'C');
-        $this->Cell(22, 5, formatText("TOTAL"), 0, 0, 'R');
+        $this->Cell(22, 5, pdfFormatText("TOTAL"), 0, 0, 'R');
         $this->Cell(34, 5, "$" . number_format($document->total_pay,2), 0, 0, 'R');
         $this->Ln(10);
     }
@@ -448,11 +447,11 @@ class PdfDocuments extends FPDF
         $resolution = Resolution::findOrFail($resolution_id);
         $startDate = $resolution->start_date;
         $endDate = $resolution->end_date;
-        $invoiceInformation = formatText("Numeración habilitada por la DIAN.");
-        $prefix = formatText("Prefijo: " . $resolution->prefix);
-        $consecutive = formatText(" del No. " . $resolution->start_number . " al " . $resolution->end_number);
-        $resolution = formatText("Resolución: " . $resolution->resolution);
-        $resolutionDate = formatText(" del " . $startDate . " al " . $endDate);
+        $invoiceInformation = pdfFormatText("Numeración habilitada por la DIAN.");
+        $prefix = pdfFormatText("Prefijo: " . $resolution->prefix);
+        $consecutive = pdfFormatText(" del No. " . $resolution->start_number . " al " . $resolution->end_number);
+        $resolution = pdfFormatText("Resolución: " . $resolution->resolution);
+        $resolutionDate = pdfFormatText(" del " . $startDate . " al " . $endDate);
 
         $this->SetFont('Arial', 'B', 9);
         $this->MultiCell(0, 5, $invoiceInformation, 0, 'C', false);
@@ -484,7 +483,7 @@ class PdfDocuments extends FPDF
     {
         $this->MultiCell(0, 5, $message, 0, 'C', false);
         $this->SetFont('Arial', 'B', 9);
-        $this->Cell(0, 10, formatText("Gracias por su compra"), '', 0, 'C');
+        $this->Cell(0, 10, pdfFormatText("Gracias por su compra"), '', 0, 'C');
 
     }
 */
@@ -508,7 +507,7 @@ class PdfDocuments extends FPDF
         $messageName = "EMDISOFT S.A.S";
         $this->setY(-10);
         $this->SetFont('Arial', '', 9);
-        //$this->Cell(0, 10, formatText(), '', 0, 'C');
+        //$this->Cell(0, 10, pdfFormatText(), '', 0, 'C');
         $this->MultiCell(0, 5, $messageFooter, 0, 'C', false);
         $this->MultiCell(0, 5, $messageName, 0, 'C', false);
     }
