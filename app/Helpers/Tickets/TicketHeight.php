@@ -11,18 +11,17 @@ if (!function_exists('ticketHeight')) {
     {
         $title = 36;
         $logo = $logoHeight;
-        $companyInformation = 17;
+        $companyInformation = 16;
         $barcode = 25;
-        $complementaryInformation = 26;
         $thirdPartyInformation = 16;
-        $productHeader = 10;
+        $productHeader = 8;
         $productRow = 4;
         $productFooter = 4;
         $subtotal = 5;
         $taxRow = 5;
         $total = 5;
-        $invoiceInformation = 104;
-        $refund = 22;
+        $invoiceInformation = 98;
+        $refund = 20;
         $copyright = 15;
         $disclaimerInformation = 10;
         $pdfHeight = 0;
@@ -35,7 +34,7 @@ if (!function_exists('ticketHeight')) {
             }
         }
 
-        $pdfHeight += $title + $companyInformation + $barcode + $complementaryInformation + $thirdPartyInformation;
+        $pdfHeight += $title + $companyInformation + $barcode + $thirdPartyInformation;
 
         $invoiceProducts = InvoiceProduct::where('invoice_id', $document->id)->get();
 
@@ -122,7 +121,9 @@ if (!function_exists('ticketHeightNcinvoice')) {
             $product = Product::findOrFail($ncinvoiceProduct->product_id);
             $length = strlen($product->name);
             if ($length > 20) {
-                $pdfHeight += 12;
+                $h = $length / 30;
+                $hh = $h + 2;
+                $pdfHeight += ($hh * 4);
             } else {
                 $pdfHeight += $productRow;
             }

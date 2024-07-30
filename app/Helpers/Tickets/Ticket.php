@@ -16,6 +16,11 @@ class Ticket extends FPDF
 
     public function generateLogo($logo, $width, $height)
     {
+        //ancho, alto, mensaje, bordes, salto linea alineacion relleno
+        //$this->Cell(0, 5, $messageFooter, 0, 0, 'C',0);
+
+        //ancho, alto, mensaje, bordes, alineacion, relleno
+        //$this->MultiCell(0, 5, strtoupper($title), 0, 'C', false);
         $xPos = ($this->GetPageWidth() - $width) / 2;
 
         $this->Image($logo, $xPos, 5, $width, $height);
@@ -41,15 +46,12 @@ class Ticket extends FPDF
         $address = formatText('Dirección: ' . company()->address);
         $phone = formatText('Teléfono: ' . company()->phone);
         $email = formatText('Email: ' . company()->email);
-
+        $companyInformation = $identificationType . ' - ' . $nit . ' - ' . $dv . ' - ' . $address . ' - ' . $phone . ' - ' . $email;
         $this->SetFont('Arial', 'B', 12);
         $this->SetTextColor(0, 0, 0);
         $this->MultiCell(0, 5, strtoupper(company()->name), 0, 'C', false);
         $this->SetFont('Arial', '', 9);
-        $this->MultiCell(0, 3, $identificationType . ":" . $nit . " - " . $dv, 0, 'C', false);
-        $this->MultiCell(0, 3, $address, 0, 'C', false);
-        $this->MultiCell(0, 3, $phone, 0, 'C', false);
-        $this->MultiCell(0, 3, $email, 0, 'C', false);
+        $this->MultiCell(0, 3, $companyInformation, 0, 'C', false);
         $this->ln(2);
     }
 
@@ -61,7 +63,8 @@ class Ticket extends FPDF
 
         $this->Image($barcode, $xPos, $this->GetY(), $width, $height, 'png');
         $this->SetY($this->GetY() + $height);
-        $this->generateBreakLine(1, 'short', 5);
+        $this->Cell(0, 3, "", 'B', 1, 'C');
+        $this->Ln(3);
     }
 
     public function generateBranchInformation($document)
@@ -73,14 +76,13 @@ class Ticket extends FPDF
         $cashRegisterNumber = formatText('Caja Nro: ' . $cashRegister->id . ' - ' . $cashRegister->salePoint->plate_number);
         $cashierName = formatText('Cajero: ' . $cashRegister->user->name);
 
-        $this->MultiCell(0, 3, $date, 0, 'C', false);
-        $this->MultiCell(0, 3, $branch, 0, 'C', false);
-        $this->MultiCell(0, 5, $cashRegisterNumber, 0, 'C', false);
-        $this->MultiCell(0, 5, $cashierName, 0, 'C', false);
+        $this->Cell(0, 4, $date, 0, 1, 'C',0);
+        $this->Cell(0, 4, $branch, 0, 1, 'C',0);
+        $this->Cell(0, 4, $cashRegisterNumber, 0, 1, 'C',0);
+        $this->Cell(0, 4, $cashierName, 0, 1, 'C',0);
         $this->SetFont('Arial', 'B', 10);
-        $this->MultiCell(0, 5, $number, 0, 'C', false);
-        $this->SetFont('Arial', '', 9);
-        $this->generateBreakLine(1, 'short', 5);
+        $this->Cell(0, 4, $number, 0, 1, 'C',0);
+        $this->Cell(0, 4, "", 'B', 1, 'C');
     }
 
     /*
@@ -111,12 +113,13 @@ class Ticket extends FPDF
         $identificationType = $thirdParty->identificationType->initial;
         $identification = formatText($thirdParty->identification);
         $email = formatText('Correo: ' . $thirdParty->email);
-
+        $this->Ln(3);
         $this->SetFont('Arial', 'B', 10);
         $this->MultiCell(0, 5, $name, 0, 'C', false);
         $this->SetFont('Arial', '', 9);
-        $this->MultiCell(0, 3, $identificationType . ': ' . $identification, 0, 'C', false);
-        $this->MultiCell(0, 3, $email, 0, 'C', false);
+        $this->Cell(0, 4, $identificationType . ': ' . $identification, 0, 1, 'C',0);
+        $this->Cell(0, 4, $email, 0, 1, 'C',0);
+        $this->Cell(0, 4, "", 'B', 1, 'C');
     }
 
     public function generateProductsTable($document, $typeDocument)
@@ -140,64 +143,73 @@ class Ticket extends FPDF
         }
 
         $this->SetFont('Arial', '', 9);
-        $this->generateBreakLine(1, 'long', 5);
-        $this->Cell(28, 5, formatText('Producto'), 0, 0, 'C');
-        $this->Cell(10, 5, formatText('Cant.'), 0, 0, 'C');
-        $this->Cell(14, 5, formatText('Precio'), 0, 0, 'C');
-        $this->Cell(19, 5, formatText('Subtotal'), 0, 0, 'C');
-        $this->generateBreakLine(3, 'long', 5);
+        $this->Ln(2);
+        $this->Cell(28, 4, formatText('Producto'), 0, 0, 'C');
+        $this->Cell(9, 4, formatText('Cant.'), 0, 0, 'C');
+        $this->Cell(13, 4, formatText('Precio'), 0, 0, 'C');
+        $this->Cell(18, 4, formatText('Subtotal'), 0, 1, 'C');
+        $this->Cell(0, 2, "", 'T', 1, 'C');
 
         foreach ($products as $product) {
-            $length = strlen($product->product->name);
+            //$length = strlen($product->product->name);
+            $length = $this->GetStringWidth($product->product->name);
 
             //$this->Multicell(30,5, formatText($invoiceProduct->product->name),'J',1);
             //$this->MultiCell(0, 10, formatText($invoiceProduct->product->name), 0, 'L');
             $this->SetFont('Arial', '', 7);
-            if ($length > 18) {
-                $this->Multicell(50,5, formatText($product->product->name),'J',1);
-                $this->Cell(38, 5, $product->quantity, 0, 0, 'R');
+            if ($length > 28) {
+                $this->Multicell(50,4, formatText($product->product->name),'J',1);
+                $this->SetX(30);
+                $this->Cell(8, 4, $product->quantity, 0, 0, 'R');
             } else {
-                $this->Cell(29, 5, formatText($product->product->name), 0, 0, 'L');
-                $this->Cell(9, 5, $product->quantity, 0, 0, 'R');
+                $this->Cell(28, 4, formatText($product->product->name), 0, 0, 'L');
+                $this->Cell(8, 4, $product->quantity, 0, 0, 'R');
             }
-            $this->Cell(14, 5, "$" . number_format($product->price), 0, 0, 'R');
-            $this->Cell(19, 5, "$" . number_format($product->price * $product->quantity,2), 0, 0, 'R');
+            $this->Cell(12, 4, number_format($product->price), 0, 0, 'R');
+            $this->Cell(17, 4, number_format($product->price * $product->quantity), 0, 1, 'R');
+
+            /*
             if ($products->last() != $product) {
                 $this->Ln(4);
-            }
+            }*/
         }
-        $this->generateBreakLine(3, 'long', 5);
+        $this->Cell(0, 3, "", 'T', 1, 'C');
+        //$this->generateBreakLine(0, 'long', 5);
     }
 
-    public function generateSummaryInformation($document)
+    public function generateSummaryInformation($document, $typeDocument)
     {
+        if ($typeDocument == 'pos') {
+            $typeDocument = 'invoice';
+        } else if ($typeDocument == 'support_document'){
+            $typeDocument = 'purhase';
+        }
         $taxes = Tax::from('taxes as tax')
         ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
         ->select('tax.tax_value', 'ct.name')
         ->where('tax.taxable_id', $document->id)
+        ->where('tax.type', $typeDocument)
         ->where('tt.type_tax', 'tax_item')
         ->get();
-        $this->Cell(15, 5, "", 0, 0, 'C');
-        $this->Cell(22, 5, formatText("SUBTOTAL"), 0, 0, 'R');
-        $this->Cell(34, 5, "$" . number_format($document->total,2), 0, 0, 'R');
-
-
+        $this->SetFont('Arial', '', 9);
+        $this->SetX(18);
+        $this->Cell(18, 4, formatText("SUBTOTAL"), 0, 0, 'R');
+        $this->Cell(30, 5, "$" . number_format($document->total,2), 0, 1, 'R');
         foreach ($taxes as $tax) {
-            $this->Ln(5);
-            $this->Cell(15, 5, "", 0, 0, 'C');
-            $this->Cell(22, 5, formatText($tax->name), 0, 0, 'R');
-            $this->Cell(34, 5, "$" . number_format($tax->tax_value,2), 0, 0, 'R');
+            $this->SetX(18);
+            $this->Cell(18, 5, formatText($tax->name), 0, 0, 'R');
+            $this->Cell(30, 5, "$" . number_format($tax->tax_value,2), 0, 1, 'R');
         }
-        $this->Ln(5);
-        $this->Cell(15, 5, "", 0, 0, 'C');
-        $this->Cell(22, 5, formatText("TOTAL"), 0, 0, 'R');
-        $this->Cell(34, 5, "$" . number_format($document->total_pay,2), 0, 0, 'R');
-        $this->Ln(10);
+        $this->SetFont('Arial', 'B', 9);
+        $this->SetX(18);
+        $this->Cell(18, 5, formatText("TOTAL"), 0, 0, 'R');
+        $this->Cell(30, 5, "$" . number_format($document->total_pay,2), 0, 1, 'R');
     }
 
     public function generateInvoiceInformation($document)
     {
+        $this->Ln(10);
         $resolution_id = $document->resolution_id;
         $resolution = Resolution::findOrFail($resolution_id);
         $startDate = $resolution->start_date;
@@ -209,10 +221,10 @@ class Ticket extends FPDF
         $resolutionDate = formatText(" del " . $startDate . " al " . $endDate);
 
         $this->SetFont('Arial', 'B', 9);
-        $this->MultiCell(0, 5, $invoiceInformation, 0, 'C', false);
+        $this->Cell(0, 4, $invoiceInformation, 0, 1, 'C');
         $this->SetFont('Arial', '', 7);
-        $this->MultiCell(0, 5, $prefix . $consecutive, 0, 'C', false);
-        $this->MultiCell(0, 5, $resolution . $resolutionDate, 0, 'C', false);
+        $this->Cell(0, 4, $prefix . $consecutive, 0, 1, 'C');
+        $this->Cell(0, 4, $resolution . $resolutionDate, 0, 1, 'C');
     }
 
     public function generateQr($qrCode)
@@ -220,7 +232,7 @@ class Ticket extends FPDF
         $width = 50;
         $height = 50;
         $xPos = ($this->GetPageWidth() - $width) / 2;
-
+        $this->Ln(3);
         $this->Image($qrCode, $xPos, $this->GetY(), $width, $height, 'png');
         $this->SetY($this->GetY() + $height);
     }
@@ -233,23 +245,23 @@ class Ticket extends FPDF
 
     public function generateDisclaimerInformation($message)
     {
-        $this->MultiCell(0, 5, $message, 0, 'C', false);
+        $this->Ln(5);
+        $this->SetFont('Arial', '', 8);
+        $this->MultiCell(0, 4, $message, 0, 'C', false);
         $this->SetFont('Arial', 'B', 9);
         $this->Cell(0, 10, formatText("Gracias por su compra"), '', 0, 'C');
 
     }
+    /*
 
     public function generateBreakLine($marginTop, $size, $marginBottom)
     {
-        $this->Ln($marginTop);
-
         if ($size == 'short') {
-            $this->Cell(0, 5, "-----------------------------------------------------------", 0, 0, 'C');
+            $this->Cell(0, 3, "-----------------------------------------------------------", 0, 1, 'C');
         } elseif ($size == 'long') {
-            $this->Cell(0, 5, "------------------------------------------------------------------------", 0, 0, 'C');
+            $this->Cell(0, 5, "------------------------------------------------------------------------", 0, 1, 'C');
         }
-        $this->Ln($marginBottom);
-    }
+    }*/
 
     public function footer()
     {

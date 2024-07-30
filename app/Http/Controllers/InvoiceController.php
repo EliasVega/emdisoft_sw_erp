@@ -1288,8 +1288,8 @@ class InvoiceController extends Controller
 
         $pdfHeight = ticketHeight($logoHeight, company(), $invoice, "invoice");
 
-        $pdf = new Ticket('P', 'mm', array(72, $pdfHeight), true, 'UTF-8');
-        $pdf->SetMargins(2, 10, 6);
+        $pdf = new Ticket('P', 'mm', array(68, $pdfHeight), true, 'UTF-8');
+        $pdf->SetMargins(2, 10, 2);
         $pdf->SetTitle($invoice->document);
         $pdf->SetAutoPageBreak(false);
         $pdf->addPage();
@@ -1312,12 +1312,13 @@ class InvoiceController extends Controller
         $pdf->generateBranchInformation($document);
         $pdf->generateThirdPartyInformation($invoice->third, $thirdPartyType);
         $pdf->generateProductsTable($document, $typeDocument);
-        $pdf->generateSummaryInformation($document);
+        $pdf->generateSummaryInformation($document, $typeDocument);
 
 
         if (indicator()->dian == 'on') {
             $pdf->generateInvoiceInformation($document);
             $cufe =  $invoice->invoiceResponse->cufe;
+            //$cufe =  '9e414128ba184d66d5d2e2ea3225191ad50ba84bf64224c5090f4f26f0501e317c94a86a14e84905bf34619273c4f5a4';
             $url = 'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=';
             $data = [
                 'NumFac' => $invoice->document,
@@ -1343,7 +1344,7 @@ class InvoiceController extends Controller
             $pdf->generateQr($qrImage);
 
             //$confirmationCode = formatText("CUFE: " . $invoice->response->cufe);
-            $confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
+            $confirmationCode = formatText("CUFE: " . $cufe);
             //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
             $pdf->generateConfirmationCode($confirmationCode);
         }
@@ -1394,13 +1395,75 @@ class InvoiceController extends Controller
         $pdf->SetAutoPageBreak(false);
         $pdf->addPage();
 
+        if (indicator()->dian == 'on') {
+            //$pdf->generateInvoiceInformation($document);
+            $cufe =  $invoice->invoiceResponse->cufe;
+            $url = 'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=';
+            $data = [
+                'NumFac' => $invoice->document,
+                'FecFac' => $invoice->created_at->format('Y-m-d'),
+                'NitFac' => company()->nit,
+                'DocAdq' => $invoice->third->identification,
+                'ValFac' => $invoice->total,
+                'ValIva' => $invoice->total_tax,
+                'ValOtroIm' => '0.00',
+                'ValTotal' => $invoice->total_pay,
+                'CUFE' => $cufe,
+                'URL' => $url . $cufe,
+            ];
+
+            $writer = new PngWriter();
+            $qrCode = new QrCode(implode("\n", $data));
+            $qrCode->setSize(300);
+            $qrCode->setMargin(10);
+            $result = $writer->write($qrCode);
+
+            $qrCodeImage = $result->getString();
+            $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
+            //$pdf->generateQr($qrImage);
+
+            //$confirmationCode = formatText("CUFE: " . $invoice->response->cufe);
+            //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
+            //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
+            //$pdf->generateConfirmationCode($confirmationCode);
+        } else {
+            //$pdf->generateInvoiceInformation($document);
+            $cufe =  '00';
+            $url = '#';
+            $data = [
+                'NumFac' => $invoice->document,
+                'FecFac' => $invoice->created_at->format('Y-m-d'),
+                'NitFac' => company()->nit,
+                'DocAdq' => $invoice->third->identification,
+                'ValFac' => $invoice->total,
+                'ValIva' => $invoice->total_tax,
+                'ValOtroIm' => '0.00',
+                'ValTotal' => $invoice->total_pay,
+                'CUFE' => $cufe,
+                //'URL' => $url . $cufe,
+            ];
+
+            $writer = new PngWriter();
+            $qrCode = new QrCode(implode("\n", $data));
+            $qrCode->setSize(300);
+            $qrCode->setMargin(10);
+            $result = $writer->write($qrCode);
+
+            $qrCodeImage = $result->getString();
+            $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
+            //$pdf->generateQr($qrImage);
+        }
+
         $pdf->generateHeader($logo, $width, $height, $title, $invoice);
-        $pdf->generateInformation($invoice->third, $thirdPartyType);
+        $pdf->generateInformation($invoice->third, $thirdPartyType, $document, $qrImage);
+        $pdf->generateTablePdf($document, $typeDocument);
+        $pdf->generateTotals($document, $typeDocument);
+        $pdf->footer($document, $cufe);
+        $pdf->documentInformation($document, $cufe);
+        $pdf->footer();
         //$pdf->generateHeader($logo, $width, $height);
         //$refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
         //$pdf->generateDisclaimerInformation($refund);
-
-        $pdf->footer();
 
         $pdf->Output("I", $invoice->document . ".pdf", true);
         exit;
