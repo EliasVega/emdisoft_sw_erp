@@ -23,7 +23,7 @@ if (!function_exists('ticketHeight')) {
         $invoiceInformation = 98;
         $refund = 20;
         $copyright = 15;
-        $disclaimerInformation = 10;
+        $disclaimerInformation = 15;
         $pdfHeight = 0;
 
         if (company()->logo != null) {

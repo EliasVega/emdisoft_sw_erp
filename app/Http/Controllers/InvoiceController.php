@@ -1372,7 +1372,9 @@ class InvoiceController extends Controller
         $document = $invoice;
         $thirdPartyType = 'customer';
         $logoHeight = 26;
-
+        $logo = '';
+        $width = 0;
+        $height = 0;
         if (indicator()->logo == 'on') {
             $logo = storage_path('app/public/images/logos/' . company()->imageName);
 

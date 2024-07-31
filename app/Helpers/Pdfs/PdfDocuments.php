@@ -100,8 +100,9 @@ class PdfDocuments extends FPDF
         $this->SetFont('Arial', '', 9);
         $this->setXY(65,$heigthInitial + 13);
         $this->MultiCell(80,4,$companyInformation,0,'C',false);
-
-        $this->Image($logo, 160, $heigthInitial + 13, $width, $height);
+        if (indicator()->logo == 'on') {
+            $this->Image($logo, 160, $heigthInitial + 13, $width, $height);
+        }
     }
 
     public function generateInformation($thirdParty, $thirdPartyType, $document, $qrImage)
