@@ -574,6 +574,7 @@ class InvoiceController extends Controller
                     ['SendBillSyncResult']['StatusDescription'];
                 $statusMessage = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
                     ['SendBillSyncResult']['StatusMessage'];
+                $resolutionleft = $service['resolution_days_left'];
 
                 $invoiceResponse = new InvoiceResponse();
                 $invoiceResponse->invoice_id = $invoice->id;
@@ -584,7 +585,7 @@ class InvoiceController extends Controller
                 $invoiceResponse->description = $description;
                 $invoiceResponse->status_message = $statusMessage;
                 $invoiceResponse->cufe = $service['cufe'];
-                $invoiceResponse->response_api = $responseApi;
+                $invoiceResponse->response_api = $resolutionleft;
                 $invoiceResponse->save();
 
                 $environmentPdf = Environment::where('code', 'PDF')->first();
