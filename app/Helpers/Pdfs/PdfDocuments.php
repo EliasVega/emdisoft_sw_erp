@@ -273,7 +273,7 @@ class PdfDocuments extends FPDF
     {
         $page = $this->GetPageHeight();
         $documentInformation = 'Factura de Venta Electronica ' .  $document->document . '  ' . 'Fecha y Hora de Creacion ' . $document->created_at;
-        $cufe = $cufe;
+        $cufe = 'cufe: ' . $cufe;
         $this->setY($page - 20);
         $this->SetFont('Arial', '', 10);
         //$this->Cell(0, 10, pdfFormatText(), '', 0, 'C');
