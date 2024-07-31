@@ -278,7 +278,7 @@ class PdfDocuments extends FPDF
         $this->SetFont('Arial', '', 10);
         //$this->Cell(0, 10, pdfFormatText(), '', 0, 'C');
         $this->Cell(0, 5, $documentInformation, 'T', 1, 'C',0);
-        if (indicator()->dian == 'off') {
+        if (indicator()->dian == 'on') {
             $this->Cell(0, 5, $cufe, 0, 1, 'C',0);
         }
     }
