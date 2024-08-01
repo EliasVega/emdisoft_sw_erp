@@ -1465,8 +1465,10 @@ class PurchaseController extends Controller
 
    public function posPdfPurchase(Request $request, Purchase $purchase)
     {
+        $document = $purchase;
         $typeDocument = 'purchase';
         $title = '';
+        $consecutive = $document->document;
         $documentType = $purchase->document_type_id;
         if ($documentType == 11) {
             $title = 'DOCUMENTO SOPORTE ELECTRONICO';
@@ -1474,8 +1476,6 @@ class PurchaseController extends Controller
             $title = 'COMPROBANTE DE COMPRA';
         }
 
-
-        $document = $purchase;
         $thirdPartyType = 'provider';
         $logoHeight = 26;
 
@@ -1507,7 +1507,7 @@ class PurchaseController extends Controller
                 $pdf->generateLogo($logo, $width, $height);
             }
         }
-        $pdf->generateTitle($title);
+        $pdf->generateTitle($title, $consecutive);
         $pdf->generateCompanyInformation();
 
         $barcodeGenerator = new BarcodeGeneratorPNG();
@@ -1518,7 +1518,7 @@ class PurchaseController extends Controller
         $pdf->generateBranchInformation($document);
         $pdf->generateThirdPartyInformation($purchase->third, $thirdPartyType);
         $pdf->generateProductsTable($document, $typeDocument);
-        $pdf->generateSummaryInformation($document);
+        $pdf->generateSummaryInformation($document, $typeDocument);
 
         if (indicator()->dian == 'on' && $documentType == 11) {
             $pdf->generateInvoiceInformation($document);

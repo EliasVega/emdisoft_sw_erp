@@ -2,21 +2,24 @@
 
 namespace App\Helpers\Tickets;
 
+use App\Models\InvoiceOrderProduct;
 use App\Models\InvoiceProduct;
 use App\Models\NcinvoiceProduct;
 use App\Models\Product;
+use App\Models\Tax;
 
 if (!function_exists('ticketHeight')) {
-    function ticketHeight($logoHeight, $company, $document)
+    function ticketHeight($logoHeight, $company, $document, $typeDocument)
     {
         $title = 36;
+        $consecutive = 10;
         $logo = $logoHeight;
-        $companyInformation = 16;
+        $companyInformation = 20;
         $barcode = 25;
         $thirdPartyInformation = 16;
         $productHeader = 8;
-        $productRow = 4;
-        $productFooter = 4;
+        $productRow = 5;
+        $productFooter = 5;
         $subtotal = 5;
         $taxRow = 5;
         $total = 5;
@@ -34,11 +37,21 @@ if (!function_exists('ticketHeight')) {
             }
         }
 
-        $pdfHeight += $title + $companyInformation + $barcode + $thirdPartyInformation;
 
-        $invoiceProducts = InvoiceProduct::where('invoice_id', $document->id)->get();
+
+        if ($typeDocument == 'invoice') {
+            $title = 20;
+            $invoiceProducts = InvoiceProduct::where('invoice_id', $document->id)->get();
+        } else if ($typeDocument == 'invoiceOrder') {
+            $title = 10;
+            $invoiceInformation = 5;
+            $invoiceProducts = InvoiceOrderProduct::where('invoice_order_id', $document->id)->get();
+        }
+
+        $pdfHeight += $title + $consecutive + $companyInformation + $barcode + $thirdPartyInformation + $disclaimerInformation;
 
         $pdfHeight += $productHeader;
+
         foreach ($invoiceProducts as $invoiceProduct) {
 
             $product = Product::findOrFail($invoiceProduct->product_id);
@@ -49,10 +62,38 @@ if (!function_exists('ticketHeight')) {
                 $pdfHeight += $productRow;
             }
         }
-        $pdfHeight += $productFooter;
 
+        $taxes = Tax::from('taxes as tax')
+        ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->select('tax.tax_value', 'ct.name')
+        ->where('tax.taxable_id', $document->id)
+        ->where('tax.type', $typeDocument)
+        ->where('tt.type_tax', 'tax_item')
+        ->get();
+        $retentions = Tax::from('taxes as tax')
+        ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->select('tax.tax_value', 'ct.name')
+        ->where('tax.taxable_id', $document->id)
+        ->where('tax.type', $typeDocument)
+        ->where('tt.type_tax', 'retention')
+        ->get();
+
+
+        $pdfHeight += $productFooter;
         $pdfHeight += $subtotal;
-        $pdfHeight += $taxRow;
+
+        if (empty($taxes)) {
+            $pdfHeight += $taxRow * count($taxes);
+        } else {
+            $pdfHeight += $taxRow;
+        }
+        if (empty($retentions)) {
+            $pdfHeight += $taxRow * count($retentions);
+        } else {
+            $pdfHeight += $taxRow;
+        }
         /*
         foreach ($document->percentages as $percentage) {
             $pdfHeight += $taxRow;

@@ -1259,16 +1259,16 @@ class InvoiceController extends Controller
 
     public function posPdf(Request $request, Invoice $invoice)
     {
+        $document = $invoice;
         $typeDocument = 'invoice';
         $title = '';
+        $consecutive = $document->document;
         if ($invoice->document_type_id == 1) {
             $title = 'FACTURA ELECTRONICA DE VENTA';
         } else {
             $title = 'DOCUMENTO EQUIVALENTE ELECTRONICO DEL TIQUETE DE MAQUINA REGISTRADORA CON SISTEMA P.O.S.';
         }
 
-
-        $document = $invoice;
         $thirdPartyType = 'customer';
         $logoHeight = 26;
 
@@ -1285,7 +1285,7 @@ class InvoiceController extends Controller
             }
         }
 
-        $pdfHeight = ticketHeight($logoHeight, company(), $invoice, "invoice");
+        $pdfHeight = ticketHeight($logoHeight, company(), $document, $typeDocument);
 
         $pdf = new Ticket('P', 'mm', array(68, $pdfHeight), true, 'UTF-8');
         $pdf->SetMargins(2, 10, 2);
@@ -1300,7 +1300,7 @@ class InvoiceController extends Controller
                 $pdf->generateLogo($logo, $width, $height);
             }
         }
-        $pdf->generateTitle($title);
+        $pdf->generateTitle($title, $consecutive);
         $pdf->generateCompanyInformation();
 
         $barcodeGenerator = new BarcodeGeneratorPNG();

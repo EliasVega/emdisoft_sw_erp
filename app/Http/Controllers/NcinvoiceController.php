@@ -36,6 +36,7 @@ use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 
+use function App\Helpers\Tickets\formatText;
 use function App\Helpers\Tickets\ticketHeight;
 use function App\Helpers\Tickets\ticketHeightNcinvoice;
 
@@ -636,6 +637,7 @@ class NcinvoiceController extends Controller
         $document = $ncinvoice;
         $typeDocument = 'ncinvoice';
         $title = '';
+        $consecutive = $document->document;
         $invoice = Invoice::findOrFail($ncinvoice->invoice_id);//encontrando la factura
         if ($invoice->document_type_id == 1) {
             $title = 'NOTA CREDITO';
@@ -672,7 +674,7 @@ class NcinvoiceController extends Controller
                 $pdf->generateLogo($logo, $width, $height);
             }
         }
-        $pdf->generateTitle($title);
+        $pdf->generateTitle($title, $consecutive);
         $pdf->generateCompanyInformation();
 
         $barcodeGenerator = new BarcodeGeneratorPNG();
@@ -683,7 +685,7 @@ class NcinvoiceController extends Controller
         $pdf->generateBranchInformation($document);
         $pdf->generateThirdPartyInformation($ncinvoice->third, $thirdPartyType);
         $pdf->generateProductsTable($document, $typeDocument);
-        $pdf->generateSummaryInformation($document);
+        $pdf->generateSummaryInformation($document, $typeDocument);
 
         if (indicator()->dian == 'on') {
             $pdf->generateInvoiceInformation($document);

@@ -27,15 +27,15 @@ class Ticket extends FPDF
         $this->SetY($this->GetY() + $height);
     }
 
-    public function generateTitle($title)
+    public function generateTitle($title, $consecutive)
     {
         //$title = 'DOCUMENTO EQUIVALENTE ELECTRONICO DEL TIQUETE DE MAQUINA REGISTRADORA CON SISTEMA P.O.S.';
 
         $this->SetFont('Arial', 'B', 10);
         $this->SetTextColor(0, 0, 0);
         $this->MultiCell(0, 5, strtoupper($title), 0, 'C', false);
-        $this->SetFont('Arial', '', 9);
-        $this->ln(2);
+        $this->SetFont('Arial', 'B', 13);
+        $this->Cell(0,5,$consecutive,0,1,'C',false);
     }
 
     public function generateCompanyInformation()
@@ -192,6 +192,14 @@ class Ticket extends FPDF
         ->where('tax.type', $typeDocument)
         ->where('tt.type_tax', 'tax_item')
         ->get();
+        $retentions = Tax::from('taxes as tax')
+        ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->select('tax.tax_value', 'ct.name')
+        ->where('tax.taxable_id', $document->id)
+        ->where('tax.type', $typeDocument)
+        ->where('tt.type_tax', 'retention')
+        ->get();
         $this->SetFont('Arial', '', 9);
         $this->SetX(18);
         $this->Cell(18, 4, formatText("SUBTOTAL"), 0, 0, 'R');
@@ -200,6 +208,11 @@ class Ticket extends FPDF
             $this->SetX(18);
             $this->Cell(18, 5, formatText($tax->name), 0, 0, 'R');
             $this->Cell(30, 5, "$" . number_format($tax->tax_value,2), 0, 1, 'R');
+        }
+        foreach ($retentions as $retention) {
+            $this->SetX(18);
+            $this->Cell(18, 5, formatText($retention->name), 0, 0, 'R');
+            $this->Cell(30, 5, "$" . number_format($retention->tax_value,2), 0, 1, 'R');
         }
         $this->SetFont('Arial', 'B', 9);
         $this->SetX(18);
@@ -226,6 +239,7 @@ class Ticket extends FPDF
         $this->Cell(0, 4, $prefix . $consecutive, 0, 1, 'C');
         $this->Cell(0, 4, $resolution . $resolutionDate, 0, 1, 'C');
     }
+
 
     public function generateQr($qrCode)
     {

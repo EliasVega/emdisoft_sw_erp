@@ -23,6 +23,8 @@ use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Models\Resolution;
 use Carbon\Carbon;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Yajra\DataTables\DataTables;
@@ -746,6 +748,7 @@ class InvoiceOrderController extends Controller
 
         $typeDocument = 'invoiceOrder';
         $title = 'ORDEN DE VENTA';
+        $consecutive = $invoiceOrder->id;
 
         $document = $invoiceOrder;
         $thirdPartyType = 'customer';
@@ -764,7 +767,7 @@ class InvoiceOrderController extends Controller
             }
         }
 
-        $pdfHeight = ticketHeight($logoHeight, company(), $invoiceOrder, "invoiceOrder");
+        $pdfHeight = ticketHeight($logoHeight, company(), $invoiceOrder, $typeDocument);
 
         $pdf = new Ticket('P', 'mm', array(80, $pdfHeight), true, 'UTF-8');
         $pdf->SetMargins(2, 10, 6);
@@ -779,7 +782,7 @@ class InvoiceOrderController extends Controller
                 $pdf->generateLogo($logo, $width, $height);
             }
         }
-        $pdf->generateTitle($title);
+        $pdf->generateTitle($title, $consecutive);
         $pdf->generateCompanyInformation();
 
         $barcodeGenerator = new BarcodeGeneratorPNG();
@@ -790,42 +793,7 @@ class InvoiceOrderController extends Controller
         $pdf->generateBranchInformation($document);
         $pdf->generateThirdPartyInformation($invoiceOrder->third, $thirdPartyType);
         $pdf->generateProductsTable($document, $typeDocument);
-        $pdf->generateSummaryInformation($document);
-
-        /*
-        if (indicator()->dian == 'on') {
-            $pdf->generateInvoiceInformation($document);
-            $cufe =  $invoiceOrder->invoiceResponse->cufe;
-            $url = 'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=';
-            $data = [
-                'NumFac' => $invoice->document,
-                'FecFac' => $invoice->created_at->format('Y-m-d'),
-                'NitFac' => company()->nit,
-                'DocAdq' => $invoice->third->identification,
-                'ValFac' => $invoice->total,
-                'ValIva' => $invoice->total_tax,
-                'ValOtroIm' => '0.00',
-                'ValTotal' => $invoice->total_pay,
-                'CUFE' => $cufe,
-                'URL' => $url . $cufe,
-            ];*/
-            /*
-            $writer = new PngWriter();
-            $qrCode = new QrCode(implode("\n", $data));
-            $qrCode->setSize(300);
-            $qrCode->setMargin(10);
-            $result = $writer->write($qrCode);
-
-            $qrCodeImage = $result->getString();
-            $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
-            $pdf->generateQr($qrImage);
-
-            //$confirmationCode = formatText("CUFE: " . $invoice->response->cufe);
-            $confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
-            //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
-            $pdf->generateConfirmationCode($confirmationCode);
-        }*/
-
+        $pdf->generateSummaryInformation($document, $typeDocument);
 
         $refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
         $pdf->generateDisclaimerInformation($refund);
