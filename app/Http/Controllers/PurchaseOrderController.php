@@ -382,7 +382,7 @@ class PurchaseOrderController extends Controller
         //\Session()->put('purchaseOrder', $purchaseOrder->id, 60 * 24 * 365);
         $providers = Provider::get();
         $documentTypes = DocumentType::where('prefix', 'dse')->get();
-        $resolutions = Resolution::where('document_type_id', 11)->where('status', 'active')->get();
+        $resolutions = Resolution::where('document_type_id', 11)->where('branch_id', current_user()->branch_id)->where('status', 'active')->get();
         $generationTypes = GenerationType::get();
         $paymentForms = PaymentForm::get();
         $paymentMethods = PaymentMethod::get();

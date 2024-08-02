@@ -575,7 +575,7 @@ class InvoiceOrderController extends Controller
             return redirect('branch');
         }
         $customers = Customer::get();
-        $resolutions = Resolution::where('document_type_id', 1)->where('status', 'active')->get();
+        $resolutions = Resolution::where('document_type_id', 1)->where('branch_id', current_user()->branch_id)->where('status', 'active')->get();
         $paymentForms = PaymentForm::get();
         $paymentMethods = PaymentMethod::get();
         $banks = Bank::get();

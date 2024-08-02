@@ -935,7 +935,7 @@ class RestaurantOrderController extends Controller
         $advances = Advance::where('status', '!=', 'aplicado')->get();
         $date = Carbon::now();
 
-        $resolutions = Resolution::where('document_type_id', 1)->where('status', 'active')->get();
+        $resolutions = Resolution::where('document_type_id', 1)->where('branch_id', current_user()->branch_id)->where('status', 'active')->get();
 
         $productRestaurantOrders = ProductRestaurantOrder::from('product_restaurant_orders as pr')
         ->join('products as pro', 'pr.product_id', 'pro.id')

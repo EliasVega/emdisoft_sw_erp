@@ -142,7 +142,7 @@ class PurchaseController extends Controller
         }
         $providers = Provider::get();
         $documentTypes = DocumentType::where('prefix', 'DSE')->get();
-        $resolutions = Resolution::where('document_type_id', 11)->where('status', 'active')->get();
+        $resolutions = Resolution::where('document_type_id', 11)->where('branch_id', current_user()->branch_id)->where('status', 'active')->get();
         $generationTypes = GenerationType::get();
         $paymentForms = PaymentForm::get();
         $paymentMethods = PaymentMethod::get();
@@ -199,7 +199,7 @@ class PurchaseController extends Controller
         }
         $providers = Provider::get();
         $documentTypes = DocumentType::where('prefix', 'DSE')->get();
-        $resolutions = Resolution::where('document_type_id', 11)->where('status', 'active')->get();
+        $resolutions = Resolution::where('document_type_id', 11)->where('branch_id', current_user()->branc_id)->where('status', 'active')->get();
         $generationTypes = GenerationType::get();
         $paymentForms = PaymentForm::get();
         $paymentMethods = PaymentMethod::get();
