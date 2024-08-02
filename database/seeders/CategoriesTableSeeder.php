@@ -21,91 +21,136 @@ class CategoriesTableSeeder extends Seeder
             0 =>
             array (
                 'id' => 1,
-                'name' => 'Electricos',
-                'description' => 'Todo lo relacionado con insumos electricos',
-                'utility_rate' => '30.00',
+                'name' => 'AGUA',
+                'description' => 'AGUA',
+                'utility_rate' => 0,
                 'status' => 'active',
-                'company_tax_id' => 2,
-                'created_at' => '2023-01-12 21:07:43',
-                'updated_at' => '2023-01-12 21:07:43',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
             ),
             1 =>
             array (
                 'id' => 2,
-                'name' => 'Ferreteria',
-                'description' => 'Todo lo relacionado con Herramientas de Ferreteria',
-                'utility_rate' => '30.00',
+                'name' => 'BEBIDAS',
+                'description' => 'BEBIDAS',
+                'utility_rate' => 0,
                 'status' => 'active',
                 'company_tax_id' => 2,
-                'created_at' => '2023-01-12 21:07:43',
-                'updated_at' => '2023-01-12 21:07:43',
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
             ),
             2 =>
             array (
                 'id' => 3,
-                'name' => 'Computadores',
-                'description' => 'Todo lo relacionado con Computacion',
-                'utility_rate' => '30.00',
+                'name' => 'BISCOCHERIA',
+                'description' => 'BISCOCHERIA',
+                'utility_rate' => 0,
                 'status' => 'active',
-                'company_tax_id' => 11,
-                'created_at' => '2023-01-12 21:07:43',
-                'updated_at' => '2023-01-12 21:07:43',
+                'company_tax_id' => 4,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
             ),
             3 =>
             array (
                 'id' => 4,
-                'name' => 'tablet',
-                'description' => 'Todo lo relacionado con tablets',
-                'utility_rate' => '30.00',
+                'name' => 'CAFETERIA',
+                'description' => 'CAFETERIA',
+                'utility_rate' => 0,
                 'status' => 'active',
-                'company_tax_id' => 2,
-                'created_at' => '2023-01-12 21:07:43',
-                'updated_at' => '2023-01-12 21:07:43',
+                'company_tax_id' => 4,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
             ),
             4 =>
             array (
                 'id' => 5,
-                'name' => 'Productos gravados con INC',
-                'description' => 'Gastos de la empresa',
-                'utility_rate' => '0.00',
+                'name' => 'CERVEZA',
+                'description' => 'CERVEZA',
+                'utility_rate' => 0,
                 'status' => 'active',
-                'company_tax_id' => 3,
-                'created_at' => '2023-01-12 21:07:43',
-                'updated_at' => '2023-01-12 21:07:43',
+                'company_tax_id' => 2,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
             ),
             5 =>
             array (
                 'id' => 6,
-                'name' => 'Excentos',
-                'description' => 'Gastos de la empresa',
-                'utility_rate' => '0.00',
+                'name' => 'EMBUTIDOS',
+                'description' => 'EMBUTIDOS',
+                'utility_rate' => 0,
                 'status' => 'active',
                 'company_tax_id' => 1,
-                'created_at' => '2023-01-12 21:07:43',
-                'updated_at' => '2023-01-12 21:07:43',
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
             ),
             6 =>
             array (
                 'id' => 7,
-                'name' => 'Mantenimiento',
-                'description' => 'Servicio de Mantnimiento',
-                'utility_rate' => '30.00',
+                'name' => 'HUEVOS',
+                'description' => 'HUEVOS',
+                'utility_rate' => 0,
                 'status' => 'active',
                 'company_tax_id' => 1,
-                'created_at' => '2023-01-12 21:07:43',
-                'updated_at' => '2023-01-12 21:07:43',
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
             ),
-            6 =>
+            7 =>
             array (
-                'id' => 7,
-                'name' => 'Mecanica',
-                'description' => 'Servicio de Mecanica',
-                'utility_rate' => '40.00',
+                'id' => 8,
+                'name' => 'LACTEOS',
+                'description' => 'LACTEOS',
+                'utility_rate' => 0,
+                'status' => 'active',
+                'company_tax_id' => 2,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            8 =>
+            array (
+                'id' => 9,
+                'name' => 'LECHE',
+                'description' => 'LECHE',
+                'utility_rate' => 0,
                 'status' => 'active',
                 'company_tax_id' => 1,
-                'created_at' => '2023-01-12 21:07:43',
-                'updated_at' => '2023-01-12 21:07:43',
-            )
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            9 =>
+            array (
+                'id' => 10,
+                'name' => 'PAN',
+                'description' => 'PAN',
+                'utility_rate' => 0,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            10 =>
+            array (
+                'id' => 11,
+                'name' => 'VARIOS',
+                'description' => 'VARIOS',
+                'utility_rate' => 0,
+                'status' => 'active',
+                'company_tax_id' => 1,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+            11 =>
+            array (
+                'id' => 12,
+                'name' => 'VIVERES',
+                'description' => 'VIVERES',
+                'utility_rate' => 0,
+                'status' => 'active',
+                'company_tax_id' => 3,
+                'created_at' => '2024-07-23 12:00:00',
+                'updated_at' => '2024-07-23 12:00:00'
+            ),
+
         ));
 
 

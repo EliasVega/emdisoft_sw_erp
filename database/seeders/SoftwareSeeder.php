@@ -20,16 +20,16 @@ class SoftwareSeeder extends Seeder
             array (
                 'id' => 1,
                 'company_id' => 1,
-                'identifier' => 'b5780d1e-7c1f-4c8d-8edb-0af46a63df1e',
+                'identifier' => '891d4280-8c47-4fad-aaa5-6e0caa8f80ac',
                 'pin' => 98345,
-                'test_set' => 'c8eb711d-ac3e-4bc6-828b-372cf2f39a2e',
+                'test_set' => '22ff9d7a-b203-41b3-92f7-cd9ff084e4af',
                 'identifier_payroll' => null,
                 'pin_payroll' => null,
                 'payroll_test_set' => null,
                 'identifier_equidoc' => null,
                 'pin_equidoc' => null,
-                'created_at' => '2024-01-01 00:00:00',
-                'updated_at' => '2024-01-01 00:00:00'
+                'created_at' => '2024-07-01 00:00:00',
+                'updated_at' => '2024-07-01 00:00:00'
             ),
         ));
     }
