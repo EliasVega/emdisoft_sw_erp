@@ -18,15 +18,15 @@
                     <table class="table table-striped table-bordered table-condensed table-hover" id="invoiceOrders">
                         <thead>
                             <tr class="trdatacolor">
-                                <!--<th></th>-->
-                                <th>Id</th> <!--
+                                <th></th>
+                                <th>Id</th>
                                 <th>Cliente</th>
                                 <th>Valor</th>
                                 <th>Impuestos</th>
                                 <th>Total</th>
                                 <th>Fecha</th>
                                 <th>Estado</th>
-                                <th>Acciones</th> -->
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                     </table>
@@ -86,16 +86,16 @@
                         order: [
                             [1, "desc"]
                         ],
-                        columns: [/*
+                        columns: [
                             {
                                 className: 'details-control',
                                 orderable: false,
                                 data: null,
                                 defaultContent: ''
-                            },*/
+                            },
                             {
                                 data: 'id'
-                            },/*
+                            },
                             {
                                 data: 'customer'
                             },
@@ -122,7 +122,7 @@
                             },
                             {
                                 data: 'btn'
-                            },*/
+                            },
                         ],
                         columnDefs: [{
                                 targets: 0

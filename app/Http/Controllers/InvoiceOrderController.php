@@ -23,17 +23,14 @@ use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Models\Resolution;
 use Carbon\Carbon;
-use Endroid\QrCode\QrCode;
-use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Yajra\DataTables\DataTables;
 use Illuminate\Support\Arr;
 use Picqer\Barcode\BarcodeGeneratorPNG;
+use Yajra\DataTables\DataTables;
 
 use function App\Helpers\Tickets\formatText;
 use function App\Helpers\Tickets\ticketHeight;
-use function PHPUnit\Framework\isNull;
 
 class InvoiceOrderController extends Controller
 {
@@ -50,9 +47,13 @@ class InvoiceOrderController extends Controller
      */
     public function index(Request $request)
     {
+
         $invoiceOrder = session('invoiceOrder');
         $typeDocument = session('typeDocument');
+
         if ($request->ajax()) {
+            $invoiceOrders = InvoiceOrder::where('status', '!=', 'canceled')->get();
+            /*
             //Muestra todas las pre compras de la empresa
             $user = current_user()->Roles[0]->name;
             if ($user == 'superAdmin' ||$user == 'admin') {
@@ -61,10 +62,9 @@ class InvoiceOrderController extends Controller
             } else {
                 //Consulta para mostrar precompras de los demas roles
                 $invoiceOrders = InvoiceOrder::where('user_id', $user->id)->where('status', '!=', 'canceled')->get();
-            }
+            }*/
             return DataTables::of($invoiceOrders)
             ->addIndexColumn()
-            /*
             ->addColumn('customer', function (InvoiceOrder $invoiceOrder) {
                 return $invoiceOrder->third->name;
             })
@@ -88,7 +88,7 @@ class InvoiceOrderController extends Controller
             })
             ->editColumn('created_at', function(InvoiceOrder $invoiceOrder) {
                 return $invoiceOrder->created_at->format('Y-m-d: h:m');
-            })*/
+            })
             ->addColumn('btn', 'admin/invoiceOrder/actions')
             ->rawColumns(['btn'])
             ->make(true);
