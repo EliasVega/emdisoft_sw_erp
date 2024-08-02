@@ -69,9 +69,9 @@ class ResolutionController extends Controller
     public function store(StoreResolutionRequest $request)
     {
         //dd($request->all());
-        $company = Company::findOrFail(current_user()->company_id);
-        $store = false;
-
+        //$company = Company::findOrFail(current_user()->company_id);
+        $store = true;
+        /*
         if (indicator()->dian == 'on') {
             $data = resolutionData($request);
             $environment = Environment::findOrFail(7);
@@ -84,19 +84,35 @@ class ResolutionController extends Controller
             $errorMessages = $requestResponse['errorMessages'];
         } else {
             $store = true;
-        }
+        }*/
 
         if ($store == true) {
-            $resolution = Resolution::create(array_merge($request->all(), ['company_id' => current_user()->company_id]));
+            //$resolution = Resolution::create(array_merge($request->all(), ['company_id' => current_user()->company_id]));
 
+            $resolution = new Resolution();
+            $resolution->branch_id = 1;
+            $resolution->document_type_id = $request->document_type_id;
+            $resolution->consecutive = $request->consecutive;
+            $resolution->prefix = $request->prefix;
+            $resolution->resolution = $request->resolution;
+            $resolution->resolution_date = $request->resolution_date;
+            $resolution->technical_key = $request->technical_key;
+            $resolution->start_number = $request->start_number;
+            $resolution->end_number = $request->end_number;
+            $resolution->start_date = $request->start_date;
+            $resolution->end_date = $request->end_date;
+            $resolution->status = 'active';
+            $resolution->description = $request->description;
+            $resolution->save();
+            /*
             Alert::success('Resolucion','Creada Satisfactoriamente.');
-            return redirect('resolution');
+            return redirect('resolution');*/
         }
-
+        /*
         return redirect()->route('resolution.index')->with(
             'error_message',
             'La Resolucion no fue registrada. Error: ' . $errorMessages
-        );
+        );*/
         /*
         $resolution = new Resolution();
         $resolution->company_id = 1;
@@ -217,18 +233,16 @@ class ResolutionController extends Controller
 
     public function downloadResolution(Request $request)
     {
-        $company = Company::findOrFail(current_user()->company_id);
-        $configuration = Configuration::where('company_id', $company->id)->first();
+        $configuration = Configuration::where('company_id', company()->id)->first();
         $resolutionolds = Resolution::get();
 
         if (indicator()->dian == 'on') {
-            $company = Company::findOrFail(current_user()->company_id);
-            $software = Software::where('company_id', $company->id)->first();
+            $software = Software::where('company_id', company()->id)->first();
             $environment = Environment::findOrFail(9);
-            $configuration = Configuration::where('company_id', $company->id)->first();
+            $configuration = Configuration::where('company_id', company()->id)->first();
             $urlResolution = $environment->protocol . $configuration->ip . $environment->url;
 
-            $requestResponse = resolutionDownload($company, $software, $urlResolution);
+            $requestResponse = resolutionDownload($software, $urlResolution);
             $service = $requestResponse['response'];
 
             $resolutions = $service['ResponseDian']['Envelope']['Body']['GetNumberingRangeResponse']
@@ -241,6 +255,15 @@ class ResolutionController extends Controller
                     for ($i = 0; $i < $resolutionCount; $i++) {
                         $state = 'active';
 
+                        $prefix = $resolutions[$i]['Prefix'];
+                        $resolution = $resolutions[$i]['ResolutionNumber'];
+                        $resolutionDate = $resolutions[$i]['ResolutionDate'];
+                        $technicalKey = $resolutions[$i]['TechnicalKey'];
+                        $startNumber = $resolutions[$i]['FromNumber'];
+                        $endNumber = $resolutions[$i]['ToNumber'];
+                        $startDate = $resolutions[$i]['ValidDateFrom'];
+                        $endDate = $resolutions[$i]['ValidDateTo'];
+                        /*
                         if (($resolutions[$i]['Prefix'] ?? '') != '') {
                             $prefix = $resolutions[$i]['Prefix'];
                             $resolution = $resolutions[$i]['ResolutionNumber'];
@@ -260,7 +283,7 @@ class ResolutionController extends Controller
                             $startDate = $resolutions['ValidDateFrom'];
                             $endDate = $resolutions['ValidDateTo'];
                             $resolutionCount = 1;
-                        }
+                        }*/
 
                         if (is_string($technicalKey)) {
                             $technicalKey = $technicalKey;
@@ -299,7 +322,7 @@ class ResolutionController extends Controller
                                 'start_date' => $startDate,
                                 'end_date' => $endDate,
                                 'state' => $state,
-                                'company_id' => $company->id,
+                                'branch_id' => 1,
                                 'document_type_id' => $documentTypeId,
                             ]
                         );

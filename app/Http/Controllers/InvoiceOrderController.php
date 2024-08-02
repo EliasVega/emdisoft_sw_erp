@@ -64,6 +64,7 @@ class InvoiceOrderController extends Controller
             }
             return DataTables::of($invoiceOrders)
             ->addIndexColumn()
+            /*
             ->addColumn('customer', function (InvoiceOrder $invoiceOrder) {
                 return $invoiceOrder->third->name;
             })
@@ -87,7 +88,7 @@ class InvoiceOrderController extends Controller
             })
             ->editColumn('created_at', function(InvoiceOrder $invoiceOrder) {
                 return $invoiceOrder->created_at->format('Y-m-d: h:m');
-            })
+            })*/
             ->addColumn('btn', 'admin/invoiceOrder/actions')
             ->rawColumns(['btn'])
             ->make(true);

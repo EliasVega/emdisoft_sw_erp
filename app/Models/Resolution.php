@@ -27,7 +27,7 @@ class Resolution extends Model
         'end_date',
         'status',
         'description',
-        'company_id',
+        'branch_id',
         'document_type_id'
     ];
 
@@ -35,9 +35,9 @@ class Resolution extends Model
         'id'
     ];
 
-    public function company()
+    public function branch()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Branch::class);
     }
 
     public function purchases()

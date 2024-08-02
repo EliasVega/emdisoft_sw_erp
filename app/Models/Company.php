@@ -74,11 +74,6 @@ class Company extends Model
         return $this->hasMany(Branch::class);
     }
 
-    public function resolutions()
-    {
-        return $this->hasMany(Resolution::class);
-    }
-
     public function indicator(){
         return $this->hasOne(Indicator::class);
     }

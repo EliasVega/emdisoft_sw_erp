@@ -29,11 +29,6 @@ class Percentage extends Model
         'id'
     ];
 
-    public function retentions()
-    {
-        return $this->hasMany(Retention::class);
-    }
-
     public function taxes()
     {
         return $this->hasMany(Tax::class);

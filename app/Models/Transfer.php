@@ -34,6 +34,6 @@ class Transfer extends Model
     }
 
     public function productBranchs(){
-        return $this->hasMany(product_branch::class);
+        return $this->hasMany(ProductBranch::class);
     }
 }

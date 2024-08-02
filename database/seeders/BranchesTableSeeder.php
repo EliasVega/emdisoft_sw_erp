@@ -21,7 +21,7 @@ class BranchesTableSeeder extends Seeder
             0 =>
             array (
                 'id' => 1,
-                'name' => 'Principal',
+                'name' => 'Monteredondo',
                 'address' => 'CL 61 3 W 04 BRR MUTIS',
                 'phone' => '3224599940',
                 'mobile' => '3224599940',
@@ -37,7 +37,7 @@ class BranchesTableSeeder extends Seeder
             1 =>
             array (
                 'id' => 2,
-                'name' => 'Dos',
+                'name' => 'Provenza',
                 'address' => 'CL 61 3 W 04 BRR MUTIS',
                 'phone' => '6414355',
                 'mobile' => '6414355',
@@ -53,7 +53,7 @@ class BranchesTableSeeder extends Seeder
             2 =>
             array (
                 'id' => 3,
-                'name' => 'Tres',
+                'name' => 'Real de minas',
                 'address' => 'CL 61 3 W 04 BRR MUTIS',
                 'phone' => '6414355',
                 'mobile' => '6414355',

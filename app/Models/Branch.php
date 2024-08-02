@@ -48,6 +48,11 @@ class Branch extends Model
         return $this->belongsTo(Municipality::class);
     }
 
+    public function resolutions()
+    {
+        return $this->hasMany(Resolution::class);
+    }
+
     public function company()
     {
         return $this->belongsTo(Company::class);

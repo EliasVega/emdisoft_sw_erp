@@ -33,6 +33,6 @@ class RestaurantTable extends Model
     }
 
     public function invoices(){
-        return $this->hasMany(Invoices::class);
+        return $this->hasMany(Invoice::class);
     }
 }

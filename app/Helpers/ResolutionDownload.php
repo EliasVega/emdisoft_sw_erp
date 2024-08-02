@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Http;
 
 if (!function_exists('ResolutionDownload')) {
-    function resolutionDownload($company, $software, $urlResolution)
+    function resolutionDownload($software, $urlResolution)
     {
         $data = [
             "IDSoftware" => $software->identifier
@@ -12,7 +12,7 @@ if (!function_exists('ResolutionDownload')) {
         $requestResponse = [];
 
         $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $company->api_token,
+            'Authorization' => 'Bearer ' . company()->api_token,
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
         ])->post($urlResolution, $data);

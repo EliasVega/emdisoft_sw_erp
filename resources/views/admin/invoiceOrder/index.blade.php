@@ -7,18 +7,9 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h5>Listado de Ordenes de venta</h5>
-                @can('invoiceOrder.create')
-                    <a href="createPosOrder" class="btn btn-blueGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Orden de Venta
-                        Pos</a>
-                @endcan
-                @can('invoiceOrder.create')
-                    <a href="invoiceOrder/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Orden de
-                        Venta </a>
-                @endcan
-                @can('invoice.index')
-                    <a href="{{ route('invoice.index') }}" class="btn btn-blueGrad btn-sm"><i
-                            class="fas fa-undo-alt mr-2"></i>Ventas</a>
-                @endcan
+                    <a href="createPosOrder" class="btn btn-blueGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Orden de Venta Pos</a>
+                    <a href="invoiceOrder/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Orden de Venta </a>
+                    <a href="{{ route('invoice.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Ventas</a>
             </div>
         </div>
         <div class="row">
@@ -27,15 +18,15 @@
                     <table class="table table-striped table-bordered table-condensed table-hover" id="invoiceOrders">
                         <thead>
                             <tr class="trdatacolor">
-                                <th></th>
-                                <th>Id</th>
+                                <!--<th></th>-->
+                                <th>Id</th> <!--
                                 <th>Cliente</th>
                                 <th>Valor</th>
                                 <th>Impuestos</th>
                                 <th>Total</th>
                                 <th>Fecha</th>
                                 <th>Estado</th>
-                                <th>Acciones</th>
+                                <th>Acciones</th> -->
                             </tr>
                         </thead>
                     </table>
@@ -45,11 +36,12 @@
         @push('scripts')
             <script type="text/javascript">
                 $(document).ready(function() {
+
                     var typeDocument = "{{ $typeDocument ?? '' }}";
 
                     function print() {
-                        if (typeDocument == 'invoice') {
-                            var invoiceOrder = "{{ $invoice ?? '' }}";
+                        if (typeDocument == 'invoiceOrder') {
+                            var invoiceOrder = "{{ $invoiceOrder ?? '' }}";
                             if (invoiceOrder != '') {
                                 var imprimir = "{{ route('pdfInvoiceOrder', ['invoiceOrder' => ':invoiceOrder']) }}";
                                 imprimir = imprimir.replace(':invoiceOrder', invoiceOrder);
@@ -58,15 +50,14 @@
                         } else if (typeDocument == '') {
 
                         } else {
-                            var invoice = "{{ $invoice ?? '' }}";
-                            if (invoice != '') {
+                            var invoiceOrder = "{{ $invoiceOrder ?? '' }}";
+                            if (invoiceOrder != '') {
                                 var imprimir = "{{ route('posInvoiceOrder', ['invoiceOrder' => ':invoiceOrder']) }}";
                                 imprimir = imprimir.replace(':invoiceOrder', invoiceOrder);
                                 window.open(imprimir, "_blank");
                             }
                         }
                     }
-
                     print();
 
                     function format(d) {
@@ -95,15 +86,16 @@
                         order: [
                             [1, "desc"]
                         ],
-                        columns: [{
+                        columns: [/*
+                            {
                                 className: 'details-control',
                                 orderable: false,
                                 data: null,
                                 defaultContent: ''
-                            },
+                            },*/
                             {
                                 data: 'id'
-                            },
+                            },/*
                             {
                                 data: 'customer'
                             },
@@ -130,7 +122,7 @@
                             },
                             {
                                 data: 'btn'
-                            },
+                            },*/
                         ],
                         columnDefs: [{
                                 targets: 0
@@ -168,13 +160,13 @@
                         buttons: [{
                                 extend: 'copy',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                                 }
                             },
                             {
                                 extend: 'excel',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                                 }
                             },
                             {
@@ -183,17 +175,18 @@
                                 orientation: 'landscape',
                                 pageSize: 'LEGAL',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                                 }
                             },
                             {
                                 extend: 'print',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                                 }
                             },
                         ],
                     });
+
                     $('#invoiceOrders tbody').on('click', 'td.details-control', function() {
                         let tr = $(this).closest('tr');
                         let row = invoiceOrders.row(tr);

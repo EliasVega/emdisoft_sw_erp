@@ -27,7 +27,7 @@ return new class extends Migration
             $table->date('end_date')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->string('description',100)->nullable();
-            $table->foreignId('company_id')->constrained()->onUpdate('cascade')
+            $table->foreignId('branch_id')->constrained()->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreignId('document_type_id')->constrained()->onUpdate('cascade')
                 ->onDelete('cascade');

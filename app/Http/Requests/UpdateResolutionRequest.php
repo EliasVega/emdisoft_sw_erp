@@ -35,6 +35,7 @@ class UpdateResolutionRequest extends FormRequest
             'end_date' => 'nullable|date|after:start_date',
             'status' => 'required|in:active,inactive',
             'description' => 'nullable|string|max:100',
+            'branch_id' => 'required|integer',
             'document_type_id' => 'required|integer'
         ];
     }

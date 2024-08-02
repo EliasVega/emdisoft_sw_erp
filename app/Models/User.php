@@ -87,7 +87,7 @@ class User extends Authenticatable
     }
 
     public function VerificationCode(){
-        return $this->hasOne(Verification_code::class);
+        return $this->hasOne(VerificationCode::class);
     }
 
     public function transfer()

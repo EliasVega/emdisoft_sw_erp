@@ -66,5 +66,31 @@ class UsersTableSeeder extends Seeder
             'updated_at' => '2024-05-16 21:07:43'
 
         ])->assignRole(2);
+
+        User::create([
+            'id' => 3,
+            'name' => 'USUARIO UNO',
+            'number' => '1234567891',
+            'address' => 'DIRECCION UNO',
+            'phone' => '3224599940',
+            'email' => 'testing@gmail.com',
+            'email_verified_at' => NULL,
+            'password' => bcrypt('matrix'),
+            'two_factor_secret' => NULL,
+            'two_factor_recovery_codes' => NULL,
+            'two_factor_confirmed_at' => NULL,
+            'remember_token' => NULL,
+            'current_team_id' => NULL,
+            'profile_photo_path' => NULL,
+            'position' => 'Administrador Sistema',
+            'transfer' => 1,
+            'status' => 'active',
+            'company_id' => 1,
+            'branch_id' => 1,
+            'identification_type_id' => 3,
+            'created_at' => '2024-05-16 21:07:43',
+            'updated_at' => '2024-05-16 21:07:43'
+
+        ])->assignRole(5);
     }
 }
