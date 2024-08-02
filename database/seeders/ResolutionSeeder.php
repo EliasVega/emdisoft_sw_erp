@@ -33,7 +33,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => null,
                 'status' => 'inactive',
                 'description' => 'Factura compra local',
-                'company_id' => 1,
+                'branch_id' => 1,
                 'document_type_id' => 101
             ),
             1 =>
@@ -50,7 +50,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => null,
                 'status' => 'inactive',
                 'description' => 'NC Factura compra local',
-                'company_id' => 1,
+                'branch_id' => 1,
                 'document_type_id' => 102
             ),
             2 =>
@@ -67,7 +67,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => null,
                 'status' => 'inactive',
                 'description' => 'ND Factura compra local',
-                'company_id' => 1,
+                'branch_id' => 1,
                 'document_type_id' => 103
             ),
             3 =>
@@ -84,7 +84,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => null,
                 'status' => 'inactive',
                 'description' => 'Factura POS local',
-                'company_id' => 1,
+                'branch_id' => 1,
                 'document_type_id' => 104
             ),
             4 =>
@@ -101,7 +101,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => null,
                 'status' => 'inactive',
                 'description' => 'NC POS local',
-                'company_id' => 1,
+                'branch_id' => 1,
                 'document_type_id' => 105
             ),
             5 =>
@@ -118,7 +118,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => null,
                 'status' => 'inactive',
                 'description' => 'ND POS local',
-                'company_id' => 1,
+                'branch_id' => 1,
                 'document_type_id' => 106
             ),
             6 =>
@@ -135,7 +135,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => '2030-01-19',
                 'status' => 'active',
                 'description' => 'Set de pruebas Factura de venta',
-                'company_id' => 1,
+                'branch_id' => 1,
                 'document_type_id' => 1
             ),
             7 =>
@@ -152,7 +152,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => null,
                 'status' => 'active',
                 'description' => 'NC Factura de venta',
-                'company_id' => 1,
+                'branch_id' => 1,
                 'document_type_id' => 4
             ),
             8 =>
@@ -169,7 +169,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => null,
                 'status' => 'active',
                 'description' => 'ND Factura de venta',
-                'company_id' => 1,
+                'branch_id' => 1,
                 'document_type_id' => 5
             ),
             9 =>
@@ -186,7 +186,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => '2030-01-19',
                 'status' => 'active',
                 'description' => 'Set de pruebas Pos Electronico',
-                'company_id' => 1,
+                'branch_id' => 1,
                 'document_type_id' => 15
             ),
             10 =>
@@ -203,7 +203,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => null,
                 'status' => 'active',
                 'description' => 'NC Pos Electronico',
-                'company_id' => 1,
+                'branch_id' => 1,
                 'document_type_id' => 26
             ),
             11 =>
@@ -220,7 +220,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => null,
                 'status' => 'active',
                 'description' => 'ND Pos Electronico',
-                'company_id' => 1,
+                'branch_id' => 1,
                 'document_type_id' => 25
             ),
             12 =>
@@ -237,7 +237,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => '2040-01-19',
                 'status' => 'active',
                 'description' => 'Facturacion en local',
-                'company_id' => 1,
+                'branch_id' => 1,
                 'document_type_id' => 1
             ),
             12 =>
@@ -254,7 +254,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => '2040-01-19',
                 'status' => 'active',
                 'description' => 'Facturacion en local',
-                'company_id' => 1,
+                'branch_id' => 1,
                 'document_type_id' => 1
             ),
             13 =>
@@ -271,7 +271,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => '2030-05-06',
                 'status' => 'inactive',
                 'description' => 'Resolucion de remissiones',
-                'company_id' => 1,
+                'branch_id' => 1,
                 'document_type_id' => 107
             ),
             14 =>
@@ -288,7 +288,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => null,
                 'status' => 'active',
                 'description' => 'NADS',
-                'company_id' => 1,
+                'branch_id' => 1,
                 'document_type_id' => 13
             ),
         ));
