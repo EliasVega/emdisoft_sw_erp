@@ -290,7 +290,7 @@
                             @foreach ($purchaseOrders as $purchaseOrder)
                             <tr>
                                 <td>{{ $purchaseOrder->id }}</td>
-                                <td>{{ $purchaseOrder->customer->name }}</td>
+                                <td>{{ $purchaseOrder->third->name }}</td>
                                 <td align="right">$ {{ number_format($purchaseOrder->total_pay, 2) }}</td>
                             </tr>
                             @endforeach
