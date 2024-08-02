@@ -47,8 +47,8 @@ class DatabaseSeeder extends Seeder
         $this->call(EmployeeTypesTableSeeder::class);
         $this->call(PaymentFrecuenciesTableSeeder::class);
 
-        //$this->call(ProvidersTableSeeder::class);
-        //$this->call(CustomersTableSeeder::class);
+        $this->call(ProvidersTableSeeder::class);
+        $this->call(CustomersTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
         $this->call(ProductsSeeder::class);
         $this->call(BranchProductsTableSeeder::class);
@@ -61,21 +61,21 @@ class DatabaseSeeder extends Seeder
         $this->call(SalePointSeeder::class);
         $this->call(CashRegisterSeeder::class);
 
-        //$this->call(EmployeesTableSeeder::class);
-        //$this->call(RestaurantTableSeeder::class);
-        //$this->call(RawMaterialSeeder::class);
-        //$this->call(ProductRawmaterialSeeder::class);
-        //$this->call(BranchRawmaterialsTableSeeder::class);
-        //$this->call(OvertimeTypeSeeder::class);
+        $this->call(EmployeesTableSeeder::class);
+        $this->call(RestaurantTableSeeder::class);
+        $this->call(RawMaterialSeeder::class);
+        $this->call(ProductRawmaterialSeeder::class);
+        $this->call(BranchRawmaterialsTableSeeder::class);
+        $this->call(OvertimeTypeSeeder::class);
 
-        //$this->call(AccountClassSeeder::class);
-        //$this->call(AccountGroupSeeder::class);
-        //$this->call(AccountSeeder::class);
-        //$this->call(SubaccountSeeder::class);
-        //$this->call(AuxiliaryAccountSeeder::class);
-        //$this->call(SubauxiliaryAccountSeeder::class);
-        //$this->call(TriggerMethodSeeder::class);
-        //$this->call(MovementTypeSeeder::class);
-        //$this->call(OperationTypeSeeder::class);
+        $this->call(AccountClassSeeder::class);
+        $this->call(AccountGroupSeeder::class);
+        $this->call(AccountSeeder::class);
+        $this->call(SubaccountSeeder::class);
+        $this->call(AuxiliaryAccountSeeder::class);
+        $this->call(SubauxiliaryAccountSeeder::class);
+        $this->call(TriggerMethodSeeder::class);
+        $this->call(MovementTypeSeeder::class);
+        $this->call(OperationTypeSeeder::class);
     }
 }

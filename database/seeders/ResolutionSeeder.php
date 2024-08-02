@@ -33,7 +33,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => null,
                 'status' => 'inactive',
                 'description' => 'Factura compra local',
-                'branch_id' => 1,
+                'company_id' => 1,
                 'document_type_id' => 101
             ),
             1 =>
@@ -50,7 +50,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => null,
                 'status' => 'inactive',
                 'description' => 'NC Factura compra local',
-                'branch_id' => 1,
+                'company_id' => 1,
                 'document_type_id' => 102
             ),
             2 =>
@@ -67,7 +67,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => null,
                 'status' => 'inactive',
                 'description' => 'ND Factura compra local',
-                'branch_id' => 1,
+                'company_id' => 1,
                 'document_type_id' => 103
             ),
             3 =>
@@ -84,7 +84,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => null,
                 'status' => 'inactive',
                 'description' => 'Factura POS local',
-                'branch_id' => 1,
+                'company_id' => 1,
                 'document_type_id' => 104
             ),
             4 =>
@@ -101,7 +101,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => null,
                 'status' => 'inactive',
                 'description' => 'NC POS local',
-                'branch_id' => 1,
+                'company_id' => 1,
                 'document_type_id' => 105
             ),
             5 =>
@@ -118,7 +118,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => null,
                 'status' => 'inactive',
                 'description' => 'ND POS local',
-                'branch_id' => 1,
+                'company_id' => 1,
                 'document_type_id' => 106
             ),
             6 =>
@@ -135,7 +135,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => '2030-01-19',
                 'status' => 'active',
                 'description' => 'Set de pruebas Factura de venta',
-                'branch_id' => 1,
+                'company_id' => 1,
                 'document_type_id' => 1
             ),
             7 =>
@@ -152,7 +152,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => null,
                 'status' => 'active',
                 'description' => 'NC Factura de venta',
-                'branch_id' => 1,
+                'company_id' => 1,
                 'document_type_id' => 4
             ),
             8 =>
@@ -169,7 +169,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => null,
                 'status' => 'active',
                 'description' => 'ND Factura de venta',
-                'branch_id' => 1,
+                'company_id' => 1,
                 'document_type_id' => 5
             ),
             9 =>
@@ -186,7 +186,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => '2030-01-19',
                 'status' => 'active',
                 'description' => 'Set de pruebas Pos Electronico',
-                'branch_id' => 1,
+                'company_id' => 1,
                 'document_type_id' => 15
             ),
             10 =>
@@ -203,7 +203,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => null,
                 'status' => 'active',
                 'description' => 'NC Pos Electronico',
-                'branch_id' => 1,
+                'company_id' => 1,
                 'document_type_id' => 26
             ),
             11 =>
@@ -220,7 +220,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => null,
                 'status' => 'active',
                 'description' => 'ND Pos Electronico',
-                'branch_id' => 1,
+                'company_id' => 1,
                 'document_type_id' => 25
             ),
             12 =>
@@ -237,7 +237,24 @@ class ResolutionSeeder extends Seeder
                 'end_date' => '2040-01-19',
                 'status' => 'active',
                 'description' => 'Facturacion en local',
-                'branch_id' => 1,
+                'company_id' => 1,
+                'document_type_id' => 1
+            ),
+            12 =>
+            array (
+                'id' => 13,
+                'prefix' => 'FLOC',
+                'resolution' => '18760000001',
+                'resolution_date' => '2019-01-19',
+                'technical_key' => 'local',
+                'start_number' => 1,
+                'end_number' => 99999999,
+                'consecutive' => 1,
+                'start_date' => '2019-01-19',
+                'end_date' => '2040-01-19',
+                'status' => 'active',
+                'description' => 'Facturacion en local',
+                'company_id' => 1,
                 'document_type_id' => 1
             ),
             13 =>
@@ -254,7 +271,7 @@ class ResolutionSeeder extends Seeder
                 'end_date' => '2030-05-06',
                 'status' => 'inactive',
                 'description' => 'Resolucion de remissiones',
-                'branch_id' => 1,
+                'company_id' => 1,
                 'document_type_id' => 107
             ),
             14 =>
@@ -271,76 +288,8 @@ class ResolutionSeeder extends Seeder
                 'end_date' => null,
                 'status' => 'active',
                 'description' => 'NADS',
-                'branch_id' => 1,
+                'company_id' => 1,
                 'document_type_id' => 13
-            ),
-            15 =>
-            array (
-                'id' => 16,
-                'prefix' => 'TM',
-                'resolution' => '18764075297945',
-                'resolution_date' => '2024-07-18',
-                'technical_key' => 'e6d938cb3e38bf90bac49b5deff67eaec75d92d8fa4d2aba81bc2eb7c71b7097',
-                'start_number' => 1,
-                'end_number' => 5000,
-                'consecutive' => 1,
-                'start_date' => '2024-07-18',
-                'end_date' => '2026-07-18',
-                'status' => 'active',
-                'description' => '',
-                'branch_id' => 1,
-                'document_type_id' => 1
-            ),
-            16 =>
-            array (
-                'id' => 17,
-                'prefix' => 'TP',
-                'resolution' => '18764075298097',
-                'resolution_date' => '2024-07-18',
-                'technical_key' => '51ab5743c148c8c78f4b8387eed769b0cf5d0a27cb85f091916745f71577bcec',
-                'start_number' => 1,
-                'end_number' => 5000,
-                'consecutive' => 1,
-                'start_date' => '2024-07-18',
-                'end_date' => '2026-07-18',
-                'status' => 'active',
-                'description' => '',
-                'branch_id' => 2,
-                'document_type_id' => 1
-            ),
-            17 =>
-            array (
-                'id' => 18,
-                'prefix' => 'TR',
-                'resolution' => '18764075298549',
-                'resolution_date' => '2024-07-18',
-                'technical_key' => 'f4dcdfa3807535b352454f10faf503282ea3d97ebfe4832269161a38f5f4cb17',
-                'start_number' => 1,
-                'end_number' => 5000,
-                'consecutive' => 1,
-                'start_date' => '2024-07-18',
-                'end_date' => '2026-07-18',
-                'status' => 'active',
-                'description' => '',
-                'branch_id' => 3,
-                'document_type_id' => 1
-            ),
-            18 =>
-            array (
-                'id' => 19,
-                'prefix' => 'TT',
-                'resolution' => '18764075298753',
-                'resolution_date' => '2024-07-18',
-                'technical_key' => '864629b9d0b2aa658562ba5ff7e7ec04ea81a5f137165b1fd16bdf76d9d807ef',
-                'start_number' => 1,
-                'end_number' => 5000,
-                'consecutive' => 1,
-                'start_date' => '2024-07-18',
-                'end_date' => '2026-07-18',
-                'status' => 'active',
-                'description' => '',
-                'branch_id' => 4,
-                'document_type_id' => 1
             ),
         ));
     }
