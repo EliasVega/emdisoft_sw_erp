@@ -1,5 +1,5 @@
 <div class="box-body row">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <label for="document_type_id">Tipo de Documento</label>
         <div class="select">
             <select id="document_type_id" name="document_type_id" class="form-control selectpicker" data-live-search="true" required>
@@ -9,6 +9,21 @@
                         <option value="{{ $documentType->id }}" selected>{{ $documentType->name }}</option>
                     @else
                         <option value="{{ $documentType->id }}">{{ $documentType->name }}</option>
+                    @endif
+                @endforeach
+            </select>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <label for="branch_id">Punto de venta</label>
+        <div class="select">
+            <select id="branch_id" name="branch_id" class="form-control selectpicker" data-live-search="true" required>
+                <option {{ ($resolution->branch_id ?? '') == '' ? "selected" : "" }} disabled>Tipo de Documento</option>
+                @foreach($branches as $branch)
+                    @if($branch->id == ($resolution->branch_id ?? ''))
+                        <option value="{{ $branch->id }}" selected>{{ $branch->name }}</option>
+                    @else
+                        <option value="{{ $branch->id }}">{{ $branch->name }}</option>
                     @endif
                 @endforeach
             </select>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Resolution;
 use App\Http\Requests\StoreResolutionRequest;
 use App\Http\Requests\UpdateResolutionRequest;
+use App\Models\Branch;
 use App\Models\Company;
 use App\Models\Configuration;
 use App\Models\DocumentType;
@@ -55,9 +56,9 @@ class ResolutionController extends Controller
      */
     public function create()
     {
-        $companies = Company::findOrFail(1);
+        $branches = Branch::get();
         $documentTypes = DocumentType::get();
-        return view('admin.resolution.create', compact('documentTypes', 'companies'));
+        return view('admin.resolution.create', compact('documentTypes', 'branches'));
     }
 
     /**
@@ -90,7 +91,7 @@ class ResolutionController extends Controller
             //$resolution = Resolution::create(array_merge($request->all(), ['company_id' => current_user()->company_id]));
 
             $resolution = new Resolution();
-            $resolution->branch_id = 1;
+            $resolution->branch_id = $request->branch_id;
             $resolution->document_type_id = $request->document_type_id;
             $resolution->consecutive = $request->consecutive;
             $resolution->prefix = $request->prefix;
@@ -153,9 +154,9 @@ class ResolutionController extends Controller
      */
     public function edit(Resolution $resolution)
     {
-        $companies = Company::findOrFail(1);
+        $branches = Branch::get();
         $documentTypes = DocumentType::get();
-        return view('admin.resolution.edit', compact('resolution', 'documentTypes', 'companies'));
+        return view('admin.resolution.edit', compact('resolution', 'documentTypes', 'branches'));
     }
 
     /**
@@ -167,7 +168,7 @@ class ResolutionController extends Controller
      */
     public function update(UpdateResolutionRequest $request, Resolution $resolution)
     {
-        $resolution->company_id = current_user()->company_id;
+        $resolution->branch_id = $request->branch_id;
         $resolution->document_type_id = $request->document_type_id;
         $resolution->consecutive = $request->consecutive;
         $resolution->prefix = $request->prefix;
