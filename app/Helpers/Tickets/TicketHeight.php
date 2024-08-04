@@ -201,3 +201,466 @@ if (!function_exists('ticketHeightNcinvoice')) {
         return $pdfHeight;
     }
 }
+
+if (!function_exists('ticketHeightCashRegister')) {
+    function ticketHeightCashRegister(
+        $cashRegister,
+        $logoHeight,
+        $productPurchases,
+        $invoiceProducts,
+        $expenseProducts,
+        $productRemissions,
+        $purchases,
+        $expenses,
+        $invoices,
+        $remissions,
+        $purchaseOrders,
+        $invoiceOrders,
+        $restaurantOrders,
+        $ncinvoices,
+        $ndinvoices,
+        $ncpurchases,
+        $ndpurchases,
+        $invoicePays,
+        $remissionPays,
+        $purchasePays,
+        $expensePays,
+        $cashInflows,
+        $cashOutflows,
+        $advanceProviders,
+        $advanceCustomers,
+        $advanceEmployees,
+        $sumAdvanceCustomers,
+        $sumAdvanceEmployees,
+        $sumAdvanceProviders
+        )
+    {
+        $lns = 5;//separaciones
+        $logo = $logoHeight;
+        $name = 5;
+        $reportItems = 19;
+        $items = 4;
+        $reportNull = 10;
+        $title = 21;
+        $reportTotals = 13;
+        $pdfHeight = 19;
+
+        if (company()->logo != null) {
+            $image = storage_path('app/public/images/logos/' . company()->imageName);
+
+            if (file_exists($image)) {
+                $pdfHeight += $logo;
+            }
+        }
+
+        $pdfHeight += $name + ($lns * 2);
+
+        if ($cashRegister->purchase > 0) {
+            foreach ($productPurchases as $productPurchase) {
+                $length = strlen($productPurchase->name);
+                if ($length > 20) {
+                    $h = $length / 30;
+                    $hh = $h + 2;
+                    $pdfHeight += ($hh * 4);
+                } else {
+                    $pdfHeight += $items;
+                }
+            }
+
+            foreach ($purchases as $purchase) {
+
+                $length = strlen($purchase->third->name);
+                if ($length > 40) {
+                    $h = $length / 30;
+                    $hh = $h + 2;
+                    $pdfHeight += ($hh * 4);
+                } else {
+                    $pdfHeight += $items;
+                }
+            }
+
+            $pdfHeight += ($lns *2) + ($reportItems * 2) + $reportTotals;//total reportItemPurchase raya y espacio
+
+        } else {
+            $pdfHeight += $reportNull;//reporte de nulo
+        }
+
+        if ($cashRegister->expense > 0) {
+            foreach ($expenseProducts as $expenseProduct) {
+
+                $length = strlen($expenseProduct->name);
+                if ($length > 20) {
+                    $h = $length / 30;
+                    $hh = $h + 2;
+                    $pdfHeight += ($hh * 4);
+                } else {
+                    $pdfHeight += $items;
+                }
+            }
+
+            foreach ($expenses as $expense) {
+                $length = strlen($expense->third->name);
+                if ($length > 40) {
+                    $h = $length / 30;
+                    $hh = $h + 2;
+                    $pdfHeight += ($hh * 4);
+                } else {
+                    $pdfHeight += $items;
+                }
+            }
+            $pdfHeight += ($lns *2) + ($reportItems * 2) + $reportTotals;//total reportItemPurchase raya y espacio
+        } else {
+            $pdfHeight += $reportNull;//reporte de nulo
+        }
+
+        if ($cashRegister->invoice > 0) {
+            foreach ($invoiceProducts as $invoiceProduct) {
+
+                $length = strlen($invoiceProduct->name);
+                if ($length > 20) {
+                    $h = $length / 30;
+                    $hh = $h + 2;
+                    $pdfHeight += ($hh * 4);
+                } else {
+                    $pdfHeight += $items;
+                }
+            }
+
+            foreach ($invoices as $invoice) {
+
+                $length = strlen($invoice->third->name);
+                if ($length > 40) {
+                    $h = $length / 30;
+                    $hh = $h + 2;
+                    $pdfHeight += ($hh * 4);
+                } else {
+                    $pdfHeight += $items;
+                }
+            }
+            $pdfHeight += ($lns *2) + ($reportItems * 2) + $reportTotals;//total reportItemPurchase raya y espacio
+        } else {
+            $pdfHeight += $reportNull;//reporte de nulo
+        }
+
+        if ($cashRegister->remission > 0) {
+            foreach ($productRemissions as $productRemission) {
+
+                $length = strlen($productRemission->name);
+                if ($length > 20) {
+                    $h = $length / 30;
+                    $hh = $h + 2;
+                    $pdfHeight += ($hh * 4);
+                } else {
+                    $pdfHeight += $items;
+                }
+            }
+
+
+            foreach ($remissions as $remission) {
+
+                $length = strlen($remission->third->name);
+                if ($length > 40) {
+                    $h = $length / 30;
+                    $hh = $h + 2;
+                    $pdfHeight += ($hh * 4);
+                } else {
+                    $pdfHeight += $items;
+                }
+            }
+            $pdfHeight += ($lns *2) + ($reportItems * 2) + $reportTotals;//total reportItemPurchase raya y espacio
+        } else {
+            $pdfHeight += $reportNull;//reporte de nulo
+        }
+
+        if ($cashRegister->purchase_order > 0) {
+
+
+            foreach ($purchaseOrders as $purchaseOrder) {
+
+                $length = strlen($purchaseOrder->third->name);
+                if ($length > 40) {
+                    $h = $length / 30;
+                    $hh = $h + 2;
+                    $pdfHeight += ($hh * 4);
+                } else {
+                    $pdfHeight += $items;
+                }
+            }
+            $pdfHeight += $lns + $reportItems + $reportTotals;//total reportItemPurchase raya y espacio
+        } else {
+            $pdfHeight += $reportNull;//reporte de nulo
+        }
+        if (indicator()->restaurant = 'off') {
+            if ($cashRegister->invoice_order > 0) {
+
+
+                foreach ($invoiceOrders as $invoiceOrders) {
+
+                    $length = strlen($invoiceOrders->third->name);
+                    if ($length > 40) {
+                        $h = $length / 30;
+                        $hh = $h + 2;
+                        $pdfHeight += ($hh * 4);
+                    } else {
+                        $pdfHeight += $items;
+                    }
+                }
+                $pdfHeight += $lns + $reportItems + $reportTotals;;//total reportItemPurchase raya y espacio
+            } else {
+                $pdfHeight += $reportNull;//reporte de nulo
+            }
+        } else {
+            if ($cashRegister->restaurant_order > 0) {
+
+
+                foreach ($restaurantOrders as $restaurantOrders) {
+
+                    $length = strlen($restaurantOrders->third->name);
+                    if ($length > 40) {
+                        $h = $length / 30;
+                        $hh = $h + 2;
+                        $pdfHeight += ($hh * 4);
+                    } else {
+                        $pdfHeight += $items;
+                    }
+                }
+                $pdfHeight += $lns + $reportItems + $reportTotals;//total reportItemPurchase raya y espacio
+            } else {
+                $pdfHeight += $reportNull;//reporte de nulo
+            }
+        }
+        if ($cashRegister->ncinvoice > 0) {
+            foreach ($ncinvoices as $ncinvoice) {
+
+                $length = strlen($ncinvoice->third->name);
+                if ($length > 40) {
+                    $h = $length / 30;
+                    $hh = $h + 2;
+                    $pdfHeight += ($hh * 4);
+                } else {
+                    $pdfHeight += $items;
+                }
+            }
+            $pdfHeight += $lns + $reportItems + $reportTotals;//total reportItemPurchase raya y espacio
+        } else {
+            $pdfHeight += $reportNull;//reporte de nulo
+        }
+        if ($cashRegister->ndinvoice > 0) {
+            foreach ($ndinvoices as $ndinvoice) {
+
+                $length = strlen($ndinvoice->third->name);
+                if ($length > 40) {
+                    $h = $length / 30;
+                    $hh = $h + 2;
+                    $pdfHeight += ($hh * 4);
+                } else {
+                    $pdfHeight += $items;
+                }
+            }
+            $pdfHeight += $lns + $reportItems + $reportTotals;//total reportItemPurchase raya y espacio
+        } else {
+            $pdfHeight += $reportNull;//reporte de nulo
+        }
+        if ($cashRegister->ncpurchase > 0) {
+            foreach ($ncpurchases as $ncpurchase) {
+
+                $length = strlen($ncpurchase->third->name);
+                if ($length > 40) {
+                    $h = $length / 30;
+                    $hh = $h + 2;
+                    $pdfHeight += ($hh * 4);
+                } else {
+                    $pdfHeight += $items;
+                }
+            }
+            $pdfHeight += $lns + $reportItems + $reportTotals;//total reportItemPurchase raya y espacio
+        } else {
+            $pdfHeight += $reportNull;//reporte de nulo
+        }
+        if ($cashRegister->ndpurchase > 0) {
+            foreach ($ndpurchases as $ndpurchase) {
+
+                $length = strlen($ndpurchase->third->name);
+                if ($length > 40) {
+                    $h = $length / 30;
+                    $hh = $h + 2;
+                    $pdfHeight += ($hh * 4);
+                } else {
+                    $pdfHeight += $items;
+                }
+            }
+            $pdfHeight += $lns + $reportItems + $reportTotals;//total reportItemPurchase raya y espacio
+        } else {
+            $pdfHeight += $reportNull;//reporte de nulo
+        }
+        if ($cashRegister->in_invoice > 0) {
+            foreach ($invoicePays as $invoicePay) {
+
+                $length = strlen($invoicePay->payable->third->name);
+                if ($length > 40) {
+                    $h = $length / 30;
+                    $hh = $h + 2;
+                    $pdfHeight += ($hh * 4);
+                } else {
+                    $pdfHeight += $items;
+                }
+            }
+            $pdfHeight += $lns + $reportItems + $reportTotals;//total reportItemPurchase raya y espacio
+        } else {
+            $pdfHeight += $reportNull;//reporte de nulo
+        }
+        if ($cashRegister->in_remission > 0) {
+            foreach ($remissionPays as $remissionPay) {
+
+                $length = strlen($remissionPay->payable->third->name);
+                if ($length > 40) {
+                    $h = $length / 30;
+                    $hh = $h + 2;
+                    $pdfHeight += ($hh * 4);
+                } else {
+                    $pdfHeight += $items;
+                }
+            }
+            $pdfHeight += $lns + $reportItems + $reportTotals;//total reportItemPurchase raya y espacio
+        } else {
+            $pdfHeight += $reportNull;//reporte de nulo
+        }
+        if ($cashRegister->out_purchase > 0) {
+            foreach ($purchasePays as $purchasePay) {
+
+                $length = strlen($purchasePay->payable->third->name);
+                if ($length > 40) {
+                    $h = $length / 30;
+                    $hh = $h + 2;
+                    $pdfHeight += ($hh * 4);
+                } else {
+                    $pdfHeight += $items;
+                }
+            }
+            $pdfHeight += $lns + $reportItems + $reportTotals;//total reportItemPurchase raya y espacio
+        } else {
+            $pdfHeight += $reportNull;//reporte de nulo
+        }
+        if ($cashRegister->out_expense > 0) {
+            foreach ($expensePays as $expensePay) {
+
+                $length = strlen($expensePay->payable->third->name);
+                if ($length > 40) {
+                    $h = $length / 30;
+                    $hh = $h + 2;
+                    $pdfHeight += ($hh * 4);
+                } else {
+                    $pdfHeight += $items;
+                }
+            }
+            $pdfHeight += $lns + $reportItems + $reportTotals;//total reportItemPurchase raya y espacio
+        } else {
+            $pdfHeight += $reportNull;//reporte de nulo
+        }
+        if ($cashRegister->in_cash > 0) {
+            foreach ($cashInflows as $cashInflow) {
+
+                $length = strlen($cashInflow->reason);
+                if ($length > 40) {
+                    $h = $length / 30;
+                    $hh = $h + 2;
+                    $pdfHeight += ($hh * 4);
+                } else {
+                    $pdfHeight += $items;
+                }
+            }
+            $pdfHeight += $lns + $reportItems;//total reportItemPurchase raya y espacio
+        } else {
+            $pdfHeight += $reportNull;//reporte de nulo
+        }
+        if ($cashRegister->out_cash > 0) {
+            foreach ($cashOutflows as $cashOutflow) {
+
+                $length = strlen($cashOutflow->reason);
+                if ($length > 40) {
+                    $h = $length / 30;
+                    $hh = $h + 2;
+                    $pdfHeight += ($hh * 4);
+                } else {
+                    $pdfHeight += $items;
+                }
+            }
+            $pdfHeight += $lns + $reportItems;//total reportItemPurchase raya y espacio
+        } else {
+            $pdfHeight += $reportNull;//reporte de nulo
+        }
+        if ($sumAdvanceCustomers > 0) {
+            foreach ($advanceCustomers as $advanceCustomer) {
+
+                $length = strlen($advanceCustomer->advanceable->name);
+                if ($length > 40) {
+                    $h = $length / 30;
+                    $hh = $h + 2;
+                    $pdfHeight += ($hh * 4);
+                } else {
+                    $pdfHeight += $items;
+                }
+            }
+            $pdfHeight += $lns + $reportItems;//total reportItemPurchase raya y espacio
+        } else {
+            $pdfHeight += $reportNull;//reporte de nulo
+        }
+        if ($sumAdvanceEmployees > 0) {
+            foreach ($advanceEmployees as $advanceEmployee) {
+
+                $length = strlen($advanceEmployee->advanceable->name);
+                if ($length > 40) {
+                    $h = $length / 30;
+                    $hh = $h + 2;
+                    $pdfHeight += ($hh * 4);
+                } else {
+                    $pdfHeight += $items;
+                }
+            }
+            $pdfHeight += $lns + $reportItems;//total reportItemPurchase raya y espacio
+        } else {
+            $pdfHeight += $reportNull;//reporte de nulo
+        }
+        if ($sumAdvanceProviders > 0) {
+            foreach ($advanceProviders as $advanceProvider) {
+
+                $length = strlen($advanceProvider->advanceable->name);
+                if ($length > 40) {
+                    $h = $length / 30;
+                    $hh = $h + 2;
+                    $pdfHeight += ($hh * 4);
+                } else {
+                    $pdfHeight += $items;
+                }
+            }
+            $pdfHeight += $lns + $reportItems;//total reportItemPurchase raya y espacio
+        } else {
+            $pdfHeight += $reportNull;//reporte de nulo
+        }
+        if ($cashRegister->out_total > 0) {
+            $pdfHeight += $reportTotals;
+        }
+        if ($cashRegister->in_total > 0) {
+            $pdfHeight += $reportTotals;
+        }
+        if ($cashRegister->cash_initial > 0) {
+            $pdfHeight += $reportTotals;
+        }
+        if ($cashRegister->out_purchase_cash > 0) {
+            $pdfHeight += $reportTotals;
+        }
+        if ($cashRegister->out_expense_cash > 0) {
+            $pdfHeight += $reportTotals;
+        }
+        if ($cashRegister->in_invoice_cash > 0) {
+            $pdfHeight += $reportTotals;
+        }
+        if ($cashRegister->in_remission_cash > 0) {
+            $pdfHeight += $reportTotals;
+        }
+        //reportes totales finales
+        $pdfHeight += ($reportTotals * 3) + ($title * 2);
+
+        return $pdfHeight;
+    }
+}

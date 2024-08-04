@@ -9,11 +9,9 @@ use App\Models\ProductPurchase;
 use App\Models\Resolution;
 use App\Models\Tax;
 use FPDF;
-use Symfony\Polyfill\Mbstring\Mbstring;
 
 class Ticket extends FPDF
 {
-
     public function generateLogo($logo, $width, $height)
     {
         //ancho, alto, mensaje, bordes, salto linea alineacion relleno

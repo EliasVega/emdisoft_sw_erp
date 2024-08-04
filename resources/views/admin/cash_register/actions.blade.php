@@ -14,3 +14,6 @@ data-placement="top" title="ver caja"><i class="fas fa-eye"></i></a>
     data-placement="top" title="Recargar Caja"><i class="fas fa-dollar-sign"></i></a>
 <a href="{{ route('show_cashOutflow', $id) }}" class="btn btn-sm btn-danger" data-toggle="tooltip"
 data-placement="top" title="Salida Efectivo"><i class="fas fa-dollar-sign"></i></a>
+
+<a href="{{ route('posCashRegister', $id) }}" class="btn btn-sm btn-primary" target="_blank" data-toggle="tooltip"
+    data-placement="top" title="PosFpdf"><i class="fas fa-newspaper"></i></a>

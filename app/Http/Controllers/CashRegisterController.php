@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Tickets\TicketCashRegister;
 use App\Models\CashRegister;
 use App\Http\Requests\StoreCashRegisterRequest;
 use App\Http\Requests\UpdateCashRegisterRequest;
@@ -38,6 +39,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
+
+use function App\Helpers\Tickets\ticketHeightCashRegister;
 
 class CashRegisterController extends Controller
 {
@@ -963,6 +966,518 @@ class CashRegisterController extends Controller
             'sumAdvanceEmployees',
         ));
     }
+    public function posCashRegister(Request $request, CashRegister $cashRegister)
+    {
+        $cashRegister = CashRegister::findOrFail($cashRegister->id);
+        $from     = $cashRegister->created_at;
+        $to       = $cashRegister->updated_at;
+
+        $produc = [];
+        $cont = 0;
+        $products = Product::all();
+        //$cant1 = cantidad de productPurchases
+        $productPurchases = [];
+        $contPurchase = 0;
+        foreach ($products as $key => $product) {
+            $quantity = ProductPurchase::from('product_purchases as pp')
+                ->join('purchases as pur', 'pp.purchase_id', 'pur.id')
+                ->join('products as pro', 'pp.product_id', 'pro.id')
+                ->whereBetween('pp.created_at', [$from, $to])
+                ->where('pur.user_id', current_user()->id)
+                ->where('pp.product_id', $product->id)
+                ->sum('quantity');
+
+            $taxSubtotal = ProductPurchase::from('product_purchases as pp')
+                ->join('purchases as pur', 'pp.purchase_id', 'pur.id')
+                ->join('products as pro', 'pp.product_id', 'pro.id')
+                ->whereBetween('pp.created_at', [$from, $to])
+                ->where('pur.user_id', current_user()->id)
+                ->where('pp.product_id', $product->id)
+                ->sum('tax_subtotal');
+
+            $subtotal = ProductPurchase::from('product_purchases as pp')
+                ->join('purchases as pur', 'pp.purchase_id', 'pur.id')
+                ->join('products as pro', 'pp.product_id', 'pro.id')
+                ->whereBetween('pp.created_at', [$from, $to])
+                ->where('pur.user_id', current_user()->id)
+                ->where('pp.product_id', $product->id)
+                ->sum('subtotal');
+
+            if ($quantity) {
+                $productPurchases[$contPurchase] = Product::findOrFail($product->id);
+                $productPurchases[$contPurchase]->quantity = $quantity;
+                $productPurchases[$contPurchase]->tax_subtotal = $taxSubtotal;
+                $productPurchases[$contPurchase]->subtotal = $subtotal;
+                $contPurchase++;
+            }
+        }
+
+        $expenseProducts = [];
+        $contExpense = 0;
+        foreach ($products as $key => $product) {
+            $quantity = ExpenseProduct::from('expense_products as ep')
+                ->join('expenses as exp', 'ep.expense_id', 'exp.id')
+                ->join('products as pro', 'ep.product_id', 'pro.id')
+                ->whereBetween('ep.created_at', [$from, $to])
+                ->where('exp.user_id', current_user()->id)
+                ->where('ep.product_id', $product->id)
+                ->sum('quantity');
+
+            $taxSubtotal = ExpenseProduct::from('expense_products as ep')
+                ->join('expenses as exp', 'ep.expense_id', 'exp.id')
+                ->join('products as pro', 'ep.product_id', 'pro.id')
+                ->whereBetween('ep.created_at', [$from, $to])
+                ->where('exp.user_id', current_user()->id)
+                ->where('ep.product_id', $product->id)
+                ->sum('tax_subtotal');
+
+            $subtotal = ExpenseProduct::from('expense_products as ep')
+                ->join('expenses as exp', 'ep.expense_id', 'exp.id')
+                ->join('products as pro', 'ep.product_id', 'pro.id')
+                ->whereBetween('ep.created_at', [$from, $to])
+                ->where('exp.user_id', current_user()->id)
+                ->where('ep.product_id', $product->id)
+                ->sum('subtotal');
+
+            if ($quantity) {
+                $expenseProducts[$contExpense] = Product::findOrFail($product->id);
+                $expenseProducts[$contExpense]->quantity = $quantity;
+                $expenseProducts[$contExpense]->tax_subtotal = $taxSubtotal;
+                $expenseProducts[$contExpense]->subtotal = $subtotal;
+                $contExpense++;
+            }
+        }
+
+        $invoiceProducts = [];
+        $contInvoice = 0;
+        foreach ($products as $key => $product) {
+            $quantity = InvoiceProduct::from('invoice_products as ip')
+                ->join('invoices as inv', 'ip.invoice_id', 'inv.id')
+                ->join('products as pro', 'ip.product_id', 'pro.id')
+                ->whereBetween('ip.created_at', [$from, $to])
+                ->where('inv.user_id', current_user()->id)
+                ->where('ip.product_id', $product->id)
+                ->sum('quantity');
+
+            $taxSubtotal = InvoiceProduct::from('invoice_products as ip')
+                ->join('invoices as inv', 'ip.invoice_id', 'inv.id')
+                ->join('products as pro', 'ip.product_id', 'pro.id')
+                ->whereBetween('ip.created_at', [$from, $to])
+                ->where('inv.user_id', current_user()->id)
+                ->where('ip.product_id', $product->id)
+                ->sum('tax_subtotal');
+
+            $subtotal = InvoiceProduct::from('invoice_products as ip')
+                ->join('invoices as inv', 'ip.invoice_id', 'inv.id')
+                ->join('products as pro', 'ip.product_id', 'pro.id')
+                ->whereBetween('ip.created_at', [$from, $to])
+                ->where('inv.user_id', current_user()->id)
+                ->where('ip.product_id', $product->id)
+                ->sum('subtotal');
+
+            if ($quantity) {
+                $invoiceProducts[$contInvoice] = Product::findOrFail($product->id);
+                $invoiceProducts[$contInvoice]->quantity = $quantity;
+                $invoiceProducts[$contInvoice]->tax_subtotal = $taxSubtotal;
+                $invoiceProducts[$contInvoice]->subtotal = $subtotal;
+                $contInvoice++;
+            }
+        }
+
+        $productRemissions = [];
+        $cont = 0;
+        foreach ($products as $key => $product) {
+            $quantity = ProductRemission::from('product_remissions as pr')
+                ->join('remissions as rem', 'pr.remission_id', 'rem.id')
+                ->join('products as pro', 'pr.product_id', 'pro.id')
+                ->whereBetween('pr.created_at', [$from, $to])
+                ->where('rem.user_id', $cashRegister->user_id)
+                ->where('pr.product_id', $product->id)
+                ->sum('quantity');
+
+            $tax_subtotal = ProductRemission::from('product_remissions as pr')
+                ->join('remissions as rem', 'pr.remission_id', 'rem.id')
+                ->join('products as pro', 'pr.product_id', 'pro.id')
+                ->whereBetween('pr.created_at', [$from, $to])
+                ->where('rem.user_id', $cashRegister->user_id)
+                ->where('pr.product_id', $product->id)
+                ->sum('tax_subtotal');
+
+            $subtotal = ProductRemission::from('product_remissions as pr')
+                ->join('remissions as rem', 'pr.remission_id', 'rem.id')
+                ->join('products as pro', 'pr.product_id', 'pro.id')
+                ->whereBetween('pr.created_at', [$from, $to])
+                ->where('rem.user_id', $cashRegister->user_id)
+                ->where('pr.product_id', $product->id)
+                ->sum('subtotal');
+
+            if ($quantity) {
+                $productRemissions[$cont] = Product::findOrFail($product->id);
+                $productRemissions[$cont]->quantity = $quantity;
+                $productRemissions[$cont]->tax_subtotal = $tax_subtotal;
+                $productRemissions[$cont]->subtotal = $subtotal;
+                $cont++;
+            }
+        }
+
+        $purchases = Purchase::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
+        $purchasePays = Pay::where('user_id', current_user()->id)->where('type', 'purchase')->whereBetween('created_at', [$from, $to])->get();
+        $purchaseSumPays = Pay::where('user_id', current_user()->id)->where('type', 'purchase')->whereBetween('created_at', [$from, $to])->sum('pay');
+        $ncpurchases = Ncpurchase::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
+        $sumNcpurchases = Ncpurchase::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
+        $ndpurchases = Ndpurchase::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
+        $sumNdpurchases = Ndpurchase::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
+
+        $invoices = Invoice::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
+        $invoicePays = Pay::where('user_id', current_user()->id)->where('type', 'invoice')->whereBetween('created_at', [$from, $to])->get();
+        $invoiceSumPays = Pay::where('user_id', current_user()->id)->where('type', 'invoice')->whereBetween('created_at', [$from, $to])->sum('pay');
+        $ncinvoices = Ncinvoice::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
+        $sumNcinvoices = Ncinvoice::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
+        $ndinvoices = Ndinvoice::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
+        $sumNdinvoices = Ndinvoice::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
+
+        $remissions = Remission::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
+        $remissionPays = Pay::where('user_id', current_user()->id)->where('type', 'remission')->whereBetween('created_at', [$from, $to])->get();
+        $remissionSumPays = Pay::where('user_id', current_user()->id)->where('type', 'remission')->whereBetween('created_at', [$from, $to])->sum('pay');
+
+        $expenses = Expense::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
+        $expensePays = Pay::where('user_id', current_user()->id)->where('type', 'expense')->whereBetween('created_at', [$from, $to])->get();
+        $expenseSumPays = Pay::where('user_id', current_user()->id)->where('type', 'expense')->whereBetween('created_at', [$from, $to])->sum('pay');
+
+        $purchaseOrders = PurchaseOrder::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
+        $sumPurchaseOrders = PurchaseOrder::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
+
+        $invoiceOrders = InvoiceOrder::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
+        $sumInvoiceOrders = InvoiceOrder::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
+
+        $restaurantOrders = RestaurantOrder::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
+        $sumRestaurantOrders = RestaurantOrder::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('total_pay');
+
+        $cashInflows = CashInflow::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
+        $sumCashInflows = CashInflow::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('cash');
+
+        $cashOutflows = CashOutflow::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->get();
+        $sumCashOutflows = CashOutflow::where('user_id', current_user()->id)->whereBetween('created_at', [$from, $to])->sum('cash');
+
+        $advanceProviders = Advance::where('user_id', current_user()->id)->where('type_third', 'provider')->whereBetween('created_at', [$from, $to])->get();
+        $sumAdvanceProviders = Advance::where('user_id', current_user()->id)->where('type_third', 'provider')->whereBetween('created_at', [$from, $to])->sum('pay');
+
+        $advanceCustomers = Advance::where('user_id', current_user()->id)->where('type_third', 'customer')->whereBetween('created_at', [$from, $to])->get();
+        $sumAdvanceCustomers = Advance::where('user_id', current_user()->id)->where('type_third', 'customer')->whereBetween('created_at', [$from, $to])->sum('pay');
+
+        $advanceEmployees = Advance::where('user_id', current_user()->id)->where('type_third', 'employee')->whereBetween('created_at', [$from, $to])->get();
+        $sumAdvanceEmployees = Advance::where('user_id', current_user()->id)->where('type_third', 'employee')->whereBetween('created_at', [$from, $to])->sum('pay');
+
+
+
+
+
+        $logoHeight = 26;
+        if (indicator()->logo == 'on') {
+            $logo = storage_path('app/public/images/logos/' . company()->imageName);
+
+            $image = list($width, $height, $type, $attr) = getimagesize($logo);
+            $multiplier = $image[0]/$image[1];
+            $height = 26;
+            $width = $height * $multiplier;
+            if ($width > 60) {
+                $width = 60;
+                $height = 60/$multiplier;
+            }
+        }
+
+        $pdfHeight = ticketHeightCashRegister(
+            $cashRegister,
+            $logoHeight,
+            $productPurchases,
+            $invoiceProducts,
+            $expenseProducts,
+            $productRemissions,
+            $purchases,
+            $expenses,
+            $invoices,
+            $remissions,
+            $purchaseOrders,
+            $invoiceOrders,
+            $restaurantOrders,
+            $ncinvoices,
+            $ndinvoices,
+            $ncpurchases,
+            $ndpurchases,
+            $invoicePays,
+            $remissionPays,
+            $purchasePays,
+            $expensePays,
+            $cashInflows,
+            $cashOutflows,
+            $advanceProviders,
+            $advanceCustomers,
+            $advanceEmployees,
+            $sumAdvanceCustomers,
+            $sumAdvanceEmployees,
+            $sumAdvanceProviders
+        );
+        //dd($pdfHeight);
+        $pdf = new TicketCashRegister('P', 'mm', array(76, $pdfHeight), true, 'UTF-8');
+        $pdf->SetMargins(2, 10, 2);
+        $pdf->SetTitle('CAJA ' . $cashRegister->created_at);
+        $pdf->SetAutoPageBreak(false);
+        $pdf->addPage();
+
+        if (indicator()->logo == 'on') {
+            if (file_exists($logo)) {
+                $pdf->cashRegisterLogo($logo, $width, $height);
+            }
+        }
+        //Reortes de movimientos de items
+        $pdf->cashRegisterName();
+        if ($cashRegister->purchase > 0) {
+            $documentItems = $productPurchases;
+            $name = 'Reporte de articulos compras';
+            $totales = $cashRegister->purchase;
+            $pdf->reportItemDocuments($documentItems, $name, $totales);
+        } else {
+            $documentNull = 'No hay Reporte de Compras';
+            $pdf->reportNull($documentNull);
+        }
+        if ($cashRegister->expense > 0) {
+            $documentItems = $expenseProducts;
+            $name = 'Reporte de gastos servicios';
+            $totales = $cashRegister->expense;
+            $pdf->reportItemDocuments($documentItems, $name, $totales);
+        } else {
+            $documentNull = 'No hay Reporte de Gastos';
+            $pdf->reportNull($documentNull);
+        }
+        if ($cashRegister->invoice > 0) {
+            $documentItems = $invoiceProducts;
+            $name = 'Reporte de articulos ventas';
+            $totales = $cashRegister->invoice;
+            $pdf->reportItemDocuments($documentItems, $name, $totales);
+        } else {
+            $documentNull = 'No hay Reporte Vendidos';
+            $pdf->reportNull($documentNull);
+        }
+        if ($cashRegister->remission > 0) {
+            $documentItems = $productRemissions;
+            $name = 'Reporte de articulos remisiones';
+            $totales = $cashRegister->remission;
+            $pdf->reportItemDocuments($documentItems, $name, $totales);
+        } else {
+            $documentNull = 'No hay Reporte remisionados';
+            $pdf->reportNull($documentNull);
+        }
+
+
+        //reportes de documentos
+        if ($cashRegister->purchase > 0) {
+            $documents = $purchases;
+            $type = 'doc';
+            $name = 'Comprobantes de Compras';
+            $totales = $cashRegister->purchase;
+            $pdf->reportDocuments($documents, $name, $totales, $type);
+        } else {
+            $documentNull = 'No hay Comprobantes de Compras';
+            $pdf->reportNull($documentNull);
+        }
+        if ($cashRegister->expense > 0) {
+            $documents = $expenses;
+            $type = 'doc';
+            $name = 'Comprobantes de Gastos';
+            $totales = $cashRegister->expense;
+            $pdf->reportDocuments($documents, $name, $totales, $type);
+        } else {
+            $documentNull = 'No hay Comprobantes de Gastos';
+            $pdf->reportNull($documentNull);
+        }
+        if ($cashRegister->invoice > 0) {
+            $documents = $invoices;
+            $type = 'doc';
+            $name = 'Comprobantes de Ventas';
+            $totales = $cashRegister->invoice;
+            $pdf->reportDocuments($documents, $name, $totales, $type);
+        } else {
+            $documentNull = 'No hay Comprobantes de Ventas';
+            $pdf->reportNull($documentNull);
+        }
+        if ($cashRegister->remission > 0) {
+            $documents = $remissions;
+            $type = 'doc';
+            $name = 'Comprobantes de Remisiones';
+            $totales = $cashRegister->remission;
+            $pdf->reportDocuments($documents, $name, $totales, $type);
+        } else {
+            $documentNull = 'No hay Comprobantes de Remisiones';
+            $pdf->reportNull($documentNull);
+        }
+        if ($cashRegister->purchase_order > 0) {
+            $documents = $purchaseOrders;
+            $type = 'order';
+            $name = 'Comprobantes de Ordenes de compra';
+            $totales = $cashRegister->purchase_order;
+            $pdf->reportDocuments($documents, $name, $totales, $type);
+        } else {
+            $documentNull = 'No hay Comprobantes de Ord de Compra';
+            $pdf->reportNull($documentNull);
+        }
+        if (indicator()->restaurant == 'off') {
+            if ($cashRegister->invoice_order > 0) {
+                $documents = $invoiceOrders;
+                $type = 'order';
+                $name = 'Comprobantes de Ordenes de venta';
+                $totales = $cashRegister->invoice_order;
+                $pdf->reportDocuments($documents, $name, $totales, $type);
+            } else {
+                $documentNull = 'No hay Comprobantes de Ord de Venta';
+                $pdf->reportNull($documentNull);
+            }
+        } else {
+            if ($cashRegister->restaurant_order > 0) {
+                $documents = $restaurantOrders;
+                $type = 'order';
+                $name = 'Comprobantes de NC en ventas';
+                $totales = $cashRegister->restaurant_order;
+                $pdf->reportDocuments($documents, $name, $totales, $type);
+            } else {
+                $documentNull = 'No hay Comprobantes de NC en ventas';
+                $pdf->reportNull($documentNull);
+            }
+        }
+        if ($cashRegister->ncinvoice > 0) {
+            $documents = $ncinvoices;
+            $type = 'doc';
+            $name = 'Comprobantes de NC en ventas';
+            $totales = $cashRegister->ncinvoice;
+            $pdf->reportDocuments($documents, $name, $totales, $type);
+        } else {
+            $documentNull = 'No hay Comprobantes de NC en ventas';
+            $pdf->reportNull($documentNull);
+        }
+        if ($cashRegister->ndinvoice > 0) {
+            $documents = $ndinvoices;
+            $type = 'doc';
+            $name = 'Comprobantes de ND en ventas';
+            $totales = $cashRegister->ndinvoice;
+            $pdf->reportDocuments($documents, $name, $totales, $type);
+        } else {
+            $documentNull = 'No hay Comprobantes de ND en ventas';
+            $pdf->reportNull($documentNull);
+        }
+        if ($cashRegister->ncpurchase > 0) {
+            $documents = $ncpurchases;
+            $type = 'doc';
+            $name = 'Comprobantes de NC en Compras';
+            $totales = $cashRegister->ncpurchase;
+            $pdf->reportDocuments($documents, $name, $totales, $type);
+        } else {
+            $documentNull = 'No hay Comprobantes de NC en Compras';
+            $pdf->reportNull($documentNull);
+        }
+        if ($cashRegister->ndpurchase > 0) {
+            $documents = $ndpurchases;
+            $type = 'doc';
+            $name = 'Comprobantes de ND en Compras';
+            $totales = $cashRegister->ndpurchase;
+            $pdf->reportDocuments($documents, $name, $totales, $type);
+        } else {
+            $documentNull = 'No hay Comprobantes de ND en Compras';
+            $pdf->reportNull($documentNull);
+        }
+        if ($cashRegister->in_invoice > 0) {
+            $documents = $invoicePays;
+            $type = 'comp';
+            $name = 'Comprobantes Abonos a Fac Venta';
+            $totales = $cashRegister->in_invoice;
+            $pdf->reportVouchers($documents, $name, $totales, $type);
+        } else {
+            $documentNull = 'No hay Comprobantes Abonos a Fac Venta';
+            $pdf->reportNull($documentNull);
+        }
+        if ($cashRegister->in_remission > 0) {
+            $documents = $remissionPays;
+            $type = 'comp';
+            $name = 'Comprobantes Abonos a Remisiones';
+            $totales = $cashRegister->in_remission;
+            $pdf->reportVouchers($documents, $name, $totales, $type);
+        } else {
+            $documentNull = 'No hay Comprobantes Abonos a Remisiones';
+            $pdf->reportNull($documentNull);
+        }
+        if ($cashRegister->out_purchase > 0) {
+            $documents = $purchasePays;
+            $type = 'comp';
+            $name = 'Comprobantes Pagos a Compras';
+            $totales = $cashRegister->out_purchase;
+            $pdf->reportVouchers($documents, $name, $totales, $type);
+        } else {
+            $documentNull = 'No hay Comprobantes Pagos a Compras';
+            $pdf->reportNull($documentNull);
+        }
+        if ($cashRegister->out_expense > 0) {
+            $documents = $expensePays;
+            $type = 'comp';
+            $name = 'Comprobantes Pagos a Gastos';
+            $totales = $cashRegister->out_expense;
+            $pdf->reportVouchers($documents, $name, $totales, $type);
+        } else {
+            $documentNull = 'No hay Comprobantes Pagos a Gastos';
+            $pdf->reportNull($documentNull);
+        }
+        if ($cashRegister->in_cash > 0) {
+            $documents = $cashInflows;
+            $name = 'Comprobantes Entrada de efectivo';
+            $totales = $cashRegister->in_cash;
+            $pdf->reportMovementCash($documents, $name, $totales);
+        } else {
+            $documentNull = 'No hay Entradas de Efectivo';
+            $pdf->reportNull($documentNull);
+        }
+        if ($cashRegister->out_cash > 0) {
+            $documents = $cashOutflows;
+            $name = 'Comprobantes Salida de efectivo';
+            $totales = $cashRegister->out_cash;
+            $pdf->reportMovementCash($documents, $name, $totales);
+        } else {
+            $documentNull = 'No hay Salidas de Efectivo';
+            $pdf->reportNull($documentNull);
+        }
+        if ($sumAdvanceProviders > 0) {
+            $documents = $advanceProviders;
+            $name = 'Comprobantes Anticipo a Proveedor';
+            $totales = $sumAdvanceProviders;
+            $pdf->reportMovementCash($documents, $name, $totales);
+        } else {
+            $documentNull = 'No hay Anticipo a Proveedores';
+            $pdf->reportNull($documentNull);
+        }
+        if ($sumAdvanceCustomers > 0) {
+            $documents = $advanceCustomers;
+            $name = 'Comprobantes Anticipo de Clientes';
+            $totales = $sumAdvanceCustomers;
+            $pdf->reportMovementCash($documents, $name, $totales);
+        } else {
+            $documentNull = 'No hay Anticipo de Clientes';
+            $pdf->reportNull($documentNull);
+        }
+        if ($sumAdvanceEmployees > 0) {
+            $documents = $advanceEmployees;
+            $name = 'Comprobantes Anticipo a Empleados';
+            $totales = $sumAdvanceEmployees;
+            $pdf->reportMovementCash($documents, $name, $totales);
+        } else {
+            $documentNull = 'No hay Anticipo a Empleados';
+            $pdf->reportNull($documentNull);
+        }
+
+        $pdf->cashRegisterTitle($cashRegister);
+        $pdf->reportTotals($cashRegister);
+        $pdf->cashRegisterTitleTotals($cashRegister);
+        $pdf->reportTotalEnds($cashRegister);
+        $pdf->footer();
+        $pdf->Output("I", $cashRegister->id . ".pdf", true);
+        exit;
+
+    }
 
     //funcion para ver el cierre de caja de la caja
     public function cashRegisterPos($id)
@@ -1112,11 +1627,11 @@ class CashRegisterController extends Controller
                 ->sum('subtotal');
 
             if ($quantity) {
-                $expenseProducts[$contInvoice] = Product::findOrFail($product->id);
-                $expenseProducts[$contInvoice]->quantity = $quantity;
-                $expenseProducts[$contInvoice]->tax_subtotal = $taxSubtotal;
-                $expenseProducts[$contInvoice]->subtotal = $subtotal;
-                $contInvoice++;
+                $expenseProducts[$contExpense] = Product::findOrFail($product->id);
+                $expenseProducts[$contExpense]->quantity = $quantity;
+                $expenseProducts[$contExpense]->tax_subtotal = $taxSubtotal;
+                $expenseProducts[$contExpense]->subtotal = $subtotal;
+                $contExpense++;
             }
         }
 

@@ -233,6 +233,7 @@ Route::get('cashRegister/show_cashOutflow/{id}', [CashRegisterController::class,
 Route::get('cashRegister/show_cashInflow/{id}', [CashRegisterController::class, 'show_cashInflow'])->name('show_cashInflow');
 Route::get('cashRegister/cashRegisterPos/{id}', [CashRegisterController::class, 'cashRegisterPos'])->name('cashRegisterPos');
 Route::get('cashRegister/casRegisterClose/{id}', [CashRegisterController::class, 'cashRegisterClose'])->name('cashRegisterClose');
+Route::get('cashRegister/posCashRegister/{cashRegister}', [CashRegisterController::class, 'posCashRegister'])->name('posCashRegister');
 
 Route::get('category/status/{id}', [CategoryController::class, 'status'])->name('categoryStatus');
 Route::get('categoryInactive', [CategoryController::class, 'inactive'])->name('categoryInactive');
