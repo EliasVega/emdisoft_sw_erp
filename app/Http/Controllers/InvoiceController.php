@@ -1034,64 +1034,6 @@ class InvoiceController extends Controller
         //return $pdf->download("$invoicepdf.pdf");*/
     }
 
-    public function pdfInvoice2(Request $request)
-   {
-        $invoices = session('invoice');
-        $invoice = Invoice::findOrFail($invoices);
-        session()->forget('invoice');
-        $invoiceProducts = InvoiceProduct::where('invoice_id', $invoice->id)->where('quantity', '>', 0)->get();
-        $debitNotes = Ndinvoice::where('invoice_id', $invoice->id)->first();
-        $creditNotes = Ncinvoice::where('invoice_id', $invoice->id)->first();
-        $days = $invoice->created_at->diffInDays($invoice->due_date);
-        $invoicepdf = $invoice->document;
-        $retentions = Tax::from('taxes as tax')
-        ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
-        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-        ->select('tax.tax_value', 'ct.name')
-        ->where('tax.type', 'invoice')
-        ->where('tax.taxable_id', $invoice->id)
-        ->where('tt.type_tax', 'retention')->get();
-        $retentionsum = Tax::from('taxes as tax')
-        ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
-        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-        ->select('tax.tax_value', 'ct.name')
-        ->where('tax.type', 'invoice')
-        ->where('tax.taxable_id', $invoice->id)
-        ->where('tt.type_tax', 'retention')->sum('tax_value');
-
-        $debitNote = 0;
-        $creditNote = 0;
-        $retentionnd = 0;
-        $retentionnc = 0;
-        if ($debitNotes != null) {
-            $debitNote = $debitNotes->total_pay;
-            $retnd = Tax::where('type', 'ndinvoice')->where('retentionable_id', $debitNotes->id)->first();
-            $retentionnd = $retnd->retention;
-        }
-        if ($creditNotes != null) {
-            $creditNote = $creditNotes->total_pay;
-            $retnc = Tax::where('type', 'ncinvoice')->where('retentionable_id', $creditNotes->id)->first();
-            $retentionnc = $retnc->retention;
-        }
-        $view = \view('admin.invoice.pdf', compact(
-            'invoice',
-            'days',
-            'invoiceProducts',
-            'debitNotes',
-            'creditNotes',
-            'retentions',
-            'retentionsum',
-            'debitNote',
-            'creditNote',
-            'retentionnd',
-            'retentionnc'
-        ));
-        $pdf = App::make('dompdf.wrapper');
-        $pdf->loadHTML($view);
-
-        return $pdf->stream('vista-pdf', "$invoicepdf.pdf");
-   }
-
     public function invoicePos($id)
     {
         $invoice = Invoice::findOrFail($id);

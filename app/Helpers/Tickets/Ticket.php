@@ -2,6 +2,7 @@
 
 namespace App\Helpers\Tickets;
 
+use App\Models\ExpenseProduct;
 use App\Models\InvoiceOrderProduct;
 use App\Models\InvoiceProduct;
 use App\Models\NcinvoiceProduct;
@@ -134,6 +135,9 @@ class Ticket extends FPDF
                 break;
             case 'purchase':
                 $products = ProductPurchase::where('purchase_id', $document->id)->get();
+                break;
+            case 'expense':
+                $products = ExpenseProduct::where('expense_id', $document->id)->get();
                 break;
             default:
                 # code...

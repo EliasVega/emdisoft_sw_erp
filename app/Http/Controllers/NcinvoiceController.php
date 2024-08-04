@@ -39,6 +39,7 @@ use Picqer\Barcode\BarcodeGeneratorPNG;
 use function App\Helpers\Tickets\formatText;
 use function App\Helpers\Tickets\ticketHeight;
 use function App\Helpers\Tickets\ticketHeightNcinvoice;
+use function App\Helpers\Tickets\ticketHeightNotes;
 
 class NcinvoiceController extends Controller
 {
@@ -659,7 +660,7 @@ class NcinvoiceController extends Controller
             }
         }
 
-        $pdfHeight = ticketHeightNcinvoice($logoHeight, $ncinvoice, "ncinvoice");
+        $pdfHeight = ticketHeightNotes($logoHeight, $ncinvoice, "ncinvoice");
 
         $pdf = new Ticket('P', 'mm', array(80, $pdfHeight), true, 'UTF-8');
         $pdf->SetMargins(4, 10, 4);

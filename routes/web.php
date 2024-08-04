@@ -268,6 +268,7 @@ Route::get('expense/expensePdf/{id}', [ExpenseController::class, 'expensePdf'])-
 Route::get('expense/expensePos/{id}', [ExpenseController::class, 'expensePos'])->name('expensePos');
 Route::get('pdfExpense', [ExpenseController::class, 'pdfExpense'])->name('pdfExpense');
 Route::get('posExpense', [ExpenseController::class, 'posExpense'])->name('posExpense');
+Route::get('expense/posPdfExpense/{expense}', [ExpenseController::class, 'posPdfExpense'])->name('posPdfExpense');
 
 Route::get('indicator/dianStatus/{id}', [IndicatorController::class, 'dianStatus'])->name('dianStatus');
 Route::get('indicator/posStatus/{id}', [IndicatorController::class, 'posStatus'])->name('posStatus');

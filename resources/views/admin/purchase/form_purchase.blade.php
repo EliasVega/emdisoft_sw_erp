@@ -77,7 +77,7 @@
                     <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="documentBis" >
                         <div class="form-group">
                             <label class="form-control-label" for="document_type_id">Typo Documento</label>
-                            <input type="text" id="document_type_id" name="document_type_id" value="25"
+                            <input type="text" id="document_type_id" name="document_type_id" value="101"
                                 class="form-control" placeholder="Tipo Documento">
                         </div>
                     </div>

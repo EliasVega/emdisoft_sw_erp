@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Tickets\Ticket;
 use App\Models\Ncpurchase;
 use App\Http\Requests\StoreNcpurchaseRequest;
 use App\Http\Requests\UpdateNcpurchaseRequest;
@@ -19,6 +20,12 @@ use Yajra\DataTables\DataTables;
 use App\Traits\InventoryPurchases;
 use App\Traits\KardexCreate;
 use App\Traits\GetTaxesLine;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
+use Picqer\Barcode\BarcodeGeneratorPNG;
+
+use function App\Helpers\Tickets\formatText;
+use function App\Helpers\Tickets\ticketHeightNotes;
 
 class NcpurchaseController extends Controller
 {
@@ -404,5 +411,103 @@ class NcpurchaseController extends Controller
         $pdf->loadHTML($view);
 
         return $pdf->stream('vista-pdf', "$ncpurchasepdf.pdf");
+    }
+    public function posPdfNcpurchase(Request $request, Ncpurchase $ncpurchase)
+    {
+        $document = $ncpurchase;
+        $typeDocument = 'ncpurchase';
+
+        $title = 'NOTA CREDITO COMPRA';
+        $consecutive = $document->document;
+        $purchase = Purchase::findOrFail($document->purchase_id);//encontrando la factura
+        if ($purchase->document_type_id == 101) {
+            $title = 'NOTA CREDITO COMPRA';
+        } else if ($purchase->document_type_id == 11){
+            $title = 'NOTA DE AJUSTE AL DOCUMENTO SOPORTE ELECTRONICO.';
+        }
+        $thirdPartyType = 'provider';
+        $logoHeight = 26;
+        if (indicator()->logo == 'on') {
+            $logo = storage_path('app/public/images/logos/' . company()->imageName);
+
+            $image = list($width, $height, $type, $attr) = getimagesize($logo);
+            $multiplier = $image[0]/$image[1];
+            $height = 26;
+            $width = $height * $multiplier;
+            if ($width > 60) {
+                $width = 60;
+                $height = 60/$multiplier;
+            }
+        }
+
+        $pdfHeight = ticketHeightNotes($logoHeight, $document);
+
+        $pdf = new Ticket('P', 'mm', array(80, $pdfHeight), true, 'UTF-8');
+        $pdf->SetMargins(4, 10, 4);
+        $pdf->SetTitle($document->document);
+        $pdf->SetAutoPageBreak(false);
+        $pdf->addPage();
+
+
+
+        if (indicator()->logo == 'on') {
+            if (file_exists($logo)) {
+                $pdf->generateLogo($logo, $width, $height);
+            }
+        }
+        $pdf->generateTitle($title, $consecutive);
+        $pdf->generateCompanyInformation();
+
+        $barcodeGenerator = new BarcodeGeneratorPNG();
+        $barcodeCode = $barcodeGenerator->getBarcode($document->id, $barcodeGenerator::TYPE_CODE_128);
+        $barcode = "data:image/png;base64," . base64_encode($barcodeCode);
+
+        $pdf->generateBarcode($barcode);
+        $pdf->generateBranchInformation($document);
+        $pdf->generateThirdPartyInformation($document->third, $thirdPartyType);
+        $pdf->generateProductsTable($document, $typeDocument);
+        $pdf->generateSummaryInformation($document, $typeDocument);
+
+        if (indicator()->dian == 'on' && $purchase->document_type_id == 11) {
+            $pdf->generateInvoiceInformation($document);
+
+            //$cufe = 'este-es-un-cufe-de-prueba';
+            $cufe = $document->ncpurchaseResponse->cude;
+            $url = 'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=';
+            $data = [
+                'NumFac' => $document->document,
+                'FecFac' => $document->created_at->format('Y-m-d'),
+                'NitFac' => company()->nit,
+                'DocAdq' => $document->third->identification,
+                'ValFac' => $document->total,
+                'ValIva' => $document->total_tax,
+                'ValOtroIm' => '0.00',
+                'ValTotal' => $document->total_pay,
+                'CUFE' => $cufe,
+                'URL' => $url . $cufe,
+            ];
+
+            $writer = new PngWriter();
+            $qrCode = new QrCode(implode("\n", $data));
+            $qrCode->setSize(300);
+            $qrCode->setMargin(10);
+            $result = $writer->write($qrCode);
+
+            $qrCodeImage = $result->getString();
+            $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
+            $pdf->generateQr($qrImage);
+
+            //$confirmationCode = formatText("CUFE: " . $invoice->response->cufe);
+            $confirmationCode = formatText("CUFE: " . $cufe);
+            //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
+            $pdf->generateConfirmationCode($confirmationCode);
+        }
+        $refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
+        $pdf->generateDisclaimerInformation($refund);
+
+        $pdf->footer();
+
+        $pdf->Output("I", $document->document . ".pdf", true);
+        exit;
     }
 }

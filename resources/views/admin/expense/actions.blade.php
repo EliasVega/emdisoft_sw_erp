@@ -16,8 +16,7 @@
 <a href="{{ route('expensePdf', $id) }}" class="btn btn-pdf btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="Gasto pdf">
     <i class="fas fa-file-pdf"></i>
 </a>
-<a href="{{ route('expensePos', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip" data-placement="top" title="expense pos" >
-    <i class="fas fa-receipt"></i>
-</a>
+<a href="{{ route('posPdfExpense', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip"
+    data-placement="top" title="ticket" ><i class="fas fa-receipt"></i></a>
 
 

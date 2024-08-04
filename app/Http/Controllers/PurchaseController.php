@@ -1492,7 +1492,7 @@ class PurchaseController extends Controller
             }
         }
 
-        $pdfHeight = ticketHeight($logoHeight, company(), $purchase, "purchase");
+        $pdfHeight = ticketHeight($logoHeight, company(), $purchase, $typeDocument);
 
         $pdf = new Ticket('P', 'mm', array(76, $pdfHeight), true, 'UTF-8');
         $pdf->SetMargins(2, 10, 6);

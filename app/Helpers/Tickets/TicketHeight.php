@@ -2,10 +2,12 @@
 
 namespace App\Helpers\Tickets;
 
+use App\Models\ExpenseProduct;
 use App\Models\InvoiceOrderProduct;
 use App\Models\InvoiceProduct;
 use App\Models\NcinvoiceProduct;
 use App\Models\Product;
+use App\Models\ProductPurchase;
 use App\Models\Tax;
 
 if (!function_exists('ticketHeight')) {
@@ -37,15 +39,29 @@ if (!function_exists('ticketHeight')) {
             }
         }
 
-
-
-        if ($typeDocument == 'invoice') {
-            $title = 20;
-            $invoiceProducts = InvoiceProduct::where('invoice_id', $document->id)->get();
-        } else if ($typeDocument == 'invoiceOrder') {
-            $title = 10;
-            $invoiceInformation = 5;
-            $invoiceProducts = InvoiceOrderProduct::where('invoice_order_id', $document->id)->get();
+        switch ($typeDocument) {
+            case 'invoice':
+                $title = 20;
+                $invoiceProducts = InvoiceProduct::where('invoice_id', $document->id)->get();
+                break;
+            case 'invoiceOrder':
+                $title = 10;
+                $invoiceInformation = 5;
+                $invoiceProducts = InvoiceOrderProduct::where('invoice_order_id', $document->id)->get();
+                break;
+            case 'purchase':
+                $title = 10;
+                $invoiceInformation = 5;
+                $invoiceProducts = ProductPurchase::where('purchase_id', $document->id)->get();
+                break;
+            case 'expense':
+                $title = 10;
+                $invoiceInformation = 5;
+                $invoiceProducts = ExpenseProduct::where('expense_id', $document->id)->get();
+                break;
+            default:
+                # code...
+                break;
         }
 
         $pdfHeight += $title + $consecutive + $companyInformation + $barcode + $thirdPartyInformation + $disclaimerInformation;
@@ -123,8 +139,8 @@ if (!function_exists('ticketHeight')) {
     }
 }
 
-if (!function_exists('ticketHeightNcinvoice')) {
-    function ticketHeightNcinvoice($logoHeight, $document, $type)
+if (!function_exists('ticketHeightNotes')) {
+    function ticketHeightNotes($logoHeight, $document)
     {
         $title = 32;
         $logo = $logoHeight;

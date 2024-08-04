@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Tickets\Ticket;
 use App\Models\Expense;
 use App\Http\Requests\StoreExpenseRequest;
 use App\Http\Requests\UpdateExpenseRequest;
@@ -36,6 +37,10 @@ use Yajra\DataTables\DataTables;
 use App\Traits\InventoryPurchases;
 use App\Traits\KardexCreate;
 use App\Traits\reverse;
+use Picqer\Barcode\BarcodeGeneratorPNG;
+
+use function App\Helpers\Tickets\formatText;
+use function App\Helpers\Tickets\ticketHeight;
 
 class ExpenseController extends Controller
 {
@@ -553,6 +558,67 @@ class ExpenseController extends Controller
 
         return $pdf->stream('vista-pdf', "$expensepdf.pdf");
    }
+
+   public function posPdfExpense(Request $request, Expense $expense)
+    {
+        $document = $expense;
+        $typeDocument = 'expense';
+        $title = 'COMPROBANTE DE GASTO';
+        $consecutive = $document->document;
+
+        $thirdPartyType = 'provider';
+        $logoHeight = 26;
+
+        if (indicator()->logo == 'on') {
+            $logo = storage_path('app/public/images/logos/' . company()->imageName);
+
+            $image = list($width, $height, $type, $attr) = getimagesize($logo);
+            $multiplier = $image[0]/$image[1];
+            $height = 26;
+            $width = $height * $multiplier;
+            if ($width > 60) {
+                $width = 60;
+                $height = 60/$multiplier;
+            }
+        }
+
+        $pdfHeight = ticketHeight($logoHeight, company(), $expense, $typeDocument);
+
+        $pdf = new Ticket('P', 'mm', array(76, $pdfHeight), true, 'UTF-8');
+        $pdf->SetMargins(2, 10, 6);
+        $pdf->SetTitle($expense->document);
+        $pdf->SetAutoPageBreak(false);
+        $pdf->addPage();
+
+
+
+        if (indicator()->logo == 'on') {
+            if (file_exists($logo)) {
+                $pdf->generateLogo($logo, $width, $height);
+            }
+        }
+        $pdf->generateTitle($title, $consecutive);
+        $pdf->generateCompanyInformation();
+
+        $barcodeGenerator = new BarcodeGeneratorPNG();
+        $barcodeCode = $barcodeGenerator->getBarcode($expense->id, $barcodeGenerator::TYPE_CODE_128);
+        $barcode = "data:image/png;base64," . base64_encode($barcodeCode);
+
+        $pdf->generateBarcode($barcode);
+        $pdf->generateBranchInformation($document);
+        $pdf->generateThirdPartyInformation($expense->third, $thirdPartyType);
+        $pdf->generateProductsTable($document, $typeDocument);
+        $pdf->generateSummaryInformation($document, $typeDocument);
+
+
+        $refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
+        $pdf->generateDisclaimerInformation($refund);
+
+        $pdf->footer();
+
+        $pdf->Output("I", $expense->document . ".pdf", true);
+        exit;
+    }
 
    //Metodo para obtener el municipio de acuerdo al departamento
    public function getMunicipalities(Request $request, $id)
