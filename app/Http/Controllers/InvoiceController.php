@@ -518,7 +518,7 @@ class InvoiceController extends Controller
                         $payment = $request->pay;
                         $transaction = 00;
                         $payAdvance = 0;
-                        $return = $payment - $totalpay;
+                        $return = $payment[0] - $totalpay;
                             //Metodo para crear un nuevo pago y su realcion polimorfica dependiendo del tipo de documento
                         $pay = new Pay();
                         $pay->user_id = current_user()->id;
