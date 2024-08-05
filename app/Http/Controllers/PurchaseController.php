@@ -1011,7 +1011,7 @@ class PurchaseController extends Controller
         $purchase = Purchase::findOrFail($id);
         $products = Product::where('status', 'active')->where('type_product', 'service')->get();
         $discrepancies = Discrepancy::where('id', '>', 6)->where('description', '!=', 'Otros')->get();
-        $resolutions = Resolution::where('document_type_id', 26)->where('status', 'active')->where('company_id', current_user()->company_id)->get();
+        $resolutions = Resolution::where('document_type_id', 26)->where('status', 'active')->where('branch_id', current_user()->branch_id)->get();
         $taxes = Tax::from('taxes as tax')
         ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
@@ -1073,7 +1073,7 @@ class PurchaseController extends Controller
         } else {
             $discrepancies = Discrepancy::where('id', '<', 5)->where('description', '!=', 'Otros')->get();
         }
-        $resolutions = Resolution::where('document_type_id', 13)->where('status', 'active')->where('company_id', Auth::user()->company_id)->get();
+        $resolutions = Resolution::where('document_type_id', 13)->where('status', 'active')->where('branch_id', Auth::user()->branch_id)->get();
         $taxes = Tax::from('taxes as tax')
         ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
