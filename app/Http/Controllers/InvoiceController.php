@@ -236,7 +236,7 @@ class InvoiceController extends Controller
         }
         $customers = Customer::get();
         $employees = Employee::get();
-        $resolutions = Resolution::where('document_type_id', 1)->where('branch_id', current_user()->branch_id)->where('status', 'active')->get();
+        $resolutions = Resolution::where('document_type_id', 15)->where('branch_id', current_user()->branch_id)->where('status', 'active')->get();
         $paymentForms = PaymentForm::get();
         $paymentMethods = PaymentMethod::where('status', 'active')->get();
         $banks = Bank::get();
