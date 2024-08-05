@@ -94,7 +94,7 @@ class NdinvoiceController extends Controller
     public function store(StoreNdinvoiceRequest $request)
     {
         //dd($request->all());
-        $company = Company::findOrFail(current_user()->company_id);
+        $company = company();
         $configuration = Configuration::findOrFail($company->id);
         $invoice = Invoice::findOrFail($request->invoice_id);//encontrando la factura
         $cashRegister = cashRegisterComprobation();

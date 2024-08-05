@@ -378,7 +378,7 @@ class NcpurchaseController extends Controller
         } else {
             $ncpurchaseProducts = NcpurchaseRawmaterial::where('ncpurchase_id', $ncpurchase->id)->where('quantity', '>', 0)->get();
         }
-        $company = Company::findOrFail(current_user()->company_id);
+        $company = company();
         $indicator = indicator();
 
         $retentions = Tax::from('taxes as tax')

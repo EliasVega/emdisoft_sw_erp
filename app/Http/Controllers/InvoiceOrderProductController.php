@@ -62,7 +62,7 @@ class InvoiceOrderProductController extends Controller
             return redirect('invoiceOrder');
         }
         $invoiceOrder = InvoiceOrder::findOrFail($request->invoice_order_id);
-        $company = Company::findOrFail(current_user()->company_id);
+        $company = company();
         $configuration = Configuration::findOrFail($company->id);
         $cashRegister = cashRegisterComprobation();
         $resolutions = '';

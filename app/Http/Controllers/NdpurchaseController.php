@@ -123,7 +123,7 @@ class NdpurchaseController extends Controller
         } else {
             $resolution = Resolution::findOrFail(3);//resolucion selecionada en el request
         }
-        $company = Company::findOrFail(current_user()->company_id);
+        $company = company();
         $configuration = Configuration::findOrFail($company->id);
         $purchase = Purchase::findOrFail($request->purchase_id);//encontrando la factura
         $pay = Pay::where('type', 'purchase')->where('payable_id', $purchase->id)->get();//pagos hechos a esta factura

@@ -43,18 +43,18 @@ class InvoiceTestSetController extends Controller
      */
     public function create()
     {
-        $company = Company::where('id', current_user()->company_id)->first();
-        $configuration = Configuration::where('company_id', $company->id)->first();
-        $software = Software::where('company_id', $company->id)->first();
+        $company = company()->id;
+        $configuration = Configuration::where('company_id', company()->id)->first();
+        $software = Software::where('company_id', company()->id)->first();
         $type = 'invoice';
         return view('admin.invoiceTestSet.create', compact('company', 'configuration', 'software', 'type'));
     }
 
     public function createSetPos()
     {
-        $company = Company::where('id', current_user()->company_id)->first();
-        $configuration = Configuration::where('company_id', $company->id)->first();
-        $software = Software::where('company_id', $company->id)->first();
+        $company = company()->id;
+        $configuration = Configuration::where('company_id', company()->id)->first();
+        $software = Software::where('company_id', company()->id)->first();
         $type = 'pos';
         return view('admin.invoiceTestSet.create', compact('company', 'configuration', 'software', 'type'));
     }
@@ -66,9 +66,8 @@ class InvoiceTestSetController extends Controller
     {
         //dd($request->all());
         $typeDocument = $request->typeDocument;
-        $company = Company::findOrFail(company()->id);
-        $configuration = Configuration::where('company_id', $company->id)->first();
-        $software = Software::where('company_id', $company->id)->first();
+        $configuration = Configuration::where('company_id', company()->id)->first();
+        $software = Software::where('company_id', company()->id)->first();
         if ($typeDocument == 'invoice') {
             $environment = Environment::findOrFail(11);
             $resolutions = Resolution::findOrFail(7);
@@ -127,7 +126,7 @@ class InvoiceTestSetController extends Controller
                 $invoiceTestSet->message = $service['message'];
                 $invoiceTestSet->zipKey = $zip;
                 $invoiceTestSet->cufe = $service['cufe'];
-                $invoiceTestSet->company_id = $company->id;
+                $invoiceTestSet->company_id = company()->id;
                 $invoiceTestSet->save();
 
                 $resolutions->consecutive += 1;

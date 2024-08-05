@@ -262,7 +262,8 @@ class PurchaseController extends Controller
             return redirect('purchase');
         }
         $resolution = $request->resolution_id;
-        $company = Company::findOrFail(current_user()->company_id);
+        $company = company();
+
         $cashRegister = cashRegisterComprobation();
 
         //Variables del request
@@ -295,7 +296,7 @@ class PurchaseController extends Controller
         $store = false;
         if ($documentType == 11 && indicator()->dian == 'on') {
             $environment = Environment::where('id', 16)->first();
-            $configuration = Configuration::where('company_id', $company->id)->first();
+            $configuration = Configuration::where('company_id', company()->id)->first();
             $url = $environment->protocol . $configuration->ip . $environment->url;
             $data = supportDocumentData($request);
             $requestResponse = sendDocuments($url, $data);

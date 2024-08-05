@@ -60,7 +60,7 @@ class PurchaseOrderProductController extends Controller
             toast('No adicionaste ningun tipo de pago.','error');
             return redirect('purchaseOrder');
         }
-        $company = Company::findOrFail(current_user()->company_id);
+        $company = company();
         $configuration = Configuration::findOrFail($company->id);
         $purchaseOrder = PurchaseOrder::findOrFail($request->purchaseOrder);
         $cashRegister = cashRegisterComprobation();
