@@ -180,10 +180,10 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'indicator.barcodeStatus', 'description' => 'activar Codigo de barras', 'status' => 'locked'])->syncRoles([$superAdmin]);
 
 
-        Permission::create(['name' => 'invoice.index', 'description' => 'Listado Invoice', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
-        Permission::create(['name' => 'invoice.create', 'description' => 'CrearInvoice', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
-        Permission::create(['name' => 'invoice.show', 'description' => 'VerInvoice', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
-        Permission::create(['name' => 'invoice.edit', 'description' => 'EditarInvoice', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
+        Permission::create(['name' => 'invoice.index', 'description' => 'Listado Invoice', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $sales]);
+        Permission::create(['name' => 'invoice.create', 'description' => 'CrearInvoice', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $sales]);
+        Permission::create(['name' => 'invoice.show', 'description' => 'VerInvoice', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $sales]);
+        Permission::create(['name' => 'invoice.edit', 'description' => 'EditarInvoice', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $sales]);
 
         Permission::create(['name' => 'invoiceOrder.index', 'description' => 'Listado orden de venta', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
         Permission::create(['name' => 'invoiceOrder.create', 'description' => 'Crear orden de venta', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);

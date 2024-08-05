@@ -25,27 +25,25 @@
             @endif
             <form action="{{route('restaurantOrder.store')}}" method="POST" class="formulario" id="registerForm">
                 {{csrf_field()}}
-                <div class="row m-1">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         @include('admin/restaurantOrder.form_selectTable')
-
-                    <div id="createTable">
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="createTable">
                         @include('admin/restaurantOrder.form_table')
                     </div>
-                    <div id="homeOrder">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="homeOrder">
                         @include('admin/restaurantOrder.form_home_order')
                     </div>
-
-                    @if (indicator()->raw_material == 'on')
-                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                            @include('admin/restaurantOrder.form_restaurantOrder')
-                        </div>
-                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                            @include('admin/restaurantOrder.form_rawMaterial')
-                        </div>
-                    @else
-                        @include('admin/restaurantOrder.form_restOrderRm')
-                    @endif
-
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        @include('admin/restaurantOrder.form_restaurantOrder')
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        @include('admin/restaurantOrder.form_rawMaterial')
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="homeOrder">
+                        @include('admin/generalview.form_register')
+                    </div>
                 </div>
             </form>
         </div>

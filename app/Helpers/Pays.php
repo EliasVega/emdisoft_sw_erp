@@ -92,13 +92,20 @@ if (! function_exists('pays')) {
             $pay_paymentMethod = new PayPaymentMethod();
             $pay_paymentMethod->pay_id = $pay->id;
             $pay_paymentMethod->payment_method_id = $paymentMethod[$i];
-            $pay_paymentMethod->bank_id = $bank[$i];
-            $pay_paymentMethod->card_id = $card[$i];
+            if ($typeDocument == 'pos') {
+                $pay_paymentMethod->bank_id = 1;
+                $pay_paymentMethod->card_id = 1;
+                $pay_paymentMethod->transaction = 1;
+            } else {
+                $pay_paymentMethod->bank_id = $bank[$i];
+                $pay_paymentMethod->card_id = $card[$i];
+                $pay_paymentMethod->transaction = $transaction[$i];
+            }
             if (isset($advance_id[$i])){
                 $pay_paymentMethod->advance_id = $advance_id[$i];
             }
             $pay_paymentMethod->pay = $payment[$i];
-            $pay_paymentMethod->transaction = $transaction[$i];
+
             $pay_paymentMethod->save();
 
             $mp = $paymentMethod[$i];

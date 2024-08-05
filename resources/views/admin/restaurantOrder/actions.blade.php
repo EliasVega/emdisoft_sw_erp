@@ -14,6 +14,9 @@
 <a href="{{ route('restaurantOrderPos', $id) }}" class="btn btn-primary btn-sm" target="blanck" data-toggle="tooltip" data-placement="top" title="pos Comanda" >
     <i class="fas fa-receipt"></i>
 </a>
+<a href="{{ route('posPdfRestaurantOrder', $id) }}" class="btn btn-primary btn-sm" target="blanck" data-toggle="tooltip"
+data-placement="top" title="ticket Comanda" ><i class="fas fa-receipt"></i>
+</a>
 @if ($status == 'pending')
     @can('restaurantOrder.destroy')
         <a class="btn btn-danger btn-sm" href="" data-target="#modal-delete-{{ $id }}" data-toggle="modal" title="Eliminar">

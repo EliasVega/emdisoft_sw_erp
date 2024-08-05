@@ -2,11 +2,13 @@
 
 namespace App\Helpers\Tickets;
 
+use App\Models\CommandRawmaterial;
 use App\Models\ExpenseProduct;
 use App\Models\InvoiceOrderProduct;
 use App\Models\InvoiceProduct;
 use App\Models\NcinvoiceProduct;
 use App\Models\ProductPurchase;
+use App\Models\ProductRestaurantOrder;
 use App\Models\Resolution;
 use App\Models\Tax;
 use FPDF;
@@ -133,6 +135,9 @@ class Ticket extends FPDF
             case 'invoiceOrder':
                 $products = InvoiceOrderProduct::where('invoice_order_id', $document->id)->get();
                 break;
+            case 'restaurantOrder':
+                $products = ProductRestaurantOrder::where('restaurant_order_id', $document->id)->get();
+                break;
             case 'purchase':
                 $products = ProductPurchase::where('purchase_id', $document->id)->get();
                 break;
@@ -146,37 +151,27 @@ class Ticket extends FPDF
 
         $this->SetFont('Arial', '', 9);
         $this->Ln(2);
-        $this->Cell(28, 4, formatText('Producto'), 0, 0, 'C');
+        $this->Cell(30, 4, formatText('Producto'), 0, 0, 'C');
         $this->Cell(9, 4, formatText('Cant.'), 0, 0, 'C');
         $this->Cell(13, 4, formatText('Precio'), 0, 0, 'C');
-        $this->Cell(18, 4, formatText('Subtotal'), 0, 1, 'C');
+        $this->Cell(20, 4, formatText('Subtotal'), 0, 1, 'C');
         $this->Cell(0, 2, "", 'T', 1, 'C');
 
         foreach ($products as $product) {
-            //$length = strlen($product->product->name);
             $length = $this->GetStringWidth($product->product->name);
-
-            //$this->Multicell(30,5, formatText($invoiceProduct->product->name),'J',1);
-            //$this->MultiCell(0, 10, formatText($invoiceProduct->product->name), 0, 'L');
             $this->SetFont('Arial', '', 7);
-            if ($length > 28) {
+            if ($length > 30) {
                 $this->Multicell(50,4, formatText($product->product->name),'J',1);
                 $this->SetX(30);
-                $this->Cell(8, 4, $product->quantity, 0, 0, 'R');
+                $this->Cell(9, 4, $product->quantity, 0, 0, 'R');
             } else {
                 $this->Cell(28, 4, formatText($product->product->name), 0, 0, 'L');
-                $this->Cell(8, 4, $product->quantity, 0, 0, 'R');
+                $this->Cell(9, 4, $product->quantity, 0, 0, 'R');
             }
-            $this->Cell(12, 4, number_format($product->price), 0, 0, 'R');
-            $this->Cell(17, 4, number_format($product->price * $product->quantity), 0, 1, 'R');
-
-            /*
-            if ($products->last() != $product) {
-                $this->Ln(4);
-            }*/
+            $this->Cell(13, 4, number_format($product->price), 0, 0, 'R');
+            $this->Cell(20, 4, number_format($product->price * $product->quantity), 0, 1, 'R');
         }
         $this->Cell(0, 3, "", 'T', 1, 'C');
-        //$this->generateBreakLine(0, 'long', 5);
     }
 
     public function generateSummaryInformation($document, $typeDocument)
@@ -203,22 +198,22 @@ class Ticket extends FPDF
         ->where('tt.type_tax', 'retention')
         ->get();
         $this->SetFont('Arial', '', 9);
-        $this->SetX(18);
-        $this->Cell(18, 4, formatText("SUBTOTAL"), 0, 0, 'R');
+        $this->SetX(22);
+        $this->Cell(20, 4, formatText("SUBTOTAL"), 0, 0, 'R');
         $this->Cell(30, 5, "$" . number_format($document->total,2), 0, 1, 'R');
         foreach ($taxes as $tax) {
-            $this->SetX(18);
-            $this->Cell(18, 5, formatText($tax->name), 0, 0, 'R');
+            $this->SetX(22);
+            $this->Cell(20, 5, formatText($tax->name), 0, 0, 'R');
             $this->Cell(30, 5, "$" . number_format($tax->tax_value,2), 0, 1, 'R');
         }
         foreach ($retentions as $retention) {
-            $this->SetX(18);
-            $this->Cell(18, 5, formatText($retention->name), 0, 0, 'R');
+            $this->SetX(22);
+            $this->Cell(20, 5, formatText($retention->name), 0, 0, 'R');
             $this->Cell(30, 5, "$" . number_format($retention->tax_value,2), 0, 1, 'R');
         }
         $this->SetFont('Arial', 'B', 9);
-        $this->SetX(18);
-        $this->Cell(18, 5, formatText("TOTAL"), 0, 0, 'R');
+        $this->SetX(22);
+        $this->Cell(20, 5, formatText("TOTAL"), 0, 0, 'R');
         $this->Cell(30, 5, "$" . number_format($document->total_pay,2), 0, 1, 'R');
     }
 
@@ -268,16 +263,6 @@ class Ticket extends FPDF
         $this->Cell(0, 10, formatText("Gracias por su compra"), '', 0, 'C');
 
     }
-    /*
-
-    public function generateBreakLine($marginTop, $size, $marginBottom)
-    {
-        if ($size == 'short') {
-            $this->Cell(0, 3, "-----------------------------------------------------------", 0, 1, 'C');
-        } elseif ($size == 'long') {
-            $this->Cell(0, 5, "------------------------------------------------------------------------", 0, 1, 'C');
-        }
-    }*/
 
     public function footer()
     {
@@ -288,5 +273,34 @@ class Ticket extends FPDF
         //$this->Cell(0, 10, formatText(), '', 0, 'C');
         $this->MultiCell(0, 5, $messageFooter, 0, 'C', false);
         $this->MultiCell(0, 5, $messageName, 0, 'C', false);
+    }
+
+    public function commandRawMaterial($document)
+    {
+        $products = CommandRawmaterial::where('restaurant_order_id', $document->id)->get();
+
+        $this->SetFont('Arial', '', 9);
+        $this->Ln(2);
+        $this->Cell(6, 4, formatText('Ref'), 0, 0, 'C');
+        $this->Cell(10, 4, formatText('Estado'), 0, 0, 'C');
+        $this->Cell(34, 4, formatText('product'), 0, 0, 'C');
+        $this->Cell(12, 4, formatText('cantidad'), 0, 1, 'C');
+        $this->Cell(0, 2, "", 'T', 1, 'C');
+
+        foreach ($products as $product) {
+            $length = $this->GetStringWidth($product->product->name);
+            $this->SetFont('Arial', '', 7);
+            $this->Cell(6, 4, $product->referency, 0, 0, 'R');
+            $this->Cell(10, 4, $product->status, 0, 0, 'R');
+            if ($length > 32) {
+                $this->Multicell(50,4, formatText($product->product->name),'J',1);
+                $this->SetX(62);
+                $this->Cell(12, 4, $product->quantity, 0, 0, 'R');
+            } else {
+                $this->Cell(34, 4, formatText($product->product->name), 0, 0, 'L');
+                $this->Cell(12, 4, $product->quantity, 0, 1, 'R');
+            }
+        }
+        $this->Cell(0, 3, "", 'T', 1, 'C');
     }
 }

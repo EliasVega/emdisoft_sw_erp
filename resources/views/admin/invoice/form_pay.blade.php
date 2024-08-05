@@ -129,7 +129,7 @@
         <label class="requerido" for="bank_id">Bancos</label>
         <select name="bank_id" class="form-control selectpicker" id="bank_id"
             data-live-search="true">
-            <option value="" disabled selected>Seleccionar...</option>
+            <option value="1" disabled selected>Seleccionar...</option>
             @foreach($banks as $bank)
             <option value="{{ $bank->id }}">{{ $bank->name }}</option>
             @endforeach

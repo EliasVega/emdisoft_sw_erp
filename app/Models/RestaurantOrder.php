@@ -21,6 +21,7 @@ class RestaurantOrder extends Model
         'total_pay',
         'status',
         'user_id',
+        'branch_id',
         'restaurant_table_id',
         'invoice_id'
     ];
@@ -31,6 +32,10 @@ class RestaurantOrder extends Model
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function branch(){
+        return $this->belongsTo(Branch::class);
     }
 
     public function invoice()
@@ -50,5 +55,9 @@ class RestaurantOrder extends Model
 
     public function commandRawmaterials(){
         return $this->hasMany(CommandRawmaterial::class);
+    }
+
+    public function cashRegister(){
+        return $this->belongsTo(CashRegister::class);
     }
 }

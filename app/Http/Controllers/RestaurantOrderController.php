@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Tickets\Ticket;
 use App\Models\RestaurantOrder;
 use App\Http\Requests\StoreRestaurantOrderRequest;
 use App\Http\Requests\UpdateRestaurantOrderRequest;
@@ -30,6 +31,10 @@ use Illuminate\Support\Facades\App;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use App\Traits\CommandRawMaterialCreate;
+use Picqer\Barcode\BarcodeGeneratorPNG;
+
+use function App\Helpers\Tickets\formatText;
+use function App\Helpers\Tickets\ticketHeight;
 
 class RestaurantOrderController extends Controller
 {
@@ -209,6 +214,7 @@ class RestaurantOrderController extends Controller
         $restaurantOrder->status = 'pending';
         $restaurantOrder->note = $request->note;
         $restaurantOrder->user_id = current_user()->id;
+        $restaurantOrder->branch_id = current_user()->branch_id;
         if ($service == 0) {//si el servicio es de mesa
             $restaurantOrder->restaurant_table_id = $request->restaurant_table_id;
         } else {//si el servicio es domicilio
@@ -1093,6 +1099,71 @@ class RestaurantOrderController extends Controller
 
         return $pdf->stream('vista-pdf', "$restaurantOrderpos.pdf");
         //return $pdf->download("$orderpdf.pdf");
+    }
+
+    public function posPdfRestaurantOrder(Request $request, RestaurantOrder $restaurantOrder)
+    {
+
+        $typeDocument = 'restaurantOrder';
+        $title = 'ORDEN DE PEDIDO COMANDA';
+        $consecutive = $restaurantOrder->id;
+
+        $document = $restaurantOrder;
+        $thirdPartyType = 'customer';
+        $thirdParty = Customer::findOrFail(1);
+        $logoHeight = 26;
+
+        if (indicator()->logo == 'on') {
+            $logo = storage_path('app/public/images/logos/' . company()->imageName);
+
+            $image = list($width, $height, $type, $attr) = getimagesize($logo);
+            $multiplier = $image[0]/$image[1];
+            $height = 26;
+            $width = $height * $multiplier;
+            if ($width > 60) {
+                $width = 60;
+                $height = 60/$multiplier;
+            }
+        }
+
+        $pdfHeight = ticketHeight($logoHeight, company(), $restaurantOrder, $typeDocument);
+
+        $pdf = new Ticket('P', 'mm', array(80, $pdfHeight), true, 'UTF-8');
+        $pdf->SetMargins(2, 10, 6);
+        $pdf->SetTitle('ORDEN DE PEDIDO' . ' ' . $restaurantOrder->id);
+        $pdf->SetAutoPageBreak(false);
+        $pdf->addPage();
+
+
+
+        if (indicator()->logo == 'on') {
+            if (file_exists($logo)) {
+                $pdf->generateLogo($logo, $width, $height);
+            }
+        }
+        $pdf->generateTitle($title, $consecutive);
+        $pdf->generateCompanyInformation();
+
+        $barcodeGenerator = new BarcodeGeneratorPNG();
+        $barcodeCode = $barcodeGenerator->getBarcode($restaurantOrder->id, $barcodeGenerator::TYPE_CODE_128);
+        $barcode = "data:image/png;base64," . base64_encode($barcodeCode);
+
+        $pdf->generateBarcode($barcode);
+        $pdf->generateBranchInformation($document);
+        $pdf->generateThirdPartyInformation($thirdParty, $thirdPartyType);
+        $pdf->generateProductsTable($document, $typeDocument);
+        $pdf->generateSummaryInformation($document, $typeDocument);
+        if (indicator()->raw_material == 'on') {
+            $pdf->commandRawMaterial($document);
+        }
+
+        $refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
+        $pdf->generateDisclaimerInformation($refund);
+
+        $pdf->footer();
+
+        $pdf->Output("I", $restaurantOrder->id . ".pdf", true);
+        exit;
     }
 
 

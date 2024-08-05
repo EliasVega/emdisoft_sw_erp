@@ -113,4 +113,8 @@ class CashRegister extends Model
     public function purchaseOrders(){
         return $this->hasMany(PurchaseOrder::class);
     }
+
+    public function restaurantOrders(){
+        return $this->hasMany(RestaurantOrder::class);
+    }
 }

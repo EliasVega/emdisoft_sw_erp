@@ -7,15 +7,12 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h5>Listado de Comandas
-                @can('restaurantOrder.create')
                     <a href="restaurantOrder/create" class="btn btn-celeste btn-sm"><i class="fa fa-plus mr-2"></i> Nueva Comanda</a>
-                @endcan
-                @can('branch.index')
+
                     <a href="{{ route('branch.index') }}" class="btn btn-bluR btn-sm"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
-                @endcan
-                @can('customer.index')
+
                 <a href="{{ route('customer.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Cliente</a>
-            @endcan
+
             </h5>
         </div>
     </div>

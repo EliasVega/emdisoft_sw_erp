@@ -8,22 +8,17 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h5>Listado de Ventas</h5>
                 @if (indicator()->restaurant == 'off')
-                    @can('invoice.create')
+
                         <a href="createPos" class="btn btn-blueGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Ventas pos</a>
-                    @endcan
-                    @can('invoice.create')
                         <a href="invoice/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Ventas</a>
-                    @endcan
-                    @can('invoiceOrder.create')
+
                         <a href="invoiceOrder" class="btn btn-orangeGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i>
                             Orden/Venta</a>
-                    @endcan
+
                     <a href="remission" class="btn btn-lemonGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Remisiones</a>
                 @else
-                    @can('restaurantOrder.create')
                         <a href="restaurantOrder/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i>
                             Comandas</a>
-                    @endcan
                 @endif
 
                 @can('branch.index')
