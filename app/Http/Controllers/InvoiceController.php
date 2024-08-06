@@ -592,15 +592,16 @@ class InvoiceController extends Controller
 
                 $environmentPdf = Environment::findOrFail(10);
                 $urlpdf = $environmentPdf->protocol . $configuration->ip . $environmentPdf->url;
-                /*
+
                 if ($typeDocument == 'invoice') {
                     $pdf = file_get_contents($urlpdf . company()->nit ."/FES-" . $invoice->document .".pdf");
+
                 } else if ($typeDocument == 'pos') {
-                    $pdf = file_get_contents($urlpdf . company()->nit ."/FES-" . $invoice->document .".pdf");
-                }*/
-                $pdf = file_get_contents($urlpdf . company()->nit ."/FES-" . $invoice->document .".pdf");
+                    $pdf = file_get_contents($urlpdf . company()->nit ."/POSS-" . $invoice->document .".pdf");
+                }
                 Storage::disk('public')->put('files/graphical_representations/invoices/' .
                 $invoice->document . '.pdf', $pdf);
+
 
                 $environmentXml = Environment::findOrFail(23);
                 $urlxmldocument = "Attachment-" . $invoice->document . ".xml/BASE64";
@@ -1439,7 +1440,14 @@ class InvoiceController extends Controller
         //http://144.126.135.31:81/api/ubl2.1/download/89008003/Attachment-SETP990000399.xml/BASE64
         $configuration = Configuration::findOrFail(1);
         $environmentPdf = Environment::findOrFail(10);
+        $typeDocument = $invoice->document_type_id;
         $urlpdf = $environmentPdf->protocol . $configuration->ip . $environmentPdf->url;
+        if ($typeDocument == 1) {
+            $pdf = file_get_contents($urlpdf . company()->nit ."/FES-" . $invoice->document .".pdf");
+
+        } else if ($typeDocument == 15) {
+            $pdf = file_get_contents($urlpdf . company()->nit ."/POSS-" . $invoice->document .".pdf");
+        }
         $pdf = file_get_contents($urlpdf . company()->nit ."/FES-" . $invoice->document .".pdf");
 
         Storage::disk('public')->put('files/graphical_representations/invoices/' .

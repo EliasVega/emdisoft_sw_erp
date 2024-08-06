@@ -44,13 +44,6 @@ use function App\Helpers\Tickets\ticketHeightCashRegister;
 
 class CashRegisterController extends Controller
 {
-    function __construct()
-    {
-        $this->middleware('permission:cashRegister.index|cashRegister.create|cashRegister.show|cashRegister.edit', ['only' => ['index']]);
-        $this->middleware('permission:cashRegister.create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:cashRegister.show', ['only' => ['show']]);
-        $this->middleware('permission:cashRegister.edit', ['only' => ['edit', 'update']]);
-    }
     /**
      * Display a listing of the resource.
      *

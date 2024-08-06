@@ -6,7 +6,9 @@ use App\Models\Tax;
 if (! function_exists('taxesLine')) {
     function taxesLines($document, $taxes, $typeDocument)
     {
-
+        if ($typeDocument == 'pos') {
+            $typeDocument = 'invoice';
+        }
         $total = $document->total;
         if ($taxes[0] != []) {
         //impuestos de linea IVA INC
@@ -20,6 +22,7 @@ if (! function_exists('taxesLine')) {
                     case(1):
                         $tax = new Tax();
                         $tax->tax_value = $taxes[$i][2];//valor del impuesto
+                        $tax->type = $typeDocument;
                         $tax->type = $typeDocument;
                         $tax->company_tax_id = $companyTaxes->id;
                         switch ($typeDocument) {
