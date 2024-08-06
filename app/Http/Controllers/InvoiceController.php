@@ -1458,23 +1458,7 @@ class InvoiceController extends Controller
     }
     public function sendEmailInvoice(Request $request, Invoice $invoice)
     {
-        //http://144.126.135.31:81/api/ubl2.1/download/89008003/Attachment-SETP990000399.xml/BASE64
-        $configuration = Configuration::findOrFail(1);
-        $environmentPdf = Environment::findOrFail(10);
-        $urlpdf = $environmentPdf->protocol . $configuration->ip . $environmentPdf->url;
-        $pdf = file_get_contents($urlpdf . company()->nit ."/FES-" . $invoice->document .".pdf");
 
-        Storage::disk('public')->put('files/graphical_representations/invoices/' .
-        $invoice->document . '.pdf', $pdf);
-
-        //$environmentPdf = Environment::findOrFail(10);
-        $environmentXml = Environment::findOrFail(23);
-        $urlxmldocument = "Attachment-" . $invoice->document . ".xml/BASE64";
-        $urlxml = $environmentXml->protocol . $configuration->ip . $environmentXml->url . company()->nit . $urlxmldocument;
-        $xml = file_get_contents($urlxml);
-
-        Storage::disk('public')->put('files/graphical_representations/xmlinvoices/' .
-        $invoice->document . '.xml', $xml);
 
         return redirect('invoice');
     }

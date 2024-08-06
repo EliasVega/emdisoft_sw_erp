@@ -60,7 +60,7 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'cashRegister.index', 'description' => 'Listado Cajas', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
         Permission::create(['name' => 'cashRegister.create', 'description' => 'Crear Caja', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
         Permission::create(['name' => 'cashRegister.show', 'description' => 'Ver Caja', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
-        Permission::create(['name' => 'cashRegister.edit', 'description' => 'Cerrar caja', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings]);
+        Permission::create(['name' => 'cashRegister.edit', 'description' => 'Cerrar caja', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings,$purchases, $sales]);
 
         Permission::create(['name' => 'category.index', 'description' => 'Listado categorias', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases, $sales]);
         Permission::create(['name' => 'category.create', 'description' => 'Crear categoria', 'status' => 'active'])->syncRoles([$superAdmin, $admin, $operatings, $purchases]);
