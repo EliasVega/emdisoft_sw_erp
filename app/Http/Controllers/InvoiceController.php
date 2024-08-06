@@ -588,7 +588,7 @@ class InvoiceController extends Controller
                 $invoiceResponse->cufe = $service['cufe'];
                 $invoiceResponse->response_api = null;
                 $invoiceResponse->save();
-
+                /*
                 $environmentPdf = Environment::findOrFail(10);
                 $urlpdf = $environmentPdf->protocol . $configuration->ip . $environmentPdf->url;
                 if ($typeDocument == 'invoice') {
@@ -605,7 +605,7 @@ class InvoiceController extends Controller
                 $xml = file_get_contents($urlxml);
 
                 Storage::disk('public')->put('files/graphical_representations/xmlinvoices/' .
-                $invoice->document . '.xml', $xml);
+                $invoice->document . '.xml', $xml);*/
             }
 
             $resolutions->consecutive += 1;
