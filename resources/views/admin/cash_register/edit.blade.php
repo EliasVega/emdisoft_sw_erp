@@ -8,7 +8,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="box-danger">
             <div class="box-header with-border">
-                <h5 class="box-title">Cerrar Caja N°. : {{ cashRegisterComprobation()->id }}</h5>
+                <h5 class="box-title">Cerrar Caja N°. : {{ cashRegisterModel()->id }}</h5>
                 @can('cashRegister.index')
                         <a href="{{ route('cashRegister.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
                     @endcan

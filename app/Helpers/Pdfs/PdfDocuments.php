@@ -2,8 +2,6 @@
 
 namespace App\Helpers\Pdfs;
 
-use Illuminate\Support\Facades\Http;
-
 use App\Models\InvoiceOrderProduct;
 use App\Models\InvoiceProduct;
 use App\Models\NcinvoiceProduct;
