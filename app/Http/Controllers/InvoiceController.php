@@ -594,7 +594,7 @@ class InvoiceController extends Controller
                 if ($typeDocument == 'invoice') {
                     $pdf = file_get_contents($urlpdf . company()->nit ."/FES-" . $invoice->document .".pdf");
                 } else if ($typeDocument == 'pos') {
-                    $pdf = file_get_contents($urlpdf . company()->nit ."/POSS-" . $invoice->document .".pdf");
+                    $pdf = file_get_contents($urlpdf . company()->nit ."/FES-" . $invoice->document .".pdf");
                 }
                 Storage::disk('public')->put('files/graphical_representations/invoices/' .
                 $invoice->document . '.pdf', $pdf);
