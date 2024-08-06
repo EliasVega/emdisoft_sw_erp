@@ -550,8 +550,9 @@ class InvoiceController extends Controller
                         $cashRegister->in_total += $totalpay;
                         $cashRegister->update();
                     }
+
                     $paymentReturn = new paymentReturn();
-                    $paymentReturn->payment = $request->pay;
+                    $paymentReturn->payment = $request->pay[0];
                     $paymentReturn->return = $return;
                     $paymentReturn->invoice_id = $invoice->id;
                     $paymentReturn->save();
