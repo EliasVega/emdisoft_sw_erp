@@ -443,6 +443,7 @@ class CashRegisterController extends Controller
      */
     public function edit(CashRegister $cashRegister)
     {
+        $cashRegister = cashregisterModel();
         if ($cashRegister->status == 'close') {
             toast('Esta caja ya se encuentra cerrada.','warning');
             return redirect("cashRegister");
