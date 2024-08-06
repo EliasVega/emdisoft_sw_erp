@@ -45,6 +45,11 @@
         data-placement="top" title="Nota Debito" ><i class="fas fa-notes-medical"></i></a>
     @endif
 @endif
+@can('superAdmin')
+    <a href="{{ route('downloadPdfXmlInvoice', $id) }}" class="btn btn-dark btn-sm" data-toggle="tooltip"
+    data-placement="top" title="downloasPdfXml"><i class="fas fa-file-pdf"></i></a>
+@endcan
+
 
 
 
