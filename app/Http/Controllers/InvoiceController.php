@@ -589,14 +589,16 @@ class InvoiceController extends Controller
                 $invoiceResponse->cufe = $service['cufe'];
                 $invoiceResponse->response_api = null;
                 $invoiceResponse->save();
-                /*
+
                 $environmentPdf = Environment::findOrFail(10);
                 $urlpdf = $environmentPdf->protocol . $configuration->ip . $environmentPdf->url;
+                /*
                 if ($typeDocument == 'invoice') {
                     $pdf = file_get_contents($urlpdf . company()->nit ."/FES-" . $invoice->document .".pdf");
                 } else if ($typeDocument == 'pos') {
                     $pdf = file_get_contents($urlpdf . company()->nit ."/FES-" . $invoice->document .".pdf");
-                }
+                }*/
+                $pdf = file_get_contents($urlpdf . company()->nit ."/FES-" . $invoice->document .".pdf");
                 Storage::disk('public')->put('files/graphical_representations/invoices/' .
                 $invoice->document . '.pdf', $pdf);
 
@@ -606,7 +608,7 @@ class InvoiceController extends Controller
                 $xml = file_get_contents($urlxml);
 
                 Storage::disk('public')->put('files/graphical_representations/xmlinvoices/' .
-                $invoice->document . '.xml', $xml);*/
+                $invoice->document . '.xml', $xml);
             }
 
             $resolutions->consecutive += 1;
