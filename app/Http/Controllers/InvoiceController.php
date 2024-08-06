@@ -436,6 +436,51 @@ class InvoiceController extends Controller
             $invoice->grand_total = $total_pay - $retention;
             $invoice->save();
 
+            if (indicator()->dian == 'on') {
+                $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
+                    ['SendBillSyncResult']['IsValid'];
+                $code = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
+                    ['SendBillSyncResult']['StatusCode'];
+                $description = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
+                    ['SendBillSyncResult']['StatusDescription'];
+                $statusMessage = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
+                    ['SendBillSyncResult']['StatusMessage'];
+                $resolutionleft = $service['resolution_days_left'];
+
+                $invoiceResponse = new InvoiceResponse();
+                $invoiceResponse->invoice_id = $invoice->id;
+                $invoiceResponse->document = $invoice->document;
+                $invoiceResponse->message = $service['message'];
+                $invoiceResponse->valid = $valid;
+                $invoiceResponse->code = $code;
+                $invoiceResponse->description = $description;
+                $invoiceResponse->status_message = $statusMessage;
+                $invoiceResponse->cufe = $service['cufe'];
+                $invoiceResponse->response_api = $resolutionleft;
+                $invoiceResponse->save();
+
+                $environmentPdf = Environment::findOrFail(10);
+                $urlpdf = $environmentPdf->protocol . $configuration->ip . $environmentPdf->url;
+                if ($typeDocument == 'invoice') {
+                    $pdf = file_get_contents($urlpdf . company()->nit ."/FES-" . $invoice->document .".pdf");
+                } else if ($typeDocument == 'pos') {
+                    $pdf = file_get_contents($urlpdf . company()->nit ."/POSS-" . $invoice->document .".pdf");
+                }
+                Storage::disk('public')->put('files/graphical_representations/invoices/' .
+                $invoice->document . '.pdf', $pdf);
+
+                $environmentXml = Environment::findOrFail(23);
+                $urlxmldocument = "Attachment-" . $invoice->document . ".xml/BASE64";
+                $urlxml = $environmentXml->protocol . $configuration->ip . $environmentXml->url . company()->nit . $urlxmldocument;
+                $xml = file_get_contents($urlxml);
+
+                Storage::disk('public')->put('files/graphical_representations/xmlinvoices/' .
+                $invoice->document . '.xml', $xml);
+            }
+
+            $resolutions->consecutive += 1;
+            $resolutions->update();
+
             $voucherTypes->consecutive += 1;
             $voucherTypes->update();
 
@@ -563,50 +608,6 @@ class InvoiceController extends Controller
                     pays($request, $document, $typeDocument);
                 }
             }
-
-            if (indicator()->dian == 'on') {
-                $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
-                    ['SendBillSyncResult']['IsValid'];
-                $code = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
-                    ['SendBillSyncResult']['StatusCode'];
-                $description = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
-                    ['SendBillSyncResult']['StatusDescription'];
-                $statusMessage = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
-                    ['SendBillSyncResult']['StatusMessage'];
-                $resolutionleft = $service['resolution_days_left'];
-
-                $invoiceResponse = new InvoiceResponse();
-                $invoiceResponse->invoice_id = $invoice->id;
-                $invoiceResponse->document = $invoice->document;
-                $invoiceResponse->message = $service['message'];
-                $invoiceResponse->valid = $valid;
-                $invoiceResponse->code = $code;
-                $invoiceResponse->description = $description;
-                $invoiceResponse->status_message = $statusMessage;
-                $invoiceResponse->cufe = $service['cufe'];
-                $invoiceResponse->response_api = null;
-                $invoiceResponse->save();
-
-                $environmentPdf = Environment::findOrFail(10);
-                $urlpdf = $environmentPdf->protocol . $configuration->ip . $environmentPdf->url;
-                if ($typeDocument == 'invoice') {
-                    $pdf = file_get_contents($urlpdf . company()->nit ."/FES-" . $invoice->document .".pdf");
-                } else if ($typeDocument == 'pos') {
-                    $pdf = file_get_contents($urlpdf . company()->nit ."/POSS-" . $invoice->document .".pdf");
-                }
-                Storage::disk('public')->put('files/graphical_representations/invoices/' .
-                $invoice->document . '.pdf', $pdf);
-
-                $environmentXml = Environment::findOrFail(23);
-                $urlxmldocument = "Attachment-" . $invoice->document . ".xml/BASE64";
-                $urlxml = $environmentXml->protocol . $configuration->ip . $environmentXml->url . company()->nit . $urlxmldocument;
-                $xml = file_get_contents($urlxml);
-
-                Storage::disk('public')->put('files/graphical_representations/xmlinvoices/' .
-                $invoice->document . '.xml', $xml);
-            }
-            $resolutions->consecutive += 1;
-            $resolutions->update();
 
             session()->forget('invoice');
             session()->forget('typeDocument');
