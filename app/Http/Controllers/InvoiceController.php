@@ -536,7 +536,7 @@ class InvoiceController extends Controller
                         $pay_paymentMethod->payment_method_id = $paymentMethod;
                         $pay_paymentMethod->bank_id = $bank;
                         $pay_paymentMethod->card_id = $card;
-                        $pay_paymentMethod->pay = $payment;
+                        $pay_paymentMethod->pay = $payment[0];
                         $pay_paymentMethod->transaction = $transaction;
                         $pay_paymentMethod->save();
 
