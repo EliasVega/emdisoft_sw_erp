@@ -567,6 +567,9 @@ class InvoiceController extends Controller
                 }
             }
 
+            $resolutions->consecutive += 1;
+                $resolutions->update();
+
             if (indicator()->dian == 'on') {
                 $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
                     ['SendBillSyncResult']['IsValid'];
@@ -612,9 +615,6 @@ class InvoiceController extends Controller
                 Storage::disk('public')->put('files/graphical_representations/xmlinvoices/' .
                 $invoice->document . '.xml', $xml);
             }
-
-            $resolutions->consecutive += 1;
-            $resolutions->update();
 
             session()->forget('invoice');
             session()->forget('typeDocument');
