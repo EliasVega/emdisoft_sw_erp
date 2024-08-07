@@ -595,13 +595,14 @@ class InvoiceController extends Controller
 
                 if ($typeDocument == 'invoice') {
                     $pdf = file_get_contents($urlpdf . company()->nit ."/FES-" . $invoice->document .".pdf");
+                    Storage::disk('public')->put('files/graphical_representations/invoices/' .
+                    $invoice->document . '.pdf', $pdf);
 
-                } else if ($typeDocument == 'pos') {
+                }/* else if ($typeDocument == 'pos') {
                     $pdf = file_get_contents($urlpdf . company()->nit ."/POSS-" . $invoice->document .".pdf");
-                }
-                Storage::disk('public')->put('files/graphical_representations/invoices/' .
-                $invoice->document . '.pdf', $pdf);
-
+                    Storage::disk('public')->put('files/graphical_representations/invoices/' .
+                    $invoice->document . '.pdf', $pdf);
+                }*/
 
                 $environmentXml = Environment::findOrFail(23);
                 $urlxmldocument = "Attachment-" . $invoice->document . ".xml/BASE64";
