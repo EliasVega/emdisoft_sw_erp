@@ -43,7 +43,7 @@ class InvoiceTestSetController extends Controller
      */
     public function create()
     {
-        $company = company()->id;
+        $company = company();
         $configuration = Configuration::where('company_id', company()->id)->first();
         $software = Software::where('company_id', company()->id)->first();
         $type = 'invoice';

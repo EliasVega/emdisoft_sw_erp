@@ -150,7 +150,6 @@ class NcpurchaseController extends Controller
         //Seleccionar los productos de la compra
         switch($discrepancy) {
             case(7):
-                dd('7');
                 if ($total_pay <= 0) {
                     toast(' Nota credito no debe ser menor o igual a 0.','warning');
                     return redirect("purchase");

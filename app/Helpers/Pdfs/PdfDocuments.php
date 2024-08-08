@@ -93,7 +93,7 @@ class PdfDocuments extends FPDF
         $this->Cell(55,5,'Fecha de Emision:',0,0,'C',false);
 
         $this->SetFont('Arial','B',12);
-        $this->SetXY(10,$heigthInitial + 32);
+        $this->SetXY(10,$heigthInitial + 28);
         $this->Cell(55,5,$document->created_at,0,0,'C',false);
 
 
