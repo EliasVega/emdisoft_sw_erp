@@ -431,8 +431,15 @@ class InvoiceController extends Controller
                 $invoice->pay = $totalpay;
             } else {
                 $invoice->pay = 0;
+            }if ($typeDocument == 'invoice') {
+                $invoice->balance = $total_pay - $totalpay;
+            } else {
+                if ($paymentForm == 1) {
+                    $invoice->balance = 0;
+                } else {
+                    $invoice->balance = $total_pay;
+                }
             }
-            $invoice->balance = $total_pay - $totalpay;
             $invoice->grand_total = $total_pay - $retention;
             $invoice->save();
 
