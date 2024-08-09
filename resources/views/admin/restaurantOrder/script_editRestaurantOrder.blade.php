@@ -19,6 +19,7 @@
     $("#save").hide();
     $("#editSugestedPrice").hide();
     $("#editTax_rate").hide();
+    //$("#formServiceDom").hide();
 
     $("#product_id").change(productValue);
 

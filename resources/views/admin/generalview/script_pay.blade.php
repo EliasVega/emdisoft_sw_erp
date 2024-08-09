@@ -330,6 +330,7 @@
         card_id = $("#card_id").val();
         card = $("#card_id option:selected").text();
         pay = $("#pay").val();
+
         transaction = $("#transaction").val();
         pendient = parseFloat($("#pendient").val());
         if(payment_method_id !="" && bank_id!="" && card_id!=""  && pay!="" && pay>0 && transaction!=""){

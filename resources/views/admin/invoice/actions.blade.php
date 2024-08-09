@@ -1,7 +1,8 @@
 @if (indicator()->dian == 'on')
+    @if ($document_type_id != 15)
         <a class="btn btn-primary btn-sm" href="{{ Storage::url('files/graphical_representations/invoices/'.$document.'.pdf') }}"
         title="Representación grafica" target="_blank"><i class="fas fa-download fa-fw"></i> Pdf</a>
-
+    @endif
     <a href="{{ route('posPdf', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip"
     data-placement="top" title="ticket" ><i class="fas fa-receipt"></i></a>
 

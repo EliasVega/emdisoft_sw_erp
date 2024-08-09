@@ -14,14 +14,14 @@
         </div>
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="addProduct">
-        <div class="form-group row">
+        <div class="form-group">
             <label class="form-control-label" for="product_id">Menu</label>
             <select name="product_id" class="form-control selectpicker" id="product_id"
                 data-live-search="true">
                 <option value="" disabled selected>Seleccionar el Menu</option>
                 @foreach($products as $product)
                 <option
-                    value="{{ $product->id }}_{{ $product->sale_price }}_{{ $product->category->companyTax->percentage->percentage }}">{{ $product->name }}</option>
+                    value="{{ $product->id }}_{{ $product->sale_price }}_{{ $product->category->companyTax->percentage->percentage }}">{{ $product->code }}_{{ $product->name }}</option>
                 @endforeach
             </select>
         </div>

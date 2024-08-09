@@ -104,7 +104,7 @@
         <div class="form-group">
             <label class="requerido" for="bank_id">Bancos</label>
             <select name="bank_id" class="form-control selectpicker" id="bank_id" data-live-search="true">
-                <option value="" disabled selected>Seleccionar...</option>
+                <option value="1" disabled selected>Seleccionar...</option>
                 @foreach ($banks as $bank)
                     <option value="{{ $bank->id }}">{{ $bank->name }}</option>
                 @endforeach
@@ -115,7 +115,7 @@
         <div class="form-group">
             <label for="card_id">Tipo Tarjeta</label>
             <select name="card_id" class="form-control selectpicker" id="card_id" data-live-search="true">
-                <option value="" disabled selected>seleccionar...</option>
+                <option value="1" disabled selected>seleccionar...</option>
                 @foreach ($cards as $card)
                     <option value="{{ $card->id }}">{{ $card->name }}</option>
                 @endforeach

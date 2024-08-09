@@ -7,7 +7,7 @@ use App\Models\PayPaymentMethod;
 if (! function_exists('pays')) {
     function pays($request, $document, $typeDocument)
     {
-        //dd($request->all());
+        dd($request->all());
         $advanceRequest = $request->advance_id;
         if (isset($advanceRequest)) {
             $adv = explode("_", $advanceRequest);
