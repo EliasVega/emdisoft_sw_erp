@@ -11,9 +11,6 @@
 <a href="{{ route('restaurantOrder.show', $id) }}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Comanda" >
         <i class="far fa-eye"></i>
 </a>
-<a href="{{ route('restaurantOrderPos', $id) }}" class="btn btn-primary btn-sm" target="blanck" data-toggle="tooltip" data-placement="top" title="pos Comanda" >
-    <i class="fas fa-receipt"></i>
-</a>
 <a href="{{ route('posPdfRestaurantOrder', $id) }}" class="btn btn-primary btn-sm" target="blanck" data-toggle="tooltip"
 data-placement="top" title="ticket Comanda" ><i class="fas fa-receipt"></i>
 </a>

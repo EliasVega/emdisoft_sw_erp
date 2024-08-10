@@ -1211,8 +1211,8 @@ class CashRegisterController extends Controller
             $sumAdvanceProviders
         );
         //dd($pdfHeight);
-        $pdf = new TicketCashRegister('P', 'mm', array(76, $pdfHeight), true, 'UTF-8');
-        $pdf->SetMargins(2, 10, 2);
+        $pdf = new TicketCashRegister('P', 'mm', array(70, $pdfHeight), true, 'UTF-8');
+        $pdf->SetMargins(1, 10, 4);
         $pdf->SetTitle('CAJA ' . $cashRegister->created_at);
         $pdf->SetAutoPageBreak(false);
         $pdf->addPage();

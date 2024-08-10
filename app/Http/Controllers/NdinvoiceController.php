@@ -32,12 +32,13 @@ use App\Traits\GetTaxesLine;
 class NdinvoiceController extends Controller
 {
     use InventoryInvoices, KardexCreate, GetTaxesLine;
+    /*
     function __construct()
     {
         $this->middleware('permission:ndinvoice.index|ndinvoice.store|ndinvoice.show', ['only'=>['index']]);
         $this->middleware('permission:ndinvoice.store', ['only'=>['create','store']]);
         $this->middleware('permission:ndinvoice.show', ['only'=>['show']]);
-    }
+    }*/
     /**
      * Display a listing of the resource.
      */

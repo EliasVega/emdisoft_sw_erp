@@ -2,6 +2,7 @@
 
 namespace App\Helpers\Tickets;
 
+use App\Models\CommandRawmaterial;
 use App\Models\ExpenseProduct;
 use App\Models\InvoiceOrderProduct;
 use App\Models\InvoiceProduct;
@@ -10,6 +11,7 @@ use App\Models\Product;
 use App\Models\ProductPurchase;
 use App\Models\ProductRestaurantOrder;
 use App\Models\Tax;
+use Illuminate\Support\Facades\Session;
 
 if (!function_exists('ticketHeight')) {
     function ticketHeight($logoHeight, $company, $document, $typeDocument)
@@ -30,6 +32,7 @@ if (!function_exists('ticketHeight')) {
         $refund = 20;
         $copyright = 15;
         $disclaimerInformation = 15;
+        $homeOrder = 40;
         $pdfHeight = 0;
 
         if (company()->logo != null) {
@@ -126,18 +129,25 @@ if (!function_exists('ticketHeight')) {
         if (indicator()->dian == 'on') {
             $pdfHeight += $invoiceInformation;
         }
-        /*
-        if ($type == "retail") {
-            if ($document->invoice == 'enabled') {
-                $pdfHeight += $invoiceInformation;
+
+        if ($document->restaurant_table_id == 1) {
+            $pdfHeight += $homeOrder;
+        }
+
+        if ($typeDocument == 'restaurantOrder') {
+            $products = CommandRawmaterial::where('restaurant_order_id', $document->id)->get();
+
+            foreach ($products as $product) {
+
+                $product = Product::findOrFail($product->product_id);
+                $length = strlen($product->name);
+                if ($length > 20) {
+                    $pdfHeight += 12;
+                } else {
+                    $pdfHeight += $productRow;
+                }
             }
-        } elseif ($type == "purchase") {
-            if ($document->type == 'support_document') {
-                $pdfHeight += $invoiceInformation;
-            }
-        } else {
-            $pdfHeight += $invoiceInformation;
-        }*/
+        }
 
         $pdfHeight += $refund + $copyright;
 

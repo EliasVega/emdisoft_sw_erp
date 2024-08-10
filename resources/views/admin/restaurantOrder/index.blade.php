@@ -42,7 +42,7 @@
         function print(){
             var restaurantOrder = "{{ $restaurantOrder ?? '' }}";
             if (restaurantOrder != '') {
-                var imprimir = "{{ route('posRestaurantOrder', ['restaurantOrder' => ':restaurantOrder']) }}";
+                var imprimir = "{{ route('posPdfRestaurantOrder', ['restaurantOrder' => ':restaurantOrder']) }}";
                 imprimir = imprimir.replace(':restaurantOrder', restaurantOrder);
                 window.open(imprimir, "_blank");
             }

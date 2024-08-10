@@ -42,13 +42,13 @@ use Illuminate\Support\Facades\Storage;
 class NdpurchaseController extends Controller
 {
     use AdvanceCreate, KardexCreate, GetTaxesLine, NdpurchaseProductCreate, reverse, NdpurchaseRawmaterials;
-
+    /*
     function __construct()
     {
         $this->middleware('permission:ndpurchase.index|ndpurchase.store|ndpurchase.show', ['only'=>['index']]);
         $this->middleware('permission:ndpurchase.store', ['only'=>['create','store']]);
         $this->middleware('permission:ndpurchase.show', ['only'=>['show']]);
-    }
+    }*/
     /**
      * Display a listing of the resource.
      *

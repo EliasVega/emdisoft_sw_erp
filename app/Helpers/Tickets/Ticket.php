@@ -151,25 +151,25 @@ class Ticket extends FPDF
 
         $this->SetFont('Arial', '', 9);
         $this->Ln(2);
-        $this->Cell(30, 4, formatText('Producto'), 0, 0, 'C');
+        $this->Cell(28, 4, formatText('Producto'), 0, 0, 'C');
         $this->Cell(9, 4, formatText('Cant.'), 0, 0, 'C');
-        $this->Cell(13, 4, formatText('Precio'), 0, 0, 'C');
-        $this->Cell(20, 4, formatText('Subtotal'), 0, 1, 'C');
+        $this->Cell(12, 4, formatText('Precio'), 0, 0, 'C');
+        $this->Cell(19, 4, formatText('Subtotal'), 0, 1, 'C');
         $this->Cell(0, 2, "", 'T', 1, 'C');
 
         foreach ($products as $product) {
             $length = $this->GetStringWidth($product->product->name);
             $this->SetFont('Arial', '', 7);
-            if ($length > 30) {
+            if ($length > 26) {
                 $this->Multicell(50,4, formatText($product->product->name),'J',1);
-                $this->SetX(30);
+                $this->SetX(28);
                 $this->Cell(9, 4, $product->quantity, 0, 0, 'R');
             } else {
                 $this->Cell(28, 4, formatText($product->product->name), 0, 0, 'L');
                 $this->Cell(9, 4, $product->quantity, 0, 0, 'R');
             }
-            $this->Cell(13, 4, number_format($product->price), 0, 0, 'R');
-            $this->Cell(20, 4, number_format($product->price * $product->quantity), 0, 1, 'R');
+            $this->Cell(12, 4, number_format($product->price), 0, 0, 'R');
+            $this->Cell(19, 4, number_format($product->price * $product->quantity), 0, 1, 'R');
         }
         $this->Cell(0, 3, "", 'T', 1, 'C');
     }
@@ -198,21 +198,26 @@ class Ticket extends FPDF
         ->where('tt.type_tax', 'retention')
         ->get();
         $this->SetFont('Arial', '', 9);
-        $this->SetX(22);
+        $this->SetX(18);
         $this->Cell(20, 4, formatText("SUBTOTAL"), 0, 0, 'R');
         $this->Cell(30, 5, "$" . number_format($document->total,2), 0, 1, 'R');
+        if ($typeDocument == 'restaurantOrder') {
+            $this->SetX(18);
+            $this->Cell(20, 5, formatText('INC'), 0, 0, 'R');
+            $this->Cell(30, 5, "$" . number_format($document->total_tax,2), 0, 1, 'R');
+        }
         foreach ($taxes as $tax) {
-            $this->SetX(22);
+            $this->SetX(18);
             $this->Cell(20, 5, formatText($tax->name), 0, 0, 'R');
             $this->Cell(30, 5, "$" . number_format($tax->tax_value,2), 0, 1, 'R');
         }
         foreach ($retentions as $retention) {
-            $this->SetX(22);
+            $this->SetX(18);
             $this->Cell(20, 5, formatText($retention->name), 0, 0, 'R');
             $this->Cell(30, 5, "$" . number_format($retention->tax_value,2), 0, 1, 'R');
         }
         $this->SetFont('Arial', 'B', 9);
-        $this->SetX(22);
+        $this->SetX(18);
         $this->Cell(20, 5, formatText("TOTAL"), 0, 0, 'R');
         $this->Cell(30, 5, "$" . number_format($document->total_pay,2), 0, 1, 'R');
     }
@@ -283,7 +288,7 @@ class Ticket extends FPDF
         $this->Ln(2);
         $this->Cell(6, 4, formatText('Ref'), 0, 0, 'C');
         $this->Cell(10, 4, formatText('Estado'), 0, 0, 'C');
-        $this->Cell(34, 4, formatText('product'), 0, 0, 'C');
+        $this->Cell(40, 4, formatText('product'), 0, 0, 'C');
         $this->Cell(12, 4, formatText('cantidad'), 0, 1, 'C');
         $this->Cell(0, 2, "", 'T', 1, 'C');
 
@@ -292,15 +297,33 @@ class Ticket extends FPDF
             $this->SetFont('Arial', '', 7);
             $this->Cell(6, 4, $product->referency, 0, 0, 'R');
             $this->Cell(10, 4, $product->status, 0, 0, 'R');
-            if ($length > 32) {
+            if ($length > 36) {
                 $this->Multicell(50,4, formatText($product->product->name),'J',1);
                 $this->SetX(62);
                 $this->Cell(12, 4, $product->quantity, 0, 0, 'R');
             } else {
-                $this->Cell(34, 4, formatText($product->product->name), 0, 0, 'L');
+                $this->Cell(40, 4, formatText($product->product->name), 0, 0, 'L');
                 $this->Cell(12, 4, $product->quantity, 0, 1, 'R');
             }
         }
         $this->Cell(0, 3, "", 'T', 1, 'C');
+    }
+
+    public function commandHomeOrder($document)
+    {
+        $this->SetFont('Arial', 'B', 9);
+        $this->Ln(5);
+        $this->Cell(70, 5, formatText("PARA ENVIO A DOMICILIO A:"), 0, 1, 'C');
+        $this->Ln(2);
+        $this->SetFont('Arial', '', 9);
+        $this->SetX(5);
+        $this->Cell(20, 5, formatText("NOMBRE: "), 0, 0, 'L');
+        $this->Cell(45, 5, $document->homeOrder->name, 0, 1, 'L');
+        $this->SetX(5);
+        $this->Cell(20, 5, formatText("DIRECCION: "), 0, 0, 'L');
+        $this->Cell(45, 5, $document->homeOrder->address, 0, 1, 'L');
+        $this->SetX(5);
+        $this->Cell(20, 5, formatText("TELEFONO: "), 0, 0, 'L');
+        $this->Cell(45, 5, $document->homeOrder->phone, 0, 1, 'L');
     }
 }

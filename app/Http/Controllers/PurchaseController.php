@@ -1495,8 +1495,8 @@ class PurchaseController extends Controller
 
         $pdfHeight = ticketHeight($logoHeight, company(), $purchase, $typeDocument);
 
-        $pdf = new Ticket('P', 'mm', array(76, $pdfHeight), true, 'UTF-8');
-        $pdf->SetMargins(2, 10, 6);
+        $pdf = new Ticket('P', 'mm', array(70, $pdfHeight), true, 'UTF-8');
+        $pdf->SetMargins(1, 10, 4);
         $pdf->SetTitle($purchase->document);
         $pdf->SetAutoPageBreak(false);
         $pdf->addPage();

@@ -81,12 +81,12 @@
     });
 
     function payCash(){
+        $("#bank_id").val(1);
+        $("#card_id").val(1);
+        $("#transaction").val("N/A");
         $("#pay").val();
         $("#returned").val(0);
         $("#payment_method_id").val(10);
-        $("#transaction").val("N/A");
-        $("#bank_id").val(1);
-        $("#card_id").val(1);
         $("#transactions").hide();
         $("#banks").hide();
         $("#cards").hide();

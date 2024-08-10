@@ -46,6 +46,7 @@ use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Session;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 
 use function App\Helpers\Tickets\formatText;
@@ -1223,6 +1224,7 @@ class InvoiceController extends Controller
 
     public function posPdf(Request $request, Invoice $invoice)
     {
+        Session::forget('invoice');
         $document = $invoice;
         $typeDocument = 'invoice';
         $title = '';
@@ -1251,7 +1253,7 @@ class InvoiceController extends Controller
 
         $pdfHeight = ticketHeight($logoHeight, company(), $document, $typeDocument);
 
-        $pdf = new Ticket('P', 'mm', array(74, $pdfHeight), true, 'UTF-8');
+        $pdf = new Ticket('P', 'mm', array(70, $pdfHeight), true, 'UTF-8');
         $pdf->SetMargins(2, 10, 2);
         $pdf->SetTitle($invoice->document);
         $pdf->SetAutoPageBreak(false);
@@ -1323,6 +1325,7 @@ class InvoiceController extends Controller
     }
 
     public function pdfInvoice(Request $request, Invoice $invoice) {
+        Session::forget('invoiceOrder');
         $typeDocument = 'invoice';
         $title = '';
         if ($invoice->document_type_id == 1) {

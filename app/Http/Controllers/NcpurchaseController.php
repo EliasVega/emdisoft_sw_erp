@@ -30,12 +30,13 @@ use function App\Helpers\Tickets\ticketHeightNotes;
 class NcpurchaseController extends Controller
 {
     use InventoryPurchases, KardexCreate, GetTaxesLine;
+    /*
     function __construct()
     {
         $this->middleware('permission:ncpurchase.index|ncpurchase.store|ncpurchase.show', ['only'=>['index']]);
         $this->middleware('permission:ncpurchase.store', ['only'=>['create','store']]);
         $this->middleware('permission:ncpurchase.show', ['only'=>['show']]);
-    }
+    }*/
     /**
      * Display a listing of the resource.
      *
@@ -441,8 +442,8 @@ class NcpurchaseController extends Controller
 
         $pdfHeight = ticketHeightNotes($logoHeight, $document);
 
-        $pdf = new Ticket('P', 'mm', array(80, $pdfHeight), true, 'UTF-8');
-        $pdf->SetMargins(4, 10, 4);
+        $pdf = new Ticket('P', 'mm', array(70, $pdfHeight), true, 'UTF-8');
+        $pdf->SetMargins(1, 10, 4);
         $pdf->SetTitle($document->document);
         $pdf->SetAutoPageBreak(false);
         $pdf->addPage();

@@ -29,25 +29,32 @@
     {!!Form::model($restaurantOrder, ['method'=>'PATCH','route'=>['restaurantOrder.update', $restaurantOrder->id]])!!}
     {!!Form::token()!!}
         <div class="row m-1">
-            @if (indicator()->raw_material == 'off')
-                @include('admin/restaurantOrder.form_editRestOrderRm')
-            @else
             @if ($service == 1)
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                @include('admin/restaurantOrder.form_editRestaurantOrder')
-            </div>
-        @else
-            <div class="row m-1">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="createTable">
-                    @include('admin/restaurantOrder.form_table')
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="homeOrder">
+                    @include('admin/restaurantOrder.form_home_order')
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     @include('admin/restaurantOrder.form_editRestaurantOrder')
                 </div>
-            </div>
-        @endif
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    @include('admin/restaurantOrder.form_editRawMaterial')
+                </div>
+            @else
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="createTable">
+                        @include('admin/restaurantOrder.form_table')
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        @include('admin/restaurantOrder.form_editRestaurantOrder')
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        @include('admin/restaurantOrder.form_editRawMaterial')
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="createTable">
+                        @include('admin/restaurantOrder.form_register')
+                    </div>
+                </div>
             @endif
-
         </div>
     {!!Form::close()!!}
     @include('admin/restaurantOrder.modalRawMaterial')

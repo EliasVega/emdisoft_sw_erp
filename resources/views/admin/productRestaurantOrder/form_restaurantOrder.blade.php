@@ -1,16 +1,12 @@
 <div class="box-body row">
     <div class="col-md-5" id="formPayCard">
         <div class="card card-primary card-outline">
-            <div class="row">
-                @include('admin/invoice.form_pay')
-            </div>
+            @include('admin/generalview.form_pay')
         </div>
     </div>
     <div class="col-md-5" id="formRetentions">
         <div class="card card-primary card-outline">
-            <div class="row">
-                @include('admin/invoice.form_retention')
-            </div>
+            @include('admin/generalview.form_retention')
         </div>
     </div>
     <div class="col-md-5" id="formCard">
@@ -21,7 +17,7 @@
                         <label for="customer_id"> Cliente </label>
                         <select name="customer_id" class="form-control selectpicker" id="customer_id"
                             data-live-search="true" required>
-                            <option value="" disabled selected>Seleccionar</option>
+                            <option value="1" disabled selected>seleccionar...</option>
                             @foreach ($customers as $customer)
                                 <option value="{{ $customer->id }}">{{ $customer->identification }} - {{ $customer->name }}
                                 </option>

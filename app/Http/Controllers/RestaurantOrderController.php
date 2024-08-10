@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\App;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use App\Traits\CommandRawMaterialCreate;
+use Illuminate\Support\Facades\Session;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 
 use function App\Helpers\Tickets\formatText;
@@ -933,9 +934,11 @@ class RestaurantOrderController extends Controller
         $typeService = $restaurantOrder->restaurant_table_id;
         $indicator = indicator();
         $customers = Customer::get();
+        $customerOne = Customer::findOrFail(1);
         $paymentForms = PaymentForm::get();
         $paymentMethods = PaymentMethod::get();
         $banks = Bank::get();
+        $bankOne = Bank::findOrFail(1);
         $cards = Card::get();
         $branchs = Branch::get();
         $advances = Advance::where('status', '!=', 'aplicado')->get();
@@ -966,10 +969,12 @@ class RestaurantOrderController extends Controller
             'homeOrder',
             'typeService',
             'customers',
+            'customerOne',
             'resolutions',
             'paymentForms',
             'paymentMethods',
             'banks',
+            'bankOne',
             'cards',
             'branchs',
             'advances',
@@ -1103,7 +1108,7 @@ class RestaurantOrderController extends Controller
 
     public function posPdfRestaurantOrder(Request $request, RestaurantOrder $restaurantOrder)
     {
-
+        Session::forget('restaurantOrder');
         $typeDocument = 'restaurantOrder';
         $title = 'ORDEN DE PEDIDO COMANDA';
         $consecutive = $restaurantOrder->id;
@@ -1128,8 +1133,8 @@ class RestaurantOrderController extends Controller
 
         $pdfHeight = ticketHeight($logoHeight, company(), $restaurantOrder, $typeDocument);
 
-        $pdf = new Ticket('P', 'mm', array(80, $pdfHeight), true, 'UTF-8');
-        $pdf->SetMargins(2, 10, 6);
+        $pdf = new Ticket('P', 'mm', array(70, $pdfHeight), true, 'UTF-8');
+        $pdf->SetMargins(1, 10, 4);
         $pdf->SetTitle('ORDEN DE PEDIDO' . ' ' . $restaurantOrder->id);
         $pdf->SetAutoPageBreak(false);
         $pdf->addPage();
@@ -1156,9 +1161,11 @@ class RestaurantOrderController extends Controller
         if (indicator()->raw_material == 'on') {
             $pdf->commandRawMaterial($document);
         }
-
-        $refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
-        $pdf->generateDisclaimerInformation($refund);
+        if ($document->restaurant_table_id == 1) {
+            $pdf->commandHomeOrder($document);
+        }
+        //$refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
+        //$pdf->generateDisclaimerInformation($refund);
 
         $pdf->footer();
 

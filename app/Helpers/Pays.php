@@ -7,7 +7,7 @@ use App\Models\PayPaymentMethod;
 if (! function_exists('pays')) {
     function pays($request, $document, $typeDocument)
     {
-        dd($request->all());
+        //dd($request->all());
         $advanceRequest = $request->advance_id;
         if (isset($advanceRequest)) {
             $adv = explode("_", $advanceRequest);
@@ -87,11 +87,11 @@ if (! function_exists('pays')) {
                     $advance->balance = $payAdvance_total;
                     $advance->update();
             }
-
             //Metodo para registrar la relacion entre pago y metodo de pago
             $pay_paymentMethod = new PayPaymentMethod();
             $pay_paymentMethod->pay_id = $pay->id;
             $pay_paymentMethod->payment_method_id = $paymentMethod[$i];
+
             if ($typeDocument == 'pos') {
                 $pay_paymentMethod->bank_id = 1;
                 $pay_paymentMethod->card_id = 1;

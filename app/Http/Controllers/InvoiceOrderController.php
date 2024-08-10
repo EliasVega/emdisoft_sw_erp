@@ -26,6 +26,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Session;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 use Yajra\DataTables\DataTables;
 
@@ -47,7 +48,6 @@ class InvoiceOrderController extends Controller
      */
     public function index(Request $request)
     {
-
         $invoiceOrder = session('invoiceOrder');
         $typeDocument = session('typeDocument');
 
@@ -746,7 +746,7 @@ class InvoiceOrderController extends Controller
 
     public function posPdfInvoiceOrder(Request $request, InvoiceOrder $invoiceOrder)
     {
-
+        Session::forget('invoiceOrder');
         $typeDocument = 'invoiceOrder';
         $title = 'ORDEN DE VENTA';
         $consecutive = $invoiceOrder->id;
@@ -770,7 +770,7 @@ class InvoiceOrderController extends Controller
 
         $pdfHeight = ticketHeight($logoHeight, company(), $invoiceOrder, $typeDocument);
 
-        $pdf = new Ticket('P', 'mm', array(80, $pdfHeight), true, 'UTF-8');
+        $pdf = new Ticket('P', 'mm', array(70, $pdfHeight), true, 'UTF-8');
         $pdf->SetMargins(2, 10, 6);
         $pdf->SetTitle('ORDEN DE VENTA' . ' ' . $invoiceOrder->id);
         $pdf->SetAutoPageBreak(false);

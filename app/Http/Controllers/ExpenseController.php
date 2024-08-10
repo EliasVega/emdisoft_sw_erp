@@ -584,7 +584,7 @@ class ExpenseController extends Controller
 
         $pdfHeight = ticketHeight($logoHeight, company(), $expense, $typeDocument);
 
-        $pdf = new Ticket('P', 'mm', array(76, $pdfHeight), true, 'UTF-8');
+        $pdf = new Ticket('P', 'mm', array(70, $pdfHeight), true, 'UTF-8');
         $pdf->SetMargins(2, 10, 6);
         $pdf->SetTitle($expense->document);
         $pdf->SetAutoPageBreak(false);

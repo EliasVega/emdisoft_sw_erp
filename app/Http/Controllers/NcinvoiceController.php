@@ -44,12 +44,13 @@ use function App\Helpers\Tickets\ticketHeightNotes;
 class NcinvoiceController extends Controller
 {
     use AdvanceCreate, KardexCreate, GetTaxesLine, NcinvoiceProductCreate;
+    /*
     function __construct()
     {
         $this->middleware('permission:ncinvoice.index|ncinvoice.store|ncinvoice.show', ['only'=>['index']]);
         $this->middleware('permission:ncinvoice.store', ['only'=>['create','store']]);
         $this->middleware('permission:ncinvoice.show', ['only'=>['show']]);
-    }
+    }*/
     /**
      * Display a listing of the resource.
      */
@@ -662,8 +663,8 @@ class NcinvoiceController extends Controller
 
         $pdfHeight = ticketHeightNotes($logoHeight, $ncinvoice, "ncinvoice");
 
-        $pdf = new Ticket('P', 'mm', array(80, $pdfHeight), true, 'UTF-8');
-        $pdf->SetMargins(4, 10, 4);
+        $pdf = new Ticket('P', 'mm', array(70, $pdfHeight), true, 'UTF-8');
+        $pdf->SetMargins(1, 10, 4);
         $pdf->SetTitle($ncinvoice->document);
         $pdf->SetAutoPageBreak(false);
         $pdf->addPage();
