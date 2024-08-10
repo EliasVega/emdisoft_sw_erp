@@ -17,7 +17,6 @@
                         <label for="customer_id"> Cliente </label>
                         <select name="customer_id" class="form-control selectpicker" id="customer_id"
                             data-live-search="true" required>
-                            <option value="1" disabled selected>seleccionar...</option>
                             @foreach ($customers as $customer)
                                 <option value="{{ $customer->id }}">{{ $customer->identification }} - {{ $customer->name }}
                                 </option>

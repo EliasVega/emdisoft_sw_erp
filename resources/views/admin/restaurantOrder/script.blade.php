@@ -76,7 +76,7 @@
     function clean(){
         //$("#product_id").val("");
         $('#product_id').val(null).trigger('change');
-        $("#quantity").val("1");
+        $("#quantity").val(1);
         $("#sale_price").val("");
     }
     function totals(){

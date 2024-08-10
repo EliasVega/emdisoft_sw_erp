@@ -5,10 +5,22 @@
                 @include('admin/restaurantOrder.form_edit_home_order')
             </div>
         </div>
+    @else
+        <div class="col-md-12" id="formServiceDom">
+            <div class="card card-primary card-outline">
+                @include('admin/restaurantOrder.form_table')
+            </div>
+        </div>
     @endif
     <div class="col-md-4">
         <div class="card card-primary card-outline">
             <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="serviceOld">
+                    <div class="form-group">
+                        <label class="form-control-label" for="service">Servicio</label>
+                        <input type="number" id="service" name="service" value="{{ $service }}" class="form-control" placeholder="Servicio" pattern="[0-9]{0,15}">
+                    </div>
+                </div>
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="editSugestedPrice">
                     <div class="form-group">
                         <label class="form-control-label" for="suggested_price">P/sugerido</label>
@@ -39,7 +51,7 @@
                 <div class="col-lg-4 col-md-3 col-sm-4 col-xs-12" id="editQuantity">
                     <div class="form-group">
                         <label class="form-control-label" for="quantity">Cantidad</label>
-                        <input type="number" id="quantity" name="quantity" value=""
+                        <input type="number" id="quantity" value="1" name="quantity" value=""
                             class="form-control" placeholder="Cantidad" pattern="[0-9]{0,15}">
                     </div>
                 </div>

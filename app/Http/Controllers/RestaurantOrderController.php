@@ -563,10 +563,8 @@ class RestaurantOrderController extends Controller
         $restaurantOrder->total_tax = $request->total_tax;
         $restaurantOrder->total_pay = $request->total_pay;
         $restaurantOrder->note = $request->note;
-        if ($service == 0) {
+        if ($service > 1) {
             $restaurantOrder->restaurant_table_id = $table;
-        } else {
-            $restaurantOrder->restaurant_table_id = 1;
         }
         $restaurantOrder->update();
 
@@ -579,7 +577,7 @@ class RestaurantOrderController extends Controller
         //si es un domicilio se crea la tabla Home_orders
         if ($service == 1) {
             $date = Carbon::now();
-            $homeOrder = HomeOrder::where('order_id', $restaurantOrder->id)->first();
+            $homeOrder = HomeOrder::where('restaurant_order_id', $restaurantOrder->id)->first();
             $homeOrder->name = $request->name;
             $homeOrder->address = $request->address;
             $homeOrder->phone = $request->phone;

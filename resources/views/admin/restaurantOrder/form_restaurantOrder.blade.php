@@ -36,7 +36,7 @@
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="addPrice">
         <div class="form-group">
             <label class="form-control-label" for="sale_price">Precio</label>
-            <input type="number" id="sale_price" name="sale_price" class="form-control"
+            <input type="number" id="sale_price" value="1" name="sale_price" class="form-control"
                 placeholder="P/venta">
         </div>
     </div>

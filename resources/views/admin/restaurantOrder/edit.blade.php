@@ -32,20 +32,7 @@
             @if (indicator()->raw_material == 'off')
                 @include('admin/restaurantOrder.form_editRestOrderRm')
             @else
-            @if ($service == 1)
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 @include('admin/restaurantOrder.form_editRestaurantOrder')
-            </div>
-        @else
-            <div class="row m-1">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="createTable">
-                    @include('admin/restaurantOrder.form_table')
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    @include('admin/restaurantOrder.form_editRestaurantOrder')
-                </div>
-            </div>
-        @endif
             @endif
 
         </div>

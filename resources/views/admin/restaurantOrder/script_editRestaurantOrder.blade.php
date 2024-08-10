@@ -19,6 +19,7 @@
     $("#save").hide();
     $("#editSugestedPrice").hide();
     $("#editTax_rate").hide();
+    $("#serviceOld").hide();
     //$("#formServiceDom").hide();
 
     $("#product_id").change(productValue);
@@ -75,7 +76,7 @@
     }
     function clean(){
         $("#product_id").val("");
-        $("#quantity").val("");
+        $("#quantity").val(1);
         $("#sale_price").val("");
     }
     function totals(){
