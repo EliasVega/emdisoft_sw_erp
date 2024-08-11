@@ -159,7 +159,7 @@ class Ticket extends FPDF
 
         foreach ($products as $product) {
             $length = $this->GetStringWidth($product->product->name);
-            $this->SetFont('Arial', '', 7);
+            $this->SetFont('Arial', '', 9);
             if ($length > 26) {
                 $this->Multicell(50,4, formatText($product->product->name),'J',1);
                 $this->SetX(28);
@@ -237,7 +237,7 @@ class Ticket extends FPDF
 
         $this->SetFont('Arial', 'B', 9);
         $this->Cell(0, 4, $invoiceInformation, 0, 1, 'C');
-        $this->SetFont('Arial', '', 7);
+        $this->SetFont('Arial', '', 9);
         $this->Cell(0, 4, $prefix . $consecutive, 0, 1, 'C');
         $this->Cell(0, 4, $resolution . $resolutionDate, 0, 1, 'C');
     }
@@ -262,7 +262,7 @@ class Ticket extends FPDF
     public function generateDisclaimerInformation($message)
     {
         $this->Ln(5);
-        $this->SetFont('Arial', '', 8);
+        $this->SetFont('Arial', '', 9);
         $this->MultiCell(0, 4, $message, 0, 'C', false);
         $this->SetFont('Arial', 'B', 9);
         $this->Cell(0, 10, formatText("Gracias por su compra"), '', 0, 'C');
