@@ -77,6 +77,7 @@
                     var typeDocument = "{{ $typeDocument ?? '' }}";
                     var dian = "{{ $dian ?? '' }}";
 
+
                     function print() {
                         if (typeDocument == 'invoice') {
                             var invoice = "{{ $invoice ?? '' }}";
@@ -92,6 +93,8 @@
                                 imprimir = imprimir.replace(':invoice', invoice);
                                 window.open(imprimir, "_blank");
                             }
+                        } else {
+
                         }
                     }
                     print();

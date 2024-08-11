@@ -154,7 +154,7 @@ class Ticket extends FPDF
         $this->Cell(28, 4, formatText('Producto'), 0, 0, 'C');
         $this->Cell(9, 4, formatText('Cant.'), 0, 0, 'C');
         $this->Cell(12, 4, formatText('Precio'), 0, 0, 'C');
-        $this->Cell(19, 4, formatText('Subtotal'), 0, 1, 'C');
+        $this->Cell(17, 4, formatText('Subtotal'), 0, 1, 'C');
         $this->Cell(0, 2, "", 'T', 1, 'C');
 
         foreach ($products as $product) {
@@ -169,7 +169,7 @@ class Ticket extends FPDF
                 $this->Cell(9, 4, $product->quantity, 0, 0, 'R');
             }
             $this->Cell(12, 4, number_format($product->price), 0, 0, 'R');
-            $this->Cell(19, 4, number_format($product->price * $product->quantity), 0, 1, 'R');
+            $this->Cell(17, 4, number_format($product->price * $product->quantity), 0, 1, 'R');
         }
         $this->Cell(0, 3, "", 'T', 1, 'C');
     }

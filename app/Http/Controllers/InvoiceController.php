@@ -623,7 +623,6 @@ class InvoiceController extends Controller
                 Storage::disk('public')->put('files/graphical_representations/xmlinvoices/' .
                 $invoice->document . '.xml', $xml);
             }
-
             session()->forget('invoice');
             session()->forget('typeDocument');
             session(['invoice' => $invoice->id]);
@@ -1224,7 +1223,7 @@ class InvoiceController extends Controller
 
     public function posPdf(Request $request, Invoice $invoice)
     {
-        Session::forget('invoice');
+        //Session::forget('newPrinter');
         $document = $invoice;
         $typeDocument = 'invoice';
         $title = '';
@@ -1325,7 +1324,7 @@ class InvoiceController extends Controller
     }
 
     public function pdfInvoice(Request $request, Invoice $invoice) {
-        Session::forget('invoiceOrder');
+        //Session::forget('newPrinter');
         $typeDocument = 'invoice';
         $title = '';
         if ($invoice->document_type_id == 1) {
