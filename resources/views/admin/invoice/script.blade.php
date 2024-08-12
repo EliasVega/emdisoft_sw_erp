@@ -108,6 +108,16 @@
         }
     })
 
+    document.getElementById('code').addEventListener('input', function() {
+        const input = this;
+        input.disabled = true;
+
+        setTimeout(function() {
+            input.disabled = false;
+            input.focus();
+        }, 2000); // Rehabilita el input después de 1 segundo
+    });
+    /*
     function enabledInputCode(inputId, tiempoEnMs) {
         setTimeout(function() {
             var input = document.getElementById(inputId);
@@ -119,7 +129,7 @@
 
     function disabledInputCode() {
         document.getElementById('code').disabled = true;
-    }
+    }*/
 
     $(document).on('keyup', '#code', function(){
         var codes = $(this).val();
