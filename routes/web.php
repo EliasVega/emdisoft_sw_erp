@@ -401,6 +401,7 @@ Route::get('editPosRemission', [RemissionController::class, 'editPosRemission'])
 Route::get('remission/advance/{id}', [RemissionController::class, 'getAdvance']);
 Route::get('remission/posPdfRemission/{remission}', [RemissionController::class, 'posPdfRemission'])->name('posPdfRemission');
 Route::get('remission/pdfRemission/{remission}', [RemissionController::class, 'pdfRemission'])->name('pdfRemission');
+Route::get('createPosRemission', [RemissionController::class, 'createPosRemission'])->name('createPosRemission');
 
 Route::get('reportInvoice', [ReportsController::class, 'reportInvoice'])->name('reportInvoice');
 Route::get('invoiceCredit', [ReportsController::class, 'invoiceCredit'])->name('invoiceCredit');

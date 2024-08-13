@@ -131,7 +131,6 @@ class InvoiceOrderController extends Controller
             ->join('percentages as per', 'ct.percentage_id', 'per.id')
             ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
             ->select('pro.id', 'pro.code', 'pro.stock', 'pro.sale_price', 'pro.name', 'cat.utility_rate', 'per.percentage', 'tt.id as tt')
-            ->where('pro.stock', '>=', 0)
             ->where('pro.status', '=', 'active')
             ->get();
         }
