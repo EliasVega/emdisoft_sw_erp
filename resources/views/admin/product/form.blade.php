@@ -4,8 +4,8 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group">
-                        <label for="name">Nombre del product</label>
-                        <input type="text" name="name" id="name" value="{{ old('name', $product->name ?? '') }}" class="form-control" placeholder="Nombre del producto">
+                        <label for="name_product">Nombre del product</label>
+                        <input type="text" name="name_product" id="name_product" value="{{ old('name', $product->name ?? '') }}" class="form-control" placeholder="Nombre del producto" required>
                     </div>
                 </div>
                 <div class="col-lg-12 col-md-8 col-sm-12 col-xs-12">
@@ -15,7 +15,7 @@
                     </div>
                 </div>
                 @if ($indicator->barcode == 'on')
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mt-4 switchBarcode">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-4 switchBarcode">
                         <div class="form-group">
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" id="switch_barcode" checked>
@@ -48,7 +48,7 @@
                     <label for="category_id">Categorias</label>
                     <div class="select">
                         <select id="category_id" name="category_id" class="form-control selectpicker" data-live-search="true" required>
-                            <option {{ ($product->category_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar categoria</option>
+                            <option {{ ($product->category_id ?? '') == '' ? "selected" : "" }} disabled>Categorias</option>
                             @foreach($categories as $category)
                                 @if($category->id == ($product->category_id ?? ''))
                                     <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
@@ -75,40 +75,41 @@
                     </div>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <label for="type_product">Tipo de producto</label>
+                    <label for="type_product">Tipo Producto</label>
                     <div class="select">
                         <select id="type_product" name="type_product" class="form-control selectpicker" data-live-search="true" required>
-                            <option {{ ($product->type_product ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Tipo</option>
-                                <option value="product">PRODUCTO</option>
-                                <option value="service">SERVICIO</option>
-                                @if ($indicator->raw_material == 'on')
-                                    <option value="consumer">CONSUMO /elaborados local</option>
-                                @endif
+
+                            <option value="product">PRODUCTO</option>
+                            <option value="service">SERVICIO</option>
+                            @if ($indicator->raw_material == 'on')
+                                <option value="consumer">CONSUMO /elaborados local</option>
+                            @endif
+
                         </select>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="stock">Stock</label>
-                        <input type="number" name="stock" id="stock" value="{{ old('stock', $product->stock ?? '0.00') }}" class="form-control" placeholder="Stock">
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label for="stock_min">Stock/min</label>
-                        <input type="number" name="stock_min" id="stock_min" value="{{ old('stock_min', $product->stock_min ?? '0.00') }}" class="form-control" placeholder="Stock minimo">
                     </div>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <label for="status">estado</label>
                     <div class="select">
                         <select id="status" name="status" class="form-control selectpicker" data-live-search="true" required>
-                            <option {{ ($product->status ?? '') == '' ? "selected" : "" }} disabled>Estado</option>
                                 <option value="active">ACTIVO</option>
                                 <option value="inactive">INACTIVO</option>
                         </select>
                     </div>
                 </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="stock">Stock</label>
+                        <input type="number" name="stock" id="stock" value="{{ old('stock', $product->stock ?? '0.00') }}" class="form-control" placeholder="Stock">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="stock_min">Stock/min</label>
+                        <input type="number" name="stock_min" id="stock_min" value="{{ old('stock_min', $product->stock_min ?? '0.00') }}" class="form-control" placeholder="Stock minimo">
+                    </div>
+                </div>
+
                 @if ($indicator->work_labor == 'on' && $indicator->cmep == 'product')
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="form-group">
