@@ -392,13 +392,15 @@ Route::get('remission/invoiceRemission/{id}', [RemissionController::class, 'invo
 Route::get('remission/invoicePosRemission/{id}', [RemissionController::class, 'invoicePosRemission'])->name('invoicePosRemission');
 Route::get('getProductRemission', [RemissionController::class, 'getProductRemission'])->name('getProductRemission');
 Route::get('remission/remissionPay/{id}', [RemissionController::class, 'remissionPay'])->name('remissionPay');
-Route::get('pdfRemission', [RemissionController::class, 'pdfRemission'])->name('pdfRemission');
+//Route::get('pdfRemission', [RemissionController::class, 'pdfRemission'])->name('pdfRemission');
 Route::get('posRemission', [RemissionController::class, 'posRemission'])->name('posRemission');
 Route::get('remission/remissionPdf/{remission}', [RemissionController::class, 'remissionPdf'])->name('remissionPdf');
 Route::get('remission/remissionPos/{remission}', [RemissionController::class, 'remissionPos'])->name('remissionPos');
 Route::get('createPosRemission', [RemissionController::class, 'createPosRemission'])->name('createPosRemission');
 Route::get('editPosRemission', [RemissionController::class, 'editPosRemission'])->name('editPosRemission');
 Route::get('remission/advance/{id}', [RemissionController::class, 'getAdvance']);
+Route::get('remission/posPdfRemission/{remission}', [RemissionController::class, 'posPdfRemission'])->name('posPdfRemission');
+Route::get('remission/pdfRemission/{remission}', [RemissionController::class, 'pdfRemission'])->name('pdfRemission');
 
 Route::get('reportInvoice', [ReportsController::class, 'reportInvoice'])->name('reportInvoice');
 Route::get('invoiceCredit', [ReportsController::class, 'invoiceCredit'])->name('invoiceCredit');

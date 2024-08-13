@@ -6,6 +6,7 @@ use App\Models\InvoiceOrderProduct;
 use App\Models\InvoiceProduct;
 use App\Models\NcinvoiceProduct;
 use App\Models\ProductPurchase;
+use App\Models\ProductRemission;
 use App\Models\Resolution;
 use App\Models\Tax;
 use FPDF;
@@ -179,6 +180,9 @@ class PdfDocuments extends FPDF
             case 'invoiceOrder':
                 $products = InvoiceOrderProduct::where('invoice_order_id', $document->id)->get();
                 break;
+            case 'remission':
+                $products = ProductRemission::where('remission_id', $document->id)->get();
+                break;
             case 'purchase':
                 $products = ProductPurchase::where('purchase_id', $document->id)->get();
                 break;
@@ -253,6 +257,12 @@ class PdfDocuments extends FPDF
         $this->Cell(50, 8, pdfFormatText('Subtotal'), 1, 0, 'L', 1);
         $this->Cell(40, 8, '$' . number_format($document->total,2), 1, 1, 'R', 1);
 
+        if ($typeDocument == 'invoiceOrder' || $typeDocument == 'remission') {
+            $this->SetFont('Arial', 'B', 10);
+            $this->SetX(120);
+            $this->Cell(50, 8, pdfFormatText('IMPUESTO'), 1, 0, 'L',1);
+            $this->Cell(40, 8, "$" . number_format($document->total_tax,2), 1, 1, 'R',1);
+        }
         foreach ($taxes as $tax) {
             $this->SetFont('Arial', 'B', 10);
             $this->SetX(120);

@@ -1421,7 +1421,7 @@ class InvoiceController extends Controller
             //$pdf->generateQr($qrImage);
         }
 
-        $pdf->generateHeader($logo, $width, $height, $title, $invoice);
+        $pdf->generateHeader($logo, $width, $height, $title, $document);
         $pdf->generateInformation($invoice->third, $thirdPartyType, $document, $qrImage);
         $pdf->generateTablePdf($document, $typeDocument);
         $pdf->generateTotals($document, $typeDocument);

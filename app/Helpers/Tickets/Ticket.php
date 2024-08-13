@@ -8,6 +8,7 @@ use App\Models\InvoiceOrderProduct;
 use App\Models\InvoiceProduct;
 use App\Models\NcinvoiceProduct;
 use App\Models\ProductPurchase;
+use App\Models\ProductRemission;
 use App\Models\ProductRestaurantOrder;
 use App\Models\Resolution;
 use App\Models\Tax;
@@ -138,6 +139,9 @@ class Ticket extends FPDF
             case 'restaurantOrder':
                 $products = ProductRestaurantOrder::where('restaurant_order_id', $document->id)->get();
                 break;
+            case 'remission':
+                $products = ProductRemission::where('remission_id', $document->id)->get();
+                break;
             case 'purchase':
                 $products = ProductPurchase::where('purchase_id', $document->id)->get();
                 break;
@@ -204,6 +208,11 @@ class Ticket extends FPDF
         if ($typeDocument == 'restaurantOrder') {
             $this->SetX(18);
             $this->Cell(20, 5, formatText('INC'), 0, 0, 'R');
+            $this->Cell(30, 5, "$" . number_format($document->total_tax,2), 0, 1, 'R');
+        }
+        if ($typeDocument == 'remission') {
+            $this->SetX(18);
+            $this->Cell(20, 5, formatText('IMPUESTO'), 0, 0, 'R');
             $this->Cell(30, 5, "$" . number_format($document->total_tax,2), 0, 1, 'R');
         }
         foreach ($taxes as $tax) {

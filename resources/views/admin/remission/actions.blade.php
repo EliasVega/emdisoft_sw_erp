@@ -6,11 +6,11 @@
         data-placement="top" title="Pos Electronico"><i class="fas fa-receipt"></i></a>
 @endif
 
-<a href="{{ route('remissionPos', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip"
-    data-placement="top" title="pdf pos" ><i class="fas fa-receipt"></i></a>
+<a href="{{ route('pdfRemission', $id) }}" class="btn btn-pdf btn-sm" target="_blank" data-toggle="tooltip"
+    data-placement="top" title="pdf" ><i class="fas fa-file-pdf"></i></a>
 
-<a href="{{ route('remissionPdf', $id) }}" class="btn btn-pdf btn-sm" target="_blank" data-toggle="tooltip"
-    data-placement="top" title="Venta pdf"><i class="fas fa-file-pdf"></i></a>
+<a href="{{ route('posPdfRemission', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip"
+    data-placement="top" title="ticket" ><i class="fas fa-receipt"></i></a>
 
 <a href="{{ route('remission.edit', $id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip"
 data-placement="top" title="Editar"><i class="far fa-edit"></i></a>

@@ -9,6 +9,7 @@ use App\Models\InvoiceProduct;
 use App\Models\NcinvoiceProduct;
 use App\Models\Product;
 use App\Models\ProductPurchase;
+use App\Models\ProductRemission;
 use App\Models\ProductRestaurantOrder;
 use App\Models\Tax;
 use Illuminate\Support\Facades\Session;
@@ -57,6 +58,11 @@ if (!function_exists('ticketHeight')) {
                 $title = 10;
                 $invoiceInformation = 5;
                 $invoiceProducts = ProductRestaurantOrder::where('restaurant_order_id', $document->id)->get();
+                break;
+            case 'remission':
+                $title = 10;
+                $invoiceInformation = 5;
+                $invoiceProducts = ProductRemission::where('remission_id', $document->id)->get();
                 break;
             case 'purchase':
                 $title = 10;

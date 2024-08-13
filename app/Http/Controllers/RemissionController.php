@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Pdfs\PdfDocuments;
+use App\Helpers\Tickets\Ticket;
 use App\Models\Remission;
 use App\Http\Requests\StoreRemissionRequest;
 use App\Http\Requests\UpdateRemissionRequest;
@@ -29,8 +31,13 @@ use Yajra\DataTables\DataTables;
 use App\Traits\InventoryInvoices;
 use App\Traits\KardexCreate;
 use App\Traits\AdvanceCreate;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Support\Facades\Redirect;
+use Picqer\Barcode\BarcodeGeneratorPNG;
 
+use function App\Helpers\Tickets\formatText;
+use function App\Helpers\Tickets\ticketHeight;
 use function PHPUnit\Framework\isNull;
 
 class RemissionController extends Controller
@@ -942,7 +949,7 @@ class RemissionController extends Controller
         //return $pdf->download("$invoicepdf.pdf");*/
     }
 
-    public function pdfRemission(Request $request)
+    public function pdfDosRemission(Request $request)
    {
         $invoices = session('remission');
         $remission = Remission::findOrFail($invoices);
@@ -1029,5 +1036,177 @@ class RemissionController extends Controller
             $advances = Advance::where('type_third', 'customer')->where('advanceable_id', $id)->get();
             return response()->json($advances);
         }
+    }
+
+    public function posPdfRemission(Request $request, Remission $remission)
+    {
+        //Session::forget('newPrinter');
+        $document = $remission;
+        $typeDocument = 'remission';
+        $title = '';
+        $title = 'REMISION';
+
+        $thirdPartyType = 'customer';
+        $consecutive = $document->document;
+        $logoHeight = 26;
+
+        if (indicator()->logo == 'on') {
+            $logo = storage_path('app/public/images/logos/' . company()->imageName);
+
+            $image = list($width, $height, $type, $attr) = getimagesize($logo);
+            $multiplier = $image[0]/$image[1];
+            $height = 26;
+            $width = $height * $multiplier;
+            if ($width > 60) {
+                $width = 60;
+                $height = 60/$multiplier;
+            }
+        }
+
+        $pdfHeight = ticketHeight($logoHeight, company(), $document, $typeDocument);
+
+        $pdf = new Ticket('P', 'mm', array(70, $pdfHeight), true, 'UTF-8');
+        $pdf->SetMargins(2, 10, 2);
+        $pdf->SetTitle($remission->document);
+        $pdf->SetAutoPageBreak(false);
+        $pdf->addPage();
+
+
+
+        if (indicator()->logo == 'on') {
+            if (file_exists($logo)) {
+                $pdf->generateLogo($logo, $width, $height);
+            }
+        }
+        $pdf->generateTitle($title, $consecutive);
+        $pdf->generateCompanyInformation();
+
+        $barcodeGenerator = new BarcodeGeneratorPNG();
+        $barcodeCode = $barcodeGenerator->getBarcode($remission->id, $barcodeGenerator::TYPE_CODE_128);
+        $barcode = "data:image/png;base64," . base64_encode($barcodeCode);
+
+        $pdf->generateBarcode($barcode);
+        $pdf->generateBranchInformation($document);
+        $pdf->generateThirdPartyInformation($remission->third, $thirdPartyType);
+        $pdf->generateProductsTable($document, $typeDocument);
+        $pdf->generateSummaryInformation($document, $typeDocument);
+
+        /*
+        if (indicator()->dian == 'on') {
+            $pdf->generateInvoiceInformation($document);
+            $cufe =  $remission->invoiceResponse->cufe;
+            $cufe =  'REMISION';
+            //$url = 'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=';
+            $data = [
+                'NumFac' => $remission->document,
+                'FecFac' => $remission->created_at->format('Y-m-d'),
+                'NitFac' => company()->nit,
+                'DocAdq' => $remission->third->identification,
+                'ValFac' => $remission->total,
+                'ValIva' => $remission->total_tax,
+                'ValOtroIm' => '0.00',
+                'ValTotal' => $remission->total_pay,
+                'CUFE' => $cufe,
+                'URL' => $cufe,
+            ];
+
+            $writer = new PngWriter();
+            $qrCode = new QrCode(implode("\n", $data));
+            $qrCode->setSize(300);
+            $qrCode->setMargin(10);
+            $result = $writer->write($qrCode);
+
+            $qrCodeImage = $result->getString();
+            $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
+            $pdf->generateQr($qrImage);
+
+            //$confirmationCode = formatText("CUFE: " . $invoice->response->cufe);
+            $confirmationCode = formatText("CUFE: " . $cufe);
+            //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
+            $pdf->generateConfirmationCode($confirmationCode);
+        }*/
+
+
+        $refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
+        $pdf->generateDisclaimerInformation($refund);
+
+        $pdf->footer();
+
+        $pdf->Output("I", $remission->document . ".pdf", true);
+        exit;
+    }
+
+    public function pdfRemission(Request $request, Remission $remission) {
+        //Session::forget('newPrinter');
+        $typeDocument = 'remission';
+        $title = 'REMISION';
+
+        $document = $remission;
+        $thirdPartyType = 'customer';
+        $logoHeight = 26;
+        $logo = '';
+        $width = 0;
+        $height = 0;
+        if (indicator()->logo == 'on') {
+            $logo = storage_path('app/public/images/logos/' . company()->imageName);
+
+            $image = list($width, $height, $type, $attr) = getimagesize($logo);
+            $multiplier = $image[0]/$image[1];
+            $height = 26;
+            $width = $height * $multiplier;
+            if ($width > 60) {
+                $width = 60;
+                $height = 60/$multiplier;
+            }
+        }
+
+        //$pdfHeight = ticketHeight($logoHeight, company(), $invoice, "invoice");
+
+        $pdf = new PdfDocuments('P', 'mm', 'Letter', true, 'UTF-8');
+        $pdf->SetMargins(10, 10, 6);
+        $pdf->SetTitle($remission->document);
+        $pdf->SetAutoPageBreak(false);
+        $pdf->addPage();
+
+        //$pdf->generateInvoiceInformation($document);
+        $cufe =  'remission';
+        //$url = '#';
+        $data = [
+            'NumFac' => $remission->document,
+            'FecFac' => $remission->created_at->format('Y-m-d'),
+            'NitFac' => company()->nit,
+            'DocAdq' => $remission->third->identification,
+            'ValFac' => $remission->total,
+            'ValIva' => $remission->total_tax,
+            'ValOtroIm' => '0.00',
+            'ValTotal' => $remission->total_pay,
+            'CUFE' => $cufe,
+            //'URL' => $url . $cufe,
+        ];
+
+        $writer = new PngWriter();
+        $qrCode = new QrCode(implode("\n", $data));
+        $qrCode->setSize(300);
+        $qrCode->setMargin(10);
+        $result = $writer->write($qrCode);
+
+        $qrCodeImage = $result->getString();
+        $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
+        //$pdf->generateQr($qrImage);
+
+
+        $pdf->generateHeader($logo, $width, $height, $title, $remission);
+        $pdf->generateInformation($remission->third, $thirdPartyType, $document, $qrImage);
+        $pdf->generateTablePdf($document, $typeDocument);
+        $pdf->generateTotals($document, $typeDocument);
+        $pdf->footer($document, $cufe);
+        $pdf->documentInformation($document, $cufe);
+        $pdf->footer();
+        //$pdf->generateHeader($logo, $width, $height);
+        //$refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
+        //$pdf->generateDisclaimerInformation($refund);
+
+        $pdf->Output("I", $remission->document . ".pdf", true);
+        exit;
     }
 }
