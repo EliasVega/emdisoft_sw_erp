@@ -286,7 +286,7 @@
         $("#total_pay").val(total_pay.toFixed(2));
 
         $("#total_ndinvoice").val(total.toFixed(2));
-        $("#tax_iva").val(tax_iva);
+        $("#total_tax").val(tax_iva);
     }
     function assess(){
 
@@ -320,7 +320,7 @@
         tax_iva = tax_iva-taxiva;
 
         $("#total_ndinvoice").val(total.toFixed(2));
-        $("#tax_iva").val(tax_iva);
+        $("#total_tax").val(tax_iva);
 
         $("#row" + index).remove();
         assess();

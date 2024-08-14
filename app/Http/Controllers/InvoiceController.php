@@ -138,7 +138,7 @@ class InvoiceController extends Controller
         if ($cashRegister == null) {
             return redirect('branch');
         }
-        $cols = 9;
+        $cols = 10;
         if (indicator()->cvpinvoice == 'off') {
             $cols--;
         }
@@ -210,7 +210,7 @@ class InvoiceController extends Controller
             return redirect('branch');
         }
 
-        $cols = 9;
+        $cols = 10;
         if (indicator()->cvpinvoice == 'off') {
             $cols--;
         }
@@ -279,7 +279,7 @@ class InvoiceController extends Controller
      */
     public function store(StoreInvoiceRequest $request)
     {
-        //dd($request->all());
+        dd($request->all());
         set_time_limit(60);
         $totalpayment = $request->totalpay;
         if ($totalpayment == null) {

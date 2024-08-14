@@ -176,9 +176,10 @@
                             <th>Id</th>
                             <th>Producto</th>
                             <th>Cantidad</th>
-                            <th>precio ($)</th>
-                            <th>imp (%)</th>
-                            <th>SubTotal ($)</th>
+                            <th>V/unit</th>
+                            <th>IVA/INC</th>
+                            <th>%</th>
+                            <th>SubTotal</th>
                         </tr>
                     </thead>
                     <tfoot>

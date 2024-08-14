@@ -176,8 +176,8 @@
             if(tax_type == 1){
                 tax_iva += ivita;
             }
-            subcont = subtotal[cont]
-            rowsList(cont, cv, employee_id, product_id, product, quantity, price, tax_rate, subcont);
+            subcont = subtotal[cont] + parseFloat(ivita);
+            rowsList(cont, cv, employee_id, product_id, product, quantity, price, ivita, tax_rate, subcont);
             cont++;
             totals();
             assess();
@@ -248,8 +248,8 @@
             if(tax_type == 1){
                 tax_iva += ivita;
             }
-            subcont = subtotal[cont]
-            rowsList(cont, cv, employee_id, product_id, product, quantity, price, tax_rate, subcont);
+            subcont = subtotal[cont] + parseFloat(ivita);
+            rowsList(cont, cv, employee_id, product_id, product, quantity, price, ivita, tax_rate, subcont);
             cont++;
             totals();
             assess();
@@ -349,8 +349,9 @@
                 $("#productModal").val(row.find("td:eq(3)").text());
                 $("#quantityModal").val(row.find("td:eq(4)").text());
                 $("#priceModal").val(row.find("td:eq(5)").text());
-                $("#taxModal").val(row.find("td:eq(6)").text());
-                $("#subtotalModal").val(row.find("td:eq(7)").text());
+                $("#ivitaModal").val(row.find("td:eq(6)").text());
+                $("#taxModal").val(row.find("td:eq(7)").text());
+                $("#subtotalModal").val(row.find("td:eq(8)").text());
             } else if (indicv == 'off' || indiwl == 'off') {
                 $("#contModal").val(index);
                 $('#cvpinvoice1').prop("checked", false);
@@ -360,8 +361,9 @@
                 $("#productModal").val(row.find("td:eq(4)").text());
                 $("#quantityModal").val(row.find("td:eq(5)").text());
                 $("#priceModal").val(row.find("td:eq(6)").text());
-                $("#taxModal").val(row.find("td:eq(7)").text());
-                $("#subtotalModal").val(row.find("td:eq(8)").text());
+                $("#ivitaModal").val(row.find("td:eq(7)").text());
+                $("#taxModal").val(row.find("td:eq(8)").text());
+                $("#subtotalModal").val(row.find("td:eq(9)").text());
             }  else {
                 $("#contModal").val(index);
                 $('#cvpinvoice1').prop("checked", false);
@@ -371,8 +373,9 @@
                 $("#productModal").val(row.find("td:eq(5)").text());
                 $("#quantityModal").val(row.find("td:eq(6)").text());
                 $("#priceModal").val(row.find("td:eq(7)").text());
-                $("#taxModal").val(row.find("td:eq(8)").text());
-                $("#subtotalModal").val(row.find("td:eq(9)").text());
+                $("#ivitaModal").val(row.find("td:eq(8)").text());
+                $("#taxModal").val(row.find("td:eq(9)").text());
+                $("#subtotalModal").val(row.find("td:eq(10)").text());
             }
             // Buscar datos en la row y asignar a campos del formulario:
             // Primera columna (0) tiene ID, segunda (1) tiene nombre, tercera (2) capacidad
@@ -397,11 +400,6 @@
         quantity = $("#quantityModal").val();
         price = $("#priceModal").val();
         tax_rate = $("#taxModal").val();
-        pwx = $("#pwx").val();
-        if (pwx == 'on') {
-            taxRate = parseFloat(tax_rate) + 100;
-            price = (parseFloat(price) / parseFloat(taxRate)) * 100;
-        }
         let cvpinv = $(("#cvpinvoice1")).prop("checked");// == true ? 1 : 0;
         if (cvpinv == true) {
             cv = 1;
@@ -416,8 +414,8 @@
             ivita= subtotal[cont]*tax_rate/100;
             tax_cont[cont] = ivita;
             total_tax = total_tax+ivita;
-            subcont = subtotal[cont]
-            rowsList(cont, cv, employee_id, product_id, product, quantity, price, tax_rate, subcont);
+            subcont = subtotal[cont] + parseFloat(ivita);
+            rowsList(cont, cv, employee_id, product_id, product, quantity, price, ivita, tax_rate, subcont);
             cont++;
 
             deleterow(contedit);
@@ -436,17 +434,17 @@
             })
         }
     }
-    function rowsList(cont, cv, employee_id, product_id, product, quantity, price, tax_rate, subcont) {
+    function rowsList(cont, cv, employee_id, product_id, product, quantity, price, ivita, tax_rate, subcont) {
         indicv = $("#indicatorcv").val();
         indiwl = $("#indicatorwl").val();
         if (indicv == 'off' && indiwl == 'off') {
-            row = '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+parseFloat(price).toFixed(2)+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subcont).toFixed(2)+'</td></tr>';
+            row = '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+parseFloat(price).toFixed(2)+'</td><td><input type="hidden" name="ivaline[]"  value="'+ivita+'">'+parseFloat(ivita).toFixed(2)+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subcont).toFixed(2)+'</td></tr>';
         } else if (indicv == 'off') {
-            row = '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+parseFloat(price).toFixed(2)+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subcont).toFixed(2)+'</td></tr>';
+            row = '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+parseFloat(price).toFixed(2)+'</td><td><input type="hidden" name="ivaline[]"  value="'+ivita+'">'+parseFloat(ivita).toFixed(2)+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subcont).toFixed(2)+'</td></tr>';
         } else if (indiwl == 'on'){
-            row = '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="cv[]"  value="'+cv+'">'+cv+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+parseFloat(price).toFixed(2)+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subcont).toFixed(2)+'</td></tr>';
+            row = '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="cv[]"  value="'+cv+'">'+cv+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+parseFloat(price).toFixed(2)+'</td><td><input type="hidden" name="ivaline[]"  value="'+ivita+'">'+parseFloat(ivita).toFixed(2)+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subcont).toFixed(2)+'</td></tr>';
         } else {
-            row = '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="cv[]"  value="'+cv+'">'+cv+'</td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+parseFloat(price).toFixed(2)+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subcont).toFixed(2)+'</td></tr>';
+            row = '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="cv[]"  value="'+cv+'">'+cv+'</td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+parseFloat(price).toFixed(2)+'</td><td><input type="hidden" name="ivaline[]"  value="'+ivita+'">'+parseFloat(ivita).toFixed(2)+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subcont).toFixed(2)+'</td></tr>';
         }
     }
 
