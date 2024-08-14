@@ -33,12 +33,13 @@
     $(document).ready(function(){
         $("#payment_form_modal").change(function(){
             form = $("#payment_form_modal").val();
+            var totaltotal = parseFloat(total) + parseFloat(total_tax);
             if(form == 1){
                 $("#save").hide();
                 $("#returnedBalanceModal").show();
                 $("#valuePayModal").show();
                 $("#payment_method_modal").val(10);
-                $("#payModal").val(0);
+                //$("#payModal").val();
                 $("#returnedModal").val(0);
                 $('#payModal').prop("required", true);
             }else{

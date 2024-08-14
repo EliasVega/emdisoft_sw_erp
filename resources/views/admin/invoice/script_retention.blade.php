@@ -96,7 +96,7 @@
 
     total_retention = total_retention-totalRetention[index];
 
-        $("#total_retention_html").html("$ " + totalpay.toFixed(2));
+        $("#total_retention_html").html("$ " + total_retention.toFixed(2));
         $("#total_retention").val(total_retention.toFixed(2));
 
         $("#row" + index).remove();

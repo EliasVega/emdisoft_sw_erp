@@ -2,21 +2,19 @@
     <div class="col-md-5" id="formCard">
         <div class="card card-primary card-outline">
             <div class="row">
-                @if (indicator()->dian == 'on')
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="resolution">
-                        <div class="form-group">
-                            <label class="form-control-label required" for="resolution_id">Resolucion</label>
-                            <select name="resolution_id" class="form-control selectpicker" id="resolution_id"
-                                data-live-search="true" required>
-                                <option value="" selected>Resolucion</option>
-                                @foreach ($resolutions as $resolution)
-                                    <option value="{{ $resolution->id }}">{{ $resolution->prefix }}
-                                        {{ $resolution->resolution }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="customer_id"> Cliente </label>
+                        <select name="customer_id" class="form-control selectpicker" id="customer_id"
+                            data-live-search="true" required>
+                            <option value="" disabled selected>Seleccionar</option>
+                            @foreach ($customers as $customer)
+                                <option value="{{ $customer->id }}">{{ $customer->identification }} -
+                                    {{ $customer->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
-                @endif
+                </div>
                 @if (indicator()->barcode == 'on')
                     <div class="col-lg-12 col-md-12 col-sm-14 col-xs-12" id="codeBarcode">
                         <div class="form-group">
@@ -62,32 +60,12 @@
                             data-placement="top" title="Add"><i class="fas fa-check"></i></button>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label class="form-control-label" for="bags">Bolsas</label>
-                        <input type="number" id="bags" name="bags" value="0" class="form-control"
-                            placeholder="Bolsas">
-                    </div>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="noteDocument">
-                    <div class="form-group">
-                        <label class="form-control-label" for="note">Observaciones</label>
-                        <input type="text" id="note" name="note" value="{{ old('note') }}"
-                            class="form-control" placeholder="Observaciones">
-                    </div>
-                </div>
+
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="payposadd">
                     <div class="form-group">
                         <button class="btn btn-blueGrad btn-sm mb-2 ml-3" type="button" data-toggle="modal"
                             data-target="#payPos">
                             <i class="fa fa-plus"></i>Agregar Pago</button>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <button class="btn btn-blueGrad btn-sm mb-2 ml-3" type="button" id="addRetentions"
-                            data-toggle="tooltip" data-placement="top" title="Retenciones"><i
-                                class="fas fa-check"></i>Agrepar Retenciones</button>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="vpayadd">
@@ -114,26 +92,13 @@
             </div>
         </div>
     </div>
-    <div class="col-md-5" id="formRetentions">
-        <div class="card card-primary card-outline">
-            <div class="row">
-                @include('admin/invoice.form_retention')
-            </div>
-        </div>
-    </div>
     <div class="col-md-7">
         <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="noteDocument">
                 <div class="form-group">
-                    <label for="customer_id"> Cliente </label>
-                    <select name="customer_id" class="form-control selectpicker" id="customer_id"
-                        data-live-search="true" required>
-                        <option value="" disabled selected>Seleccionar</option>
-                        @foreach ($customers as $customer)
-                            <option value="{{ $customer->id }}">{{ $customer->identification }} -
-                                {{ $customer->name }}</option>
-                        @endforeach
-                    </select>
+                    <label class="form-control-label" for="note">Observaciones</label>
+                    <input type="text" id="note" name="note" value="{{ old('note') }}"
+                        class="form-control" placeholder="Observaciones">
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -159,12 +124,6 @@
                         <tr>
                             <th>Elim</th>
                             <th>Edit</th>
-                            @if (indicator()->cvinvoice == 'on')
-                                <th>CV</th>
-                            @endif
-                            @if (indicator()->work_labor == 'on')
-                                <th>Oper.</th>
-                            @endif
                             <th>Id</th>
                             <th>Producto</th>
                             <th>Cantidad</th>
@@ -175,19 +134,19 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th colspan="{{ $cols }}" class="rightfoot">TOTAL:</th>
+                            <th colspan="7" class="rightfoot">TOTAL:</th>
                             <td class="rightfoot thfoot"><strong id="total_html">$ 0.00</strong>
                                 <input type="hidden" name="total" id="total">
                             </td>
                         </tr>
                         <tr>
-                            <th colspan="{{ $cols }}" class="rightfoot">IMPUESTO:</th>
+                            <th colspan="7" class="rightfoot">IMPUESTO:</th>
                             <td class="rightfoot thfoot"><strong id="total_tax_html">$ 0.00</strong>
                                 <input type="hidden" name="total_tax" id="total_tax">
                             </td>
                         </tr>
                         <tr>
-                            <th colspan="{{ $cols }}" class="rightfoot">TOTAL VENTA:</th>
+                            <th colspan="7" class="rightfoot">TOTAL VENTA:</th>
                             <td class="rightfoot thfoot"><strong id="total_pay_html">$ 0.00</strong>
                                 <input type="hidden" name="total_pay" id="total_pay">
                             </td>
@@ -206,13 +165,6 @@
             <label class="form-control-label" for="document_type_id">Tipo de documento</label>
             <input type="text" id="document_type_id" name="document_type_id" value="1" class="form-control"
                 placeholder="Tipo de documento">
-        </div>
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="uvt5">
-        <div class="form-group">
-            <label class="form-control-label" for="uvtmax">UVT Max</label>
-            <input type="text" id="uvtmax" name="uvtmax" value="{{ $uvtmax }}" class="form-control"
-                placeholder="tope de pos">
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="posActive">
@@ -312,41 +264,10 @@
             </div>
         </div>
     @endif
-    @if (indicator()->cvpinvoice == 'on')
-        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 mt-3" id="addcvp">
-            <div class="form-check">
-                <input class="form-check-input cvp" type="radio" name="cvp" value="1" id="cvpinvoice1">
-                <label class="form-check-label" for="cvpinvoice1">
-                    Guardar Precio producto
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input cvp" type="radio" name="cvp" value="2" id="cvpinvoice2"
-                    checked>
-                <label class="form-check-label" for="cvpinvoice2">
-                    No guardar Precio producto
-                </label>
-            </div>
-        </div>
-    @endif
-    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="indCV">
-        <div class="form-group">
-            <label class="form-control-label" for="indicatorcv">CV</label>
-            <input type="text" id="indicatorcv" name="indicatorcv" value="{{ indicator()->cvpinvoice }}"
-                class="form-control">
-        </div>
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="indWL">
-        <div class="form-group">
-            <label class="form-control-label" for="indicatorwl">WL</label>
-            <input type="text" id="indicatorwl" name="indicatorwl" value="{{ indicator()->work_labor }}"
-                class="form-control">
-        </div>
-    </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="addTypeDocument">
         <div class="form-group">
             <label class="form-control-label" for="typeDocument">tipo documento</label>
-            <input type="text" id="typeDocument" name="typeDocument" value="pos" class="form-control">
+            <input type="text" id="typeDocument" name="typeDocument" value="{{ $type }}" class="form-control">
         </div>
     </div>
 </div>

@@ -32,7 +32,6 @@
     $("#idPro").hide();
     $("#percent").hide();
     $("#taxType").hide();
-    $("#resolution").hide();
     $("#documentType").hide();
     $("#posActive").hide();
     //$("#save").hide();
@@ -75,7 +74,11 @@
     $(document).on('keyup', '#code', function(){
         var codes = $(this).val();
         if (codes != "") {
-            obtener_registro(codes);
+            if (codes != coderepit) {
+                obtener_registro(codes);
+                coderepit = codes;
+            }
+            //obtener_registro(codes);
         } else {
             console.log('no hay codigo');
         }
@@ -101,6 +104,7 @@
             $("#tax_type").val(data.tt);
             $("#employee_id").val(0);
             addBarcode();
+            coderepit = data.code;
         }).fail(function() {
             //alert("Algo salió mal");
         }).always(function() {
@@ -241,6 +245,7 @@
 
         $("#balanceModal").val(total_pay.toFixed(2));
         $("#pendientModal").val(total_pay.toFixed(2));
+        $("#payModal").val(total_pay.toFixed(2));
         $("#total_remission").val(total.toFixed(2));
         $("#tax_iva").val(tax_iva);
     }

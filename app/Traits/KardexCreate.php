@@ -9,6 +9,9 @@ trait KardexCreate {
         if ($typeDocument == 'pos') {
             $typeDocument = 'invoice';
         }
+        if ($typeDocument == 'remissionPos') {
+            $typeDocument = 'remission';
+        }
 
         $kardex = new Kardex();
         $kardex->branch_id = $branch;

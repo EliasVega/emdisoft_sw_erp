@@ -6,7 +6,10 @@ use App\Models\CommandRawmaterial;
 use App\Models\ExpenseProduct;
 use App\Models\InvoiceOrderProduct;
 use App\Models\InvoiceProduct;
+use App\Models\Ncinvoice;
 use App\Models\NcinvoiceProduct;
+use App\Models\Ndinvoice;
+use App\Models\PaymentReturn;
 use App\Models\Product;
 use App\Models\ProductPurchase;
 use App\Models\ProductRemission;
@@ -131,6 +134,67 @@ if (!function_exists('ticketHeight')) {
         }*/
 
         $pdfHeight += $total;
+
+        if ($typeDocument == 'invoice') {
+            $debitNotes = Ndinvoice::where('invoice_id', $document->id)->first();
+            $creditNotes = Ncinvoice::where('invoice_id', $document->id)->first();
+            $days = $document->created_at->diffInDays($document->due_date);
+            $invoicepdf = $document->document;
+            $user = current_user()->name;
+            $retention = Tax::where('type', 'invoice')->where('taxable_id', $document->id)->get();
+            $retentions = Tax::from('taxes as tax')
+            ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('tax.tax_value', 'ct.name')
+            ->where('tax.type', 'invoice')
+            ->where('tax.taxable_id', $document->id)
+            ->where('tt.type_tax', 'retention')->get();
+            $retentionsum = Tax::from('taxes as tax')
+            ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('tax.tax_value', 'ct.name')
+            ->where('tax.type', 'invoice')
+            ->where('tax.taxable_id', $document->id)
+            ->where('tt.type_tax', 'retention')->sum('tax_value');
+            $paymentReturns = PaymentReturn::where('invoice_id', $document->id)->first();
+
+            $debitNote = 0;
+            $creditNote = 0;
+            $retentionnd = 0;
+            $retentionnc = 0;
+            if ($debitNotes != null) {
+                $debitNote = $debitNotes->total_pay;
+                $retnd = Tax::where('type', 'ndinvoice')->where('retentionable_id', $debitNotes->id)->first();
+                $retentionnd = $retnd->retention;
+            }
+            if ($creditNotes != null) {
+                $creditNote = $creditNotes->total_pay;
+                $retnc = Tax::where('type', 'ncinvoice')->where('retentionable_id', $creditNotes->id)->first();
+                $retentionnc = $retnc->retention;
+            }
+
+            if ($document->pay > 0) {
+                $pdfHeight += $taxRow;
+            }
+            if ($debitNote > 0) {
+                $pdfHeight += $taxRow;
+            }
+            if ($retentionnd > 0) {
+                $pdfHeight += $taxRow;
+            }
+            if ($creditNote > 0) {
+                $pdfHeight += $taxRow;
+            }
+            if ($retentionnc > 0) {
+                $pdfHeight += $taxRow;
+            }
+            if ($document->total_pay != $document->balance) {
+                $pdfHeight += $taxRow;
+            }
+            if (isset($paymentReturns)) {
+                $pdfHeight += ($taxRow * 3);
+            }
+        }
 
         if (indicator()->dian == 'on') {
             $pdfHeight += $invoiceInformation;

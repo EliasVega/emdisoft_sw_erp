@@ -28,7 +28,7 @@ use App\Models\Ndinvoice;
 use App\Models\Pay;
 use App\Models\PaymentForm;
 use App\Models\PaymentMethod;
-use App\Models\paymentReturn;
+use App\Models\PaymentReturn;
 use App\Models\PayPaymentMethod;
 use App\Models\Product;
 use App\Models\Resolution;
@@ -283,8 +283,8 @@ class InvoiceController extends Controller
     {
         //dd($request->all());
         set_time_limit(60);
-        $totalpay = $request->totalpay;
-        if ($totalpay == null) {
+        $totalpayment = $request->totalpay;
+        if ($totalpayment == null) {
             toast('No adicionaste ningun tipo de pago.','error');
             return redirect('invoice');
         }
@@ -334,7 +334,19 @@ class InvoiceController extends Controller
         $employee_id = $request->employee_id;
         $paymentForm = $request->payment_form_id;
         $cvp = $request->cv;
-        //$payment = $request->total_pay;
+        $totalpay = 0;
+        $payment = 0;
+
+        if ($typeDocument == 'invoice') {
+            $totalpay = $request->totalpay;
+        } else {
+            $payment = $request->pay;
+            if ($payment[0] >= $total_pay) {
+                $totalpay = $total_pay;
+            } else {
+                $totalpay = $payment[0];
+            }
+        }
 
 
         if (isset($employee_id)) {
@@ -343,15 +355,6 @@ class InvoiceController extends Controller
             $employee_id = "null";
         }
 
-        if (isset($totalpay)) {
-            $totalpay = $request->totalpay;
-        } else {
-            if (indicator()->pos == 'on'  && $paymentForm == 1) {
-                $totalpay = $request->total_pay;
-            } else if(indicator()->pos == 'on'  && $paymentForm == 2){
-                $totalpay = 0;
-            }
-        }
         $retention = 0;
         //variables del request
         $quantityBag = $request->bags;
@@ -411,15 +414,16 @@ class InvoiceController extends Controller
             $invoice->total = $request->total;
             $invoice->total_tax = $request->total_tax;
             $invoice->total_pay = $total_pay;
-            if ($totalpay > 0) {
-                $invoice->pay = $totalpay;
-            } else {
-                $invoice->pay = 0;
-            }if ($typeDocument == 'invoice') {
+            $invoice->pay = $totalpay;
+            if ($typeDocument == 'invoice') {
                 $invoice->balance = $total_pay - $totalpay;
             } else {
                 if ($paymentForm == 1) {
-                    $invoice->balance = 0;
+                    if ($total_pay >= $payment) {
+                        $invoice->balance = $total_pay - $payment;
+                    } else {
+                        $invoice->balance = 0;
+                    }
                 } else {
                     $invoice->balance = $total_pay;
                 }
@@ -500,10 +504,12 @@ class InvoiceController extends Controller
             taxesLines($document, $taxes, $typeDocument);
             retentions($request, $document, $typeDocument);
 
-            if (indicator()->pos == 'on') {
+
                 if ($typeDocument == 'pos') {
                     $return = 0;
                     if ($totalpay > 0) {
+                        $return = $payment[0] - $totalpay;
+                        /*
                         $paymentMethod = $request->payment_method_id;
                         $bank = 1;
                         $card = 1;
@@ -532,17 +538,20 @@ class InvoiceController extends Controller
                         $pay_paymentMethod->pay = $payment[0];
                         $pay_paymentMethod->transaction = $transaction;
                         $pay_paymentMethod->save();
+                        */
+                        pays($request, $document, $typeDocument);
+                        if (indicator()->pos == 'on') {
+                            //metodo para actualizar la caja
+                            $cashRegister->in_invoice_cash += $totalpay;
+                            $cashRegister->cash_in_total += $totalpay;
 
-                        //metodo para actualizar la caja
-                        $cashRegister->in_invoice_cash += $totalpay;
-                        $cashRegister->cash_in_total += $totalpay;
-
-                        $cashRegister->in_invoice += $totalpay;
-                        $cashRegister->in_total += $totalpay;
-                        $cashRegister->update();
+                            $cashRegister->in_invoice += $totalpay;
+                            $cashRegister->in_total += $totalpay;
+                            $cashRegister->update();
+                        }
                     }
 
-                    $paymentReturn = new paymentReturn();
+                    $paymentReturn = new PaymentReturn();
                     $paymentReturn->payment = $request->pay[0];
                     $paymentReturn->return = $return;
                     $paymentReturn->invoice_id = $invoice->id;
@@ -552,11 +561,6 @@ class InvoiceController extends Controller
                         pays($request, $document, $typeDocument);
                     }
                 }
-            } else {
-                if ($totalpay > 0) {
-                    pays($request, $document, $typeDocument);
-                }
-            }
 
             $resolutions->consecutive += 1;
                 $resolutions->update();
@@ -1071,7 +1075,7 @@ class InvoiceController extends Controller
         ->where('tax.type', 'invoice')
         ->where('tax.taxable_id', $invoice->id)
         ->where('tt.type_tax', 'retention')->sum('tax_value');
-        $paymentReturns = paymentReturn::where('invoice_id', $invoice->id)->first();
+        $paymentReturns = PaymentReturn::where('invoice_id', $invoice->id)->first();
 
         $debitNote = 0;
         $creditNote = 0;
@@ -1146,7 +1150,7 @@ class InvoiceController extends Controller
         ->where('tax.taxable_id', $invoice->id)
         ->where('tt.type_tax', 'retention')->sum('tax_value');
 
-        $paymentReturns = paymentReturn::where('invoice_id', $invoice->id)->first();
+        $paymentReturns = PaymentReturn::where('invoice_id', $invoice->id)->first();
 
         $debitNote = 0;
         $creditNote = 0;
@@ -1341,23 +1345,23 @@ class InvoiceController extends Controller
 
         $pdf = new PdfDocuments('P', 'mm', 'Letter', true, 'UTF-8');
         $pdf->SetMargins(10, 10, 6);
-        $pdf->SetTitle($invoice->document);
+        $pdf->SetTitle($document->document);
         $pdf->SetAutoPageBreak(false);
         $pdf->addPage();
 
         if (indicator()->dian == 'on') {
             //$pdf->generateInvoiceInformation($document);
-            $cufe =  $invoice->invoiceResponse->cufe;
+            $cufe =  $document->invoiceResponse->cufe;
             $url = 'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=';
             $data = [
-                'NumFac' => $invoice->document,
-                'FecFac' => $invoice->created_at->format('Y-m-d'),
+                'NumFac' => $document->document,
+                'FecFac' => $document->created_at->format('Y-m-d'),
                 'NitFac' => company()->nit,
-                'DocAdq' => $invoice->third->identification,
-                'ValFac' => $invoice->total,
-                'ValIva' => $invoice->total_tax,
+                'DocAdq' => $document->third->identification,
+                'ValFac' => $document->total,
+                'ValIva' => $document->total_tax,
                 'ValOtroIm' => '0.00',
-                'ValTotal' => $invoice->total_pay,
+                'ValTotal' => $document->total_pay,
                 'CUFE' => $cufe,
                 'URL' => $url . $cufe,
             ];
@@ -1381,14 +1385,14 @@ class InvoiceController extends Controller
             $cufe =  '00';
             $url = '#';
             $data = [
-                'NumFac' => $invoice->document,
-                'FecFac' => $invoice->created_at->format('Y-m-d'),
+                'NumFac' => $document->document,
+                'FecFac' => $document->created_at->format('Y-m-d'),
                 'NitFac' => company()->nit,
-                'DocAdq' => $invoice->third->identification,
-                'ValFac' => $invoice->total,
-                'ValIva' => $invoice->total_tax,
+                'DocAdq' => $document->third->identification,
+                'ValFac' => $document->total,
+                'ValIva' => $document->total_tax,
                 'ValOtroIm' => '0.00',
-                'ValTotal' => $invoice->total_pay,
+                'ValTotal' => $document->total_pay,
                 'CUFE' => $cufe,
                 //'URL' => $url . $cufe,
             ];
@@ -1405,9 +1409,11 @@ class InvoiceController extends Controller
         }
 
         $pdf->generateHeader($logo, $width, $height, $title, $document);
-        $pdf->generateInformation($invoice->third, $thirdPartyType, $document, $qrImage);
+        $pdf->generateInformation($document->third, $thirdPartyType, $document, $qrImage);
         $pdf->generateTablePdf($document, $typeDocument);
         $pdf->generateTotals($document, $typeDocument);
+
+
         $pdf->footer($document, $cufe);
         $pdf->documentInformation($document, $cufe);
         $pdf->footer();
@@ -1415,7 +1421,7 @@ class InvoiceController extends Controller
         //$refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
         //$pdf->generateDisclaimerInformation($refund);
 
-        $pdf->Output("I", $invoice->document . ".pdf", true);
+        $pdf->Output("I", $document->document . ".pdf", true);
         exit;
     }
 

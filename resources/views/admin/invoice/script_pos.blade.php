@@ -289,6 +289,7 @@
 
         $("#balanceModal").val(total_pay.toFixed(2));
         $("#pendientModal").val(total_pay.toFixed(2));
+        $("#payModal").val(total_pay.toFixed(2));
         //$("#total_invoice").val(total.toFixed(2));
         //$("#tax_iva").val(tax_iva);
     }

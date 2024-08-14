@@ -43,7 +43,7 @@
 @endsection
 @section('scripts')
 
-    @if ($type == 'pos')
+    @if ($type == 'remissionPos')
         @include('admin/remission.script_paypos')
         @include('admin/remission.script_pos')
     @else

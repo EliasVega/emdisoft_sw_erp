@@ -6,7 +6,10 @@ use App\Models\CommandRawmaterial;
 use App\Models\ExpenseProduct;
 use App\Models\InvoiceOrderProduct;
 use App\Models\InvoiceProduct;
+use App\Models\Ncinvoice;
 use App\Models\NcinvoiceProduct;
+use App\Models\Ndinvoice;
+use App\Models\PaymentReturn;
 use App\Models\ProductPurchase;
 use App\Models\ProductRemission;
 use App\Models\ProductRestaurantOrder;
@@ -184,6 +187,8 @@ class Ticket extends FPDF
             $typeDocument = 'invoice';
         } else if ($typeDocument == 'support_document'){
             $typeDocument = 'purhase';
+        } else if ($typeDocument == 'remissionPos'){
+            $typeDocument = 'remission';
         }
         $taxes = Tax::from('taxes as tax')
         ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
@@ -229,6 +234,78 @@ class Ticket extends FPDF
         $this->SetX(18);
         $this->Cell(20, 5, formatText("TOTAL"), 0, 0, 'R');
         $this->Cell(30, 5, "$" . number_format($document->total_pay,2), 0, 1, 'R');
+
+        if ($typeDocument == 'invoice') {
+            $debitNotes = Ndinvoice::where('invoice_id', $document->id)->first();
+            $creditNotes = Ncinvoice::where('invoice_id', $document->id)->first();
+            $retention = Tax::where('type', 'invoice')->where('taxable_id', $document->id)->get();
+            $paymentReturns = PaymentReturn::where('invoice_id', $document->id)->first();
+
+            $debitNote = 0;
+            $creditNote = 0;
+            $retentionnd = 0;
+            $retentionnc = 0;
+            if ($debitNotes != null) {
+                $debitNote = $debitNotes->total_pay;
+                $retnd = Tax::where('type', 'ndinvoice')->where('retentionable_id', $debitNotes->id)->first();
+                $retentionnd = $retnd->retention;
+            }
+            if ($creditNotes != null) {
+                $creditNote = $creditNotes->total_pay;
+                $retnc = Tax::where('type', 'ncinvoice')->where('retentionable_id', $creditNotes->id)->first();
+                $retentionnc = $retnc->retention;
+            }
+
+            if ($document->pay > 0) {
+                $this->SetFont('Arial', '', 9);
+                $this->SetX(18);
+                $this->Cell(20, 4, formatText("ABONOS"), 0, 0, 'R');
+                $this->Cell(30, 5, "-$" . number_format($document->pay,2), 0, 1, 'R');
+            }
+            if ($debitNote > 0) {
+                $this->SetFont('Arial', '', 9);
+                $this->SetX(18);
+                $this->Cell(20, 4, formatText("NOTA DEBITO"), 0, 0, 'R');
+                $this->Cell(30, 5, "$" . number_format($debitNote,2), 0, 1, 'R');
+            }
+            if ($retentionnd > 0) {
+                $this->SetFont('Arial', '', 9);
+                $this->SetX(18);
+                $this->Cell(20, 4, formatText("RETEENCION ND"), 0, 0, 'R');
+                $this->Cell(30, 5, "-$" . number_format($retentionnd,2), 0, 1, 'R');
+            }
+            if ($creditNote > 0) {
+                $this->SetFont('Arial', '', 9);
+                $this->SetX(18);
+                $this->Cell(20, 4, formatText("NOTA CREDITO"), 0, 0, 'R');
+                $this->Cell(30, 5, "-$" . number_format($creditNote,2), 0, 1, 'R');
+            }
+            if ($retentionnc > 0) {
+                $this->SetFont('Arial', '', 9);
+                $this->SetX(18);
+                $this->Cell(20, 4, formatText("RETEENCION NC"), 0, 0, 'R');
+                $this->Cell(30, 5, "$" . number_format($retentionnc,2), 0, 1, 'R');
+            }
+            if ($document->total_pay != $document->balance) {
+                $this->SetFont('Arial', '', 9);
+                $this->SetX(18);
+                $this->Cell(20, 4, formatText("SALDO X PAGAR"), 0, 0, 'R');
+                $this->Cell(30, 5, "$" . number_format($document->total_pay - $document->pay - $creditNote + $debitNote + $retentionnc - $retentionnd,2), 0, 1, 'R');
+            }
+            if (isset($paymentReturns)) {
+                $this->Cell(0, 3, "", 'B', 1, 'C');
+                $this->SetFont('Arial', '', 9);
+                $this->SetX(18);
+                $this->Cell(20, 4, formatText("EFECTIVO"), 0, 0, 'R');
+                $this->Cell(30, 5, "$" . number_format($paymentReturns->payment,2), 0, 1, 'R');
+
+                $this->SetX(18);
+                $this->Cell(20, 4, formatText("CAMBIO"), 0, 0, 'R');
+                $this->Cell(30, 5, "$" . number_format($paymentReturns->return,2), 0, 1, 'R');
+            }
+        }
+
+
     }
 
     public function generateInvoiceInformation($document)

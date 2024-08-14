@@ -230,6 +230,8 @@ class PdfDocuments extends FPDF
             $typeDocument = 'invoice';
         } else if ($typeDocument == 'support_document'){
             $typeDocument = 'purhase';
+        } else if ($typeDocument == 'remissionPos'){
+            $typeDocument = 'remission';
         }
 
         $taxes = Tax::from('taxes as tax')

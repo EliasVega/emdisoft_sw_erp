@@ -61,7 +61,7 @@
                     } else {
                         var remission = "{{ $remission ?? '' }}";
                         if (remission != '') {
-                            var imprimir = "{{ route('posRemission', ['remission' => ':remission']) }}";
+                            var imprimir = "{{ route('posPdfRemission', ['remission' => ':remission']) }}";
                             imprimir = imprimir.replace(':remission', remission);
                             window.open(imprimir, "_blank");
                         }

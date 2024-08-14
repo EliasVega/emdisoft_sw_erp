@@ -17,9 +17,12 @@ use App\Models\CompanyTax;
 use App\Models\Customer;
 use App\Models\Employee;
 use App\Models\Kardex;
+use App\Models\Pay;
 use App\Models\PaymentForm;
 use App\Models\PaymentMethod;
+use App\Models\PaymentRemissionReturn;
 use App\Models\paymentReturn;
+use App\Models\PayPaymentMethod;
 use App\Models\Product;
 use App\Models\ProductRemission;
 use App\Models\Resolution;
@@ -214,7 +217,7 @@ class RemissionController extends Controller
         ->join('percentages as per', 'ct.percentage_id', 'per.id')
         ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
         ->where('tt.type_tax', 'retention')->get();
-        $type = 'pos';
+        $type = 'remissionPos';
         $typeOperation = 'creation';
         return view('admin.remission.create',
         compact(
@@ -250,7 +253,6 @@ class RemissionController extends Controller
         if (is_null($customer)) {
             return Redirect::back()->withErrors(['msg' => 'no selecionaste el cliente']);
         }
-        $typeDocument = 'remission';
         $documentType = 107;
         $resolutions = Resolution::findOrFail(14);
         $voucherTypes = VoucherType::findOrFail(25);
@@ -322,6 +324,7 @@ class RemissionController extends Controller
                 $cashRegister->update();
         }
         $document = $remission;
+        $typeDocument = $request->typeDocument;
         //Ingresa los productos que vienen en el array
         for ($i=0; $i < count($product_id); $i++) {
             $id = $product_id[$i];
@@ -348,11 +351,65 @@ class RemissionController extends Controller
             $this->inventoryInvoices($product, $branchProducts, $quantityLocal, $branch);//trait para actualizar inventario
             $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
         }
-        if ($totalpay > 0) {
-            pays($request, $document, $typeDocument);
+
+        if (indicator()->pos == 'on') {
+            if ($typeDocument == 'remissionPos') {
+                $return = 0;
+                if ($totalpay > 0) {
+                    $paymentMethod = $request->payment_method_id;
+                    $bank = 1;
+                    $card = 1;
+                    $advance_id = null;
+                    $payment = $request->pay;
+                    $transaction = 00;
+                    $payAdvance = 0;
+                    $return = $payment[0] - $totalpay;
+                        //Metodo para crear un nuevo pago y su realcion polimorfica dependiendo del tipo de documento
+                    $pay = new Pay();
+                    $pay->user_id = current_user()->id;
+                    $pay->branch_id = current_user()->branch_id;
+                    $pay->pay = $totalpay;
+                    $pay->balance = $document->balance;
+                    $pay->type = 'remission';
+                    $document->pays()->save($pay);
+
+                    //Metodo para registrar la relacion entre pago y metodo de pago
+                    $pay_paymentMethod = new PayPaymentMethod();
+                    $pay_paymentMethod->pay_id = $pay->id;
+                    $pay_paymentMethod->payment_method_id = $paymentMethod;
+                    $pay_paymentMethod->bank_id = $bank;
+                    $pay_paymentMethod->card_id = $card;
+                    $pay_paymentMethod->pay = $payment[0];
+                    $pay_paymentMethod->transaction = $transaction;
+                    $pay_paymentMethod->save();
+
+                    //metodo para actualizar la caja
+                    $cashRegister->in_remission_cash += $totalpay;
+                    $cashRegister->cash_in_total += $totalpay;
+
+                    $cashRegister->in_remission += $totalpay;
+                    $cashRegister->in_total += $totalpay;
+                    $cashRegister->update();
+                }
+
+                $paymentRemissionReturn = new paymentReturn();
+                $paymentRemissionReturn->payment = $request->pay[0];
+                $paymentRemissionReturn->return = $return;
+                $paymentRemissionReturn->remission_id = $document->id;
+                $paymentRemissionReturn->save();
+            } else {
+                if ($totalpay > 0) {
+                    pays($request, $document, $typeDocument);
+                }
+            }
+        } else {
+            if ($totalpay > 0) {
+                pays($request, $document, $typeDocument);
+            }
         }
         $resolutions->consecutive += 1;
         $resolutions->update();
+        $typeDocument = 'remission';
 
         session()->forget('remission');
         session()->forget('typeDocument');
@@ -508,7 +565,7 @@ class RemissionController extends Controller
         ->select('pr.id', 'pr.quantity', 'pr.price', 'pr.tax_rate', 'pro.id as idP', 'pro.stock', 'pro.name', 'per.percentage', 'tt.id as tt')
         ->where('pr.remission_id', $remission->id)
         ->get();
-        $type = 'remission';
+        $type = 'remissionPos';
         $typeOperation = 'edition';
         return view('admin.remission.edit',
         compact(
@@ -997,12 +1054,12 @@ class RemissionController extends Controller
         $days = $remission->created_at->diffInDays($remission->due_date);
         $remissionPdf = $remission->document;
         $user = current_user()->name;
-        $paymentReturns = paymentReturn::where('remission_id', $remission->id)->first();
+        $paymentRemissionReturns = PaymentRemissionReturn::where('remission_id', $remission->id)->first();
         $view = \view('admin.remission.pos', compact(
             'remission',
             'days',
             'productRemissions',
-            'paymentReturns',
+            'paymentRemissionReturns',
             'user'
         ))->render();
             $pdf = App::make('dompdf.wrapper');

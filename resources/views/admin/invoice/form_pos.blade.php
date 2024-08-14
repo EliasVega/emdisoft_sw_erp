@@ -2,6 +2,19 @@
     <div class="col-md-5" id="formCard">
         <div class="card card-primary card-outline">
             <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="customer_id"> Cliente </label>
+                        <select name="customer_id" class="form-control selectpicker" id="customer_id"
+                            data-live-search="true" required>
+                            <option value="" disabled selected>Seleccionar</option>
+                            @foreach ($customers as $customer)
+                                <option value="{{ $customer->id }}">{{ $customer->identification }} -
+                                    {{ $customer->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
                 @if (indicator()->dian == 'on')
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="resolution">
                         <div class="form-group">
@@ -69,13 +82,6 @@
                             placeholder="Bolsas">
                     </div>
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="noteDocument">
-                    <div class="form-group">
-                        <label class="form-control-label" for="note">Observaciones</label>
-                        <input type="text" id="note" name="note" value="{{ old('note') }}"
-                            class="form-control" placeholder="Observaciones">
-                    </div>
-                </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="payposadd">
                     <div class="form-group">
                         <button class="btn btn-blueGrad btn-sm mb-2 ml-3" type="button" data-toggle="modal"
@@ -117,17 +123,11 @@
     </div>
     <div class="col-md-7">
         <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="noteDocument">
                 <div class="form-group">
-                    <label for="customer_id"> Cliente </label>
-                    <select name="customer_id" class="form-control selectpicker" id="customer_id"
-                        data-live-search="true" required>
-                        <option value="" disabled selected>Seleccionar</option>
-                        @foreach ($customers as $customer)
-                            <option value="{{ $customer->id }}">{{ $customer->identification }} -
-                                {{ $customer->name }}</option>
-                        @endforeach
-                    </select>
+                    <label class="form-control-label" for="note">Observaciones</label>
+                    <input type="text" id="note" name="note" value="{{ old('note') }}"
+                        class="form-control" placeholder="Observaciones">
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -333,7 +333,7 @@
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="addTypeDocument">
         <div class="form-group">
             <label class="form-control-label" for="typeDocument">tipo documento</label>
-            <input type="text" id="typeDocument" name="typeDocument" value="pos" class="form-control">
+            <input type="text" id="typeDocument" name="typeDocument" value="{{ $type }}" class="form-control">
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="addTypeProduct">

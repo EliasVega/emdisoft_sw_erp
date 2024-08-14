@@ -26,6 +26,7 @@
     $("#save").hide();
     $("#vpayadd").hide();
     $("#rbadd").hide();
+    //$("#addtotalpay").hide
     /*
     $("#percentage").val(0);
     */
@@ -38,7 +39,7 @@
                 $("#returnedBalanceModal").show();
                 $("#valuePayModal").show();
                 $("#payment_method_modal").val(10);
-                $("#payModal").val(0);
+                //$("#payModal").val(0);
                 $("#returnedModal").val(0);
                 $('#payModal').prop("required", true);
             }else{

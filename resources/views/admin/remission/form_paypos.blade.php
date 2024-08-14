@@ -55,7 +55,7 @@
         <div class="form-group">
             <label class="form-control-label" for="returned">Cambio</label>
             <input type="number" id="returned" name="returned" value="0"
-                class="form-control form-control-lg font-weight-bold text-white bg-primary" disabled pattern="[0-9]{0,15}">
+                class="form-control form-control-lg font-weight-bold text-white bg-primary" step="any" disabled pattern="[0-9]{0,15}">
         </div>
     </div>
 </div>
