@@ -27,6 +27,7 @@ class UpdatePayRequest extends FormRequest
             'type' => 'in:purchase,invoice,expense,remission,advance,work_labor,payroll',
             'user_id' => 'integer',
             'branch_id' => 'integer'
+
         ];
     }
 }
