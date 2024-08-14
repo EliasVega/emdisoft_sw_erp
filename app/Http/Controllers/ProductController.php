@@ -261,7 +261,7 @@ class ProductController extends Controller
         $product->category_id = $request->category_id;
         $product->measure_unit_id = $request->measure_unit_id;
         $product->code = $request->code;
-        $product->name = $request->name;
+        $product->name = $request->name_product;
         $product->price = $request->price;
         $product->sale_price = $request->sale_price;
         $product->commission = $commission;
