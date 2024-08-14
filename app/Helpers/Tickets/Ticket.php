@@ -241,7 +241,8 @@ class Ticket extends FPDF
             $debitNotes = Ndinvoice::where('invoice_id', $document->id)->first();
             $creditNotes = Ncinvoice::where('invoice_id', $document->id)->first();
             $retention = Tax::where('type', 'invoice')->where('taxable_id', $document->id)->get();
-            $paymentReturns = PaymentReturn::where('invoice_id', $document->id)->first();
+
+            //$paymentReturns = PaymentReturn::where('invoice_id', $document->id)->first();
 
             $debitNote = 0;
             $creditNote = 0;
@@ -294,6 +295,7 @@ class Ticket extends FPDF
                 $this->Cell(20, 4, formatText("SALDO X PAGAR"), 0, 0, 'R');
                 $this->Cell(30, 5, "$" . number_format($document->total_pay - $document->pay - $creditNote + $debitNote + $retentionnc - $retentionnd,2), 0, 1, 'R');
             }
+            /*
             if (isset($paymentReturns)) {
                 $this->Cell(0, 3, "", 'B', 1, 'C');
                 $this->SetFont('Arial', '', 9);
@@ -304,9 +306,9 @@ class Ticket extends FPDF
                 $this->SetX(18);
                 $this->Cell(20, 4, formatText("CAMBIO"), 0, 0, 'R');
                 $this->Cell(30, 5, "$" . number_format($paymentReturns->return,2), 0, 1, 'R');
-            }
+            }*/
         } elseif ($typeDocument == 'remission'){
-            $paymentRemissionReturns = PaymentRemissionReturn::where('remission_id', $document->id)->first();
+            //$paymentRemissionReturns = PaymentRemissionReturn::where('remission_id', $document->id)->first();
             if ($document->pay > 0) {
                 $this->SetFont('Arial', '', 9);
                 $this->SetX(18);
@@ -320,6 +322,7 @@ class Ticket extends FPDF
                 $this->Cell(20, 4, formatText("SALDO X PAGAR"), 0, 0, 'R');
                 $this->Cell(30, 5, "$" . number_format($document->total_pay - $document->pay,2), 0, 1, 'R');
             }
+            /*
             if (isset($paymentRemissionReturns)) {
                 $this->Cell(0, 3, "", 'B', 1, 'C');
                 $this->SetFont('Arial', '', 9);
@@ -330,7 +333,7 @@ class Ticket extends FPDF
                 $this->SetX(18);
                 $this->Cell(20, 4, formatText("CAMBIO"), 0, 0, 'R');
                 $this->Cell(30, 5, "$" . number_format($paymentRemissionReturns->return,2), 0, 1, 'R');
-            }
+            }*/
         }
     }
 
