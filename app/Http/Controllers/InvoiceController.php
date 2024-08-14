@@ -28,7 +28,7 @@ use App\Models\Ndinvoice;
 use App\Models\Pay;
 use App\Models\PaymentForm;
 use App\Models\PaymentMethod;
-use App\Models\PaymentReturn;
+use App\Models\PganoaymentReturn;
 use App\Models\PayPaymentMethod;
 use App\Models\Product;
 use App\Models\Resolution;
