@@ -243,7 +243,7 @@ class RemissionController extends Controller
      */
     public function store(StoreRemissionRequest $request)
     {
-        dd($request->all());
+        //dd($request->all());
         $totalpayment = $request->totalpay;
         if ($totalpayment == null) {
             toast('No adicionaste ningun tipo de pago.','error');
