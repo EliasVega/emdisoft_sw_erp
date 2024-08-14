@@ -9,6 +9,7 @@ use App\Models\InvoiceProduct;
 use App\Models\Ncinvoice;
 use App\Models\NcinvoiceProduct;
 use App\Models\Ndinvoice;
+use App\Models\PaymentRemissionReturn;
 use App\Models\PaymentReturn;
 use App\Models\Product;
 use App\Models\ProductPurchase;
@@ -138,9 +139,6 @@ if (!function_exists('ticketHeight')) {
         if ($typeDocument == 'invoice') {
             $debitNotes = Ndinvoice::where('invoice_id', $document->id)->first();
             $creditNotes = Ncinvoice::where('invoice_id', $document->id)->first();
-            $days = $document->created_at->diffInDays($document->due_date);
-            $invoicepdf = $document->document;
-            $user = current_user()->name;
             $retention = Tax::where('type', 'invoice')->where('taxable_id', $document->id)->get();
             $retentions = Tax::from('taxes as tax')
             ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
@@ -186,6 +184,20 @@ if (!function_exists('ticketHeight')) {
                 $pdfHeight += $taxRow;
             }
             if ($retentionnc > 0) {
+                $pdfHeight += $taxRow;
+            }
+            if ($document->total_pay != $document->balance) {
+                $pdfHeight += $taxRow;
+            }
+            if (isset($paymentReturns)) {
+                $pdfHeight += ($taxRow * 3);
+            }
+        }
+
+        if ($typeDocument == 'remission') {
+            $paymentRemissionReturns = PaymentRemissionReturn::where('remission_id', $document->id)->first();
+
+            if ($document->pay > 0) {
                 $pdfHeight += $taxRow;
             }
             if ($document->total_pay != $document->balance) {

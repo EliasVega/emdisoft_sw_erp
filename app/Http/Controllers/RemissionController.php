@@ -244,8 +244,8 @@ class RemissionController extends Controller
     public function store(StoreRemissionRequest $request)
     {
         //dd($request->all());
-        $totalpay = $request->totalpay;
-        if ($totalpay == null) {
+        $totalpayment = $request->totalpay;
+        if ($totalpayment == null) {
             toast('No adicionaste ningun tipo de pago.','error');
             return redirect('remission');
         }
@@ -254,6 +254,7 @@ class RemissionController extends Controller
             return Redirect::back()->withErrors(['msg' => 'no selecionaste el cliente']);
         }
         $documentType = 107;
+        $typeDocument = $request->typeDocument;
         $resolutions = Resolution::findOrFail(14);
         $voucherTypes = VoucherType::findOrFail(25);
         $cashRegister = cashRegisterComprobation();
@@ -266,18 +267,17 @@ class RemissionController extends Controller
         $branch = current_user()->branch_id;
         $total_pay = $request->total_pay;
         $paymentForm = $request->payment_form_id;
+        $totalpay = 0;
+        $payment = 0;
 
-        $payment = $request->total_pay;
-
-        if (isset($payment)) {
+        if ($typeDocument == 'remission') {
             $totalpay = $request->totalpay;
         } else {
-            if (indicator()->pos == 'on') {
-                if ($paymentForm == 1) {
-                    $totalpay = $request->total_pay;
-                } else {
-                    $totalpay = 0;
-                }
+            $payment = $request->pay;
+            if ($payment[0] >= $total_pay) {
+                $totalpay = $total_pay;
+            } else {
+                $totalpay = $payment[0];
             }
         }
 
@@ -306,12 +306,20 @@ class RemissionController extends Controller
         $remission->total = $request->total;
         $remission->total_tax = $request->total_tax;
         $remission->total_pay = $total_pay;
-        if ($totalpay > 0) {
-            $remission->pay = $totalpay;
+        $remission->pay = $totalpay;
+        if ($typeDocument == 'remission') {
+            $remission->balance = $total_pay - $totalpay;
         } else {
-            $remission->pay = 0;
+            if ($paymentForm == 1) {
+                if ($total_pay >= $payment) {
+                    $remission->balance = $total_pay - $payment;
+                } else {
+                    $remission->balance = 0;
+                }
+            } else {
+                $remission->balance = $total_pay;
+            }
         }
-        $remission->balance = $total_pay - $totalpay;
         $remission->grand_total = $total_pay - $retention;
         $remission->save();
 
@@ -352,10 +360,12 @@ class RemissionController extends Controller
             $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
         }
 
-        if (indicator()->pos == 'on') {
+
             if ($typeDocument == 'remissionPos') {
                 $return = 0;
                 if ($totalpay > 0) {
+                    $return = $payment[0] - $totalpay;
+                    /*
                     $paymentMethod = $request->payment_method_id;
                     $bank = 1;
                     $card = 1;
@@ -381,18 +391,21 @@ class RemissionController extends Controller
                     $pay_paymentMethod->card_id = $card;
                     $pay_paymentMethod->pay = $payment[0];
                     $pay_paymentMethod->transaction = $transaction;
-                    $pay_paymentMethod->save();
+                    $pay_paymentMethod->save();*/
 
-                    //metodo para actualizar la caja
-                    $cashRegister->in_remission_cash += $totalpay;
-                    $cashRegister->cash_in_total += $totalpay;
+                    pays($request, $document, $typeDocument);
+                    if (indicator()->pos == 'on') {
+                        //metodo para actualizar la caja
+                        $cashRegister->in_remission_cash += $totalpay;
+                        $cashRegister->cash_in_total += $totalpay;
 
-                    $cashRegister->in_remission += $totalpay;
-                    $cashRegister->in_total += $totalpay;
-                    $cashRegister->update();
+                        $cashRegister->in_remission += $totalpay;
+                        $cashRegister->in_total += $totalpay;
+                        $cashRegister->update();
+                    }
                 }
 
-                $paymentRemissionReturn = new paymentReturn();
+                $paymentRemissionReturn = new PaymentRemissionReturn();
                 $paymentRemissionReturn->payment = $request->pay[0];
                 $paymentRemissionReturn->return = $return;
                 $paymentRemissionReturn->remission_id = $document->id;
@@ -402,11 +415,6 @@ class RemissionController extends Controller
                     pays($request, $document, $typeDocument);
                 }
             }
-        } else {
-            if ($totalpay > 0) {
-                pays($request, $document, $typeDocument);
-            }
-        }
         $resolutions->consecutive += 1;
         $resolutions->update();
         $typeDocument = 'remission';

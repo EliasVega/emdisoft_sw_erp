@@ -35,7 +35,7 @@
             {!!Form::open(array('url'=>'remission', 'method'=>'POST', 'autocomplete'=>'off', 'id' => 'registerForm'))!!}
             {!!Form::token()!!}
             <div class="row m-1">
-                @if ($type == 'premissionPos')
+                @if ($type == 'remissionPos')
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         @include('admin/remission.form_pos')
                     </div>
@@ -59,7 +59,7 @@
 @endsection
 @section('scripts')
 
-    @if ($type == 'pRemissionPos')
+    @if ($type == 'remissionPos')
         @include('admin/generalview.script_paypos')
         @include('admin/remission.script_pos')
     @else

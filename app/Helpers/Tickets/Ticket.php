@@ -9,6 +9,7 @@ use App\Models\InvoiceProduct;
 use App\Models\Ncinvoice;
 use App\Models\NcinvoiceProduct;
 use App\Models\Ndinvoice;
+use App\Models\PaymentRemissionReturn;
 use App\Models\PaymentReturn;
 use App\Models\ProductPurchase;
 use App\Models\ProductRemission;
@@ -235,6 +236,7 @@ class Ticket extends FPDF
         $this->Cell(20, 5, formatText("TOTAL"), 0, 0, 'R');
         $this->Cell(30, 5, "$" . number_format($document->total_pay,2), 0, 1, 'R');
 
+
         if ($typeDocument == 'invoice') {
             $debitNotes = Ndinvoice::where('invoice_id', $document->id)->first();
             $creditNotes = Ncinvoice::where('invoice_id', $document->id)->first();
@@ -302,6 +304,32 @@ class Ticket extends FPDF
                 $this->SetX(18);
                 $this->Cell(20, 4, formatText("CAMBIO"), 0, 0, 'R');
                 $this->Cell(30, 5, "$" . number_format($paymentReturns->return,2), 0, 1, 'R');
+            }
+        } elseif ($typeDocument == 'remission'){
+            $paymentRemissionReturns = PaymentRemissionReturn::where('remission_id', $document->id)->first();
+            if ($document->pay > 0) {
+                $this->SetFont('Arial', '', 9);
+                $this->SetX(18);
+                $this->Cell(20, 4, formatText("ABONOS"), 0, 0, 'R');
+                $this->Cell(30, 5, "-$" . number_format($document->pay,2), 0, 1, 'R');
+            }
+
+            if ($document->total_pay != $document->balance) {
+                $this->SetFont('Arial', '', 9);
+                $this->SetX(18);
+                $this->Cell(20, 4, formatText("SALDO X PAGAR"), 0, 0, 'R');
+                $this->Cell(30, 5, "$" . number_format($document->total_pay - $document->pay,2), 0, 1, 'R');
+            }
+            if (isset($paymentRemissionReturns)) {
+                $this->Cell(0, 3, "", 'B', 1, 'C');
+                $this->SetFont('Arial', '', 9);
+                $this->SetX(18);
+                $this->Cell(20, 4, formatText("EFECTIVO"), 0, 0, 'R');
+                $this->Cell(30, 5, "$" . number_format($paymentRemissionReturns->payment,2), 0, 1, 'R');
+
+                $this->SetX(18);
+                $this->Cell(20, 4, formatText("CAMBIO"), 0, 0, 'R');
+                $this->Cell(30, 5, "$" . number_format($paymentRemissionReturns->return,2), 0, 1, 'R');
             }
         }
 
