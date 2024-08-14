@@ -332,8 +332,6 @@ class Ticket extends FPDF
                 $this->Cell(30, 5, "$" . number_format($paymentRemissionReturns->return,2), 0, 1, 'R');
             }
         }
-
-
     }
 
     public function generateInvoiceInformation($document)

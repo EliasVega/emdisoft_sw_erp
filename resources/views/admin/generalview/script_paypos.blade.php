@@ -42,6 +42,7 @@
                 //$("#payModal").val(0);
                 $("#returnedModal").val(0);
                 $('#payModal').prop("required", true);
+                assesspayment();
             }else{
                 $("#returnedBalanceModal").hide();
                 $("#valuePayModal").hide();
@@ -51,6 +52,7 @@
                 $('#payModal').prop("required", false);
                 $("#save").show();
                 $("#totalpay").val(0);
+                assesspayment();
             }
         });
     });

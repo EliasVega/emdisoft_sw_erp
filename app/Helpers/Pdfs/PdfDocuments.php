@@ -4,7 +4,11 @@ namespace App\Helpers\Pdfs;
 
 use App\Models\InvoiceOrderProduct;
 use App\Models\InvoiceProduct;
+use App\Models\Ncinvoice;
 use App\Models\NcinvoiceProduct;
+use App\Models\Ndinvoice;
+use App\Models\PaymentRemissionReturn;
+use App\Models\PaymentReturn;
 use App\Models\ProductPurchase;
 use App\Models\ProductRemission;
 use App\Models\Resolution;
@@ -22,7 +26,7 @@ class PdfDocuments extends FPDF
         $address = pdfFormatText('Dirección: ' . company()->address);
         $phone = pdfFormatText('Teléfono: ' . company()->phone);
         $email = pdfFormatText('Email: ' . company()->email);
-        $compa = company();
+
         $resolution = Resolution::findOrFail($document->resolution_id);
         if (indicator()->dian == 'on') {
             $regime = pdfFormatText(company()->regime->name) . ' - ';
@@ -40,6 +44,7 @@ class PdfDocuments extends FPDF
         $heigthInitial = 10;
         $documentType = $document->document_type_id;
         if ($documentType == 15) {
+            dd($documentType);
             $heigthInitial = 20;
             $this->SetFont('Arial','B',14);
             $page = $this->GetPageWidth();
@@ -281,6 +286,106 @@ class PdfDocuments extends FPDF
         $this->SetX(120);
         $this->Cell(50, 10, pdfFormatText("TOTAL"), 1, 0, 'L',1);
         $this->Cell(40, 10, "$" . number_format($document->total_pay,2), 1, 1, 'R',1);
+
+        if ($typeDocument == 'invoice') {
+            $debitNotes = Ndinvoice::where('invoice_id', $document->id)->first();
+            $creditNotes = Ncinvoice::where('invoice_id', $document->id)->first();
+            $retention = Tax::where('type', 'invoice')->where('taxable_id', $document->id)->get();
+            $paymentReturns = PaymentReturn::where('invoice_id', $document->id)->first();
+
+            $debitNote = 0;
+            $creditNote = 0;
+            $retentionnd = 0;
+            $retentionnc = 0;
+            if ($debitNotes != null) {
+                $debitNote = $debitNotes->total_pay;
+                $retnd = Tax::where('type', 'ndinvoice')->where('retentionable_id', $debitNotes->id)->first();
+                $retentionnd = $retnd->retention;
+            }
+            if ($creditNotes != null) {
+                $creditNote = $creditNotes->total_pay;
+                $retnc = Tax::where('type', 'ncinvoice')->where('retentionable_id', $creditNotes->id)->first();
+                $retentionnc = $retnc->retention;
+            }
+
+            if ($document->pay > 0) {
+                $this->SetFont('Arial', '', 10);
+                $this->SetX(120);
+                $this->Cell(50, 8, pdfFormatText('ABONOS'), 1, 0, 'L',1);
+                $this->Cell(40, 8, "-$" . number_format($document->pay,2), 1, 1, 'R',1);
+            }
+            if ($debitNote > 0) {
+                $this->SetFont('Arial', '', 10);
+                $this->SetX(120);
+                $this->Cell(50, 8, pdfFormatText('NOTA DEBITO'), 1, 0, 'L',1);
+                $this->Cell(40, 8, "$" . number_format($debitNote,2), 1, 1, 'R',1);
+            }
+            if ($retentionnd > 0) {
+                $this->SetFont('Arial', '', 10);
+                $this->SetX(120);
+                $this->Cell(50, 8, pdfFormatText('RETEENCION ND'), 1, 0, 'L',1);
+                $this->Cell(40, 8, "-$" . number_format($retentionnd,2), 1, 1, 'R',1);
+            }
+            if ($creditNote > 0) {
+                $this->SetFont('Arial', '', 10);
+                $this->SetX(120);
+                $this->Cell(50, 8, pdfFormatText('NOTA CREDITO'), 1, 0, 'L',1);
+                $this->Cell(40, 8, "-$" . number_format($creditNote,2), 1, 1, 'R',1);
+            }
+            if ($retentionnc > 0) {
+                $this->SetFont('Arial', '', 10);
+                $this->SetX(120);
+                $this->Cell(50, 8, pdfFormatText('RETEENCION NC'), 1, 0, 'L',1);
+                $this->Cell(40, 8, "-$" . number_format($retentionnc,2), 1, 1, 'R',1);
+            }
+            if ($document->total_pay != $document->balance) {
+                $this->SetFont('Arial', '', 10);
+                $this->SetX(120);
+                $this->Cell(50, 8, pdfFormatText('SALDO X PAGAR'), 1, 0, 'L',1);
+                $this->Cell(40, 8, "$" . number_format($document->total_pay - $document->pay - $creditNote + $debitNote + $retentionnc - $retentionnd,2), 1, 1, 'R',1);
+            }
+            if (isset($paymentReturns)) {
+                $this->Cell(0, 3, "", 'B', 1, 'C');
+
+                $this->SetFont('Arial', '', 10);
+                $this->SetX(120);
+                $this->Cell(50, 8, pdfFormatText('EFECTIVO'), 1, 0, 'L',1);
+                $this->Cell(40, 8, "$" . number_format($paymentReturns->payment,2), 1, 1, 'R',1);
+
+                $this->SetFont('Arial', '', 10);
+                $this->SetX(120);
+                $this->Cell(50, 8, pdfFormatText('CAMBIO'), 1, 0, 'L',1);
+                $this->Cell(40, 8, "$" . number_format($paymentReturns->return,2), 1, 1, 'R',1);
+            }
+        } elseif ($typeDocument == 'remission'){
+            $paymentRemissionReturns = PaymentRemissionReturn::where('remission_id', $document->id)->first();
+            if ($document->pay > 0) {
+                $this->SetFont('Arial', '', 10);
+                $this->SetX(120);
+                $this->Cell(50, 8, pdfFormatText('ABONOS'), 1, 0, 'L',1);
+                $this->Cell(40, 8, "-$" . number_format($document->pay,2), 1, 1, 'R',1);
+            }
+
+            if ($document->total_pay != $document->balance) {
+                $this->SetFont('Arial', '', 10);
+                $this->SetX(120);
+                $this->Cell(50, 8, pdfFormatText('SALDO X PAGAR'), 1, 0, 'L',1);
+                $this->Cell(40, 8, "-$" . number_format($document->total_pay - $document->pay,2), 1, 1, 'R',1);
+            }
+            if (isset($paymentRemissionReturns)) {
+                $this->Cell(0, 3, "", 'B', 1, 'C');
+
+                $this->SetFont('Arial', '', 10);
+                $this->SetX(120);
+                $this->Cell(50, 8, pdfFormatText('EFECTIVO'), 1, 0, 'L',1);
+                $this->Cell(40, 8, "$" . number_format($paymentRemissionReturns->payment,2), 1, 1, 'R',1);
+
+                $this->SetFont('Arial', '', 10);
+                $this->SetX(120);
+                $this->Cell(50, 8, pdfFormatText('CAMBIO'), 1, 0, 'L',1);
+                $this->Cell(40, 8, "$" . number_format($paymentRemissionReturns->return,2), 1, 1, 'R',1);
+            }
+        }
     }
 
     public function documentInformation($document, $cufe)

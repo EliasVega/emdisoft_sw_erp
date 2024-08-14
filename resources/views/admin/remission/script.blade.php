@@ -26,6 +26,7 @@
     var tax_iva = 0;
     var total_pay = 0;
     var total_desc = 0;
+    let coderepit = 0;
     //form remission
     $("#idPro").hide();
     $("#percent").hide();
@@ -91,7 +92,11 @@
     $(document).on('keyup', '#code', function(){
         var codes = $(this).val();
         if (codes != "") {
-            obtener_registro(codes);
+            if (codes != coderepit) {
+                obtener_registro(codes);
+                coderepit = codes;
+            }
+            //obtener_registro(codes);
         } else {
             console.log('no hay codigo');
         }
@@ -115,6 +120,7 @@
             $("#utility").val(data.utility_rate);
             $("#tax_rate").val(data.percentage);
             $("#tax_type").val(data.tt);
+            coderepit = data.code;
             addBarcode();
         }).fail(function() {
             //alert("Algo salió mal");
@@ -131,7 +137,13 @@
         price= $("#price").val();
         stock= $("#stock").val();
         tax_rate= $("#tax_rate").val();
+        pwx = $("#pwx").val();
+        if (pwx == 'on') {
+            taxRate = parseFloat(tax_rate) + 100;
+            price = (parseFloat(price) / parseFloat(taxRate)) * 100;
+        }
         tax_type = $("#tax_type").val();
+
         if(product_id !="" && quantity!="" && quantity>0  && price!=""){
             subtotal[cont] = parseFloat(quantity) * parseFloat(price);
             total = total+subtotal[cont];
@@ -195,6 +207,11 @@
         price= $("#price").val();
         stock= $("#stock").val();
         tax_rate= $("#tax_rate").val();
+        pwx = $("#pwx").val();
+        if (pwx == 'on') {
+            taxRate = parseFloat(tax_rate) + 100;
+            price = (parseFloat(price) / parseFloat(taxRate)) * 100;
+        }
         tax_type = $("#tax_type").val();
         if(product_id !="" && quantity!="" && quantity>0  && price!=""){
             subtotal[cont] = parseFloat(quantity) * parseFloat(price);
@@ -321,6 +338,11 @@
         quantity = $("#quantityModal").val();
         price = $("#priceModal").val();
         tax_rate = $("#taxModal").val();
+        pwx = $("#pwx").val();
+        if (pwx == 'on') {
+            taxRate = parseFloat(tax_rate) + 100;
+            price = (parseFloat(price) / parseFloat(taxRate)) * 100;
+        }
 
         if(product_id !="" && quantity!="" && quantity>0 && price!="" && price>0){
             subtotal[cont]= parseFloat(quantity) * parseFloat(price);

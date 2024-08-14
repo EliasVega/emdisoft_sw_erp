@@ -28,6 +28,7 @@
     var total_desc = 0;
     var uvt = '';
     var row = '';
+    let coderepit = 0;
     //form invoice
     $("#idPro").hide();
     $("#percent").hide();
@@ -126,6 +127,11 @@
         price= $("#price").val();
         stock= $("#stock").val();
         tax_rate= $("#tax_rate").val();
+        pwx = $("#pwx").val();
+        if (pwx == 'on') {
+            taxRate = parseFloat(tax_rate) + 100;
+            price = (parseFloat(price) / parseFloat(taxRate)) * 100;
+        }
         tax_type = $("#tax_type").val();
         uvt = $("#uvtmax").val();
         employee_id = $("#employee_id").val();
@@ -189,6 +195,11 @@
         price= $("#price").val();
         stock= $("#stock").val();
         tax_rate= $("#tax_rate").val();
+        pwx = $("#pwx").val();
+        if (pwx == 'on') {
+            taxRate = parseFloat(tax_rate) + 100;
+            price = (parseFloat(price) / parseFloat(taxRate)) * 100;
+        }
         tax_type = $("#tax_type").val();
         uvt = $("#uvtmax").val();
         employee_id = $("#employee_id").val();
@@ -318,6 +329,11 @@
         quantity = $("#quantityModal").val();
         price = $("#priceModal").val();
         tax_rate = $("#taxModal").val();
+        pwx = $("#pwx").val();
+        if (pwx == 'on') {
+            taxRate = parseFloat(tax_rate) + 100;
+            price = (parseFloat(price) / parseFloat(taxRate)) * 100;
+        }
         //$('#priceModal').prop("readonly", true);
 
         if(product_id !="" && quantity!="" && quantity>0 && price!="" && price>0){

@@ -243,7 +243,7 @@ class RemissionController extends Controller
      */
     public function store(StoreRemissionRequest $request)
     {
-        //dd($request->all());
+        dd($request->all());
         $totalpayment = $request->totalpay;
         if ($totalpayment == null) {
             toast('No adicionaste ningun tipo de pago.','error');
@@ -1077,7 +1077,7 @@ class RemissionController extends Controller
             return $pdf->stream('vista-pdf', "$remissionPdf.pdf");
     }
 
-    public function getProductInvoice(Request $request)
+    public function getProductRemission(Request $request)
     {
         if ($request->ajax()) {
             $products = Product::from('products as pro')

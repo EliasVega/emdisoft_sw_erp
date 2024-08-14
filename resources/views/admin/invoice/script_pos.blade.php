@@ -108,7 +108,6 @@
 
     //$(obtener_registro());
     function obtener_registro(code){
-        alert('voy');
         $.ajax({
             url: "{{ route('getProductInvoice') }}",
             type: 'GET',
