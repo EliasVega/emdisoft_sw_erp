@@ -779,7 +779,6 @@ class InvoiceController extends Controller
             'customers',
             'employees',
             'date',
-            'indicator',
             'invoiceProducts'
         ));
     }

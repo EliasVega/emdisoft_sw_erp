@@ -16,13 +16,13 @@
     <a href="{{ route('pdfInvoice', $id) }}" class="btn btn-pdf btn-sm" target="_blank" data-toggle="tooltip"
     data-placement="top" title="Venta pdf"><i class="fas fa-file-pdf"></i></a>
 @endif
-<!--
-</a>@can('superAdmin')
+
+@if (indicator()->work_labor == 'on')
     <a href="{{ route('invoice.edit', $id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip"
     data-placement="top" title="Editar"><i class="far fa-edit"></i></a>
-@endcan -->
-    <a href="{{ route('invoice.show', $id) }}" class="btn btn-success btn-sm" data-toggle="tooltip"
-    data-placement="top" title="Ver Venta"><i class="far fa-eye"></i></a>
+@endif
+<a href="{{ route('invoice.show', $id) }}" class="btn btn-success btn-sm" data-toggle="tooltip"
+data-placement="top" title="Ver Venta"><i class="far fa-eye"></i></a>
 
 @if ($balance > 0)
     <a href="{{ route('invoicePay', $id) }}" class="btn btn-ver btn-sm" data-toggle="tooltip" data-placement="top" title="Agregar Abono" >
