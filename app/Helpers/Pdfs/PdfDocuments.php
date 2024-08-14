@@ -291,7 +291,7 @@ class PdfDocuments extends FPDF
             $debitNotes = Ndinvoice::where('invoice_id', $document->id)->first();
             $creditNotes = Ncinvoice::where('invoice_id', $document->id)->first();
             $retention = Tax::where('type', 'invoice')->where('taxable_id', $document->id)->get();
-            $paymentReturns = PaymentReturn::where('invoice_id', $document->id)->first();
+            //$paymentReturns = PaymentReturn::where('invoice_id', $document->id)->first();
 
             $debitNote = 0;
             $creditNote = 0;
@@ -344,6 +344,7 @@ class PdfDocuments extends FPDF
                 $this->Cell(50, 8, pdfFormatText('SALDO X PAGAR'), 1, 0, 'L',1);
                 $this->Cell(40, 8, "$" . number_format($document->total_pay - $document->pay - $creditNote + $debitNote + $retentionnc - $retentionnd,2), 1, 1, 'R',1);
             }
+            /*
             if (isset($paymentReturns)) {
                 $this->Cell(0, 3, "", 'B', 1, 'C');
 
@@ -356,9 +357,9 @@ class PdfDocuments extends FPDF
                 $this->SetX(120);
                 $this->Cell(50, 8, pdfFormatText('CAMBIO'), 1, 0, 'L',1);
                 $this->Cell(40, 8, "$" . number_format($paymentReturns->return,2), 1, 1, 'R',1);
-            }
+            }*/
         } elseif ($typeDocument == 'remission'){
-            $paymentRemissionReturns = PaymentRemissionReturn::where('remission_id', $document->id)->first();
+            //$paymentRemissionReturns = PaymentRemissionReturn::where('remission_id', $document->id)->first();
             if ($document->pay > 0) {
                 $this->SetFont('Arial', '', 10);
                 $this->SetX(120);
@@ -372,6 +373,7 @@ class PdfDocuments extends FPDF
                 $this->Cell(50, 8, pdfFormatText('SALDO X PAGAR'), 1, 0, 'L',1);
                 $this->Cell(40, 8, "-$" . number_format($document->total_pay - $document->pay,2), 1, 1, 'R',1);
             }
+            /*
             if (isset($paymentRemissionReturns)) {
                 $this->Cell(0, 3, "", 'B', 1, 'C');
 
@@ -384,7 +386,7 @@ class PdfDocuments extends FPDF
                 $this->SetX(120);
                 $this->Cell(50, 8, pdfFormatText('CAMBIO'), 1, 0, 'L',1);
                 $this->Cell(40, 8, "$" . number_format($paymentRemissionReturns->return,2), 1, 1, 'R',1);
-            }
+            }*/
         }
     }
 
