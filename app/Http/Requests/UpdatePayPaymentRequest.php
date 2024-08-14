@@ -11,7 +11,7 @@ class UpdatePayPaymentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class UpdatePayPaymentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'pay' => 'required',
+            'balance' => 'numeric',
+            'type' => 'in:purchase,invoice,expense,remission,advance,work_labor,payroll',
+            'user_id' => 'integer',
+            'branch_id' => 'integer'
+
         ];
     }
 }
