@@ -551,7 +551,7 @@ class InvoiceController extends Controller
                         }
                     }
 
-                    $paymentReturn = new PaymentReturn();
+                    $paymentReturn = new PgareaymentReturn();
                     $paymentReturn->payment = $request->pay[0];
                     $paymentReturn->return = $return;
                     $paymentReturn->invoice_id = $invoice->id;
