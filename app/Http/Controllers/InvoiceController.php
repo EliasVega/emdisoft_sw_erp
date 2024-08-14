@@ -166,7 +166,7 @@ class InvoiceController extends Controller
             ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
             ->select('pro.id', 'pro.code', 'pro.stock', 'pro.sale_price', 'pro.name', 'per.percentage', 'cat.utility_rate', 'tt.id as tt')
             ->where('bp.branch_id', current_user()->branch_id)
-            ->where('bp.stock', '>=', 0)
+            ->where('bp.stock', '>', 0)
             ->where('pro.status', '=', 'active')
             ->get();
         } else {
