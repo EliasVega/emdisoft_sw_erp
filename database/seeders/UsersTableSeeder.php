@@ -43,13 +43,13 @@ class UsersTableSeeder extends Seeder
 
         User::create([
             'id' => 2,
-            'name' => 'PORRAS RIVERA KAREN TATIANA',
+            'name' => 'TESTING',
             'number' => '1099375543',
             'address' => 'CR 9 9 42 BRR CENTRO',
             'phone' => '3154144460',
-            'email' => 'tatianaporras116@gmail.com',
+            'email' => 'testing@gmail.com',
             'email_verified_at' => NULL,
-            'password' => bcrypt('1099375543'),
+            'password' => bcrypt('admin2024'),
             'two_factor_secret' => NULL,
             'two_factor_recovery_codes' => NULL,
             'two_factor_confirmed_at' => NULL,
