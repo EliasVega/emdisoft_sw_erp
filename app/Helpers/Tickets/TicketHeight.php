@@ -154,7 +154,7 @@ if (!function_exists('ticketHeight')) {
             ->where('tax.type', 'invoice')
             ->where('tax.taxable_id', $document->id)
             ->where('tt.type_tax', 'retention')->sum('tax_value');
-            $paymentReturns = PaymentReturn::where('invoice_id', $document->id)->first();
+            //$paymentReturns = PaymentReturn::where('invoice_id', $document->id)->first();
 
             $debitNote = 0;
             $creditNote = 0;
@@ -189,13 +189,14 @@ if (!function_exists('ticketHeight')) {
             if ($document->total_pay != $document->balance) {
                 $pdfHeight += $taxRow;
             }
+            /*
             if (isset($paymentReturns)) {
                 $pdfHeight += ($taxRow * 3);
-            }
+            }*/
         }
 
         if ($typeDocument == 'remission') {
-            $paymentRemissionReturns = PaymentRemissionReturn::where('remission_id', $document->id)->first();
+            //$paymentRemissionReturns = PaymentRemissionReturn::where('remission_id', $document->id)->first();
 
             if ($document->pay > 0) {
                 $pdfHeight += $taxRow;
@@ -203,9 +204,10 @@ if (!function_exists('ticketHeight')) {
             if ($document->total_pay != $document->balance) {
                 $pdfHeight += $taxRow;
             }
+            /*
             if (isset($paymentReturns)) {
                 $pdfHeight += ($taxRow * 3);
-            }
+            }*/
         }
 
         if (indicator()->dian == 'on') {
