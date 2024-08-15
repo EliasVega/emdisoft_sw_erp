@@ -1063,61 +1063,61 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="https://youtu.be/OLZQyzpKhCo" class="nav-link">
+                                    <a href="https://youtu.be/OLZQyzpKhCo" class="nav-link" target="_blank">
                                         <i class="far fa-dot-circle nav-icon"></i>
                                         <p>Ventas</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="https://youtu.be/p2sXP25wb_c" class="nav-link">
+                                    <a href="https://youtu.be/p2sXP25wb_c" class="nav-link" target="_blank">
                                         <i class="far fa-dot-circle nav-icon"></i>
                                         <p>Ventas Pos</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="https://youtu.be/xRBWE16Zpcw" class="nav-link">
+                                    <a href="https://youtu.be/xRBWE16Zpcw" class="nav-link" target="_blank">
                                         <i class="far fa-dot-circle nav-icon"></i>
                                         <p>Compras</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="https://youtu.be/EPGzFIxTCQk" class="nav-link">
+                                    <a href="https://youtu.be/EPGzFIxTCQk" class="nav-link" target="_blank">
                                         <i class="far fa-dot-circle nav-icon"></i>
                                         <p>Orden de Compra</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="https://youtu.be/T6fdpW5Lelw" class="nav-link">
+                                    <a href="https://youtu.be/T6fdpW5Lelw" class="nav-link" target="_blank">
                                         <i class="far fa-dot-circle nav-icon"></i>
                                         <p>ND Compras</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="https://youtu.be/RVLa90ENrDg" class="nav-link">
+                                    <a href="https://youtu.be/RVLa90ENrDg" class="nav-link" target="_blank">
                                         <i class="far fa-dot-circle nav-icon"></i>
                                         <p>GASTOS</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="https://youtu.be/IdmXqBGHZgs" class="nav-link">
+                                    <a href="https://youtu.be/IdmXqBGHZgs" class="nav-link" target="_blank">
                                         <i class="far fa-dot-circle nav-icon"></i>
                                         <p>Cajas</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="https://youtu.be/caHbpQa2lO0" class="nav-link">
+                                    <a href="https://youtu.be/caHbpQa2lO0" class="nav-link" target="_blank">
                                         <i class="far fa-dot-circle nav-icon"></i>
                                         <p>Proveedores</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="https://youtu.be/7tqWclL9hFE" class="nav-link">
+                                    <a href="https://youtu.be/7tqWclL9hFE" class="nav-link" target="_blank">
                                         <i class="far fa-dot-circle nav-icon"></i>
                                         <p>clientes</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="https://youtu.be/RBbub8MJ5Ng" class="nav-link">
+                                    <a href="https://youtu.be/RBbub8MJ5Ng" class="nav-link" target="_blank">
                                         <i class="far fa-dot-circle nav-icon"></i>
                                         <p>Empleados</p>
                                     </a>
