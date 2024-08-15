@@ -14,7 +14,7 @@
     });
 
     $("#fPercentage").hide();
-    $("#purchase").hide();
+    //$("#purchase").hide();
     $("#infoType").hide();
     $("#infoBase").hide();
 
