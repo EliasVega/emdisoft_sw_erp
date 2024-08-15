@@ -202,13 +202,16 @@ class PdfDocuments extends FPDF
         $this->SetFont('Arial', 'B', 10);
         $this->SetXY(10, 90);
         $this->Cell(10, 8, pdfFormatText('#'), 1, 0, 'C', 1);
-        $this->Cell(25, 8, pdfFormatText('Codigo'), 1, 0, 'C', 1);
-        $this->Cell(90, 8, pdfFormatText('Producto'), 1, 0, 'C', 1);
+        //$this->Cell(25, 8, pdfFormatText('Codigo'), 1, 0, 'C', 1);
+        $this->Cell(88, 8, pdfFormatText('Producto'), 1, 0, 'C', 1);
         $this->Cell(20, 8, pdfFormatText('Cant.'), 1, 0, 'C', 1);
         $this->Cell(25, 8, pdfFormatText('Precio'), 1, 0, 'C', 1);
-        $this->Cell(30, 8, pdfFormatText('Subtotal'), 1, 1, 'C', 1);
+        $this->Cell(25, 8, pdfFormatText('IVA/INC'), 1, 0, 'C', 1);
+        $this->Cell(32, 8, pdfFormatText('Subtotal'), 1, 1, 'C', 1);
         $this->ln(0.5);
         foreach ($products as $key => $product) {
+            //$subtotal = $product->price * $product->quantity;
+            //$taxLine = $subtotal *
             $length = strlen($product->product->name);
             $this->SetX(10);
             $this->SetDrawColor(236,233,233);
@@ -217,15 +220,16 @@ class PdfDocuments extends FPDF
 
             $this->SetFont('Arial', '', 9);
             $this->Cell(10, 7, $key + 1, 1, 0, 'C',1);
-            $this->Cell(25, 7, $product->product->code, 1, 0, 'R',1);
+            //$this->Cell(25, 7, $product->product->code, 1, 0, 'R',1);
             if ($length > 60) {
-                $this->Multicell(90,7, pdfFormatText($product->product->name),'J',1);
+                $this->Multicell(88,7, pdfFormatText($product->product->name),'J',1);
             } else {
-                $this->Cell(90, 7, pdfFormatText($product->product->name), 1, 0, 'L',1);
+                $this->Cell(88, 7, pdfFormatText($product->product->name), 1, 0, 'L',1);
             }
             $this->Cell(20, 7, $product->quantity, 1, 0, 'R',1);
-            $this->Cell(25, 7, "$" . number_format($product->price), 1, 0, 'R',1);
-            $this->Cell(30, 7, "$" . number_format($product->price * $product->quantity,2), 1, 1, 'R',1);
+            $this->Cell(25, 7, number_format($product->price,2), 1, 0, 'R',1);
+            $this->Cell(25, 7, number_format($product->tax_subtotal,2), 1, 0, 'R',1);
+            $this->Cell(32, 7, number_format($product->price * $product->quantity,2), 1, 1, 'R',1);
         }
     }
 

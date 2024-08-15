@@ -1003,7 +1003,7 @@
                             </li>
                         </ul>
                     </li>
-                    <<li class="nav-item has-treeview">
+                    <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-users"></i>
                             <p>
@@ -1044,6 +1044,88 @@
                         </ul>
                     </li>
                 @endif
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            VIDEO TUTORIALES
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>
+                                Facturacion
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="https://youtu.be/OLZQyzpKhCo" class="nav-link">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>Ventas</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="https://youtu.be/p2sXP25wb_c" class="nav-link">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>Ventas Pos</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="https://youtu.be/xRBWE16Zpcw" class="nav-link">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>Compras</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="https://youtu.be/EPGzFIxTCQk" class="nav-link">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>Orden de Compra</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="https://youtu.be/T6fdpW5Lelw" class="nav-link">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>ND Compras</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="https://youtu.be/RVLa90ENrDg" class="nav-link">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>GASTOS</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="https://youtu.be/IdmXqBGHZgs" class="nav-link">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>Cajas</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="https://youtu.be/caHbpQa2lO0" class="nav-link">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>Proveedores</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="https://youtu.be/7tqWclL9hFE" class="nav-link">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>clientes</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="https://youtu.be/RBbub8MJ5Ng" class="nav-link">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>Empleados</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

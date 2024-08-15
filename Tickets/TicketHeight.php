@@ -91,10 +91,10 @@ if (!function_exists('ticketHeight')) {
 
             $product = Product::findOrFail($invoiceProduct->product_id);
             $length = strlen($product->name);
-            if ($length > 40) {
+            if ($length > 20) {
                 $pdfHeight += 12;
             } else {
-                $pdfHeight += ($productRow * 2);
+                $pdfHeight += $productRow;
             }
         }
 

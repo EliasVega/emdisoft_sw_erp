@@ -157,29 +157,27 @@ class Ticket extends FPDF
                 break;
         }
 
-        $this->SetFont('Arial', '', 10);
+        $this->SetFont('Arial', '', 9);
         $this->Ln(2);
-        $this->SetX(3);
-        //$this->Multicell(55,4, formatText('Producto'),'L',1);
-        //$this->Cell(28, 4, formatText('Producto'), 0, 0, 'C');
-        $this->Cell(15, 4, formatText('Cant.'), 0, 0, 'C');
-        $this->Cell(15, 4, formatText('Precio'), 0, 0, 'C');
-        $this->Cell(15, 4, formatText('Iva/Inc'), 0, 0, 'C');
-        $this->Cell(20, 4, formatText('Subtotal'), 0, 1, 'C');
+        $this->Cell(28, 4, formatText('Producto'), 0, 0, 'C');
+        $this->Cell(9, 4, formatText('Cant.'), 0, 0, 'C');
+        $this->Cell(12, 4, formatText('Precio'), 0, 0, 'C');
+        $this->Cell(17, 4, formatText('Subtotal'), 0, 1, 'C');
         $this->Cell(0, 2, "", 'T', 1, 'C');
 
         foreach ($products as $product) {
-            //$length = $this->GetStringWidth($product->product->name);
-
+            $length = $this->GetStringWidth($product->product->name);
             $this->SetFont('Arial', '', 9);
-            $this->SetX(4);
-            $this->Multicell(60,4, formatText($product->product->name),'L',1);
-            $this->SetFont('Arial', '', 8);
-            $this->SetX(3);
-            $this->Cell(15, 4, $product->quantity, 0, 0, 'R');
-            $this->Cell(15, 4, "$" . number_format($product->price,2), 0, 0, 'R');
-            $this->Cell(15, 4, "$" . number_format($product->tax_subtotal,2), 0, 0, 'R');
-            $this->Cell(20, 4, "$" . number_format($product->subtotal,2), 0, 1, 'R');
+            if ($length > 26) {
+                $this->Multicell(50,4, formatText($product->product->name),'J',1);
+                $this->SetX(28);
+                $this->Cell(9, 4, $product->quantity, 0, 0, 'R');
+            } else {
+                $this->Cell(28, 4, formatText($product->product->name), 0, 0, 'L');
+                $this->Cell(9, 4, $product->quantity, 0, 0, 'R');
+            }
+            $this->Cell(12, 4, number_format($product->price), 0, 0, 'R');
+            $this->Cell(17, 4, number_format($product->price * $product->quantity), 0, 1, 'R');
         }
         $this->Cell(0, 3, "", 'T', 1, 'C');
     }
