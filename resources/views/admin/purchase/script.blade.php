@@ -347,7 +347,7 @@
 
         $("#balance").val(total_pay.toFixed(2));
         $("#pendient").val(total_pay.toFixed(2));
-        $("#total_purchase").val(total.toFixed(2));
+        //$("#total_purchase").val(total.toFixed(2));
     }
 
     function assess() {
