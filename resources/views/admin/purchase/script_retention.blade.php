@@ -44,7 +44,7 @@
         company_tax_id= dataTax[0];
         companyTax= $("#company_tax_id option:selected").text();
         percentage = $("#percentage").val();
-        total_purchase = $("#total_purchase").val();
+        //total_purchase = $("#total_purchase").val();
 
         ttid = $("#taxTypeId").val();
         iva = tax_iva;
