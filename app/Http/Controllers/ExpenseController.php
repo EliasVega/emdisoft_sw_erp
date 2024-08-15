@@ -11,7 +11,6 @@ use App\Models\Bank;
 use App\Models\Branch;
 use App\Models\BranchProduct;
 use App\Models\Card;
-use App\Models\CashRegister;
 use App\Models\Company;
 use App\Models\Department;
 use App\Models\ExpenseProduct;
@@ -36,7 +35,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use App\Traits\InventoryPurchases;
 use App\Traits\KardexCreate;
-use App\Traits\reverse;
+use App\Traits\Rmaxeverse;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 
 use function App\Helpers\Tickets\formatText;
@@ -44,7 +43,7 @@ use function App\Helpers\Tickets\ticketHeight;
 
 class ExpenseController extends Controller
 {
-    use InventoryPurchases, KardexCreate, reverse;
+    use InventoryPurchases, KardexCreate, Rmaxeverse;
     function __construct()
     {
         $this->middleware('permission:expense.index|expense.create|expense.show|expense.edit', ['only'=>['index']]);
