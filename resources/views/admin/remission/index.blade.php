@@ -48,27 +48,27 @@
             $(document).ready(function ()
             {
                 var typeDocument = "{{ $typeDocument ?? '' }}";
-                function print(){
-                    if (typeDocument == 'remission') {
-                        var remission = "{{ $remission ?? '' }}";
-                        if (remission != '') {
-                            var imprimir = "{{ route('pdfRemission', ['remission' => ':remission']) }}";
-                            imprimir = imprimir.replace(':remission', remission);
-                            window.open(imprimir, "_blank");
-                        }
-                    } else if (typeDocument == ''){
+                    var dian = "{{ $dian ?? '' }}";
+                    function print() {
+                        if (typeDocument == 'remission') {
+                            var remission = "{{ $remission ?? '' }}";
+                            if (remission != '') {
+                                var imprimir = "{{ route('pdfRemission', ['remission' => ':remission']) }}";
+                                imprimir = imprimir.replace(':remission', remission);
+                                window.open(imprimir, "_blank");
+                            }
+                        } else if (typeDocument == 'remissionPos') {
+                            var remission = "{{ $remission ?? '' }}";
+                            if (remission != '') {
+                                var imprimir = "{{ route('posPdfRemission', ['remission' => ':remission']) }}";
+                                imprimir = imprimir.replace(':remission', remission);
+                                window.open(imprimir, "_blank");
+                            }
+                        } else {
 
-                    } else {
-                        var remission = "{{ $remission ?? '' }}";
-                        if (remission != '') {
-                            var imprimir = "{{ route('posPdfRemission', ['remission' => ':remission']) }}";
-                            imprimir = imprimir.replace(':remission', remission);
-                            window.open(imprimir, "_blank");
                         }
                     }
-                }
-
-                print();
+                    print();
                 $('#remissions').DataTable(
                 {
                     info: true,

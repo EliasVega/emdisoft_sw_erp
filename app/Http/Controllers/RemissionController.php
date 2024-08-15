@@ -332,7 +332,7 @@ class RemissionController extends Controller
                 $cashRegister->update();
         }
         $document = $remission;
-        $typeDocument = $request->typeDocument;
+        //$typeDocument = $request->typeDocument;
         //Ingresa los productos que vienen en el array
         for ($i=0; $i < count($product_id); $i++) {
             $id = $product_id[$i];
@@ -417,7 +417,7 @@ class RemissionController extends Controller
             }
         $resolutions->consecutive += 1;
         $resolutions->update();
-        $typeDocument = 'remission';
+        //$typeDocument = 'remission';
 
         session()->forget('remission');
         session()->forget('typeDocument');
@@ -612,7 +612,7 @@ class RemissionController extends Controller
         if (is_null($totalpay)) {
             $totalpay = 0;
         }
-        $typeDocument = 'remission';
+        $typeDocument = $request->typeDocument;
         $documentType = 107;
         $resolutions = Resolution::findOrFail(14);
         $voucherTypes = VoucherType::findOrFail(25);

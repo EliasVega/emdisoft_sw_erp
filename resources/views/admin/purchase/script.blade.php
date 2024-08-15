@@ -62,6 +62,7 @@
     var total_desc = 0;
     var ret = 0;
     var vrte = 0;
+    var total_purchase = 0;
     //form purchase
     $("#idPro").hide();
     $("#percent").hide();
@@ -347,6 +348,7 @@
 
         $("#balance").val(total_pay.toFixed(2));
         $("#pendient").val(total_pay.toFixed(2));
+        total_purchase = total;
         //$("#total_purchase").val(total.toFixed(2));
     }
 
