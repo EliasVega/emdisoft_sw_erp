@@ -46,6 +46,7 @@
     $("#addTypeProduct").hide();
     $("#addPay").hide();
     $("#addRetentions").hide();
+    $("#addPriceWithTax").hide();
 
     $(document).ready(function(){
 
@@ -154,7 +155,7 @@
                 tax_iva += ivita;
             }
             subcont = subtotal[cont]
-            rowsList(cont, product_id, product, quantity, price, tax_rate, subcont);
+            rowsList(cont, product_id, product, quantity, price, ivita, tax_rate, subcont);
             cont++;
             totals();
             assess();
@@ -223,7 +224,7 @@
                 tax_iva += ivita;
             }
             subcont = subtotal[cont]
-            rowsList(cont, product_id, product, quantity, price, tax_rate, subcont);
+            rowsList(cont, product_id, product, quantity, price, ivita, tax_rate, subcont);
             cont++;
             totals();
             assess();
@@ -312,8 +313,8 @@
             $("#productModal").val(row.find("td:eq(3)").text());
             $("#quantityModal").val(row.find("td:eq(4)").text());
             $("#priceModal").val(row.find("td:eq(5)").text());
-            $("#taxModal").val(row.find("td:eq(6)").text());
-            $("#subtotalModal").val(row.find("td:eq(7)").text());
+            $("#taxModal").val(row.find("td:eq(7)").text());
+            $("#subtotalModal").val(row.find("td:eq(8)").text());
 
             // Buscar datos en la row y asignar a campos del formulario:
             // Primera columna (0) tiene ID, segunda (1) tiene nombre, tercera (2) capacidad
@@ -351,7 +352,7 @@
             tax_cont[cont] = ivita;
             total_tax = total_tax+ivita;
             subcont = subtotal[cont]
-            rowsList(cont, product_id, product, quantity, price, tax_rate, subcont);
+            rowsList(cont, product_id, product, quantity, price, ivita, tax_rate, subcont);
             cont++;
 
             deleterow(contedit);
@@ -370,8 +371,8 @@
             })
         }
     }
-    function rowsList(cont, product_id, product, quantity, price, tax_rate, subcont) {
-        row = '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subcont).toFixed(2)+'</td></tr>';
+    function rowsList(cont, product_id, product, quantity, price, ivita, tax_rate, subcont) {
+        row = '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+parseFloat(price).toFixed(2)+'</td><td><input type="hidden" name="ivaline[]"  value="'+ivita+'">'+parseFloat(ivita).toFixed(2)+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subcont).toFixed(2)+'</td></tr>';
     }
 
     $(document).ready(function(){

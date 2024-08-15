@@ -1,5 +1,5 @@
 <div class="box-body row">
-    <div class="col-md-5" id="formCard">
+    <div class="col-md-4" id="formCard">
         <div class="card card-primary card-outline">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -84,7 +84,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-7">
+    <div class="col-md-8">
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="noteDocument">
                 <div class="form-group">
@@ -119,26 +119,27 @@
                             <th>Id</th>
                             <th>Producto</th>
                             <th>Cantidad</th>
-                            <th>precio ($)</th>
-                            <th>imp (%)</th>
-                            <th>SubTotal ($)</th>
+                            <th>precio</th>
+                            <th>IVA/INC</th>
+                            <th>%</th>
+                            <th>SubTotal</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th colspan="7" class="rightfoot">TOTAL:</th>
+                            <th colspan="8" class="rightfoot">TOTAL:</th>
                             <td class="rightfoot thfoot"><strong id="total_html">$ 0.00</strong>
                                 <input type="hidden" name="total" id="total">
                             </td>
                         </tr>
                         <tr>
-                            <th colspan="7" class="rightfoot">IMPUESTO:</th>
+                            <th colspan="8" class="rightfoot">IMPUESTO:</th>
                             <td class="rightfoot thfoot"><strong id="total_tax_html">$ 0.00</strong>
                                 <input type="hidden" name="total_tax" id="total_tax">
                             </td>
                         </tr>
                         <tr>
-                            <th colspan="7" class="rightfoot">TOTAL VENTA:</th>
+                            <th colspan="8" class="rightfoot">TOTAL VENTA:</th>
                             <td class="rightfoot thfoot"><strong id="total_pay_html">$ 0.00</strong>
                                 <input type="hidden" name="total_pay" id="total_pay">
                             </td>
