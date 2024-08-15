@@ -174,7 +174,7 @@ class Ticket extends FPDF
             $this->SetFont('Arial', '', 9);
             $this->SetX(4);
             $this->Multicell(60,4, formatText($product->product->name),'L',1);
-            $this->SetFont('Arial', '', 8);
+            $this->SetFont('Arial', '', 7);
             $this->SetX(3);
             $this->Cell(15, 4, $product->quantity, 0, 0, 'R');
             $this->Cell(15, 4, "$" . number_format($product->price,2), 0, 0, 'R');

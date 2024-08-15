@@ -102,13 +102,13 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="vpayadd">
                     <div class="form-group">
                         <label class="form-control-label requerido" for="vpay">Pago</label>
-                        <input type="number" id="vpay" value="0" class="form-control">
+                        <input type="number" id="vpay" value="0" class="form-control" step="any">
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="rbadd">
                     <div class="form-group">
                         <label class="form-control-label" for="rbal">Cambio</label>
-                        <input type="number" id="rbal" value="0" class="form-control">
+                        <input type="number" id="rbal" value="0" class="form-control" step="any">
                     </div>
                 </div>
             </div>
@@ -162,9 +162,10 @@
                             <th>Id</th>
                             <th>Producto</th>
                             <th>Cantidad</th>
-                            <th>precio ($)</th>
-                            <th>imp (%)</th>
-                            <th>SubTotal ($)</th>
+                            <th>V/unit</th>
+                            <th>IVA/INC</th>
+                            <th>%</th>
+                            <th>SubTotal</th>
                         </tr>
                     </thead>
                     <tfoot>

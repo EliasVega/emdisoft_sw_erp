@@ -83,7 +83,7 @@
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="advancePay">
         <div class="form-group">
             <label class="form-control-label requerido" for="abpayment">abono anticipado</label>
-            <input type="number" id="abpayment" name="abpayment" class="form-control blanco">
+            <input type="number" id="abpayment" name="abpayment" class="form-control blanco" s>
         </div>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="advancePayValue">
