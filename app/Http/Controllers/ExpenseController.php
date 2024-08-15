@@ -35,7 +35,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use App\Traits\InventoryPurchases;
 use App\Traits\KardexCreate;
-use App\Traits\Rmaxeverse;
+use App\Traits\Reverse;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 
 use function App\Helpers\Tickets\formatText;
@@ -43,7 +43,7 @@ use function App\Helpers\Tickets\ticketHeight;
 
 class ExpenseController extends Controller
 {
-    use InventoryPurchases, KardexCreate, Rmaxeverse;
+    use InventoryPurchases, KardexCreate, Reverse;
     function __construct()
     {
         $this->middleware('permission:expense.index|expense.create|expense.show|expense.edit', ['only'=>['index']]);
