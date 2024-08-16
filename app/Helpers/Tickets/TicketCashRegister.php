@@ -361,11 +361,11 @@ class TicketCashRegister extends FPDF
         $this->SetFont('Arial', 'B', 9);
 
         $this->Cell(44, 5, formatText("ENTRADAS DE EFECTIVO"), 0, 0, 'R');
-        $this->Cell(24, 5, "$" . number_format($cashRegister->cash_out_total,2), 0, 1, 'R');
+        $this->Cell(24, 5, "$" . number_format($cashRegister->cash_in_total,2), 0, 1, 'R');
         $this->Ln(3);
 
         $this->Cell(44, 5, formatText("SALIDAS DE EFECTIVO"), 0, 0, 'R');
-        $this->Cell(24, 5, "$" . number_format($cashRegister->cash_in_total,2), 0, 1, 'R');
+        $this->Cell(24, 5, "$" . number_format($cashRegister->cash_out_total,2), 0, 1, 'R');
         $this->Ln(3);
 
         $this->Cell(44, 5, formatText("SALDO EN CAJA"), 0, 0, 'R');
