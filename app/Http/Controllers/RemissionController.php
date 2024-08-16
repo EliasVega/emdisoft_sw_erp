@@ -570,7 +570,7 @@ class RemissionController extends Controller
         ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
         ->join('percentages as per', 'ct.percentage_id', 'per.id')
         ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-        ->select('pr.id', 'pr.quantity', 'pr.price', 'pr.tax_rate', 'pro.id as idP', 'pro.stock', 'pro.name', 'per.percentage', 'tt.id as tt')
+        ->select('pr.id', 'pr.quantity', 'pr.price', 'pr.subtotal', 'pr.tax_subtotal', 'pr.tax_rate', 'pro.id as idP', 'pro.stock', 'pro.name', 'per.percentage', 'tt.id as tt')
         ->where('pr.remission_id', $remission->id)
         ->get();
         $type = 'remissionPos';

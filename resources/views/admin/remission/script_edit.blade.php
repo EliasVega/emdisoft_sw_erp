@@ -17,11 +17,13 @@
             quantity = value['quantity'];
             price = value['price'];
             tax_rate = value['tax_rate'];
+            subt = value['subtotal'];
+            taxSubt = value['tax_subtotal'];
             pwx = $("#pwx").val();
             if (product_id != "" && quantity != "" && quantity > 0 && price != "" && price > 0) {
-                subtotal[cont] = parseFloat(quantity) * parseFloat(price);
+                subtotal[cont] = subt;
                 total = total + subtotal[cont];
-                ivita = subtotal[cont] * tax_rate / 100;
+                ivita = taxSubt;
                 tax_cont[cont] = ivita;
                 total_tax = total_tax + ivita;
                 subcont = subtotal[cont]
