@@ -18,10 +18,6 @@
             price = value['price'];
             tax_rate = value['tax_rate'];
             pwx = $("#pwx").val();
-            if (pwx == 'on') {
-                taxRate = parseFloat(tax_rate) + 100;
-                price = (parseFloat(price) / parseFloat(taxRate)) * 100;
-            }
             if (product_id != "" && quantity != "" && quantity > 0 && price != "" && price > 0) {
                 subtotal[cont] = parseFloat(quantity) * parseFloat(price);
                 total = total + subtotal[cont];
