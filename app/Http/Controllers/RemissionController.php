@@ -705,6 +705,7 @@ class RemissionController extends Controller
         $productRemission = ProductRemission::where('remission_id', $remission->id)->get();
 
         for ($i=0; $i < count($productRemission); $i++) {
+
             $product = Product::findOrFail($productRemission[$i]->product_id);
             if (indicator()->inventory == 'on') {//si se maneja inventario
                 $product->stock += $productRemission[$i]->quantity;
@@ -722,8 +723,8 @@ class RemissionController extends Controller
                 $kardex->movement = $typeDocument;
                 $product->kardexes()->save($kardex);
             }
-
             $productRemission[$i]->quantity = 0;
+            $productRemission[$i]->price = 0;
             $productRemission[$i]->subtotal = 0;
             $productRemission[$i]->tax_subtotal = 0;
             $productRemission[$i]->update();
@@ -733,11 +734,15 @@ class RemissionController extends Controller
 
         $document = $remission;
         for ($i=0; $i < count($product_id); $i++) {
+
             $id = $product_id[$i];
             $productRemission = ProductRemission::where('remission_id', $remission->id)->where('product_id', $id)->first();
+
+
             if (isset($productRemission)) {
                 //Actualiza el campo existente
                 $productRemission->quantity = $quantity[$i];
+                $productRemission->price = $price[$i];
                 $productRemission->subtotal = $quantity[$i] * $price[$i];
                 $productRemission->tax_subtotal =($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
                 $productRemission->update();
