@@ -20,9 +20,9 @@
             subt = value['subtotal'];
             taxSubt = value['tax_subtotal'];
             if (product_id != "" && quantity != "" && quantity > 0 && price != "" && price > 0) {
-                subtotal[cont] = subt;
+                subtotal[cont] = parseFloat(subt);
                 total = total + subtotal[cont];
-                ivita = taxSubt;
+                ivita = parseFloat(taxSubt);
                 tax_cont[cont] = ivita;
                 total_tax = total_tax + ivita;
                 subcont = subtotal[cont]
