@@ -19,7 +19,7 @@
             tax_rate = value['tax_rate'];
             subt = value['subtotal'];
             taxSubt = value['tax_subtotal'];
-            pwx = $("#pwx").val();
+            alert(subt);
             if (product_id != "" && quantity != "" && quantity > 0 && price != "" && price > 0) {
                 subtotal[cont] = subt;
                 total = total + subtotal[cont];
