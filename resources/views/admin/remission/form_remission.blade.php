@@ -7,6 +7,21 @@
     <div class="col-md-4" id="formCard">
         <div class="card card-primary card-outline">
             <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <label for="customer_id">Cliente</label>
+                    <div class="select">
+                        <select id="customer_id" name="customer_id" class="form-control selectpicker" data-live-search="true" required>
+                            <option {{ old('customer_id', $remission->customer_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Cliente</option>
+                            @foreach($customers as $customer)
+                                @if(old('customer_id', $remission->customer_id ?? '') == $customer->id)
+                                    <option value="{{ $customer->id }}" selected>{{ $customer->name }}</option>
+                                @else
+                                    <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
                 @if (indicator()->barcode == 'on')
                     <div class="col-lg-12 col-md-12 col-sm-14 col-xs-12" id="codeBarcode">
                         <div class="form-group">
@@ -51,20 +66,6 @@
                             data-placement="top" title="Add"><i class="fas fa-check"></i></button>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="addBags">
-                    <div class="form-group">
-                        <label class="form-control-label" for="bags">Bolsas</label>
-                        <input type="number" id="bags" name="bags" value="0" class="form-control"
-                            placeholder="Bolsas">
-                    </div>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="noteDocument">
-                    <div class="form-group">
-                        <label class="form-control-label" for="note">Observaciones</label>
-                        <input type="text" id="note" name="note" value="{{ old('note') }}" class="form-control"
-                            placeholder="Observaciones">
-                    </div>
-                </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <button class="btn btn-blueGrad btn-sm mb-2 ml-3" type="button" id="addPay" data-toggle="tooltip"
@@ -83,19 +84,11 @@
     </div>
     <div class="col-md-8">
         <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <label for="customer_id">Cliente</label>
-                <div class="select">
-                    <select id="customer_id" name="customer_id" class="form-control selectpicker" data-live-search="true" required>
-                        <option {{ old('customer_id', $remission->customer_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Cliente</option>
-                        @foreach($customers as $customer)
-                            @if(old('customer_id', $remission->customer_id ?? '') == $customer->id)
-                                <option value="{{ $customer->id }}" selected>{{ $customer->name }}</option>
-                            @else
-                                <option value="{{ $customer->id }}">{{ $customer->name }}</option>
-                            @endif
-                        @endforeach
-                    </select>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="noteDocument">
+                <div class="form-group">
+                    <label class="form-control-label" for="note">Observaciones</label>
+                    <input type="text" id="note" name="note" value="{{ old('note') }}" class="form-control"
+                        placeholder="Observaciones">
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">

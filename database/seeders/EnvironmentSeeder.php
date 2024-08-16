@@ -192,6 +192,14 @@ class EnvironmentSeeder extends Seeder
                 'protocol' => 'http://',
                 'url' => '/api/ubl2.1/config/softwareeqdocs'
             ),
+            22 =>
+            array (
+                'id' => 23,
+                'code' => 'XML',
+                'name' => 'XML',
+                'protocol' => 'http://',
+                'url' => '/api/ubl2.1/download/'
+            ),
         ));
     }
 }
