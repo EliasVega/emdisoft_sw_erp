@@ -29,7 +29,7 @@
                 tax_cont[cont] = ivita;
                 total_tax = total_tax + ivita;
                 subcont = subtotal[cont]
-                rowsList(cont, product_id, product, quantity, price, tax_rate, subcont);
+                rowsList(cont, product_id, product, quantity, price, ivita, tax_rate, subcont);
                 cont++;
 
                 totals();
