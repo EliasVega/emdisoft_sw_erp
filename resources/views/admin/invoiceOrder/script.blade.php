@@ -36,6 +36,7 @@
     var total_desc = 0;
     var uvt = '';
     var pos_on = '';
+    let coderepit = 0;
     //form invoice
     $("#idPro").hide();
     $("#percent").hide();
@@ -95,7 +96,7 @@
             $("#employee_id").val(0);
         }
     })
-
+    /*
     function enabledInputCode(inputId, tiempoEnMs) {
         setTimeout(function() {
             var input = document.getElementById(inputId);
@@ -103,7 +104,7 @@
                 input.disabled = false;
             }
         }, tiempoEnMs);
-    }
+    }*/
 
     function disabledInputCode() {
         document.getElementById('code').disabled = true;
@@ -115,7 +116,11 @@
     $(document).on('keyup', '#code', function(){
         var codes = $(this).val();
         if (codes != "") {
-            obtener_registro(codes);
+            if (codes != coderepit) {
+                obtener_registro(codes);
+                coderepit = codes;
+            }
+            //obtener_registro(codes);
         } else {
             console.log('no hay codigo');
         }
@@ -140,6 +145,7 @@
             $("#tax_rate").val(data.percentage);
             $("#tax_type").val(data.tt);
             $("#employee_id").val(0);
+            coderepit = data.code;
             addBarcode();
         }).fail(function() {
             //alert("Algo salió mal");

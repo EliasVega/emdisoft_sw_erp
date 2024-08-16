@@ -63,6 +63,7 @@
     var ret = 0;
     var vrte = 0;
     var total_purchase = 0;
+    let coderepit = 0;
     //form purchase
     $("#idPro").hide();
     $("#percent").hide();
@@ -138,10 +139,14 @@
         document.getElementById('code').disabled = true;
     }
 
-    $(document).on('keyup', '#code', function() {
+    $(document).on('keyup', '#code', function(){
         var codes = $(this).val();
         if (codes != "") {
-            obtener_registro(codes);
+            if (codes != coderepit) {
+                obtener_registro(codes);
+                coderepit = codes;
+            }
+            //obtener_registro(codes);
         } else {
             console.log('no hay codigo');
         }
@@ -166,6 +171,7 @@
             $("#tax_type").val(data.tt);
             $("#vprice").val(data.price);
             $("#sale_price").val(data.sale_price);
+            coderepit = data.code;
         }).fail(function() {
             //alert("Algo salió mal");
         }).always(function() {
