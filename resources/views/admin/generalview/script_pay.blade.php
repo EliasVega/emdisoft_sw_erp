@@ -38,6 +38,7 @@
     $("#types").hide();
     $("#methodPay").hide();
     $("#buttonPay").hide();
+    $("#addGoBack").hide();
 
     //mostrar u ocultar de acuerdo a la forma de pago
     $(document).ready(function(){
@@ -319,6 +320,7 @@
     $(document).ready(function(){
         $("#paying").click(function(){
             paying();
+            $("#addGoBack").show();
         });
     });
     function paying(){
@@ -387,16 +389,26 @@
         $("#totalpay").val(totalpay.toFixed(2));
         $("#pendient").val(rbalance);
     }
-    function assesspayment(){
-
-        if(totalpay>=0){
-
-            $("#save").show();
-
-        } else{
-
-            $("#save").hide();
+    function assesspayment(form){
+        invoice = $("#returnedModal").val();
+        if (form == 1) {
+            if(invoice > 0){
+                $("#save").show();
+                $("#addGoBack").show();
+            } else{
+                $("#save").hide();
+                $("#addGoBack").hide();
+            }
+        } else {
+            if(invoice == 0){
+                $("#save").show();
+                $("#addGoBack").show();
+            } else{
+                $("#save").hide();
+                $("#addGoBack").hide();
+            }
         }
+
     }
     function deletepay(index){
         paydelete = paycont[index];

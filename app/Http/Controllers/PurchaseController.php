@@ -1581,4 +1581,13 @@ class PurchaseController extends Controller
         }
 
     }
+
+    public function getProviders(Request $request)
+    {
+        if($request)
+        {
+            $providers = Provider::get();
+            return response()->json($providers);
+        }
+    }
 }

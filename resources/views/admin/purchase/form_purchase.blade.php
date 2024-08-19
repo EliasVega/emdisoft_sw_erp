@@ -1,18 +1,18 @@
 <div class="box-body row">
-    <div class="col-md-5" id="formPayCard">
+    <div class="col-md-4" id="formPayCard">
         <div class="card card-primary card-outline">
             @include('admin/generalview.form_pay')
         </div>
     </div>
-    <div class="col-md-5" id="formRetentions">
+    <div class="col-md-4" id="formRetentions">
         <div class="card card-primary card-outline">
             @include('admin/generalview.form_retention')
         </div>
     </div>
-    <div class="col-md-5" id="formCard">
+    <div class="col-md-4" id="formCard">
         <div class="card card-primary card-outline">
             <div class="row">
-                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="provider_id">Proveedor</label>
                         <select name="provider_id" class="form-control selectpicker" id="provider_id"
@@ -25,6 +25,15 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12" id="buttonAdd">
+                    <div class="form-group">
+                        <span><strong>add</strong></span><br>
+                        <button class="btn btn-blueGrad btn-sm mb-2 ml-3" type="button" id="addRefresh"
+                        data-toggle="tooltip" data-placement="top" title="Refresh"><i
+                            class="fas fa-check"></i></button>
+                    </div>
+                </div>
+
                 @if ($countBranchs > 1)
                     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group">
@@ -60,7 +69,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="resolution">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="resolution">
                         <div class="form-group">
                             <label class="form-control-label required" for="resolution_id">Resolucion</label>
                             <select name="resolution_id" class="form-control selectpicker" id="resolution_id"
@@ -89,19 +98,23 @@
                         </div>
                     </div>
                 @endif
-                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="generat">
                     <div class="form-group">
-                        <label class="form-control-label" for="generation_date">Generacion</label>
-                        <input type="date" name="generation_date" id="generation_date" class="form-control"
-                            value="<?php echo date('Y-m-d'); ?>" placeholder="Fecha Vencimiento">
+                        <label class="form-control-label" for="generation_type_id">Tipo de generacion</label>
+                        <select name="generation_type_id" class="form-control selectpicker" id="generation_type_id"
+                            data-live-search="true" required>
+                            <option value="0" disabled selected>Tipo de generacion</option>
+                            @foreach ($generationTypes as $generationType)
+                                <option value="{{ $generationType->id }}">{{ $generationType->description }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
-
-                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="startd">
                     <div class="form-group">
-                        <label class="form-control-label" for="due_date">Vencimiento</label>
-                        <input type="date" name="due_date" id="due_date" class="form-control"
-                            value="<?php echo date('Y-m-d'); ?>" placeholder="Fecha Vencimiento">
+                        <label class="form-control-label" for="start_date">Fecha de inicio</label>
+                        <input type="date" name="start_date" id="start_date" class="form-control"
+                            value="<?php echo date('Y-m-d'); ?>">
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="invoiceCode">
@@ -142,7 +155,7 @@
                             placeholder="Cant." pattern="[0-9]{0,15}">
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" id="priceadd">
                     <div class="form-group">
                         <label class="form-control-label" for="price">Precio</label>
                         <input type="number" id="price" name="price" class="form-control"
@@ -157,52 +170,33 @@
                 </div>
 
                 @include('admin/generalview.button_add')
-
-                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="addPayButton">
-                    <div class="form-group">
-                        <button class="btn btn-blueGrad btn-sm mb-2 ml-3" type="button" id="addPay"
-                            data-toggle="tooltip" data-placement="top" title="Pagos"><i
-                                class="fas fa-check"></i>Agrepar Pago</button>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="addRetentionButton">
-                    <div class="form-group">
-                        <button class="btn btn-blueGrad btn-sm mb-2 ml-3" type="button" id="addRetentions"
-                            data-toggle="tooltip" data-placement="top" title="Retenciones"><i
-                                class="fas fa-check"></i>Agrepar Retenciones</button>
-                    </div>
-                </div>
+                @include('admin/generalview.buttonPayRetention')
                 @include('admin/generalview.form_register')
             </div>
         </div>
     </div>
-    <div class="col-md-7">
+    <div class="col-md-8">
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="noteDocument">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="noteDocument">
                 <div class="form-group">
                     <label class="form-control-label" for="note">Observaciones</label>
                     <input type="text" id="note" name="note" value="{{ old('note') }}"
                         class="form-control" placeholder="Observaciones">
                 </div>
             </div>
-
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="generat">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="form-group">
-                    <label class="form-control-label" for="generation_type_id">Tipo de generacion</label>
-                    <select name="generation_type_id" class="form-control selectpicker" id="generation_type_id"
-                        data-live-search="true" required>
-                        <option value="0" disabled selected>Tipo de generacion</option>
-                        @foreach ($generationTypes as $generationType)
-                            <option value="{{ $generationType->id }}">{{ $generationType->description }}</option>
-                        @endforeach
-                    </select>
+                    <label class="form-control-label" for="generation_date">Generacion</label>
+                    <input type="date" name="generation_date" id="generation_date" class="form-control"
+                        value="<?php echo date('Y-m-d'); ?>" placeholder="Fecha Vencimiento">
                 </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="startd">
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="form-group">
-                    <label class="form-control-label" for="start_date">Fecha de inicio</label>
-                    <input type="date" name="start_date" id="start_date" class="form-control"
-                        value="<?php echo date('Y-m-d'); ?>">
+                    <label class="form-control-label" for="due_date">Vencimiento</label>
+                    <input type="date" name="due_date" id="due_date" class="form-control"
+                        value="<?php echo date('Y-m-d'); ?>" placeholder="Fecha Vencimiento">
                 </div>
             </div>
         </div>

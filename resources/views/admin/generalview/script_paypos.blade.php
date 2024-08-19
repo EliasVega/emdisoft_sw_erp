@@ -26,10 +26,7 @@
     $("#save").hide();
     $("#vpayadd").hide();
     $("#rbadd").hide();
-    //$("#addtotalpay").hide
-    /*
-    $("#percentage").val(0);
-    */
+    $("#addGoBack").hide();
 
     $(document).ready(function(){
         $("#payment_form_modal").change(function(){
@@ -42,7 +39,7 @@
                 //$("#payModal").val(0);
                 $("#returnedModal").val(0);
                 $('#payModal').prop("required", true);
-                assesspayment();
+                assesspayment(form);
             }else{
                 $("#returnedBalanceModal").hide();
                 $("#valuePayModal").hide();
@@ -52,7 +49,7 @@
                 $('#payModal').prop("required", false);
                 $("#save").show();
                 $("#totalpay").val(0);
-                assesspayment();
+                assesspayment(form);
             }
         });
     });
@@ -73,14 +70,26 @@
         assesspayment();
     }
 
-    function assesspayment(){
+    function assesspayment(form){
         invoice = $("#returnedModal").val();
-        if(invoice <= 0){
-            $("#save").show();
-
-        } else{
-            $("#save").hide();
+        if (form == 1) {
+            if(invoice > 0){
+                $("#save").show();
+                $("#addGoBack").show();
+            } else{
+                $("#save").hide();
+                $("#addGoBack").hide();
+            }
+        } else {
+            if(invoice == 0){
+                $("#save").show();
+                $("#addGoBack").show();
+            } else{
+                $("#save").hide();
+                $("#addGoBack").hide();
+            }
         }
+
     }
 
     var contpay=0;

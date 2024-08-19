@@ -171,7 +171,7 @@
             </table>
         </div>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="addGoBack">
         <div class="form-group">
             <button class="btn btn-blueGrad btn-sm mb-2 ml-3" type="button" id="goBack" data-toggle="tooltip"
                 data-placement="top" title="Guardar"><i class="fas fa-check"></i>Guardar</button>

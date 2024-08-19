@@ -384,6 +384,7 @@ Route::get('purchase/debitNotePurchase/{id}', [PurchaseController::class, 'debit
 Route::get('pdfPurchase', [PurchaseController::class, 'pdfPurchase'])->name('pdfPurchase');
 Route::get('posPurchase', [PurchaseController::class, 'posPurchase'])->name('posPurchase');
 Route::get('createRawmaterial', [PurchaseController::class, 'createRawmaterial'])->name('createRawmaterial');
+Route::get('getProviders', [PurchaseController::class, 'getProviders'])->name('getProviders');
 
 Route::get('rawMaterial/status/{id}', [RawMaterialController::class, 'status'])->name('rawMaterialStatus');
 Route::get('rawMaterial/kardexRawMaterial/{id}', [RawMaterialController::class, 'kardexRawMaterial'])->name('kardexRawMaterial');

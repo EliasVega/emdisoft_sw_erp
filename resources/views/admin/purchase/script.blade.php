@@ -473,6 +473,10 @@
             $("#formCard").hide();
             $("#formRetentions").hide();
             $("#formPayCard").show();
+            $("#addProductId").hide();
+            $("#codeBarcode").hide();
+            $("#quantityadd").hide();
+            $("#priceadd").hide();
         });
     });
     $(document).ready(function(){
@@ -494,6 +498,24 @@
             $("#formCard").show();
             $("#formPayCard").hide();
             $("#formRetentions").hide();
+        });
+    });
+
+    $(document).ready(function(){
+        $("#addRefresh").click(function(){
+            $.ajax({
+                url: "{{ route('getProviders') }}",
+                method: 'GET',
+                success: function(data) {
+                    $('#provider_id').empty();
+                    $.each(data, function(index, option) {
+                        $('#provider_id').append(new Option(option.identification + ' - ' + option.name, option.id));
+                    });
+                    // Refrescar si utilizas un plugin
+                    //$('#customer_id').selectpicker('refresh');
+                }
+            });
+
         });
     });
 
