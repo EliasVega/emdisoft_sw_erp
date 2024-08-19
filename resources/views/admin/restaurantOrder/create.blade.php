@@ -35,7 +35,7 @@
                         @include('admin/restaurantOrder.form_home_order')
                     </div>
 
-                    @if (indicator()->raw_material == 'off')
+                    @if (indicator()->raw_material == 'on')
                         <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                             @include('admin/restaurantOrder.form_restaurantOrder')
                         </div>
