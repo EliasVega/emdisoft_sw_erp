@@ -79,7 +79,7 @@
     $("#formRetentions").hide();
     $("#addTypeProduct").hide();
     $("#addPayButton").hide();
-    $("#addRetentionButton").hide();
+    $("#addRetentions").hide();
 
     $("#generat").hide();
     $("#startd").hide();
@@ -361,8 +361,8 @@
     function assess() {
 
         if (total > 0) {
-            $("#addPayButton").show();
-            $("#addRetentionButton").show();
+            $("#addPayButton").hide();
+            $("#addRetentionButton").hide();
         } else {
             $("#addPayButton").hide();
             $("#addRetentionButton").hide();
@@ -473,10 +473,6 @@
             $("#formCard").hide();
             $("#formRetentions").hide();
             $("#formPayCard").show();
-            $("#addProductId").hide();
-            $("#codeBarcode").hide();
-            $("#quantityadd").hide();
-            $("#priceadd").hide();
         });
     });
     $(document).ready(function(){
@@ -491,6 +487,13 @@
             $("#formCard").show();
             $("#formPayCard").hide();
             $("#formRetentions").hide();
+            $("#addProductId").hide();
+            $("#codeBarcode").hide();
+            $("#addPay").hide();
+            $("#qadd").hide();
+            $("#padd").hide();
+            $("#spadd").hide();
+            $("#save").show();
         });
     });
     $(document).ready(function(){

@@ -35,7 +35,7 @@
                 </div>
 
                 @if ($countBranchs > 1)
-                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group">
                             <label class="form-control-label" for="branch_id">Sucursal Destino</label>
                             <select name="branch_id" class="form-control selectpicker" id="branch_id"
@@ -48,7 +48,7 @@
                         </div>
                     </div>
                 @else
-                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="sucursalBis">
+                    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12" id="sucursalBis">
                         <div class="form-group">
                             <label class="form-control-label" for="branch_id">Sucursal</label>
                             <input type="text" id="branch_id" name="branch_id" value="1" class="form-control"
@@ -56,6 +56,14 @@
                         </div>
                     </div>
                 @endif
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="invoiceCode">
+                    <div class="form-group">
+                        <label class="form-control-label" for="invoice_code">N°Factura</label>
+                        <input type="text" id="invoice_code" name="invoice_code"
+                            value="{{ old('invoice_code') }}" class="form-control"
+                            placeholder="Numero de la factura" required>
+                    </div>
+                </div>
                 @if ($indicator->dian == 'on')
                     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="documentType">
                         <div class="form-group">
@@ -117,14 +125,7 @@
                             value="<?php echo date('Y-m-d'); ?>">
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" id="invoiceCode">
-                    <div class="form-group">
-                        <label class="form-control-label" for="invoice_code">N°Factura</label>
-                        <input type="text" id="invoice_code" name="invoice_code"
-                            value="{{ old('invoice_code') }}" class="form-control"
-                            placeholder="Numero de la factura" required>
-                    </div>
-                </div>
+
                 @if ($indicator->barcode == 'on')
                     <div class="col-lg-12 col-md-12 col-sm-14 col-xs-12" id="codeBarcode">
                         <div class="form-group">
@@ -148,21 +149,21 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" id="qadd">
                     <div class="form-group">
                         <label class="form-control-label" for="quantityadd">Cantidad</label>
                         <input type="number" id="quantityadd" name="quantityadd" class="form-control"
                             placeholder="Cant." pattern="[0-9]{0,15}">
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" id="priceadd">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" id="padd">
                     <div class="form-group">
                         <label class="form-control-label" for="price">Precio</label>
                         <input type="number" id="price" name="price" class="form-control"
                             placeholder="Precio">
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-2 col-sm-4 col-xs-12">
+                <div class="col-lg-4 col-md-2 col-sm-4 col-xs-12" id="spadd">
                     <div class="form-group">
                         <label for="sale_price">P/Venta</label>
                         <input type="number" name="sale_price" id="sale_price" class="form-control" placeholder="Precio de venta">

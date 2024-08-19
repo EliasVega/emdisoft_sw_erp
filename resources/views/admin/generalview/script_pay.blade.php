@@ -48,7 +48,7 @@
                 $("#buttonPay").show();
                 $("#addPayPayment").hide();
                 $("#payingButton").show();
-                $("#save").show();
+                $("#addGoBack").hide();
             }else{
                 $("#buttonPay").hide();
                 $("#addPayPayment").show();
@@ -56,7 +56,7 @@
                 $("#totalpay").val(0);
                 $("#payingButton").hide();
                 $("#payPayment").show();
-                $("#save").show();
+                $("#addGoBack").show();
             }
         });
     });
@@ -389,25 +389,8 @@
         $("#totalpay").val(totalpay.toFixed(2));
         $("#pendient").val(rbalance);
     }
-    function assesspayment(form){
-        invoice = $("#returnedModal").val();
-        if (form == 1) {
-            if(invoice > 0){
-                $("#save").show();
-                $("#addGoBack").show();
-            } else{
-                $("#save").hide();
-                $("#addGoBack").hide();
-            }
-        } else {
-            if(invoice == 0){
-                $("#save").show();
-                $("#addGoBack").show();
-            } else{
-                $("#save").hide();
-                $("#addGoBack").hide();
-            }
-        }
+
+    function assesspayment(){
 
     }
     function deletepay(index){
