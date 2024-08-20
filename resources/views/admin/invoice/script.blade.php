@@ -299,11 +299,11 @@
         if(total>=0){
 
             $("#addPay").show();
-            $("#addRetentions").show();
+            //$("#addRetentions").show();
 
         } else{
             $("#addPay").hide();
-            $("#addRetentions").hide();
+            //$("#addRetentions").hide();
         }
     }
     function deleterow(index){
@@ -450,32 +450,47 @@
 
     $(document).ready(function(){
         $("#addPay").click(function(){
+            alert('pirobo');
             $("#formCard").hide();
-            $("#formRetentions").hide();
             $("#formPayCard").show();
-        });
-    });
-    $(document).ready(function(){
-        $("#addRetentions").click(function(){
-            $("#formCard").hide();
-            $("#formPayCard").hide();
-            $("#formRetentions").show();
         });
     });
     $(document).ready(function(){
         $("#goBack").click(function(){
             $("#formCard").show();
             $("#formPayCard").hide();
-            $("#formRetentions").hide();
+            $("#addProductId").hide();
+            $("#codeBarcode").hide();
+            $("#addPay").hide();
+            $("#qadd").hide();
+            $("#padd").hide();
+            $("#spadd").hide();
+            $("#save").show();
         });
     });
+    /*
+    $(document).ready(function(){
+        $("#goBack").click(function(){
+            $("#formCard").show();
+            $("#formPayCard").hide();
+            $("#formRetentions").hide();
+            $("#addProductId").hide();
+            $("#codeBarcode").hide();
+            $("#addPay").hide();
+            $("#qadd").hide();
+            $("#padd").hide();
+            $("#spadd").hide();
+            $("#save").show();
+        });
+    });
+
     $(document).ready(function(){
         $("#goBack2").click(function(){
             $("#formCard").show();
             $("#formPayCard").hide();
             $("#formRetentions").hide();
         });
-    });
+    });*/
 
     $("#customer_id").change(function(event){
         $.get("advance/" + event.target.value + "", function(response){

@@ -47,6 +47,7 @@
     $("#addPay").hide();
     $("#addRetentions").hide();
     $("#addPriceWithTax").hide();
+    $("#payposadd").hide();
 
     $(document).ready(function(){
 

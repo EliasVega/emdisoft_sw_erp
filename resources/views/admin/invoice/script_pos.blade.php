@@ -55,6 +55,8 @@
     $("#formRetentions").hide();
     $("#addTypeProduct").hide();
     $("#addPriceWithTax").hide();
+    $("#addRetentions").hide();
+    $("#payposadd").hide();
 
 
     $(document).ready(function(){
@@ -178,7 +180,7 @@
             rowsList(cont, cv, employee_id, product_id, product, quantity, price, ivita, tax_rate, subcont);
             cont++;
             totals();
-            //assess();
+            assess();
 
             $('#details').append(row);
             $("#totalPartial").val(total);
@@ -244,7 +246,7 @@
             rowsList(cont, cv, employee_id, product_id, product, quantity, price, ivita, tax_rate, subcont);
             cont++;
             totals();
-            //assess();
+            assess();
 
             $('#details').append(row);
             $("#totalPartial").val(total);
@@ -290,10 +292,10 @@
     }
     function assess(){
 
-        if(total>0){
-            $("#save").show();
+        if(total > 0){
+            $("#payposadd").show();
         } else{
-            $("#save").hide();
+            $("#payposadd").hide();
         }
     }
     function deleterow(index){
@@ -312,7 +314,7 @@
 
         $("#row" + index).remove();
 
-        //assess();
+        assess();
     }
 
     function editrow(index) {
@@ -372,6 +374,7 @@
 
     jQuery(document).on("click", "#updateInvoice", function () {
         updaterow();
+        $("#save").show();
     });
 
     function updaterow() {
@@ -411,7 +414,7 @@
 
             deleterow(contedit);
             totals();
-            //assess();
+            assess();
             $('#details').append(row);
             $('#editModal').modal('hide');
             $("#totalPartial").val(total);
@@ -425,18 +428,6 @@
             })
         }
     }
-    $(document).ready(function(){
-        $("#addRetentions").click(function(){
-            $("#formCard").hide();
-            $("#formRetentions").show();
-        });
-    });
-    $(document).ready(function(){
-        $("#goBack2").click(function(){
-            $("#formCard").show();
-            $("#formRetentions").hide();
-        });
-    });
     function disabledButton() {
         document.getElementById('registerForm').addEventListener('submit', function() {
             document.getElementById('register').setAttribute('disabled', 'true');

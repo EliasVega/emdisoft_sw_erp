@@ -1,15 +1,10 @@
 <div class="box-body row">
-    <div class="col-md-5" id="formPayCard">
+    <div class="col-md-4" id="formPayCard">
         <div class="card card-primary card-outline">
             @include('admin/generalview.form_pay')
         </div>
     </div>
-    <div class="col-md-5" id="formRetentions">
-        <div class="card card-primary card-outline">
-            @include('admin/invoice.form_retention')
-        </div>
-    </div>
-    <div class="col-md-5" id="formCard">
+    <div class="col-md-4" id="formCard">
         <div class="card card-primary card-outline">
             <div class="row">
                 <div class="col-lg-12 col-md-6 col-sm-12 col-xs-12">
@@ -114,28 +109,12 @@
                             data-placement="top" title="Add"><i class="fas fa-check"></i></button>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="addBags">
-                    <div class="form-group">
-                        <label class="form-control-label" for="bags">Bolsas</label>
-                        <input type="number" id="bags" name="bags" value="0" class="form-control"
-                            placeholder="Bolsas">
-                    </div>
-                </div>
-                <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
-                    <div class="form-group">
-                        <button class="btn btn-blueGrad btn-sm mb-2 ml-3" type="button" id="addPay"
-                            data-toggle="tooltip" data-placement="top" title="Pagos"><i
-                                class="fas fa-check"></i>Agrepar Pago</button>
-                        <button class="btn btn-blueGrad btn-sm mb-2 ml-3" type="button" id="addRetentions"
-                            data-toggle="tooltip" data-placement="top" title="Retenciones"><i
-                                class="fas fa-check"></i>Agrepar Retenciones</button>
-                    </div>
-                </div>
+                @include('admin/generalview.buttonPayRetention')
                 @include('admin/generalview.form_register')
             </div>
         </div>
     </div>
-    <div class="col-md-7">
+    <div class="col-md-4">
         <div class="row">
             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="noteDocument">
                 <div class="form-group">

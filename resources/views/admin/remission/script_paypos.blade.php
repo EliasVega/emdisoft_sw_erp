@@ -26,6 +26,7 @@
     $("#save").hide();
     $("#vpayadd").hide();
     $("#rbadd").hide();
+    $("#payposadd").hide();
     /*
     $("#percentage").val(0);
     */

@@ -97,6 +97,7 @@
         updatePayPos();
         $('#payPos').modal('hide');
         $("#save").show();
+        $("#payposadd").hide();
     });
 
     function updatePayPos() {
@@ -116,7 +117,6 @@
         $("#rbal").val(returnedMod);
         $("#vpayadd").show();
         $("#rbadd").show();
-        $("#payposadd").hide();
         $("#totalpay").val(payMod);
     }
 </script>

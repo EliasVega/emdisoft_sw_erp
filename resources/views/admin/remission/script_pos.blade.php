@@ -43,6 +43,7 @@
     $("#posnegative").hide();
     $("#addTypeDocument").hide();
     $("#addPriceWithTax").hide();
+    $("#payposadd").hide();
 
     $(document).ready(function(){
 
@@ -151,7 +152,7 @@
             rowsList(cont, product_id, product, quantity, price, ivita, tax_rate, subcont);
             cont++;
             totals();
-            //assess();
+            assess();
 
             $('#details').append(row);
             $("#totalPartial").val(total);
@@ -218,7 +219,7 @@
             rowsList(cont, product_id, product, quantity, price, ivita, tax_rate, subcont);
             cont++;
             totals();
-            //assess();
+            assess();
 
             $('#details').append(row);
             $("#totalPartial").val(total);
@@ -264,9 +265,9 @@
     function assess(){
 
         if(total>0){
-            $("#save").show();
+            $("#payposadd").show();
         } else{
-            $("#save").hide();
+            $("#payposadd").hide();
         }
     }
     function deleterow(index){
@@ -285,7 +286,7 @@
 
         $("#row" + index).remove();
 
-        //assess();
+        assess();
     }
 
     function editrow(index) {
@@ -350,7 +351,7 @@
 
             deleterow(contedit);
             totals();
-            //assess();
+            assess();
             $('#details').append(row);
             $('#editModal').modal('hide');
             $("#totalPartial").val(total);

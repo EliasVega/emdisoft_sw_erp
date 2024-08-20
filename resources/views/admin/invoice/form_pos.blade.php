@@ -75,25 +75,11 @@
                             data-placement="top" title="Add"><i class="fas fa-check"></i></button>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label class="form-control-label" for="bags">Bolsas</label>
-                        <input type="number" id="bags" name="bags" value="0" class="form-control"
-                            placeholder="Bolsas">
-                    </div>
-                </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="payposadd">
                     <div class="form-group">
                         <button class="btn btn-blueGrad btn-sm mb-2 ml-3" type="button" data-toggle="modal"
                             data-target="#payPos">
                             <i class="fa fa-plus"></i>Agregar Pago</button>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <button class="btn btn-blueGrad btn-sm mb-2 ml-3" type="button" id="addRetentions"
-                            data-toggle="tooltip" data-placement="top" title="Retenciones"><i
-                                class="fas fa-check"></i>Agrepar Retenciones</button>
                     </div>
                 </div>
 
@@ -111,13 +97,6 @@
                         <input type="number" id="rbal" value="0" class="form-control" step="any">
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-5" id="formRetentions">
-        <div class="card card-primary card-outline">
-            <div class="row">
-                @include('admin/invoice.form_retention')
             </div>
         </div>
     </div>
