@@ -68,6 +68,7 @@
                             <i class="fa fa-plus"></i>Agregar Pago</button>
                     </div>
                 </div>
+                @include('admin/generalview.form_register')
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="vpayadd">
                     <div class="form-group">
                         <label class="form-control-label requerido" for="vpay">Pago</label>
@@ -80,7 +81,7 @@
                         <input type="number" id="rbal" value="0" class="form-control">
                     </div>
                 </div>
-                @include('admin/generalview.form_register')
+
             </div>
         </div>
     </div>

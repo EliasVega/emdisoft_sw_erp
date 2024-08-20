@@ -84,7 +84,7 @@
     </div>
     <div class="col-md-8">
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="noteDocument">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="noteDocument">
                 <div class="form-group">
                     <label class="form-control-label" for="note">Observaciones</label>
                     <input type="text" id="note" name="note" value="{{ old('note') }}" class="form-control"

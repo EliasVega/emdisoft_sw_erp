@@ -389,6 +389,13 @@
         $("#goBack").click(function(){
             $("#formCard").show();
             $("#formPayCard").hide();
+            $("#addProductId").hide();
+            $("#codeBarcode").hide();
+            $("#addPay").hide();
+            $("#qadd").hide();
+            $("#padd").hide();
+            $("#spadd").hide();
+            $("#save").show();
         });
     });
     function disabledButton() {

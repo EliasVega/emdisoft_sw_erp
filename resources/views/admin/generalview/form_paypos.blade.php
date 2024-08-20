@@ -60,7 +60,7 @@
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="valueTotalPay">
         <div class="form-group">
-            <label class="form-control-label requerido" for="totalpay">Pago</label>
+            <label class="form-control-label requerido" for="totalpay">Pago total</label>
             <input type="number" id="totalpay" name="totalpay" value="0"
                 class="form-control form-control-lg text-white bg-info font-weight-bold" placeholder="pay" pattern="[0-9]{0,15}" step="any" required>
         </div>

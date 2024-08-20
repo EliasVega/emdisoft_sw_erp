@@ -39,7 +39,6 @@
                 //$("#payModal").val(0);
                 $("#returnedModal").val(0);
                 $('#payModal').prop("required", true);
-                assesspayment(form);
             }else{
                 $("#returnedBalanceModal").hide();
                 $("#valuePayModal").hide();
@@ -47,9 +46,7 @@
                 $("#payModal").val(0);
                 $("#returnedModal").val(0);
                 $('#payModal').prop("required", false);
-                $("#save").show();
                 $("#totalpay").val(0);
-                assesspayment(form);
             }
         });
     });
@@ -70,7 +67,8 @@
         assesspayment();
     }
 
-    function assesspayment(form){
+    function assesspayment(){
+        form = $("#payment_form_modal").val();
         invoice = $("#returnedModal").val();
         if (form == 1) {
             if(invoice > 0){
@@ -98,6 +96,7 @@
     jQuery(document).on("click", "#savePayment", function () {
         updatePayPos();
         $('#payPos').modal('hide');
+        $("#save").show();
     });
 
     function updatePayPos() {

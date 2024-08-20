@@ -317,6 +317,7 @@
 
     jQuery(document).on("click", "#updateRemission", function () {
         updaterow();
+        $("#save").show();
     });
 
     function updaterow() {
