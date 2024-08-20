@@ -503,6 +503,7 @@
             $("#formRetentions").hide();
         });
     });
+    /*
 
     $(document).ready(function(){
         $("#addRefresh").click(function(){
@@ -520,7 +521,7 @@
             });
 
         });
-    });
+    });*/
 
     $("#provider_id").change(function(event){
         $.get("advance/" + event.target.value + "", function(response){

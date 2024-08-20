@@ -12,7 +12,7 @@
     <div class="col-md-4" id="formCard">
         <div class="card card-primary card-outline">
             <div class="row">
-                <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="provider_id">Proveedor</label>
                         <select name="provider_id" class="form-control selectpicker" id="provider_id"
@@ -25,15 +25,6 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12" id="buttonAdd">
-                    <div class="form-group">
-                        <span><strong>add</strong></span><br>
-                        <button class="btn btn-blueGrad btn-sm mb-2 ml-3" type="button" id="addRefresh"
-                        data-toggle="tooltip" data-placement="top" title="Refresh"><i
-                            class="fas fa-check"></i></button>
-                    </div>
-                </div>
-
                 @if ($countBranchs > 1)
                     <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group">
