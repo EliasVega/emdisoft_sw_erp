@@ -66,7 +66,7 @@
                             data-placement="top" title="Add"><i class="fas fa-check"></i></button>
                     </div>
                 </div>
-                @include('admin/generalview.buttonPayRetentions')
+                @include('admin/generalview.buttonPayRetention')
                 @include('admin/generalview.form_register')
             </div>
         </div>
