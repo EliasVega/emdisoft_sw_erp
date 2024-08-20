@@ -19,6 +19,9 @@
                 @else
                         <a href="restaurantOrder/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i>
                             Comandas</a>
+                            <a href="createPos" class="btn btn-blueGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Ventas pos</a>
+                        <a href="invoice/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Ventas</a>
+                        <a href="remission" class="btn btn-lemonGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Remisiones</a>
                 @endif
 
                 @can('branch.index')
