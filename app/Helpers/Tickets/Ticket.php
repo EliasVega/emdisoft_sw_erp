@@ -128,6 +128,18 @@ class Ticket extends FPDF
         $this->Cell(0, 4, "", 'B', 1, 'C');
     }
 
+    public function generateThirdPartyCommand($thirdParty, $thirdPartyType)
+    {
+        $name = formatText('Cliente: ' . $thirdParty->name);
+        $phone = formatText('Telefono: ' . $thirdParty->phone);
+        $this->Ln(3);
+        $this->SetFont('Arial', 'B', 10);
+        $this->MultiCell(0, 5, $name, 0, 'C', false);
+        $this->SetFont('Arial', '', 9);
+        $this->Cell(0, 4, $phone, 0, 1, 'C',0);
+        $this->Cell(0, 4, "", 'B', 1, 'C');
+    }
+
     public function generateProductsTable($document, $typeDocument)
     {
         switch ($typeDocument) {

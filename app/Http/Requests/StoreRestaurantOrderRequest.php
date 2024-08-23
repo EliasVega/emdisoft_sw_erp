@@ -27,9 +27,11 @@ class StoreRestaurantOrderRequest extends FormRequest
             'total_pay' => 'required|numeric',
             'status' => 'in:pending,generated,canceled',
             'user_id' => '',
+            'branch_id' => '',
+            'cash_register_id' => 'nullable',
             'restaurant_table_id' => 'integer',
             'invoice_id' => 'nullable',
-            'cash_register_id' => 'nullable'
+            'customer_home_id' => 'nullable'
         ];
     }
 }

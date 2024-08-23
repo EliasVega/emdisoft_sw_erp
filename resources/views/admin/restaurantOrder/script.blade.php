@@ -11,6 +11,14 @@
             });
         });
     });
+    jQuery(document).ready(function($){
+        $(document).ready(function() {
+            $('#customer_home_id').select2({
+                theme: "classic",
+                width: "100%",
+            });
+        });
+    });
     var cont=0;
     total=0;
     subtotal=[];
@@ -23,6 +31,16 @@
     $("#addInc").hide();
     $("#editrm").hide();
     $("#homeOrder").hide();
+
+    $("#customer_home_id").change(customerValue);
+
+    function customerValue(){
+        dataCustomer = document.getElementById('customer_home_id').value.split('_');
+        $("#name").val(dataCustomer[1]);
+        $("#address").val(dataCustomer[2]);
+        $("#phone").val(dataCustomer[3]);
+
+    }
 
     $("#product_id").change(productValue);
 

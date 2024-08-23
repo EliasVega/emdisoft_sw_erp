@@ -20,10 +20,13 @@ class RestaurantOrder extends Model
         'total_tax',
         'total_pay',
         'status',
-        'user_id',
+
         'branch_id',
+        'cash_register_id',
+        'invoice_id',
         'restaurant_table_id',
-        'invoice_id'
+        'user_id',
+        'customer_home_id'
     ];
 
     protected $guarded = [
@@ -59,5 +62,9 @@ class RestaurantOrder extends Model
 
     public function cashRegister(){
         return $this->belongsTo(CashRegister::class);
+    }
+
+    public function customerHome(){
+        return $this->belongsTo(CustomerHome::class);
     }
 }

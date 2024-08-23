@@ -14,6 +14,7 @@ use App\Models\CommandRawmaterial;
 use App\Models\Company;
 use App\Models\CompanyTax;
 use App\Models\Customer;
+use App\Models\CustomerHome;
 use App\Models\HomeOrder;
 use App\Models\Indicator;
 use App\Models\PaymentForm;
@@ -34,7 +35,6 @@ use App\Traits\CommandRawMaterialCreate;
 use Illuminate\Support\Facades\Session;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 
-use function App\Helpers\Tickets\formatText;
 use function App\Helpers\Tickets\ticketHeight;
 
 class RestaurantOrderController extends Controller
@@ -91,6 +91,7 @@ class RestaurantOrderController extends Controller
     {
         $indicator = Indicator::findOrFail(1);
         $branch = Branch::findOrFail(current_user()->branch_id);
+        $customerHomes = CustomerHome::get();
         $cashRegister = cashRegisterComprobation();
         if ($cashRegister == null) {
             return redirect('branch');
@@ -107,7 +108,8 @@ class RestaurantOrderController extends Controller
             'restaurantTables',
             'products',
             'rawMaterials',
-            'productRawMaterials'
+            'productRawMaterials',
+            'customerHomes'
         ));
     }
 
@@ -207,6 +209,28 @@ class RestaurantOrderController extends Controller
             }
         }
 
+        $customerHomes = CustomerHome::get();
+        $contCH = 0;
+        $phone = $request->phone;
+        $customerHomeId = '';
+
+        foreach ($customerHomes as $key => $value) {
+            if ($value->phone == $phone) {
+                $contCH ++;
+                $customerHomeId = $value->id;
+            }
+        }
+
+        if ($contCH == 0) {
+           $customerHome = new CustomerHome();
+           $customerHome->name = $request->name;
+           $customerHome->address = $request->address;
+           $customerHome->phone = $request->phone;
+           $customerHome->save();
+        } else {
+            $customerHome = CustomerHome::findOrFail($customerHomeId);
+        }
+
         //registro en la tabla restaurant_order
         $restaurantOrder = new RestaurantOrder();
         $restaurantOrder->total = $request->total;
@@ -214,14 +238,18 @@ class RestaurantOrderController extends Controller
         $restaurantOrder->total_pay = $total_pay;
         $restaurantOrder->status = 'pending';
         $restaurantOrder->note = $request->note;
-        $restaurantOrder->user_id = current_user()->id;
+
         $restaurantOrder->branch_id = current_user()->branch_id;
+        $restaurantOrder->cash_register_id = $cashRegister->id;
+        //$restaurantOrder->customer_id = $customer;
         if ($service == 0) {//si el servicio es de mesa
             $restaurantOrder->restaurant_table_id = $request->restaurant_table_id;
         } else {//si el servicio es domicilio
             $restaurantOrder->restaurant_table_id = 1;
         }
-        $restaurantOrder->cash_register_id = $cashRegister->id;
+
+        $restaurantOrder->user_id = current_user()->id;
+        $restaurantOrder->customer_home_id = $customerHome->id;
         $restaurantOrder->save();
         $roId = $restaurantOrder->id;
 
@@ -1113,7 +1141,7 @@ class RestaurantOrderController extends Controller
 
         $document = $restaurantOrder;
         $thirdPartyType = 'customer';
-        $thirdParty = Customer::findOrFail(1);
+        $thirdParty = CustomerHome::findOrFail($document->customer_home_id);
         $logoHeight = 26;
 
         if (indicator()->logo == 'on') {
@@ -1153,7 +1181,7 @@ class RestaurantOrderController extends Controller
 
         $pdf->generateBarcode($barcode);
         $pdf->generateBranchInformation($document);
-        $pdf->generateThirdPartyInformation($thirdParty, $thirdPartyType);
+        $pdf->generateThirdPartyCommand($thirdParty, $thirdPartyType);
         $pdf->generateProductsTable($document, $typeDocument);
         $pdf->generateSummaryInformation($document, $typeDocument);
         if (indicator()->raw_material == 'on') {
