@@ -1213,9 +1213,9 @@ class RestaurantOrderController extends Controller
         $pdf->generateBarcode($barcode);
         $pdf->generateBranchInformation($document);
         if ($document->customer_home_id != null) {
-            $pdf->generateThirdPartyInformation($thirdParty, $thirdPartyType);
-        } else {
             $pdf->generateThirdPartyCommand($thirdParty, $thirdPartyType);
+        } else {
+            $pdf->generateThirdPartyInformation($thirdParty, $thirdPartyType);
         }
 
 
