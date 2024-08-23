@@ -214,22 +214,7 @@ class RestaurantOrderController extends Controller
         $phone = $request->phone;
         $customerHomeId = '';
 
-        foreach ($customerHomes as $key => $value) {
-            if ($value->phone == $phone) {
-                $contCH ++;
-                $customerHomeId = $value->id;
-            }
-        }
 
-        if ($contCH == 0) {
-           $customerHome = new CustomerHome();
-           $customerHome->name = $request->name;
-           $customerHome->address = $request->address;
-           $customerHome->phone = $request->phone;
-           $customerHome->save();
-        } else {
-            $customerHome = CustomerHome::findOrFail($customerHomeId);
-        }
 
         //registro en la tabla restaurant_order
         $restaurantOrder = new RestaurantOrder();
@@ -249,7 +234,7 @@ class RestaurantOrderController extends Controller
         }
 
         $restaurantOrder->user_id = current_user()->id;
-        $restaurantOrder->customer_home_id = $customerHome->id;
+        $restaurantOrder->customer_home_id = null;
         $restaurantOrder->save();
         $roId = $restaurantOrder->id;
 
@@ -273,6 +258,26 @@ class RestaurantOrderController extends Controller
             $homeOrder->time_sent = null;
             $homeOrder->restaurant_order_id = $restaurantOrder->id;
             $homeOrder->save();
+
+            foreach ($customerHomes as $key => $value) {
+                if ($value->phone == $phone) {
+                    $contCH ++;
+                    $customerHomeId = $value->id;
+                }
+            }
+
+            if ($contCH == 0) {
+               $customerHome = new CustomerHome();
+               $customerHome->name = $request->name;
+               $customerHome->address = $request->address;
+               $customerHome->phone = $request->phone;
+               $customerHome->save();
+            } else {
+                $customerHome = CustomerHome::findOrFail($customerHomeId);
+            }
+
+            $restaurantOrder->customer_home_id = $customerHome->id;
+            $restaurantOrder->update();
         } elseif ($service == 2) {
             $date = Carbon::now();
             $homeOrder = new HomeOrder();
@@ -286,6 +291,26 @@ class RestaurantOrderController extends Controller
             $homeOrder->time_sent = null;
             $homeOrder->restaurant_order_id = $restaurantOrder->id;
             $homeOrder->save();
+
+            foreach ($customerHomes as $key => $value) {
+                if ($value->phone == $phone) {
+                    $contCH ++;
+                    $customerHomeId = $value->id;
+                }
+            }
+
+            if ($contCH == 0) {
+               $customerHome = new CustomerHome();
+               $customerHome->name = $request->name;
+               $customerHome->address = $request->address;
+               $customerHome->phone = $request->phone;
+               $customerHome->save();
+            } else {
+                $customerHome = CustomerHome::findOrFail($customerHomeId);
+            }
+
+            $restaurantOrder->customer_home_id = $customerHome->id;
+            $restaurantOrder->update();
         }
 
         $contRmRo = 0;//contador para asignar referencia en rawmaterialRestauantOrders
@@ -1141,7 +1166,13 @@ class RestaurantOrderController extends Controller
 
         $document = $restaurantOrder;
         $thirdPartyType = 'customer';
-        $thirdParty = CustomerHome::findOrFail($document->customer_home_id);
+        if ($document->customer_home_id != null) {
+            $thirdParty = Customer::findOrFail(1);
+        } else {
+            $thirdParty = CustomerHome::findOrFail($document->customer_home_id);
+        }
+
+
         $logoHeight = 26;
 
         if (indicator()->logo == 'on') {
@@ -1181,7 +1212,13 @@ class RestaurantOrderController extends Controller
 
         $pdf->generateBarcode($barcode);
         $pdf->generateBranchInformation($document);
-        $pdf->generateThirdPartyCommand($thirdParty, $thirdPartyType);
+        if ($document->customer_home_id != null) {
+            $pdf->generateThirdPartyInformation($thirdParty, $thirdPartyType);
+        } else {
+            $pdf->generateThirdPartyCommand($thirdParty, $thirdPartyType);
+        }
+
+
         $pdf->generateProductsTable($document, $typeDocument);
         $pdf->generateSummaryInformation($document, $typeDocument);
         if (indicator()->raw_material == 'on') {
