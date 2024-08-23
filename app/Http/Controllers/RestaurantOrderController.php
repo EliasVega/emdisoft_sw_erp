@@ -1167,9 +1167,9 @@ class RestaurantOrderController extends Controller
         $document = $restaurantOrder;
         $thirdPartyType = 'customer';
         if ($document->customer_home_id != null) {
-            $thirdParty = Customer::findOrFail(1);
-        } else {
             $thirdParty = CustomerHome::findOrFail($document->customer_home_id);
+        } else {
+            $thirdParty = Customer::findOrFail(1);
         }
 
 
@@ -1212,6 +1212,7 @@ class RestaurantOrderController extends Controller
 
         $pdf->generateBarcode($barcode);
         $pdf->generateBranchInformation($document);
+
         if ($document->customer_home_id != null) {
             $pdf->generateThirdPartyCommand($thirdParty, $thirdPartyType);
         } else {
