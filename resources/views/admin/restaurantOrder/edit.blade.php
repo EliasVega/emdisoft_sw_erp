@@ -1,4 +1,4 @@
-@extends("layouts.admin")
+@extends('layouts.admin')
 @section('titulo')
     {{ config('app.name', 'Ecounts') }}
 @endsection
@@ -8,13 +8,15 @@
             <div class="box-danger">
                 <div class="box-header with-border">
                     <h5 class="box-title">Editar Comanda: #{{ $restaurantOrder->id }}
-                        <a href="{{ route('restaurantOrder.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
+                        <a href="{{ route('restaurantOrder.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i
+                                class="fas fa-undo-alt mr-2"></i>Regresar</a>
                         @can('branch.index')
-                            <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
+                            <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm ml-3"><i
+                                    class="fas fa-undo-alt mr-2"></i>Inicio</a>
                         @endcan
                     </h5>
                 </div>
-                @if (count($errors)>0)
+                @if (count($errors) > 0)
                     <div class="alert alert-danger">
                         <ul>
                             @foreach ($errors->all() as $error)
@@ -26,19 +28,28 @@
             </div>
         </div>
     </div>
-    {!!Form::model($restaurantOrder, ['method'=>'PATCH','route'=>['restaurantOrder.update', $restaurantOrder->id]])!!}
-    {!!Form::token()!!}
-        <div class="row m-1">
-            @if (indicator()->raw_material == 'off')
-                @include('admin/restaurantOrder.form_editRestOrderRm')
-            @else
-                @include('admin/restaurantOrder.form_editRestaurantOrder')
-            @endif
+    {!! Form::model($restaurantOrder, [
+        'method' => 'PATCH',
+        'route' => ['restaurantOrder.update', $restaurantOrder->id],
+    ]) !!}
+    {!! Form::token() !!}
+    <div class="row m-1">
+        @if ($service == 1)
+            @include('admin/restaurantOrder.form_home_order')
+        @else
+            @include('admin/restaurantOrder.form_table')
+        @endif
+        @if (indicator()->raw_material == 'on')
+            @include('admin/restaurantOrder.form_editrestaurantOrder')
+            @include('admin/restaurantOrder.form_rawMaterial')
+        @else
+            @include('admin/restaurantOrder.form_editrestaurantOrder')
+        @endif
 
-        </div>
-    {!!Form::close()!!}
+    </div>
+    {!! Form::close() !!}
     @include('admin/restaurantOrder.modalRawMaterial')
-    @include('admin/restaurantOrder.modalRestaurantOrder')
+    @include('admin/restaurantOrder.modalEditRestaurantOrder')
 @endsection
 @section('scripts')
     @include('admin/restaurantOrder.script_editRawMaterial')

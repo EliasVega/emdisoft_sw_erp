@@ -158,7 +158,6 @@
         stock= $("#stock").val();
         tax_rate= $("#tax_rate").val();
         price= $("#price").val();
-        price= $("#price").val();
         pwx = $("#pwx").val();
         if (pwx == 'on') {
             taxRate = parseFloat(tax_rate) + 100;

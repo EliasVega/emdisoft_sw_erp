@@ -11,13 +11,13 @@ use Carbon\Carbon;
 if (! function_exists('supportDocumentData')) {
     function supportDocumentData($request)
     {
-        $company = Company::findOrFail(current_user()->company_id);
+        $date = Carbon::now();
         $provider = Provider::findOrFail($request->provider_id);
         $resolution = Resolution::findOrFail($request->resolution_id);
         $note = $request->note;//observaciones del documento
-        $generationDate = $request->generation_date;//Fecha de generacion
+        $generationDate = $date->format('Y-m-d');//Fecha de generacion
         $dueDate = $request->due_date;//feecha de vencimiento del documento
-        $date = Carbon::now();
+
         $expirationTime = Carbon::parse($generationDate)->diffInDays(Carbon::parse($dueDate));
 
         $product_id = $request->product_id;
@@ -56,7 +56,6 @@ if (! function_exists('supportDocumentData')) {
             $taxAmount = ($quantity[$i] * $price[$i] * $taxRate[$i])/100;
             $amount = $quantity[$i] * $price[$i];
             $taxAmount =number_format($taxAmount, 3, '.', '');
-            //$amount = number_format($amount, 3, '.', '');
             $amount = number_format(round($amount), 2, '.', '');
 
             if ($taxes[0] != []) { //contax > 0
@@ -175,7 +174,7 @@ if (! function_exists('supportDocumentData')) {
             "sendmailtome" => false,
             "resolution_number" => $resolution->resolution,
             "prefix" => $resolution->prefix,
-            "establishment_name" => $company->name,
+            "establishment_name" => company()->name,
             "seller" => [
                 "identification_number" => $provider->identification,
                 "dv" => $provider->dv,

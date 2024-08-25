@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Company;
 use App\Models\CompanyTax;
 use App\Models\Customer;
 use App\Models\Product;
@@ -11,13 +10,12 @@ if (! function_exists('invoiceData')) {
     function invoiceData($request)
     {
         //dd($request->all());
-        $company = Company::findOrFail(current_user()->company_id);
+        $date = Carbon::now();
         $customer = Customer::findOrFail($request->customer_id);//cliente de la factura
         $resolution = Resolution::findOrFail($request->resolution_id);//Resolucion seleccionada
         $note = $request->note;//observaciones del documento
-        $generationDate = $request->generation_date;//Fecha de generacion
+        $generationDate = $date->format('Y-m-d');//Fecha de generacion
         $dueDate = $request->due_date;//feecha de vencimiento del documento
-        $date = Carbon::now();
         $expirationTime = Carbon::parse($generationDate)->diffInDays(Carbon::parse($dueDate));
 
         //Variables request
@@ -26,8 +24,6 @@ if (! function_exists('invoiceData')) {
         $price = $request->price;//Array de precios
         $taxRate = $request->tax_rate;//Array de tasa de cada producto
 
-        $note = $request->note;//observaciones del documento
-        $generationDate = $request->generation_date;//Fecha de generacion
         $dueDate = $request->due_date;//feecha de vencimiento del documento
         $totalDocument = $request->total;//total del documento
         $totalIva = $request->tax_iva;//Total de impuesto de iva
@@ -56,7 +52,6 @@ if (! function_exists('invoiceData')) {
             $companyTax = CompanyTax::findOrFail($companyTaxProduct);
             $amount = $quantity[$i] * $price[$i];
             $taxAmount =number_format(($quantity[$i] * $price[$i] * $taxRate[$i])/100, 3, '.', '');
-            //$amount = number_format($amount, 3, '.', '');
             $amount = number_format(round($amount), 2, '.', '');
 
             if ($taxes[0] != []) { //contax > 0
@@ -163,17 +158,17 @@ if (! function_exists('invoiceData')) {
             "prefix" => $resolution->prefix,
             "notes" => $note,
             "disable_confirmation_text" => true,
-            "establishment_name" => $company->name,
-            "establishment_address" => $company->address,
-            "establishment_phone" => $company->phone,
-            "establishment_municipality" => $company->municipality_id,
-            "establishment_email" => $company->email,
+            "establishment_name" => company()->name,
+            "establishment_address" => company()->address,
+            "establishment_phone" => company()->phone,
+            "establishment_municipality" => company()->municipality_id,
+            "establishment_email" => company()->email,
             "sendmail" => true,
             "sendmailtome" => true,
             "seze" => "",
             "email_cc_list" => [
                 [
-                    "email" => $company->email
+                    "email" => company()->email
                 ],
                 [
                     "email" => $customer->email

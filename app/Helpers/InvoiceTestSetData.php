@@ -63,13 +63,9 @@ if (! function_exists('InvoiceTestSetData')) {
         }
         $amount = number_format(($quantity * $price), 2, '.', '');
 
-
-        $company = Company::findOrFail(current_user()->company_id);
         //$customer = Customer::findOrFail($request->customer_id);//cliente de la factura
         $resolution = Resolution::findOrFail(7);//Resolucion seleccionada
         $note = '';//observaciones del documento
-        $generationDate = now();//Fecha de generacion
-        //$dueDate = now();//feecha de vencimiento del documento
         $date = Carbon::now();
         $dueDate = $date->format('Y-m-d');
         $generationDate = $date->format('Y-m-d');
@@ -111,17 +107,17 @@ if (! function_exists('InvoiceTestSetData')) {
             "prefix" => $resolution->prefix,
             "notes" => $note,
             "disable_confirmation_text" => true,
-            "establishment_name" => $company->name,
-            "establishment_address" => $company->address,
-            "establishment_phone" => $company->phone,
-            "establishment_municipality" => $company->municipality_id,
-            "establishment_email" => $company->email,
+            "establishment_name" => company()->name,
+            "establishment_address" => company()->address,
+            "establishment_phone" => company()->phone,
+            "establishment_municipality" => company()->municipality_id,
+            "establishment_email" => company()->email,
             "sendmail" => true,
             "sendmailtome" => true,
             "seze" => "2021-2017",
             "email_cc_list" => [
                 [
-                    "email" => $company->email
+                    "email" => company()->email
                 ],
                 [
                     "email" => $cust_email

@@ -3,12 +3,12 @@
 use Illuminate\Support\Facades\Http;
 
 if (!function_exists('SendLogo')) {
-    function sendLogo($company, $urlLogo, $data)
+    function sendLogo($urlLogo, $data)
     {
         $requestResponse = [];
 
         $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $company->api_token,
+            'Authorization' => 'Bearer ' . company()->api_token,
             'Content-Type' => 'application/json',
             'cache-control' => 'no-cache',
             'Connection' => 'keep-alive',

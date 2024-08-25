@@ -20,14 +20,14 @@
     $("#editSugestedPrice").hide();
     $("#editTax_rate").hide();
     $("#serviceOld").hide();
-    //$("#formServiceDom").hide();
+    $("#noLook").hide();
 
     $("#product_id").change(productValue);
 
     function productValue(){
         dataProduct = document.getElementById('product_id').value.split('_');
         $("#idProduct").val(dataProduct[0]);
-        $("#sale_price").val(dataProduct[1]);
+        $("#price").val(dataProduct[1]);
         $("#tax_rate").val(dataProduct[2]);
         $("#suggested_price").val(dataProduct[1]);
 
@@ -38,13 +38,17 @@
         });
     });
     function add(){
-
         dataproduct = document.getElementById('product_id').value.split('_');
         product_id= dataproduct[0];
         product= $("#product_id option:selected").text();
-        quantity= $("#quantity").val();
-        price= $("#sale_price").val();
+        quantity= $("#quantityadd").val();
+        price= $("#price").val();
         tax_rate= $("#tax_rate").val();
+        pwx = $("#pwx").val();
+        if (pwx == 'on') {
+            taxRate = parseFloat(tax_rate) + 100;
+            price = (parseFloat(price) / parseFloat(taxRate)) * 100;
+        }
         $("#referency").val(cont);
         ed = 2;//para saber si es registrado o nuevo
 
@@ -54,8 +58,8 @@
             tax_subtotal= subtotal[cont]*tax_rate/100;
             total_tax = total_tax+tax_subtotal;
             tax_ratecont[cont] = tax_rate;
-
-            var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="ed[]" value="'+ed+'">'+ed+'</td><td><input type="hidden" name="ref[]" value="'+cont+'">'+cont+'</td><td><input type="hidden" name="product_id[]" value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td>$'+subtotal[cont]+' </td></tr>';
+            subcont = subtotal[cont] + parseFloat(tax_subtotal);
+            rowsList(cont, ed, employee_id, product_id, product, quantity, price, tax_subtotal, tax_rate, subcont);
             cont++;
 
             totals();
@@ -76,8 +80,8 @@
     }
     function clean(){
         $("#product_id").val("");
-        $("#quantity").val(1);
-        $("#sale_price").val("");
+        $("#quantityadd").val(1);
+        $("#price").val("");
     }
     function totals(){
 
@@ -133,6 +137,11 @@
                 quantity= value['quantity'];
                 price= value['price'];
                 tax_rate= value['tax_rate'];
+                /*
+                if (pwx == 'on') {
+                    taxRate = parseFloat(tax_rate) + 100;
+                    price = (parseFloat(price) / parseFloat(taxRate)) * 100;
+                }*/
                 ed = 1;//para saber si es editado o nuevo
 
                 if(product_id !="" && quantity!="" && quantity>0  && price!="" && price>0){
@@ -141,8 +150,8 @@
                     tax_subtotal= subtotal[cont]*tax_rate/100;
                     total_tax=total_tax+tax_subtotal;
                     tax_ratecont[cont] = tax_rate;
-
-                    var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="ed[]" value="'+ed+'">'+ed+'</td><td><input type="hidden" name="ref[]" value="'+cont+'">'+cont+'</td><td><input type="hidden" name="product_id[]" value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td>$'+subtotal[cont]+' </td></tr>';
+                    subcont = subtotal[cont] + parseFloat(tax_subtotal);
+                    rowsList(cont, ed, product_id, product, quantity, price, tax_subtotal, tax_rate, subcont);
                     cont++;
 
                     totals();
@@ -171,6 +180,8 @@
         $("#contMod").hide();
         $("#subtotalMod").hide();
         $("#idMod").hide();
+        $("#taxMod").hide();
+        $("#priceoldModal").hide();
 
         // Obtener la fila
         var row = $("#row" + index);
@@ -181,15 +192,16 @@
             // Primera columna (0) tiene ID, segunda (1) tiene nombre, tercera (2) capacidad
             $("#contModal").val(index);
             $("#idModal").val(row.find("td:eq(3)").text());
-            $("#product_idModal").val(row.find("td:eq(3)").text());
-            $("#productModal").val(row.find("td:eq(4)").text());
-            $("#quantityModal").val(row.find("td:eq(5)").text());
-            $("#priceModal").val(row.find("td:eq(6)").text());
-            $("#tax_rateModal").val(row.find("td:eq(7)").text());
-            $("#subtotalModal").val(row.find("td:eq(8)").text());
+            $("#product_idModal").val(row.find("td:eq(4)").text());
+            $("#productModal").val(row.find("td:eq(5)").text());
+            $("#quantityModal").val(row.find("td:eq(6)").text());
+            $("#priceModal").val(row.find("td:eq(7)").text());
+            $("#priceoldModal").val(row.find("td:eq(7)").text());
+            $("#tax_rateModal").val(row.find("td:eq(9)").text());
+            $("#subtotalModal").val(row.find("td:eq(10)").text());
 
             // Mostrar modal
-            $('#editModal').modal('show');
+            $('#modalEditRestaurantOrder').modal('show');
         }
     }
 
@@ -206,26 +218,35 @@
         product = $("#productModal").val();
         quantity = $("#quantityModal").val();
         price = $("#priceModal").val();
+        priceold = $("#priceoldModal").val();
         tax_rate = $("#tax_rateModal").val();
-        ed = 1;
+        pwx = $("#pwx").val();
+        if (pwx == 'on') {
+            if (price != priceold) {
+                taxRate = parseFloat(tax_rate) + 100;
+                price = (parseFloat(price) / parseFloat(taxRate)) * 100;
+            }
+        }
+        alert(price);
+        ed = 1; //Nuevo o editando
 
         $('#priceModal').prop("readonly", false)
 
         if(product_id !="" && quantity!="" && quantity>0 && price!="" && price>0){
 
-            subtotal[cont]= parseFloat(quantity) * parseFloat(price);
-            total= total+subtotal[cont];
-            tax_subtotal= subtotal[cont]*tax_rate/100;
-            total_tax=total_tax+tax_subtotal;
+            subtotal[cont] = parseFloat(quantity) * parseFloat(price);
+            total = total + subtotal[cont];
+            tax_subtotal = subtotal[cont] * tax_rate /100;
+            total_tax = total_tax + tax_subtotal;
             tax_ratecont[cont] = tax_rate;
-
-            var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="ed[]" value="'+ed+'">'+ed+'</td><td><input type="hidden" name="ref[]" value="'+cont+'">'+cont+'</td><td><input type="hidden" name="product_id[]" value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td>$'+subtotal[cont]+' </td></tr>';
+            subcont = subtotal[cont] + parseFloat(tax_subtotal);
+            rowsList(cont, ed, product_id, product, quantity, price, tax_subtotal, tax_rate, subcont);
             cont++;
             deleterow(contedit);
             totals();
             assess();
             $('#details').append(row);
-            $('#editModal').modal('hide');
+            $('#modalEditRestaurantOrder').modal('hide');
             //$('#product_id option:selected').remove();
         }else{
             // alert("Rellene todos los campos del detalle de la compra, revise los datos del producto");
@@ -243,6 +264,9 @@
                 deleterow(i);
             }
         });
+    }
+    function rowsList(cont, ed, product_id, product, quantity, price, tax_subtotal, tax_rate, subcont) {
+        row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-sm btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-sm btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="ed[]" value="'+ed+'">'+ed+'</td><td><input type="hidden" name="ref[]" value="'+cont+'">'+cont+'</td><td><input type="hidden" name="product_id[]" value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td><td><input type="hidden" id="price" name="price[]" value="'+parseFloat(price).toFixed(3)+'">'+parseFloat(price).toFixed(3)+'</td><td><input type="hidden" id="price" name="ivaline[]" value="'+parseFloat(tax_subtotal).toFixed(3)+'">'+parseFloat(tax_subtotal).toFixed(3)+'</td><td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td>$'+parseFloat(subtotal[cont]).toFixed(3) +' </td></tr>';
     }
     /*
     $(document).ready(function(){

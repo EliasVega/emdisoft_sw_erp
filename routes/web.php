@@ -219,15 +219,16 @@ Route::resource('verificationCode', VerificationCodeController::class);
 Route::resource('voucherType', VoucherTypeController::class);
 Route::resource('workLabor', WorkLaborController::class);
 
-Route::get('auxiliaryAccount/auxiliaryAccountStatus/{id}', [AuxiliaryAccountController::class, 'auxiliaryAccountStatus'])->name('auxiliaryAccountStatus');
 
 Route::get('advance/advancePdf/{id}', [AdvanceController::class, 'advancePdf'])->name('advancePdf');
 Route::get('advance/advancePos/{id}', [AdvanceController::class, 'advancePos'])->name('advancePos');
 
+Route::get('auxiliaryAccount/auxiliaryAccountStatus/{id}', [AuxiliaryAccountController::class, 'auxiliaryAccountStatus'])->name('auxiliaryAccountStatus');
+
 Route::get('branch/create/{id}', [BranchController::class, 'getMunicipalities']);
-Route::post('branch/logout', [BranchController::class, 'logout'])->name('logout_branch');
-Route::get('branch/transfer/{id}', [BranchController::class, 'transfer'])->name('show_transfer');
 Route::get('branch/product/{id}', [BranchController::class, 'product'])->name('show_product');
+Route::get('branch/transfer/{id}', [BranchController::class, 'transfer'])->name('show_transfer');
+Route::post('branch/logout', [BranchController::class, 'logout'])->name('logout_branch');
 
 Route::get('cashRegister/show_cashOutflow/{id}', [CashRegisterController::class, 'show_cashOutflow'])->name('show_cashOutflow');
 Route::get('cashRegister/show_cashInflow/{id}', [CashRegisterController::class, 'show_cashInflow'])->name('show_cashInflow');
@@ -291,12 +292,11 @@ Route::get('invoice/create/{id}', [InvoiceController::class, 'getMunicipalities'
 Route::get('createPos', [InvoiceController::class, 'createPos'])->name('createPos');
 Route::get('getProductInvoice', [InvoiceController::class, 'getProductInvoice'])->name('getProductInvoice');
 Route::get('invoice/invoicePay/{id}', [InvoiceController::class, 'invoicePay'])->name('invoicePay');
+Route::get('invoice/invoicePdf/{id}', [InvoiceController::class, 'invoicePdf'])->name('invoicePdf');
+Route::get('invoice/invoicePos/{id}', [InvoiceController::class, 'invoicePos'])->name('invoicePos');
 Route::get('invoice/creditNoteInvoice/{id}', [InvoiceController::class, 'creditNote'])->name('creditNoteInvoice');
 Route::get('invoice/debitNoteInvoice/{id}', [InvoiceController::class, 'debitNote'])->name('debitNoteInvoice');
 Route::get('invoice/advance/{id}', [InvoiceController::class, 'getAdvance']);
-
-Route::get('invoice/invoicePdf/{id}', [InvoiceController::class, 'invoicePdf'])->name('invoicePdf');
-Route::get('invoice/invoicePos/{id}', [InvoiceController::class, 'invoicePos'])->name('invoicePos');
 //Route::get('pdfInvoice', [InvoiceController::class, 'pdfInvoice'])->name('pdfInvoice');
 //Route::get('posInvoice', [InvoiceController::class, 'posInvoice'])->name('posInvoice');
 Route::get('invoice/posPdf/{invoice}', [InvoiceController::class, 'posPdf'])->name('posPdf');

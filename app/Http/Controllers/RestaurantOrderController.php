@@ -91,6 +91,7 @@ class RestaurantOrderController extends Controller
     {
         $indicator = Indicator::findOrFail(1);
         $branch = Branch::findOrFail(current_user()->branch_id);
+        $customers = Customer::get();
         $customerHomes = CustomerHome::get();
         $cashRegister = cashRegisterComprobation();
         if ($cashRegister == null) {
@@ -109,6 +110,7 @@ class RestaurantOrderController extends Controller
             'products',
             'rawMaterials',
             'productRawMaterials',
+            'customers',
             'customerHomes'
         ));
     }
@@ -483,6 +485,7 @@ class RestaurantOrderController extends Controller
         if ($cashRegister == null) {
             return redirect('branch');
         }
+        $customers = Customer::get();
         $restaurantTables = RestaurantTable::where('id', '!=', 1)->get();
         $products = Product::get();
         $rawMaterials = RawMaterial::get();
@@ -513,6 +516,7 @@ class RestaurantOrderController extends Controller
             'productRestaurantOrders',
             'productRawMaterials',
             'rawmaterialRestaurantorders',
+            'customers',
             'service'
         ));
     }

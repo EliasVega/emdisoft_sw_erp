@@ -1,4 +1,4 @@
-<div class="modal fade" id="editRestOrderModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="modalEditRestaurantOrder" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -10,7 +10,7 @@
             <div class="modal-body">
                 {!!Form::open(array('url'=>'restaurantOrder', 'method'=>'Post', 'autocomplete'=>'off'))!!}
                 {!!Form::token()!!}
-                    @include('admin/restaurantOrder.form_modalRestaurantOrder')
+                    @include('admin/restaurantOrder.form_modalEditRestaurantOrder')
                 {!!Form::close()!!}
             </div>
             <div class="modal-footer">

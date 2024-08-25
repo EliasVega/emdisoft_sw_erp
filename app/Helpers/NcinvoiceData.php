@@ -16,7 +16,6 @@ if (!function_exists('ncinvoiceData')) {
         $invoiceResponse = InvoiceResponse::where('invoice_id', $invoice->id)->first();//respuesta factura a NC
         $discrepancy = Discrepancy::findOrFail($request->discrepancy_id);//mtivos de la nota Credito
         $date = Carbon::now();//fecha de hoy
-        $company = Company::findOrFail(current_user()->company_id);//compañia
         $customer = Customer::findOrFail($request->customer_id);//cliente de la factura y nota credito
         $resolution = '';
         if ($invoice->document_type_id == 1) {
@@ -24,7 +23,6 @@ if (!function_exists('ncinvoiceData')) {
         } else if ($invoice->document_type_id == 15) {
             $resolution = Resolution::findOrFail(11);//NC factura de venta pos
         }
-
         $product_id = $request->id; //Array de request id de productos
         $quantity = $request->quantity;//array de request de cantidades
         $price = $request->price;// array de request de precios
@@ -48,7 +46,6 @@ if (!function_exists('ncinvoiceData')) {
             $taxAmount = ($quantity[$i] * $price[$i] * $taxRate[$i])/100;
             $amount = $quantity[$i] * $price[$i];
             $taxAmount = number_format($taxAmount, 3, '.', '');
-            //$amount = number_format($amount, 3, '.', '');
             $amount = number_format(round($amount), 2, '.', '');
 
             if ($taxes[0] != []) { //contax > 0
@@ -121,10 +118,10 @@ if (!function_exists('ncinvoiceData')) {
             "type_document_id" => $resolution->document_type_id,
             "date" => $date->toDateString(),
             "time" => $date->toTimeString(),
-            "establishment_name" => $company->name,
-            "establishment_address" => $company->address,
-            "establishment_phone" => $company->phone,
-            "establishment_municipality" => $company->municipality_id,
+            "establishment_name" => company()->name,
+            "establishment_address" => company()->address,
+            "establishment_phone" => company()->phone,
+            "establishment_municipality" => company()->municipality_id,
             "sendmail" => true,
             "sendmailtome" => true,
             "seze" => "2021-2017",

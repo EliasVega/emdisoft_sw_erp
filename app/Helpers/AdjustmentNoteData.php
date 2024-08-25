@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Company;
 use App\Models\CompanyTax;
 use App\Models\Discrepancy;
 use App\Models\Product;
@@ -19,7 +18,6 @@ if (! function_exists('adjustmentNoteData')) {
         } else {
             $resolution = Resolution::findOrFail(3);//resolucion selecionada en el request
         }
-        $company = Company::findOrFail(current_user()->company_id);
         $provider = Provider::findOrFail($purchase->provider_id);
         $discrepancy = Discrepancy::findOrFail($request->discrepancy_id);
         //$resolution = Resolution::findOrFail($request->resolution_id);
@@ -126,10 +124,10 @@ if (! function_exists('adjustmentNoteData')) {
             "type_document_id" => $resolution->document_type_id,
             "date" => $date->toDateString(),
             "time" => $date->toTimeString(),
-            "establishment_name" => $company->name,
-            "establishment_address" => $company->address,
-            "establishment_phone" => $company->phone,
-            "establishment_municipality" => $company->municipality_id,
+            "establishment_name" => company()->name,
+            "establishment_address" => company()->address,
+            "establishment_phone" => company()->phone,
+            "establishment_municipality" => company()->municipality_id,
             "sendmail" => true,
             "sendmailtome" => true,
             "seze" => "2021-2017",

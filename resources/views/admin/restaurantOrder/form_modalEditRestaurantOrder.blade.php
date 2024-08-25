@@ -18,12 +18,6 @@
             <input type="text" name="productModal" id="productModal" class="form-control" placeholder="producto" readonly>
         </div>
     </div>
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="taxmod">
-        <div class="form-group">
-            <label for="tax_rateModal">Imp</label>
-            <input type="text" name="tax_rateModal" id="tax_rateModal" class="form-control" placeholder="tax_rate" readonly>
-        </div>
-    </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="quantityModal">Cantidad</label>
@@ -37,6 +31,12 @@
             <input type="number" name="priceModal" id="priceModal" class="form-control" placeholder="precio">
         </div>
     </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="taxmod">
+        <div class="form-group">
+            <label for="tax_rateModal">Imp</label>
+            <input type="text" name="tax_rateModal" id="tax_rateModal" class="form-control" placeholder="tax_rate" readonly>
+        </div>
+    </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="subtotalMod">
         <div class="form-group">
             <label for="subtotalModal">Subtotal</label>
@@ -48,6 +48,12 @@
         <div class="form-group">
             <label for="contModal">Cont</label>
             <input type="text" name="contModal" id="contModal" class="form-control" placeholder="cont">
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="priceold">
+        <div class="form-group">
+            <label for="priceoldModal">Cont</label>
+            <input type="text" name="priceoldModal" id="priceoldModal" class="form-control" placeholder="cont">
         </div>
     </div>
 </div>

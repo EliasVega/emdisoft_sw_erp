@@ -1,11 +1,4 @@
 <div class="box-body row">
-
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="idpMod">
-        <div class="form-group">
-            <label for="idpModal">idProduct</label>
-            <input type="text" name="idpModal" id="idpModal"class="form-control" placeholder="id" readonly>
-        </div>
-    </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="rawMaterialIdModal">
         <div class="form-group">
             <label for="raw_material_idModal">idMP</label>
@@ -38,10 +31,19 @@
         </div>
     </div>
 
+
+<div class="box-body row" id="noLook">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="idpMod">
+        <div class="form-group">
+            <label for="idpModal">idProduct</label>
+            <input type="text" name="idpModal" id="idpModal"class="form-control" placeholder="id" readonly>
+        </div>
+    </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="contrmMod">
         <div class="form-group">
             <label for="contrmModal">Cont</label>
             <input type="text" name="contrmModal" id="contrmModal" class="form-control" placeholder="cont">
         </div>
     </div>
+</div>
 </div>

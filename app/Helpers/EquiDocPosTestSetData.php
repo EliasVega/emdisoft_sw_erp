@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Branch;
-use App\Models\Company;
 use App\Models\Configuration;
 use App\Models\Resolution;
 use Carbon\Carbon;
@@ -65,9 +64,8 @@ if (! function_exists('EquiDocPosTestSetData')) {
         }
         $amount = number_format(($quantity * $price), 2, '.', '');
 
-        $company = Company::findOrFail(current_user()->company_id);
         $branch = Branch::findOrFail(current_user()->branch_id);
-        $configuration = Configuration::where('company_id', $company->id)->first();
+        $configuration = Configuration::where('company_id', company()->id)->first();
         //$customer = Customer::findOrFail($request->customer_id);//cliente de la factura
         $resolution = Resolution::findOrFail(10);//Resolucion seleccionada
         $cashRegister = cashregisterModel();

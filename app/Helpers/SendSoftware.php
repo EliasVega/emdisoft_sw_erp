@@ -3,11 +3,11 @@
 use Illuminate\Support\Facades\Http;
 
 if (!function_exists('SendSoftware')) {
-    function sendSoftware($company, $url, $data)
+    function sendSoftware($url, $data)
     {
         $requestResponse = [];
         $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $company->api_token,
+            'Authorization' => 'Bearer ' . company()->api_token,
             'Content-Type' => 'application/json',
             'cache-control' => 'no-cache',
             'Connection' => 'keep-alive',

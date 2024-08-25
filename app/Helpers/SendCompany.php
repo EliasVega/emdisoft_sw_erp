@@ -3,12 +3,12 @@
 use Illuminate\Support\Facades\Http;
 
 if (!function_exists('sendCompany')) {
-    function sendCompany($company, $urlCompany, $data)
+    function sendCompany($urlCompany, $data)
     {
         $requestResponse = [];
 
-        $nit = $company->nit;
-        $dv = $company->dv;
+        $nit = company()->nit;
+        $dv = company()->dv;
         $urlSend = $urlCompany . $nit . '/' . $dv;
 
         $response = Http::withHeaders([

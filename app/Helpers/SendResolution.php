@@ -3,12 +3,12 @@
 use Illuminate\Support\Facades\Http;
 
 if (!function_exists('SendResolution')) {
-    function sendResolution($company, $urlResolution, $data)
+    function sendResolution($urlResolution, $data)
     {
         $requestResponse = [];
 
         $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $company->api_token,
+            'Authorization' => 'Bearer ' . company()->api_token,
             'Content-Type' => 'application/json',
             'Accept' => 'application/json'
         ])->put($urlResolution, $data);

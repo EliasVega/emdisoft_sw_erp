@@ -17,7 +17,6 @@ if (!function_exists('ndinvoiceData')) {
         $discrepancy = Discrepancy::findOrFail($request->discrepancy_id);//mtivos de la nota Credito
         $resolution = Resolution::findOrFail(9);//resolucion de la nota credito
         $date = Carbon::now();//fecha de hoy
-        $company = Company::findOrFail(current_user()->company_id);//compañia
         $customer = Customer::findOrFail($request->customer_id);//cliente de la factura y nota credito
 
         $product_id = $request->id; //Array de request id de productos
@@ -114,10 +113,10 @@ if (!function_exists('ndinvoiceData')) {
             "type_document_id" => $resolution->document_type_id,
             "date" => $date->toDateString(),
             "time" => $date->toTimeString(),
-            "establishment_name" => $company->name,
-            "establishment_address" => $company->address,
-            "establishment_phone" => $company->phone,
-            "establishment_municipality" => $company->municipality_id,
+            "establishment_name" => company()->name,
+            "establishment_address" => company()->address,
+            "establishment_phone" => company()->phone,
+            "establishment_municipality" => company()->municipality_id,
             "sendmail" => true,
             "sendmailtome" => true,
             "seze" => "2021-2017",

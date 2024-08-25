@@ -23,6 +23,7 @@
     $("#editMaterialId").hide();
     $("#idProductRaw").hide();
     $("#save").hide();
+    $("#noLook").hide();
 
     $("#raw_material_id").change(rawMaterialValue);
 
@@ -197,12 +198,6 @@
             })
         }
     }
-
-
-
-
-
-
 
     function totalrms(){
         $("#totalrm_html").html("$ " + totalrm.toFixed(2));

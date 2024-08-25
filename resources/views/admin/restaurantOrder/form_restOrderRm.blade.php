@@ -31,15 +31,15 @@
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="addQuantity">
                     <div class="form-group">
-                        <label class="form-control-label" for="quantity">Cantidad</label>
-                        <input type="number" id="quantity" value="1" name="quantity" value="1"
+                        <label class="form-control-label" for="quantityadd">Cantidad</label>
+                        <input type="number" id="quantityadd" value="1" name="quantityadd" value="1"
                             class="form-control" placeholder="Cantidad" pattern="[0-9]{0,15}">
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="addPrice">
                     <div class="form-group">
-                        <label class="form-control-label" for="sale_price">Precio</label>
-                        <input type="number" id="sale_price" name="sale_price" class="form-control"
+                        <label class="form-control-label" for="price">Precio</label>
+                        <input type="number" id="price" name="price" class="form-control"
                             placeholder="P/venta">
                     </div>
                 </div>
@@ -47,12 +47,6 @@
                     <div class="form-group">
                         <label class="form-control-label">Add</label><br>
                         <button class="btn btn-lightBlueGrad" type="button" id="add" data-toggle="tooltip" data-placement="top" title="Add"><i class="fas fa-check"></i>&nbsp; </button>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" id="addCanc">
-                    <div class="form-group">
-                        <label class="form-control-label" >Canc</label><br>
-                        <a href="{{url('restaurantOrder')}}" class="btn btn-blueGrad" data-toggle="tooltip" data-placement="top" title="Cancelar"><i class="fa fa-window-close"></i>&nbsp; </a>
                     </div>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="addObservation">
@@ -77,25 +71,26 @@
                             <th>id</th>
                             <th>Menu</th>
                             <th>Cantidad</th>
-                            <th>precio ($)</th>
-                            <th>Impuesto ($)</th>
+                            <th>precio</th>
+                            <th>Impuesto</th>
+                            <th>%</th>
                             <th>SubTotal ($)</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th colspan="7" class="rightfoot">TOTAL:</th>
+                            <th colspan="8" class="rightfoot">TOTAL:</th>
                             <td class="rightfoot"><strong id="total_html">$ 0.00</strong>
                                 <input type="hidden" name="total" id="total"></td>
                         </tr>
                         <tr>
-                            <th colspan="7" class="rightfoot">IMPUESTO:</th>
+                            <th colspan="8" class="rightfoot">IMPUESTO:</th>
                             <td class="rightfoot"><strong id="total_tax_html">$ 0.00</strong>
                                 <input type="hidden" name="total_tax" id="total_tax">
                             </td>
                         </tr>
                         <tr>
-                            <th colspan="7" class="rightfoot">TOTAL PAGAR:</th>
+                            <th colspan="8" class="rightfoot">TOTAL PAGAR:</th>
                             <td class="rightfoot"><strong id="total_pay_html">$ 0.00</strong>
                                 <input type="hidden" name="total_pay" id="total_pay"></td>
                         </tr>
