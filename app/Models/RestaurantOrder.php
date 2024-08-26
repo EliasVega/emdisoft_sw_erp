@@ -65,6 +65,10 @@ class RestaurantOrder extends Model
         return $this->belongsTo(CashRegister::class);
     }
 
+    public function customer(){
+        return $this->belongsTo(Customer::class);
+    }
+
     public function customerHome(){
         return $this->belongsTo(CustomerHome::class);
     }

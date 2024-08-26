@@ -539,6 +539,7 @@ class RestaurantOrderController extends Controller
 
         $service = $request->service;//variable que me dice si es mesa o domicilio
         $table = $request->restaurant_table_id;// variable numero de mesa
+
         //variables del producto
         $product_id = $request->product_id;//id del producto
         $quantity = $request->quantity;//cantidad de productos
@@ -626,7 +627,7 @@ class RestaurantOrderController extends Controller
         $restaurantOrder->total_tax = $request->total_tax;
         $restaurantOrder->total_pay = $request->total_pay;
         $restaurantOrder->note = $request->note;
-        if ($service == 0) {//si el servicio es de mesa
+        if ($service > 1) {//si el servicio es de mesa
             $restaurantOrder->restaurant_table_id = $request->restaurant_table_id;
             $restaurantOrder->customer_home_id = null;
             $restaurantOrder->customer_id = $request->customer_id;

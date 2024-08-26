@@ -59,7 +59,7 @@
             total_tax = total_tax+tax_subtotal;
             tax_ratecont[cont] = tax_rate;
             subcont = subtotal[cont] + parseFloat(tax_subtotal);
-            rowsList(cont, ed, employee_id, product_id, product, quantity, price, tax_subtotal, tax_rate, subcont);
+            rowsList(cont, ed, product_id, product, quantity, price, tax_subtotal, tax_rate, subcont);
             cont++;
 
             totals();
