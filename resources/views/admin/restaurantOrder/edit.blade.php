@@ -40,10 +40,10 @@
             @include('admin/restaurantOrder.form_table')
         @endif
         @if (indicator()->raw_material == 'on')
-            @include('admin/restaurantOrder.form_editCCxxxxxxestaurantOrder')
+            @include('admin/restaurantOrder.form_editRestaurantOrder')
             @include('admin/restaurantOrder.form_rawMaterial')
         @else
-            @include('admin/restaurantOrder.form_editCCxxxxxxestaurantOrder')
+            @include('admin/restaurantOrder.form_editRestaurantOrder')
         @endif
 
     </div>
