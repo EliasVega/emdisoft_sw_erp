@@ -13,8 +13,8 @@
         });
     });
 
-    $("#fPercentage").hide();
-    $("#invoice").hide();
+    $("#totalDocument").hide();
+    $("#addPercentage").hide();
     $("#infoIva").hide();
     $("#infoType").hide();
     $("#infoBase").hide();
@@ -33,6 +33,7 @@
         $("#percentage").val(dataTax[1]);
         $("#taxTypeId").val(dataTax[2]);
         $("#base").val(dataTax[3]);
+        $("#total_document").val(total);
     }
     $(document).ready(function(){
         $("#withhold").click(function(){
@@ -42,17 +43,15 @@
     function withhold(){
 
         dataTax = document.getElementById('company_tax_id').value.split('_');
-        company_tax_id= dataTax[0];
-        companyTax= $("#company_tax_id option:selected").text();
+        company_tax_id = dataTax[0];
+        companyTax = $("#company_tax_id option:selected").text();
         percentage = $("#percentage").val();
-
         ttid = $("#taxTypeId").val();
         balance = $("#balance").val();
         base = parseFloat($("#base").val());
         if(company_tax_id !="" && companyTax!="" && percentage!=""  && percentage>0 ){
             if (ttid == 5) {
                 if (tax_iva > base) {
-
                     totalRetention[contRetention] = iva * percentage/100;
                 } else {
                     totalRetention[contRetention] = 0;
@@ -64,7 +63,7 @@
                     totalRetention[contRetention] = 0;
                 }
             }
-            total_retention = total_retention+totalRetention[contRetention];
+            total_retention += totalRetention[contRetention];
             balance -= totalRetention[contRetention];
             var row= '<tr class="selected" id="row'+contRetention+'"><td><button type="button" class="btn btn-danger btn-xs" onclick="deleteRetention('+contRetention+');"><i class="fa fa-times"></i></button></td><td><input type="hidden" name="company_tax_id[]" value="'+company_tax_id+'">'+companyTax+'</td><td> $'+parseFloat(totalRetention[contRetention]).toFixed(2)+'</td></tr>';
             contRetention++;
@@ -91,6 +90,9 @@
     function retentionTotals(){
         $("#total_retention_html").html("$ " + total_retention.toFixed(2));
         $("#total_retention").val(total_retention.toFixed(2));
+
+        //$("#total_document").val(total);
+        $("#tax_iva").val(tax_iva);
     }
     function deleteRetention(index){
 

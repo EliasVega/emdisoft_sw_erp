@@ -2,7 +2,6 @@
     /*$(document).ready(function(){
             alert('estoy funcionando correctamanete empresa');
         });*/
-
     jQuery(document).ready(function($){
         $(document).ready(function() {
             $('#resolution_id').select2({
@@ -17,9 +16,9 @@
                 theme: "classic",
                 width: "100%",
             });
+            //$('#customer_id').trigger('change');
         });
     });
-
     jQuery(document).ready(function($){
         $(document).ready(function() {
             $('#product_id').select2({
@@ -449,48 +448,65 @@
 
     $(document).ready(function(){
         $("#addPay").click(function(){
-            alert('pirobo');
             $("#formCard").hide();
+            $("#formRetentions").hide();
             $("#formPayCard").show();
+            $("#addTablePay").show();
+            $("#codeBarcode").hide();
+            $("#addProductId").hide();
+            $("#qadd").hide();
+            $("#padd").hide();
+            $("#btnadd").hide();
         });
     });
     $(document).ready(function(){
-        $("#goBack").click(function(){
-            $("#formCard").show();
+        $("#addRetentions").click(function(){
+            $("#formCard").hide();
             $("#formPayCard").hide();
-            $("#addProductId").hide();
+            $("#formRetentions").show();
+            $("#addTablePay").hide();
             $("#codeBarcode").hide();
-            $("#addPay").hide();
+            $("#addProductId").hide();
             $("#qadd").hide();
             $("#padd").hide();
-            $("#spadd").hide();
-            $("#save").show();
+            $("#btnadd").hide();
         });
     });
-    /*
     $(document).ready(function(){
         $("#goBack").click(function(){
             $("#formCard").show();
             $("#formPayCard").hide();
             $("#formRetentions").hide();
-            $("#addProductId").hide();
-            $("#codeBarcode").hide();
+            $("#addTablePay").hide();
             $("#addPay").hide();
-            $("#qadd").hide();
-            $("#padd").hide();
-            $("#spadd").hide();
-            $("#save").show();
         });
     });
-
     $(document).ready(function(){
         $("#goBack2").click(function(){
             $("#formCard").show();
             $("#formPayCard").hide();
             $("#formRetentions").hide();
+            $("#addTablePay").hide();
+            $("#addRetentions").hide();
         });
-    });*/
+    });
+    $(document).ready(function(){
+        $("#addRefresh").click(function(){
+            $.ajax({
+                url: "{{ route('getCustomers') }}",
+                method: 'GET',
+                success: function(data) {
+                    $('#customer_id').empty();
+                    $.each(data, function(index, option) {
+                        $('#customer_id').append(new Option(option.identification + ' - ' + option.name, option.id));
+                    });
+                    // Refrescar si utilizas un plugin
+                    //$('#customer_id').selectpicker('refresh');
+                }
+            });
 
+        });
+    });
     $("#customer_id").change(function(event){
         $.get("advance/" + event.target.value + "", function(response){
             $("#advance_id").empty();

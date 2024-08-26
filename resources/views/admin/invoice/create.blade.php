@@ -59,7 +59,6 @@
 <!--Fin del modal-->
 @endsection
 @section('scripts')
-
     @if ($type == 'pos')
         @include('admin/generalview.script_paypos')
         @include('admin/invoice.script_retention')

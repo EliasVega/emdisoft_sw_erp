@@ -38,7 +38,7 @@
         <input type="number" name="percentage" id="percentage" class="form-control" value="0" placeholder="porcentage">
     </div>
 </div>
-<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="invoice">
+<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="totalInvoiceOld">
     <div class="form-group">
         <label class="form-control-label" for="total_invoice">Total factura</label>
         <input type="number" name="total_invoice" id="total_invoice" class="form-control" value="0" placeholder="total">

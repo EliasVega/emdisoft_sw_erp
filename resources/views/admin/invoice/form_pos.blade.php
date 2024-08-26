@@ -41,7 +41,7 @@
                     </div>
                 @endif
 
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="addProductId">
                     <div class="form-group">
                         <label class="form-control-label" for="product_id">Producto </label>
                         <select name="product_id" class="form-control selectpicker" id="product_id"
@@ -55,20 +55,20 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="qadd">
                     <div class="form-group">
                         <label class="form-control-label" for="quantityadd">Cantidad</label>
                         <input type="number" id="quantityadd" name="quantityadd" value="1" class="form-control"
                             placeholder="Cant." pattern="[0-9]{0,15}">
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="padd">
                     <div class="form-group">
                         <label class="form-control-label" for="price">Precio</label>
                         <input type="number" id="price" name="price" class="form-control" placeholder="Precio">
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="btnadd">
                     <div class="form-group">
                         <label class="form-control-label">Add</label><br>
                         <button class="btn btn-lightBlueGrad" type="button" id="add" data-toggle="tooltip"

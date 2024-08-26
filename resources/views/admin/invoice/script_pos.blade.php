@@ -58,7 +58,6 @@
     $("#addRetentions").hide();
     $("#payposadd").hide();
 
-
     $(document).ready(function(){
         typeInvoice = $("#pos_active").val();
         if (typeInvoice == 'on') {
@@ -155,9 +154,9 @@
         product_id= $("#barcode_product_id").val();
         product= $("#product_barcode").val();
         quantity= $("#quantityadd").val();
-        price= $("#price").val();
         stock= $("#stock").val();
         tax_rate= $("#tax_rate").val();
+        price= $("#price").val();
         pwx = $("#pwx").val();
         if (pwx == 'on') {
             taxRate = parseFloat(tax_rate) + 100;
@@ -393,7 +392,6 @@
             taxRate = parseFloat(tax_rate) + 100;
             price = (parseFloat(price) / parseFloat(taxRate)) * 100;
         }
-
         let cvpinv = $(("#cvpinvoice1")).prop("checked");// == true ? 1 : 0;
         if (cvpinv == true) {
             cv = 1;

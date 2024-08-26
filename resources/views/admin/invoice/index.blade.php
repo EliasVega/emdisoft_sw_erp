@@ -79,7 +79,8 @@
                 $(document).ready(function() {
                     var typeDocument = "{{ $typeDocument ?? '' }}";
                     var dian = "{{ $dian ?? '' }}";
-                    function print() {
+                    print(typeDocument);
+                    function print(typeDocument) {
                         if (typeDocument == 'invoice') {
                             var invoice = "{{ $invoice ?? '' }}";
                             if (invoice != '') {
@@ -98,7 +99,6 @@
 
                         }
                     }
-                    print();
 
                     function format(d) {
                         return `
