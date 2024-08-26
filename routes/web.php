@@ -302,6 +302,7 @@ Route::get('invoice/advance/{id}', [InvoiceController::class, 'getAdvance']);
 Route::get('invoice/posPdf/{invoice}', [InvoiceController::class, 'posPdf'])->name('posPdf');
 Route::get('invoice/pdfInvoice/{invoice}', [InvoiceController::class, 'pdfInvoice'])->name('pdfInvoice');
 Route::get('invoice/downloadPdfXmlInvoice/{invoice}', [InvoiceController::class, 'downloadPdfXmlInvoice'])->name('downloadPdfXmlInvoice');
+Route::get('indexInvoice', [InvoiceController::class, 'indexInvoice'])->name('indexInvoice');
 
 
 Route::get('invoiceOrder/invoice/{id}', [InvoiceOrderController::class, 'invoice'])->name('invoiceOrderInvoice');

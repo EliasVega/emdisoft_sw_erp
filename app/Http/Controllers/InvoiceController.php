@@ -65,6 +65,71 @@ class InvoiceController extends Controller
      */
     public function index(Request $request)
     {
+        $invoice = '';
+        $typeDocument = '';
+        if ($request->ajax()) {
+            $users = current_user();
+            $user = $users->Roles[0]->name;
+            if ($user == 'superAdmin' ||$user == 'admin') {
+                //Muestra todas las compras de la empresa
+                $invoices = Invoice::get();
+            } else {
+                if (indicator()->pos == 'off') {
+                    $invoices = Invoice::get();
+                } else {
+                    //Muestra todas las compras de la empresa por usuario
+                    $invoices = Invoice::where('user_id', $users->id)->get();
+                }
+            }
+            return DataTables::of($invoices)
+            ->addIndexColumn()
+            ->addColumn('customer', function (Invoice $invoice) {
+                return $invoice->third->name;
+            })
+            ->addColumn('branch', function (Invoice $invoice) {
+                return $invoice->branch->name;
+            })
+            ->addColumn('retention', function (Invoice $invoice) {
+                return $invoice->retention;
+            })
+            ->addColumn('status', function (Invoice $invoice) {
+                if ($invoice->status == 'invoice') {
+                    return $invoice->status == 'invoice' ? 'F. Venta' : 'F. Venta';
+                } elseif ($invoice->status == 'debit_note') {
+                    return $invoice->status == 'debit_note' ? 'Nota Debito' : 'Nota Debito';
+                } elseif ($invoice->status == 'credit_note'){
+                    return $invoice->status == 'credit_note' ? 'Nota Credito' : 'Nota Credito';
+                }  elseif ($invoice->status == 'complete'){
+                    return $invoice->status == 'complete' ? 'NC - ND' : 'NC - ND';
+                }
+            })
+            ->addColumn('observation', function (Invoice $invoice) {
+                return $invoice->note;
+            })
+            ->addColumn('role', function (Invoice $invoice) {
+                return $invoice->user->roles[0]->name;
+            })
+            ->addColumn('restaurant', function (Invoice $invoice) {
+                return $invoice->branch->company->indicator->restaurant;
+            })
+            ->addColumn('pos', function (Invoice $invoice) {
+                return $invoice->branch->company->indicator->pos;
+            })
+            ->addColumn('dian', function (Invoice $invoice) {
+                return $invoice->branch->company->indicator->dian;
+            })
+            ->editColumn('created_at', function(Invoice $invoice){
+                return $invoice->generation_date;
+            })
+            ->addColumn('btn', 'admin/invoice/actions')
+            ->rawColumns(['btn'])
+            ->make(true);
+        }
+        return view('admin.invoice.index', compact('invoice', 'typeDocument'));
+    }
+
+    public function indexInvoice(Request $request)
+    {
         $invoice = session('invoice');
         $typeDocument = session('typeDocument');
         if ($request->ajax()) {
@@ -616,7 +681,7 @@ class InvoiceController extends Controller
             return redirect('invoice');
         }
         toast($errorMessages,'danger');
-        return redirect('invoice');
+        return redirect('indexInvoice');
     }
 
     /**
