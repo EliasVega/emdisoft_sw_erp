@@ -424,6 +424,7 @@ Route::get('posRestaurantOrder', [RestaurantOrderController::class, 'posRestaura
 Route::get('transfer/product/{id}', [TransferController::class, 'getProducts']);
 Route::get('restaurantOrder/getRawMaterial/{id}', [RestaurantOrderController::class, 'getRawMaterial'])->name('getRawMaterial');
 Route::get('restaurantOrder/posPdfRestaurantOrder/{restaurantOrder}', [RestaurantOrderController::class, 'posPdfRestaurantOrder'])->name('posPdfRestaurantOrder');
+Route::get('indexRestaurantOrder', [RestaurantOrderController::class, 'indexRestaurantOrder'])->name('indexRestauranOrder');
 
 Route::get('software/editPayrollSw/{id}', [SoftwareController::class, 'editPayrollSw'])->name('editPayrollSw');
 Route::get('software/editPosSw/{id}', [SoftwareController::class, 'editPosSw'])->name('editPosSw');

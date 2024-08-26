@@ -12,14 +12,17 @@
     <div class="col-md-5" id="formCard">
         <div class="card card-primary card-outline">
             <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="form-group">
-                        <label for="customer_id"> Cliente </label>
-                        <select name="customer_id" class="form-control selectpicker" id="customer_id"
-                            data-live-search="true" required>
-                            @foreach ($customers as $customer)
-                                <option value="{{ $customer->id }}">{{ $customer->identification }} - {{ $customer->name }}
-                                </option>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="editAddCustomer">
+                    <label for="customer_id">Cliente</label>
+                    <div class="select">
+                        <select id="customer_id" name="customer_id" class="form-control selectpicker" data-live-search="true">
+                            <option {{ old('customer_id', $restaurantOrder->customer_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Cliente</option>
+                            @foreach($customers as $customer)
+                                @if(old('customer_id', $restaurantOrder->customer_id ?? '') == $customer->id)
+                                    <option value="{{ $customer->id }}" selected>{{ $customer->name }}</option>
+                                @else
+                                    <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>

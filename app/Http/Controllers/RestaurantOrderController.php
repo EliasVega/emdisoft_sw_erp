@@ -45,6 +45,47 @@ class RestaurantOrderController extends Controller
      */
     public function index(Request $request)
     {
+        $restaurantOrder = '';
+        if ($request->ajax()) {
+            //Muestra todas las pre compras de la empresa
+            $user = current_user()->Roles[0]->name;
+            if ($user == 'superAdmin' ||$user == 'admin') {
+                //Consulta para mostrar todas las precompras a admin y superadmin
+                $restaurantOrders = RestaurantOrder::where('status', '!=', 'canceled')->get();
+            } else {
+                //Consulta para mostrar precompras de los demas roles
+                $restaurantOrders = RestaurantOrder::where('user_id', $user->id)->where('status', '!=', 'canceled')->get();
+            }
+            return DataTables::of($restaurantOrders)
+            ->addIndexColumn()
+            ->addColumn('user', function (RestaurantOrder $restaurantOrder) {
+                return $restaurantOrder->user->name;
+            })
+            ->addColumn('table', function (RestaurantOrder $restaurantOrder) {
+                return $restaurantOrder->restaurantTable->name;
+            })
+            ->addColumn('status', function (RestaurantOrder $restaurantOrder) {
+                if ($restaurantOrder->status == 'pending') {
+                    return $restaurantOrder->status == 'pending' ? 'Pendiente' : 'Pendiente';
+                } elseif ($restaurantOrder->status == 'generated') {
+                    return $restaurantOrder->status == 'generated' ? 'Facturada' : 'Facturada';
+                } else {
+                    return $restaurantOrder->status == 'canceled' ? 'Anulada' : 'Anulada';
+                }
+            })
+
+            ->editColumn('created_at', function(RestaurantOrder $restaurantOrder) {
+                return $restaurantOrder->created_at->format('Y-m-d: h:m');
+            })
+            ->addColumn('btn', 'admin/restaurantOrder/actions')
+            ->rawColumns(['btn'])
+            ->make(true);
+        }
+        return view('admin.restaurantOrder.index', compact('restaurantOrder'));
+    }
+
+    public function indexRestaurantOrder(Request $request)
+    {
         $restaurantOrder = session('restaurantOrder');
         if ($request->ajax()) {
             //Muestra todas las pre compras de la empresa
@@ -1002,7 +1043,7 @@ class RestaurantOrderController extends Controller
         $typeService = $restaurantOrder->restaurant_table_id;
         $indicator = indicator();
         $customers = Customer::get();
-        $customerOne = Customer::findOrFail(1);
+        //$customerOne = Customer::findOrFail(1);
         $paymentForms = PaymentForm::get();
         $paymentMethods = PaymentMethod::get();
         $banks = Bank::get();
@@ -1037,7 +1078,7 @@ class RestaurantOrderController extends Controller
             'homeOrder',
             'typeService',
             'customers',
-            'customerOne',
+            //'customerOne',
             'resolutions',
             'paymentForms',
             'paymentMethods',
