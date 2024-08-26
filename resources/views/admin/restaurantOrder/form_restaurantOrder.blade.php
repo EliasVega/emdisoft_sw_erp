@@ -2,11 +2,11 @@
     <div class="col-md-4" id="formCard">
         <div class="card card-primary card-outline">
             <div class="row">
-                <div class="col-lg-12 col-md-6 col-sm-12 col-xs-12">
+                <div class="col-lg-12 col-md-6 col-sm-12 col-xs-12" id="addCustomer">
                     <div class="form-group">
                         <label for="customer_id"> Cliente </label>
                         <select name="customer_id" class="form-control selectpicker" id="customer_id"
-                            data-live-search="true" required>
+                            data-live-search="true">
                             <option value="" disabled selected>Seleccionar</option>
                             @foreach ($customers as $customer)
                                 <option value="{{ $customer->id }}">{{ $customer->identification }} -

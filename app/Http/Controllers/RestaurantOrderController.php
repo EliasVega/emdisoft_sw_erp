@@ -214,7 +214,9 @@ class RestaurantOrderController extends Controller
         $customerHomes = CustomerHome::get();
         $contCH = 0;
         $phone = $request->phone;
+
         $customerHomeId = '';
+        $customer_id = $request->customer_id;
 
 
 
@@ -231,12 +233,14 @@ class RestaurantOrderController extends Controller
         //$restaurantOrder->customer_id = $customer;
         if ($service == 0) {//si el servicio es de mesa
             $restaurantOrder->restaurant_table_id = $request->restaurant_table_id;
+            $restaurantOrder->customer_home_id = null;
+            $restaurantOrder->customer_id = $request->customer_id;
         } else {//si el servicio es domicilio
             $restaurantOrder->restaurant_table_id = 1;
+            $restaurantOrder->customer_home_id = $request->customer_home_id;
+            $restaurantOrder->customer_id = null;
         }
-
         $restaurantOrder->user_id = current_user()->id;
-        $restaurantOrder->customer_home_id = null;
         $restaurantOrder->save();
         $roId = $restaurantOrder->id;
 
@@ -489,6 +493,7 @@ class RestaurantOrderController extends Controller
         $restaurantTables = RestaurantTable::where('id', '!=', 1)->get();
         $products = Product::get();
         $rawMaterials = RawMaterial::get();
+        $customerHomes = CustomerHome::get();
         $productRestaurantOrders = ProductRestaurantOrder::from('product_restaurant_orders as pr')
         ->join('products as pro', 'pr.product_id', 'pro.id')
         ->join('restaurant_orders as ro', 'pr.restaurant_order_id', 'ro.id')
@@ -517,7 +522,8 @@ class RestaurantOrderController extends Controller
             'productRawMaterials',
             'rawmaterialRestaurantorders',
             'customers',
-            'service'
+            'service',
+            'customerHomes'
         ));
     }
 
@@ -620,8 +626,14 @@ class RestaurantOrderController extends Controller
         $restaurantOrder->total_tax = $request->total_tax;
         $restaurantOrder->total_pay = $request->total_pay;
         $restaurantOrder->note = $request->note;
-        if ($service > 1) {
-            $restaurantOrder->restaurant_table_id = $table;
+        if ($service == 0) {//si el servicio es de mesa
+            $restaurantOrder->restaurant_table_id = $request->restaurant_table_id;
+            $restaurantOrder->customer_home_id = null;
+            $restaurantOrder->customer_id = $request->customer_id;
+        } else {//si el servicio es domicilio
+            $restaurantOrder->restaurant_table_id = 1;
+            $restaurantOrder->customer_home_id = $request->customer_home_id;
+            $restaurantOrder->customer_id = null;
         }
         $restaurantOrder->update();
 

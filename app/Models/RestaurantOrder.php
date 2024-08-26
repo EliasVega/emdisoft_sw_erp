@@ -26,7 +26,8 @@ class RestaurantOrder extends Model
         'invoice_id',
         'restaurant_table_id',
         'user_id',
-        'customer_home_id'
+        'customer_home_id',
+        'customer_id'
     ];
 
     protected $guarded = [

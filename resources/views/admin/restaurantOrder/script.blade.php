@@ -48,7 +48,6 @@
         $("#name").val(dataCustomer[1]);
         $("#address").val(dataCustomer[2]);
         $("#phone").val(dataCustomer[3]);
-
     }
 
     $("#product_id").change(productValue);
@@ -160,6 +159,7 @@
         $("#checkbox1").click(function(){
             $("#createTable").show();
             $("#homeOrder").hide();
+            $("#addCustomer").show();
         });
     });
 
@@ -170,6 +170,7 @@
             $("#name").val('X');
             $("#address").val('X');
             $("#phone").val('X');
+            $("#addCustomer").hide();
         });
     });
 
@@ -180,6 +181,7 @@
             $("#name").val('Rappi');
             $("#address").val('Rappi');
             $("#phone").val('Rappi');
+            $("#addCustomer").hide();
         });
     });
 

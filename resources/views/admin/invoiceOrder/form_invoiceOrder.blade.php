@@ -97,11 +97,7 @@
         <div class="row">
             <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
                 <div class="form-group">
-                    <label for="customer_id"> Cliente <a href="{{ route('customer.create') }}"
-                            class="btn btn-lightBlueGrad btn-sm" target="_blank" data-toggle="tooltip"
-                            data-placement="top">
-                            <i class="fa fa-plus"> Agregar Cliente</i>
-                        </a></label>
+                    <label for="customer_id"> Cliente </label>
                     <select name="customer_id" class="form-control selectpicker" id="customer_id"
                         data-live-search="true" required>
                         <option value="" disabled selected>Seleccionar el Cliente</option>

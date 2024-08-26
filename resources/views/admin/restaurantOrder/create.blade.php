@@ -12,6 +12,14 @@
                     @can('branch.index')
                         <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
                     @endcan
+                    <a href="{{ route('product.create') }}" class="btn btn-lightBlueGrad btn-sm"
+                        target="_blank" data-toggle="tooltip" data-placement="top">
+                        <i class="fa fa-plus"> Agregar Producto</i>
+                    </a>
+                    <a href="{{ route('customer.create') }}" class="btn btn-lightBlueGrad btn-sm"
+                        target="_blank" data-toggle="tooltip" data-placement="top">
+                        <i class="fa fa-plus"> Agregar Cliente</i>
+                    </a>
                 </h5>
             </div>
             @if (count($errors)>0)
