@@ -8,19 +8,19 @@
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="number">Nit</label>
-            <input type="text" name="number" value="{{ $company->nit }}" class="form-control" placeholder="Nit" required>
+            <input type="text" name="number" value="{{ company()->nit }}" class="form-control" placeholder="Nit" required>
         </div>
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="name" class="form-control-label">Company</label>
-                <input type="text" name="name" value="{{ $company->name }}" class="form-control" placeholder="name" required>
+                <input type="text" name="name" value="{{ company()->name }}" class="form-control" placeholder="name" required>
         </div>
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="token">Token</label>
-            <input type="text" name="token" value="{{ $company->api_token }}" class="form-control" placeholder="Token" required>
+            <input type="text" name="token" value="{{ company()->api_token }}" class="form-control" placeholder="Token" required>
         </div>
     </div>
     @if ($type == 'invoice')
