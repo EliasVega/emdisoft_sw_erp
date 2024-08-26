@@ -50,9 +50,9 @@
             <input type="text" name="contModal" id="contModal" class="form-control" placeholder="cont">
         </div>
     </div>
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="priceold">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="priceoldMod">
         <div class="form-group">
-            <label for="priceoldModal">Cont</label>
+            <label for="priceoldModal">Price Old</label>
             <input type="text" name="priceoldModal" id="priceoldModal" class="form-control" placeholder="cont">
         </div>
     </div>

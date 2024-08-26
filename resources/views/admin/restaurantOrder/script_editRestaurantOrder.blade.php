@@ -181,7 +181,7 @@
         $("#subtotalMod").hide();
         $("#idMod").hide();
         $("#taxMod").hide();
-        $("#priceoldModal").hide();
+        $("#priceoldMod").hide();
 
         // Obtener la fila
         var row = $("#row" + index);
@@ -227,7 +227,6 @@
                 price = (parseFloat(price) / parseFloat(taxRate)) * 100;
             }
         }
-        alert(price);
         ed = 1; //Nuevo o editando
 
         $('#priceModal').prop("readonly", false)
