@@ -1186,7 +1186,7 @@ class RestaurantOrderController extends Controller
         if ($document->customer_home_id != null) {
             $thirdParty = CustomerHome::findOrFail($document->customer_home_id);
         } else {
-            $thirdParty = Customer::findOrFail(1);
+            $thirdParty = Customer::findOrFail($document->customer_id);
         }
 
 
