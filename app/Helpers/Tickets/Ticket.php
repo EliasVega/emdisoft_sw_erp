@@ -447,8 +447,8 @@ class Ticket extends FPDF
         $this->Cell(20, 5, formatText("NOMBRE: "), 0, 0, 'L');
         $this->Cell(45, 5, $document->homeOrder->name, 0, 1, 'L');
         $this->SetX(5);
-        $this->Cell(20, 5, formatText("DIRECCION: "), 0, 1, 'L');
-        $this->Multicell(60,4, formatText($document->homeOrder->address),'J',1);
+        $this->Cell(20, 5, formatText("DIRECCION: "), 0, 0, 'L');
+        $this->Multicell(45,4, formatText($document->homeOrder->address),'J',1);
         //$this->Cell(45, 5, $document->homeOrder->address, 0, 1, 'L');
         $this->SetX(5);
         $this->Cell(20, 5, formatText("TELEFONO: "), 0, 0, 'L');

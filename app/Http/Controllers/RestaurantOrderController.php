@@ -252,10 +252,7 @@ class RestaurantOrderController extends Controller
             }
         }
 
-        $customerHomes = CustomerHome::get();
-        $contCH = 0;
-        $phone = $request->phone;
-        $customer_id = $request->customer_id;
+
 
         //registro en la tabla restaurant_order
         $restaurantOrder = new RestaurantOrder();
@@ -302,6 +299,10 @@ class RestaurantOrderController extends Controller
             $homeOrder->restaurant_order_id = $restaurantOrder->id;
             $homeOrder->save();
 
+            $customerHomes = CustomerHome::get();
+            $contCH = 0;
+            $phone = $request->phone;
+
             foreach ($customerHomes as $key => $value) {
                 if ($value->phone == $phone) {
                     $contCH ++;
@@ -334,6 +335,10 @@ class RestaurantOrderController extends Controller
             $homeOrder->time_sent = null;
             $homeOrder->restaurant_order_id = $restaurantOrder->id;
             $homeOrder->save();
+
+            $customerHomes = CustomerHome::get();
+            $contCH = 0;
+            $phone = $request->phone;
 
             foreach ($customerHomes as $key => $value) {
                 if ($value->phone == $phone) {
@@ -503,7 +508,7 @@ class RestaurantOrderController extends Controller
         session(['restaurantOrder' => $restaurantOrder->id]);
 
         toast('Comanda Registrada satisfactoriamente.','success');
-        return redirect('restaurantOrder');
+        return redirect('indexRestaurantOrder');
     }
 
     /**
@@ -670,7 +675,7 @@ class RestaurantOrderController extends Controller
             $restaurantOrder->customer_id = $request->customer_id;
         } else {//si el servicio es domicilio
             $restaurantOrder->restaurant_table_id = 1;
-            $restaurantOrder->customer_home_id = $request->customer_home_id;
+            $restaurantOrder->customer_home_id = null;
             $restaurantOrder->customer_id = null;
         }
         $restaurantOrder->update();
@@ -692,6 +697,30 @@ class RestaurantOrderController extends Controller
             $homeOrder->domicile_value = $request->domicile_value;
             $homeOrder->time_sent = $date->toTimeString();
             $homeOrder->update();
+
+            $customerHomes = CustomerHome::get();
+            $contCH = 0;
+            $phone = $request->phone;
+
+            foreach ($customerHomes as $key => $value) {
+                if ($value->phone == $phone) {
+                    $contCH ++;
+                    $customerHomeId = $value->id;
+                }
+            }
+
+            if ($contCH == 0) {
+               $customerHome = new CustomerHome();
+               $customerHome->name = $request->name;
+               $customerHome->address = $request->address;
+               $customerHome->phone = $request->phone;
+               $customerHome->save();
+            } else {
+                $customerHome = CustomerHome::findOrFail($customerHomeId);
+            }
+
+             $restaurantOrder->customer_home_id = $customerHome->id;
+             $restaurantOrder->update();
         }
         //llamado de la relacion materias primas con la comanda
         $rawMatRestOrders = RawmaterialRestaurantorder::where('restaurant_order_id', $restaurantOrder->id)->get();
@@ -1000,7 +1029,7 @@ class RestaurantOrderController extends Controller
         session(['restaurantOrder' => $restaurantOrder->id]);
 
         toast('Comanda Editada satisfactoriamente.','success');
-        return redirect('restaurantOrder');
+        return redirect('indexRestaurantOrder');
     }
 
     /**
