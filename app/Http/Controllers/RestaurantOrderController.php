@@ -255,12 +255,7 @@ class RestaurantOrderController extends Controller
         $customerHomes = CustomerHome::get();
         $contCH = 0;
         $phone = $request->phone;
-
-        $customerHomeId = $request->customer_home_id;
         $customer_id = $request->customer_id;
-        dd($customerHomeId);
-
-
 
         //registro en la tabla restaurant_order
         $restaurantOrder = new RestaurantOrder();
