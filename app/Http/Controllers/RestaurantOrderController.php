@@ -256,25 +256,10 @@ class RestaurantOrderController extends Controller
         $contCH = 0;
         $phone = $request->phone;
 
-
+        $customerHomeId = $request->customer_home_id;
         $customer_id = $request->customer_id;
+        dd($customerHomeId);
 
-        foreach ($customerHomes as $key => $value) {
-            if ($value->phone == $phone) {
-                $contCH ++;
-                $customerHomeId = $value->id;
-            }
-        }
-
-        if ($contCH == 0) {
-           $customerHome = new CustomerHome();
-           $customerHome->name = $request->name;
-           $customerHome->address = $request->address;
-           $customerHome->phone = $request->phone;
-           $customerHome->save();
-        } else {
-            $customerHome = CustomerHome::findOrFail($customerHomeId);
-        }
 
 
         //registro en la tabla restaurant_order
@@ -294,7 +279,7 @@ class RestaurantOrderController extends Controller
             $restaurantOrder->customer_id = $request->customer_id;
         } else {//si el servicio es domicilio
             $restaurantOrder->restaurant_table_id = 1;
-            $restaurantOrder->customer_home_id = $customerHome->id;
+            $restaurantOrder->customer_home_id = null;
             $restaurantOrder->customer_id = null;
         }
         $restaurantOrder->user_id = current_user()->id;
@@ -322,7 +307,22 @@ class RestaurantOrderController extends Controller
             $homeOrder->restaurant_order_id = $restaurantOrder->id;
             $homeOrder->save();
 
+            foreach ($customerHomes as $key => $value) {
+                if ($value->phone == $phone) {
+                    $contCH ++;
+                    $customerHomeId = $value->id;
+                }
+            }
 
+            if ($contCH == 0) {
+               $customerHome = new CustomerHome();
+               $customerHome->name = $request->name;
+               $customerHome->address = $request->address;
+               $customerHome->phone = $request->phone;
+               $customerHome->save();
+            } else {
+                $customerHome = CustomerHome::findOrFail($customerHomeId);
+            }
 
             $restaurantOrder->customer_home_id = $customerHome->id;
             $restaurantOrder->update();
