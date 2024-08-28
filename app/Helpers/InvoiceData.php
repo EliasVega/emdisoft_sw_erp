@@ -47,12 +47,14 @@ if (! function_exists('invoiceData')) {
         $contax = 0;
 
         for ($i=0; $i < count($product_id); $i++) {
+            $priceLine = number_format(round($price[$i]), 3, '.', '');
+            $quantityLine = number_format($quantity[$i], 3, '.', '');
             $product = Product::findOrFail($product_id[$i]);
             $companyTaxProduct = $product->category->company_tax_id;
             $companyTax = CompanyTax::findOrFail($companyTaxProduct);
-            $amount = $quantity[$i] * $price[$i];
-            $taxAmount =number_format(($quantity[$i] * $price[$i] * $taxRate[$i])/100, 3, '.', '');
-            $amount = number_format(round($amount), 2, '.', '');
+            $amount = $quantityLine * $priceLine;
+            $taxAmount =number_format(($quantityLine * $priceLine * $taxRate[$i])/100, 3, '.', '');
+            $amount = number_format($amount, 3, '.', '');
 
             if ($taxes[0] != []) { //contax > 0
                 $contsi = 0;
@@ -73,10 +75,9 @@ if (! function_exists('invoiceData')) {
                 $taxes[$contax] = [$companyTax->id, $companyTax->tax_type_id, $taxAmount, $amount, $taxRate[$i]];
                 $contax++;
             }
-            $quantityProducts = number_format($quantity[$i], 3, '.', '');
             $productLine = [
                 "unit_measure_id" => $product->measure_unit_id,
-                "invoiced_quantity" => $quantityProducts,
+                "invoiced_quantity" => $quantityLine,
                 "line_extension_amount" => $amount,
                 "free_of_charge_indicator" => false,
                 "tax_totals" => [
@@ -91,8 +92,8 @@ if (! function_exists('invoiceData')) {
                 "notes" => "",
                 "code" => $product->code,
                 "type_item_identification_id" => 4,
-                "price_amount" => $price[$i],
-                "base_quantity" => $quantityProducts
+                "price_amount" => $priceLine,
+                "base_quantity" => $quantityLine
             ];
 
             $productLines[$i] = $productLine;
