@@ -50,7 +50,7 @@
     $("#taxType").hide();
     $("#resolution").hide();
     $("#documentType").hide();
-    $("#save").hide();
+    //$("#save").hide();
     $("#posavtivity").hide();
     $("#barcodeId").hide();
     $("#addEid").hide();
