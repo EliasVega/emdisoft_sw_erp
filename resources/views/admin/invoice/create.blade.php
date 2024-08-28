@@ -45,7 +45,7 @@
                     </div>
                 @else
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        @include('admin/invoice.form_invoice')
+                        @include('admin/invoice.form_invoice')//estoy en prueba
                     </div>
                 @endif
             </div>
