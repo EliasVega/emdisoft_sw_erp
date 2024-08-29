@@ -113,7 +113,7 @@
     </div>
     <div class="col-md-8">
         <div class="row">
-            @include('admin/generalview.form_tablePay')
+
             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="noteDocument">
                 <div class="form-group">
                     <label class="form-control-label" for="note">Observaciones</label>
