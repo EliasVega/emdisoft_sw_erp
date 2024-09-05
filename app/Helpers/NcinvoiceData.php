@@ -57,6 +57,7 @@ if (!function_exists('ncinvoiceData')) {
                         $tax[2] += $taxAmount;
                         $tax[3] += $amount;
                         $contsi++;
+                        $taxes[$key] = $tax;
                     }
                 }
                 if ($contsi == 0) {
@@ -91,7 +92,7 @@ if (!function_exists('ncinvoiceData')) {
 
             $productLines[$i] = $productLine;
         }
-
+        dd($taxes);
         for ($i=0; $i < count($taxes); $i++) {
             $taxLine = [
                 "tax_id" => $taxes[$i][1],
