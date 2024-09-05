@@ -44,7 +44,6 @@ class PdfDocuments extends FPDF
         $heigthInitial = 10;
         $documentType = $document->document_type_id;
         if ($documentType == 15) {
-            dd($documentType);
             $heigthInitial = 20;
             $this->SetFont('Arial','B',14);
             $page = $this->GetPageWidth();
