@@ -92,7 +92,6 @@ if (!function_exists('ncinvoiceData')) {
 
             $productLines[$i] = $productLine;
         }
-        dd($taxes);
         for ($i=0; $i < count($taxes); $i++) {
             $taxLine = [
                 "tax_id" => $taxes[$i][1],
