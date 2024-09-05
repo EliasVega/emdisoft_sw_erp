@@ -86,13 +86,7 @@ class InvoiceController extends Controller
             ->addColumn('customer', function (Invoice $invoice) {
                 return $invoice->third->name;
             })
-            ->addColumn('branch', function (Invoice $invoice) {
-                return $invoice->branch->name;
-            })
-            ->addColumn('retention', function (Invoice $invoice) {
-                return $invoice->retention;
-            })
-            ->addColumn('status', function (Invoice $invoice) {
+            ->addColumn('state', function (Invoice $invoice) {
                 if ($invoice->status == 'invoice') {
                     return $invoice->status == 'invoice' ? 'F. Venta' : 'F. Venta';
                 } elseif ($invoice->status == 'debit_note') {
@@ -102,24 +96,6 @@ class InvoiceController extends Controller
                 }  elseif ($invoice->status == 'complete'){
                     return $invoice->status == 'complete' ? 'NC - ND' : 'NC - ND';
                 }
-            })
-            ->addColumn('observation', function (Invoice $invoice) {
-                return $invoice->note;
-            })
-            ->addColumn('role', function (Invoice $invoice) {
-                return $invoice->user->roles[0]->name;
-            })
-            ->addColumn('restaurant', function (Invoice $invoice) {
-                return $invoice->branch->company->indicator->restaurant;
-            })
-            ->addColumn('pos', function (Invoice $invoice) {
-                return $invoice->branch->company->indicator->pos;
-            })
-            ->addColumn('dian', function (Invoice $invoice) {
-                return $invoice->branch->company->indicator->dian;
-            })
-            ->editColumn('created_at', function(Invoice $invoice){
-                return $invoice->generation_date;
             })
             ->addColumn('btn', 'admin/invoice/actions')
             ->rawColumns(['btn'])
@@ -151,12 +127,6 @@ class InvoiceController extends Controller
             ->addColumn('customer', function (Invoice $invoice) {
                 return $invoice->third->name;
             })
-            ->addColumn('branch', function (Invoice $invoice) {
-                return $invoice->branch->name;
-            })
-            ->addColumn('retention', function (Invoice $invoice) {
-                return $invoice->retention;
-            })
             ->addColumn('status', function (Invoice $invoice) {
                 if ($invoice->status == 'invoice') {
                     return $invoice->status == 'invoice' ? 'F. Venta' : 'F. Venta';
@@ -167,24 +137,6 @@ class InvoiceController extends Controller
                 }  elseif ($invoice->status == 'complete'){
                     return $invoice->status == 'complete' ? 'NC - ND' : 'NC - ND';
                 }
-            })
-            ->addColumn('observation', function (Invoice $invoice) {
-                return $invoice->note;
-            })
-            ->addColumn('role', function (Invoice $invoice) {
-                return $invoice->user->roles[0]->name;
-            })
-            ->addColumn('restaurant', function (Invoice $invoice) {
-                return $invoice->branch->company->indicator->restaurant;
-            })
-            ->addColumn('pos', function (Invoice $invoice) {
-                return $invoice->branch->company->indicator->pos;
-            })
-            ->addColumn('dian', function (Invoice $invoice) {
-                return $invoice->branch->company->indicator->dian;
-            })
-            ->editColumn('created_at', function(Invoice $invoice){
-                return $invoice->generation_date;
             })
             ->addColumn('btn', 'admin/invoice/actions')
             ->rawColumns(['btn'])
@@ -1526,8 +1478,15 @@ class InvoiceController extends Controller
     }
     public function sendEmailInvoice(Request $request, Invoice $invoice)
     {
-
-
         return redirect('invoice');
+    }
+
+    public function getProviders(Request $request)
+    {
+        if($request)
+        {
+            $providers = Customer::get();
+            return response()->json($providers);
+        }
     }
 }

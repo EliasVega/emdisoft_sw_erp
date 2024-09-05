@@ -27,6 +27,7 @@ if (!function_exists('ncinvoiceData')) {
         $quantity = $request->quantity;//array de request de cantidades
         $price = $request->price;// array de request de precios
         $taxRate = $request->tax_rate;// array de taxas de impuesto
+        $documentType = $invoice->document_type_id;
 
         $note = $request->note;//observaciones del documento
         $totalDocument = $request->total;//total del documento
@@ -103,55 +104,109 @@ if (!function_exists('ncinvoiceData')) {
             $taxCont++;
         }
 
-        $data = [
-            "billing_reference" => [
-                "number" => $invoice->document,
-                "uuid" => $invoiceResponse->cufe,
-                "issue_date" => $invoice->generation_date
-            ],
-            "discrepancyresponsecode" => $discrepancy->code,
-            "discrepancyresponsedescription" => $discrepancy->description,
-            "notes" => $note,
-            "resolution_number" => $resolution->resolution,
-            "prefix" => $resolution->prefix,
-            "number" => $resolution->consecutive,
-            "type_document_id" => $resolution->document_type_id,
-            "date" => $date->toDateString(),
-            "time" => $date->toTimeString(),
-            "establishment_name" => company()->name,
-            "establishment_address" => company()->address,
-            "establishment_phone" => company()->phone,
-            "establishment_municipality" => company()->municipality_id,
-            "sendmail" => true,
-            "sendmailtome" => true,
-            "seze" => "2021-2017",
-            "head_note" => "",
-            "foot_note" => "",
-            "customer" => [
-                "identification_number" => $customer->identification,
-                "dv" => $customer->dv,
-                "name" => $customer->name,
-                "phone" => $customer->phone,
-                "address" => $customer->address,
-                "email" => $customer->email,
-                "merchant_registration" => $customer->merchant_registration,
-                "type_document_identification_id" => $customer->identification_type_id ?? '',
-                "type_organization_id" => $customer->organization_id,
-                "type_liability_id" => $customer->liability_id,
-                "municipality_id" => $customer->municipality_id,
-                "type_regime_id" => $customer->regime_id
-            ],
-            "legal_monetary_totals" => [
-                "line_extension_amount" => $totalDocument,
-                "tax_exclusive_amount" => $totalDocument,
-                "tax_inclusive_amount" => $total,
-                "allowance_total_amount" => "0.00",
-                "charge_total_amount" => "0.00",
-                "payable_amount" => $total
-            ],
-            "credit_note_lines" => $productLines,
-            "tax_totals" => $taxLines,
-        ];
-        return $data;
+        if ($documentType == 1) {
+            $data = [
+                "billing_reference" => [
+                    "number" => $invoice->document,
+                    "uuid" => $invoiceResponse->cufe,
+                    "issue_date" => $invoice->generation_date
+                ],
+                "discrepancyresponsecode" => $discrepancy->code,
+                "discrepancyresponsedescription" => $discrepancy->description,
+                "notes" => $note,
+                "resolution_number" => $resolution->resolution,
+                "prefix" => $resolution->prefix,
+                "number" => $resolution->consecutive,
+                "type_document_id" => $resolution->document_type_id,
+                "date" => $date->toDateString(),
+                "time" => $date->toTimeString(),
+                "establishment_name" => company()->name,
+                "establishment_address" => company()->address,
+                "establishment_phone" => company()->phone,
+                "establishment_municipality" => company()->municipality_id,
+                "sendmail" => true,
+                "sendmailtome" => true,
+                "seze" => "",
+                "head_note" => "",
+                "foot_note" => "",
+                "customer" => [
+                    "identification_number" => $customer->identification,
+                    "dv" => $customer->dv,
+                    "name" => $customer->name,
+                    "phone" => $customer->phone,
+                    "address" => $customer->address,
+                    "email" => $customer->email,
+                    "merchant_registration" => $customer->merchant_registration,
+                    "type_document_identification_id" => $customer->identification_type_id ?? '',
+                    "type_organization_id" => $customer->organization_id,
+                    "type_liability_id" => $customer->liability_id,
+                    "municipality_id" => $customer->municipality_id,
+                    "type_regime_id" => $customer->regime_id
+                ],
+                "legal_monetary_totals" => [
+                    "line_extension_amount" => $totalDocument,
+                    "tax_exclusive_amount" => $totalDocument,
+                    "tax_inclusive_amount" => $total,
+                    "allowance_total_amount" => "0.00",
+                    "charge_total_amount" => "0.00",
+                    "payable_amount" => $total
+                ],
+                "credit_note_lines" => $productLines,
+                "tax_totals" => $taxLines,
+            ];
+            return $data;
+        } elseif ($documentType == 15) {
+            $data = [
+                "is_eqdoc" => true,
+                "billing_reference" => [
+                    "number" => $invoice->document,
+                    "uuid" => $invoiceResponse->cufe,
+                    "issue_date" => $invoice->generation_date,
+                    "type_document_id" => 15
+                ],
+                "discrepancyresponsecode" => $discrepancy->code,
+                "notes" => $note,
+                "resolution_number" => $resolution->resolution,
+                "prefix" => $resolution->prefix,
+                "number" => $resolution->consecutive,
+                "type_document_id" => $resolution->document_type_id,
+                "date" => $date->toDateString(),
+                "time" => $date->toTimeString(),
+    
+                "establishment_name" => company()->name,
+                "establishment_address" => company()->address,
+                "establishment_phone" => company()->phone,
+                "establishment_municipality" => company()->municipality_id,
+                "sendmail" => true,
+                "sendmailtome" => true,
+                "head_note" => "",
+                "foot_note" => "",
+                "customer" => [
+                    "identification_number" => $customer->identification,
+                    "dv" => $customer->dv,
+                    "name" => $customer->name,
+                    "phone" => $customer->phone,
+                    "address" => $customer->address,
+                    "email" => $customer->email,
+                    "merchant_registration" => $customer->merchant_registration,
+                    "type_document_identification_id" => $customer->identification_type_id ?? '',
+                    "type_organization_id" => $customer->organization_id,
+                    "municipality_id" => $customer->municipality_id,
+                    "type_regime_id" => $customer->regime_id
+                ],
+                "legal_monetary_totals" => [
+                    "line_extension_amount" => $totalDocument,
+                    "tax_exclusive_amount" => $totalDocument,
+                    "tax_inclusive_amount" => $total,
+                    "payable_amount" => $total
+                ],
+                "credit_note_lines" => $productLines,
+                "tax_totals" => $taxLines,
+            ];
+            return $data;
+        }
+        
+
+        
     }
 }

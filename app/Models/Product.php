@@ -29,7 +29,7 @@ class Product extends Model
         'image',
         'imageName',
         'category_id',
-        'unit_measure_id'
+        'measure_unit_id'
     ];
 
     protected $guarded = [

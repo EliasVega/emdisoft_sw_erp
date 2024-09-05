@@ -65,7 +65,7 @@
                                 <th>Retenciones</th>
                                 <th>Saldo</th>
                                 <th>Total + NC - ND</th>
-                                <th>Fecha</th>
+                                <th>Generado</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
@@ -105,7 +105,7 @@
                         <table cellpadding="3" cellspacing="0" border="0" style="padding-left:50px;">
                             <tr>
                                 <td>Observaciones</td>
-                                <td>${d.observation}</td>
+                                <td>${d.note}</td>
                             </tr>
                         </table>
                         `;
@@ -169,15 +169,16 @@
                                 render: $.fn.dataTable.render.number('.', ',', 2, '$')
                             },
                             {
-                                data: 'created_at'
+                                data: 'generation_date'
                             },
                             {
-                                data: 'status'
+                                data: 'state'
                             },
                             {
                                 data: 'btn'
                             },
                         ],
+                        /*
                         columnDefs: [{
                                 targets: 0
                             },
@@ -214,7 +215,7 @@
                             {
                                 targets: 11
                             },
-                        ],
+                        ],*/
                         dom: 'Blfrtip',
                         lengthMenu: [
                             [10, 20, 50, 100, 500, -1],

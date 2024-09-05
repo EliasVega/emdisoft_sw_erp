@@ -1,0 +1,96 @@
+{
+	"billing_reference": {
+		"number": "ERLO2",
+		"uuid": "28746635fa82806b67907ef5216d421c6256636c3dd1d982aeb9733b96d22f76c70b8a727a569008799c0235525ec699",
+		"issue_date": "2024-09-03"
+	},
+    "discrepancyresponsecode": 2,
+	"discrepancyresponsedescription": "",
+    "notes": "",
+    //"resolution_number": "18764076625660",
+    "prefix": "NCEQ",
+	"number": 2,
+	"type_document_id": 26,
+	"date": "2024-09-04",
+	"time": "06:00:13",
+    "establishment_name": "LOPEZ OREJARENA ERNESTO",
+    "establishment_address": "CL 8 9 28",
+    "establishment_phone": "3166253650",
+    "establishment_municipality": 893,
+    "sendmail": true,
+    "sendmailtome": true,
+    "seze": "",
+    "head_note": "",
+    "foot_note": "",
+	"customer": {
+		"identification_number": 28215866,
+		"dv": 7,
+		"name": "DEICY JOHANA RUEDA PEREZ",
+		"phone": "3165555555",
+		"address": "Bucaramanga",
+		"email": "discom.is@gmail.com",
+		"merchant_registration": "0000000-00",
+		"type_document_identification_id": 3,
+		"type_organization_id": 2,
+		"municipality_id": 893,
+		"type_regime_id": 2
+	},
+	"tax_totals": [
+		{
+			"tax_id": 1,
+			"tax_amount": "46645.000",
+			"percent": "19",
+			"taxable_amount": "245500.000"
+		}
+	],
+    "legal_monetary_totals": {
+		"line_extension_amount": "245500.00",
+		"tax_exclusive_amount": "245500.00",
+		"tax_inclusive_amount": "292145.00",
+		"payable_amount": "292145.00"
+	},
+	"credit_note_lines": 
+	[
+		{
+			"unit_measure_id": 70,
+			"invoiced_quantity": "1",
+			"line_extension_amount": "59500.000",
+			"free_of_charge_indicator": false,
+			"tax_totals": [
+				{
+					"tax_id": 1,
+					"tax_amount": "11305.000",
+					"taxable_amount": "59500.000",
+					"percent": "19.00"
+				}
+			],
+			"description": "POKER 330 CAJA",
+            "notes": "",
+			"code": "25",
+			"type_item_identification_id": 4,
+			"price_amount": "59500.000",
+			"base_quantity": "1"
+		},
+        {
+			"unit_measure_id": 70,
+			"invoiced_quantity": "3",
+			"line_extension_amount": "186000.000",
+			"free_of_charge_indicator": false,
+			"tax_totals": [
+				{
+					"tax_id": 1,
+					"tax_amount": "35340.000",
+					"taxable_amount": "186000.000",
+					"percent": "19.00"
+				}
+			],
+			"description": "CERVEZA AGUILA",
+            "notes": "",
+			"code": "26",
+			"type_item_identification_id": 4,
+			"price_amount": "62000.000",
+			"base_quantity": "3"
+		}
+	]
+}
+

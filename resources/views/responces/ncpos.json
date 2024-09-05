@@ -1,0 +1,75 @@
+{
+    "is_eqdoc": true,
+	"billing_reference": {
+		"number": "EPOS21",
+		"uuid": "76afafcf1be434e7d9c128cb6f63159a2387067ee10effcd59827e992265f718078276a4d67b4b78d0b37123d268f090",
+		"issue_date": "2024-04-13",
+        "type_document_id": 15
+	},
+	"discrepancyresponsecode": 2,
+    "notes": "PRUEBA DE NOTA CREDITO A DOCUMENTO EQUIVALENTE POS",
+    "prefix": "NCP",
+	"number": 2,
+	"type_document_id": 26,
+	"date": "2024-05-17",
+	"time": "06:00:13",
+    "establishment_name": "TORRE SOFTWARE",
+    "establishment_address": "BRR LIMONAR MZ 6 CS 3 ET 1 PISO 2",
+    "establishment_phone": "3226563672",
+    "establishment_municipality": 600,
+    "sendmail": false,
+    "sendmailtome": false,
+    "head_note": "PRUEBA DE TEXTO LIBRE QUE DEBE POSICIONARSE EN EL ENCABEZADO DE PAGINA DE LA REPRESENTACION GRAFICA DE LA FACTURA ELECTRONICA VALIDACION PREVIA DIAN",
+    "foot_note": "PRUEBA DE TEXTO LIBRE QUE DEBE POSICIONARSE EN EL ENCABEZADO DE PAGINA DE LA REPRESENTACION GRAFICA DE LA FACTURA ELECTRONICA VALIDACION PREVIA DIAN",
+	"customer": {
+		"identification_number": 900166483,
+		"dv": 1,
+		"name": "INVERSIONES DAVAL SAS",
+		"phone": "3103891693",
+		"address": "CLL 4 NRO 33-90",
+		"email": "alexanderobandolondono@gmail.com",
+		"merchant_registration": "0000000-00",
+		"type_document_identification_id": 6,
+		"type_organization_id": 1,
+		"municipality_id": 822,
+		"type_regime_id": 1
+	},
+	"tax_totals": [
+		{
+			"tax_id": 1,
+			"tax_amount": "15966.386",
+			"percent": "19",
+			"taxable_amount": "84033.614"
+		}
+	],
+	"legal_monetary_totals": {
+		"line_extension_amount": "84033.614",
+		"tax_exclusive_amount": "84033.614",
+		"tax_inclusive_amount": "100000.00",
+		"payable_amount": "100000.00"
+	},
+	"credit_note_lines": 
+	[
+		{
+			"unit_measure_id": 70,
+			"invoiced_quantity": "1",
+			"line_extension_amount": "84033.614",
+			"free_of_charge_indicator": false,
+			"tax_totals": [
+				{
+					"tax_id": 1,
+					"tax_amount": "15966.386",
+					"taxable_amount": "84033.614",
+					"percent": "19.00"
+				}
+			],
+			"description": "COMISION POR SERVICIOS",
+            "notes": "ESTA ES UNA PRUEBA DE NOTA DE DETALLE DE LINEA.",
+			"code": "COMISION",
+			"type_item_identification_id": 4,
+			"price_amount": "100000.00",
+			"base_quantity": "1"
+		}
+	]
+}
+
