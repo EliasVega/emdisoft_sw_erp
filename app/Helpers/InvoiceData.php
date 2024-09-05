@@ -47,7 +47,7 @@ if (! function_exists('invoiceData')) {
         $contax = 0;
 
         for ($i=0; $i < count($product_id); $i++) {
-            $priceLine = number_format(round($price[$i]), 3, '.', '');
+            $priceLine = number_format($price[$i], 3, '.', '');
             $quantityLine = number_format($quantity[$i], 3, '.', '');
             $product = Product::findOrFail($product_id[$i]);
             $companyTaxProduct = $product->category->company_tax_id;
