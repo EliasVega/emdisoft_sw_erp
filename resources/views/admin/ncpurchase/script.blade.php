@@ -283,7 +283,7 @@
         $("#total_pay").val(total_pay.toFixed(2));
 
         $("#total_ncpurchase").val(total.toFixed(2));
-        $("#tax_iva").val(tax_iva);
+        //$("#tax_iva").val(tax_iva);
     }
     function assess(){
 
@@ -317,7 +317,7 @@
         tax_iva = tax_iva-taxiva;
 
         $("#total_ncpurchase").val(total.toFixed(2));
-        $("#tax_iva").val(tax_iva);
+        //$("#tax_iva").val(tax_iva);
 
         $("#row" + index).remove();
         assess();
