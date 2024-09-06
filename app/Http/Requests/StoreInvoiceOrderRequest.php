@@ -29,6 +29,7 @@ class StoreInvoiceOrderRequest extends FormRequest
             'total_pay' => 'required|numeric',
             'balance' => 'numeric',
             'status' => 'in:active,generate,canceled',
+            'type' => 'in:order,pre-invoice,quote',
             'branch_id' => 'integer',
             'customer_id' => 'required|integer',
             'invoice_id' => 'nullable',

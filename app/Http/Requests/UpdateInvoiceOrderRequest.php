@@ -29,6 +29,7 @@ class UpdateInvoiceOrderRequest extends FormRequest
             'total_pay' => 'required|numeric',
             'balance' => 'numeric',
             'status' => 'in:active,generate,canceled',
+            'type' => 'in:order,pre-invoice,quote',
             'customer_id' => 'required|integer',
             'invoice_id' => 'nullable',
             'cash_register_id' => 'nullable'

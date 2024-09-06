@@ -307,13 +307,14 @@ Route::get('indexInvoice', [InvoiceController::class, 'indexInvoice'])->name('in
 
 
 Route::get('invoiceOrder/invoice/{id}', [InvoiceOrderController::class, 'invoice'])->name('invoiceOrderInvoice');
-Route::get('invoiceOrder/pdf/{id}', [InvoiceOrderController::class, 'invoiceOrderPdf'])->name('invoiceOrderPdf');
-Route::get('invoiceOrder/pos/{id}', [InvoiceOrderController::class, 'invoiceOrderPos'])->name('invoiceOrderPos');
-Route::get('pdfInvoiceOrder', [InvoiceOrderController::class, 'pdfInvoiceOrder'])->name('pdfInvoiceOrder');
-Route::get('posInvoiceOrder', [InvoiceOrderController::class, 'posInvoiceOrder'])->name('posInvoiceOrder');
+//Route::get('invoiceOrder/pdf/{id}', [InvoiceOrderController::class, 'invoiceOrderPdf'])->name('invoiceOrderPdf');
+//Route::get('invoiceOrder/pos/{id}', [InvoiceOrderController::class, 'invoiceOrderPos'])->name('invoiceOrderPos');
+//Route::get('pdfInvoiceOrder', [InvoiceOrderController::class, 'pdfInvoiceOrder'])->name('pdfInvoiceOrder');
+//Route::get('posInvoiceOrder', [InvoiceOrderController::class, 'posInvoiceOrder'])->name('posInvoiceOrder');
 Route::get('invoiceOrder/invoiceOrderDelete/{id}', [InvoiceOrderController::class, 'invoiceOrderDelete'])->name('invoiceOrderDelete');
 Route::get('createPosOrder', [InvoiceOrderController::class, 'createPosOrder'])->name('createPosOrder');
 Route::get('invoiceOrder/posPdfInvoiceOrder/{invoiceOrder}', [InvoiceOrderController::class, 'posPdfInvoiceOrder'])->name('posPdfInvoiceOrder');
+Route::get('invoiceOrder/pdfInvoiceOrder/{invoiceOrder}', [InvoiceOrderController::class, 'pdfInvoiceOrder'])->name('pdfInvoiceOrder');
 
 Route::get('invoiceTestSet/statusQuery/{id}', [InvoiceTestSetController::class, 'statusQuery'])->name('statusQuery');
 Route::get('createSetPos', [InvoiceTestSetController::class, 'createSetPos'])->name('createSetPos');

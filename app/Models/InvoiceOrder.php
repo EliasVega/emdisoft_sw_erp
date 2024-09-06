@@ -23,6 +23,7 @@ class InvoiceOrder extends Model
         'total_pay',
         'balance',
         'status',
+        'type',
         'user_id',
         'customer_id',
         'branch_id',

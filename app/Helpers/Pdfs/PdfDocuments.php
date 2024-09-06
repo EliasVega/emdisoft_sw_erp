@@ -26,7 +26,7 @@ class PdfDocuments extends FPDF
         $address = pdfFormatText('Dirección: ' . company()->address);
         $phone = pdfFormatText('Teléfono: ' . company()->phone);
         $email = pdfFormatText('Email: ' . company()->email);
-
+        
         $resolution = Resolution::findOrFail($document->resolution_id);
         if (indicator()->dian == 'on') {
             $regime = pdfFormatText(company()->regime->name) . ' - ';
@@ -92,14 +92,14 @@ class PdfDocuments extends FPDF
         $this->Cell(55,5,$document->document,0,0,'C',false);
 
         $this->SetFont('Arial','B',12);
-        $this->SetXY(10,$heigthInitial + 18 + $addWitch);
+        $this->SetXY(10,$heigthInitial + 16 + $addWitch);
         $this->SetDrawColor(0,0,0);
         $this->SetFillColor(0,0,0);
         $this->SetTextColor(0,0,0);
         $this->Cell(55,5,'Fecha de Emision:',0,0,'C',false);
 
         $this->SetFont('Arial','B',12);
-        $this->SetXY(10,$heigthInitial + 32);
+        $this->SetXY(10,$heigthInitial + 24);
         $this->Cell(55,5,$document->created_at,0,0,'C',false);
 
 
@@ -109,6 +109,80 @@ class PdfDocuments extends FPDF
         if (indicator()->logo == 'on') {
             $this->Image($logo, 160, $heigthInitial + 13, $width, $height);
         }
+        
+    }
+
+    public function generateHeaderOrders($logo, $width, $height, $title, $document)
+    {
+        $identificationType = pdfFormatText(company()->identificationType->initial);
+        $nit = pdfFormatText(company()->nit);
+        $dv = pdfFormatText(company()->dv);
+        $address = pdfFormatText('Dirección: ' . company()->address);
+        $phone = pdfFormatText('Teléfono: ' . company()->phone);
+        $email = pdfFormatText('Email: ' . company()->email);
+        
+        $regime = '';
+        $resolutionNumber = '';
+        $resolutionPrefix = '';
+        $resolutionDates = '';
+
+        $companyInformation = $identificationType . ' - ' . $nit . ' - ' . $dv . ' - ' . $regime . $resolutionNumber . $resolutionPrefix . $resolutionDates . $address . ' - ' . $phone . ' - ' . $email;
+
+        $heigthInitial = 10;
+        $heigthInitial = 20;
+            $this->SetFont('Arial','B',18);
+            $page = $this->GetPageWidth();
+
+            //$w = $this->GetStringWidth($title);
+            //dd($w);
+            $this->SetDrawColor(0,80,180);
+            $this->SetFillColor(230,230,0);
+            $this->SetTextColor(0,0,111);
+            $this->SetXY(0,10);
+            //$this->setY(10);
+            //$this->SetLineWidth(1);
+            $this->MultiCell(0,5,$title,0,'C',false);
+
+        $this->SetFont('Arial', 'B', 18);
+        $page = $this->GetPageWidth();
+        $nameCompany = company()->name;
+        $nameComp = $this->GetStringWidth($nameCompany);
+        $this->SetDrawColor(0,0,0);
+        $this->SetFillColor(0,0,0);
+        $this->SetTextColor(0,0,0);
+        $this->SetXY(0,$heigthInitial);
+        if ($nameComp < 200) {
+            $this->Cell(0,10,strtoupper($nameCompany),0,0,'C', false);
+        } else {
+            $this->MultiCell(0, 10, strtoupper($nameCompany), 0, 'C', false);
+        }
+        $addWitch = 0;
+        $this->SetXY(10,$heigthInitial + 10 + $addWitch);
+        $this->SetFont('Arial','B',16);
+        $this->SetDrawColor(0,80,180);
+        $this->SetFillColor(230,230,0);
+        $this->SetTextColor(0,0,111);
+        $this->Cell(55,5,$document->document,0,0,'C',false);
+
+        $this->SetFont('Arial','B',12);
+        $this->SetXY(10,$heigthInitial + 16 + $addWitch);
+        $this->SetDrawColor(0,0,0);
+        $this->SetFillColor(0,0,0);
+        $this->SetTextColor(0,0,0);
+        $this->Cell(55,5,'Fecha de Emision:',0,0,'C',false);
+
+        $this->SetFont('Arial','B',12);
+        $this->SetXY(10,$heigthInitial + 24);
+        $this->Cell(55,5,$document->created_at,0,0,'C',false);
+
+
+        $this->SetFont('Arial', '', 9);
+        $this->setXY(65,$heigthInitial + 13);
+        $this->MultiCell(80,4,$companyInformation,0,'C',false);
+        if (indicator()->logo == 'on') {
+            $this->Image($logo, 160, $heigthInitial + 13, $width, $height);
+        }
+        
     }
 
     public function generateInformation($thirdParty, $thirdPartyType, $document, $qrImage)
@@ -126,8 +200,6 @@ class PdfDocuments extends FPDF
         $address = pdfFormatText('Direccion:' . ' - ' . $thirdParty->address);
         $phone = pdfFormatText('Telefono:' . ' - ' . $thirdParty->phone);
         $email = pdfFormatText('Correo: ' . $thirdParty->email);
-        $paymentForm = pdfFormatText('Forma de pago: ' . $document->paymentForm->name);
-        $paymentMethod = pdfFormatText('Medio de pago: ' . $document->paymentMethod->name);
         $dueDate = pdfFormatText('Fecha Vencimiento: ' . $document->due_date);
 
         $width = 40;
@@ -155,12 +227,6 @@ class PdfDocuments extends FPDF
         $this->setXY(10,79);
         $this->Cell(70, 4, $email, 0, 'L', false);
 
-        $this->SetFont('Arial', '', 10);
-        $this->setXY(80,59);
-        $this->Cell(70, 4, $paymentForm, 0, 'L', false);
-        $this->SetFont('Arial', '', 10);
-        $this->setXY(80,63);
-        $this->Cell(70, 4, $paymentMethod, 0, 'L', false);
         $this->SetFont('Arial', '', 10);
         $this->setXY(80,67);
         $this->Cell(70, 4, $dueDate, 0, 'L', false);

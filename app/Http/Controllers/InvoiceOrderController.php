@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Pdfs\PdfDocuments;
 use App\Helpers\Tickets\Ticket;
 use App\Models\InvoiceOrder;
 use App\Http\Requests\StoreInvoiceOrderRequest;
@@ -23,6 +24,8 @@ use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Models\Resolution;
 use Carbon\Carbon;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Arr;
@@ -242,6 +245,7 @@ class InvoiceOrderController extends Controller
         $invoiceOrder->total_tax = $request->total_tax;
         $invoiceOrder->total_pay = $total_pay;
         $invoiceOrder->status = 'active';
+        $invoiceOrder->type = $request->type;
         $invoiceOrder->note = $request->note;
         $invoiceOrder->save();
 
@@ -413,6 +417,7 @@ class InvoiceOrderController extends Controller
         $invoiceOrder->total_tax = $request->total_tax;
         $invoiceOrder->total_pay = $total_pay;
         $invoiceOrder->status = 'active';
+        $invoiceOrder->type = $request->type;
         $invoiceOrder->note = $request->note;
         $invoiceOrder->update();
 
@@ -645,6 +650,7 @@ class InvoiceOrderController extends Controller
             'invoiceOrderProducts'
         ));
     }
+    /*
     public function invoiceOrderPdf(Request $request, $id)
     {
         $invoiceOrder = InvoiceOrder::findOrFail($id);
@@ -666,8 +672,8 @@ class InvoiceOrderController extends Controller
 
         return $pdf->stream('vista-pdf', "$invoiceOrderpdf.pdf");
         //return $pdf->download("$invoicepdf.pdf");
-    }
-
+    }*/
+    /*
     public function pdfInvoiceOrder()
     {
         $invoiceOrders = session('invoiceOrder');
@@ -691,8 +697,8 @@ class InvoiceOrderController extends Controller
 
         return $pdf->stream('vista-pdf', "$invoiceOrderpdf.pdf");
         //return $pdf->download("$invoicepdf.pdf");
-    }
-
+    }*/
+    /*
     public function invoiceOrderPos($id)
     {
         $invoiceOrder = InvoiceOrder::where('id', $id)->first();
@@ -714,8 +720,8 @@ class InvoiceOrderController extends Controller
 
         return $pdf->stream('vista-pdf', "$invoiceOrderpdf.pdf");
         //return $pdf->download("$invoicepdf.pdf");
-    }
-
+    }*/
+    /*
     public function posInvoiceOrder()
     {
         $invoiceOrders = session('invoiceOrder');
@@ -741,13 +747,28 @@ class InvoiceOrderController extends Controller
 
         return $pdf->stream('vista-pdf', "$invoiceOrderpdf.pdf");
         //return $pdf->download("$invoicepdf.pdf");
-    }
+    }*/
 
     public function posPdfInvoiceOrder(Request $request, InvoiceOrder $invoiceOrder)
     {
         Session::forget('invoiceOrder');
         $typeDocument = 'invoiceOrder';
-        $title = 'ORDEN DE VENTA';
+        $type = $invoiceOrder->type;
+        switch ($type) {
+            case 'order':
+                $title = 'ORDEN DE VENTA';
+                break;
+            case 'pre-invoice':
+                $title = 'PRE-FACTURA';
+                break;
+            case 'quote':
+                $title = 'COTIZACION';
+                break;
+        default:
+                # code...
+                break;
+        }
+        
         $consecutive = $invoiceOrder->id;
 
         $document = $invoiceOrder;
@@ -801,6 +822,97 @@ class InvoiceOrderController extends Controller
         $pdf->footer();
 
         $pdf->Output("I", $invoiceOrder->id . ".pdf", true);
+        exit;
+    }
+
+    public function pdfInvoiceOrder(Request $request, InvoiceOrder $invoiceOrder) {
+        
+        //Session::forget('newPrinter');
+        $typeDocument = 'invoiceOrder';
+        $title = '';
+        $type = $invoiceOrder->type;
+        switch ($type) {
+            case 'order':
+                $title = 'ORDEN DE VENTA';
+                break;
+            case 'pre-invoice':
+                $title = 'PRE-FACTURA';
+                break;
+            case 'quote':
+                $title = 'COTIZACION';
+                break;
+        default:
+                # code...
+                break;
+        }
+
+        $document = $invoiceOrder;
+        $thirdPartyType = 'customer';
+        $logoHeight = 26;
+        $logo = '';
+        $width = 0;
+        $height = 0;
+        if (indicator()->logo == 'on') {
+            $logo = storage_path('app/public/images/logos/' . company()->imageName);
+
+            $image = list($width, $height, $type, $attr) = getimagesize($logo);
+            $multiplier = $image[0]/$image[1];
+            $height = 26;
+            $width = $height * $multiplier;
+            if ($width > 60) {
+                $width = 60;
+                $height = 60/$multiplier;
+            }
+        }
+
+        //$pdfHeight = ticketHeight($logoHeight, company(), $invoice, "invoice");
+
+        $pdf = new PdfDocuments('P', 'mm', 'Letter', true, 'UTF-8');
+        $pdf->SetMargins(10, 10, 6);
+        $pdf->SetTitle($document->document);
+        $pdf->SetAutoPageBreak(false);
+        $pdf->addPage();
+        
+        //$pdf->generateInvoiceInformation($document);
+        $cufe =  '00';
+        $url = '#';
+        $data = [
+            'NumFac' => $document->document,
+            'FecFac' => $document->created_at->format('Y-m-d'),
+            'NitFac' => company()->nit,
+            'DocAdq' => $document->third->identification,
+            'ValFac' => $document->total,
+            'ValIva' => $document->total_tax,
+            'ValOtroIm' => '0.00',
+            'ValTotal' => $document->total_pay,
+            'CUFE' => $cufe,
+            //'URL' => $url . $cufe,
+        ];
+
+        $writer = new PngWriter();
+        $qrCode = new QrCode(implode("\n", $data));
+        $qrCode->setSize(300);
+        $qrCode->setMargin(10);
+        $result = $writer->write($qrCode);
+
+        $qrCodeImage = $result->getString();
+        $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
+        //$pdf->generateQr($qrImage);
+        
+        $pdf->generateHeaderOrders($logo, $width, $height, $title, $document);
+        $pdf->generateInformation($document->third, $thirdPartyType, $document, $qrImage);
+        $pdf->generateTablePdf($document, $typeDocument);
+        $pdf->generateTotals($document, $typeDocument);
+        
+
+        $pdf->footer($document, $cufe);
+        $pdf->documentInformation($document, $cufe);
+        $pdf->footer();
+        //$pdf->generateHeader($logo, $width, $height);
+        //$refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
+        //$pdf->generateDisclaimerInformation($refund);
+
+        $pdf->Output("I", $document->document . ".pdf", true);
         exit;
     }
 

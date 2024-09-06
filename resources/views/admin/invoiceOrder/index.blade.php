@@ -52,7 +52,7 @@
                         } else {
                             var invoiceOrder = "{{ $invoiceOrder ?? '' }}";
                             if (invoiceOrder != '') {
-                                var imprimir = "{{ route('posInvoiceOrder', ['invoiceOrder' => ':invoiceOrder']) }}";
+                                var imprimir = "{{ route('posPdfInvoiceOrder', ['invoiceOrder' => ':invoiceOrder']) }}";
                                 imprimir = imprimir.replace(':invoiceOrder', invoiceOrder);
                                 window.open(imprimir, "_blank");
                             }

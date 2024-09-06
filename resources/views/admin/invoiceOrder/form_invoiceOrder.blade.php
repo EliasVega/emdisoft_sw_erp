@@ -2,6 +2,19 @@
     <div class="col-md-4">
         <div class="card card-primary card-outline">
             <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="customer_id"> Cliente </label>
+                        <select name="customer_id" class="form-control selectpicker" id="customer_id"
+                            data-live-search="true" required>
+                            <option value="" disabled selected>Seleccionar el Cliente</option>
+                            @foreach ($customers as $customer)
+                                <option value="{{ $customer->id }}">{{ $customer->identification }} -
+                                    {{ $customer->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
                 @if ($indicator->barcode == 'on')
                     <div class="col-lg-12 col-md-12 col-sm-14 col-xs-12" id="codeBarcode">
                         <div class="form-group">
@@ -68,25 +81,22 @@
                         </div>
                     </div>
                 @endif
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label class="form-control-label">Add</label><br>
                         <button class="btn btn-lightBlueGrad" type="button" id="add" data-toggle="tooltip"
                             data-placement="top" title="Add"><i class="fas fa-check"></i>&nbsp; </button>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label class="form-control-label" for="bags">Bolsas</label>
-                        <input type="number" id="bags" name="bags" value="0" class="form-control"
-                            placeholder="Bolsas">
-                    </div>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="noteDocument">
-                    <div class="form-group">
-                        <label class="form-control-label" for="note">Observaciones</label>
-                        <input type="text" id="note" name="note" value="{{ old('note') }}"
-                            class="form-control" placeholder="Observaciones">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                    <label for="type">Tipo Comprobante</label>
+                    <div class="select">
+                        <select id="type" name="type" class="form-control selectpicker" data-live-search="true" required>
+
+                            <option value="order">Orden de venta</option>
+                            <option value="pre-invoice">Pre-factura</option>
+                            <option value="quote">Cotizacion</option>
+                        </select>
                     </div>
                 </div>
                 @include('admin/generalview.form_register')
@@ -95,27 +105,21 @@
     </div>
     <div class="col-md-8">
         <div class="row">
-            <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="noteDocument">
                 <div class="form-group">
-                    <label for="customer_id"> Cliente </label>
-                    <select name="customer_id" class="form-control selectpicker" id="customer_id"
-                        data-live-search="true" required>
-                        <option value="" disabled selected>Seleccionar el Cliente</option>
-                        @foreach ($customers as $customer)
-                            <option value="{{ $customer->id }}">{{ $customer->identification }} -
-                                {{ $customer->name }}</option>
-                        @endforeach
-                    </select>
+                    <label class="form-control-label" for="note">Observaciones</label>
+                    <input type="text" id="note" name="note" value="{{ old('note') }}"
+                        class="form-control" placeholder="Observaciones">
                 </div>
             </div>
-            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                 <div class="form-group">
                     <label class="form-control-label" for="generation_date">Fecha Generacion</label>
                     <input type="date" name="generation_date" id="generation_date" class="form-control"
                         value="<?php echo date('Y-m-d'); ?>" placeholder="Fecha Vencimiento">
                 </div>
             </div>
-            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                 <div class="form-group">
                     <label class="form-control-label" for="due_date">Vencimiento</label>
                     <input type="date" name="due_date" id="due_date" class="form-control"
