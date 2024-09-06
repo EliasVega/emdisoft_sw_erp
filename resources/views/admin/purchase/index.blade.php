@@ -93,7 +93,7 @@
                     function print(){
                         var purchase = "{{ $purchase ?? '' }}";
                         if (purchase != '') {
-                            var imprimir = "{{ route('posPurchase', ['purchase' => ':purchase']) }}";
+                            var imprimir = "{{ route('posPdfPurchase', ['purchase' => ':purchase']) }}";
                             imprimir = imprimir.replace(':purchase', purchase);
                             window.open(imprimir, "_blank");
                         }

@@ -87,12 +87,12 @@
         $("#tax_iva").val(tax_iva);
     }
     function assess(){
-        /*
+        
         if(total>0){
         $("#save").show();
         } else{
             $("#save").hide();
-        }*/
+        }
     }
     function deleterow(index){
         total = total - subtotal[index];

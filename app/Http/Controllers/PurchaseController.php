@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Pdfs\PdfDocuments;
 use App\Helpers\Tickets\Ticket;
 use App\Models\Purchase;
 use App\Http\Requests\StorePurchaseRequest;
@@ -55,10 +56,10 @@ class PurchaseController extends Controller
     use InventoryPurchases, KardexCreate, GetTaxesLine, RawMaterialPurchases;
     function __construct()
     {
-        $this->middleware('permission:purchase.index|purchase.create|purchase.show|purchase.edit', ['only'=>['index']]);
-        $this->middleware('permission:purchase.create', ['only'=>['create','store', 'createRawmaterial']]);
-        $this->middleware('permission:purchase.show', ['only'=>['show']]);
-        $this->middleware('permission:purchase.edit', ['only'=>['edit','update']]);
+        $this->middleware('permission:purchase.index|purchase.create|purchase.show|purchase.edit', ['only' => ['index']]);
+        $this->middleware('permission:purchase.create', ['only' => ['create', 'store', 'createRawmaterial']]);
+        $this->middleware('permission:purchase.show', ['only' => ['show']]);
+        $this->middleware('permission:purchase.edit', ['only' => ['edit', 'update']]);
     }
     /**
      * Display a listing of the resource.
@@ -79,7 +80,7 @@ class PurchaseController extends Controller
         if ($request->ajax()) {
             $users = Auth::user();
             $user = $users->Roles[0]->name;
-            if ($user == 'superAdmin' ||$user == 'admin') {
+            if ($user == 'superAdmin' || $user == 'admin') {
                 //Muestra todas las compras de la empresa
                 $purchases = Purchase::get();
             } else {
@@ -87,43 +88,43 @@ class PurchaseController extends Controller
                 $purchases = Purchase::where('user_id', $users->id)->get();
             }
             return DataTables::of($purchases)
-            ->addIndexColumn()
-            ->addColumn('provider', function (Purchase $purchase) {
-                return $purchase->third->name;
-            })
-            ->addColumn('branch', function (Purchase $purchase) {
-                return $purchase->branch->name;
-            })
-            ->addColumn('retention', function (Purchase $purchase) {
-                return $purchase->retention;
-            })
-            ->addColumn('status', function (Purchase $purchase) {
-                if ($purchase->status == 'purchase') {
-                    return $purchase->status == 'purchase' ? 'F. Compra' : 'Compra';
-                } elseif ($purchase->status == 'support_document') {
-                    return $purchase->status == 'support_document' ? 'Documento Soporte' : 'Documento Soporte';
-                }elseif ($purchase->status == 'debit_note') {
-                    return $purchase->status == 'debit_note' ? 'Nota Debito' : 'Nota Debito';
-                } elseif ($purchase->status == 'credit_note'){
-                    return $purchase->status == 'credit_note' ? 'Nota Credito' : 'Nota Credito';
-                }  elseif ($purchase->status == 'complete'){
-                    return $purchase->status == 'complete' ? 'NC - ND' : 'NC - ND';
-                } elseif ($purchase->status == 'adjustment_note'){
-                    return $purchase->status == 'adjustment_note' ? 'Nota de Ajuste': 'Nota de Ajuste';
-                }
-            })
-            ->addColumn('pos', function (Purchase $purchase) {
-                return $purchase->branch->company->indicator->pos;
-            })
-            ->addColumn('role', function (Purchase $purchase) {
-                return $purchase->user->roles[0]->name;
-            })
-            ->editColumn('created_at', function(Purchase $purchase){
-                return $purchase->created_at->format('Y-m-d: h:m');
-            })
-            ->addColumn('btn', 'admin/purchase/actions')
-            ->rawColumns(['btn'])
-            ->make(true);
+                ->addIndexColumn()
+                ->addColumn('provider', function (Purchase $purchase) {
+                    return $purchase->third->name;
+                })
+                ->addColumn('branch', function (Purchase $purchase) {
+                    return $purchase->branch->name;
+                })
+                ->addColumn('retention', function (Purchase $purchase) {
+                    return $purchase->retention;
+                })
+                ->addColumn('status', function (Purchase $purchase) {
+                    if ($purchase->status == 'purchase') {
+                        return $purchase->status == 'purchase' ? 'F. Compra' : 'Compra';
+                    } elseif ($purchase->status == 'support_document') {
+                        return $purchase->status == 'support_document' ? 'Documento Soporte' : 'Documento Soporte';
+                    } elseif ($purchase->status == 'debit_note') {
+                        return $purchase->status == 'debit_note' ? 'Nota Debito' : 'Nota Debito';
+                    } elseif ($purchase->status == 'credit_note') {
+                        return $purchase->status == 'credit_note' ? 'Nota Credito' : 'Nota Credito';
+                    } elseif ($purchase->status == 'complete') {
+                        return $purchase->status == 'complete' ? 'NC - ND' : 'NC - ND';
+                    } elseif ($purchase->status == 'adjustment_note') {
+                        return $purchase->status == 'adjustment_note' ? 'Nota de Ajuste' : 'Nota de Ajuste';
+                    }
+                })
+                ->addColumn('pos', function (Purchase $purchase) {
+                    return $purchase->branch->company->indicator->pos;
+                })
+                ->addColumn('role', function (Purchase $purchase) {
+                    return $purchase->user->roles[0]->name;
+                })
+                ->editColumn('created_at', function (Purchase $purchase) {
+                    return $purchase->created_at->format('Y-m-d: h:m');
+                })
+                ->addColumn('btn', 'admin/purchase/actions')
+                ->rawColumns(['btn'])
+                ->make(true);
         }
         return view('admin.purchase.index', compact('purchase', 'indicator', 'typeDocument'));
     }
@@ -153,41 +154,43 @@ class PurchaseController extends Controller
         $advances = Advance::where('status', '!=', 'aplicado')->get();
         $date = Carbon::now();
         $products = Product::from('products as pro')
-        ->join('categories as cat', 'pro.category_id', 'cat.id')
-        ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
-        ->join('percentages as per', 'ct.percentage_id', 'per.id')
-        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-        ->select('pro.id', 'pro.code', 'pro.stock', 'pro.price', 'pro.sale_price', 'pro.name', 'per.percentage', 'tt.id as tt')
-        ->where('pro.status', '=', 'active')
-        ->get();
+            ->join('categories as cat', 'pro.category_id', 'cat.id')
+            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+            ->join('percentages as per', 'ct.percentage_id', 'per.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('pro.id', 'pro.code', 'pro.stock', 'pro.price', 'pro.sale_price', 'pro.name', 'per.percentage', 'tt.id as tt')
+            ->where('pro.status', '=', 'active')
+            ->get();
         $companyTaxes = CompanyTax::from('company_taxes', 'ct')
-        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-        ->join('percentages as per', 'ct.percentage_id', 'per.id')
-        ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
-        ->where('tt.type_tax', 'retention')->get();
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->join('percentages as per', 'ct.percentage_id', 'per.id')
+            ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
+            ->where('tt.type_tax', 'retention')->get();
         $typeProduct = 'product';
 
         $countBranchs = count($branchs);
-        return view('admin.purchase.create',
-        compact(
-            'indicator',
-            'providers',
-            'documentTypes',
-            'resolutions',
-            'generationTypes',
-            'paymentForms',
-            'paymentMethods',
-            'banks',
-            'cards',
-            'branchs',
-            'percentages',
-            'advances',
-            'products',
-            'date',
-            'companyTaxes',
-            'typeProduct',
-            'countBranchs'
-        ));
+        return view(
+            'admin.purchase.create',
+            compact(
+                'indicator',
+                'providers',
+                'documentTypes',
+                'resolutions',
+                'generationTypes',
+                'paymentForms',
+                'paymentMethods',
+                'banks',
+                'cards',
+                'branchs',
+                'percentages',
+                'advances',
+                'products',
+                'date',
+                'companyTaxes',
+                'typeProduct',
+                'countBranchs'
+            )
+        );
     }
 
     public function createRawmaterial()
@@ -210,41 +213,43 @@ class PurchaseController extends Controller
         $advances = Advance::where('status', '!=', 'aplicado')->get();
         $date = Carbon::now();
         $products = RawMaterial::from('raw_materials as rm')
-        ->join('categories as cat', 'rm.category_id', 'cat.id')
-        ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
-        ->join('percentages as per', 'ct.percentage_id', 'per.id')
-        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-        ->select('rm.id', 'rm.code', 'rm.stock', 'rm.price', 'rm.name', 'per.percentage', 'tt.id as tt')
-        ->where('rm.status', '=', 'active')
-        ->get();
+            ->join('categories as cat', 'rm.category_id', 'cat.id')
+            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+            ->join('percentages as per', 'ct.percentage_id', 'per.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('rm.id', 'rm.code', 'rm.stock', 'rm.price', 'rm.name', 'per.percentage', 'tt.id as tt')
+            ->where('rm.status', '=', 'active')
+            ->get();
 
         $companyTaxes = CompanyTax::from('company_taxes', 'ct')
-        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-        ->join('percentages as per', 'ct.percentage_id', 'per.id')
-        ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
-        ->where('tt.type_tax', 'retention')->get();
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->join('percentages as per', 'ct.percentage_id', 'per.id')
+            ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
+            ->where('tt.type_tax', 'retention')->get();
         $typeProduct = 'raw_material';
         $countBranchs = count($branchs);
-        return view('admin.purchase.create',
-        compact(
-            'indicator',
-            'providers',
-            'documentTypes',
-            'resolutions',
-            'generationTypes',
-            'paymentForms',
-            'paymentMethods',
-            'banks',
-            'cards',
-            'branchs',
-            'percentages',
-            'advances',
-            'products',
-            'date',
-            'companyTaxes',
-            'typeProduct',
-            'countBranchs'
-        ));
+        return view(
+            'admin.purchase.create',
+            compact(
+                'indicator',
+                'providers',
+                'documentTypes',
+                'resolutions',
+                'generationTypes',
+                'paymentForms',
+                'paymentMethods',
+                'banks',
+                'cards',
+                'branchs',
+                'percentages',
+                'advances',
+                'products',
+                'date',
+                'companyTaxes',
+                'typeProduct',
+                'countBranchs'
+            )
+        );
     }
 
     /**
@@ -258,7 +263,7 @@ class PurchaseController extends Controller
         //dd($request->all());
         $totalpay = $request->totalpay;
         if ($totalpay == null) {
-            toast('No adicionaste ningun tipo de pago.','error');
+            toast('No adicionaste ningun tipo de pago.', 'error');
             return redirect('purchase');
         }
         $resolution = $request->resolution_id;
@@ -272,7 +277,7 @@ class PurchaseController extends Controller
         $price = $request->price;
         $salePrice = $request->sale_price;
         $tax_rate = $request->tax_rate;
-        $branch = $request->branch_id;//variable de la sucursal de destino
+        $branch = $request->branch_id; //variable de la sucursal de destino
         $total_pay = $request->total_pay;
         $retention = 0;
         //variables del request
@@ -362,13 +367,13 @@ class PurchaseController extends Controller
 
             if (indicator()->pos == 'on') {
                 //actualizar la caja
-                    $cashRegister->purchase += $total_pay;
-                    $cashRegister->update();
+                $cashRegister->purchase += $total_pay;
+                $cashRegister->update();
             }
 
             $document = $purchase;
             if ($request->typeProduct == 'product') {
-                for ($i=0; $i < count($product_id); $i++) {
+                for ($i = 0; $i < count($product_id); $i++) {
                     $id = $product_id[$i];
                     //Metodo para registrar la relacion entre producto y compra
                     $productPurchase = new ProductPurchase();
@@ -378,15 +383,15 @@ class PurchaseController extends Controller
                     $productPurchase->price = $price[$i];
                     $productPurchase->tax_rate = $tax_rate[$i];
                     $productPurchase->subtotal = $quantity[$i] * $price[$i];
-                    $productPurchase->tax_subtotal =($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
+                    $productPurchase->tax_subtotal = ($quantity[$i] * $price[$i] * $tax_rate[$i]) / 100;
                     $productPurchase->save();
 
                     //selecciona el producto que viene del array
                     $product = Product::findOrFail($id);
                     //selecciona el producto de la sucursal que sea el mismo del array
                     $branchProducts = BranchProduct::where('product_id', '=', $id)
-                    ->where('branch_id', '=', $branch)
-                    ->first();
+                        ->where('branch_id', '=', $branch)
+                        ->first();
 
                     $quantityLocal = $quantity[$i];
                     $priceLocal = $price[$i];
@@ -397,17 +402,19 @@ class PurchaseController extends Controller
                         $quantityLocal,
                         $priceLocal,
                         $branch,
-                        $salePriceLocal);//trait para actualizar inventario
+                        $salePriceLocal
+                    ); //trait para actualizar inventario
                     $this->kardexCreate(
                         $product,
                         $branch,
                         $voucherType,
                         $document,
                         $quantityLocal,
-                        $typeDocument);//trait crear Kardex
+                        $typeDocument
+                    ); //trait crear Kardex
                 }
             } else {
-                for ($i=0; $i < count($product_id); $i++) {
+                for ($i = 0; $i < count($product_id); $i++) {
                     $id = $product_id[$i];
                     //Metodo para registrar la relacion entre producto y compra
                     $purchaseRawmaterial = new PurchaseRawmaterial();
@@ -417,15 +424,15 @@ class PurchaseController extends Controller
                     $purchaseRawmaterial->price = $price[$i];
                     $purchaseRawmaterial->tax_rate = $tax_rate[$i];
                     $purchaseRawmaterial->subtotal = $quantity[$i] * $price[$i];
-                    $purchaseRawmaterial->tax_subtotal =($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
+                    $purchaseRawmaterial->tax_subtotal = ($quantity[$i] * $price[$i] * $tax_rate[$i]) / 100;
                     $purchaseRawmaterial->save();
 
                     //selecciona el producto que viene del array
                     $rawMaterial = RawMaterial::findOrFail($id);
                     //selecciona el producto de la sucursal que sea el mismo del array
                     $branchRawmaterials = BranchRawmaterial::where('raw_material_id', '=', $id)
-                    ->where('branch_id', '=', $branch)
-                    ->first();
+                        ->where('branch_id', '=', $branch)
+                        ->first();
                     $product = $rawMaterial;
                     $quantityLocal = $quantity[$i];
                     $priceLocal = $price[$i];
@@ -434,14 +441,16 @@ class PurchaseController extends Controller
                         $branchRawmaterials,
                         $quantityLocal,
                         $priceLocal,
-                        $branch);//trait para actualizar inventario
+                        $branch
+                    ); //trait para actualizar inventario
                     $this->kardexCreate(
                         $product,
                         $branch,
                         $voucherType,
                         $document,
                         $quantityLocal,
-                        $typeDocument);//trait crear Kardex
+                        $typeDocument
+                    ); //trait crear Kardex
                 }
                 $purchase->type_product = 'raw_material';
                 $purchase->update();
@@ -450,7 +459,7 @@ class PurchaseController extends Controller
             //Ingresa los productos que vienen en el array
 
 
-            $taxes = $this->getTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC
+            $taxes = $this->getTaxesLine($request); //selecciona el impuesto que tiene la categoria IVA o INC
             //TaxesGlobals($document, $quantityBag, $typeDocument);
             taxesLines($document, $taxes, $typeDocument);
             retentions($request, $document, $typeDocument);
@@ -461,14 +470,10 @@ class PurchaseController extends Controller
             }
 
             if ($documentType == 11 && indicator()->dian == 'on') {
-                $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
-                    ['SendBillSyncResult']['IsValid'];
-                $code = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
-                    ['SendBillSyncResult']['StatusCode'];
-                $description = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
-                    ['SendBillSyncResult']['StatusDescription'];
-                $statusMessage = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
-                    ['SendBillSyncResult']['StatusMessage'];
+                $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['IsValid'];
+                $code = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['StatusCode'];
+                $description = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['StatusDescription'];
+                $statusMessage = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['StatusMessage'];
 
                 $supportDocumentResponse = new SupportDocumentResponse();
                 $supportDocumentResponse->document = $purchase->document;
@@ -483,20 +488,20 @@ class PurchaseController extends Controller
 
                 $environmentPdf = Environment::where('code', 'PDF')->first();
                 $urlpdf = $environmentPdf->protocol . $configuration->ip . $environmentPdf->url;
-                $pdf = file_get_contents($urlpdf . $company->nit ."/DSS-" . $resolutions->prefix .
-                $resolutions->consecutive .".pdf");
+                $pdf = file_get_contents($urlpdf . $company->nit . "/DSS-" . $resolutions->prefix .
+                    $resolutions->consecutive . ".pdf");
                 Storage::disk('public')->put('files/graphical_representations/support_documents/' .
-                $resolutions->prefix . $resolutions->consecutive . '.pdf', $pdf);
+                    $resolutions->prefix . $resolutions->consecutive . '.pdf', $pdf);
                 $resolutions->consecutive += 1;
                 $resolutions->update();
             }
 
             session()->forget('purchase');
             session(['purchase' => $purchase->id]);
-            toast('Compra Registrada satisfactoriamente.','success');
+            toast('Compra Registrada satisfactoriamente.', 'success');
             return redirect('purchase');
         }
-        toast($errorMessages,'danger');
+        toast($errorMessages, 'danger');
         return redirect('purchase');
     }
 
@@ -512,19 +517,19 @@ class PurchaseController extends Controller
         $debitNotes = Ndpurchase::where('purchase_id', $purchase->id)->first();
         $creditNotes = Ncpurchase::where('purchase_id', $purchase->id)->first();
         $retentions = Tax::from('taxes as tax')
-        ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
-        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-        ->select('tax.tax_value', 'ct.name')
-        ->where('tax.type', 'purchase')
-        ->where('tax.taxable_id', $purchase->id)
-        ->where('tt.type_tax', 'retention')->get();
+            ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('tax.tax_value', 'ct.name')
+            ->where('tax.type', 'purchase')
+            ->where('tax.taxable_id', $purchase->id)
+            ->where('tt.type_tax', 'retention')->get();
         $retentionsum = Tax::from('taxes as tax')
-        ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
-        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-        ->select('tax.tax_value', 'ct.name')
-        ->where('tax.type', 'purchase')
-        ->where('tax.taxable_id', $purchase->id)
-        ->where('tt.type_tax', 'retention')->sum('tax_value');
+            ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->select('tax.tax_value', 'ct.name')
+            ->where('tax.type', 'purchase')
+            ->where('tax.taxable_id', $purchase->id)
+            ->where('tt.type_tax', 'retention')->sum('tax_value');
 
         //$retention = 0;
         $debitNote = 0;
@@ -534,13 +539,13 @@ class PurchaseController extends Controller
         if ($debitNotes != null) {
             $debitNote = $debitNotes->total_pay;
             $retnd = Tax::from('taxes as tax')
-            ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
-            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-            ->select('tax.tax_value', 'ct.name')
-            ->where('tax.type', 'ndpurchase')
-            ->where('tax.taxable_id', $debitNotes->id)
-            ->where('tt.type_tax', 'retention')
-            ->sum('tax_value');
+                ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+                ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+                ->select('tax.tax_value', 'ct.name')
+                ->where('tax.type', 'ndpurchase')
+                ->where('tax.taxable_id', $debitNotes->id)
+                ->where('tt.type_tax', 'retention')
+                ->sum('tax_value');
             //$retnd = Retention::where('type', 'ndpurchase')->where('retentionable_id', $debitNotes->id)->first();
             if ($retnd) {
                 $retentionnd = $retnd;
@@ -552,13 +557,13 @@ class PurchaseController extends Controller
             $creditNote = $creditNotes->total_pay;
             //$retnc = Retention::where('type', 'ncpurchase')->where('retentionable_id', $creditNotes->id)->first();
             $retnc = Tax::from('taxes as tax')
-            ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
-            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-            ->select('tax.tax_value', 'ct.name')
-            ->where('tax.type', 'ncpurchase')
-            ->where('tax.taxable_id', $creditNotes->id)
-            ->where('tt.type_tax', 'retention')
-            ->sum('tax_value');
+                ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+                ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+                ->select('tax.tax_value', 'ct.name')
+                ->where('tax.type', 'ncpurchase')
+                ->where('tax.taxable_id', $creditNotes->id)
+                ->where('tt.type_tax', 'retention')
+                ->sum('tax_value');
 
             if ($retnc) {
                 $retentionnc = $retnc;
@@ -1014,33 +1019,33 @@ class PurchaseController extends Controller
         $discrepancies = Discrepancy::where('id', '>', 6)->where('description', '!=', 'Otros')->get();
         $resolutions = Resolution::where('document_type_id', 26)->where('status', 'active')->where('branch_id', current_user()->branch_id)->get();
         $taxes = Tax::from('taxes as tax')
-        ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
-        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-        ->join('percentages as per', 'ct.percentage_id', 'per.id')
-        ->select('ct.id', 'ct.name', 'ct.tax_type_id', 'tax.tax_value', 'per.percentage', 'per.base')
-        ->where('tax.type', 'purchase')
-        ->where('tt.type_tax', 'retention')
-        ->where('tax.taxable_id', $id)
-        ->get();
+            ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->join('percentages as per', 'ct.percentage_id', 'per.id')
+            ->select('ct.id', 'ct.name', 'ct.tax_type_id', 'tax.tax_value', 'per.percentage', 'per.base')
+            ->where('tax.type', 'purchase')
+            ->where('tt.type_tax', 'retention')
+            ->where('tax.taxable_id', $id)
+            ->get();
         $purchase = Purchase::findOrFail($id);
         if ($purchase->type_product == 'product') {
             $productPurchases = ProductPurchase::from('product_purchases as pp')
-            ->join('products as pro', 'pp.product_id', 'pro.id')
-            ->join('categories as cat', 'pro.category_id', 'cat.id')
-            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
-            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-            ->select('pp.id', 'pro.id as idP', 'pro.name', 'pro.stock', 'pp.quantity', 'pp.price', 'pp.tax_rate', 'pp.subtotal', 'tt.id as idtt', 'tt.name as namett')
-            ->where('purchase_id', $id)
-            ->get();
+                ->join('products as pro', 'pp.product_id', 'pro.id')
+                ->join('categories as cat', 'pro.category_id', 'cat.id')
+                ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+                ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+                ->select('pp.id', 'pro.id as idP', 'pro.name', 'pro.stock', 'pp.quantity', 'pp.price', 'pp.tax_rate', 'pp.subtotal', 'tt.id as idtt', 'tt.name as namett')
+                ->where('purchase_id', $id)
+                ->get();
         } else {
             $productPurchases = PurchaseRawmaterial::from('purchase_rawmaterials as pp')
-            ->join('raw_materials as pro', 'pp.raw_material_id', 'pro.id')
-            ->join('categories as cat', 'pro.category_id', 'cat.id')
-            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
-            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-            ->select('pp.id', 'pro.id as idP', 'pro.name', 'pro.stock', 'pp.quantity', 'pp.price', 'pp.tax_rate', 'pp.subtotal', 'tt.id as idtt', 'tt.name as namett')
-            ->where('purchase_id', $id)
-            ->get();
+                ->join('raw_materials as pro', 'pp.raw_material_id', 'pro.id')
+                ->join('categories as cat', 'pro.category_id', 'cat.id')
+                ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+                ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+                ->select('pp.id', 'pro.id as idP', 'pro.name', 'pro.stock', 'pp.quantity', 'pp.price', 'pp.tax_rate', 'pp.subtotal', 'tt.id as idtt', 'tt.name as namett')
+                ->where('purchase_id', $id)
+                ->get();
         }
 
         if ($purchase->status == 'complete' || $purchase->status == 'adjustment_note') {
@@ -1076,34 +1081,34 @@ class PurchaseController extends Controller
         }
         $resolutions = Resolution::where('document_type_id', 13)->where('status', 'active')->where('branch_id', Auth::user()->branch_id)->get();
         $taxes = Tax::from('taxes as tax')
-        ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
-        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-        ->join('percentages as per', 'ct.percentage_id', 'per.id')
-        ->select('ct.id', 'ct.name', 'ct.tax_type_id', 'tax.tax_value', 'per.percentage', 'per.base')
-        ->where('tax.type', 'purchase')
-        ->where('tt.type_tax', 'retention')
-        ->where('tax.taxable_id', $id)
-        ->get();
+            ->join('company_taxes as ct', 'tax.company_tax_id', 'ct.id')
+            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+            ->join('percentages as per', 'ct.percentage_id', 'per.id')
+            ->select('ct.id', 'ct.name', 'ct.tax_type_id', 'tax.tax_value', 'per.percentage', 'per.base')
+            ->where('tax.type', 'purchase')
+            ->where('tt.type_tax', 'retention')
+            ->where('tax.taxable_id', $id)
+            ->get();
         if ($purchase->type_product == 'product') {
             $productPurchases = ProductPurchase::from('product_purchases as pp')
-            ->join('products as pro', 'pp.product_id', 'pro.id')
-            ->join('categories as cat', 'pro.category_id', 'cat.id')
-            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
-            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-            ->select('pp.id', 'pro.id as idP', 'pro.name', 'pro.stock', 'pp.quantity', 'pp.price', 'pp.tax_rate', 'pp.subtotal', 'tt.id as idtt', 'tt.name as namett')
-            ->where('purchase_id', $id)
-            ->get();
+                ->join('products as pro', 'pp.product_id', 'pro.id')
+                ->join('categories as cat', 'pro.category_id', 'cat.id')
+                ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+                ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+                ->select('pp.id', 'pro.id as idP', 'pro.name', 'pro.stock', 'pp.quantity', 'pp.price', 'pp.tax_rate', 'pp.subtotal', 'tt.id as idtt', 'tt.name as namett')
+                ->where('purchase_id', $id)
+                ->get();
         } else {
             $productPurchases = PurchaseRawmaterial::from('purchase_rawmaterials as pp')
-            ->join('raw_materials as pro', 'pp.raw_material_id', 'pro.id')
-            ->join('categories as cat', 'pro.category_id', 'cat.id')
-            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
-            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-            ->select('pp.id', 'pro.id as idP', 'pro.name', 'pro.stock', 'pp.quantity', 'pp.price', 'pp.tax_rate', 'pp.subtotal', 'tt.id as idtt', 'tt.name as namett')
-            ->where('purchase_id', $id)
-            ->get();
+                ->join('raw_materials as pro', 'pp.raw_material_id', 'pro.id')
+                ->join('categories as cat', 'pro.category_id', 'cat.id')
+                ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+                ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+                ->select('pp.id', 'pro.id as idP', 'pro.name', 'pro.stock', 'pp.quantity', 'pp.price', 'pp.tax_rate', 'pp.subtotal', 'tt.id as idtt', 'tt.name as namett')
+                ->where('purchase_id', $id)
+                ->get();
         }
-         if ($purchase->status == 'complete' || $purchase->status == 'adjustment_note') {
+        if ($purchase->status == 'complete' || $purchase->status == 'adjustment_note') {
             return redirect("purchase")->with('warning', 'Esta Compra ya no se puede hacer notas');
         }
         return view('admin.ndpurchase.create', compact(
@@ -1139,7 +1144,7 @@ class PurchaseController extends Controller
             'tipeDocument'
         ));
     }
-
+    /*
     public function purchasePdf(Request $request, $id)
     {
         $purchase = Purchase::findOrFail($id);
@@ -1231,9 +1236,9 @@ class PurchaseController extends Controller
         //$pdf->setPaper ( 'A7' , 'landscape' );
 
         return $pdf->stream('vista-pdf', "$purchasepdf.pdf");
-        //return $pdf->download("$purchasepdf.pdf");*/
-    }
-
+        //return $pdf->download("$purchasepdf.pdf");
+    }*/
+    /*
    public function pdfPurchase(Request $request)
    {
         $purchases = session('purchase');
@@ -1301,9 +1306,9 @@ class PurchaseController extends Controller
         //$pdf->setPaper ( 'A7' , 'landscape' );
 
         return $pdf->stream('vista-pdf', "$purchasepdf.pdf");
-        //return $pdf->download("$purchasepdf.pdf");*/
-   }
-
+        //return $pdf->download("$purchasepdf.pdf");
+   }*/
+    /*
    public function purchasePos($id)
    {
         $purchase = Purchase::findOrFail($id);
@@ -1382,8 +1387,8 @@ class PurchaseController extends Controller
 
         return $pdf->stream('vista-pdf', "$purchasepdf.pdf");
         //return $pdf->download("$purchasepdf.pdf");
-   }
-
+   }*/
+    /*
    public function posPurchase(Request $request)
    {
         $purchases = session('purchase');
@@ -1462,9 +1467,9 @@ class PurchaseController extends Controller
         $pdf->setPaper (array(0,0,297.64,1246.53), 'portrait');
         return $pdf->stream('vista-pdf', "$purchasepdf.pdf");
         //return $pdf->download("$purchasepdf.pdf");
-   }
+   }*/
 
-   public function posPdfPurchase(Request $request, Purchase $purchase)
+    public function posPdfPurchase(Request $request, Purchase $purchase)
     {
         $document = $purchase;
         $typeDocument = 'purchase';
@@ -1484,12 +1489,12 @@ class PurchaseController extends Controller
             $logo = storage_path('app/public/images/logos/' . company()->imageName);
 
             $image = list($width, $height, $type, $attr) = getimagesize($logo);
-            $multiplier = $image[0]/$image[1];
+            $multiplier = $image[0] / $image[1];
             $height = 26;
             $width = $height * $multiplier;
             if ($width > 60) {
                 $width = 60;
-                $height = 60/$multiplier;
+                $height = 60 / $multiplier;
             }
         }
 
@@ -1564,28 +1569,142 @@ class PurchaseController extends Controller
         exit;
     }
 
-   public function getProductPurchase(Request $request)
+    public function pdfPurchase(Request $request, Purchase $purchase)
+    {
+        $typeDocument = 'purchase';
+        $title = '';
+        //$consecutive = $document->document;
+        $documentType = $purchase->document_type_id;
+        if ($documentType == 11) {
+            $title = 'DOCUMENTO SOPORTE ELECTRONICO';
+        } else {
+            $title = 'COMPROBANTE DE COMPRA';
+        }
+
+
+        $document = $purchase;
+        $thirdPartyType = 'provider';
+        $logoHeight = 26;
+        $logo = '';
+        $width = 0;
+        $height = 0;
+        if (indicator()->logo == 'on') {
+            $logo = storage_path('app/public/images/logos/' . company()->imageName);
+
+            $image = list($width, $height, $type, $attr) = getimagesize($logo);
+            $multiplier = $image[0] / $image[1];
+            $height = 26;
+            $width = $height * $multiplier;
+            if ($width > 60) {
+                $width = 60;
+                $height = 60 / $multiplier;
+            }
+        }
+
+        //$pdfHeight = ticketHeight($logoHeight, company(), $invoice, "invoice");
+
+        $pdf = new PdfDocuments('P', 'mm', 'Letter', true, 'UTF-8');
+        $pdf->SetMargins(10, 10, 6);
+        $pdf->SetTitle($document->document);
+        $pdf->SetAutoPageBreak(false);
+        $pdf->addPage();
+
+        if (indicator()->dian == 'on' && $documentType == 11) {
+            //$pdf->generateInvoiceInformation($document);
+            $cufe =  $document->supportDocumentResponse->cufe;
+            $url = 'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=';
+            $data = [
+                'NumFac' => $document->document,
+                'FecFac' => $document->created_at->format('Y-m-d'),
+                'NitFac' => company()->nit,
+                'DocAdq' => $document->third->identification,
+                'ValFac' => $document->total,
+                'ValIva' => $document->total_tax,
+                'ValOtroIm' => '0.00',
+                'ValTotal' => $document->total_pay,
+                'CUFE' => $cufe,
+                'URL' => $url . $cufe,
+            ];
+
+            $writer = new PngWriter();
+            $qrCode = new QrCode(implode("\n", $data));
+            $qrCode->setSize(300);
+            $qrCode->setMargin(10);
+            $result = $writer->write($qrCode);
+
+            $qrCodeImage = $result->getString();
+            $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
+            //$pdf->generateQr($qrImage);
+
+            //$confirmationCode = formatText("CUFE: " . $invoice->response->cufe);
+            //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
+            //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
+            //$pdf->generateConfirmationCode($confirmationCode);
+        } else {
+            //$pdf->generateInvoiceInformation($document);
+            $cufe =  '00';
+            $url = '#';
+            $data = [
+                'NumFac' => $document->document,
+                'FecFac' => $document->created_at->format('Y-m-d'),
+                'NitFac' => company()->nit,
+                'DocAdq' => $document->third->identification,
+                'ValFac' => $document->total,
+                'ValIva' => $document->total_tax,
+                'ValOtroIm' => '0.00',
+                'ValTotal' => $document->total_pay,
+                'CUFE' => $cufe,
+                //'URL' => $url . $cufe,
+            ];
+
+            $writer = new PngWriter();
+            $qrCode = new QrCode(implode("\n", $data));
+            $qrCode->setSize(300);
+            $qrCode->setMargin(10);
+            $result = $writer->write($qrCode);
+
+            $qrCodeImage = $result->getString();
+            $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
+            //$pdf->generateQr($qrImage);
+        }
+
+        $pdf->generateHeaderPurchase($logo, $width, $height, $title, $document);
+        $pdf->generateInformation($document->third, $thirdPartyType, $document, $qrImage);
+        $pdf->generateTablePdf($document, $typeDocument);
+        $pdf->generateTotals($document, $typeDocument);
+
+
+        $pdf->footer($document, $cufe);
+        $pdf->documentInformation($document, $cufe);
+        $pdf->footer();
+        //$pdf->generateHeader($logo, $width, $height);
+        //$refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
+        //$pdf->generateDisclaimerInformation($refund);
+
+        $pdf->Output("I", $document->document . ".pdf", true);
+        exit;
+    }
+
+    public function getProductPurchase(Request $request)
     {
         if ($request->ajax()) {
             $products = Product::from('products as pro')
-            ->join('categories as cat', 'pro.category_id', 'cat.id')
-            ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
-            ->join('percentages as per', 'ct.percentage_id', 'per.id')
-            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-            ->select('pro.id', 'pro.name', 'pro.stock', 'pro.price', 'pro.sale_price', 'per.percentage', 'tt.id as tt')
-            ->where('pro.code', $request->code)
-            ->first();
+                ->join('categories as cat', 'pro.category_id', 'cat.id')
+                ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+                ->join('percentages as per', 'ct.percentage_id', 'per.id')
+                ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+                ->select('pro.id', 'pro.name', 'pro.stock', 'pro.price', 'pro.sale_price', 'per.percentage', 'tt.id as tt')
+                ->where('pro.code', $request->code)
+                ->first();
             if ($products) {
                 return response()->json($products);
             }
         }
-
     }
 
     public function getProviders(Request $request)
     {
-        if($request)
-        {
+        if ($request) {
             $providers = Provider::get();
             return response()->json($providers);
         }

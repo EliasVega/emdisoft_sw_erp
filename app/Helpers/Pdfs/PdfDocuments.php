@@ -110,6 +110,92 @@ class PdfDocuments extends FPDF
         
     }
 
+    public function generateHeaderPurchase($logo, $width, $height, $title, $document)
+    {
+        $identificationType = pdfFormatText(company()->identificationType->initial);
+        $nit = pdfFormatText(company()->nit);
+        $dv = pdfFormatText(company()->dv);
+        $address = pdfFormatText('Dirección: ' . company()->address);
+        $phone = pdfFormatText('Teléfono: ' . company()->phone);
+        $email = pdfFormatText('Email: ' . company()->email);
+        
+        $resolution = Resolution::findOrFail($document->resolution_id);
+        if (indicator()->dian == 'on') {
+            $regime = pdfFormatText(company()->regime->name) . ' - ';
+            $resolutionNumber = 'Resolucion de Facturacion Electronica No.' . ' - ' . $resolution->resolution . ' - ';
+            $resolutionPrefix = 'Prefijo: '. ' - ' . $resolution->prefix . ' - Rango - ' . $resolution->start_number . ' AL ' . $resolution->end_number . ' - ';
+            $resolutionDates = 'Vigencia: ' . $resolution->start_date . ' HASTA ' . $resolution->end_date . ' - ';
+        } else {
+            $regime = '';
+            $resolutionNumber = '';
+            $resolutionPrefix = '';
+            $resolutionDates = '';
+        }
+        $companyInformation = $identificationType . ' - ' . $nit . ' - ' . $dv . ' - ' . $regime . $resolutionNumber . $resolutionPrefix . $resolutionDates . $address . ' - ' . $phone . ' - ' . $email;
+
+        $heigthInitial = 10;
+        $documentType = $document->document_type_id;
+        //Nombre de la empresa
+        $this->SetFont('Arial', 'B', 16);
+        $page = $this->GetPageWidth();
+        $nameCompany = company()->name;
+        $nameComp = $this->GetStringWidth($nameCompany);
+        $this->SetDrawColor(0,0,0);
+        $this->SetFillColor(0,0,0);
+        $this->SetTextColor(0,0,0);
+        $this->SetXY(0,$heigthInitial);
+        if ($nameComp < 200) {
+            $this->Cell(0,10,strtoupper($nameCompany),0,0,'C', false);
+        } else {
+            $this->MultiCell(0, 10, strtoupper($nameCompany), 0, 'C', false);
+        }
+
+        $addWitch = 0;
+        //Nombre documento 
+        $addWitch = 10;
+        $titleWitch = $this->GetStringWidth($title);
+        
+        $this->SetFont('Arial','B',12);
+        $this->SetXY(10,$heigthInitial + 14);
+        $this->SetDrawColor(0,80,180);
+        $this->SetFillColor(230,230,0);
+        $this->SetTextColor(0,0,111);
+        $this->SetLineWidth(1);
+        
+        if ($titleWitch < 60) {
+            $this->Cell(10,5,strtoupper($title),0,0,'C', false);
+        } else {
+            $this->MultiCell(60, 5, strtoupper($title), 0, 'C', false);
+        }
+        
+        $this->SetXY(10,$heigthInitial + 10 + $addWitch);
+        $this->SetFont('Arial','B',16);
+        $this->SetDrawColor(0,80,180);
+        $this->SetFillColor(230,230,0);
+        $this->SetTextColor(0,0,111);
+        $this->Cell(55,5,$document->document,0,0,'C',false);
+
+        $this->SetFont('Arial','B',12);
+        $this->SetXY(10,$heigthInitial + 16 + $addWitch);
+        $this->SetDrawColor(0,0,0);
+        $this->SetFillColor(0,0,0);
+        $this->SetTextColor(0,0,0);
+        $this->Cell(55,5,'Fecha de Emision:',0,0,'C',false);
+
+        $this->SetFont('Arial','B',12);
+        $this->SetXY(10,$heigthInitial + 24);
+        $this->Cell(55,5,$document->created_at,0,0,'C',false);
+
+
+        $this->SetFont('Arial', '', 9);
+        $this->setXY(65,$heigthInitial + 13);
+        $this->MultiCell(80,4,$companyInformation,0,'C',false);
+        if (indicator()->logo == 'on') {
+            $this->Image($logo, 160, $heigthInitial + 13, $width, $height);
+        }
+        
+    }
+
     public function generateHeaderOrders($logo, $width, $height, $title, $document)
     {
         $identificationType = pdfFormatText(company()->identificationType->initial);
