@@ -7,8 +7,6 @@ use App\Models\InvoiceProduct;
 use App\Models\Ncinvoice;
 use App\Models\NcinvoiceProduct;
 use App\Models\Ndinvoice;
-use App\Models\PaymentRemissionReturn;
-use App\Models\PaymentReturn;
 use App\Models\ProductPurchase;
 use App\Models\ProductRemission;
 use App\Models\Resolution;
@@ -173,14 +171,14 @@ class PdfDocuments extends FPDF
 
         $this->SetFont('Arial','B',12);
         $this->SetXY(10,$heigthInitial + 24);
-        $this->Cell(55,5,$document->created_at,0,0,'C',false);
+        $this->Cell(65,5,$document->created_at,0,0,'C',false);
 
 
         $this->SetFont('Arial', '', 9);
-        $this->setXY(65,$heigthInitial + 13);
-        $this->MultiCell(80,4,$companyInformation,0,'C',false);
+        $this->setXY(55,$heigthInitial + 13);
+        $this->MultiCell(100,4,$companyInformation,0,'C',false);
         if (indicator()->logo == 'on') {
-            $this->Image($logo, 160, $heigthInitial + 13, $width, $height);
+            $this->Image($logo, 150, $heigthInitial + 13, $width, $height);
         }
         
     }
