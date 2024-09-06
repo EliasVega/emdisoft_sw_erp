@@ -719,7 +719,7 @@
                                         <li class="nav-item">
                                             <a href="{{ url('invoiceOrder') }}" class="nav-link">
                                                 <i class="far fa-dot-circle nav-icon"></i>
-                                                <p>Orden de venta</p>
+                                                <p>Pre-Facturas</p>
                                             </a>
                                         </li>
                                     @else

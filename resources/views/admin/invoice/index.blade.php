@@ -13,7 +13,7 @@
                         <a href="invoice/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Ventas</a>
 
                         <a href="invoiceOrder" class="btn btn-orangeGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i>
-                            Orden/Venta</a>
+                            Pre-Facturas</a>
 
                     <a href="remission" class="btn btn-lemonGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Remisiones</a>
                 @else

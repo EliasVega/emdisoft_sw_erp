@@ -51,6 +51,65 @@ class InvoiceOrderController extends Controller
      */
     public function index(Request $request)
     {
+        $invoiceOrder = session('');
+        $typeDocument = session('');
+
+        if ($request->ajax()) {
+            $invoiceOrders = InvoiceOrder::where('status', '!=', 'canceled')->get();
+            /*
+            //Muestra todas las pre compras de la empresa
+            $user = current_user()->Roles[0]->name;
+            if ($user == 'superAdmin' ||$user == 'admin') {
+                //Consulta para mostrar todas las precompras a admin y superadmin
+                $invoiceOrders = InvoiceOrder::where('status', '!=', 'canceled')->get();
+            } else {
+                //Consulta para mostrar precompras de los demas roles
+                $invoiceOrders = InvoiceOrder::where('user_id', $user->id)->where('status', '!=', 'canceled')->get();
+            }*/
+            return DataTables::of($invoiceOrders)
+            ->addIndexColumn()
+            ->addColumn('customer', function (InvoiceOrder $invoiceOrder) {
+                return $invoiceOrder->third->name;
+            })
+            ->addColumn('branch', function (InvoiceOrder $invoiceOrder) {
+                return $invoiceOrder->branch->name;
+            })
+            ->addColumn('status', function (InvoiceOrder $invoiceOrder) {
+                if ($invoiceOrder->status == 'active') {
+                    return $invoiceOrder->status == 'active' ? 'Orden de Venta' : 'Facturado';
+                } elseif ($invoiceOrder->status == 'generated') {
+                    return $invoiceOrder->status == 'generated' ? 'Facturado' : 'Cancelado';
+                } else {
+                    return $invoiceOrder->status == 'canceled' ? 'Anulada' : 'Anulada';
+                }
+            })
+            ->addColumn('type', function (InvoiceOrder $invoiceOrder) {
+                if ($invoiceOrder->type == 'order') {
+                    return $invoiceOrder->type == 'order' ? 'Orden de Venta' : 'Orden de venta';
+                } elseif ($invoiceOrder->type == 'pre-invoice') {
+                    return $invoiceOrder->type == 'pre-invoice' ? 'Pre-Factura' : 'Pre-Factura';
+                } elseif ($invoiceOrder->type == 'quote') {
+                    return $invoiceOrder->type == 'quote' ? 'Cotizacion' : 'Cotizacion';
+                }
+            })
+            ->addColumn('observation', function (InvoiceOrder $invoiceOrder) {
+                return $invoiceOrder->note;
+            })
+            ->addColumn('pos', function (InvoiceOrder $invoiceOrder) {
+                return $invoiceOrder->branch->company->indicator->pos;
+            })
+            ->editColumn('created_at', function(InvoiceOrder $invoiceOrder) {
+                return $invoiceOrder->created_at->format('Y-m-d: h:m');
+            })
+            ->addColumn('btn', 'admin/invoiceOrder/actions')
+            ->rawColumns(['btn'])
+            ->make(true);
+        }
+        return view('admin.invoiceOrder.index', compact('invoiceOrder', 'typeDocument'));
+    }
+
+    public function indexOrder(Request $request)
+    {
         $invoiceOrder = session('invoiceOrder');
         $typeDocument = session('typeDocument');
 
@@ -142,7 +201,7 @@ class InvoiceOrderController extends Controller
         ->join('percentages as per', 'ct.percentage_id', 'per.id')
         ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
         ->where('tt.type_tax', 'retention')->get();
-        $type = 'invoice';
+        $type = 'invoiceOrder';
         return view('admin.invoiceOrder.create',
         compact(
             'customers',
@@ -297,7 +356,7 @@ class InvoiceOrderController extends Controller
         session(['invoiceOrder' => $invoiceOrder->id]);
         session(['typeDocument' => $typeDocument]);
         toast('Orden de Venta Generada con exito.','success');
-        return redirect('invoiceOrder');
+        return redirect('indexOrder');
     }
 
     /**
@@ -900,7 +959,7 @@ class InvoiceOrderController extends Controller
         //$pdf->generateQr($qrImage);
         
         $pdf->generateHeaderOrders($logo, $width, $height, $title, $document);
-        $pdf->generateInformation($document->third, $thirdPartyType, $document, $qrImage);
+        $pdf->generateInfoPredocuments($document->third, $thirdPartyType, $document, $qrImage);
         $pdf->generateTablePdf($document, $typeDocument);
         $pdf->generateTotals($document, $typeDocument);
         

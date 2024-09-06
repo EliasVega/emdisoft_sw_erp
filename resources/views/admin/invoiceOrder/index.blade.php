@@ -6,9 +6,9 @@
     <main class="main">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <h5>Listado de Ordenes de venta</h5>
-                    <a href="createPosOrder" class="btn btn-blueGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Orden de Venta Pos</a>
-                    <a href="invoiceOrder/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Orden de Venta </a>
+                <h5>Listado de Pre-Facturas</h5>
+                    <a href="createPosOrder" class="btn btn-blueGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Pre-Factura Pos</a>
+                    <a href="invoiceOrder/create" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Pre-Factura </a>
                     <a href="{{ route('invoice.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Ventas</a>
             </div>
         </div>
@@ -20,6 +20,7 @@
                             <tr class="trdatacolor">
                                 <th></th>
                                 <th>Id</th>
+                                <th>Tipo</th>
                                 <th>Cliente</th>
                                 <th>Valor</th>
                                 <th>Impuestos</th>
@@ -36,10 +37,10 @@
         @push('scripts')
             <script type="text/javascript">
                 $(document).ready(function() {
-
                     var typeDocument = "{{ $typeDocument ?? '' }}";
-
-                    function print() {
+                    var dian = "{{ $dian ?? '' }}";
+                    print(typeDocument);
+                    function print(typeDocument) {
                         if (typeDocument == 'invoiceOrder') {
                             var invoiceOrder = "{{ $invoiceOrder ?? '' }}";
                             if (invoiceOrder != '') {
@@ -47,18 +48,17 @@
                                 imprimir = imprimir.replace(':invoiceOrder', invoiceOrder);
                                 window.open(imprimir, "_blank");
                             }
-                        } else if (typeDocument == '') {
-
-                        } else {
+                        } else if (typeDocument == 'pos') {
                             var invoiceOrder = "{{ $invoiceOrder ?? '' }}";
                             if (invoiceOrder != '') {
                                 var imprimir = "{{ route('posPdfInvoiceOrder', ['invoiceOrder' => ':invoiceOrder']) }}";
                                 imprimir = imprimir.replace(':invoiceOrder', invoiceOrder);
                                 window.open(imprimir, "_blank");
                             }
+                        } else {
+
                         }
                     }
-                    print();
 
                     function format(d) {
                         return `
@@ -95,6 +95,9 @@
                             },
                             {
                                 data: 'id'
+                            },
+                            {
+                                data: 'type'
                             },
                             {
                                 data: 'customer'
@@ -151,6 +154,9 @@
                             {
                                 targets: 8
                             },
+                            {
+                                targets: 9
+                            },
                         ],
                         dom: 'Blfrtip',
                         lengthMenu: [
@@ -160,13 +166,13 @@
                         buttons: [{
                                 extend: 'copy',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
                                 }
                             },
                             {
                                 extend: 'excel',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
                                 }
                             },
                             {
@@ -175,13 +181,13 @@
                                 orientation: 'landscape',
                                 pageSize: 'LEGAL',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
                                 }
                             },
                             {
                                 extend: 'print',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
                                 }
                             },
                         ],
