@@ -165,20 +165,6 @@
 
     //adicionar productos a la compra
     function addBarcode(){
-        dataProduct = document.getElementById('product_id').value.split('_');
-        product_id= dataProduct[0];
-        product= $("#product_id option:selected").text();
-        quantity= $("#quantityadd").val();
-        stock= $("#stock").val();
-        tax_rate= $("#tax_rate").val();
-        price= $("#price").val();
-        pwx = $("#pwx").val();
-        if (pwx == 'on') {
-            taxRate = parseFloat(tax_rate) + 100;
-            price = (parseFloat(price) / parseFloat(taxRate)) * 100;
-        }
-        tax_type = $("#tax_type").val();
-
         product_id= $("#barcode_product_id").val();
         product= $("#product_barcode").val();
         quantity= $("#quantityadd").val();
@@ -400,7 +386,10 @@
             tax_cont[cont] = ivita;
             total_tax = total_tax+ivita;
 
-            var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';
+            subcont = subtotal[cont] + parseFloat(ivita);
+            rowsList(cont, employee_id, product_id, product, quantity, price, ivita, tax_rate, subcont);
+            /*
+            var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';*/
             cont++;
 
             deleterow(contedit);

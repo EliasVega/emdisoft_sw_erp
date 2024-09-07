@@ -34,6 +34,22 @@
             });
         });
     });
+    jQuery(document).ready(function($){
+        $(document).ready(function() {
+            $('#typeDocument').select2({
+                theme: "classic",
+                width: "100%",
+            });
+        });
+    });
+    jQuery(document).ready(function($){
+        $(document).ready(function() {
+            $('#type').select2({
+                theme: "classic",
+                width: "100%",
+            });
+        });
+    });
     var cont = 0;
     var total = 0;
     var subtotal = [];
@@ -45,17 +61,19 @@
     var uvt = '';
     var pos_on = '';
     //form invoice
+    $("#posnegative").hide();
+    $("#addEid").hide();
+    /*
     $("#idPro").hide();
     $("#percent").hide();
     $("#taxType").hide();
     $("#resolution").hide();
     $("#documentType").hide();
-    $("#uvt5").hide();
     $("#posActive").hide();
     $("#save").hide();
     $("#posavtivity").hide();
     $("#barcodeId").hide();
-    $("#addEid").hide();
+    */
 
 
     $(document).ready(function(){
@@ -83,14 +101,73 @@
     function productValue(){
         dataProduct = document.getElementById('product_id').value.split('_');
         $("#stock").val(dataProduct[1]);
+        $("#priceadd").val(dataProduct[2]);
         $("#vprice").val(dataProduct[2]);
         $("#tax_rate").val(dataProduct[3]);
         $("#tax_type").val(dataProduct[4]);
-        $("#price").val(dataProduct[2]);
         $("#employee_id").val(0);
     }
 
+    $(document).ready(function(){
+        $("#add").click(function(){
+            add();
+        });
+    });
 
+    //adicionar productos a la compra
+    function add(){
+        dataProduct = document.getElementById('product_id').value.split('_');
+        product_id= dataProduct[0];
+        product= $("#product_id option:selected").text();
+        quantity= $("#quantityadd").val();
+        price= $("#priceadd").val();
+        stock= $("#stock").val();
+        tax_rate= $("#tax_rate").val();
+        pwx = $("#pwx").val();
+        if (pwx == 'on') {
+            taxRate = parseFloat(tax_rate) + 100;
+            price = (parseFloat(price) / parseFloat(taxRate)) * 100;
+        }
+        tax_type = $("#tax_type").val();
+        employee_id = $("#employee_id").val();
+        if(product_id !="" && quantity!="" && quantity>0  && price!=""){
+            subtotal[cont] = parseFloat(quantity) * parseFloat(price);
+            total = total+subtotal[cont];
+            ivita = subtotal[cont]*tax_rate/100;
+            tax_cont[cont] = ivita;
+            total_tax = total_tax+ivita;
+            if(tax_type == 1){
+                tax_iva += ivita;
+            }
+            subcont = subtotal[cont] + parseFloat(ivita);
+            rowsList(cont, employee_id, product_id, product, quantity, price, ivita, tax_rate, subcont);
+            /*
+            var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';*/
+            cont++;
+            totals();
+            assess();
+
+            $('#details').append(row);
+            //$('#product_id option:selected').remove();
+            $("#totalPartial").val(total);
+            swal.fire({
+                icon: 'success',
+                text: product + '--' + 'Agregado correctamente',
+                showConfirmButton: false,
+                timer: 1000 // es ms (mili-segundos)
+            });
+            clean();
+
+
+        }else{
+            //alert("Rellene todos los campos del detalle para esta compra");
+            Swal.fire({
+            type: 'error',
+            //title: 'Oops...',
+            text: 'Rellene todos los campos del detalle para esta compra',
+            })
+        }
+    }
 
     $("#switch_barcode").change(function(){
 
@@ -119,7 +196,7 @@
         }).done(function(data){ // imprimimos la respuesta
             $("#barcode_product_id").val(data.id);
             $("#product_barcode").val(data.name);
-            $("#price").val(data.sale_price);
+            $("#priceadd").val(data.sale_price);
             $("#stock").val(data.stock);
             $("#quantityadd").val(1);
             $("#tax_rate").val(data.percentage);
@@ -142,71 +219,24 @@
         }
     })
 
-    $(document).ready(function(){
-        $("#add").click(function(){
-            add();
-        });
-    });
-
-    //adicionar productos a la compra
-    function add(){
-        dataProduct = document.getElementById('product_id').value.split('_');
-        product_id= dataProduct[0];
-        product= $("#product_id option:selected").text();
-        quantity= $("#quantityadd").val();
-        price= $("#price").val();
-        stock= $("#stock").val();
-        tax_rate= $("#tax_rate").val();
-        tax_type = $("#tax_type").val();
-        uvt = $("#uvtmax").val();
-        employee_id = $("#employee_id").val();
-        if(product_id !="" && quantity!="" && quantity>0  && price!=""){
-            subtotal[cont] = parseFloat(quantity) * parseFloat(price);
-            total = total+subtotal[cont];
-            ivita = subtotal[cont]*tax_rate/100;
-            tax_cont[cont] = ivita;
-            total_tax = total_tax+ivita;
-            if(tax_type == 1){
-                tax_iva += ivita;
-            }
-            var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';
-            cont++;
-            totals();
-            assess();
-
-            $('#details').append(row);
-            //$('#product_id option:selected').remove();
-            $("#totalPartial").val(total);
-            swal.fire({
-                icon: 'success',
-                text: product + '--' + 'Agregado correctamente',
-                showConfirmButton: false,
-                timer: 3000 // es ms (mili-segundos)
-            });
-            clean();
-
-
-        }else{
-            //alert("Rellene todos los campos del detalle para esta compra");
-            Swal.fire({
-            type: 'error',
-            //title: 'Oops...',
-            text: 'Rellene todos los campos del detalle para esta compra',
-            })
-        }
-    }
+    
 
     //adicionar productos a la compra
     function addBarcode(){
         product_id= $("#barcode_product_id").val();
         product= $("#product_barcode").val();
         quantity= $("#quantityadd").val();
-        price= $("#price").val();
+        price= $("#priceadd").val();
         stock= $("#stock").val();
         tax_rate= $("#tax_rate").val();
+        pwx = $("#pwx").val();
+        if (pwx == 'on') {
+            taxRate = parseFloat(tax_rate) + 100;
+            price = (parseFloat(price) / parseFloat(taxRate)) * 100;
+        }
         tax_type = $("#tax_type").val();
-        uvt = $("#uvtmax").val();
         employee_id = $("#employee_id").val();
+        
         if(product_id !="" && quantity!="" && quantity>0  && price!=""){
             subtotal[cont] = parseFloat(quantity) * parseFloat(price);
             total = total+subtotal[cont];
@@ -216,7 +246,10 @@
             if(tax_type == 1){
                 tax_iva += ivita;
             }
-            var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';
+            subcont = subtotal[cont] + parseFloat(ivita);
+            rowsList(cont, employee_id, product_id, product, quantity, price, ivita, tax_rate, subcont);
+            /*
+            var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';*/
             cont++;
             totals();
             assess();
@@ -227,7 +260,7 @@
                 icon: 'success',
                 text: product + '--' + 'Editado correctamente',
                 showConfirmButton: false,
-                timer: 3000 // es ms (mili-segundos)
+                timer: 1000 // es ms (mili-segundos)
             });
             clean();
 
@@ -248,8 +281,8 @@
         $("#barcode_product_id").val("");
         $("#product_barcode").val("");
         $("#code").val("");
-        $("#quantityadd").val("");
-        $("#price").val("");
+        $("#quantityadd").val(1);
+        $("#priceadd").val("");
     }
     function totals(){
         var total_pay = total + total_tax;
@@ -266,13 +299,12 @@
         $("#balance").val(total_pay.toFixed(2));
         $("#pendient").val(total_pay.toFixed(2));
         $("#total_invoice").val(total.toFixed(2));
-        $("#tax_iva").val(tax_iva);
+        //$("#tax_iva").val(tax_iva);
     }
     function assess(){
 
-        if(total>0){
-
-        $("#save").show();
+        if(total > 0){
+            $("#save").show();
         } else{
             $("#save").hide();
         }
@@ -317,8 +349,8 @@
             $("#productModal").val(row.find("td:eq(4)").text());
             $("#quantityModal").val(row.find("td:eq(5)").text());
             $("#priceModal").val(row.find("td:eq(6)").text());
-            $("#taxModal").val(row.find("td:eq(7)").text());
-            $("#subtotalModal").val(row.find("td:eq(8)").text());
+            $("#taxModal").val(row.find("td:eq(8)").text());
+            $("#subtotalModal").val(row.find("td:eq(9)").text());
 
             // Mostrar modal
             $('#editModal').modal('show');
@@ -340,6 +372,11 @@
         quantity = $("#quantityModal").val();
         price = $("#priceModal").val();
         tax_rate = $("#taxModal").val();
+        pwx = $("#pwx").val();
+        if (pwx == 'on') {
+            taxRate = parseFloat(tax_rate) + 100;
+            price = (parseFloat(price) / parseFloat(taxRate)) * 100;
+        }
         employee_id = $("#employee_idModal").val();
         $('#priceModal').prop("readonly", true);
 
@@ -350,7 +387,10 @@
             tax_cont[cont] = ivita;
             total_tax = total_tax+ivita;
 
-            var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';
+            subcont = subtotal[cont] + parseFloat(ivita);
+            rowsList(cont, employee_id, product_id, product, quantity, price, ivita, tax_rate, subcont);
+            /*
+            var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';*/
             cont++;
 
             deleterow(contedit);
@@ -363,7 +403,7 @@
                 icon: 'success',
                 text: product + '--' + 'Editado correctamente',
                 showConfirmButton: false,
-                timer: 3000 // es ms (mili-segundos)
+                timer: 1000 // es ms (mili-segundos)
             });
             //$('#product_id option:selected').remove();
         }else{
@@ -391,13 +431,24 @@
                 employee_id = value['employee'];
 
                 if(product_id !="" && quantity!="" && quantity>0  && price!="" && price>0){
-                    subtotal[cont]= parseFloat(quantity) * parseFloat(price);
+                    pwx = $("#pwx").val();
+                    if (pwx == 'on') {
+                        result = parseFloat(quantity) * parseFloat(price);
+                        subtotal[cont]= Math.round(result);
+                        ivitares = subtotal[cont]*tax_rate/100;
+                        ivita = Math.round(ivitares);
+                    } else {
+                        subtotal[cont]= parseFloat(quantity) * parseFloat(price);
+                        ivita= subtotal[cont]*tax_rate/100; 
+                    }
+                    
                     total= total+subtotal[cont];
-                    ivita= subtotal[cont]*tax_rate/100;
                     tax_cont[cont] = total_tax+ivita;
                     total_tax=total_tax+ivita;
-
-                    var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';
+                    subcont = subtotal[cont] + parseFloat(ivita);
+                    rowsList(cont, employee_id, product_id, product, quantity, price, ivita, tax_rate, subcont);
+                    /*
+                    var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+parseFloat(price).toFixed(2)+'</td><td><input type="hidden" name="ivaline[]"  value="'+ivita+'">'+parseFloat(ivita).toFixed(2)+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subcont).toFixed(2)+'</td></tr>';*/
                     cont++;
 
                     totals();
@@ -417,4 +468,7 @@
             }
         });
     //}
+    function rowsList(cont, employee_id, product_id, product, quantity, price, ivita, tax_rate, subcont) {
+        row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+parseFloat(price).toFixed(2)+'</td><td><input type="hidden" name="ivaline[]"  value="'+ivita+'">'+parseFloat(ivita).toFixed(2)+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subcont).toFixed(2)+'</td></tr>';
+    }
 </script>

@@ -237,6 +237,11 @@ class Ticket extends FPDF
             $this->Cell(20, 5, formatText('IMPUESTO'), 0, 0, 'R');
             $this->Cell(30, 5, "$" . number_format($document->total_tax,2), 0, 1, 'R');
         }
+        if ($typeDocument == 'invoiceOrder') {
+            $this->SetX(18);
+            $this->Cell(20, 5, formatText('IMPUESTO'), 0, 0, 'R');
+            $this->Cell(30, 5, "$" . number_format($document->total_tax,2), 0, 1, 'R');
+        }
         foreach ($taxes as $tax) {
             $this->SetX(18);
             $this->Cell(20, 5, formatText($tax->name), 0, 0, 'R');
