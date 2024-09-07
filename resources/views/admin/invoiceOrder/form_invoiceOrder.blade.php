@@ -138,26 +138,27 @@
                             <th>Id</th>
                             <th>Producto</th>
                             <th>Cantidad</th>
-                            <th>precio ($)</th>
-                            <th>imp (%)</th>
-                            <th>SubTotal ($)</th>
+                            <th>V/unit</th>
+                            <th>IVA/INC</th>
+                            <th>%</th>
+                            <th>SubTotal</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th colspan="8" class="rightfoot">TOTAL:</th>
+                            <th colspan="9" class="rightfoot">TOTAL:</th>
                             <td class="rightfoot thfoot"><strong id="total_html">$ 0.00</strong>
                                 <input type="hidden" name="total" id="total">
                             </td>
                         </tr>
                         <tr>
-                            <th colspan="8" class="rightfoot">IMPUESTO:</th>
+                            <th colspan="9" class="rightfoot">IMPUESTO:</th>
                             <td class="rightfoot thfoot"><strong id="total_tax_html">$ 0.00</strong>
                                 <input type="hidden" name="total_tax" id="total_tax">
                             </td>
                         </tr>
                         <tr>
-                            <th colspan="8" class="rightfoot">TOTAL VENTA:</th>
+                            <th colspan="9" class="rightfoot">TOTAL VENTA:</th>
                             <td class="rightfoot thfoot"><strong id="total_pay_html">$ 0.00</strong>
                                 <input type="hidden" name="total_pay" id="total_pay">
                             </td>

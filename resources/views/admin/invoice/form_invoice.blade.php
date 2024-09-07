@@ -4,6 +4,11 @@
             @include('admin/generalview.form_pay')
         </div>
     </div>
+    <div class="col-md-4" id="formRetentions">
+        <div class="card card-primary card-outline">
+            @include('admin/generalview.form_retention')
+        </div>
+    </div>
     <div class="col-md-4" id="formCard">
         <div class="card card-primary card-outline">
             <div class="row">

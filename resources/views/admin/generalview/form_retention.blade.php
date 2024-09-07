@@ -25,7 +25,7 @@
             <span><strong>Agregar Retenciones</strong></span>
         </div>
     </div>
-    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" id="companyTax">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="companyTax">
         <div class="form-group row">
             <label class="form-control-label" for="company_tax_id">Retencion</label>
             <select name="company_tax_id" class="form-control selectpicker" id="company_tax_id"
@@ -38,19 +38,19 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="fPercentage">
+    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12" id="fPercentage">
         <div class="form-group">
             <label class="form-control-label" for="percentage">Porcentage</label>
             <input type="number" name="percentage" id="percentage" class="form-control" value="0" placeholder="porcentage">
         </div>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="purchase">
+    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12" id="purchase">
         <div class="form-group">
             <label class="form-control-label" for="total_purchase">Total factura</label>
             <input type="number" name="total_purchase" id="total_purchase" class="form-control" value="0" placeholder="total">
         </div>
     </div>
-    <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
+    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
         <div class="form-group">
             <span><strong>Adicionar</strong></span><br>
             <button class="btn btn-lightBlueGrad" type="button" id="withhold" data-toggle="tooltip" data-placement="top" title="Retencion"><i class="fas fa-check"></i> </button>

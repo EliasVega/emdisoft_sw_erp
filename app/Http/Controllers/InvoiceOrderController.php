@@ -12,12 +12,10 @@ use App\Models\Bank;
 use App\Models\Branch;
 use App\Models\BranchProduct;
 use App\Models\Card;
-use App\Models\Company;
 use App\Models\CompanyTax;
 use App\Models\Customer;
 use App\Models\Employee;
 use App\Models\EmployeeInvoiceOrderProduct;
-use App\Models\Indicator;
 use App\Models\InvoiceOrderProduct;
 use App\Models\PaymentForm;
 use App\Models\PaymentMethod;
@@ -27,7 +25,6 @@ use Carbon\Carbon;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Session;
 use Picqer\Barcode\BarcodeGeneratorPNG;
@@ -76,7 +73,7 @@ class InvoiceOrderController extends Controller
             })
             ->addColumn('status', function (InvoiceOrder $invoiceOrder) {
                 if ($invoiceOrder->status == 'active') {
-                    return $invoiceOrder->status == 'active' ? 'Orden de Venta' : 'Facturado';
+                    return $invoiceOrder->status == 'active' ? 'Pendiente' : 'Pendiente';
                 } elseif ($invoiceOrder->status == 'generated') {
                     return $invoiceOrder->status == 'generated' ? 'Facturado' : 'Cancelado';
                 } else {

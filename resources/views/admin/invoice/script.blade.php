@@ -50,7 +50,7 @@
     $("#taxType").hide();
     $("#resolution").hide();
     $("#documentType").hide();
-    //$("#save").hide();
+    $("#save").hide();
     $("#posavtivity").hide();
     $("#barcodeId").hide();
     $("#addEid").hide();
@@ -293,15 +293,12 @@
         $("#pendient").val(total_pay.toFixed(2));
     }
     function assess(){
-
-        if(total>=0){
-
+        if(total >= 0){
             $("#addPay").show();
-            //$("#addRetentions").show();
-
+            $("#addRetentions").show();
         } else{
             $("#addPay").hide();
-            //$("#addRetentions").hide();
+            $("#addRetentions").hide();
         }
     }
     function deleterow(index){

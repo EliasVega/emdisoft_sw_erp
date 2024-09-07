@@ -69,50 +69,6 @@
         }
     });
 
-    function totals(){
-        var total_pay = total + total_tax;
-
-        $("#total_html").html("$ " + total.toFixed(2));
-        $("#total").val(total.toFixed(2));
-
-        $("#total_tax_html").html("$ " + total_tax.toFixed(2));
-        $("#total_tax").val(total_tax.toFixed(2));
-
-        $("#total_pay_html").html("$ " + total_pay.toFixed(2));
-        $("#total_pay").val(total_pay.toFixed(2));
-
-        $("#balance").val(total_pay.toFixed(2));
-        $("#pendient").val(total_pay.toFixed(2));
-        $("#total_invoice").val(total.toFixed(2));
-        $("#tax_iva").val(tax_iva);
-    }
-    function assess(){
-        
-        if(total>0){
-        $("#save").show();
-        } else{
-            $("#save").hide();
-        }
-    }
-    function deleterow(index){
-        total = total - subtotal[index];
-        total_tax = total_tax - tax_cont[index];
-        total_pay = total + total_tax;
-
-        $("#total_html").html("$ " + total.toFixed(2));
-        $("#total").val(total.toFixed(2));
-
-        $("#total_tax_html").html("$ " + total_tax.toFixed(2));
-        $("#total_tax").val(total_tax.toFixed(2));
-
-        $("#total_pay_html").html("$ " + total_pay.toFixed(2));
-        $("#total_pay").val(total_pay.toFixed(2));
-
-        $("#row" + index).remove();
-
-        assess();
-    }
-
     //function editing(){
         iop = {!! json_encode($invoiceOrderProducts) !!};
         iop.forEach((value, i) => {
@@ -153,6 +109,49 @@
         });
     //}
 
+    function totals(){
+        var total_pay = total + total_tax;
+
+        $("#total_html").html("$ " + total.toFixed(2));
+        $("#total").val(total.toFixed(2));
+
+        $("#total_tax_html").html("$ " + total_tax.toFixed(2));
+        $("#total_tax").val(total_tax.toFixed(2));
+
+        $("#total_pay_html").html("$ " + total_pay.toFixed(2));
+        $("#total_pay").val(total_pay.toFixed(2));
+
+        $("#balance").val(total_pay.toFixed(2));
+        $("#pendient").val(total_pay.toFixed(2));
+        $("#total_invoice").val(total.toFixed(2));
+        $("#tax_iva").val(tax_iva);
+    }
+    function assess(){
+        /*
+        if(total>0){
+        $("#save").show();
+        } else{
+            $("#save").hide();
+        }*/
+    }
+    function deleterow(index){
+        total = total - subtotal[index];
+        total_tax = total_tax - tax_cont[index];
+        total_pay = total + total_tax;
+
+        $("#total_html").html("$ " + total.toFixed(2));
+        $("#total").val(total.toFixed(2));
+
+        $("#total_tax_html").html("$ " + total_tax.toFixed(2));
+        $("#total_tax").val(total_tax.toFixed(2));
+
+        $("#total_pay_html").html("$ " + total_pay.toFixed(2));
+        $("#total_pay").val(total_pay.toFixed(2));
+
+        $("#row" + index).remove();
+
+        assess();
+    }
 
     $(document).ready(function(){
         $("#addPay").click(function(){
@@ -173,6 +172,7 @@
             $("#formCard").show();
             $("#formPayCard").hide();
             $("#formRetentions").hide();
+            $("#addPay").hide();
         });
     });
     $(document).ready(function(){
@@ -180,6 +180,7 @@
             $("#formCard").show();
             $("#formPayCard").hide();
             $("#formRetentions").hide();
+            $("#addRetentions").hide();
         });
     });
 

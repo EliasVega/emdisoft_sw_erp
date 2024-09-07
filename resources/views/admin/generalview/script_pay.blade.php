@@ -49,6 +49,7 @@
                 $("#addPayPayment").hide();
                 $("#payingButton").show();
                 $("#addGoBack").hide();
+                $("#save").hide();
             }else{
                 $("#buttonPay").hide();
                 $("#addPayPayment").show();
@@ -57,6 +58,7 @@
                 $("#payingButton").hide();
                 $("#payPayment").show();
                 $("#addGoBack").show();
+                $("#save").show();
             }
         });
     });
@@ -390,7 +392,12 @@
     }
 
     function assesspayment(){
+        if(totalpay > 0){
 
+        $("#save").show();
+        } else{
+            $("#save").hide();
+        }
     }
     function deletepay(index){
         paydelete = paycont[index];
