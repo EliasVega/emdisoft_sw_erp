@@ -92,7 +92,7 @@
         $("#total_retention").val(total_retention.toFixed(2));
 
         //$("#total_document").val(total);
-        $("#tax_iva").val(tax_iva);
+        //$("#tax_iva").val(tax_iva);
     }
     function deleteRetention(index){
 

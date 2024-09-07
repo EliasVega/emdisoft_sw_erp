@@ -56,8 +56,8 @@
                     <table class="table table-striped table-bordered table-condensed table-hover" id="invoices">
                         <thead>
                             <tr class="trdatacolor">
+                                <th>Id</th>
                                 <th></th>
-                                <th hidden="true">Id</th>
                                 <th>Cliente</th>
                                 <th>#Fac_Venta</th>
                                 <th>Valor</th>
@@ -126,16 +126,15 @@
                         order: [
                             [1, "desc"]
                         ],
-                        columns: [{
+                        columns: [
+                            {
+                                data: 'id',
+                            },
+                            {
                                 className: 'details-control',
                                 orderable: false,
                                 data: null,
                                 defaultContent: ''
-                            },
-                            {
-                                data: 'id',
-                                visible: false,
-                                searchable: false
                             },
                             {
                                 data: 'customer'

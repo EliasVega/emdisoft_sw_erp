@@ -1,10 +1,3 @@
-<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="infoIva">
-    <div class="form-group">
-        <label class="form-control-label" for="tax_iva">Iva</label>
-        <input type="number" id="tax_iva" name="tax_iva" class="form-control" value="0"
-            pattern="[0-9]{0,15}">
-    </div>
-</div>
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="infoBase">
     <div class="form-group">
         <label class="form-control-label" for="base">Base</label>
@@ -42,12 +35,6 @@
         <div class="form-group">
             <label class="form-control-label" for="percentage">Porcentage</label>
             <input type="number" name="percentage" id="percentage" class="form-control" value="0" placeholder="porcentage">
-        </div>
-    </div>
-    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12" id="purchase">
-        <div class="form-group">
-            <label class="form-control-label" for="total_purchase">Total factura</label>
-            <input type="number" name="total_purchase" id="total_purchase" class="form-control" value="0" placeholder="total">
         </div>
     </div>
     <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">

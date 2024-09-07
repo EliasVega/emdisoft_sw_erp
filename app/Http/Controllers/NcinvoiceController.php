@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Pdfs\PdfDocuments;
 use App\Helpers\Tickets\Ticket;
 use App\Models\Ncinvoice;
 use App\Http\Requests\StoreNcinvoiceRequest;
@@ -729,6 +730,122 @@ class NcinvoiceController extends Controller
         $pdf->footer();
 
         $pdf->Output("I", $ncinvoice->document . ".pdf", true);
+        exit;
+    }
+
+    public function pdfNcnvoice(Request $request, Ncinvoice $ncinvoice) {
+        //Session::forget('newPrinter');
+        $invoice = Invoice::findOrFail($ncinvoice->invoice_id);
+        $typeDocument = 'ncinvoice';
+        $title = '';
+        if ($invoice->document_type_id == 1) {
+            $title = 'NOTA CREDITO';
+            //$title = 'DOCUMENTO EQUIVALENTE ELECTRONICO DEL TIQUETE DE MAQUINA REGISTRADORA CON SISTEMA P.O.S.';
+        } else {
+            $title = 'NOTA DE AJUSTE DE TIPO CREDITO AL DOCUMENTO EQUIVALENTE P.O.S';
+        }
+
+
+        $document = $ncinvoice;
+        $thirdPartyType = 'customer';
+        $logoHeight = 26;
+        $logo = '';
+        $width = 0;
+        $height = 0;
+        if (indicator()->logo == 'on') {
+            $logo = storage_path('app/public/images/logos/' . company()->imageName);
+
+            $image = list($width, $height, $type, $attr) = getimagesize($logo);
+            $multiplier = $image[0]/$image[1];
+            $height = 26;
+            $width = $height * $multiplier;
+            if ($width > 60) {
+                $width = 60;
+                $height = 60/$multiplier;
+            }
+        }
+
+        //$pdfHeight = ticketHeight($logoHeight, company(), $invoice, "invoice");
+
+        $pdf = new PdfDocuments('P', 'mm', 'Letter', true, 'UTF-8');
+        $pdf->SetMargins(10, 10, 6);
+        $pdf->SetTitle($document->document);
+        $pdf->SetAutoPageBreak(false);
+        $pdf->addPage();
+
+        if (indicator()->dian == 'on') {
+            //$pdf->generateInvoiceInformation($document);
+            $cufe =  $document->invoiceResponse->cufe;
+            $url = 'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=';
+            $data = [
+                'NumFac' => $document->document,
+                'FecFac' => $document->created_at->format('Y-m-d'),
+                'NitFac' => company()->nit,
+                'DocAdq' => $document->third->identification,
+                'ValFac' => $document->total,
+                'ValIva' => $document->total_tax,
+                'ValOtroIm' => '0.00',
+                'ValTotal' => $document->total_pay,
+                'CUFE' => $cufe,
+                'URL' => $url . $cufe,
+            ];
+
+            $writer = new PngWriter();
+            $qrCode = new QrCode(implode("\n", $data));
+            $qrCode->setSize(300);
+            $qrCode->setMargin(10);
+            $result = $writer->write($qrCode);
+
+            $qrCodeImage = $result->getString();
+            $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
+            //$pdf->generateQr($qrImage);
+
+            //$confirmationCode = formatText("CUFE: " . $invoice->response->cufe);
+            //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
+            //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
+            //$pdf->generateConfirmationCode($confirmationCode);
+        } else {
+            //$pdf->generateInvoiceInformation($document);
+            $cufe =  '00';
+            $url = '#';
+            $data = [
+                'NumFac' => $document->document,
+                'FecFac' => $document->created_at->format('Y-m-d'),
+                'NitFac' => company()->nit,
+                'DocAdq' => $document->third->identification,
+                'ValFac' => $document->total,
+                'ValIva' => $document->total_tax,
+                'ValOtroIm' => '0.00',
+                'ValTotal' => $document->total_pay,
+                'CUFE' => $cufe,
+                //'URL' => $url . $cufe,
+            ];
+
+            $writer = new PngWriter();
+            $qrCode = new QrCode(implode("\n", $data));
+            $qrCode->setSize(300);
+            $qrCode->setMargin(10);
+            $result = $writer->write($qrCode);
+
+            $qrCodeImage = $result->getString();
+            $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
+            //$pdf->generateQr($qrImage);
+        }
+
+        $pdf->generateHeader($logo, $width, $height, $title, $document);
+        $pdf->generateInformation($document->third, $thirdPartyType, $document, $qrImage);
+        $pdf->generateTablePdf($document, $typeDocument);
+        $pdf->generateTotals($document, $typeDocument);
+
+
+        $pdf->footer($document, $cufe);
+        $pdf->documentInformation($document, $cufe);
+        $pdf->footer();
+        //$pdf->generateHeader($logo, $width, $height);
+        //$refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
+        //$pdf->generateDisclaimerInformation($refund);
+
+        $pdf->Output("I", $document->document . ".pdf", true);
         exit;
     }
 }
