@@ -1,10 +1,12 @@
-<a class="btn btn-primary btn-sm"
-    href="{{ Storage::url('files/graphical_representations/ncinvoices/' . $document . '.pdf') }}"
-    title="Representación grafica" target="_blank"><i class="fas fa-download fa-fw"></i> Pdf</a>
+@if (indicator()->dian == 'on')
+    <a class="btn btn-primary btn-sm"
+        href="{{ Storage::url('files/graphical_representations/ncinvoices/' . $document . '.pdf') }}"
+        title="Representación grafica" target="_blank"><i class="fas fa-download fa-fw"></i> Pdf</a>
+@endif
 
 <a href="{{ route('posPdfNcinvoice', $id) }}" class="btn btn-primary btn-sm" target="_blank" data-toggle="tooltip"
     data-placement="top" title="ticket"><i class="fas fa-receipt"></i>pos</a>
-    
+
 <a href="{{ route('pdfNcinvoice', $id) }}" class="btn btn-pdf btn-sm" target="_blank" data-toggle="tooltip"
     data-placement="top" title="NC pdf"><i class="fas fa-file-pdf"></i></a>
 

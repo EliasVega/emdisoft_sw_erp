@@ -7,6 +7,7 @@ use App\Models\InvoiceProduct;
 use App\Models\Ncinvoice;
 use App\Models\NcinvoiceProduct;
 use App\Models\Ndinvoice;
+use App\Models\NdinvoiceProduct;
 use App\Models\ProductPurchase;
 use App\Models\ProductRemission;
 use App\Models\Resolution;
@@ -97,7 +98,7 @@ class PdfDocuments extends FPDF
         $this->Cell(55,5,'Fecha de Emision:',0,0,'C',false);
 
         $this->SetFont('Arial','B',12);
-        $this->SetXY(10,$heigthInitial + 24);
+        $this->SetXY(10,$heigthInitial + 30);
         $this->Cell(55,5,$document->created_at,0,0,'C',false);
 
 
@@ -396,6 +397,9 @@ class PdfDocuments extends FPDF
                 break;
             case 'ncinvoice':
                 $products = NcinvoiceProduct::where('ncinvoice_id', $document->id)->get();
+                break;
+            case 'ndinvoice':
+                $products = NdinvoiceProduct::where('ndinvoice_id', $document->id)->get();
                 break;
             case 'invoiceOrder':
                 $products = InvoiceOrderProduct::where('invoice_order_id', $document->id)->get();

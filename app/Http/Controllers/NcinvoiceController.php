@@ -554,7 +554,7 @@ class NcinvoiceController extends Controller
     {
         //
     }
-
+    /*
     public function ncinvoicePdf(Request $request, $id)
     {
        $ncinvoice = Ncinvoice::findOrFail($id);
@@ -592,9 +592,9 @@ class NcinvoiceController extends Controller
        //$pdf->setPaper ( 'A7' , 'landscape' );
 
        return $pdf->stream('vista-pdf', "$ncinvoicepdf.pdf");
-       //return $pdf->download("$invoicepdf.pdf");*/
-    }
-
+       //return $pdf->download("$invoicepdf.pdf");
+    }*/
+    /*
     public function pdfNcinvoice(Request $request)
     {
         $ncinvoices = session('ncinvoice');
@@ -633,7 +633,7 @@ class NcinvoiceController extends Controller
         $pdf->loadHTML($view);
 
         return $pdf->stream('vista-pdf', "$ncinvoicepdf.pdf");
-    }
+    }*/
 
     public function posPdfNcinvoice(Request $request, Ncinvoice $ncinvoice)
     {
@@ -733,8 +733,8 @@ class NcinvoiceController extends Controller
         exit;
     }
 
-    public function pdfNcnvoice(Request $request, Ncinvoice $ncinvoice) {
-        //Session::forget('newPrinter');
+    public function pdfNcinvoice(Request $request, Ncinvoice $ncinvoice) {
+        
         $invoice = Invoice::findOrFail($ncinvoice->invoice_id);
         $typeDocument = 'ncinvoice';
         $title = '';
@@ -744,8 +744,7 @@ class NcinvoiceController extends Controller
         } else {
             $title = 'NOTA DE AJUSTE DE TIPO CREDITO AL DOCUMENTO EQUIVALENTE P.O.S';
         }
-
-
+        
         $document = $ncinvoice;
         $thirdPartyType = 'customer';
         $logoHeight = 26;
@@ -833,7 +832,7 @@ class NcinvoiceController extends Controller
         }
 
         $pdf->generateHeader($logo, $width, $height, $title, $document);
-        $pdf->generateInformation($document->third, $thirdPartyType, $document, $qrImage);
+        $pdf->generateInfoPredocuments($document->third, $thirdPartyType, $document, $qrImage);
         $pdf->generateTablePdf($document, $typeDocument);
         $pdf->generateTotals($document, $typeDocument);
 

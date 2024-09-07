@@ -9,6 +9,7 @@ use App\Models\InvoiceProduct;
 use App\Models\Ncinvoice;
 use App\Models\NcinvoiceProduct;
 use App\Models\Ndinvoice;
+use App\Models\NdinvoiceProduct;
 use App\Models\ProductPurchase;
 use App\Models\ProductRemission;
 use App\Models\ProductRestaurantOrder;
@@ -146,6 +147,9 @@ class Ticket extends FPDF
                 break;
             case 'ncinvoice':
                 $products = NcinvoiceProduct::where('ncinvoice_id', $document->id)->get();
+                break;
+            case 'ndinvoice':
+                $products = NdinvoiceProduct::where('ndinvoice_id', $document->id)->get();
                 break;
             case 'invoiceOrder':
                 $products = InvoiceOrderProduct::where('invoice_order_id', $document->id)->get();

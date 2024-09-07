@@ -124,7 +124,7 @@
                         },
                         ajax: '{{ route('invoice.index') }}',
                         order: [
-                            [1, "desc"]
+                            [0, "desc"]
                         ],
                         columns: [
                             {

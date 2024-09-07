@@ -326,14 +326,14 @@ Route::get('kardexProduct', [KardexController::class, 'kardexProduct'])->name('k
 Route::get('municipality/postalCode/{id}', [MunicipalityController::class, 'getPostalCode']);
 
 Route::get('ncinvoice/ncinvoicePdf/{id}', [NcinvoiceController::class, 'ncinvoicePdf'])->name('ncinvoicePdf');
-Route::get('pdfNcinvoice', [NcinvoiceController::class, 'pdfNcinvoice'])->name('pdfNcinvoice');
+Route::get('ncinvoice/pdfNcinvoice/{ncinvoice}', [NcinvoiceController::class, 'pdfNcinvoice'])->name('pdfNcinvoice');
 Route::get('ncinvoice/posPdfNcinvoice/{ncinvoice}', [NcinvoiceController::class, 'posPdfNcinvoice'])->name('posPdfNcinvoice');
 
 Route::get('ncpurchase/ncpurchasePdf/{id}', [NcpurchaseController::class, 'ncpurchasePdf'])->name('ncpurchasePdf');
 Route::get('pdfNcpurchase', [NcpurchaseController::class, 'pdfNcpurchase'])->name('pdfNcpurchase');
 
-Route::get('ndinvoice/ndinvoicePdf/{id}', [NdinvoiceController::class, 'ndinvoicePdf'])->name('ndinvoicePdf');
-Route::get('pdfNdinvoice', [NdinvoiceController::class, 'pdfNdinvoice'])->name('pdfNdinvoice');
+Route::get('ndinvoice/pdfNdinvoice/{ndinvoice}', [NdinvoiceController::class, 'pdfNdinvoice'])->name('pdfNdinvoice');
+Route::get('ndinvoice/posPdfNdinvoice/{ndinvoice}', [NdinvoiceController::class, 'posPdfNdinvoice'])->name('posPdfNdinvoice');
 
 Route::get('ndpurchase/ndpurchasePdf/{id}', [NdpurchaseController::class, 'ndpurchasePdf'])->name('ndpurchasePdf');
 Route::get('pdfNdpurchase', [NdpurchaseController::class, 'pdfNdpurchase'])->name('pdfNdpurchase');
