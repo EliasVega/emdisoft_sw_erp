@@ -42,7 +42,7 @@ class PdfDocuments extends FPDF
 
         $heigthInitial = 10;
         $documentType = $document->document_type_id;
-        if ($documentType == 15) {
+        if ($documentType == 15 || $documentType == 104) {
             $heigthInitial = 20;
             $this->SetFont('Arial','B',14);
             $page = $this->GetPageWidth();
@@ -52,7 +52,7 @@ class PdfDocuments extends FPDF
             $this->SetDrawColor(0,80,180);
             $this->SetFillColor(230,230,0);
             $this->SetTextColor(0,0,111);
-            $this->SetXY(0,10);
+            $this->SetXY(10,10);
             //$this->setY(10);
             //$this->SetLineWidth(1);
             $this->MultiCell(0,5,$title,0,'C',false);
@@ -72,7 +72,7 @@ class PdfDocuments extends FPDF
             $this->MultiCell(0, 10, strtoupper($nameCompany), 0, 'C', false);
         }
         $addWitch = 0;
-        if ($documentType != 15) {
+        if ($documentType != 15 && $documentType != 104) {
             $addWitch = 10;
             $this->SetFont('Arial','B',14);
             $this->SetXY(10,$heigthInitial + 12);
@@ -95,10 +95,7 @@ class PdfDocuments extends FPDF
         $this->SetDrawColor(0,0,0);
         $this->SetFillColor(0,0,0);
         $this->SetTextColor(0,0,0);
-        $this->Cell(55,5,'Fecha de Emision:',0,0,'C',false);
-
-        $this->SetFont('Arial','B',12);
-        $this->SetXY(10,$heigthInitial + 30);
+        $this->Cell(55,5,'Fecha de Emision:',0,1,'C',false);
         $this->Cell(55,5,$document->created_at,0,0,'C',false);
 
 
@@ -182,10 +179,7 @@ class PdfDocuments extends FPDF
         $this->SetDrawColor(0,0,0);
         $this->SetFillColor(0,0,0);
         $this->SetTextColor(0,0,0);
-        $this->Cell(55,5,'Fecha de Emision:',0,0,'C',false);
-
-        $this->SetFont('Arial','B',12);
-        $this->SetXY(10,$heigthInitial + 32);
+        $this->Cell(55,5,'Fecha de Emision:',0,1,'C',false);
         $this->Cell(55,5,$document->created_at,0,0,'C',false);
 
 
@@ -260,10 +254,7 @@ class PdfDocuments extends FPDF
         $this->SetDrawColor(0,0,0);
         $this->SetFillColor(0,0,0);
         $this->SetTextColor(0,0,0);
-        $this->Cell(60,5,'Fecha de Emision:',0,0,'C',false);
-
-        $this->SetFont('Arial','B',12);
-        $this->SetXY(10,$heigthInitial + 32);
+        $this->Cell(60,5,'Fecha de Emision:',0,1,'C',false);
         $this->Cell(60,5,$document->created_at,0,0,'C',false);
 
 
