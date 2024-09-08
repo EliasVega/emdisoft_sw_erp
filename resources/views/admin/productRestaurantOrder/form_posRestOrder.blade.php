@@ -1,7 +1,7 @@
 <div class="box-body row">
     <div class="col-md-5" id="formPayCard">
         <div class="card card-primary card-outline">
-            @include('admin/generalview.form_pay')
+            @include('admin/generalview.form_paypos')
         </div>
     </div>
     <div class="col-md-5" id="formCard">
@@ -97,7 +97,7 @@
                         </div>
                     </div>
                 @endif
-                <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 mt-3" id="addInvoiced" >
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-3" id="addInvoiced" >
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="invoiced" value="1" id="invoiced_on" checked>
                         <label class="form-check-label" for="invoiced">
@@ -111,11 +111,10 @@
                         </label>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="payposadd">
                     <div class="form-group">
-                        <button class="btn btn-blueGrad btn-sm mb-2 ml-3" type="button" id="addPay"
-                            data-toggle="tooltip" data-placement="top" title="Pagos"><i
-                                class="fas fa-check"></i>Agrepar Pago</button>
+                        <button class="btn btn-blueGrad btn-sm mb-2 ml-3" type="button" data-toggle="modal"
+                            data-target="#payPos"><i class="fa fa-plus"></i>Agregar Pago</button>
                     </div>
                 </div>
                 @include('admin/generalview.form_register')

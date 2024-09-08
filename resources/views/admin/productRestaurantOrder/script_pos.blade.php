@@ -42,7 +42,6 @@
     $("#invoicenegative").hide();
     $("#doNotLook").hide();
     $("#addOrder").hide();
-    $("#addInvoiced").hide();
     /*
     //form invoice
     $("#idPro").hide();
@@ -129,10 +128,14 @@
         $("#total_pay_html").html("$ " + total_pay.toFixed(2));
         $("#total_pay").val(total_pay.toFixed(2));
 
-        $("#balance").val(total_pay.toFixed(2));
-        $("#pendient").val(total_pay.toFixed(2));
-        $("#total_invoice").val(total.toFixed(2));
-        $("#tax_iva").val(tax_iva);
+        //$("#balance").val(total_pay.toFixed(2));
+        //$("#pendient").val(total_pay.toFixed(2));
+        //$("#total_invoice").val(total.toFixed(2));
+        //$("#tax_iva").val(tax_iva);
+        paymentPos = Math.round(total_pay);
+        $("#balanceModal").val(paymentPos.toFixed(2));
+        $("#pendientModal").val(paymentPos.toFixed(2));
+        $("#payModal").val(paymentPos.toFixed(2));
     }
     function assess(){
         /*
@@ -160,7 +163,7 @@
         $("#row" + index).remove();
         assess();
     }
-
+    /*
     $(document).ready(function(){
         $("#addPay").click(function(){
             $("#formCard").hide();
@@ -173,8 +176,6 @@
             $("#addPay").hide();
             $("#formCard").show();
             $("#formPayCard").hide();
-            $("#addInvoiced").show();
-            //$("#formRetentions").hide();
         });
-    });
+    });*/
 </script>

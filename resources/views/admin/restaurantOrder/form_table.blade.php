@@ -1,4 +1,4 @@
-<div class="box-body formulario">
+<div class="box-body formTables">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
         @foreach ($restaurantTables as $restaurantTable)
             <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12 radio">

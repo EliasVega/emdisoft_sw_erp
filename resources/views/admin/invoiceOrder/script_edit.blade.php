@@ -431,17 +431,8 @@
                 employee_id = value['employee'];
 
                 if(product_id !="" && quantity!="" && quantity>0  && price!="" && price>0){
-                    pwx = $("#pwx").val();
-                    if (pwx == 'on') {
-                        result = parseFloat(quantity) * parseFloat(price);
-                        subtotal[cont]= Math.round(result);
-                        ivitares = subtotal[cont]*tax_rate/100;
-                        ivita = Math.round(ivitares);
-                    } else {
-                        subtotal[cont]= parseFloat(quantity) * parseFloat(price);
-                        ivita= subtotal[cont]*tax_rate/100; 
-                    }
-                    
+                    subtotal[cont]= parseFloat(quantity) * parseFloat(price);
+                    ivita= subtotal[cont]*tax_rate/100; 
                     total= total+subtotal[cont];
                     tax_cont[cont] = total_tax+ivita;
                     total_tax=total_tax+ivita;

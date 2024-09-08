@@ -36,10 +36,10 @@ class Ticket extends FPDF
     {
         //$title = 'DOCUMENTO EQUIVALENTE ELECTRONICO DEL TIQUETE DE MAQUINA REGISTRADORA CON SISTEMA P.O.S.';
 
-        $this->SetFont('Arial', 'B', 10);
+        $this->SetFont('Arial', 'B', 12);
         $this->SetTextColor(0, 0, 0);
         $this->MultiCell(0, 5, strtoupper($title), 0, 'C', false);
-        $this->SetFont('Arial', 'B', 13);
+        $this->SetFont('Arial', 'B', 12);
         $this->Cell(0,5,$consecutive,0,1,'C',false);
     }
 

@@ -39,15 +39,18 @@
 <script type="text/javascript">
     $(document).ready(function ()
     {
-        function print(){
-            var restaurantOrder = "{{ $restaurantOrder ?? '' }}";
-            if (restaurantOrder != '') {
-                var imprimir = "{{ route('posPdfRestaurantOrder', ['restaurantOrder' => ':restaurantOrder']) }}";
-                imprimir = imprimir.replace(':restaurantOrder', restaurantOrder);
-                window.open(imprimir, "_blank");
+        var typeDocument = "{{ $typeDocument ?? '' }}";
+            print(typeDocument);
+            function print(typeDocument) {
+                if (typeDocument == 'order') {
+                    var restaurantOrder = "{{ $restaurantOrder ?? '' }}";
+                    if (restaurantOrder != '') {
+                        var imprimir = "{{ route('posPdfRestaurantOrder', ['restaurantOrder' => ':restaurantOrder']) }}";
+                        imprimir = imprimir.replace(':restaurantOrder', restaurantOrder);
+                        window.open(imprimir, "_blank");
+                    }
+                }
             }
-        }
-        print();
 
         $('#restaurantOrders').DataTable(
         {

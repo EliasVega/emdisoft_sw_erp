@@ -16,7 +16,7 @@ $medidaTicket = 180;
     <header id="header">
         <!-- LOGGO -->
         <div class="center">
-            @if ($indicator->logo == 'on')
+            @if (indicator()->logo == 'on')
                 <div class="center">
                     <div id="logo">
                         <img src="{{ asset($company->logo) }}" alt="{{ $company->name }}">

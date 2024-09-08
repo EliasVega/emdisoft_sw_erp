@@ -22,6 +22,7 @@ use App\Models\InvoiceProduct;
 use App\Models\InvoiceResponse;
 use App\Models\PaymentForm;
 use App\Models\PaymentMethod;
+use App\Models\PayRestaurantOrder;
 use App\Models\Product;
 use App\Models\RawMaterial;
 use App\Models\RawmaterialRestaurantorder;
@@ -136,6 +137,7 @@ class ProductRestaurantOrderController extends Controller
             $resolutions = Resolution::findOrFail($request->resolution_id);
         }
         $typeDocument = $request->typeDocument;
+        $invoiced = $request->invoiced;
         $documentType = '';
 
         if (indicator()->pos == 'on' && $request->fe == 2) {
@@ -172,163 +174,248 @@ class ProductRestaurantOrderController extends Controller
         if ($request->total_retention != null) {
             $retention = $request->total_retention;
         }
-
+        
         //$documentType = $request->document_type_id;
+        
         $service = '';
         $errorMessages = '';
         $store = false;
-        if (indicator()->dian == 'on') {
-            $typeDocument = 'pos';
-            if ($typeDocument == 'invoice') {
-                $data = invoiceData($request);
-                $environment = Environment::where('id', 11)->first();
-                $url = $environment->protocol . $configuration->ip . $environment->url;
-            } else {
-                $data = equiDocPosData($request);
-                $environment = Environment::where('id', 21)->first();
-                $url = $environment->protocol . $configuration->ip . $environment->url;
-            }
-            $data = invoiceData($request);
-            //dd($data);
-            $requestResponse = sendDocuments($url, $data);
-            $store = $requestResponse['store'];
-            $service = $requestResponse['response'];
-            $errorMessages = $requestResponse['errorMessages'];
-        } else {
-            $store = true;
-        }
-        //Crea un registro de Ventas
-        if ($store == true) {
-
-            $invoice = new Invoice();
-            $invoice->user_id = current_user()->id;
-            $invoice->branch_id = current_user()->branch_id;
-            $invoice->customer_id = $request->customer_id;
-            $invoice->payment_form_id = $request->payment_form_id;
-            $invoice->payment_method_id = $request->payment_method_id[0];
-            $invoice->resolution_id = $resolutions->id;
-            $invoice->document_type_id = $documentType;
-            $invoice->document = $resolutions->prefix . $resolutions->consecutive;
-            $invoice->voucher_type_id = $voucherType;
-            $invoice->cash_register_id = cashregisterModel()->id;
-            $invoice->status = 'invoice';
-            $invoice->generation_date = $restaurantOrder->created_at;
-            $invoice->due_date = $restaurantOrder->created_at;
-            $invoice->retention = $retention;
-            $invoice->total = $restaurantOrder->total;
-            $invoice->total_tax = $restaurantOrder->total_tax;
-            $invoice->total_pay = $restaurantOrder->total_pay;
-            if ($totalpay > 0) {
-                $invoice->pay = $totalpay;
-            } else {
-                $invoice->pay = 0;
-            }
-            $invoice->balance = $total_pay - $totalpay;
-            $invoice->grand_total = $total_pay - $retention;
-            $invoice->save();
-
-            $voucherTypes->consecutive += 1;
-            $voucherTypes->update();
-
-            if (indicator()->pos == 'on') {
-                //actualizar la caja
-                    $cashRegister->invoice += $total_pay;
-                    $cashRegister->update();
-            }
-            $document = $invoice;
-            //Ingresa los productos que vienen en el array
-            for ($i=0; $i < count($product_id); $i++) {
-                $id = $product_id[$i];
-                //Metodo para registrar la relacion entre producto y compra
-                $invoiceProduct = new InvoiceProduct();
-                $invoiceProduct->invoice_id = $invoice->id;
-                $invoiceProduct->product_id = $id;
-                $invoiceProduct->quantity = $quantity[$i];
-                $invoiceProduct->price = $price[$i];
-                $invoiceProduct->tax_rate = $tax_rate[$i];
-                $invoiceProduct->subtotal = $quantity[$i] * $price[$i];
-                $invoiceProduct->tax_subtotal =($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
-                $invoiceProduct->save();
-
-                //selecciona el producto que viene del array
-                $product = Product::findOrFail($id);
-                //selecciona el producto de la sucursal que sea el mismo del array
-                $branchProducts = BranchProduct::where('branch_id', '=', $branch)->where('product_id', '=', $id)->first();
-
-                $quantityLocal = $quantity[$i];
-                $this->inventoryInvoices($product, $branchProducts, $quantityLocal, $branch);//trait para actualizar inventario
-                $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
-
-            }
-
-            $rawmaterialRestaurantorders = RawmaterialRestaurantorder::where('restaurant_order_id', $restaurantOrder->id)->where('quantity', '>', 0)->get();
-
-            if ($rawmaterialRestaurantorders) {
-                foreach ($rawmaterialRestaurantorders as $key => $rawmaterialRestaurantorder) {
-                    $quantityLocal = $rawmaterialRestaurantorder->total_quantity;
-                    $rawMaterial = RawMaterial::findOrFail($rawmaterialRestaurantorder->raw_material_id);
-                    $rawMaterial->stock -= $quantityLocal;
-                    $rawMaterial->update();
-
-                    $product = $rawMaterial;
-                    //$quantityLocal = $quantityrm;
-                    $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
+        if ($invoiced == 1) {
+            if (indicator()->dian == 'on') {
+                $typeDocument = 'pos';
+                if ($typeDocument == 'invoice') {
+                    $data = invoiceData($request);
+                    $environment = Environment::where('id', 11)->first();
+                    $url = $environment->protocol . $configuration->ip . $environment->url;
+                } else {
+                    $data = equiDocPosData($request);
+                    $environment = Environment::where('id', 21)->first();
+                    $url = $environment->protocol . $configuration->ip . $environment->url;
                 }
+                $data = invoiceData($request);
+                //dd($data);
+                $requestResponse = sendDocuments($url, $data);
+                $store = $requestResponse['store'];
+                $service = $requestResponse['response'];
+                $errorMessages = $requestResponse['errorMessages'];
+            } else {
+                $store = true;
             }
 
-            $taxes = $this->getTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC
-            taxesGlobals($document, $quantityBag, $typeDocument);
-            taxesLines($document, $taxes, $typeDocument);
-            retentions($request, $document, $typeDocument);
+        
+            //Crea un registro de Ventas
+            if ($store == true) {
 
+                $invoice = new Invoice();
+                $invoice->user_id = current_user()->id;
+                $invoice->branch_id = current_user()->branch_id;
+                $invoice->customer_id = $request->customer_id;
+                $invoice->payment_form_id = $request->payment_form_id;
+                $invoice->payment_method_id = $request->payment_method_id[0];
+                $invoice->resolution_id = $resolutions->id;
+                $invoice->document_type_id = $documentType;
+                $invoice->document = $resolutions->prefix . $resolutions->consecutive;
+                $invoice->voucher_type_id = $voucherType;
+                $invoice->cash_register_id = cashregisterModel()->id;
+                $invoice->status = 'invoice';
+                $invoice->generation_date = $restaurantOrder->created_at;
+                $invoice->due_date = $restaurantOrder->created_at;
+                $invoice->retention = $retention;
+                $invoice->total = $restaurantOrder->total;
+                $invoice->total_tax = $restaurantOrder->total_tax;
+                $invoice->total_pay = $restaurantOrder->total_pay;
+                if ($totalpay > 0) {
+                    $invoice->pay = $totalpay;
+                } else {
+                    $invoice->pay = 0;
+                }
+                $invoice->balance = $total_pay - $totalpay;
+                $invoice->grand_total = $total_pay - $retention;
+                $invoice->save();
 
-            if ($totalpay > 0) {
-                pays($request, $document, $typeDocument);
+                $voucherTypes->consecutive += 1;
+                $voucherTypes->update();
+
+                if (indicator()->pos == 'on') {
+                    //actualizar la caja
+                        $cashRegister->invoice += $total_pay;
+                        $cashRegister->update();
+                }
+                $document = $invoice;
+                //Ingresa los productos que vienen en el array
+                for ($i=0; $i < count($product_id); $i++) {
+                    $id = $product_id[$i];
+                    //Metodo para registrar la relacion entre producto y compra
+                    $invoiceProduct = new InvoiceProduct();
+                    $invoiceProduct->invoice_id = $invoice->id;
+                    $invoiceProduct->product_id = $id;
+                    $invoiceProduct->quantity = $quantity[$i];
+                    $invoiceProduct->price = $price[$i];
+                    $invoiceProduct->tax_rate = $tax_rate[$i];
+                    $invoiceProduct->subtotal = $quantity[$i] * $price[$i];
+                    $invoiceProduct->tax_subtotal =($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
+                    $invoiceProduct->save();
+
+                    //selecciona el producto que viene del array
+                    $product = Product::findOrFail($id);
+                    //selecciona el producto de la sucursal que sea el mismo del array
+                    $branchProducts = BranchProduct::where('branch_id', '=', $branch)->where('product_id', '=', $id)->first();
+
+                    $quantityLocal = $quantity[$i];
+                    $this->inventoryInvoices($product, $branchProducts, $quantityLocal, $branch);//trait para actualizar inventario
+                    $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
+
+                }
+
+                $rawmaterialRestaurantorders = RawmaterialRestaurantorder::where('restaurant_order_id', $restaurantOrder->id)->where('quantity', '>', 0)->get();
+
+                if ($rawmaterialRestaurantorders) {
+                    foreach ($rawmaterialRestaurantorders as $key => $rawmaterialRestaurantorder) {
+                        $quantityLocal = $rawmaterialRestaurantorder->total_quantity;
+                        $rawMaterial = RawMaterial::findOrFail($rawmaterialRestaurantorder->raw_material_id);
+                        $rawMaterial->stock -= $quantityLocal;
+                        $rawMaterial->update();
+
+                        $product = $rawMaterial;
+                        //$quantityLocal = $quantityrm;
+                        $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
+                    }
+                }
+
+                $taxes = $this->getTaxesLine($request);//selecciona el impuesto que tiene la categoria IVA o INC
+                taxesGlobals($document, $quantityBag, $typeDocument);
+                taxesLines($document, $taxes, $typeDocument);
+                retentions($request, $document, $typeDocument);
+
+                if ($totalpay > 0) {
+                    pays($request, $document, $typeDocument);
+                }
+
+                if ($documentType == 1 && indicator()->dian == 'on') {
+                    $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
+                        ['SendBillSyncResult']['IsValid'];
+                    $code = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
+                        ['SendBillSyncResult']['StatusCode'];
+                    $description = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
+                        ['SendBillSyncResult']['StatusDescription'];
+                    $statusMessage = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
+                        ['SendBillSyncResult']['StatusMessage'];
+
+                    $invoiceResponse = new InvoiceResponse();
+                    $invoiceResponse->document = $invoice->document;
+                    $invoiceResponse->message = $service['message'];
+                    $invoiceResponse->valid = $valid;
+                    $invoiceResponse->code = $code;
+                    $invoiceResponse->description = $description;
+                    $invoiceResponse->status_message = $statusMessage;
+                    $invoiceResponse->cufe = $service['cufe'];
+                    $invoiceResponse->invoice_id = $invoice->id;
+                    $invoiceResponse->save();
+
+                    $environmentPdf = Environment::where('code', 'PDF')->first();
+                    $urlpdf = $environmentPdf->protocol . $configuration->ip . $environmentPdf->url;
+
+                    $pdf = file_get_contents($urlpdf . $company->nit ."/FES-" . $invoice->document .".pdf");
+                    Storage::disk('public')->put('files/graphical_representations/invoices/' .
+                    $invoice->document . '.pdf', $pdf);
+                }
+                $resolutions->consecutive += 1;
+                $resolutions->update();
+
+                $restaurantOrder->invoice_id = $invoice->id;
+                $restaurantOrder->status = 'generated';
+                $restaurantOrder->update();
+
+                session()->forget('invoice');
+                session()->forget('typeDocument');
+                session(['invoice' => $invoice->id]);
+                session(['typeDocument' => $typeDocument]);
+                toast('Venta Registrada satisfactoriamente.','success');
+                return redirect('invoice');
             }
-            if ($documentType == 1 && indicator()->dian == 'on') {
-                $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
-                    ['SendBillSyncResult']['IsValid'];
-                $code = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
-                    ['SendBillSyncResult']['StatusCode'];
-                $description = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
-                    ['SendBillSyncResult']['StatusDescription'];
-                $statusMessage = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
-                    ['SendBillSyncResult']['StatusMessage'];
-
-                $invoiceResponse = new InvoiceResponse();
-                $invoiceResponse->document = $invoice->document;
-                $invoiceResponse->message = $service['message'];
-                $invoiceResponse->valid = $valid;
-                $invoiceResponse->code = $code;
-                $invoiceResponse->description = $description;
-                $invoiceResponse->status_message = $statusMessage;
-                $invoiceResponse->cufe = $service['cufe'];
-                $invoiceResponse->invoice_id = $invoice->id;
-                $invoiceResponse->save();
-
-                $environmentPdf = Environment::where('code', 'PDF')->first();
-                $urlpdf = $environmentPdf->protocol . $configuration->ip . $environmentPdf->url;
-
-                $pdf = file_get_contents($urlpdf . $company->nit ."/FES-" . $invoice->document .".pdf");
-                Storage::disk('public')->put('files/graphical_representations/invoices/' .
-                $invoice->document . '.pdf', $pdf);
-            }
-            $resolutions->consecutive += 1;
-            $resolutions->update();
-
-            $restaurantOrder->invoice_id = $invoice->id;
-            $restaurantOrder->status = 'generated';
+            toast($errorMessages,'danger');
+            return redirect('indexInvoice');
+        } else {
+            $restaurantOrder->status = 'canceled';
             $restaurantOrder->update();
 
-            session()->forget('invoice');
-            session()->forget('typeDocument');
-            session(['invoice' => $invoice->id]);
-            session(['typeDocument' => $typeDocument]);
-            toast('Venta Registrada satisfactoriamente.','success');
-            return redirect('invoice');
+            $cashRegister = cashregisterModel();
+            //Variables del request
+            $total_pay = $request->total_pay;
+            $totalpay = $request->totalpay;
+            //variables del request
+            $paymentForm = $request->payment_form_id;
+            $paymentMethod = $request->payment_method_id;
+            $bank = $request->bank_id;
+            $card = $request->card_id;
+            $payment = $request->pay;
+            $transaction = $request->transaction;
+
+            if ($typeDocument == 'invoice') {
+                $totalpay = $request->totalpay;
+            } elseif ($typeDocument == 'pos') {
+                $payment = $request->pay;
+                if ($payment[0] >= $total_pay) {
+                    $totalpay = $total_pay;
+                } else {
+                    $totalpay = $payment[0];
+                }
+            } else {
+                $payment = $request->pay;
+            }
+
+            if ($typeDocument == 'pos') {
+                for ($i=0; $i < count($payment); $i++) {
+
+                    $payRestaurantOrder = new PayRestaurantOrder();
+                    $payRestaurantOrder->pay = $totalpay;
+                    $payRestaurantOrder->transaction = $transaction;
+                    $payRestaurantOrder->restaurant_order_id = $restaurantOrder->id;
+                    $payRestaurantOrder->user_id = current_user()->id;
+                    $payRestaurantOrder->payment_form_id = $paymentForm;
+                    $payRestaurantOrder->payment_method_id = $paymentMethod;
+                    $payRestaurantOrder->bank_id = $bank;
+                    $payRestaurantOrder->card_id = $card;
+                    $payRestaurantOrder->save();
+        
+                    $mp = $paymentMethod;
+                    if (indicator()->pos == 'on') {
+                        //metodo para actualizar la caja
+                        if($mp == 10){
+                            $cashRegister->cash_in_total += $payment[$i];
+                        }
+                        $cashRegister->in_total += $payment[$i];
+                        $cashRegister->update();
+                    }
+                }
+            } else {
+                for ($i=0; $i < count($payment); $i++) {
+
+                    $payRestaurantOrder = new PayRestaurantOrder();
+                    $payRestaurantOrder->pay = $payment[$i];
+                    $payRestaurantOrder->transaction = $transaction[$i];
+                    $payRestaurantOrder->restaurant_order_id = $restaurantOrder->id;
+                    $payRestaurantOrder->user_id = current_user()->id;
+                    $payRestaurantOrder->payment_form_id = $paymentForm;
+                    $payRestaurantOrder->payment_method_id = $paymentMethod[$i];
+                    $payRestaurantOrder->bank_id = $bank[$i];
+                    $payRestaurantOrder->card_id = $card[$i];
+                    $payRestaurantOrder->save();
+        
+                    $mp = $paymentMethod[$i];
+                    if (indicator()->pos == 'on') {
+                        //metodo para actualizar la caja
+                        if($mp == 10){
+                            $cashRegister->cash_in_total += $payment[$i];
+                        }
+                        $cashRegister->in_total += $payment[$i];
+                        $cashRegister->update();
+                    }
+                }
+            }
+            toast('Comanda Cancelada satisfactoriamente.','success');
+            return redirect('restaurantOrder');
         }
-        toast($errorMessages,'danger');
-        return redirect('invoice');
     }
 
     /**

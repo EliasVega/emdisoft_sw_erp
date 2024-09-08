@@ -8,7 +8,7 @@
     "src": "public/img/details_open.jpg"
   },
   "resources/css/app.css": {
-    "file": "assets/app-f72ff7fb.css",
+    "file": "assets/app-fcf840c5.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
@@ -28,7 +28,7 @@
     "src": "resources/css/main.css"
   },
   "resources/css/rdbs.css": {
-    "file": "assets/rdbs-ee46a0cf.css",
+    "file": "assets/rdbs-d7bcd8e0.css",
     "isEntry": true,
     "src": "resources/css/rdbs.css"
   },

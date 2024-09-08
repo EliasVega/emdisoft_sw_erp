@@ -1,5 +1,5 @@
 <div class="box-body row">
-    <div class="formulario">
+    <div class="formTables">
         <div class="checkbox">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 checkbox">
                 <input type="checkbox" name="service" value="0" id="checkbox1" checked>

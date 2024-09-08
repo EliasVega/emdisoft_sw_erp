@@ -40,7 +40,7 @@
     $("#editrm").hide();
     $("#homeOrder").hide();
     $("#invoicenegative").hide();
-
+    $("#save").hide();
     $("#customer_home_id").change(customerValue);
 
     function customerValue(){
@@ -124,11 +124,9 @@
         $("#balance").val(total_pay.toFixed(2));
     }
     function assess(){
-
-        if(total>0){
-
-        $("#save").show();
-
+        
+        if(total > 0){
+            $("#save").show();
         } else{
             $("#save").hide();
         }

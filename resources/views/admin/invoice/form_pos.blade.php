@@ -78,8 +78,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="payposadd">
                     <div class="form-group">
                         <button class="btn btn-blueGrad btn-sm mb-2 ml-3" type="button" data-toggle="modal"
-                            data-target="#payPos">
-                            <i class="fa fa-plus"></i>Agregar Pago</button>
+                            data-target="#payPos"><i class="fa fa-plus"></i>Agregar Pago</button>
                     </div>
                 </div>
 

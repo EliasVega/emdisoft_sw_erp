@@ -63,7 +63,7 @@
         ttp = parseFloat($("#pendientModal").val())
         abn = parseFloat($("#payModal").val())
         balancey = ttp - abn;
-        $("#returnedModal").val(balancey);
+        $("#returnedModal").val(balancey.toFixed(2));
         assesspayment();
     }
 

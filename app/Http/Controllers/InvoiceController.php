@@ -44,7 +44,6 @@ use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Session;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 
 use function App\Helpers\Tickets\formatText;
