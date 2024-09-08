@@ -8,9 +8,7 @@
             <div class="box-danger">
                 <div class="box-header with-border">
                     <h5 class="box-title">Editar Orden de Venta:{{ $invoiceOrder->id }}
-                        @can('InvoiceOrder.index')
-                            <a href="{{ route('InvoiceOrder.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
-                        @endcan
+                            <a href="{{ route('innnnvoiceOrder.index') }}" class="btn btn-lightBlueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Regresar</a>
                         @can('branch.index')
                             <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
                         @endcan
