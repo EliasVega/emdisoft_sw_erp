@@ -13,27 +13,16 @@
         });
     });
 
-    $("#totalDocument").hide();
-    $("#addPercentage").hide();
-    $("#infoIva").hide();
-    $("#infoType").hide();
-    $("#infoBase").hide();
+    //$("#totalDocument").hide();
+    //$("#addPercentage").hide();
+    //$("#infoIva").hide();
+    //$("#infoType").hide();
+    //$("#infoBase").hide();
 
-    let contRet = 0;
     let totalRetention = [];
     let contRetention = 0;
     let total_retention = 0;
     let iva = 0;
-
-    /*
-    let cont = 0;
-    /*
-    var cont = 0;
-    
-    var totalRetention = [];
-    var contRetention = 0;
-    var total_retention = 0;
-    var iva = 0;
     
     //seleccionar de acuerdo ala retencion
     $("#company_tax_id").change(taxCompany);
@@ -112,5 +101,5 @@
         $("#total_retention").val(total_retention.toFixed(2));
 
         $("#row" + index).remove();
-    }*/
+    }
 </script>

@@ -105,7 +105,7 @@ class RestaurantOrderController extends Controller
                 $restaurantOrders = RestaurantOrder::get();
             } else {
                 //Consulta para mostrar precompras de los demas roles
-                $restaurantOrders = RestaurantOrder::where('user_id', $useractual->id)->get();
+                $restaurantOrders = RestaurantOrder::get();
             }
             return DataTables::of($restaurantOrders)
             ->addIndexColumn()

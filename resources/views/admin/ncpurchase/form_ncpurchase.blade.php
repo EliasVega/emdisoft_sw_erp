@@ -1,7 +1,7 @@
 <div class="box-body row">
     <div class="col-md-4" id="formRetentions">
         <div class="card card-primary card-outline">
-            @include('admin/ncpurchase.form_retention')
+            @include('admin/generalview.form_retention')
         </div>
     </div>
     <div class="col-md-4" id="formCard">
@@ -58,7 +58,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="qadd">
                     <div class="form-group">
                         <label class="form-control-label" for="vquantity">Cantidad</label>
-                        <input type="number" id="vquantity" name="vquantity" class="form-control" placeholder="Cantidad">
+                        <input type="number" id="vquantity" name="vquantity" class="form-control" value="1" placeholder="Cantidad">
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="padd">
