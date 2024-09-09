@@ -11,6 +11,22 @@
             });
         });
     });
+    jQuery(document).ready(function($){
+        $(document).ready(function() {
+            $('#discrepancy_id').select2({
+                theme: "classic",
+                width: "100%",
+            });
+        });
+    });
+    jQuery(document).ready(function($){
+        $(document).ready(function() {
+            $('#product_id').select2({
+                theme: "classic",
+                width: "100%",
+            });
+        });
+    });
 
     jQuery(document).on("click", "#editrow", function () {
         editrow();
@@ -32,21 +48,16 @@
     let total_tax = 0;
     let tax_iva = 0;
     let tax_ivaedit = 0;
-    $("#save").hide();
-    $("#idProvider").hide();
-    $("#addproduct").hide();
-    $("#addquantity").hide();
-    $("#addprice").hide();
-    $("#added").hide();
-    $("#cancelled").hide();
-    $("#addtax_rate").hide();
-    $("#addstock").hide();
-    $("#purchase").hide();
-    $("#addReverse").hide();
+
+    $("#formRetentions").hide();
+    $("#addProductId").hide();
+    $("#qadd").hide();
+    $("#padd").hide();
+    $("#btnadd").hide();
+    $("#doNotLook").hide();
     $("#addResolution").hide();
-    $("#addiva").hide();
-    $("#taxType").hide();
-    $("#addTypeProduct").hide();
+    $("#addRetentions").hide();
+    $("#save").hide();
 
     $(document).ready(function(){
         $("#discrepancy_id").change(function(){
@@ -57,12 +68,11 @@
                 total = 0;
                 subtotal = [];
                 total_tax = 0;
-                $("#addproduct").show();
-                $("#addquantity").show();
-                $("#addprice").show();
-                $("#added").show();
-                $("#cancelled").show();
-                //$("#addiva").show();
+                $("#addProductId").show();
+                $("#qadd").show();
+                $("#padd").show();
+                $("#btnadd").show();
+                $("#addRetentions").show();
                 //retentionLoad();
             } else if (discrepancy == 8) {
                 $("#discrepancy").hide();
@@ -337,4 +347,22 @@
             document.getElementById('register').setAttribute('disabled', 'true');
         });
     }
+
+    $(document).ready(function(){
+        $("#addRetentions").click(function(){
+            $("#formCard").hide();
+            $("#formRetentions").show();
+            $("#addProductId").hide();
+            $("#qadd").hide();
+            $("#padd").hide();
+            $("#btnadd").hide();
+        });
+    });
+    $(document).ready(function(){
+        $("#goBack2").click(function(){
+            $("#formCard").show();
+            $("#formRetentions").hide();
+            $("#addRetentions").hide();
+        });
+    });
 </script>

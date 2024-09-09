@@ -143,7 +143,7 @@
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" id="qadd">
                     <div class="form-group">
                         <label class="form-control-label" for="quantityadd">Cantidad</label>
-                        <input type="number" id="quantityadd" name="quantityadd" class="form-control"
+                        <input type="number" id="quantityadd" name="quantityadd" value="1" class="form-control"
                             placeholder="Cant." pattern="[0-9]{0,15}">
                     </div>
                 </div>
@@ -203,26 +203,27 @@
                             <th>Producto</th>
                             <th>Cant</th>
                             <th>precio</th>
+                            <th>Impto</th>
+                            <th>%</th>
                             <th>P/Venta</th>
-                            <th>imp(%)</th>
-                            <th>SubTotal ($)</th>
+                            <th>SubTotal</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th colspan="8" class="rightfoot">TOTAL:</th>
+                            <th colspan="9" class="rightfoot">TOTAL:</th>
                             <td class="rightfoot thfoot"><strong id="total_html">$ 0.00</strong>
                                 <input type="hidden" name="total" id="total">
                             </td>
                         </tr>
                         <tr>
-                            <th colspan="8" class="rightfoot">IMPUESTO:</th>
+                            <th colspan="9" class="rightfoot">IMPUESTO:</th>
                             <td class="rightfoot thfoot"><strong id="total_tax_html">$ 0.00</strong>
                                 <input type="hidden" name="total_tax" id="total_tax">
                             </td>
                         </tr>
                         <tr>
-                            <th colspan="8" class="rightfoot">TOTAL COMPRA:</th>
+                            <th colspan="9" class="rightfoot">TOTAL COMPRA:</th>
                             <td class="rightfoot thfoot"><strong id="total_pay_html">$ 0.00</strong>
                                 <input type="hidden" name="total_pay" id="total_pay">
                             </td>
@@ -273,6 +274,13 @@
         <div class="form-group">
             <label class="form-control-label" for="typeProduct">Typo Producto</label>
             <input type="text" id="typeProduct" name="typeProduct" class="form-control" value="{{ $typeProduct }}">
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="addPriceWithTax">
+        <div class="form-group">
+            <label class="form-control-label" for="pwx">Precio con impuesto</label>
+            <input type="text" id="pwx" name="pwx" class="form-control"
+                value="{{ indicator()->price_with_tax }}">
         </div>
     </div>
 </div>

@@ -19,7 +19,7 @@
         </div>
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="companyTax">
-        <div class="form-group row">
+        <div class="form-group">
             <label class="form-control-label" for="company_tax_id">Retencion</label>
             <select name="company_tax_id" class="form-control selectpicker" id="company_tax_id"
                 data-live-search="true">

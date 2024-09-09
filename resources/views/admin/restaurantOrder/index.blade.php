@@ -23,7 +23,7 @@
                     <thead>
                         <tr class="trdatacolor">
                             <th>Id</th>
-                            <th>Usuario</th>
+                            <th>Cliente</th>
                             <th>Mesa</th>
                             <th>Valor</th>
                             <th>Fecha</th>
@@ -63,7 +63,7 @@
             columns:
             [
                 {data: 'id'},
-                {data: 'user'},
+                {data: 'customer'},
                 {data: 'table'},
                 {data: 'total_pay', className: 'dt-body-right', render: $.fn.dataTable.render.number( '.', ',', 2, '$')},
                 {data: 'created_at'},

@@ -222,10 +222,10 @@ class PurchaseController extends Controller
             ->get();
 
         $companyTaxes = CompanyTax::from('company_taxes', 'ct')
-            ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
-            ->join('percentages as per', 'ct.percentage_id', 'per.id')
-            ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
-            ->where('tt.type_tax', 'retention')->get();
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
+        ->where('tt.type_tax', 'retention')->get();
         $typeProduct = 'raw_material';
         $countBranchs = count($branchs);
         return view(
@@ -1047,7 +1047,11 @@ class PurchaseController extends Controller
                 ->where('purchase_id', $id)
                 ->get();
         }
-
+        $companyTaxes = CompanyTax::from('company_taxes', 'ct')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
+        ->where('tt.type_tax', 'retention')->get();
         if ($purchase->status == 'complete' || $purchase->status == 'adjustment_note') {
             return redirect("purchase")->with('warning', 'Esta Compra ya no se puede hacer notas');
         }
@@ -1057,6 +1061,7 @@ class PurchaseController extends Controller
             'productPurchases',
             'discrepancies',
             'resolutions',
+            'companyTaxes',
             'taxes'
         ));
     }

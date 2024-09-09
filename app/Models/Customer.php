@@ -87,4 +87,9 @@ class Customer extends Model
     {
         return $this->morphMany(Payment::class, 'paymentable');
     }
+
+    public function restaurantOrders()
+    {
+        return $this->hasMany(RestaurantOrder::class);
+    }
 }
