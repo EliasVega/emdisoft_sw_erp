@@ -1327,7 +1327,7 @@ class CashRegisterController extends Controller
         } else {
             if ($cashRegister->restaurant_order > 0) {
                 $documents = $restaurantOrders;
-                $type = 'order';
+                $type = 'restOrder';
                 $name = 'Comprobantes de NC en ventas';
                 $totales = $cashRegister->restaurant_order;
                 $pdf->reportDocuments($documents, $name, $totales, $type);

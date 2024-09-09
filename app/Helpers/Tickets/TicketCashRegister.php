@@ -94,6 +94,14 @@ class TicketCashRegister extends FPDF
             } else if ($type == 'order') {
                 $numberDocument = $document->id;
                 $third = $document->third->name;
+            } else if ($type == 'restOrder') {
+                $numberDocument = $document->id;
+                $table = $document->restaurant_table_id;
+                if ($table == 1) {
+                    $third = $document->customerHome->name;
+                } else {
+                    $third = $document->customer->name;
+                }
             }
             //$length = strlen($product->product->name);
             $length = $this->GetStringWidth($third);
