@@ -56,6 +56,7 @@ class InvoiceOrderProductController extends Controller
     public function store(StoreInvoiceOrderProductRequest $request)
     {
         //dd($request->all());
+        set_time_limit(120);
         $totalpay = $request->pay;
         if ($totalpay == null) {
             toast('No adicionaste ningun tipo de pago.','error');

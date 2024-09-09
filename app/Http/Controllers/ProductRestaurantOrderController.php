@@ -118,6 +118,7 @@ class ProductRestaurantOrderController extends Controller
     public function store(StoreProductRestaurantOrderRequest $request)
     {
         //dd($request->all());
+        set_time_limit(120);
         $totalpay = $request->totalpay;
         if ($totalpay == null) {
             toast('No adicionaste ningun tipo de pago.','error');
