@@ -167,7 +167,7 @@ if (! function_exists('EquiDocPosData')) {
             "type_document_id" => $resolution->documentType->id,
             "date" => $generationDate,
             "time" => $date->toTimeString(),
-            "postal_zone_code" => '687579',
+            "postal_zone_code" => $branch->postalCode->postal_code,
             "resolution_number" => $resolution->resolution,
             "prefix" => $resolution->prefix,
             "notes" => $note,

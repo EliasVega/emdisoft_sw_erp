@@ -390,7 +390,7 @@ class InvoiceController extends Controller
                 $environment = Environment::where('id', 21)->first();
                 $url = $environment->protocol . $configuration->ip . $environment->url;
             }
-            //dd($data);
+            dd($data);
             $requestResponse = sendDocuments($url, $data);
             //dd($requestResponse);
             $store = $requestResponse['store'];

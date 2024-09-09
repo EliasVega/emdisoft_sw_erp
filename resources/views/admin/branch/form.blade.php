@@ -41,7 +41,7 @@
                         @if($postalCode->id == ($branch->postal_code_id ?? ''))
                             <option value="{{ $postalCode->id }}" selected>{{ $postalCode->postal_code }}</option>
                         @else
-                            <option value="{{ $postalCode->id }}">{{ $postalCode->postal_code }}</option>
+                            <option value="{{ $postalCode->id }}">{{ $postalCode->postal_code }} -- {{ $postalCode->municipality->name }}</option>
                         @endif
                     @endforeach
                 @endif
