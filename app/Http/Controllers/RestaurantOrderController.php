@@ -54,7 +54,7 @@ class RestaurantOrderController extends Controller
                 $restaurantOrders = RestaurantOrder::get();
             } else {
                 //Consulta para mostrar precompras de los demas roles
-                $restaurantOrders = RestaurantOrder::where('user_id', $useractual->id)->get();
+                $restaurantOrders = RestaurantOrder::get();
             }
             return DataTables::of($restaurantOrders)
             ->addIndexColumn()
@@ -685,6 +685,7 @@ class RestaurantOrderController extends Controller
         $restaurantOrder->total_tax = $request->total_tax;
         $restaurantOrder->total_pay = $request->total_pay;
         $restaurantOrder->note = $request->note;
+        $restaurantOrder->user_id = current_user()->id;
         if ($service > 1) {//si el servicio es de mesa
             $restaurantOrder->restaurant_table_id = $request->restaurant_table_id;
             $restaurantOrder->customer_home_id = null;

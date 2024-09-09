@@ -337,9 +337,10 @@ class ProductRestaurantOrderController extends Controller
             return redirect('indexInvoice');
         } else {
             $restaurantOrder->status = 'canceled';
+            $restaurantOrder->user_id = current_user()->id;
             $restaurantOrder->update();
 
-            $cashRegister = cashregisterModel();
+            $cashRegister = cashRegisterComprobation();
             //Variables del request
             $total_pay = $request->total_pay;
             $totalpay = $request->totalpay;
