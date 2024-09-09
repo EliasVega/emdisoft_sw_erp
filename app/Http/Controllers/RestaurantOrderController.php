@@ -76,7 +76,7 @@ class RestaurantOrderController extends Controller
                 } elseif ($restaurantOrder->status == 'generated') {
                     return $restaurantOrder->status == 'generated' ? 'Facturada' : 'Facturada';
                 } else {
-                    return $restaurantOrder->status == 'canceled' ? 'Anulada' : 'Anulada';
+                    return $restaurantOrder->status == 'canceled' ? 'Cancelada' : 'Cancelada';
                 }
             })
 
