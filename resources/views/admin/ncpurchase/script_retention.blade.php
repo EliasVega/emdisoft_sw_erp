@@ -15,9 +15,9 @@
 
     //$("#totalDocument").hide();
     //$("#addPercentage").hide();
-    //$("#infoIva").hide();
-    //$("#infoType").hide();
-    //$("#infoBase").hide();
+    $("#infoIva").hide();
+    $("#infoType").hide();
+    $("#infoBase").hide();
 
     let totalRetention = [];
     let contRetention = 0;
@@ -50,6 +50,12 @@
         base = parseFloat($("#base").val());
         if(company_tax_id !="" && companyTax!="" && percentage!=""  && percentage>0 ){
             if (ttid == 5) {
+                totalRetention[contRetention] = iva * percentage/100;
+            } else {
+                totalRetention[contRetention] = total * percentage/100;
+            }
+            /*
+            if (ttid == 5) {
                 if (tax_iva > base) {
                     totalRetention[contRetention] = iva * percentage/100;
                 } else {
@@ -61,7 +67,7 @@
                 } else {
                     totalRetention[contRetention] = 0;
                 }
-            }
+            }*/
             total_retention += totalRetention[contRetention];
             balance -= totalRetention[contRetention];
             var row= '<tr class="selected" id="row'+contRetention+'"><td><button type="button" class="btn btn-danger btn-xs" onclick="deleteRetention('+contRetention+');"><i class="fa fa-times"></i></button></td><td><input type="hidden" name="company_tax_id[]" value="'+company_tax_id+'">'+companyTax+'</td><td> $'+parseFloat(totalRetention[contRetention]).toFixed(2)+'</td></tr>';

@@ -6,6 +6,7 @@ use App\Models\InvoiceOrderProduct;
 use App\Models\InvoiceProduct;
 use App\Models\Ncinvoice;
 use App\Models\NcinvoiceProduct;
+use App\Models\NcpurchaseProduct;
 use App\Models\Ndinvoice;
 use App\Models\NdinvoiceProduct;
 use App\Models\ProductPurchase;
@@ -74,13 +75,20 @@ class PdfDocuments extends FPDF
         $addWitch = 0;
         if ($documentType != 15 && $documentType != 104) {
             $addWitch = 10;
-            $this->SetFont('Arial','B',14);
-            $this->SetXY(10,$heigthInitial + 12);
+            $titleWitch = $this->GetStringWidth($title);
+        
+            $this->SetFont('Arial','B',12);
+            $this->SetXY(10,$heigthInitial + 13);
             $this->SetDrawColor(0,80,180);
             $this->SetFillColor(230,230,0);
             $this->SetTextColor(0,0,111);
             $this->SetLineWidth(1);
-            $this->Cell(55,5,$title,0,0,'C',false);
+            
+            if ($titleWitch < 60) {
+                $this->Cell(10,4,strtoupper($title),0,0,'C', false);
+            } else {
+                $this->MultiCell(60,4, strtoupper($title), 0, 'C', false);
+            }
 
         }
         $this->SetXY(10,$heigthInitial + 10 + $addWitch);
@@ -401,6 +409,9 @@ class PdfDocuments extends FPDF
             case 'purchase':
                 $products = ProductPurchase::where('purchase_id', $document->id)->get();
                 break;
+            case 'ncpurchase':
+                $products = NcpurchaseProduct::where('ncpurchase_id', $document->id)->get();
+                break;
             default:
                 # code...
                 break;
@@ -601,6 +612,13 @@ class PdfDocuments extends FPDF
                 $this->Cell(50, 8, pdfFormatText('CAMBIO'), 1, 0, 'L',1);
                 $this->Cell(40, 8, "$" . number_format($paymentRemissionReturns->return,2), 1, 1, 'R',1);
             }*/
+        } elseif ($typeDocument == 'ncpurchase'){
+            //$paymentRemissionReturns = PaymentRemissionReturn::where('remission_id', $document->id)->first();
+            $retention = Tax::where('type', 'ncpurchase')->where('taxable_id', $document->id)->sum('tax_value');
+            $this->SetFont('Arial', '', 10);
+            $this->SetX(120);
+            $this->Cell(50, 8, pdfFormatText('SALDO X PAGAR'), 1, 0, 'L',1);
+            $this->Cell(40, 8, "$" . number_format($document->total_pay - $retention,2), 1, 1, 'R',1);
         }
     }
 

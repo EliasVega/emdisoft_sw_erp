@@ -8,6 +8,7 @@ use App\Models\InvoiceOrderProduct;
 use App\Models\InvoiceProduct;
 use App\Models\Ncinvoice;
 use App\Models\NcinvoiceProduct;
+use App\Models\NcpurchaseProduct;
 use App\Models\Ndinvoice;
 use App\Models\NdinvoiceProduct;
 use App\Models\ProductPurchase;
@@ -162,6 +163,9 @@ class Ticket extends FPDF
                 break;
             case 'purchase':
                 $products = ProductPurchase::where('purchase_id', $document->id)->get();
+                break;
+            case 'ncpurchase':
+                $products = NcpurchaseProduct::where('ncpurchase_id', $document->id)->get();
                 break;
             case 'expense':
                 $products = ExpenseProduct::where('expense_id', $document->id)->get();

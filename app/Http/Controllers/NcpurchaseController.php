@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Pdfs\PdfDocuments;
 use App\Helpers\Tickets\Ticket;
 use App\Models\Ncpurchase;
 use App\Http\Requests\StoreNcpurchaseRequest;
@@ -319,7 +320,7 @@ class NcpurchaseController extends Controller
     {
         //
     }
-
+    /*
     public function ncpurchasePdf(Request $request, $id)
     {
         $ncpurchase = Ncpurchase::findOrFail($id);
@@ -364,9 +365,9 @@ class NcpurchaseController extends Controller
         //$pdf->setPaper ( 'A7' , 'landscape' );
 
         return $pdf->stream('vista-pdf', "$ncpurchasepdf.pdf");
-        //return $pdf->download("$purchasepdf.pdf");*/
-    }
-
+        //return $pdf->download("$purchasepdf.pdf");
+    }*/
+    /*
     public function pdfNcpurchase(Request $request)
     {
         $ncpurchases = session('ncpurchase');
@@ -411,7 +412,8 @@ class NcpurchaseController extends Controller
         $pdf->loadHTML($view);
 
         return $pdf->stream('vista-pdf', "$ncpurchasepdf.pdf");
-    }
+    }*/
+
     public function posPdfNcpurchase(Request $request, Ncpurchase $ncpurchase)
     {
         $document = $ncpurchase;
@@ -506,6 +508,123 @@ class NcpurchaseController extends Controller
         $pdf->generateDisclaimerInformation($refund);
 
         $pdf->footer();
+
+        $pdf->Output("I", $document->document . ".pdf", true);
+        exit;
+    }
+
+    public function pdfNcpurchase(Request $request, Ncpurchase $ncpurchase) {
+        
+        $document = $ncpurchase;
+        $purchase = Purchase::findOrFail($document->purchase_id);
+        $typeDocument = 'ncpurchase';
+        $title = '';
+        $documentType = $purchase->document_type_id;
+        $purchase = Purchase::findOrFail($document->purchase_id);//encontrando la factura
+        if ($documentType == 101) {
+            $title = 'NOTA CREDITO';
+        } else if ($documentType == 11){
+            $title = 'NOTA DE AJUSTE AL DOCUMENTO SOPORTE ELECTRONICO.';
+        }
+        
+        $document = $document;
+        $thirdPartyType = 'customer';
+        $logoHeight = 26;
+        $logo = '';
+        $width = 0;
+        $height = 0;
+        if (indicator()->logo == 'on') {
+            $logo = storage_path('app/public/images/logos/' . company()->imageName);
+
+            $image = list($width, $height, $type, $attr) = getimagesize($logo);
+            $multiplier = $image[0]/$image[1];
+            $height = 26;
+            $width = $height * $multiplier;
+            if ($width > 60) {
+                $width = 60;
+                $height = 60/$multiplier;
+            }
+        }
+
+        //$pdfHeight = ticketHeight($logoHeight, company(), $invoice, "invoice");
+
+        $pdf = new PdfDocuments('P', 'mm', 'Letter', true, 'UTF-8');
+        $pdf->SetMargins(10, 10, 6);
+        $pdf->SetTitle($document->document);
+        $pdf->SetAutoPageBreak(false);
+        $pdf->addPage();
+
+        if (indicator()->dian == 'on' && $documentType == 11) {
+            //$pdf->generateInvoiceInformation($document);
+            $cufe =  $document->nsdResponse->cufe;
+            $url = 'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=';
+            $data = [
+                'NumFac' => $document->document,
+                'FecFac' => $document->created_at->format('Y-m-d'),
+                'NitFac' => company()->nit,
+                'DocAdq' => $document->third->identification,
+                'ValFac' => $document->total,
+                'ValIva' => $document->total_tax,
+                'ValOtroIm' => '0.00',
+                'ValTotal' => $document->total_pay,
+                'CUFE' => $cufe,
+                'URL' => $url . $cufe,
+            ];
+
+            $writer = new PngWriter();
+            $qrCode = new QrCode(implode("\n", $data));
+            $qrCode->setSize(300);
+            $qrCode->setMargin(10);
+            $result = $writer->write($qrCode);
+
+            $qrCodeImage = $result->getString();
+            $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
+            //$pdf->generateQr($qrImage);
+
+            //$confirmationCode = formatText("CUFE: " . $invoice->response->cufe);
+            //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
+            //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
+            //$pdf->generateConfirmationCode($confirmationCode);
+        } else {
+            //$pdf->generateInvoiceInformation($document);
+            $cufe =  '00';
+            $url = '#';
+            $data = [
+                'NumFac' => $document->document,
+                'FecFac' => $document->created_at->format('Y-m-d'),
+                'NitFac' => company()->nit,
+                'DocAdq' => $document->third->identification,
+                'ValFac' => $document->total,
+                'ValIva' => $document->total_tax,
+                'ValOtroIm' => '0.00',
+                'ValTotal' => $document->total_pay,
+                'CUFE' => $cufe,
+                //'URL' => $url . $cufe,
+            ];
+
+            $writer = new PngWriter();
+            $qrCode = new QrCode(implode("\n", $data));
+            $qrCode->setSize(300);
+            $qrCode->setMargin(10);
+            $result = $writer->write($qrCode);
+
+            $qrCodeImage = $result->getString();
+            $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
+            //$pdf->generateQr($qrImage);
+        }
+
+        $pdf->generateHeader($logo, $width, $height, $title, $document);
+        $pdf->generateInfoPredocuments($document->third, $thirdPartyType, $document, $qrImage);
+        $pdf->generateTablePdf($document, $typeDocument);
+        $pdf->generateTotals($document, $typeDocument);
+
+
+        $pdf->footer($document, $cufe);
+        $pdf->documentInformation($document, $cufe);
+        $pdf->footer();
+        //$pdf->generateHeader($logo, $width, $height);
+        //$refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
+        //$pdf->generateDisclaimerInformation($refund);
 
         $pdf->Output("I", $document->document . ".pdf", true);
         exit;

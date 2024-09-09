@@ -24,7 +24,6 @@ use App\Models\Resolution;
 use App\Models\Tax;
 use App\Models\VoucherType;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
 use App\Traits\InventoryInvoices;

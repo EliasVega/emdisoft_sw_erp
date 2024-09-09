@@ -39,11 +39,11 @@
     @push('scripts')
 <script type="text/javascript">
 $(document).ready(function ()
-    {
+    { 
         function print(){
-            var ncpurchase = "{{ $ncpurchase ?? '' }}";
-            if (ncpurchase != '') {
-                var imprimir = "{{ route('pdfNcpurchase', ['ncpurchase' => ':ncpurchase']) }}";
+            var ndinvoice = "{{ $ncpurchase ?? '' }}";
+            if (ndinvoice != '') {
+                var imprimir = "{{ route('posPdfNcpurchase', ['ncpurchase' => ':ncpurchase']) }}";
                 imprimir = imprimir.replace(':ncpurchase', ncpurchase);
                 window.open(imprimir, "_blank");
             }

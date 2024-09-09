@@ -71,4 +71,8 @@ class Ndpurchase extends Model
     public function cashRegister() {
         return $this->belongsTo(CashRegister::class);
     }
+
+    public function nsdResponse() {
+        return $this->hasOne(NsdResponse::class);
+    }
 }
