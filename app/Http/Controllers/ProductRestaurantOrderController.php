@@ -184,10 +184,13 @@ class ProductRestaurantOrderController extends Controller
             if (indicator()->dian == 'on') {
                 $typeDocument = 'pos';
                 if ($typeDocument == 'invoice') {
+                    dd('invoice');
+                    
                     $data = invoiceData($request);
                     $environment = Environment::where('id', 11)->first();
                     $url = $environment->protocol . $configuration->ip . $environment->url;
                 } else {
+                    dd('pos');
                     $data = equiDocPosData($request);
                     $environment = Environment::where('id', 21)->first();
                     $url = $environment->protocol . $configuration->ip . $environment->url;
