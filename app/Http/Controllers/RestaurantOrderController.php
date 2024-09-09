@@ -53,12 +53,20 @@ class RestaurantOrderController extends Controller
                 $restaurantOrders = RestaurantOrder::get();
             } else {
                 //Consulta para mostrar precompras de los demas roles
-                $restaurantOrders = RestaurantOrder::where('user_id', $user->id)->where('status', '!=', 'canceled')->get();
+                $restaurantOrders = RestaurantOrder::where('user_id', $user->id)->get();
             }
             return DataTables::of($restaurantOrders)
             ->addIndexColumn()
-            ->addColumn('user', function (RestaurantOrder $restaurantOrder) {
-                return $restaurantOrder->user->name;
+            
+            ->addColumn('customer', function (RestaurantOrder $restaurantOrder) {
+                $table = $restaurantOrder->restaurant_table_id;
+                if ($table == 1) {
+                    $customer = $restaurantOrder->customerHome->name;
+                } else {
+                    $customer = $restaurantOrder->customer->name;
+                }
+                
+                return $customer;
             })
             ->addColumn('table', function (RestaurantOrder $restaurantOrder) {
                 return $restaurantOrder->restaurantTable->name;
@@ -69,7 +77,7 @@ class RestaurantOrderController extends Controller
                 } elseif ($restaurantOrder->status == 'generated') {
                     return $restaurantOrder->status == 'generated' ? 'Facturada' : 'Facturada';
                 } else {
-                    return $restaurantOrder->status == 'canceled' ? 'Anulada' : 'Anulada';
+                    return $restaurantOrder->status == 'canceled' ? 'Cancelada' : 'Cancelada';
                 }
             })
 
@@ -99,8 +107,15 @@ class RestaurantOrderController extends Controller
             }
             return DataTables::of($restaurantOrders)
             ->addIndexColumn()
-            ->addColumn('user', function (RestaurantOrder $restaurantOrder) {
-                return $restaurantOrder->user->name;
+            ->addColumn('customer', function (RestaurantOrder $restaurantOrder) {
+                $table = $restaurantOrder->restaurant_table_id;
+                if ($table == 1) {
+                    $customer = $restaurantOrder->customerHome->name;
+                } else {
+                    $customer = $restaurantOrder->customer->name;
+                }
+                
+                return $customer;
             })
             ->addColumn('table', function (RestaurantOrder $restaurantOrder) {
                 return $restaurantOrder->restaurantTable->name;
