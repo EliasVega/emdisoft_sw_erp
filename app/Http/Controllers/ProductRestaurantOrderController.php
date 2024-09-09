@@ -182,7 +182,7 @@ class ProductRestaurantOrderController extends Controller
         $store = false;
         if ($invoiced == 1) {
             if (indicator()->dian == 'on') {
-                $typeDocument = 'pos';
+                //$typeDocument = 'pos';
                 if ($typeDocument == 'invoice') {
                     $data = invoiceData($request);
                     $environment = Environment::where('id', 11)->first();
@@ -192,8 +192,7 @@ class ProductRestaurantOrderController extends Controller
                     $environment = Environment::where('id', 21)->first();
                     $url = $environment->protocol . $configuration->ip . $environment->url;
                 }
-                $data = invoiceData($request);
-                dd($data);
+                //dd($data);
                 $requestResponse = sendDocuments($url, $data);
                 $store = $requestResponse['store'];
                 $service = $requestResponse['response'];
