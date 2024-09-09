@@ -47,16 +47,18 @@ class RestaurantOrderController extends Controller
         $typeDocument = '';
         if ($request->ajax()) {
             //Muestra todas las pre compras de la empresa
+            $useractual = current_user();
             $user = current_user()->Roles[0]->name;
             if ($user == 'superAdmin' ||$user == 'admin') {
                 //Consulta para mostrar todas las precompras a admin y superadmin
                 $restaurantOrders = RestaurantOrder::get();
             } else {
                 //Consulta para mostrar precompras de los demas roles
-                $restaurantOrders = RestaurantOrder::where('user_id', $user->id)->where('status', '!=', 'canceled')->get();
+                $restaurantOrders = RestaurantOrder::where('user_id', $useractual->id)->get();
             }
             return DataTables::of($restaurantOrders)
             ->addIndexColumn()
+            
             ->addColumn('customer', function (RestaurantOrder $restaurantOrder) {
                 $table = $restaurantOrder->restaurant_table_id;
                 if ($table == 1) {
@@ -96,13 +98,14 @@ class RestaurantOrderController extends Controller
         $restaurantOrder = session('restaurantOrder');
         if ($request->ajax()) {
             //Muestra todas las pre compras de la empresa
+            $useractual = current_user();
             $user = current_user()->Roles[0]->name;
             if ($user == 'superAdmin' ||$user == 'admin') {
                 //Consulta para mostrar todas las precompras a admin y superadmin
                 $restaurantOrders = RestaurantOrder::get();
             } else {
                 //Consulta para mostrar precompras de los demas roles
-                $restaurantOrders = RestaurantOrder::where('user_id', $user->id)->where('status', '!=', 'canceled')->get();
+                $restaurantOrders = RestaurantOrder::where('user_id', $useractual->id)->get();
             }
             return DataTables::of($restaurantOrders)
             ->addIndexColumn()
