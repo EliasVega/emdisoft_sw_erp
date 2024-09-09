@@ -193,7 +193,7 @@ class ProductRestaurantOrderController extends Controller
                     $url = $environment->protocol . $configuration->ip . $environment->url;
                 }
                 $data = invoiceData($request);
-                //dd($data);
+                dd($data);
                 $requestResponse = sendDocuments($url, $data);
                 $store = $requestResponse['store'];
                 $service = $requestResponse['response'];
