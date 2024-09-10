@@ -615,7 +615,7 @@ class InvoiceController extends Controller
                     Storage::disk('public')->put('files/graphical_representations/invoices/' .
                     $invoice->document . '.pdf', $pdf);
                 }*/
-
+                
                 $environmentXml = Environment::findOrFail(23);
                 $urlxmldocument = "Attachment-" . $invoice->document . ".xml/BASE64";
                 $urlxml = $environmentXml->protocol . $configuration->ip . $environmentXml->url . company()->nit . $urlxmldocument;
@@ -629,10 +629,10 @@ class InvoiceController extends Controller
             session(['invoice' => $invoice->id]);
             session(['typeDocument' => $typeDocument]);
             toast('Venta Registrada satisfactoriamente.','success');
-            return redirect('invoice');
+            return redirect('indexInvoice');
         }
         toast($errorMessages,'danger');
-        return redirect('indexInvoice');
+        return redirect('invoice');
     }
 
     /**
