@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('restaurant_orders', function (Blueprint $table) {
             $table->id();
 
-            $table->decimal('total', 20, 2);//subtotal de la orden
-            $table->decimal('total_tax', 11, 2);//total impuestos iva inc
-            $table->decimal('total_pay', 20, 2);//total de la orden
+            $table->decimal('total', 20, 3);//subtotal de la orden
+            $table->decimal('total_tax', 11, 3);//total impuestos iva inc
+            $table->decimal('total_pay', 20, 3);//total de la orden
             $table->enum('status',['pending', 'generated', 'canceled'])->default('pending');
             $table->string('note', 255)->nullable();//nota abierta
 

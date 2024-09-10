@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('code',6);
             $table->string('hour_type', 45);
             $table->string('apply_time', 100);
-            $table->decimal('percentage',10,2);
+            $table->decimal('percentage',10,3);
 
             $table->timestamps();
         });

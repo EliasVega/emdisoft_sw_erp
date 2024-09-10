@@ -18,8 +18,8 @@ return new class extends Migration
 
             $table->string('code', 20)->unique();
             $table->string('name', 200);
-            $table->decimal('price', 10,2); //precio de compra
-            $table->decimal('sale_price', 11,2);
+            $table->decimal('price', 10,4); //precio de compra
+            $table->decimal('sale_price', 11,4);
             $table->decimal('commission', 10,2)->default(0);
             $table->decimal('stock', 11,2)->default(0);
             $table->decimal('stock_min',10,2)->default(1);

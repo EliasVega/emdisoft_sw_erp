@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('purchase_orders', function (Blueprint $table) {
             $table->id();
 
-            $table->decimal('total', 20, 2);//subtotal de la factura
-            $table->decimal('total_tax', 11, 2);//total impuestos iva inc
-            $table->decimal('total_pay', 20, 2);//total de la factura
-            $table->decimal('balance', 20, 2);//saldo de la factura
+            $table->decimal('total', 20, 3);//subtotal de la factura
+            $table->decimal('total_tax', 11, 3);//total impuestos iva inc
+            $table->decimal('total_pay', 20, 3);//total de la factura
+            $table->decimal('balance', 20, 3);//saldo de la factura
             $table->enum('status',['active', 'generated', 'canceled'])->default('active');
             $table->enum('type_product',['product', 'raw_material'])->default('product');
             $table->string('note', 255)->nullable();//nota abierta

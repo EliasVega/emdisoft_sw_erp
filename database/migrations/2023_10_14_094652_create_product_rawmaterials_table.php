@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('product_rawmaterials', function (Blueprint $table) {
             $table->id();
 
-            $table->decimal('quantity', 10, 2);//cantidad de producto que consume el producto
-            $table->decimal('consumer_price', 11, 2);//precio del producto
-            $table->decimal('subtotal', 11, 2);//cantidad por el precio
+            $table->decimal('quantity', 10, 3);//cantidad de producto que consume el producto
+            $table->decimal('consumer_price', 11, 3);//precio del producto
+            $table->decimal('subtotal', 11, 3);//cantidad por el precio
 
             $table->foreignId('product_id')->constrained()->onUpdate('cascade');
             $table->foreignId('raw_material_id')->constrained()->onUpdate('cascade')->onDelete('cascade');

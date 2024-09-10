@@ -16,8 +16,8 @@ return new class extends Migration
 
             $table->string('code', 20)->unique();
             $table->string('name', 100);
-            $table->decimal('price', 10,2); //precio de compra
-            $table->decimal('stock', 11,2);
+            $table->decimal('price', 10,3); //precio de compra
+            $table->decimal('stock', 11,3);
             $table->enum('type_product', ['product', 'service']);
             $table->enum('status', ['active', 'inactive'])->default('active');
 

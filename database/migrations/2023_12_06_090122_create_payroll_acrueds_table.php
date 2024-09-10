@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('payroll_acrueds', function (Blueprint $table) {
             $table->id();
 
-            $table->decimal('salary', 10,2);//salario asignado
-            $table->decimal('transport_assistance',10,2);//auxilio de trasporte
+            $table->decimal('salary', 10,3);//salario asignado
+            $table->decimal('transport_assistance',10,3);//auxilio de trasporte
             $table->decimal('overtime',10,2)->default(0);//horas extras
             $table->decimal('vacations',10,2)->default(0);//vacaciones
             $table->decimal('bonus',10,2)->default(0);//prima

@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('invoice_products', function (Blueprint $table) {
             $table->id();
 
-            $table->decimal('quantity', 10, 2);
-            $table->decimal('price', 11, 2);
-            $table->decimal('tax_rate', 10, 2);
-            $table->decimal('subtotal', 11, 2);
-            $table->decimal('tax_subtotal', 11, 2);
+            $table->decimal('quantity', 10, 3);
+            $table->decimal('price', 11, 3);
+            $table->decimal('tax_rate', 10, 3);
+            $table->decimal('subtotal', 11, 3);
+            $table->decimal('tax_subtotal', 11, 3);
 
             $table->foreignId('invoice_id')->constrained()->onUpdate('cascade');
             $table->foreignId('product_id')->constrained()->onUpdate('cascade');

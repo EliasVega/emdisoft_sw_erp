@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
 
             $table->decimal('quantity', 10, 2);
-            $table->decimal('price', 11, 2);
+            $table->decimal('price', 11, 3);
             $table->decimal('tax_rate', 10, 2);
-            $table->decimal('subtotal', 11, 2);
-            $table->decimal('tax_subtotal', 11, 2);
+            $table->decimal('subtotal', 11, 3);
+            $table->decimal('tax_subtotal', 11, 3);
 
             $table->foreignId('purchase_id')->constrained()->onUpdate('restrict');
             $table->foreignId('product_id')->constrained()->onUpdate('restrict');

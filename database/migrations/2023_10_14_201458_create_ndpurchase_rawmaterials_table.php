@@ -16,9 +16,9 @@ return new class extends Migration
 
             $table->integer('quantity');
             $table->integer('price');
-            $table->decimal('tax_rate', 10, 2);
-            $table->decimal('subtotal', 11, 2);
-            $table->decimal('tax_subtotal', 11, 2);
+            $table->decimal('tax_rate', 10, 3);
+            $table->decimal('subtotal', 11, 3);
+            $table->decimal('tax_subtotal', 11, 3);
 
             $table->foreignId('ndpurchase_id')->constrained()->onUpdate('cascade');
             $table->foreignId('raw_material_id')->constrained()->onUpdate('cascade');
