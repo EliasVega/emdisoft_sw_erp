@@ -312,12 +312,13 @@ class ProductRestaurantOrderController extends Controller
                     $invoiceResponse->invoice_id = $invoice->id;
                     $invoiceResponse->save();
 
+                    /*
                     $environmentPdf = Environment::where('code', 'PDF')->first();
                     $urlpdf = $environmentPdf->protocol . $configuration->ip . $environmentPdf->url;
 
                     $pdf = file_get_contents($urlpdf . $company->nit ."/FES-" . $invoice->document .".pdf");
                     Storage::disk('public')->put('files/graphical_representations/invoices/' .
-                    $invoice->document . '.pdf', $pdf);
+                    $invoice->document . '.pdf', $pdf);*/
                 }
                 $resolutions->consecutive += 1;
                 $resolutions->update();

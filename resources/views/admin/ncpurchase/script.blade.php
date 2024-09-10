@@ -256,6 +256,11 @@
         quantity = $("#quantityModal").val();
         price = $("#priceModal").val();
         tax_rate = $("#ivaModal").val();
+        pwx = $("#pwx").val();
+        if (pwx == 'on') {
+            taxRate = parseFloat(tax_rate) + 100;
+            price = (parseFloat(price) / parseFloat(taxRate)) * 100;
+        }
         taxType = $("#tax_typeModal").val();
 
         $('#priceModal').prop("readonly", false)
