@@ -28,20 +28,6 @@
         });
     });
 
-    jQuery(document).on("click", "#editrow", function () {
-        editrow();
-    });
-    jQuery(document).on("click", "#updatePurchase", function () {
-        updaterow();
-    })
-
-        /*
-    $(document).ready(function(){
-        $("#updatePurchase").click(function(){
-            editrow();
-        });
-    });*/
-
     let cont = 0;
     let total = 0;
     let subtotal = [];
@@ -180,7 +166,7 @@
                 stock= value['stock'];
                 tax_rate= value['tax_rate'];
                 taxType = value['idtt'];
-
+                alert('voy');
                 if(product_id !="" && quantity!="" && quantity>0  && price!="" && price>0){
                     subtotal[cont]= parseFloat(quantity) * parseFloat(price);
                     total= total+subtotal[cont];
@@ -220,11 +206,18 @@
         });
     }
 
+    jQuery(document).on("click", "#editrow", function () {
+        editrow();
+    });
+    jQuery(document).on("click", "#updateNcpurchase", function () {
+        updaterow();
+    })
+
     function editrow(index) {
-        $("#contMod").hide();
-        $("#subtotalMod").hide();
-        $("#idMod").hide();
-        $("#taxTypeModal").hide();
+        //$("#contMod").hide();
+        //$("#subtotalMod").hide();
+        //$("#idMod").hide();
+        //$("#taxTypeModal").hide();
         // Obtener la fila
         var row = $("#row" + index);
         // Solo si la fila existe
@@ -239,7 +232,8 @@
             $("#quantityModal").val(row.find("td:eq(5)").text());
             $("#priceModal").val(row.find("td:eq(6)").text());
             $("#ivaModal").val(row.find("td:eq(7)").text());
-            $("#subtotalModal").val(row.find("td:eq(8)").text());
+            $("#tax_rateModal").val(row.find("td:eq(8)").text());
+            $("#subtotalModal").val(row.find("td:eq(9)").text());
 
             // Mostrar modal
             $('#editModal').modal('show');
@@ -267,7 +261,7 @@
 
 
         if(product_id !="" && quantity!="" && quantity>0 && price!="" && price>0){
-            subtotal[cont]= parseFloat(quantity) * parseFloat(price);
+            subtotal[cont] = parseFloat(quantity) * parseFloat(price);
             total= total+subtotal[cont];
             tr = parseFloat(tax_rate);
             if (tr > 0) {
@@ -281,7 +275,10 @@
                 tax_iva += ivita;
             }
             subcont = subtotal[cont] + parseFloat(ivita);
-            rowsList(cont, product_id, product, quantity, price, ivita, tax_rate, subcont);
+            alert(quantity);
+            alert(price);
+            alert(tax_rate);
+            rowsList(cont, taxType, product_id, product, quantity, price, ivita, tax_rate, subcont);
 
             
             /*

@@ -191,16 +191,29 @@
         salePrice = $("#sale_price").val();
         stock = $("#stock").val();
         tax_rate = $("#tax_rate").val();
+        pwx = $("#pwx").val();
+        if (pwx == 'on') {
+            taxRate = parseFloat(tax_rate) + 100;
+            price = (parseFloat(price) / parseFloat(taxRate)) * 100;
+        }
         tax_type = $("#tax_type").val();
         if (product_id != "" && quantity != "" && quantity > 0 && price != "") {
             subtotal[cont] = parseFloat(quantity) * parseFloat(price);
             total = total + subtotal[cont];
-            ivita = subtotal[cont] * tax_rate / 100;
+            tr = parseFloat(tax_rate);
+            if (tr > 0) {
+                ivita = subtotal[cont]*tax_rate/100;
+            } else {
+                ivita = 0;
+            }
             tax_cont[cont] = ivita;
             total_tax = total_tax + ivita;
             if (tax_type == 1) {
                 tax_iva += ivita;
             }
+            rowsList(cont, product_id, product, quantity, price, ivita, tax_rate, salePrice, subcont);
+
+            /*
             var row = '<tr class="selected" id="row'+cont +
                 '"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow(' + cont +
                 ');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow(' +
@@ -211,7 +224,7 @@
                 quantity + '</td> <td><input type="hidden" name="price[]"  value="' + price + '">' + price +
                 '</td><td><input type="hidden" name="sale_price[]"  value="' + salePrice + '">' + salePrice +
                 '</td> <td><input type="hidden" name="tax_rate[]"  value="' + tax_rate + '">' + tax_rate +
-                '</td><td> $' + parseFloat(subtotal[cont]).toFixed(2) + '</td></tr>';
+                '</td><td> $' + parseFloat(subtotal[cont]).toFixed(2) + '</td></tr>';*/
             cont++;
             totals();
             assess();
