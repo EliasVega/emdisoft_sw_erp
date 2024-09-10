@@ -81,7 +81,12 @@
         if(product_id !="" && quantity!="" && quantity>0  && price!="" && tax_rate!=""){
             subtotal[cont]= parseFloat(quantity) * parseFloat(price);
             total= total+subtotal[cont];
-            ivita= subtotal[cont]*tax_rate/100;
+            tr = parseFloat(tax_rate);
+            if (tr > 0) {
+                ivita = subtotal[cont]*tax_rate/100;
+            } else {
+                ivita = 0;
+            }
             total_tax=total_tax+ivita;
             tax_ratecont[cont]=tax_rate;
             refProduct[cont] = cont;

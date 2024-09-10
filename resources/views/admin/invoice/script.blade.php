@@ -245,7 +245,12 @@
         if(product_id !="" && quantity!="" && quantity>0  && price!=""){
             subtotal[cont] = parseFloat(quantity) * parseFloat(price);
             total = total+subtotal[cont];
-            ivita = subtotal[cont]*tax_rate/100;
+            tr = parseFloat(tax_rate);
+            if (tr > 0) {
+                ivita = subtotal[cont]*tax_rate/100;
+            } else {
+                ivita = 0;
+            }
             tax_cont[cont] = ivita;
             total_tax = total_tax+ivita;
             if(tax_type == 1){
@@ -411,7 +416,12 @@
         if(product_id !="" && quantity!="" && quantity>0 && price!="" && price>0){
             subtotal[cont]= parseFloat(quantity) * parseFloat(price);
             total = total+subtotal[cont];
-            ivita= subtotal[cont]*tax_rate/100;
+            tr = parseFloat(tax_rate);
+            if (tr > 0) {
+                ivita = subtotal[cont]*tax_rate/100;
+            } else {
+                ivita = 0;
+            }
             tax_cont[cont] = ivita;
             total_tax = total_tax+ivita;
             subcont = subtotal[cont] + parseFloat(ivita);
