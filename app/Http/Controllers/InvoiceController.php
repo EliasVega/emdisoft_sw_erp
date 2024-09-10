@@ -64,8 +64,8 @@ class InvoiceController extends Controller
      */
     public function index(Request $request)
     {
-        $invoice = '';
-        $typeDocument = '';
+        $invoice = session('invoice');
+        $typeDocument = session('typeDocument');
         if ($request->ajax()) {
             $users = current_user();
             $user = $users->Roles[0]->name;
@@ -632,7 +632,7 @@ class InvoiceController extends Controller
             return redirect('invoice');
         }
         toast($errorMessages,'danger');
-        return redirect('indexInvoice');
+        return redirect('index');
     }
 
     /**
