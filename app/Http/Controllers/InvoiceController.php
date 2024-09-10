@@ -126,7 +126,7 @@ class InvoiceController extends Controller
             ->addColumn('customer', function (Invoice $invoice) {
                 return $invoice->third->name;
             })
-            ->addColumn('status', function (Invoice $invoice) {
+            ->addColumn('state', function (Invoice $invoice) {
                 if ($invoice->status == 'invoice') {
                     return $invoice->status == 'invoice' ? 'F. Venta' : 'F. Venta';
                 } elseif ($invoice->status == 'debit_note') {
@@ -629,7 +629,7 @@ class InvoiceController extends Controller
             session(['invoice' => $invoice->id]);
             session(['typeDocument' => $typeDocument]);
             toast('Venta Registrada satisfactoriamente.','success');
-            return redirect('indexInvoice');
+            return redirect('invoice');
         }
         toast($errorMessages,'danger');
         return redirect('invoice');
