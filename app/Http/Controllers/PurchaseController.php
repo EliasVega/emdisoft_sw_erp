@@ -13,7 +13,6 @@ use App\Models\Branch;
 use App\Models\BranchProduct;
 use App\Models\BranchRawmaterial;
 use App\Models\Card;
-use App\Models\Company;
 use App\Models\CompanyTax;
 use App\Models\Configuration;
 use App\Models\Discrepancy;
@@ -67,6 +66,69 @@ class PurchaseController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
+    {
+        $purchase = '';
+        $typeDocument = '';
+        $indicator = indicator();
+        if (indicator()->pos == 'off') {
+            $typeDocument = 'document';
+        } else {
+            $typeDocument = 'pos';
+        }
+
+        if ($request->ajax()) {
+            $users = Auth::user();
+            $user = $users->Roles[0]->name;
+            if ($user == 'superAdmin' || $user == 'admin') {
+                //Muestra todas las compras de la empresa
+                $purchases = Purchase::get();
+            } else {
+                //Muestra todas las compras de la empresa por usuario
+                $purchases = Purchase::where('user_id', $users->id)->get();
+            }
+            return DataTables::of($purchases)
+                ->addIndexColumn()
+                ->addColumn('provider', function (Purchase $purchase) {
+                    return $purchase->third->name;
+                })
+                ->addColumn('branch', function (Purchase $purchase) {
+                    return $purchase->branch->name;
+                })
+                ->addColumn('retention', function (Purchase $purchase) {
+                    return $purchase->retention;
+                })
+                ->addColumn('status', function (Purchase $purchase) {
+                    if ($purchase->status == 'purchase') {
+                        return $purchase->status == 'purchase' ? 'F. Compra' : 'Compra';
+                    } elseif ($purchase->status == 'support_document') {
+                        return $purchase->status == 'support_document' ? 'Documento Soporte' : 'Documento Soporte';
+                    } elseif ($purchase->status == 'debit_note') {
+                        return $purchase->status == 'debit_note' ? 'Nota Debito' : 'Nota Debito';
+                    } elseif ($purchase->status == 'credit_note') {
+                        return $purchase->status == 'credit_note' ? 'Nota Credito' : 'Nota Credito';
+                    } elseif ($purchase->status == 'complete') {
+                        return $purchase->status == 'complete' ? 'NC - ND' : 'NC - ND';
+                    } elseif ($purchase->status == 'adjustment_note') {
+                        return $purchase->status == 'adjustment_note' ? 'Nota de Ajuste' : 'Nota de Ajuste';
+                    }
+                })
+                ->addColumn('pos', function (Purchase $purchase) {
+                    return $purchase->branch->company->indicator->pos;
+                })
+                ->addColumn('role', function (Purchase $purchase) {
+                    return $purchase->user->roles[0]->name;
+                })
+                ->editColumn('created_at', function (Purchase $purchase) {
+                    return $purchase->created_at->format('Y-m-d: h:m');
+                })
+                ->addColumn('btn', 'admin/purchase/actions')
+                ->rawColumns(['btn'])
+                ->make(true);
+        }
+        return view('admin.purchase.index', compact('purchase', 'indicator', 'typeDocument'));
+    }
+
+    public function indexPurchase(Request $request)
     {
         $purchase = session('purchase');
         $typeDocument = '';
@@ -497,7 +559,9 @@ class PurchaseController extends Controller
             }
 
             session()->forget('purchase');
+            session()->forget('typeDocument');
             session(['purchase' => $purchase->id]);
+            session(['typeDocument' => $typeDocument]);
             toast('Compra Registrada satisfactoriamente.', 'success');
             return redirect('purchase');
         }

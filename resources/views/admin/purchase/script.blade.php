@@ -65,11 +65,15 @@
     var total_purchase = 0;
     let coderepit = 0;
     //form purchase
+    $("#save").hide();
+    $("#addPay").hide();
+    $("#addRetentions").hide();
+
     $("#idPro").hide();
     $("#percent").hide();
     $("#taxType").hide();
     $("#resolution").hide();
-    $("#save").hide();
+    
 
     $("#posActive").hide();
     $("#barcodeId").hide();
@@ -78,8 +82,6 @@
     $("#formPayCard").hide();
     $("#formRetentions").hide();
     $("#addTypeProduct").hide();
-    $("#addPayButton").hide();
-    $("#addRetentions").hide();
 
     $("#generat").hide();
     $("#startd").hide();
@@ -199,7 +201,7 @@
             if (tax_type == 1) {
                 tax_iva += ivita;
             }
-            var row = '<tr class="selected" id="row' + cont +
+            var row = '<tr class="selected" id="row'+cont +
                 '"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow(' + cont +
                 ');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow(' +
                 cont +
@@ -361,11 +363,11 @@
     function assess() {
 
         if (total > 0) {
-            $("#addPayButton").hide();
-            $("#addRetentionButton").hide();
+            $("#addPay").show();
+            $("#addRetentions").show();
         } else {
-            $("#addPayButton").hide();
-            $("#addRetentionButton").hide();
+            $("#addPay").hide();
+            $("#addRetentions").hide();
         }
     }
 
@@ -438,6 +440,8 @@
             total = total + subtotal[cont];
             ivita = subtotal[cont] * tax_rate / 10
 
+            rowsList(cont, product_id, product, quantity, price, ivita, tax_rate, salePrice, subcont)
+
             var row = '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete"onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btnbtn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="product_id[]" value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td><td><input type="hidden" name="quantity[]" value="'+quantity+'">'+parseFloat(quantity).toFixed(2)+'</td><td><input type="hidden" name="price[]" value="'+price+'">'+parseFloat(price).toFixed(2)+'</td><td><input type="hidden" name="ivaline[]" value="'+ivita+'">'+parseFloat(ivita).toFixed(2)+'</td><td><input type="hidden" name="tax_rate[]" value="'+tax_rate+'">'+parseFloat(tax_rate).toFixed(2)+'</td><td><input type="hidden" name="sale_price[]" value="'+salePrice+'">'+parseFloat(salePrice).toFixed(2)+'</td><td>$'+parseFloat(subtotal[cont]).toFixed(2)+'</td></tr>';
             cont++;
 
@@ -491,6 +495,7 @@
             $("#formCard").show();
             $("#formPayCard").hide();
             $("#formRetentions").hide();
+            $("#addRetentions").hide();
         });
     });
     /*
@@ -530,7 +535,7 @@
         });
     }
 
-    function rowsList(cont, product_id, product, quantity, price, ivita, tax_rate, subcont) {
+    function rowsList(cont, product_id, product, quantity, price, ivita, tax_rate, salePrice, subcont) {
         row = '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete"onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btnbtn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="product_id[]" value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td><td><input type="hidden" name="quantity[]" value="'+quantity+'">'+parseFloat(quantity).toFixed(2)+'</td><td><input type="hidden" name="price[]" value="'+price+'">'+parseFloat(price).toFixed(2)+'</td><td><input type="hidden" name="ivaline[]" value="'+ivita+'">'+parseFloat(ivita).toFixed(2)+'</td><td><input type="hidden" name="tax_rate[]" value="'+tax_rate+'">'+parseFloat(tax_rate).toFixed(2)+'</td><td><input type="hidden" name="sale_price[]" value="'+salePrice+'">'+parseFloat(salePrice).toFixed(2)+'</td><td>$'+parseFloat(subcont).toFixed(2)+'</td></tr>';
     }
 </script>
