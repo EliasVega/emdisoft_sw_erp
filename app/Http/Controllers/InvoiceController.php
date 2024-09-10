@@ -632,7 +632,7 @@ class InvoiceController extends Controller
             return redirect('invoice');
         }
         toast($errorMessages,'danger');
-        return redirect('index');
+        return redirect('indexInvoice');
     }
 
     /**
