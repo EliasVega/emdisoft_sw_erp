@@ -283,12 +283,12 @@ class RestaurantOrderController extends Controller
         //$restaurantOrder->customer_id = $customer;
         if ($service == 0) {//si el servicio es de mesa
             $restaurantOrder->restaurant_table_id = $request->restaurant_table_id;
-            $restaurantOrder->customer_home_id = null;
+            $restaurantOrder->customer_home_id = 1;
             $restaurantOrder->customer_id = $request->customer_id;
         } else {//si el servicio es domicilio
             $restaurantOrder->restaurant_table_id = 1;
-            $restaurantOrder->customer_home_id = null;
-            $restaurantOrder->customer_id = null;
+            $restaurantOrder->customer_home_id = $request->customer_home_id;
+            $restaurantOrder->customer_id = 1;
         }
         $restaurantOrder->user_id = current_user()->id;
         $restaurantOrder->save();
@@ -688,12 +688,12 @@ class RestaurantOrderController extends Controller
         $restaurantOrder->user_id = current_user()->id;
         if ($service > 1) {//si el servicio es de mesa
             $restaurantOrder->restaurant_table_id = $request->restaurant_table_id;
-            $restaurantOrder->customer_home_id = null;
+            $restaurantOrder->customer_home_id = 1;
             $restaurantOrder->customer_id = $request->customer_id;
         } else {//si el servicio es domicilio
             $restaurantOrder->restaurant_table_id = 1;
-            $restaurantOrder->customer_home_id = null;
-            $restaurantOrder->customer_id = null;
+            $restaurantOrder->customer_home_id = $request->customer_home_id;
+            $restaurantOrder->customer_id = 1;
         }
         $restaurantOrder->update();
 
