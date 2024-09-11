@@ -135,7 +135,7 @@ class NcinvoiceController extends Controller
             if ($invoice->document_type_id == 1) {
                 $resolution = Resolution::findOrFail(8);//NC factura de venta
                 $voucherTypes = VoucherType::findOrFail(5);//voucher type FV
-            } else if ($invoice->document_type_id == 104) {
+            } else if ($invoice->document_type_id == 15) {
                 $resolution = Resolution::findOrFail(5);//NC factura de venta pos
                 $voucherTypes = VoucherType::findOrFail(21); //voucher type pos
             }
