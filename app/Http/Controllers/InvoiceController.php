@@ -629,7 +629,7 @@ class InvoiceController extends Controller
             session(['invoice' => $invoice->id]);
             session(['typeDocument' => $typeDocument]);
             toast('Venta Registrada satisfactoriamente.','success');
-            return redirect('invoice');
+            return redirect('indexInvoice');
         }
         toast($errorMessages,'danger');
         return redirect('invoice');
