@@ -590,6 +590,17 @@ class PercentagesTableSeeder extends Seeder
                 'status' => 'active',
                 'tax_type_id' => 1
             ),
+            52 =>
+            array(
+                'id' =>	53,
+                'name' => 'IVA 5%',
+                'percentage' => '5.00',
+                'base' => 0,
+                'base_uvt' => 0,
+                'concept' => 'Productos con iva del 5%',
+                'status' => 'active',
+                'tax_type_id' => 1
+            ),
         ));
     }
 }
