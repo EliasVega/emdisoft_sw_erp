@@ -64,8 +64,8 @@ class InvoiceController extends Controller
      */
     public function index(Request $request)
     {
-        $invoice = session('invoice');
-        $typeDocument = session('typeDocument');
+        $invoice = '';
+        $typeDocument = '';
         if ($request->ajax()) {
             $users = current_user();
             $user = $users->Roles[0]->name;
