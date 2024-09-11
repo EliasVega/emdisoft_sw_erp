@@ -162,12 +162,12 @@ if (!function_exists('ticketHeight')) {
             $retentionnc = 0;
             if ($debitNotes != null) {
                 $debitNote = $debitNotes->total_pay;
-                $retnd = Tax::where('type', 'ndinvoice')->where('retentionable_id', $debitNotes->id)->first();
+                $retnd = Tax::where('type', 'ndinvoice')->where('taxable_id', $debitNotes->id)->first();
                 $retentionnd = $retnd->retention;
             }
             if ($creditNotes != null) {
                 $creditNote = $creditNotes->total_pay;
-                $retnc = Tax::where('type', 'ncinvoice')->where('retentionable_id', $creditNotes->id)->first();
+                $retnc = Tax::where('type', 'ncinvoice')->where('taxable_id', $creditNotes->id)->first();
                 $retentionnc = $retnc->retention;
             }
 
