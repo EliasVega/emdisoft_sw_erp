@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateNdinvoiceRequest;
 use App\Models\BranchProduct;
 use App\Models\Company;
 use App\Models\Configuration;
+use App\Models\DocumentType;
 use App\Models\Employee;
 use App\Models\EmployeeInvoiceProduct;
 use App\Models\Environment;
@@ -107,15 +108,30 @@ class NdinvoiceController extends Controller
         $invoice = Invoice::findOrFail($request->invoice_id);//encontrando la factura
         $cashRegister = cashRegisterComprobation();
         $pay = Pay::where('type', 'invoice')->where('payable_id', $invoice->id)->get();//pagos hechos a esta factura
-        //$resolution = Resolution::findOrFail(7);
-        $voucherTypes = VoucherType::findOrFail(6);
+
+        $voucherTypes = '';
         $resolution = '';
-        if ($invoice->document_type_id == 1) {
-            $resolution = Resolution::findOrFail(9);//resolucion ND venta
-            $voucherTypes = VoucherType::findOrFail(6);//ND factura de venta
+        $documentType = '';
+        if (indicator()->dian == 'on') {
+            if ($invoice->document_type_id == 1) {
+                $resolution = Resolution::findOrFail(9);//NC factura de venta
+                $voucherTypes = VoucherType::findOrFail(6);//voucher type FV
+                $documentType = DocumentType::findOrFail(5);
+            } else if ($invoice->document_type_id == 15) {
+                $resolution = Resolution::findOrFail(11);//NC factura de venta pos
+                $voucherTypes = VoucherType::findOrFail(22); //voucher type pos
+                $documentType = DocumentType::findOrFail(25);
+            }
         } else {
-            $resolution = Resolution::findOrFail(6);//ND de post
-            $voucherTypes = VoucherType::findOrFail(22);// ND factura post
+            if ($invoice->document_type_id == 1) {
+                $resolution = Resolution::findOrFail(9);//NC factura de venta
+                $voucherTypes = VoucherType::findOrFail(6);//voucher type FV
+                $documentType = DocumentType::findOrFail(5);
+            } else if ($invoice->document_type_id == 104) {
+                $resolution = Resolution::findOrFail(6);//NC factura de venta pos
+                $voucherTypes = VoucherType::findOrFail(22); //voucher type pos
+                $documentType = DocumentType::findOrFail(105);
+            }
         }
 
         $typeDocument = 'ndinvoice';
@@ -149,6 +165,7 @@ class NdinvoiceController extends Controller
         $ndinvoice->resolution_id = $resolution->id;
         $ndinvoice->discrepancy_id = $discrepancy;
         $ndinvoice->voucher_type_id = $voucherTypes->id;
+        $ndinvoice->document_type_id = $documentType->id;
         $ndinvoice->cash_register_id = $cashRegister->id;
         $ndinvoice->retention = $retention;
         $ndinvoice->total = $request->total;

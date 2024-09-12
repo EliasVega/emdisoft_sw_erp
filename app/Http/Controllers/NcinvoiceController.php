@@ -11,6 +11,7 @@ use App\Models\BranchProduct;
 use App\Models\CashInflow;
 use App\Models\Company;
 use App\Models\Configuration;
+use App\Models\DocumentType;
 use App\Models\Employee;
 use App\Models\EmployeeInvoiceProduct;
 use App\Models\Environment;
@@ -123,21 +124,26 @@ class NcinvoiceController extends Controller
 
         $voucherTypes = '';
         $resolution = '';
+        $documentType = '';
         if (indicator()->dian == 'on') {
             if ($invoice->document_type_id == 1) {
                 $resolution = Resolution::findOrFail(8);//NC factura de venta
                 $voucherTypes = VoucherType::findOrFail(5);//voucher type FV
+                $documentType = DocumentType::findOrFail(4);
             } else if ($invoice->document_type_id == 15) {
                 $resolution = Resolution::findOrFail(11);//NC factura de venta pos
                 $voucherTypes = VoucherType::findOrFail(21); //voucher type pos
+                $documentType = DocumentType::findOrFail(26);
             }
         } else {
             if ($invoice->document_type_id == 1) {
                 $resolution = Resolution::findOrFail(8);//NC factura de venta
                 $voucherTypes = VoucherType::findOrFail(5);//voucher type FV
-            } else if ($invoice->document_type_id == 15) {
+                $documentType = DocumentType::findOrFail(4);
+            } else if ($invoice->document_type_id == 104) {
                 $resolution = Resolution::findOrFail(5);//NC factura de venta pos
                 $voucherTypes = VoucherType::findOrFail(21); //voucher type pos
+                $documentType = DocumentType::findOrFail(104);
             }
         }
 
@@ -182,10 +188,11 @@ class NcinvoiceController extends Controller
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];
+            dd($store);
         } else {
             $store = true;
         }
-
+        dd('pare');
         if ($store == true) {
             //Registrar tabla Nota Credito
             $ncinvoice = new Ncinvoice();
@@ -197,6 +204,7 @@ class NcinvoiceController extends Controller
             $ncinvoice->customer_id = $invoice->customer_id;
             $ncinvoice->discrepancy_id = $discrepancy;
             $ncinvoice->voucher_type_id = 5;
+            $ncinvoice->document_type_id = $documentType->id;
             $ncinvoice->cash_register_id = $cashRegister->id;
             $ncinvoice->retention = $retention;
             $ncinvoice->total = $request->total;
@@ -771,10 +779,9 @@ class NcinvoiceController extends Controller
         $pdf->SetTitle($document->document);
         $pdf->SetAutoPageBreak(false);
         $pdf->addPage();
-
         if (indicator()->dian == 'on') {
             //$pdf->generateInvoiceInformation($document);
-            $cufe =  $document->invoiceResponse->cufe;
+            $cufe =  $document->ncinvoiceResponse->cude;
             $url = 'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=';
             $data = [
                 'NumFac' => $document->document,

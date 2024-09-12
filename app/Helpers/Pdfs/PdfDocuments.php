@@ -43,7 +43,7 @@ class PdfDocuments extends FPDF
 
         $heigthInitial = 10;
         $documentType = $document->document_type_id;
-        if ($documentType == 15 || $documentType == 104) {
+        if ($documentType == 15 || $documentType == 104 || $documentType == 26) {
             $heigthInitial = 20;
             $this->SetFont('Arial','B',14);
             $page = $this->GetPageWidth();
@@ -73,7 +73,7 @@ class PdfDocuments extends FPDF
             $this->MultiCell(0, 10, strtoupper($nameCompany), 0, 'C', false);
         }
         $addWitch = 0;
-        if ($documentType != 15 && $documentType != 104) {
+        if ($documentType != 15 && $documentType != 104 && $documentType != 26) {
             $addWitch = 10;
             $titleWitch = $this->GetStringWidth($title);
         

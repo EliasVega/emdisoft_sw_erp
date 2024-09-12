@@ -27,6 +27,7 @@ return new class extends Migration
             $table->foreignId('resolution_id')->nullable()->constrained()->onUpdate('cascade');
             $table->foreignId('discrepancy_id')->constrained()->onUpdate('cascade');
             $table->foreignId('voucher_type_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('document_type_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('cash_register_id')->nullable()->constrained()->onUpdate('cascade');
 
             $table->timestamps();

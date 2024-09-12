@@ -29,6 +29,7 @@ class Ndinvoice extends Model
         'resolution_id',
         'discrepancy_id',
         'voucher_type_id',
+        'document_type_id',
         'cash_register_id'
     ];
 
