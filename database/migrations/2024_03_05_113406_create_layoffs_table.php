@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('end_period');//fecha fin Periodo Liquidacion
             $table->integer('layoff_days');//Numero de dias de Liquidacion
             $table->decimal('layoff_value');//Valor devengado de Cesantias
-            $table->decimal('layoff_interest', 10,2);//Intereses de Cesantias
+            $table->decimal('layoff_interest', 20,4);//Intereses de Cesantias
             $table->enum('pay_layoffs', ['pay', 'causation'])->default('pay'); //modo de pago
 
             $table->foreignId('payroll_acrued_id')->constrained();

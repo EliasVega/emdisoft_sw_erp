@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->string('code', 8)->unique();
             $table->string('name', 100);
-            $table->decimal('total_amount', 12,2);
+            $table->decimal('total_amount', 20,4);
             $table->enum('status', ['active', 'inactive'])->default('inactive');
             $table->foreignId('subaccount_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
 

@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('product_purchases', function (Blueprint $table) {
             $table->id();
 
-            $table->decimal('quantity', 10, 2);
-            $table->decimal('price', 11, 3);
-            $table->decimal('tax_rate', 10, 2);
-            $table->decimal('subtotal', 11, 3);
-            $table->decimal('tax_subtotal', 11, 3);
+            $table->decimal('quantity', 20, 4);
+            $table->decimal('price', 20, 4);
+            $table->decimal('tax_rate', 20, 4);
+            $table->decimal('subtotal', 20, 4);
+            $table->decimal('tax_subtotal', 20, 4);
 
             $table->foreignId('purchase_id')->constrained()->onUpdate('restrict');
             $table->foreignId('product_id')->constrained()->onUpdate('restrict');

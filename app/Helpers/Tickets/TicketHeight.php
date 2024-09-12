@@ -259,6 +259,7 @@ if (!function_exists('ticketHeightNotes')) {
         $copyright = 15;
         $disclaimerInformation = 10;
         $footer = 10;
+        $references = 30;
         $pdfHeight = 0;
 
         if (company()->logo != null) {
@@ -270,7 +271,10 @@ if (!function_exists('ticketHeightNotes')) {
         }
 
         $pdfHeight += $title + $companyInformation + $barcode + $complementaryInformation + $thirdPartyInformation;
-
+        if (indicator()->dian == 'on') {
+            $pdfHeight += $references;
+        }
+        
         $ncinvoiceProducts = NcinvoiceProduct::where('ncinvoice_id', $document->id)->get();
 
         $pdfHeight += $productHeader;

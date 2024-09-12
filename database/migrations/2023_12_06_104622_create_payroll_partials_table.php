@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('payment_date');//fecha de realizacion de los pagos
             $table->date('generation_date');//fecha generacion nomina
             $table->integer('days');//dias trabajados
-            $table->decimal('total_acrued', 10,3);//total devengado
+            $table->decimal('total_acrued', 20,4);//total devengado
             $table->enum('fortnight', ['first', 'second'])->default('first');//diferenciacion de nomina
             $table->string('note')->nullable();//observaciones
             $table->integer('vacation_days');//dias vacaciones disfrutadas

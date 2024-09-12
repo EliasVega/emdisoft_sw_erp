@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
 
             $table->string('document', 20);//prefijo y numero de nota debito
-            $table->decimal('retention', 12,3);//valor total de retenciones
-            $table->decimal('total', 20, 3);//total antes de impuestos de linea
-            $table->decimal('total_tax', 11, 3);//total impuestos de linea
-            $table->decimal('total_pay', 20, 3);//tottal mas impuestos de lines
+            $table->decimal('retention', 20,4);//valor total de retenciones
+            $table->decimal('total', 20,4);//total antes de impuestos de linea
+            $table->decimal('total_tax', 20,4);//total impuestos de linea
+            $table->decimal('total_pay', 20,4);//tottal mas impuestos de lines
             $table->text('note')->nullable();
 
             $table->foreignId('user_id')->constrained()->onUpdate('cascade');

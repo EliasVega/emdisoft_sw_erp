@@ -52,6 +52,14 @@
             });
         });
     });
+    jQuery(document).ready(function($) {
+        $(document).ready(function() {
+            $('#type_document').select2({
+                theme: "classic",
+                width: "100%",
+            });
+        });
+    });
     var cont = 0;
     var total = 0;
     var subtotal = [];
@@ -73,7 +81,7 @@
     $("#percent").hide();
     $("#taxType").hide();
     $("#resolution").hide();
-    
+    $("#typeDocument").hide();
 
     $("#posActive").hide();
     $("#barcodeId").hide();
@@ -512,6 +520,7 @@
             $("#padd").hide();
             $("#spadd").hide();
             $("#save").show();
+            $("#typeDocument").show();
         });
     });
     $(document).ready(function(){

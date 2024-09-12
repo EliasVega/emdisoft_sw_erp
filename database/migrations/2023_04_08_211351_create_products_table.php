@@ -18,11 +18,11 @@ return new class extends Migration
 
             $table->string('code', 20)->unique();
             $table->string('name', 200);
-            $table->decimal('price', 10,4); //precio de compra
-            $table->decimal('sale_price', 11,4);
-            $table->decimal('commission', 10,2)->default(0);
-            $table->decimal('stock', 11,2)->default(0);
-            $table->decimal('stock_min',10,2)->default(1);
+            $table->decimal('price', 20,4); //precio de compra
+            $table->decimal('sale_price', 20,4);
+            $table->decimal('commission', 20,4)->default(0);
+            $table->decimal('stock', 16,2)->default(0);
+            $table->decimal('stock_min',16,2)->default(1);
             $table->enum('type_product', ['product', 'service', 'consumer']);
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->string('imageName', 45)->nullable();

@@ -140,6 +140,27 @@ class Ticket extends FPDF
         $this->Cell(0, 4, "", 'B', 1, 'C');
     }
 
+    public function generateReference($documentOrigin)
+    {
+        if (indicator()->dian == 'on') {
+            $cufe = $documentOrigin->invoiceResponse->cufe;
+            $date = $documentOrigin->generation_date;
+            $document = $documentOrigin->document;
+
+            $reference = 'referencia: ' . $document;
+            $generation = 'fecha: ' . $date;
+            $cufe = 'cufe:' . $cufe;
+            
+            //$this->Cell(0, 10, pdfFormatText(), '', 0, 'C');
+            if (indicator()->dian == 'on') {
+                $this->SetFont('Arial', 'B', 10);
+                $this->Cell(0, 5, $reference . ' ' . $generation, 0, 1, 'C',0);
+                $this->SetFont('Arial', '', 9);
+                $this->MultiCell(0, 5, $cufe, 1, 'C', false);
+            }
+        }
+    }
+
     public function generateProductsTable($document, $typeDocument)
     {
         switch ($typeDocument) {

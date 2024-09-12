@@ -474,10 +474,10 @@ class NdinvoiceController extends Controller
         $typeDocument = 'ndinvoice';
         $title = '';
         $consecutive = $document->document;
-        $invoice = Invoice::findOrFail($ndinvoice->invoice_id);//encontrando la factura
-        if ($invoice->document_type_id == 1) {
+        $documentOrigin = Invoice::findOrFail($ndinvoice->invoice_id);//encontrando la factura
+        if ($documentOrigin->document_type_id == 1) {
             $title = 'NOTA DEBITO';
-        } else if ($invoice->document_type_id == 15){
+        } else if ($documentOrigin->document_type_id == 15){
             $title = 'NOTA DE AJUSTE DE TIPO DEBITO AL DOCUMENTO EQUIVALENTE.';
         }
         $thirdPartyType = 'customer';
@@ -520,6 +520,7 @@ class NdinvoiceController extends Controller
         $pdf->generateBarcode($barcode);
         $pdf->generateBranchInformation($document);
         $pdf->generateThirdPartyInformation($ndinvoice->third, $thirdPartyType);
+        $pdf->generateReference($documentOrigin);
         $pdf->generateProductsTable($document, $typeDocument);
         $pdf->generateSummaryInformation($document, $typeDocument);
 
@@ -552,9 +553,9 @@ class NdinvoiceController extends Controller
             $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
             $pdf->generateQr($qrImage);
 
-            //$confirmationCode = formatText("CUFE: " . $invoice->response->cufe);
+            //$confirmationCode = formatText("CUFE: " . $documentOrigin->response->cufe);
             $confirmationCode = formatText("CUFE: " . $cufe);
-            //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
+            //$confirmationCode = formatText("CUFE: " . $documentOrigin->invoiceResponse->cufe);
             $pdf->generateConfirmationCode($confirmationCode);
         }
         $refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
@@ -568,10 +569,10 @@ class NdinvoiceController extends Controller
 
     public function pdfNdinvoice(Request $request, Ndinvoice $ndinvoice) {
         
-        $invoice = Invoice::findOrFail($ndinvoice->invoice_id);
+        $documentOrigin = Invoice::findOrFail($ndinvoice->invoice_id);
         $typeDocument = 'ndinvoice';
         $title = '';
-        if ($invoice->document_type_id == 1) {
+        if ($documentOrigin->document_type_id == 1) {
             $title = 'NOTA DEBITO';
             //$title = 'DOCUMENTO EQUIVALENTE ELECTRONICO DEL TIQUETE DE MAQUINA REGISTRADORA CON SISTEMA P.O.S.';
         } else {
@@ -597,7 +598,7 @@ class NdinvoiceController extends Controller
             }
         }
 
-        //$pdfHeight = ticketHeight($logoHeight, company(), $invoice, "invoice");
+        //$pdfHeight = ticketHeight($logoHeight, company(), $documentOrigin, "invoice");
 
         $pdf = new PdfDocuments('P', 'mm', 'Letter', true, 'UTF-8');
         $pdf->SetMargins(10, 10, 6);
@@ -632,9 +633,9 @@ class NdinvoiceController extends Controller
             $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
             //$pdf->generateQr($qrImage);
 
-            //$confirmationCode = formatText("CUFE: " . $invoice->response->cufe);
-            //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
-            //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
+            //$confirmationCode = formatText("CUFE: " . $documentOrigin->response->cufe);
+            //$confirmationCode = formatText("CUFE: " . $documentOrigin->invoiceResponse->cufe);
+            //$confirmationCode = formatText("CUFE: " . $documentOrigin->invoiceResponse->cufe);
             //$pdf->generateConfirmationCode($confirmationCode);
         } else {
             //$pdf->generateInvoiceInformation($document);
@@ -666,6 +667,7 @@ class NdinvoiceController extends Controller
 
         $pdf->generateHeader($logo, $width, $height, $title, $document);
         $pdf->generateInfoPredocuments($document->third, $thirdPartyType, $document, $qrImage);
+        $pdf->generateReferencesNotes($documentOrigin);
         $pdf->generateTablePdf($document, $typeDocument);
         $pdf->generateTotals($document, $typeDocument);
 

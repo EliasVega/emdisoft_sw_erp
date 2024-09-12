@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Pdfs\PdfDocuments;
+use App\Helpers\Tickets\Ticket;
 use App\Models\Ndpurchase;
 use App\Http\Requests\StoreNdpurchaseRequest;
 use App\Http\Requests\UpdateNdpurchaseRequest;
@@ -10,6 +12,7 @@ use App\Models\BranchRawmaterial;
 use App\Models\CashInflow;
 use App\Models\Company;
 use App\Models\Configuration;
+use App\Models\DocumentType;
 use App\Models\Environment;
 use App\Models\Indicator;
 use App\Models\NdpurchaseProduct;
@@ -37,7 +40,13 @@ use App\Traits\GetTaxesLine;
 use App\Traits\NdpurchaseProductCreate;
 use App\Traits\NdpurchaseRawmaterials;
 use App\Traits\reverse;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Support\Facades\Storage;
+use Picqer\Barcode\BarcodeGeneratorPNG;
+
+use function App\Helpers\Tickets\formatText;
+use function App\Helpers\Tickets\ticketHeightNotes;
 
 class NdpurchaseController extends Controller
 {
@@ -118,16 +127,33 @@ class NdpurchaseController extends Controller
         $voucherType = 11;
         $branch = current_user()->branch_id;
 
-        if ($resolut) {
-            $resolution = Resolution::findOrFail($request->resolution_id);//resolucion selecionada en el request
-        } else {
-            $resolution = Resolution::findOrFail(3);//resolucion selecionada en el request
-        }
         $company = company();
         $configuration = Configuration::findOrFail($company->id);
         $purchase = Purchase::findOrFail($request->purchase_id);//encontrando la factura
         $pay = Pay::where('type', 'purchase')->where('payable_id', $purchase->id)->get();//pagos hechos a esta factura
-        $voucherTypes = VoucherType::findOrFail(18);
+
+        $voucherTypes = '';
+        $resolution = '';
+        $documentType = '';
+        if (indicator()->dian == 'on') {
+            if ($purchase->document_type_id == 11) {
+                $resolution = Resolution::findOrFail(15);//NC factura de venta
+                $voucherTypes = VoucherType::findOrFail(13);//voucher type FV
+                $documentType = DocumentType::findOrFail(13);
+            } else if ($purchase->document_type_id == 101) {
+                $resolution = Resolution::findOrFail(2);//NC factura de venta pos
+                $voucherTypes = VoucherType::findOrFail(11); //voucher type pos
+                $documentType = DocumentType::findOrFail(103);
+            }
+        } else {
+            $resolution = Resolution::findOrFail(2);//NC factura de venta
+            $voucherTypes = VoucherType::findOrFail(11);//voucher type FV
+            $documentType = DocumentType::findOrFail(103);
+        }
+
+        
+        
+        
 
         //variables del request
         $quantity = $request->quantity;
@@ -517,7 +543,7 @@ class NdpurchaseController extends Controller
     {
         //
     }
-
+    /*
     public function ndpurchasePdf(Request $request, $id)
     {
        $ndpurchase = ndpurchase::findOrFail($id);
@@ -562,9 +588,9 @@ class NdpurchaseController extends Controller
        //$pdf->setPaper ( 'A7' , 'landscape' );
 
        return $pdf->stream('vista-pdf', "$ndpurchasepdf.pdf");
-       //return $pdf->download("$purchasepdf.pdf");*/
-    }
-
+       //return $pdf->download("$purchasepdf.pdf");
+    }*/
+    /*
     public function pdfNdpurchase(Request $request)
     {
         $ndpurchases = session('ndpurchase');
@@ -612,6 +638,220 @@ class NdpurchaseController extends Controller
         //$pdf->setPaper ( 'A7' , 'landscape' );
 
         return $pdf->stream('vista-pdf', "$ndpurchasepdf.pdf");
-        //return $pdf->download("$purchasepdf.pdf");*/
+        //return $pdf->download("$purchasepdf.pdf");
+    }*/
+
+    public function posPdfNdpurchase(Request $request, Ndpurchase $ndpurchase)
+    {
+        $document = $ndpurchase;
+        $typeDocument = 'ndpurchase';
+
+        $title = 'NOTA DEBITO COMPRA';
+        $consecutive = $document->document;
+        $documentOrigin = Purchase::findOrFail($document->purchase_id);//encontrando la factura
+
+        $thirdPartyType = 'provider';
+        $logoHeight = 26;
+        if (indicator()->logo == 'on') {
+            $logo = storage_path('app/public/images/logos/' . company()->imageName);
+
+            $image = list($width, $height, $type, $attr) = getimagesize($logo);
+            $multiplier = $image[0]/$image[1];
+            $height = 26;
+            $width = $height * $multiplier;
+            if ($width > 60) {
+                $width = 60;
+                $height = 60/$multiplier;
+            }
+        }
+
+        $pdfHeight = ticketHeightNotes($logoHeight, $document);
+
+        $pdf = new Ticket('P', 'mm', array(70, $pdfHeight), true, 'UTF-8');
+        $pdf->SetMargins(1, 10, 4);
+        $pdf->SetTitle($document->document);
+        $pdf->SetAutoPageBreak(false);
+        $pdf->addPage();
+
+
+
+        if (indicator()->logo == 'on') {
+            if (file_exists($logo)) {
+                $pdf->generateLogo($logo, $width, $height);
+            }
+        }
+        $pdf->generateTitle($title, $consecutive);
+        $pdf->generateCompanyInformation();
+
+        $barcodeGenerator = new BarcodeGeneratorPNG();
+        $barcodeCode = $barcodeGenerator->getBarcode($document->id, $barcodeGenerator::TYPE_CODE_128);
+        $barcode = "data:image/png;base64," . base64_encode($barcodeCode);
+
+        $pdf->generateBarcode($barcode);
+        $pdf->generateBranchInformation($document);
+        $pdf->generateThirdPartyInformation($document->third, $thirdPartyType);
+        $pdf->generateReference($documentOrigin);
+        $pdf->generateProductsTable($document, $typeDocument);
+        $pdf->generateSummaryInformation($document, $typeDocument);
+
+        if (indicator()->dian == 'on' && $documentOrigin->document_type_id == 11) {
+            $pdf->generateInvoiceInformation($document);
+
+            //$cufe = 'este-es-un-cufe-de-prueba';
+            $cufe = $document->ndpurchaseResponse->cude;
+            $url = 'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=';
+            $data = [
+                'NumFac' => $document->document,
+                'FecFac' => $document->created_at->format('Y-m-d'),
+                'NitFac' => company()->nit,
+                'DocAdq' => $document->third->identification,
+                'ValFac' => $document->total,
+                'ValIva' => $document->total_tax,
+                'ValOtroIm' => '0.00',
+                'ValTotal' => $document->total_pay,
+                'CUFE' => $cufe,
+                'URL' => $url . $cufe,
+            ];
+
+            $writer = new PngWriter();
+            $qrCode = new QrCode(implode("\n", $data));
+            $qrCode->setSize(300);
+            $qrCode->setMargin(10);
+            $result = $writer->write($qrCode);
+
+            $qrCodeImage = $result->getString();
+            $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
+            $pdf->generateQr($qrImage);
+
+            //$confirmationCode = formatText("CUFE: " . $invoice->response->cufe);
+            $confirmationCode = formatText("CUFE: " . $cufe);
+            //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
+            $pdf->generateConfirmationCode($confirmationCode);
+        }
+        $refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
+        $pdf->generateDisclaimerInformation($refund);
+
+        $pdf->footer();
+
+        $pdf->Output("I", $document->document . ".pdf", true);
+        exit;
+    }
+
+    public function pdfNdpurchase(Request $request, Ndpurchase $ndpurchase) {
+        
+        $document = $ndpurchase;
+        $documentOrigin = Purchase::findOrFail($document->purchase_id);
+        $typeDocument = 'ndpurchase';
+        $title = '';
+        $documentType = $documentOrigin->document_type_id;
+        $documentOrigin = Purchase::findOrFail($document->purchase_id);//encontrando la factura
+        if ($documentType == 101) {
+            $title = 'NOTA CREDITO';
+        } else if ($documentType == 11){
+            $title = 'NOTA DE AJUSTE AL DOCUMENTO SOPORTE ELECTRONICO.';
+        }
+        
+        $document = $document;
+        $thirdPartyType = 'customer';
+        $logoHeight = 26;
+        $logo = '';
+        $width = 0;
+        $height = 0;
+        if (indicator()->logo == 'on') {
+            $logo = storage_path('app/public/images/logos/' . company()->imageName);
+
+            $image = list($width, $height, $type, $attr) = getimagesize($logo);
+            $multiplier = $image[0]/$image[1];
+            $height = 26;
+            $width = $height * $multiplier;
+            if ($width > 60) {
+                $width = 60;
+                $height = 60/$multiplier;
+            }
+        }
+
+        //$pdfHeight = ticketHeight($logoHeight, company(), $invoice, "invoice");
+
+        $pdf = new PdfDocuments('P', 'mm', 'Letter', true, 'UTF-8');
+        $pdf->SetMargins(10, 10, 6);
+        $pdf->SetTitle($document->document);
+        $pdf->SetAutoPageBreak(false);
+        $pdf->addPage();
+
+        if (indicator()->dian == 'on' && $documentType == 11) {
+            //$pdf->generateInvoiceInformation($document);
+            $cufe =  $document->nsdResponse->cufe;
+            $url = 'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=';
+            $data = [
+                'NumFac' => $document->document,
+                'FecFac' => $document->created_at->format('Y-m-d'),
+                'NitFac' => company()->nit,
+                'DocAdq' => $document->third->identification,
+                'ValFac' => $document->total,
+                'ValIva' => $document->total_tax,
+                'ValOtroIm' => '0.00',
+                'ValTotal' => $document->total_pay,
+                'CUFE' => $cufe,
+                'URL' => $url . $cufe,
+            ];
+
+            $writer = new PngWriter();
+            $qrCode = new QrCode(implode("\n", $data));
+            $qrCode->setSize(300);
+            $qrCode->setMargin(10);
+            $result = $writer->write($qrCode);
+
+            $qrCodeImage = $result->getString();
+            $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
+            //$pdf->generateQr($qrImage);
+
+            //$confirmationCode = formatText("CUFE: " . $invoice->response->cufe);
+            //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
+            //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
+            //$pdf->generateConfirmationCode($confirmationCode);
+        } else {
+            //$pdf->generateInvoiceInformation($document);
+            $cufe =  '00';
+            $url = '#';
+            $data = [
+                'NumFac' => $document->document,
+                'FecFac' => $document->created_at->format('Y-m-d'),
+                'NitFac' => company()->nit,
+                'DocAdq' => $document->third->identification,
+                'ValFac' => $document->total,
+                'ValIva' => $document->total_tax,
+                'ValOtroIm' => '0.00',
+                'ValTotal' => $document->total_pay,
+                'CUFE' => $cufe,
+                //'URL' => $url . $cufe,
+            ];
+
+            $writer = new PngWriter();
+            $qrCode = new QrCode(implode("\n", $data));
+            $qrCode->setSize(300);
+            $qrCode->setMargin(10);
+            $result = $writer->write($qrCode);
+
+            $qrCodeImage = $result->getString();
+            $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
+            //$pdf->generateQr($qrImage);
+        }
+
+        $pdf->generateHeader($logo, $width, $height, $title, $document);
+        $pdf->generateInfoPredocuments($document->third, $thirdPartyType, $document, $qrImage);
+        $pdf->generateReferencesNotes($documentOrigin);
+        $pdf->generateTablePdf($document, $typeDocument);
+        $pdf->generateTotals($document, $typeDocument);
+
+
+        $pdf->footer($document, $cufe);
+        $pdf->documentInformation($document, $cufe);
+        $pdf->footer();
+        //$pdf->generateHeader($logo, $width, $height);
+        //$refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
+        //$pdf->generateDisclaimerInformation($refund);
+
+        $pdf->Output("I", $document->document . ".pdf", true);
+        exit;
     }
 }

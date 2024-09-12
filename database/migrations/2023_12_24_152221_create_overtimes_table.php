@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('year_month',10);//año y mes de liquidacion
-            $table->decimal('total',10,2);//valor de este tipo de hora
+            $table->decimal('total',20,4);//valor de este tipo de hora
 
             $table->foreignId('employee_id')->constrained()->onUpdate('cascade');
             $table->foreignId('payroll_acrued_id')->nullable()->constrained()->onUpdate('cascade');

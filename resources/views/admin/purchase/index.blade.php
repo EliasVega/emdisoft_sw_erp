@@ -13,7 +13,7 @@
                 @can('purchaseOrder.create')
                     <a href="purchaseOrder" class="btn btn-greenGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Orden de Compra</a>
                 @endcan
-                @if ($indicator->raw_material == 'on')
+                @if (indicator()->raw_material == 'on')
                     @can('purchase.create')
                         <a href="createRawmaterial" class="btn btn-orangeGrad btn-sm m-2"><i class="fa fa-plus mr-2"></i> Compra Materia Prima</a>
                     @endcan
@@ -80,27 +80,27 @@
             $(document).ready(function ()
             {
                 var typeDocument = "{{ $typeDocument ?? '' }}";
-                if (typeDocument == 'document') {
-                    function print(){
+            
+                print(typeDocument);
+                function print(typeDocument) {
+                    if (typeDocument == 'purchase') {
                         var purchase = "{{ $purchase ?? '' }}";
                         if (purchase != '') {
                             var imprimir = "{{ route('pdfPurchase', ['purchase' => ':purchase']) }}";
                             imprimir = imprimir.replace(':purchase', purchase);
                             window.open(imprimir, "_blank");
                         }
-                    }
-                } else {
-                    function print(){
+                    } else if (typeDocument == 'pos') {
                         var purchase = "{{ $purchase ?? '' }}";
                         if (purchase != '') {
                             var imprimir = "{{ route('posPdfPurchase', ['purchase' => ':purchase']) }}";
                             imprimir = imprimir.replace(':purchase', purchase);
                             window.open(imprimir, "_blank");
                         }
+                    } else {
+
                     }
                 }
-
-                print();
                 $('#purchases').DataTable(
                 {
                     info: true,

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('cash_inflows', function (Blueprint $table) {
             $table->id();
 
-            $table->decimal('cash',10,2);
+            $table->decimal('cash',12,2);
             $table->string('reason', 50);
 
             $table->foreignId('cash_register_id')->constrained();//recibe

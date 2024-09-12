@@ -164,6 +164,15 @@
                 @include('admin/generalview.button_add')
                 @include('admin/generalview.buttonPayRetention')
                 @include('admin/generalview.form_register')
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" id="typeDocument">
+                    <label for="type_document">Tipo de impresion</label>
+                    <div class="select">
+                        <select id="type_document" name="type_document" class="form-control selectpicker" data-live-search="true" required>
+                            <option value="purchase">Carta</option>
+                            <option value="pos">Tirilla</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

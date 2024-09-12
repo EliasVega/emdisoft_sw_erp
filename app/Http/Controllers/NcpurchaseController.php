@@ -127,24 +127,9 @@ class NcpurchaseController extends Controller
 
         $branch = $purchase->branch_id;
 
-        $voucherTypes = '';
-        $resolution = '';
-        $documentType = '';
-        if (indicator()->dian == 'on') {
-            if ($purchase->document_type_id == 11) {
-                $resolution = Resolution::findOrFail(15);//NC factura de venta
-                $voucherTypes = VoucherType::findOrFail(13);//voucher type FV
-                $documentType = DocumentType::findOrFail(13);
-            } else if ($purchase->document_type_id == 101) {
-                $resolution = Resolution::findOrFail(2);//NC factura de venta pos
-                $voucherTypes = VoucherType::findOrFail(10); //voucher type pos
-                $documentType = DocumentType::findOrFail(102);
-            }
-        } else {
-            $resolution = Resolution::findOrFail(2);//NC factura de venta
-            $voucherTypes = VoucherType::findOrFail(10);//voucher type FV
-            $documentType = DocumentType::findOrFail(102);
-        }
+        $resolution = Resolution::findOrFail(2);//NC factura de venta pos
+        $voucherTypes = VoucherType::findOrFail(10); //voucher type pos
+        $documentType = DocumentType::findOrFail(102);
 
         //Registrar tabla Nota Credito
         $ncpurchase = new Ncpurchase();
@@ -442,10 +427,10 @@ class NcpurchaseController extends Controller
 
         $title = 'NOTA CREDITO COMPRA';
         $consecutive = $document->document;
-        $purchase = Purchase::findOrFail($document->purchase_id);//encontrando la factura
-        if ($purchase->document_type_id == 101) {
+        $documentOrigin = Purchase::findOrFail($document->purchase_id);//encontrando la factura
+        if ($documentOrigin->document_type_id == 101) {
             $title = 'NOTA CREDITO COMPRA';
-        } else if ($purchase->document_type_id == 11){
+        } else if ($documentOrigin->document_type_id == 11){
             $title = 'NOTA DE AJUSTE AL DOCUMENTO SOPORTE ELECTRONICO.';
         }
         $thirdPartyType = 'provider';
@@ -488,10 +473,11 @@ class NcpurchaseController extends Controller
         $pdf->generateBarcode($barcode);
         $pdf->generateBranchInformation($document);
         $pdf->generateThirdPartyInformation($document->third, $thirdPartyType);
+        $pdf->generateReference($documentOrigin);
         $pdf->generateProductsTable($document, $typeDocument);
         $pdf->generateSummaryInformation($document, $typeDocument);
 
-        if (indicator()->dian == 'on' && $purchase->document_type_id == 11) {
+        if (indicator()->dian == 'on' && $documentOrigin->document_type_id == 11) {
             $pdf->generateInvoiceInformation($document);
 
             //$cufe = 'este-es-un-cufe-de-prueba';
@@ -537,11 +523,11 @@ class NcpurchaseController extends Controller
     public function pdfNcpurchase(Request $request, Ncpurchase $ncpurchase) {
         
         $document = $ncpurchase;
-        $purchase = Purchase::findOrFail($document->purchase_id);
+        $documentOrigin = Purchase::findOrFail($document->purchase_id);
         $typeDocument = 'ncpurchase';
         $title = '';
-        $documentType = $purchase->document_type_id;
-        $purchase = Purchase::findOrFail($document->purchase_id);//encontrando la factura
+        $documentType = $documentOrigin->document_type_id;
+        $documentOrigin = Purchase::findOrFail($document->purchase_id);//encontrando la factura
         if ($documentType == 101) {
             $title = 'NOTA CREDITO';
         } else if ($documentType == 11){
@@ -636,6 +622,7 @@ class NcpurchaseController extends Controller
 
         $pdf->generateHeader($logo, $width, $height, $title, $document);
         $pdf->generateInfoPredocuments($document->third, $thirdPartyType, $document, $qrImage);
+        $pdf->generateReferencesNotes($documentOrigin);
         $pdf->generateTablePdf($document, $typeDocument);
         $pdf->generateTotals($document, $typeDocument);
 

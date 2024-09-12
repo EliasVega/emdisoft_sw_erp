@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('payment_remission_returns', function (Blueprint $table) {
             $table->id();
 
-            $table->decimal('payment',10,2);
-            $table->decimal('return',10,2);
+            $table->decimal('payment',20,4);
+            $table->decimal('return',20,4);
 
             $table->foreignId('remission_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
 

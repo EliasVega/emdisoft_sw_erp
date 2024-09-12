@@ -116,6 +116,8 @@ class PdfDocuments extends FPDF
         
     }
 
+    
+
     public function generateHeaderPurchase($logo, $width, $height, $title, $document)
     {
         $identificationType = pdfFormatText(company()->identificationType->initial);
@@ -388,6 +390,26 @@ class PdfDocuments extends FPDF
         //$this->SetY($this->GetY() + $height);
     }
 
+    public function generateReferencesNotes($documentOrigin)
+    {
+        if (indicator()->dian == 'on') {
+            $cufe = $documentOrigin->invoiceResponse->cufe;
+            $date = $documentOrigin->generation_date;
+            $document = $documentOrigin->document;
+
+            $reference = 'referencia: ' . $document;
+            $generation = 'fecha: ' . $date;
+            $cufe = 'cufe: ' . $cufe;
+            $this->setXY(0,84);
+            $this->SetFont('Arial', '', 10);
+            //$this->Cell(0, 10, pdfFormatText(), '', 0, 'C');
+            if (indicator()->dian == 'on') {
+                $this->Cell(0, 5, $reference . ' ' . $generation, 0, 1, 'C',0);
+                $this->Cell(0, 5, $cufe, 0, 1, 'C',0);
+            }
+        }
+    }
+
     public function generateTablePdf($document, $typeDocument)
     {
         switch ($typeDocument) {
@@ -421,7 +443,7 @@ class PdfDocuments extends FPDF
         $this->SetFillColor(210,230,255);
         $this->SetTextColor(0,0,0);
         $this->SetFont('Arial', 'B', 10);
-        $this->SetXY(10, 90);
+        $this->SetXY(10, 96);
         $this->Cell(10, 8, pdfFormatText('#'), 1, 0, 'C', 1);
         //$this->Cell(25, 8, pdfFormatText('Codigo'), 1, 0, 'C', 1);
         $this->Cell(88, 8, pdfFormatText('Producto'), 1, 0, 'C', 1);

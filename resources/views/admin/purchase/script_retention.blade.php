@@ -44,7 +44,6 @@
         company_tax_id= dataTax[0];
         companyTax= $("#company_tax_id option:selected").text();
         percentage = $("#percentage").val();
-        //total_purchase = $("#total_purchase").val();
 
         ttid = $("#taxTypeId").val();
         iva = tax_iva;
@@ -53,14 +52,13 @@
         if(company_tax_id !="" && companyTax!="" && percentage!=""  && percentage>0 ){
             if (ttid == 5) {
                 if (iva > base) {
-
                     totalRetention[contRetention] = iva * percentage/100;
                 } else {
                     totalRetention[contRetention] = 0;
                 }
             } else {
-                if (base < total_purchase) {
-                    totalRetention[contRetention] = total_purchase * percentage/100;
+                if (base < total) {
+                    totalRetention[contRetention] = total * percentage/100;
                 } else {
                     totalRetention[contRetention] = 0;
                 }

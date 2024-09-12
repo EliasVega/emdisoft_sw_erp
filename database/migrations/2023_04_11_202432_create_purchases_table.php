@@ -20,13 +20,13 @@ return new class extends Migration
             $table->string('invoice_code', 20);//numero factura de compra
             $table->date('generation_date');//fecha de generacion
             $table->date('due_date');//fecha limite de pago
-            $table->decimal('total',12, 3);//subtotal de la factura
-            $table->decimal('total_tax', 12, 3);//total iva
-            $table->decimal('total_pay',12, 3);//total de la factura
-            $table->decimal('pay',12, 3);//total pago o abono
-            $table->decimal('balance', 12, 3);//saldo de la factura
-            $table->decimal('retention', 12,3);//valor total de retenciones
-            $table->decimal('grand_total', 12,3); //Total de factura mas notas credito y menos notas debito +- retenciones
+            $table->decimal('total',20, 3);//subtotal de la factura
+            $table->decimal('total_tax', 20, 3);//total iva
+            $table->decimal('total_pay',20, 3);//total de la factura
+            $table->decimal('pay',20, 3);//total pago o abono
+            $table->decimal('balance', 20, 3);//saldo de la factura
+            $table->decimal('retention', 20,3);//valor total de retenciones
+            $table->decimal('grand_total', 20,3); //Total de factura mas notas credito y menos notas debito +- retenciones
             $table->date('start_date')->nullable();//inicio de ds para tipo de generacion
             $table->enum('status',['purchase', 'support_document', 'debit_note', 'credit_note', 'adjustment_note', 'complete'])->default('purchase');
             $table->enum('type_product',['product', 'raw_material'])->default('product');

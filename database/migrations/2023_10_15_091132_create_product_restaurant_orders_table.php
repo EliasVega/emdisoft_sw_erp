@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
 
             $table->integer('referency');//referencia asignada para manejo de MP
-            $table->decimal('quantity', 10, 4);//cantidad de productos
-            $table->decimal('price', 11, 4);//precio del producto
-            $table->decimal('tax_rate', 10, 4);//impuesto
-            $table->decimal('subtotal', 11, 4);//cantidad por precio
-            $table->decimal('tax_subtotal', 11, 4);//impuesto de esta linea
+            $table->decimal('quantity', 20,4);//cantidad de productos
+            $table->decimal('price', 20,4);//precio del producto
+            $table->decimal('tax_rate', 20,4);//impuesto
+            $table->decimal('subtotal', 20,4);//cantidad por precio
+            $table->decimal('tax_subtotal', 20,4);//impuesto de esta linea
             $table->boolean('edition')->default(true);//define si es editada o no
             $table->enum('status', ['new', 'registered', 'canceled'])->default('new');//define estado para produccion
 

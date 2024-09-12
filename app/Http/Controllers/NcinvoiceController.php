@@ -647,10 +647,10 @@ class NcinvoiceController extends Controller
         $typeDocument = 'ncinvoice';
         $title = '';
         $consecutive = $document->document;
-        $invoice = Invoice::findOrFail($ncinvoice->invoice_id);//encontrando la factura
-        if ($invoice->document_type_id == 1) {
+        $documentOrigin = Invoice::findOrFail($ncinvoice->invoice_id);//encontrando la factura
+        if ($documentOrigin->document_type_id == 1) {
             $title = 'NOTA CREDITO';
-        } else if ($invoice->document_type_id == 15){
+        } else if ($documentOrigin->document_type_id == 15){
             $title = 'NOTA DE AJUSTE DE TIPO CREDITO AL DOCUMENTO EQUIVALENTE.';
         }
         $thirdPartyType = 'customer';
@@ -693,6 +693,7 @@ class NcinvoiceController extends Controller
         $pdf->generateBarcode($barcode);
         $pdf->generateBranchInformation($document);
         $pdf->generateThirdPartyInformation($ncinvoice->third, $thirdPartyType);
+        $pdf->generateReference($documentOrigin);
         $pdf->generateProductsTable($document, $typeDocument);
         $pdf->generateSummaryInformation($document, $typeDocument);
 
@@ -725,9 +726,9 @@ class NcinvoiceController extends Controller
             $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
             $pdf->generateQr($qrImage);
 
-            //$confirmationCode = formatText("CUFE: " . $invoice->response->cufe);
+            //$confirmationCode = formatText("CUFE: " . $documentOrigin->response->cufe);
             $confirmationCode = formatText("CUFE: " . $cufe);
-            //$confirmationCode = formatText("CUFE: " . $invoice->invoiceResponse->cufe);
+            //$confirmationCode = formatText("CUFE: " . $documentOrigin->invoiceResponse->cufe);
             $pdf->generateConfirmationCode($confirmationCode);
         }
         $refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
@@ -741,10 +742,10 @@ class NcinvoiceController extends Controller
 
     public function pdfNcinvoice(Request $request, Ncinvoice $ncinvoice) {
         
-        $invoice = Invoice::findOrFail($ncinvoice->invoice_id);
+        $documentOrigin = Invoice::findOrFail($ncinvoice->invoice_id);
         $typeDocument = 'ncinvoice';
         $title = '';
-        if ($invoice->document_type_id == 1) {
+        if ($documentOrigin->document_type_id == 1) {
             $title = 'NOTA CREDITO';
             //$title = 'DOCUMENTO EQUIVALENTE ELECTRONICO DEL TIQUETE DE MAQUINA REGISTRADORA CON SISTEMA P.O.S.';
         } else {
@@ -838,6 +839,7 @@ class NcinvoiceController extends Controller
 
         $pdf->generateHeader($logo, $width, $height, $title, $document);
         $pdf->generateInfoPredocuments($document->third, $thirdPartyType, $document, $qrImage);
+        $pdf->generateReferencesNotes($documentOrigin);
         $pdf->generateTablePdf($document, $typeDocument);
         $pdf->generateTotals($document, $typeDocument);
 

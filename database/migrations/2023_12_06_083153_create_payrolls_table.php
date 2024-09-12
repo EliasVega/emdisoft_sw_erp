@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('payment_date');//fecha de realizacion de los pagos
             $table->date('generation_date');//fecha generacion nomina
             $table->integer('days');//dias trabajados
-            $table->decimal('total_acrued', 10,3);//total devengado
+            $table->decimal('total_acrued', 20,4);//total devengado
 
             $table->foreignId('employee_id')->constrained();
             $table->timestamps();

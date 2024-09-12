@@ -305,7 +305,6 @@ Route::get('invoice/pdfInvoice/{invoice}', [InvoiceController::class, 'pdfInvoic
 Route::get('invoice/downloadPdfXmlInvoice/{invoice}', [InvoiceController::class, 'downloadPdfXmlInvoice'])->name('downloadPdfXmlInvoice');
 Route::get('indexInvoice', [InvoiceController::class, 'indexInvoice'])->name('indexInvoice');
 
-
 Route::get('invoiceOrder/invoice/{id}', [InvoiceOrderController::class, 'invoice'])->name('invoiceOrderInvoice');
 //Route::get('invoiceOrder/pdf/{id}', [InvoiceOrderController::class, 'invoiceOrderPdf'])->name('invoiceOrderPdf');
 //Route::get('invoiceOrder/pos/{id}', [InvoiceOrderController::class, 'invoiceOrderPos'])->name('invoiceOrderPos');
@@ -383,16 +382,13 @@ Route::get('purchase/posPdfPurchase/{purchase}', [PurchaseController::class, 'po
 Route::get('getProductPurchase', [PurchaseController::class, 'getProductPurchase'])->name('getProductPurchase');
 Route::get('purchase/create/{id}', [PurchaseController::class, 'getMunicipalities']);
 Route::get('purchase/purchasePay/{id}', [PurchaseController::class, 'purchasePay'])->name('purchasePay');
-//Route::get('purchase/purchasePdf/{id}', [PurchaseController::class, 'purchasePdf'])->name('purchasePdf');
-//Route::get('purchase/purchasePos/{id}', [PurchaseController::class, 'purchasePos'])->name('purchasePos');
 Route::get('purchase/creditNotePurchase/{id}', [PurchaseController::class, 'creditNote'])->name('creditNotePurchase');
 Route::get('purchase/debitNotePurchase/{id}', [PurchaseController::class, 'debitNote'])->name('debitNotePurchase');
-//Route::get('pdfPurchase', [PurchaseController::class, 'pdfPurchase'])->name('pdfPurchase');
-//Route::get('posPurchase', [PurchaseController::class, 'posPurchase'])->name('posPurchase');
 Route::get('createRawmaterial', [PurchaseController::class, 'createRawmaterial'])->name('createRawmaterial');
 Route::get('getProviders', [PurchaseController::class, 'getProviders'])->name('getProviders');
 Route::get('purchase/posPdfPurchase/{purchase}', [PurchaseController::class, 'posPdfPurchase'])->name('posPdfPurchase');
 Route::get('purchase/pdfPurchase/{purchase}', [PurchaseController::class, 'pdfPurchase'])->name('pdfPurchase');
+Route::get('indexPurchase', [PurchaseController::class, 'indexPurchase'])->name('indexPurchase');
 
 Route::get('rawMaterial/status/{id}', [RawMaterialController::class, 'status'])->name('rawMaterialStatus');
 Route::get('rawMaterial/kardexRawMaterial/{id}', [RawMaterialController::class, 'kardexRawMaterial'])->name('kardexRawMaterial');

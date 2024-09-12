@@ -69,12 +69,6 @@ class PurchaseController extends Controller
     {
         $purchase = '';
         $typeDocument = '';
-        $indicator = indicator();
-        if (indicator()->pos == 'off') {
-            $typeDocument = 'document';
-        } else {
-            $typeDocument = 'pos';
-        }
 
         if ($request->ajax()) {
             $users = Auth::user();
@@ -125,20 +119,14 @@ class PurchaseController extends Controller
                 ->rawColumns(['btn'])
                 ->make(true);
         }
-        return view('admin.purchase.index', compact('purchase', 'indicator', 'typeDocument'));
+        return view('admin.purchase.index', compact('purchase', 'typeDocument'));
     }
 
     public function indexPurchase(Request $request)
     {
         $purchase = session('purchase');
-        $typeDocument = '';
-        $indicator = indicator();
-        if (indicator()->pos == 'off') {
-            $typeDocument = 'document';
-        } else {
-            $typeDocument = 'pos';
-        }
-
+        $typeDocument = session('typeDocument');
+        
         if ($request->ajax()) {
             $users = Auth::user();
             $user = $users->Roles[0]->name;
@@ -188,7 +176,7 @@ class PurchaseController extends Controller
                 ->rawColumns(['btn'])
                 ->make(true);
         }
-        return view('admin.purchase.index', compact('purchase', 'indicator', 'typeDocument'));
+        return view('admin.purchase.index', compact('purchase', 'typeDocument'));
     }
 
     /**
@@ -557,13 +545,13 @@ class PurchaseController extends Controller
                 $resolutions->consecutive += 1;
                 $resolutions->update();
             }
-
+            //$typeDoc = $request->type_document;
             session()->forget('purchase');
             session()->forget('typeDocument');
             session(['purchase' => $purchase->id]);
             session(['typeDocument' => $typeDocument]);
             toast('Compra Registrada satisfactoriamente.', 'success');
-            return redirect('purchase');
+            return redirect('indexPurchase');
         }
         toast($errorMessages, 'danger');
         return redirect('purchase');
