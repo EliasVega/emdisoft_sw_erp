@@ -188,11 +188,9 @@ class NcinvoiceController extends Controller
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];
-            dd($store);
         } else {
             $store = true;
         }
-        dd('pare');
         if ($store == true) {
             //Registrar tabla Nota Credito
             $ncinvoice = new Ncinvoice();

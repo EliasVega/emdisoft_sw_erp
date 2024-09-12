@@ -8,6 +8,7 @@ use App\Models\Ncpurchase;
 use App\Http\Requests\StoreNcpurchaseRequest;
 use App\Http\Requests\UpdateNcpurchaseRequest;
 use App\Models\Company;
+use App\Models\DocumentType;
 use App\Models\NcpurchaseProduct;
 use App\Models\NcpurchaseRawmaterial;
 use App\Models\Purchase;
@@ -126,6 +127,25 @@ class NcpurchaseController extends Controller
 
         $branch = $purchase->branch_id;
 
+        $voucherTypes = '';
+        $resolution = '';
+        $documentType = '';
+        if (indicator()->dian == 'on') {
+            if ($purchase->document_type_id == 11) {
+                $resolution = Resolution::findOrFail(15);//NC factura de venta
+                $voucherTypes = VoucherType::findOrFail(13);//voucher type FV
+                $documentType = DocumentType::findOrFail(13);
+            } else if ($purchase->document_type_id == 101) {
+                $resolution = Resolution::findOrFail(2);//NC factura de venta pos
+                $voucherTypes = VoucherType::findOrFail(10); //voucher type pos
+                $documentType = DocumentType::findOrFail(102);
+            }
+        } else {
+            $resolution = Resolution::findOrFail(2);//NC factura de venta
+            $voucherTypes = VoucherType::findOrFail(10);//voucher type FV
+            $documentType = DocumentType::findOrFail(102);
+        }
+
         //Registrar tabla Nota Credito
         $ncpurchase = new Ncpurchase();
         $ncpurchase->document = $resolution->prefix . '-' . $resolution->consecutive;
@@ -135,7 +155,8 @@ class NcpurchaseController extends Controller
         $ncpurchase->provider_id = $purchase->provider_id;
         $ncpurchase->resolution_id = $resolution->id;
         $ncpurchase->discrepancy_id = $discrepancy;
-        $ncpurchase->voucher_type_id = 10;
+        $ncpurchase->voucher_type_id = $voucherTypes->id;
+        $ncpurchase->voucher_type_id = $documentType->id;
         $ncpurchase->cash_register_id = $cashRegister->id;
         $ncpurchase->retention = $retention;
         $ncpurchase->total = $request->total;
