@@ -271,6 +271,7 @@ Route::get('expense/expensePay/{id}', [ExpenseController::class, 'expensePay'])-
 //Route::get('posExpense', [ExpenseController::class, 'posExpense'])->name('posExpense');
 Route::get('expense/posPdfExpense/{expense}', [ExpenseController::class, 'posPdfExpense'])->name('posPdfExpense');
 Route::get('expense/pdfExpense/{expense}', [ExpenseController::class, 'pdfExpense'])->name('pdfExpense');
+Route::get('indexExpense', [ExpenseController::class, 'indexExpense'])->name('indexExpense');
 
 Route::get('indicator/dianStatus/{id}', [IndicatorController::class, 'dianStatus'])->name('dianStatus');
 Route::get('indicator/posStatus/{id}', [IndicatorController::class, 'posStatus'])->name('posStatus');
