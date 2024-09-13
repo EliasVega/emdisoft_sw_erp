@@ -66,6 +66,15 @@
                     </div>
                 </div>
                 @include('admin/generalview.form_register')
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="typeDocument">
+                    <div class="form-group">
+                        <label class="form-control-label" for="type_document">Tipo de impresion</label>
+                            <select name="type_document" class="form-control selectpicker" id="type_document" data-live-search="true">
+                                <option value="ncpurchase">Carta</option>
+                                <option value="pos">Tirilla</option>
+                            </select>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -26,6 +26,14 @@
             });
         });
     });
+    jQuery(document).ready(function($){
+        $(document).ready(function() {
+            $('#type_document').select2({
+                theme: "classic",
+                width: "100%",
+            });
+        });
+    });
     var cont = 0;
     var total = 0;
     var subtotal = [];
@@ -39,6 +47,7 @@
     $("#invoicenegative").hide();
     $("#formPayCard").hide();
     $("#addPayButton").hide();
+    $("#typeDocument").hide();
 
 
     //Mostrar u ocultar elementos de acuerdo al tipo de documento
@@ -207,6 +216,7 @@
         $("#goBack").click(function(){
             $("#formCard").show();
             $("#formPayCard").hide();
+            $("#typeDocument").show();
         });
     });
 
