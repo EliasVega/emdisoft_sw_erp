@@ -39,7 +39,6 @@ use App\Traits\KardexCreate;
 use App\Traits\GetTaxesLine;
 use App\Traits\NdpurchaseProductCreate;
 use App\Traits\NdpurchaseRawmaterials;
-use App\Traits\reverse;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Support\Facades\Storage;
@@ -50,7 +49,7 @@ use function App\Helpers\Tickets\ticketHeightNotes;
 
 class NdpurchaseController extends Controller
 {
-    use AdvanceCreate, KardexCreate, GetTaxesLine, NdpurchaseProductCreate, reverse, NdpurchaseRawmaterials;
+    use AdvanceCreate, KardexCreate, GetTaxesLine, NdpurchaseProductCreate, NdpurchaseRawmaterials;
     /*
     function __construct()
     {
