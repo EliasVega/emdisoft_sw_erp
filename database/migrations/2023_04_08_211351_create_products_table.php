@@ -18,9 +18,9 @@ return new class extends Migration
 
             $table->string('code', 20)->unique();
             $table->string('name', 200);
-            $table->decimal('price', 20,4); //precio de compra
-            $table->decimal('sale_price', 20,4);
-            $table->decimal('commission', 20,4)->default(0);
+            $table->decimal('price', 20,3); //precio de compra
+            $table->decimal('sale_price', 20,3);
+            $table->decimal('commission', 20,3)->default(0);
             $table->decimal('stock', 16,2)->default(0);
             $table->decimal('stock_min',16,2)->default(1);
             $table->enum('type_product', ['product', 'service', 'consumer']);

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('command_rawmaterials', function (Blueprint $table) {
             $table->id();
 
-            $table->decimal('quantity',20,4);
+            $table->decimal('quantity',20,3);
             $table->integer('referency');
             $table->enum('status', ['add', 'decrease', 'cancel', 'anulled'])->default('add');
 

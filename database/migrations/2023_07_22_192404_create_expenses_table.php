@@ -18,12 +18,12 @@ return new class extends Migration
 
             $table->string('document', 20);//prefijo y numero de factura
             $table->date('generation_date');//fecha de generacion
-            $table->decimal('total',20, 4);//subtotal de la factura
-            $table->decimal('total_tax', 20, 4);//total iva
-            $table->decimal('total_pay',20, 4);//total de la factura
-            $table->decimal('pay',20, 4);//total pago o abono
-            $table->decimal('balance', 20, 4);//saldo de la factura
-            $table->decimal('grand_total', 20,4); //Total de factura mas notas credito y menos notas debito
+            $table->decimal('total',20, 3);//subtotal de la factura
+            $table->decimal('total_tax', 20, 3);//total iva
+            $table->decimal('total_pay',20, 3);//total de la factura
+            $table->decimal('pay',20, 3);//total pago o abono
+            $table->decimal('balance', 20, 3);//saldo de la factura
+            $table->decimal('grand_total', 20,3); //Total de factura mas notas credito y menos notas debito
             $table->string('note', 255)->nullable();//nota abierta
 
             $table->foreignId('user_id')->constrained();

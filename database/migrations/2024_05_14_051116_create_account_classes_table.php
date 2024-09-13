@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->string('code', 1);
             $table->string('name', 50);
-            $table->decimal('total_amount', 20,4);
+            $table->decimal('total_amount', 20,3);
         });
     }
 

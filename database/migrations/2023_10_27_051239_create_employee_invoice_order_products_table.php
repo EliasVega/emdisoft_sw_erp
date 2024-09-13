@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
 
             $table->date('generation_date');//fecha de generacion
-            $table->decimal('quantity', 20,4);
-            $table->decimal('price', 20,4);
-            $table->decimal('subtotal', 20,4);
-            $table->decimal('commission', 20,4);
-            $table->decimal('value_commission', 20,4);
+            $table->decimal('quantity', 20,3);
+            $table->decimal('price', 20,3);
+            $table->decimal('subtotal', 20,3);
+            $table->decimal('commission', 20,3);
+            $table->decimal('value_commission', 20,3);
             $table->enum('status',['pendient', 'invoiced', 'canceled'])->default('pendient');
 
             $table->foreignId('work_labor_id')->nullable()->constrained()->onUpdate('cascade');

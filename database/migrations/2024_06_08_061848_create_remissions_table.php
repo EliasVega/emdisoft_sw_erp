@@ -17,13 +17,13 @@ return new class extends Migration
             $table->string('document', 20);//prefijo y consecutivo
             $table->date('generation_date');//fecha de generacion
             $table->date('due_date');//fecha limite de pago
-            $table->decimal('total', 20,4);//subtotal de la factura
-            $table->decimal('total_tax', 20,4);//total impuestos de linea
-            $table->decimal('total_pay', 20,4);//total mas impuestos
-            $table->decimal('pay',20,4);//total pagos y abonos
-            $table->decimal('balance',20,4);//saldo de la factura
-            $table->decimal('retention',20,4);//valor total de las retenciones
-            $table->decimal('grand_total',20,4);//Total de factura mas notas credito y menos notas debito +- retenciones
+            $table->decimal('total', 20,3);//subtotal de la factura
+            $table->decimal('total_tax', 20,3);//total impuestos de linea
+            $table->decimal('total_pay', 20,3);//total mas impuestos
+            $table->decimal('pay',20,3);//total pagos y abonos
+            $table->decimal('balance',20,3);//saldo de la factura
+            $table->decimal('retention',20,3);//valor total de las retenciones
+            $table->decimal('grand_total',20,3);//Total de factura mas notas credito y menos notas debito +- retenciones
             $table->enum('status',['active', 'generated', 'canceled'])->default('active');
             $table->string('note', 255)->nullable();
 

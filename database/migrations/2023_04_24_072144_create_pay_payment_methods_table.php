@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('pay_payment_methods', function (Blueprint $table) {
             $table->id();
 
-            $table->decimal('pay', 20,4);
+            $table->decimal('pay', 20,3);
             $table->string('transaction', 20);
 
             $table->foreignId('pay_id')->constrained()->onUpdate('cascade');

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('causation', 12);//nombre de la causacion aplicada
             $table->date('start_causation_period')->nullable();//fecha inicio periodo de vacaciones
             $table->date('end_causation_period')->nullable();//fecha fin periodo de vacaciones
-            $table->decimal('causation_value', 20,4);//valor de vacaciones
-            $table->decimal('causation_interest', 20,4);//valor de vacaciones
+            $table->decimal('causation_value', 20,3);//valor de vacaciones
+            $table->decimal('causation_interest', 20,3);//valor de vacaciones
             $table->enum('status',['pendient', 'canceled'])->default('pendient');//typo de vacaciones disfrutadas o compensadas
 
             $table->foreignId('payroll_acrued_id')->constrained();

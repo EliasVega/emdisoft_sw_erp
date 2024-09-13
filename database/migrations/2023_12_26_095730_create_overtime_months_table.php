@@ -16,9 +16,9 @@ return new class extends Migration
             $table->id();
 
             $table->string('year_month',10);//año y mes de liquidacion
-            $table->decimal('quantity',20,4);//cantidad de horas del mes de este tipo
-            $table->decimal('value_hour',20,4);//valor que corresponde a este tipo de hora
-            $table->decimal('subtotal',20,4);//cantidad por valor de hora
+            $table->decimal('quantity',20,3);//cantidad de horas del mes de este tipo
+            $table->decimal('value_hour',20,3);//valor que corresponde a este tipo de hora
+            $table->decimal('subtotal',20,3);//cantidad por valor de hora
             $table->enum('status',['pendient', 'canceled'])->default('pendient');//esado de pendiente o cancelada
 
             $table->foreignId('overtime_type_id')->constrained()->onUpdate('cascade');

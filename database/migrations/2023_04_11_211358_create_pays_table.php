@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
 
             $table->morphs('payable');
-            $table->decimal('pay',20,4);
-            $table->decimal('balance',20,4);
+            $table->decimal('pay',20,3);
+            $table->decimal('balance',20,3);
             $table->enum('type',['purchase', 'invoice', 'expense', 'remission', 'advance', 'work_labor', 'payroll']);
 
             $table->foreignId('user_id')->constrained()->onUpdate('cascade');

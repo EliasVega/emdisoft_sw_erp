@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('pay_restaurant_orders', function (Blueprint $table) {
             $table->id();
 
-            $table->decimal('pay',20,4);
-            $table->string('transaction',20,4)->nullable();
+            $table->decimal('pay',20,3);
+            $table->string('transaction',20,3)->nullable();
 
             $table->foreignId('restaurant_order_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');

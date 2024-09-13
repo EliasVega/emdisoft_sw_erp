@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('branch_rawmaterials', function (Blueprint $table) {
             $table->id();
 
-            $table->decimal('stock', 20,4);//stock por branch
+            $table->decimal('stock', 20,3);//stock por branch
 
             $table->foreignId('branch_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('raw_material_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
