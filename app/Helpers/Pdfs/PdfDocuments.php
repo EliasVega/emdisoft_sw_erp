@@ -2,6 +2,7 @@
 
 namespace App\Helpers\Pdfs;
 
+use App\Models\ExpenseProduct;
 use App\Models\InvoiceOrderProduct;
 use App\Models\InvoiceProduct;
 use App\Models\Ncinvoice;
@@ -248,9 +249,9 @@ class PdfDocuments extends FPDF
         $this->SetLineWidth(1);
         
         if ($titleWitch < 60) {
-            $this->Cell(60,4,strtoupper($title),0,0,'C', false);
+            $this->Cell(55,4,strtoupper($title),0,0,'C', false);
         } else {
-            $this->MultiCell(60,4, strtoupper($title), 0, 'C', false);
+            $this->MultiCell(50,4, strtoupper($title), 0, 'C', false);
         }
         
         $this->SetXY(10,$heigthInitial + 13 + $addWitch);
@@ -437,6 +438,9 @@ class PdfDocuments extends FPDF
                 break;
             case 'ndpurchase':
                 $products = NdpurchaseProduct::where('ndpurchase_id', $document->id)->get();
+                break;
+            case 'expense':
+                $products = ExpenseProduct::where('expense_id', $document->id)->get();
                 break;
             default:
                 # code...

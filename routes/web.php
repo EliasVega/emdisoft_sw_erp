@@ -265,11 +265,12 @@ Route::get('employeeInvoiceProduct/empInvProStatus/{id}', [EmployeeInvoiceProduc
 
 Route::get('expense/create/{id}', [ExpenseController::class, 'getMunicipalities']);
 Route::get('expense/expensePay/{id}', [ExpenseController::class, 'expensePay'])->name('expensePay');
-Route::get('expense/expensePdf/{id}', [ExpenseController::class, 'expensePdf'])->name('expensePdf');
-Route::get('expense/expensePos/{id}', [ExpenseController::class, 'expensePos'])->name('expensePos');
-Route::get('pdfExpense', [ExpenseController::class, 'pdfExpense'])->name('pdfExpense');
-Route::get('posExpense', [ExpenseController::class, 'posExpense'])->name('posExpense');
+//Route::get('expense/expensePdf/{id}', [ExpenseController::class, 'expensePdf'])->name('expensePdf');
+//Route::get('expense/expensePos/{id}', [ExpenseController::class, 'expensePos'])->name('expensePos');
+//Route::get('pdfExpense', [ExpenseController::class, 'pdfExpense'])->name('pdfExpense');
+//Route::get('posExpense', [ExpenseController::class, 'posExpense'])->name('posExpense');
 Route::get('expense/posPdfExpense/{expense}', [ExpenseController::class, 'posPdfExpense'])->name('posPdfExpense');
+Route::get('expense/pdfExpense/{expense}', [ExpenseController::class, 'pdfExpense'])->name('pdfExpense');
 
 Route::get('indicator/dianStatus/{id}', [IndicatorController::class, 'dianStatus'])->name('dianStatus');
 Route::get('indicator/posStatus/{id}', [IndicatorController::class, 'posStatus'])->name('posStatus');

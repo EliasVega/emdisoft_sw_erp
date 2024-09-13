@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Pdfs\PdfDocuments;
 use App\Helpers\Tickets\Ticket;
 use App\Models\Expense;
 use App\Http\Requests\StoreExpenseRequest;
@@ -36,6 +37,8 @@ use Yajra\DataTables\DataTables;
 use App\Traits\InventoryPurchases;
 use App\Traits\KardexCreate;
 use App\Traits\Reverse;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 
 use function App\Helpers\Tickets\formatText;
@@ -58,6 +61,44 @@ class ExpenseController extends Controller
      */
     public function index(Request $request)
     {
+        $typeDocument = '';
+        $expense = '';
+        $indicator = Indicator::findOrFail(1);
+        if ($request->ajax()) {
+            $users = Auth::user();
+            $user = $users->Roles[0]->name;
+            if ($user == 'superAdmin' ||$user == 'admin') {
+                //Muestra todas las compras de la empresa
+                $expenses = Expense::get();
+            } else {
+                //Muestra todas las compras de la empresa por usuario
+                $expenses = Expense::where('user_id', $users->id)->get();
+            }
+            return DataTables::of($expenses)
+            ->addIndexColumn()
+
+            ->addColumn('provider', function (Expense $expense) {
+                return $expense->third->name;
+            })
+            ->addColumn('branch', function (Expense $expense) {
+                return $expense->branch->name;
+            })
+            ->addColumn('role', function (Expense $expense) {
+                return $expense->user->roles[0]->name;
+            })
+            ->editColumn('created_at', function(Expense $expense){
+                return $expense->created_at->format('Y-m-d: h:m');
+            })
+            ->addColumn('btn', 'admin/expense/actions')
+            ->rawColumns(['btn'])
+            ->make(true);
+        }
+        return view('admin.expense.index', compact('expense', 'typeDocument'));
+    }
+
+    public function indexExpense(Request $request)
+    {
+        $typeDocument = session('typeDocument');
         $expense = session('expense');
         $indicator = Indicator::findOrFail(1);
         if ($request->ajax()) {
@@ -239,10 +280,13 @@ class ExpenseController extends Controller
             Pays($request, $document, $typeDocument);
         }
 
+        $typeDocument = $request->type_document;
+        session()->forget('expense');
+        session()->forget('typeDocument');
         session(['expense' => $expense->id]);
-
-        toast('Gasto Registrado satisfactoriamente.','success');
-        return redirect('expense');
+        session(['typeDocument' => $typeDocument]);
+        toast('Gasto Registrad0 satisfactoriamente.','success');
+        return redirect('indexExpense');
     }
 
     /**
@@ -464,7 +508,7 @@ class ExpenseController extends Controller
             'tipeDocument'
         ));
     }
-
+    /*
     public function expensePdf(Request $request, $id)
    {
         $expense = Expense::findOrFail($id);
@@ -486,8 +530,8 @@ class ExpenseController extends Controller
         //$pdf->setPaper ( 'A7' , 'landscape' );
 
         return $pdf->stream('vista-pdf', "$expensepdf.pdf");
-   }
-
+   }*/
+   /*
    public function pdfExpense(Request $request)
    {
         $expenses = session('expense');
@@ -510,8 +554,8 @@ class ExpenseController extends Controller
         //$pdf->setPaper ( 'A7' , 'landscape' );
 
         return $pdf->stream('vista-pdf', "$expensepdf.pdf");
-   }
-
+   }*/
+   /*
    public function expensePos($id)
    {
         $expense = Expense::where('id', $id)->first();
@@ -532,8 +576,8 @@ class ExpenseController extends Controller
         $pdf->setPaper (array(0,0,297.64,1246.53), 'portrait');
 
         return $pdf->stream('vista-pdf', "$expensepdf.pdf");
-   }
-
+   }*/
+   /*
    public function posExpense(Request $request)
    {
         $expenses = session('expense');
@@ -556,7 +600,7 @@ class ExpenseController extends Controller
         $pdf->setPaper (array(0,0,297.64,1246.53), 'portrait');
 
         return $pdf->stream('vista-pdf', "$expensepdf.pdf");
-   }
+   }*/
 
    public function posPdfExpense(Request $request, Expense $expense)
     {
@@ -616,6 +660,82 @@ class ExpenseController extends Controller
         $pdf->footer();
 
         $pdf->Output("I", $expense->document . ".pdf", true);
+        exit;
+    }
+
+    public function pdfExpense(Request $request, Expense $expense)
+    {
+        $document = $expense;
+        $typeDocument = 'expense';
+        $title = 'COMPROBANTE DE GASTO';
+        
+        $thirdPartyType = 'provider';
+        $logoHeight = 26;
+        $logo = '';
+        $width = 0;
+        $height = 0;
+        if (indicator()->logo == 'on') {
+            $logo = storage_path('app/public/images/logos/' . company()->imageName);
+
+            $image = list($width, $height, $type, $attr) = getimagesize($logo);
+            $multiplier = $image[0] / $image[1];
+            $height = 26;
+            $width = $height * $multiplier;
+            if ($width > 60) {
+                $width = 60;
+                $height = 60 / $multiplier;
+            }
+        }
+        
+        //$pdfHeight = ticketHeight($logoHeight, company(), $invoice, "invoice");
+
+        $pdf = new PdfDocuments('P', 'mm', 'Letter', true, 'UTF-8');
+        $pdf->SetMargins(10, 10, 6);
+        $pdf->SetTitle($document->document);
+        $pdf->SetAutoPageBreak(false);
+        $pdf->addPage();
+        
+        //$pdf->generateInvoiceInformation($document);
+        $cufe =  '00';
+        $url = '#';
+        $data = [
+            'NumFac' => $document->document,
+            'FecFac' => $document->created_at->format('Y-m-d'),
+            'NitFac' => company()->nit,
+            'DocAdq' => $document->third->identification,
+            'ValFac' => $document->total,
+            'ValIva' => $document->total_tax,
+            'ValOtroIm' => '0.00',
+            'ValTotal' => $document->total_pay,
+            'CUFE' => $cufe,
+            //'URL' => $url . $cufe,
+        ];
+        
+        $writer = new PngWriter();
+        $qrCode = new QrCode(implode("\n", $data));
+        $qrCode->setSize(300);
+        $qrCode->setMargin(10);
+        $result = $writer->write($qrCode);
+
+        $qrCodeImage = $result->getString();
+        $qrImage = "data:image/png;base64," . base64_encode($qrCodeImage);
+        //$pdf->generateQr($qrImage);
+        
+        
+        $pdf->generateHeaderOrders($logo, $width, $height, $title, $document);
+        $pdf->generateInformation($document->third, $thirdPartyType, $document, $qrImage);
+        $pdf->generateTablePdf($document, $typeDocument);
+        $pdf->generateTotals($document, $typeDocument);
+        
+
+        $pdf->footer($document, $cufe);
+        $pdf->documentInformation($document, $cufe);
+        $pdf->footer();
+        //$pdf->generateHeader($logo, $width, $height);
+        //$refund = formatText("*** Para realizar un reclamo o devolución debe de presentar este ticket ***");
+        //$pdf->generateDisclaimerInformation($refund);
+
+        $pdf->Output("I", $document->document . ".pdf", true);
         exit;
     }
 

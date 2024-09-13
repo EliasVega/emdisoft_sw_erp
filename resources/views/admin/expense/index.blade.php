@@ -49,12 +49,25 @@
 <script type="text/javascript">
 $(document).ready(function ()
     {
-        window.onload = function() {
-            var expense = "{{ $expense ?? '' }}";
-            if (expense != '') {
-                var imprimir = "{{ route('posExpense', ['expense' => ':expense']) }}";
-                imprimir = imprimir.replace(':expense', expense);
-                window.open(imprimir, "_blank");
+        var typeDocument = "{{ $typeDocument ?? '' }}";
+        print(typeDocument);
+        function print(typeDocument) {
+            if (typeDocument == 'expense') {
+                var expense = "{{ $expense ?? '' }}";
+                if (expense != '') {
+                    var imprimir = "{{ route('pdfExpense', ['expense' => ':expense']) }}";
+                    imprimir = imprimir.replace(':expense', expense);
+                    window.open(imprimir, "_blank");
+                }
+            } else if (typeDocument == 'pos') {
+                var expense = "{{ $expense ?? '' }}";
+                if (expense != '') {
+                    var imprimir = "{{ route('posPdfExpense', ['expense' => ':expense']) }}";
+                    imprimir = imprimir.replace(':expense', expense);
+                    window.open(imprimir, "_blank");
+                }
+            } else {
+
             }
         }
         $('#expenses').DataTable(
