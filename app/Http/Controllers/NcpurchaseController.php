@@ -7,7 +7,6 @@ use App\Helpers\Tickets\Ticket;
 use App\Models\Ncpurchase;
 use App\Http\Requests\StoreNcpurchaseRequest;
 use App\Http\Requests\UpdateNcpurchaseRequest;
-use App\Models\Company;
 use App\Models\DocumentType;
 use App\Models\NcpurchaseProduct;
 use App\Models\NcpurchaseRawmaterial;
@@ -46,7 +45,8 @@ class NcpurchaseController extends Controller
      */
     public function index(Request $request)
     {
-        $ncpurchase = session('ncpurchase');
+        $typeDocument = '';
+        $ncpurchase = '';
         if ($request->ajax()) {
             $users = Auth::user();
             $user = $users->Roles[0]->name;
@@ -59,13 +59,10 @@ class NcpurchaseController extends Controller
             }
             return DataTables::of($ncpurchases)
             ->addIndexColumn()
-            ->addColumn('branch', function (Ncpurchase $ncpurchase) {
-                return $ncpurchase->branch->name;
-            })
             ->addColumn('provider', function (Ncpurchase $ncpurchase) {
                 return $ncpurchase->third->name;
             })
-            ->addColumn('document', function (Ncpurchase $ncpurchase) {
+            ->addColumn('reference', function (Ncpurchase $ncpurchase) {
                 return $ncpurchase->purchase->document;
             })
 
@@ -80,7 +77,44 @@ class NcpurchaseController extends Controller
             ->rawColumns(['btn'])
             ->make(true);
         }
-        return view('admin.ncpurchase.index', compact('ncpurchase'));
+        return view('admin.ncpurchase.index', compact('ncpurchase', 'typeDocument'));
+    }
+
+    public function indexNcpurchase(Request $request)
+    {
+        $typeDocument = session('typeDocument');
+        $ncpurchase = session('ncpurchase');
+        if ($request->ajax()) {
+            $users = Auth::user();
+            $user = $users->Roles[0]->name;
+            if ($user == 'superAdmin' ||$user == 'admin') {
+                //Consulta para mostrar todas las notas credito a admin y superadmin
+                $ncpurchases = Ncpurchase::get();
+            } else {
+                //Consulta para mostrar notas credito de los demas roles
+                $ncpurchases = Ncpurchase::where('user_id', $user->id)->get();
+            }
+            return DataTables::of($ncpurchases)
+            ->addIndexColumn()
+            ->addColumn('provider', function (Ncpurchase $ncpurchase) {
+                return $ncpurchase->third->name;
+            })
+            ->addColumn('reference', function (Ncpurchase $ncpurchase) {
+                return $ncpurchase->purchase->document;
+            })
+
+            ->addColumn('user', function (Ncpurchase $ncpurchase) {
+                return $ncpurchase->user->name;
+            })
+
+            ->editColumn('created_at', function(Ncpurchase $ncpurchase){
+                return $ncpurchase->created_at->format('Y-m-d: h:m');
+            })
+            ->addColumn('btn', 'admin/ncpurchase/actions')
+            ->rawColumns(['btn'])
+            ->make(true);
+        }
+        return view('admin.ncpurchase.index', compact('ncpurchase', 'typeDocument'));
     }
 
     /**
@@ -141,7 +175,7 @@ class NcpurchaseController extends Controller
         $ncpurchase->resolution_id = $resolution->id;
         $ncpurchase->discrepancy_id = $discrepancy;
         $ncpurchase->voucher_type_id = $voucherTypes->id;
-        $ncpurchase->voucher_type_id = $documentType->id;
+        $ncpurchase->document_type_id = $documentType->id;
         $ncpurchase->cash_register_id = $cashRegister->id;
         $ncpurchase->retention = $retention;
         $ncpurchase->total = $request->total;
@@ -223,11 +257,6 @@ class NcpurchaseController extends Controller
                         $ncpurchaseRawmaterial->tax_subtotal = ($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
                         $ncpurchaseRawmaterial->save();
                     }
-
-
-
-
-                    //selecciona el impuesto que tiene la categoria IVA o INC
                 }
                 break;
         }
@@ -253,11 +282,13 @@ class NcpurchaseController extends Controller
         }
         $purchase->update();
 
+        $typeDocument = $request->type_document;
         session()->forget('ncpurchase');
+        session()->forget('typeDocument');
         session(['ncpurchase' => $ncpurchase->id]);
-
+        session(['typeDocument' => $typeDocument]);
         toast('Nota Credito Registrada satisfactoriamente.','success');
-        return redirect('ncpurchase');
+        return redirect('indexNcpurchase');
     }
 
     /**

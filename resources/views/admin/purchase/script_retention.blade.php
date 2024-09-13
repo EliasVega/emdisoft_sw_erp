@@ -51,17 +51,9 @@
         base = parseFloat($("#base").val());
         if(company_tax_id !="" && companyTax!="" && percentage!=""  && percentage>0 ){
             if (ttid == 5) {
-                if (iva > base) {
-                    totalRetention[contRetention] = iva * percentage/100;
-                } else {
-                    totalRetention[contRetention] = 0;
-                }
+                totalRetention[contRetention] = iva * percentage/100;
             } else {
-                if (base < total) {
-                    totalRetention[contRetention] = total * percentage/100;
-                } else {
-                    totalRetention[contRetention] = 0;
-                }
+                totalRetention[contRetention] = total * percentage/100;
             }
             total_retention = total_retention+totalRetention[contRetention];
             balance -= totalRetention[contRetention];

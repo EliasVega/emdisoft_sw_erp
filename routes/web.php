@@ -330,8 +330,7 @@ Route::get('ncinvoice/posPdfNcinvoice/{ncinvoice}', [NcinvoiceController::class,
 
 Route::get('ncpurchase/posPdfNcpurchase/{ncpurchase}', [NcpurchaseController::class, 'posPdfNcpurchase'])->name('posPdfNcpurchase');
 Route::get('ncpurchase/pdfNcpurchase/{ncpurchase}', [NcpurchaseController::class, 'pdfNcpurchase'])->name('pdfNcpurchase');
-//Route::get('ncpurchase/ncpurchasePdf/{id}', [NcpurchaseController::class, 'ncpurchasePdf'])->name('ncpurchasePdf');
-//Route::get('pdfNcpurchase', [NcpurchaseController::class, 'pdfNcpurchase'])->name('pdfNcpurchase');
+Route::get('indexNcpurchase', [NcpurchaseController::class, 'indexNcpurchase'])->name('indexNcpurchase');
 
 Route::get('ndinvoice/pdfNdinvoice/{ndinvoice}', [NdinvoiceController::class, 'pdfNdinvoice'])->name('pdfNdinvoice');
 Route::get('ndinvoice/posPdfNdinvoice/{ndinvoice}', [NdinvoiceController::class, 'posPdfNdinvoice'])->name('posPdfNdinvoice');

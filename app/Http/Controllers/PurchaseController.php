@@ -545,7 +545,7 @@ class PurchaseController extends Controller
                 $resolutions->consecutive += 1;
                 $resolutions->update();
             }
-            //$typeDoc = $request->type_document;
+            $typeDocument = $request->type_document;
             session()->forget('purchase');
             session()->forget('typeDocument');
             session(['purchase' => $purchase->id]);

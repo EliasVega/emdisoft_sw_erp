@@ -56,6 +56,7 @@
 <script src="{{ asset('vendor/chart.js/js/Chart.bundle.min.js') }}"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-treeview/1.2.0/bootstrap-treeview.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/default-passive-events"></script>
 
 
 

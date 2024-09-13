@@ -23,7 +23,7 @@
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Sucursal</th>
+                            <th>Documento</th>
                             <th>Proveedor</th>
                             <th>Compra N°</th>
                             <th>V/Total</th>
@@ -40,15 +40,27 @@
 <script type="text/javascript">
 $(document).ready(function ()
     { 
-        function print(){
-            var ndinvoice = "{{ $ncpurchase ?? '' }}";
-            if (ndinvoice != '') {
-                var imprimir = "{{ route('posPdfNcpurchase', ['ncpurchase' => ':ncpurchase']) }}";
-                imprimir = imprimir.replace(':ncpurchase', ncpurchase);
-                window.open(imprimir, "_blank");
+        var typeDocument = "{{ $typeDocument ?? '' }}";
+        print(typeDocument);
+        function print(typeDocument) {
+            if (typeDocument == 'ncpurchase') {
+                var ncpurchase = "{{ $ncpurchase ?? '' }}";
+                if (ncpurchase != '') {
+                    var imprimir = "{{ route('pdfNcpurchase', ['ncpurchase' => ':ncpurchase']) }}";
+                    imprimir = imprimir.replace(':ncpurchase', ncpurchase);
+                    window.open(imprimir, "_blank");
+                }
+            } else if (typeDocument == 'pos') {
+                var ncpurchase = "{{ $ncpurchase ?? '' }}";
+                if (ncpurchase != '') {
+                    var imprimir = "{{ route('posPdfNcpurchase', ['ncpurchase' => ':ncpurchase']) }}";
+                    imprimir = imprimir.replace(':ncpurchase', ncpurchase);
+                    window.open(imprimir, "_blank");
+                }
+            } else {
+
             }
         }
-        print();
         $('#ncpurchases').DataTable(
         {
             info: true,
@@ -67,9 +79,9 @@ $(document).ready(function ()
             columns:
             [
                 {data: 'id'},
-                {data: 'branch'},
-                {data: 'provider'},
                 {data: 'document'},
+                {data: 'provider'},
+                {data: 'reference'},
                 {data: 'total_pay', render: $.fn.dataTable.render.number( '.', ',', 2)},
                 {data: 'user'},
                 {data: 'created_at'},

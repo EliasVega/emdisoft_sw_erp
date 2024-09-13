@@ -7,7 +7,6 @@
     <div class="col-md-4" id="formCard">
         <div class="card card-primary card-outline">
             <div class="row">
-                
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                     <div class="form-group">
                         <label for="purchase_id">Compra</label>
@@ -20,6 +19,15 @@
                         <label for="">Proveedor</label>
                         <input type="text" name="" value="{{ $purchase->third->name }}"
                             class="form-control" placeholder="" readonly>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="typeDocument">
+                    <div class="form-group">
+                        <label class="form-control-label" for="type_document">Tipo de impresion</label>
+                            <select name="type_document" class="form-control selectpicker" id="type_document" data-live-search="true">
+                                <option value="ncpurchase">Carta</option>
+                                <option value="pos">Tirilla</option>
+                            </select>
                     </div>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="discrepancy">
@@ -76,6 +84,7 @@
                 </div>
                 @include('admin/generalview.buttonRetention')
                 @include('admin/generalview.form_register')
+                
             </div>
         </div>
     </div>
