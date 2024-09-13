@@ -11,7 +11,6 @@
     var totalRetention=[];
     var contRetention=0;
     var total_retention = 0;
-    var iva = 0;
 
     function retentionLoad(){
         tax = {!! json_encode($taxes) !!};
@@ -25,9 +24,9 @@
 
                 if(taxName!='', taxValue!="" && taxValue>0){
                     if (taxTypeid == 5) {
-                        totalRetention[contRetention] = iva * percentage/100;
+                        totalRetention[contRetention] = tax_iva * percentage/100;
                     } else {
-                        totalRetention[contRetention] = total_ndpurchase * percentage/100;
+                        totalRetention[contRetention] = total * percentage/100;
                     }
                     totalRetention[contRetention] = taxValue;
                     total_retention = parseFloat(total_retention)  + parseFloat(totalRetention[contRetention]);
@@ -60,13 +59,11 @@
                 taxTypeid = value['tax_type_id'];
                 percentage = value['percentage'];
 
-                iva = $("#tax_iva").val();
-                total_ndpurchase = $("#total_ndpurchase").val();
                 if(taxName!='', companyTaxId!=''){
                     if (taxTypeid == 5) {
-                        totalRetention[contRetention] = iva * percentage/100;
+                        totalRetention[contRetention] = tax_iva * percentage/100;
                     } else {
-                        totalRetention[contRetention] = total_ndpurchase * percentage/100;
+                        totalRetention[contRetention] = total * percentage/100;
                     }
                     //totalRetention[contRetention] = taxValue;
                     total_retention = parseFloat(total_retention)  + parseFloat(totalRetention[contRetention]);

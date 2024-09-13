@@ -65,6 +65,44 @@ class NdpurchaseController extends Controller
      */
     public function index(Request $request)
     {
+        $typeDocument = '';
+        $ndpurchase = '';
+        if ($request->ajax()) {
+            $users = Auth::user();
+            $user = $users->Roles[0]->name;
+            if ($user == 'superAdmin' ||$user == 'admin') {
+                //Consulta para mostrar todas las notas debito a admin y superadmin
+                $ndpurchases = Ndpurchase::get();
+            } else {
+                //Consulta para mostrar notas debito de los demas roles
+                $ndpurchases = Ndpurchase::where('user_id', $user->id)->get();
+            }
+            return DataTables::of($ndpurchases)
+            ->addIndexColumn()
+            ->addColumn('provider', function (ndpurchase $ndpurchase) {
+                return $ndpurchase->third->name;
+            })
+            ->addColumn('reference', function (ndpurchase $ndpurchase) {
+                return $ndpurchase->purchase->document;
+            })
+
+            ->addColumn('user', function (ndpurchase $ndpurchase) {
+                return $ndpurchase->user->name;
+            })
+
+            ->editColumn('created_at', function(ndpurchase $ndpurchase){
+                return $ndpurchase->created_at->format('Y-m-d: h:m');
+            })
+            ->addColumn('btn', 'admin/ndpurchase/actions')
+            ->rawColumns(['btn'])
+            ->make(true);
+        }
+        return view('admin.ndpurchase.index', compact('ndpurchase'));
+    }
+
+    public function indexNdpurchase(Request $request)
+    {
+        $typeDocument = session('typeDocument');
         $ndpurchase = session('ndpurchase');
         if ($request->ajax()) {
             $users = Auth::user();
@@ -84,14 +122,12 @@ class NdpurchaseController extends Controller
             ->addColumn('provider', function (ndpurchase $ndpurchase) {
                 return $ndpurchase->third->name;
             })
-            ->addColumn('document', function (ndpurchase $ndpurchase) {
+            ->addColumn('reference', function (ndpurchase $ndpurchase) {
                 return $ndpurchase->purchase->document;
             })
-
             ->addColumn('user', function (ndpurchase $ndpurchase) {
                 return $ndpurchase->user->name;
             })
-
             ->editColumn('created_at', function(ndpurchase $ndpurchase){
                 return $ndpurchase->created_at->format('Y-m-d: h:m');
             })
@@ -141,21 +177,15 @@ class NdpurchaseController extends Controller
                 $voucherTypes = VoucherType::findOrFail(13);//voucher type FV
                 $documentType = DocumentType::findOrFail(13);
             } else if ($purchase->document_type_id == 101) {
-                $resolution = Resolution::findOrFail(2);//NC factura de venta pos
+                $resolution = Resolution::findOrFail(3);//NC factura de venta pos
                 $voucherTypes = VoucherType::findOrFail(11); //voucher type pos
                 $documentType = DocumentType::findOrFail(103);
             }
         } else {
-            $resolution = Resolution::findOrFail(2);//NC factura de venta
+            $resolution = Resolution::findOrFail(3);//NC factura de venta
             $voucherTypes = VoucherType::findOrFail(11);//voucher type FV
             $documentType = DocumentType::findOrFail(103);
         }
-
-        
-        
-        
-
-        //variables del request
         $quantity = $request->quantity;
         $price = $request->price;
         $total_pay = $request->total_pay;
@@ -182,12 +212,12 @@ class NdpurchaseController extends Controller
 
         $reverse = $request->reverse;//1 si desea volver valor a caja 2 si desea crear un avance
         $advancePay = $purchase->pay - $newGrandTotal;
-        $documentType = $request->document_type_id;
+        $dt = $request->document_type_id;
         $documentOrigin = $purchase;
         $service = '';
         $errorMessages = '';
         $store = false;
-        if ($documentType == 11 && indicator()->dian == 'on') {
+        if ($dt == 11 && indicator()->dian == 'on') {
             $environment = Environment::where('id', 17)->first();//Url nota de ajuste documento soporte
             $url = $environment->protocol . $configuration->ip . $environment->url;
             $data = adjustmentNoteData($request, $purchase);
@@ -209,8 +239,9 @@ class NdpurchaseController extends Controller
             $ndpurchase->provider_id = $purchase->provider_id;
             $ndpurchase->discrepancy_id = $discrepancy;
             $ndpurchase->cash_register_id = $cashRegister->id;
-            $ndpurchase->voucher_type_id = 11;
-            $ndpurchase->cash_register_id = cashregisterModel()->id;
+            $ndpurchase->voucher_type_id = $voucherTypes->id;
+            $ndpurchase->document_type_id = $documentType->id;
+            $ndpurchase->cash_register_id = $cashRegister->id;
             $ndpurchase->retention = $retention;
             $ndpurchase->total = $request->total;
             $ndpurchase->total_tax = $request->total_tax;
@@ -410,7 +441,7 @@ class NdpurchaseController extends Controller
             $purchase->grand_total = $newGrandTotal;
             //$purchase->pay = $newGrandTotal;
             if ($purchase->status == 'purchase') {
-                if ($documentType == 11) {
+                if ($dt == 11) {
                     $purchase->status = 'adjustment_note';
                 } else {
                     if ($discrepancy == 2) {
@@ -428,7 +459,7 @@ class NdpurchaseController extends Controller
             }
             $purchase->update();
 
-            if ($documentType == 11 && indicator()->dian == 'on') {
+            if ($dt == 11 && indicator()->dian == 'on') {
                 $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
                     ['SendBillSyncResult']['IsValid'];
                 $code = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
@@ -459,11 +490,13 @@ class NdpurchaseController extends Controller
             $resolution->consecutive += 1;
             $resolution->update();
 
+            $typeDocument = $request->type_document;
             session()->forget('ndpurchase');
+            session()->forget('typeDocument');
             session(['ndpurchase' => $ndpurchase->id]);
-
+            session(['typeDocument' => $typeDocument]);
             toast('Nota Debito Registrada satisfactoriamente.','success');
-            return redirect('ndpurchase');
+            return redirect('indexNdpurchase');
         } else {
             toast($errorMessages,'Danger');
             return redirect('ndpurchase');
@@ -643,13 +676,18 @@ class NdpurchaseController extends Controller
 
     public function posPdfNdpurchase(Request $request, Ndpurchase $ndpurchase)
     {
+        
         $document = $ndpurchase;
         $typeDocument = 'ndpurchase';
 
-        $title = 'NOTA DEBITO COMPRA';
+        $title = '';
         $consecutive = $document->document;
         $documentOrigin = Purchase::findOrFail($document->purchase_id);//encontrando la factura
-
+        if ($documentOrigin->document_type_id == 101) {
+            $title = 'NOTA DEBITO COMPRA';
+        } else if ($documentOrigin->document_type_id == 11){
+            $title = 'NOTA DE AJUSTE AL DOCUMENTO SOPORTE ELECTRONICO.';
+        }
         $thirdPartyType = 'provider';
         $logoHeight = 26;
         if (indicator()->logo == 'on') {
@@ -698,7 +736,7 @@ class NdpurchaseController extends Controller
             $pdf->generateInvoiceInformation($document);
 
             //$cufe = 'este-es-un-cufe-de-prueba';
-            $cufe = $document->ndpurchaseResponse->cude;
+            $cufe =  $document->nsdResponse->cuds;
             $url = 'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=';
             $data = [
                 'NumFac' => $document->document,
@@ -738,7 +776,6 @@ class NdpurchaseController extends Controller
     }
 
     public function pdfNdpurchase(Request $request, Ndpurchase $ndpurchase) {
-        
         $document = $ndpurchase;
         $documentOrigin = Purchase::findOrFail($document->purchase_id);
         $typeDocument = 'ndpurchase';
@@ -746,11 +783,10 @@ class NdpurchaseController extends Controller
         $documentType = $documentOrigin->document_type_id;
         $documentOrigin = Purchase::findOrFail($document->purchase_id);//encontrando la factura
         if ($documentType == 101) {
-            $title = 'NOTA CREDITO';
+            $title = 'NOTA DEBITO';
         } else if ($documentType == 11){
             $title = 'NOTA DE AJUSTE AL DOCUMENTO SOPORTE ELECTRONICO.';
         }
-        
         $document = $document;
         $thirdPartyType = 'customer';
         $logoHeight = 26;
@@ -780,7 +816,7 @@ class NdpurchaseController extends Controller
 
         if (indicator()->dian == 'on' && $documentType == 11) {
             //$pdf->generateInvoiceInformation($document);
-            $cufe =  $document->nsdResponse->cufe;
+            $cufe =  $document->nsdResponse->cuds;
             $url = 'https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=';
             $data = [
                 'NumFac' => $document->document,

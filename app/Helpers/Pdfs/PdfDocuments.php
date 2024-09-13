@@ -9,6 +9,7 @@ use App\Models\NcinvoiceProduct;
 use App\Models\NcpurchaseProduct;
 use App\Models\Ndinvoice;
 use App\Models\NdinvoiceProduct;
+use App\Models\NdpurchaseProduct;
 use App\Models\ProductPurchase;
 use App\Models\ProductRemission;
 use App\Models\Resolution;
@@ -85,9 +86,9 @@ class PdfDocuments extends FPDF
             $this->SetLineWidth(1);
             
             if ($titleWitch < 60) {
-                $this->Cell(10,4,strtoupper($title),0,0,'C', false);
+                $this->Cell(55,4,strtoupper($title),0,0,'C', false);
             } else {
-                $this->MultiCell(60,4, strtoupper($title), 0, 'C', false);
+                $this->MultiCell(55,4, strtoupper($title), 0, 'C', false);
             }
 
         }
@@ -433,6 +434,9 @@ class PdfDocuments extends FPDF
                 break;
             case 'ncpurchase':
                 $products = NcpurchaseProduct::where('ncpurchase_id', $document->id)->get();
+                break;
+            case 'ndpurchase':
+                $products = NdpurchaseProduct::where('ndpurchase_id', $document->id)->get();
                 break;
             default:
                 # code...

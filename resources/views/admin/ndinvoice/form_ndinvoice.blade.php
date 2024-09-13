@@ -64,7 +64,7 @@
                 <select name="product_id" class="form-control selectpicker" id="product_id" data-live-search="true">
                     <option value="" disabled selected>Seleccionar</option>
                     @foreach($products as $product)
-                        <option value="{{ $product->id }}_{{ $product->stock }}_{{ $product->price }}_{{ $product->category->companyTax->percentage->percentage }}_{{ $product->category->companyTax->taxType->id }}">{{ $product->name }}</option>
+                        <option value="{{ $product->id }}_{{ $product->stock }}_{{ $product->sale_price }}_{{ $product->category->companyTax->percentage->percentage }}_{{ $product->category->companyTax->taxType->id }}">{{ $product->name }}</option>
                     @endforeach
                 </select>
         </div>

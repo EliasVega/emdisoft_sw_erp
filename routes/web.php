@@ -335,8 +335,9 @@ Route::get('indexNcpurchase', [NcpurchaseController::class, 'indexNcpurchase'])-
 Route::get('ndinvoice/pdfNdinvoice/{ndinvoice}', [NdinvoiceController::class, 'pdfNdinvoice'])->name('pdfNdinvoice');
 Route::get('ndinvoice/posPdfNdinvoice/{ndinvoice}', [NdinvoiceController::class, 'posPdfNdinvoice'])->name('posPdfNdinvoice');
 
-Route::get('ndpurchase/ndpurchasePdf/{id}', [NdpurchaseController::class, 'ndpurchasePdf'])->name('ndpurchasePdf');
-Route::get('pdfNdpurchase', [NdpurchaseController::class, 'pdfNdpurchase'])->name('pdfNdpurchase');
+Route::get('ndpurchase/posPdfNdpurchase/{ndpurchase}', [NdpurchaseController::class, 'posPdfNdpurchase'])->name('posPdfNdpurchase');
+Route::get('ndpurchase/pdfNdpurchase/{ndpurchase}', [NdpurchaseController::class, 'pdfNdpurchase'])->name('pdfNdpurchase');
+Route::get('indexNdpurchase', [NdpurchaseController::class, 'indexNdpurchase'])->name('indexNdpurchase');
 
 Route::get('pay/pdf/{id}', [PayController::class, 'payPdf'])->name('payPdf');
 Route::get('pay/payPos/{id}', [PayController::class, 'payPos'])->name('payPos');

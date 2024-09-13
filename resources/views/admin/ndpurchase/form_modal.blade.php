@@ -24,10 +24,16 @@
             <input type="text" name="productModal" id="productModal" class="form-control" placeholder="Producto" readonly>
         </div>
     </div>
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="ivamod">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="ivaMod">
         <div class="form-group">
             <label for="ivaModal">iva</label>
             <input type="text" name="ivaModal" id="ivaModal" class="form-control" placeholder="iva" readonly>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="tax_ratemod">
+        <div class="form-group">
+            <label for="tax_rateModal">%</label>
+            <input type="text" name="tax_rateModal" id="tax_rateModal" class="form-control" placeholder="iva" readonly>
         </div>
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

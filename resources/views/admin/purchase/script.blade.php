@@ -518,9 +518,11 @@
             $("#addPay").hide();
             $("#qadd").hide();
             $("#padd").hide();
+            $("#buttonAdd").hide();
             $("#spadd").hide();
             $("#save").show();
             $("#typeDocument").show();
+            $("#addRetentions").hide();
         });
     });
     $(document).ready(function(){
