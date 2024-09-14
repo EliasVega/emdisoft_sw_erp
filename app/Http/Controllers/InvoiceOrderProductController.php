@@ -171,15 +171,7 @@ class InvoiceOrderProductController extends Controller
             $invoice->total_tax = $request->total_tax;
             $invoice->total_pay = $total_pay;
             $invoice->pay = $totalpay;
-            if ($typeDocument == 'invoice') {
-                $invoice->balance = $total_pay - $totalpay;
-            } else {
-                if ($paymentForm == 1) {
-                    $invoice->balance = $total_pay - $totalpay;
-                } else {
-                    $invoice->balance = $total_pay;
-                }
-            }
+            $invoice->balance = $total_pay - $totalpay;
             $invoice->grand_total = $total_pay - $retention;
             $invoice->save();
 
