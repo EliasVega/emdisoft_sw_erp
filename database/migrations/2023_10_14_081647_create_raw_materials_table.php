@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('raw_materials', function (Blueprint $table) {
             $table->id();
 
-            $table->string('code', 20)->unique();
-            $table->string('name', 100);
-            $table->decimal('price', 20,3); //precio de compra
-            $table->decimal('stock', 20,3);
+            $table->string('code',20)->unique();
+            $table->string('name',100);
+            $table->decimal('price',15,3); //precio de compra
+            $table->decimal('stock',15,3);
             $table->enum('type_product', ['product', 'service']);
             $table->enum('status', ['active', 'inactive'])->default('active');
 

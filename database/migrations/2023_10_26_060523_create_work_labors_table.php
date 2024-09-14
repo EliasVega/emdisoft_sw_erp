@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
 
             $table->date('generation_date');//fecha de generacion
-            $table->decimal('total_pay', 20, 3);//subtotal de la factura
-            $table->string('note', 255)->nullable();
+            $table->decimal('total_pay',15,3);//subtotal de la factura
+            $table->string('note',255)->nullable();
 
             $table->foreignId('user_id')->constrained()->onUpdate('cascade');
             $table->foreignId('employee_id')->constrained()->onUpdate('cascade');

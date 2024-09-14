@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('customer_homes', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name', 100);
-            $table->string('address', 100);
-            $table->string('phone', 12);
+            $table->string('name',100);
+            $table->string('address',100);
+            $table->string('phone',12);
 
             $table->timestamps();
         });

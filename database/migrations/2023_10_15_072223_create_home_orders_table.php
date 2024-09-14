@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
 
             $table->enum('type', ['home', 'rappi'])->default('home');
-            $table->string('name', 100);
-            $table->string('address', 100);
-            $table->string('phone', 255);
-            $table->string('domiciliary', 50)->nullable();
+            $table->string('name',100);
+            $table->string('address',100);
+            $table->string('phone',255);
+            $table->string('domiciliary',50)->nullable();
             $table->integer('domicile_value')->nullable();
             $table->time('time_receipt');
             $table->time('time_sent')->nullable();

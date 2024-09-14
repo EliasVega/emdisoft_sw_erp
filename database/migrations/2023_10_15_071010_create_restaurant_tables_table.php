@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('restaurant_tables', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name', 30);
+            $table->string('name',30);
 
             $table->foreignId('branch_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
 

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('arls', function (Blueprint $table) {
             $table->id();
 
-            $table->string('code', 6);
-            $table->string('name', 100);
+            $table->string('code',6);
+            $table->string('name',100);
 
             $table->timestamps();
         });

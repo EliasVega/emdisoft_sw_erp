@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
 
             $table->string('code',15);
-            $table->string('name', 100);
-            $table->string('code_movility', 13);
-            $table->string('nit', 10);
-            $table->string('regime', 15);
+            $table->string('name',100);
+            $table->string('code_movility',13);
+            $table->string('nit',10);
+            $table->string('regime',15);
 
             $table->timestamps();
         });

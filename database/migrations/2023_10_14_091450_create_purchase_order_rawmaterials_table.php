@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('purchase_order_rawmaterials', function (Blueprint $table) {
             $table->id();
 
-            $table->decimal('quantity', 20, 3);
-            $table->decimal('price', 20, 3);
-            $table->decimal('tax_rate', 20, 3);
-            $table->decimal('subtotal', 20, 3);
-            $table->decimal('tax_subtotal', 20, 3);
+            $table->decimal('quantity',15,3);
+            $table->decimal('price',15,3);
+            $table->decimal('tax_rate',15,3);
+            $table->decimal('subtotal',15,3);
+            $table->decimal('tax_subtotal',15,3);
 
             $table->foreignId('purchase_order_id')->constrained();
             $table->foreignId('raw_material_id')->constrained();

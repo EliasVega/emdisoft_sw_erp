@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('restaurant_orders', function (Blueprint $table) {
             $table->id();
 
-            $table->decimal('total', 20,3);//subtotal de la orden
-            $table->decimal('total_tax', 20,3);//total impuestos iva inc
-            $table->decimal('total_pay', 20,3);//total de la orden
+            $table->decimal('total',15,3);//subtotal de la orden
+            $table->decimal('total_tax',15,3);//total impuestos iva inc
+            $table->decimal('total_pay',15,3);//total de la orden
             $table->enum('status',['pending', 'generated', 'canceled'])->default('pending');
-            $table->string('note', 255)->nullable();//nota abierta
+            $table->string('note',255)->nullable();//nota abierta
 
             $table->foreignId('branch_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('cash_register_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');

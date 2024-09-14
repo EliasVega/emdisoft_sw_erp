@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('payment_returns', function (Blueprint $table) {
             $table->id();
 
-            $table->decimal('payment',20,3);
-            $table->decimal('return',20,3);
+            $table->decimal('payment',15,3);
+            $table->decimal('return',15,3);
 
             $table->foreignId('invoice_id')->constrained()->onUpdate('cascade');
             $table->timestamps();

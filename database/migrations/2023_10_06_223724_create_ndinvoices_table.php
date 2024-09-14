@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('ndinvoices', function (Blueprint $table) {
             $table->id();
 
-            $table->string('document', 20);//prefijo y numero de nota debito
-            $table->decimal('retention', 20,3);//valor total de retenciones
-            $table->decimal('total', 20,3);//total antes de impuestos de linea
-            $table->decimal('total_tax', 20,3);//total impuestos de linea
-            $table->decimal('total_pay', 20,3);//tottal mas impuestos de lines
+            $table->string('document',20);//prefijo y numero de nota debito
+            $table->decimal('retention',15,3);//valor total de retenciones
+            $table->decimal('total',15,3);//total antes de impuestos de linea
+            $table->decimal('total_tax',15,3);//total impuestos de linea
+            $table->decimal('total_pay',15,3);//tottal mas impuestos de lines
             $table->text('note')->nullable();// nota de informacion
 
             $table->foreignId('user_id')->constrained()->onUpdate('cascade');
