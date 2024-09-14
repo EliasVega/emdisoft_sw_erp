@@ -13,12 +13,12 @@ class CustomerHome extends Model
 
     protected $primaryKey = 'id';
 
-    public $timestamps = true;
+    public $timestamps = false;
 
     protected $fillable = [
         'name',
         'address',
-        'phone', 12
+        'phone',
     ];
 
     protected $guarded = [

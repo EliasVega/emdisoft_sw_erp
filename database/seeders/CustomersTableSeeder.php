@@ -15,8 +15,6 @@ class CustomersTableSeeder extends Seeder
      */
     public function run()
     {
-
-
         DB::table('customers')->delete();
 
         DB::table('customers')->insert(array (
@@ -109,7 +107,5 @@ class CustomersTableSeeder extends Seeder
                 'updated_at' => '2023-01-12 21:07:43',
             ),
         ));
-
-
     }
 }
