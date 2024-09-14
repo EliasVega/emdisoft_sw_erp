@@ -12,6 +12,7 @@
             @can('branch.index')
                 <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
             @endcan
+                <a href="{{ route('invoice.index') }}" class="btn btn-blueGrad btn-sm"><i class="fas fa-undo-alt mr-2"></i>Ventas</a>
             @can('customer.index')
                 <a href="{{ route('customer.index') }}" class="btn btn-blueGrad btn-sm m-2"><i class="fas fa-undo-alt mr-2"></i>Clientes</a>
             @endcan
