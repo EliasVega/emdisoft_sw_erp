@@ -104,19 +104,7 @@ class InvoiceOrderProductController extends Controller
         $total_pay = $request->total_pay;
         $employee_id = $request->employee_id;
         $paymentForm = $request->payment_form_id;
-        $totalpay = 0;
-        $payment = 0;
-
-        if ($typeDocument == 'invoice') {
-            $totalpay = $request->totalpay;
-        } else {
-            $payment = $request->pay;
-            if ($payment[0] >= $total_pay) {
-                $totalpay = $total_pay;
-            } else {
-                $totalpay = $payment[0];
-            }
-        }
+        $totalpay = $request->totalpay;
 
         if (isset($employee_id)) {
             $employee_id = $request->employee_id;
@@ -187,11 +175,7 @@ class InvoiceOrderProductController extends Controller
                 $invoice->balance = $total_pay - $totalpay;
             } else {
                 if ($paymentForm == 1) {
-                    if ($total_pay >= $payment) {
-                        $invoice->balance = $total_pay - $payment;
-                    } else {
-                        $invoice->balance = 0;
-                    }
+                    $invoice->balance = $total_pay - $totalpay;
                 } else {
                     $invoice->balance = $total_pay;
                 }
@@ -269,7 +253,7 @@ class InvoiceOrderProductController extends Controller
             if ($typeDocument == 'pos') {
                 $return = 0;
                 if ($totalpay > 0) {
-                    $return = $payment[0] - $totalpay;
+                    //$return = $payment[0] - $totalpay;
                     /*
                     $paymentMethod = $request->payment_method_id;
                     $bank = 1;
@@ -312,11 +296,12 @@ class InvoiceOrderProductController extends Controller
                         $cashRegister->update();
                     }
                 }
+                /*
                 $paymentReturn = new PaymentReturn();
                 $paymentReturn->payment = $request->pay[0];
                 $paymentReturn->return = $return;
                 $paymentReturn->invoice_id = $invoice->id;
-                $paymentReturn->save();
+                $paymentReturn->save();*/
             } else {
                 if ($totalpay > 0) {
                     pays($request, $document, $typeDocument);
