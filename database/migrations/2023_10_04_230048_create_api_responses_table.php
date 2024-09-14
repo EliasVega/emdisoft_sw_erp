@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('api_responses', function (Blueprint $table) {
             $table->id();
 
-            $table->string('document', 20);
+            $table->string('document',20);
             $table->json('response_api');
 
             $table->timestamps();

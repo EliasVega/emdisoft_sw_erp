@@ -14,18 +14,18 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
 
-            $table->string('document', 20);//prefijo y consecutivo
+            $table->string('document',20);//prefijo y consecutivo
             $table->date('generation_date');//fecha de generacion
             $table->date('due_date');//fecha limite de pago
-            $table->decimal('total', 20, 3);//subtotal de la factura
-            $table->decimal('total_tax', 20, 3);//total impuestos de linea
-            $table->decimal('total_pay', 20, 3);//total mas impuestos
-            $table->decimal('pay',20,3);//total pagos y abonos
-            $table->decimal('balance',20,3);//saldo de la factura
-            $table->decimal('retention',20,3);//valor total de las retenciones
-            $table->decimal('grand_total',20,3);//Total de factura mas notas credito y menos notas debito +- retenciones
+            $table->decimal('total',15,3);//subtotal de la factura
+            $table->decimal('total_tax',15,3);//total impuestos de linea
+            $table->decimal('total_pay',15,3);//total mas impuestos
+            $table->decimal('pay',15,3);//total pagos y abonos
+            $table->decimal('balance',15,3);//saldo de la factura
+            $table->decimal('retention',15,3);//valor total de las retenciones
+            $table->decimal('grand_total',15,3);//Total de factura mas notas credito y menos notas debito +- retenciones
             $table->enum('status',['invoice', 'credit_note', 'debit_note', 'complete'])->default('invoice');
-            $table->string('note', 255)->nullable();
+            $table->string('note',255)->nullable();
 
             $table->foreignId('user_id')->constrained()->onUpdate('cascade');
             $table->foreignId('branch_id')->constrained()->onUpdate('cascade');

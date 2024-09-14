@@ -16,17 +16,17 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
 
-            $table->string('code', 20)->unique();
-            $table->string('name', 200);
-            $table->decimal('price', 20,3); //precio de compra
-            $table->decimal('sale_price', 20,3);
-            $table->decimal('commission', 20,3)->default(0);
-            $table->decimal('stock', 16,2)->default(0);
-            $table->decimal('stock_min',16,2)->default(1);
+            $table->string('code',20)->unique();
+            $table->string('name',200);
+            $table->decimal('price',15,3); //precio de compra
+            $table->decimal('sale_price',15,3);
+            $table->decimal('commission',15,3)->default(0);
+            $table->decimal('stock',15,3)->default(0);
+            $table->decimal('stock_min',15,3)->default(1);
             $table->enum('type_product', ['product', 'service', 'consumer']);
             $table->enum('status', ['active', 'inactive'])->default('active');
-            $table->string('imageName', 45)->nullable();
-            $table->string('image', 255)->nullable();
+            $table->string('imageName',45)->nullable();
+            $table->string('image',255)->nullable();
 
             $table->foreignId('category_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('measure_unit_id')->constrained()->onUpdate('cascade');

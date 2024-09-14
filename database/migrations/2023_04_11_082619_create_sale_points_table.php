@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->foreignId('branch_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
 
-            $table->string('plate_number', 20)->unique();
+            $table->string('plate_number',20)->unique();
             $table->string('location',100);
             $table->string('cash_type',100);
 

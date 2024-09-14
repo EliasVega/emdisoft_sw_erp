@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name', 45)->unique();
-            $table->string('description', 255);
-            $table->decimal('utility_rate', 10,2);
+            $table->string('name',45)->unique();
+            $table->string('description',255);
+            $table->decimal('utility_rate',15,3);
             $table->enum('status', ['active', 'inactive'])->default('active');
 
             $table->foreignId('company_tax_id')->constrained()->onUpdate('cascade')->onDelete('cascade');

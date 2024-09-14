@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
 
             $table->morphs('kardexable');
-            $table->string('document', 20);
-            $table->decimal('quantity',12,2);
-            $table->decimal('stock',12,2);
+            $table->string('document',20);
+            $table->decimal('quantity',15,3);
+            $table->decimal('stock',15,3);
             $table->enum('movement', ['purchase', 'expense', 'invoice', 'ncpurchase', 'ndpurchase', 'ncinvoice', 'ndinvoice', 'remission'])->default('purchase');
 
             $table->foreignId('branch_id')->constrained()->onUpdate('cascade');

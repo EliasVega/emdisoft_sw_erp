@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('branch_products', function (Blueprint $table) {
             $table->id();
 
-            $table->decimal('stock', 10,2);//stock por branch
+            $table->decimal('stock',15,3);//stock por branch
 
             $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
             $table->foreignId('product_id')->constrained()->onUpdate('cascade');

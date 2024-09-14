@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('invoice_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->string('document', 20);
-            $table->string('cufe', 100);
-            $table->string('message', 100);
-            $table->string('valid', 5);
-            $table->string('code', 3);
-            $table->string('description', 100);
-            $table->string('status_message', 100);
+            $table->string('document',20);
+            $table->string('cufe',100);
+            $table->string('message',100);
+            $table->string('valid',5);
+            $table->string('code',3);
+            $table->string('description',100);
+            $table->string('status_message',100);
             $table->json('response_api')->nullable();
 
 

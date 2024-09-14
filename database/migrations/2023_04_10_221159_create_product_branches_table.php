@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('product_branches', function (Blueprint $table) {
             $table->id();
 
-            $table->decimal('quantity', 12,2);
+            $table->decimal('quantity',15,3);
             $table->foreignId('user_id')->constrained();
             $table->foreignId('product_id')->constrained()->onUpdate('cascade');
             $table->foreignId('branch_id')->constrained()->onUpdate('cascade');

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
 
             $table->morphs('paymentable');
-            $table->decimal('pay',20,3);
-            $table->string('note', 255)->nullable();
+            $table->decimal('pay',15,3);
+            $table->string('note',255)->nullable();
             $table->enum('type_third', ['customer', 'provider', 'employee'])->default('customer');
 
             $table->foreignId('user_id')->constrained()->onUpdate('cascade');

@@ -16,21 +16,21 @@ return new class extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
 
-            $table->string('document', 20);//prefijo y numero de factura
-            $table->string('invoice_code', 20);//numero factura de compra
+            $table->string('document',20);//prefijo y numero de factura
+            $table->string('invoice_code',20);//numero factura de compra
             $table->date('generation_date');//fecha de generacion
             $table->date('due_date');//fecha limite de pago
-            $table->decimal('total',20, 3);//subtotal de la factura
-            $table->decimal('total_tax', 20, 3);//total iva
-            $table->decimal('total_pay',20, 3);//total de la factura
-            $table->decimal('pay',20, 3);//total pago o abono
-            $table->decimal('balance', 20, 3);//saldo de la factura
-            $table->decimal('retention', 20,3);//valor total de retenciones
-            $table->decimal('grand_total', 20,3); //Total de factura mas notas credito y menos notas debito +- retenciones
+            $table->decimal('total',15,3);//subtotal de la factura
+            $table->decimal('total_tax',15,3);//total iva
+            $table->decimal('total_pay',15,3);//total de la factura
+            $table->decimal('pay',15,3);//total pago o abono
+            $table->decimal('balance',15,3);//saldo de la factura
+            $table->decimal('retention',15,3);//valor total de retenciones
+            $table->decimal('grand_total',15,3); //Total de factura mas notas credito y menos notas debito +- retenciones
             $table->date('start_date')->nullable();//inicio de ds para tipo de generacion
             $table->enum('status',['purchase', 'support_document', 'debit_note', 'credit_note', 'adjustment_note', 'complete'])->default('purchase');
             $table->enum('type_product',['product', 'raw_material'])->default('product');
-            $table->string('note', 255)->nullable();//nota abierta
+            $table->string('note',255)->nullable();//nota abierta
 
             $table->foreignId('user_id')->constrained();
             $table->foreignId('branch_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
