@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('resolutions', function (Blueprint $table) {
             $table->id();
 
-            $table->string('prefix', 4);
-            $table->string('resolution', 20)->nullable();
+            $table->string('prefix',4);
+            $table->string('resolution',20)->nullable();
             $table->date('resolution_date')->nullable();
-            $table->string('technical_key', 64)->nullable();
+            $table->string('technical_key',64)->nullable();
             $table->bigInteger('start_number');
             $table->bigInteger('end_number');
             $table->bigInteger('consecutive')->default(1);

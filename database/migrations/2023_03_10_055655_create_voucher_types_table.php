@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('voucher_types', function (Blueprint $table) {
             $table->id();
 
-            $table->string('code', 4)->unique();
-            $table->string('name', 50)->unique();
+            $table->string('code',4)->unique();
+            $table->string('name',50)->unique();
             $table->bigInteger('consecutive')->default(1);
             $table->enum('status', ['active', 'inactive', 'locked'])->default('active');
 

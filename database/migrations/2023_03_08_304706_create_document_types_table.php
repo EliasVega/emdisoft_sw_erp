@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('document_types', function (Blueprint $table) {
             $table->id();
-            $table->string('code', 4)->nullable();
-            $table->string('name', 100);
-            $table->string('prefix', 4);
-            $table->string('cufe_algorithm', 20)->nullable();
+            $table->string('code',4)->nullable();
+            $table->string('name',100);
+            $table->string('prefix',4);
+            $table->string('cufe_algorithm',20)->nullable();
 
             $table->timestamps();
 

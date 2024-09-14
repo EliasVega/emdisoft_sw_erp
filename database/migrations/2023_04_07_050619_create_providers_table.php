@@ -16,15 +16,15 @@ return new class extends Migration
         Schema::create('providers', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name', 100);
-            $table->string('identification', 20)->unique();
-            $table->string('dv', 1);
-            $table->string('address', 100);
-            $table->string('phone', 20);
-            $table->string('email', 100);
-            $table->string('merchant_registration', 12)->default('000000,00');
-            $table->string('contact', 50)->nullable();
-            $table->string('phone_contact', 20)->nullable();
+            $table->string('name',100);
+            $table->string('identification',20)->unique();
+            $table->string('dv',1);
+            $table->string('address',100);
+            $table->string('phone',20);
+            $table->string('email',100);
+            $table->string('merchant_registration',12)->default('000000,00');
+            $table->string('contact',50)->nullable();
+            $table->string('phone_contact',20)->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
 
             $table->foreignId('department_id')->constrained()->onUpdate('cascade');

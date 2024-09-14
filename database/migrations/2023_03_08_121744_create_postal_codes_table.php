@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('postal_codes', function (Blueprint $table) {
             $table->id();
 
-            $table->string('postal_code', 6);
-            $table->string('type', 10);
+            $table->string('postal_code',6);
+            $table->string('type',10);
             $table->foreignId('municipality_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
 
             $table->timestamps();

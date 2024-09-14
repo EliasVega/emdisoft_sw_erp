@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('measure_units', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100);
-            $table->string('code', 4);
+            $table->string('name',100);
+            $table->string('code',4);
             $table->enum('status', ['active', 'inactive'])->default('active');
         });
     }

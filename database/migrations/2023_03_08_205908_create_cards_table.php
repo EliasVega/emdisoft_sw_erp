@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('cards', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 20);
+            $table->string('name',20);
         });
     }
 

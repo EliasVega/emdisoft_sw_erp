@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('branches', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name', 50);
-            $table->string('address', 100);
-            $table->string('phone', 15);
-            $table->string('mobile', 15);
-            $table->string('email', 50)->unique();
-            $table->string('manager', 50);
+            $table->string('name',50);
+            $table->string('address',100);
+            $table->string('phone',15);
+            $table->string('mobile',15);
+            $table->string('email',50)->unique();
+            $table->string('manager',50);
 
             $table->foreignId('department_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('municipality_id')->constrained()->onUpdate('cascade')->onDelete('cascade');

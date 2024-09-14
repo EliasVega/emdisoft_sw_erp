@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
 
             $table->char('code');
-            $table->string('name', 50);
-            $table->string('protocol', 10)->default('http://');
+            $table->string('name',50);
+            $table->string('protocol',10)->default('http://');
             $table->string('url');
 
             $table->timestamps();

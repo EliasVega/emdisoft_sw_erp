@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('discrepancies', function (Blueprint $table) {
             $table->id();
             $table->integer('code');
-            $table->string('type', 2);
-            $table->string('description', 100);
+            $table->string('type',2);
+            $table->string('description',100);
             $table->enum('status', ['active', 'inactive'])->default('active');
         });
     }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
 
             $table->morphs('taxable');
-            $table->decimal('tax_value', 10,2);
+            $table->decimal('tax_value',15,3);
             $table->enum('type', ['purchase', 'invoice', 'ndpurchase', 'ncpurchase', 'ncinvoice', 'ndinvoice'])->default('purchase');
 
             $table->foreignId('company_tax_id')->constrained();

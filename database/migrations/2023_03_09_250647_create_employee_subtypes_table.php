@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('employee_subtypes', function (Blueprint $table) {
             $table->id();
 
-            $table->string('code', 2);
-            $table->string('name', 100);
+            $table->string('code',2);
+            $table->string('name',100);
 
             $table->timestamps();
         });

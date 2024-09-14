@@ -16,19 +16,19 @@ return new class extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name', 65);
-            $table->string('nit', 20)->unique();
-            $table->string('dv', 1);
-            $table->string('address', 100);
-            $table->string('phone', 12);
-            $table->string('api_token', 100);
-            $table->string('email', 50)->unique();
-            $table->string('emailfe', 50)->unique();
+            $table->string('name',65);
+            $table->string('nit',20)->unique();
+            $table->string('dv',1);
+            $table->string('address',100);
+            $table->string('phone',12);
+            $table->string('api_token',100);
+            $table->string('email',50)->unique();
+            $table->string('emailfe',50)->unique();
             $table->string('merchant_registration', 12);
-            $table->string('imageName', 20);
-            $table->string('logo', 255)->nullable();
-            $table->string('pos_invoice', 20)->default('POS');
-            $table->string('pos_purchase', 20)->default('POS');
+            $table->string('imageName',20);
+            $table->string('logo',255)->nullable();
+            $table->string('pos_invoice',20)->default('POS');
+            $table->string('pos_purchase',20)->default('POS');
             $table->enum('status', ['active', 'inactive'])->default('active');
             //$table->enum('cash_register', ['active', 'inactive'])->default('active');
 

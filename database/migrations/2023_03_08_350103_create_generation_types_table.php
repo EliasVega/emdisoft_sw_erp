@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('generation_types', function (Blueprint $table) {
             $table->id();
-            $table->string('description', 50);
+            $table->string('description',50);
         });
     }
 

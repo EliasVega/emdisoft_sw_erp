@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('regimes', function (Blueprint $table) {
             $table->id();
             $table->integer('code');
-            $table->string('name', 45);
+            $table->string('name',45);
         });
     }
 

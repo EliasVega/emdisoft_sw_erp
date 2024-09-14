@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('identification_types', function (Blueprint $table) {
             $table->id();
-            $table->string('code', 3);
-            $table->string('name', 50);
-            $table->string('initial', 6);
+            $table->string('code',3);
+            $table->string('name',50);
+            $table->string('initial',6);
         });
     }
 

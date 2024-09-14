@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('advances', function (Blueprint $table) {
             $table->id();
 
-            $table->string('document', 20);
-            $table->string('origin', 50);
-            $table->string('destination', 20)->nullable();
-            $table->decimal('pay',20,2);
-            $table->decimal('balance',20,2);
-            $table->string('note', 255)->nullable();
+            $table->string('document',20);
+            $table->string('origin',50);
+            $table->string('destination',20)->nullable();
+            $table->decimal('pay',15,3);
+            $table->decimal('balance',15,3);
+            $table->string('note',255)->nullable();
             $table->morphs('advanceable');
             $table->enum('status',['pending', 'partial', 'applied'])->default('pending');
             $table->enum('type_third', ['customer', 'provider', 'employee'])->default('customer');

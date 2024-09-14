@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('payment_frecuencies', function (Blueprint $table) {
             $table->id();
 
-            $table->string('code', 2);
-            $table->string('name', 20);
+            $table->string('code',2);
+            $table->string('name',20);
 
             $table->timestamps();
         });
