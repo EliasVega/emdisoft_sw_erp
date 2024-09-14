@@ -18,14 +18,14 @@ return new class extends Migration
 
             $table->date('start_period_vacations');//fecha inicio periodo de vacaciones
             $table->integer('vacation_days');//dias de vacaciones
-            $table->decimal('vacations', 20,3);//Vacaciones
+            $table->decimal('vacations',15,3);//Vacaciones
             $table->date('start_period_bonus');//fecha inicio periodo de Prima
             $table->integer('bonus_days');//dias de prima
-            $table->decimal('bonus', 20,3);//Primas
+            $table->decimal('bonus',15,3);//Primas
             $table->date('start_period_layoffs');//fecha inicio periodo de Cesantias
             $table->integer('layoff_days');//dias de cesantias
-            $table->decimal('layoffs', 20,3);//Cesantias
-            $table->decimal('layoff_interest', 10,2);//Intereses de Cesantias
+            $table->decimal('layoffs',15,3);//Cesantias
+            $table->decimal('layoff_interest',15,3);//Intereses de Cesantias
 
             $table->foreignId('employee_id')->constrained()->onUpdate('cascade');
 

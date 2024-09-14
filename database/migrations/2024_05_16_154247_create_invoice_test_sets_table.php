@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('invoice_test_sets', function (Blueprint $table) {
             $table->id();
 
-            $table->string('document_type', 4);
-            $table->string('message', 256);
-            $table->string('zipKey', 50)->nullable();
-            $table->string('cufe', 100);
+            $table->string('document_type',4);
+            $table->string('message',256);
+            $table->string('zipKey',50)->nullable();
+            $table->string('cufe',100);
 
             $table->foreignId('company_id')->constrained();
 

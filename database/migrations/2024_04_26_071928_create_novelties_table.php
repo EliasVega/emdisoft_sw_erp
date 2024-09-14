@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
 
             $table->string('year_month',7);//mes de novedad
-            $table->string('type_novelty', 12);//tipo de novedad salarial no salarial
-            $table->string('name_novelty', 20);//nombre de la novedad
-            $table->decimal('value_novelty',20,3);//valor de la novedad
-            $table->string('note', 100)->nullable();//observacion de la novedad
+            $table->string('type_novelty',12);//tipo de novedad salarial no salarial
+            $table->string('name_novelty',20);//nombre de la novedad
+            $table->decimal('value_novelty',15,3);//valor de la novedad
+            $table->string('note',100)->nullable();//observacion de la novedad
             $table->string('compensation_type',15)->nullable();//tipo de compensacion
 
             $table->foreignId('payroll_acrued_id')->constrained();

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('movements', function (Blueprint $table) {
             $table->id();
 
-            $table->decimal('amount', 20,3);
+            $table->decimal('amount',15,3);
             $table->enum('type', ['credit', 'debit']);
             $table->string('description');
             $table->morphs('movementable');

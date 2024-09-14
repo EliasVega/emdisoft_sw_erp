@@ -15,15 +15,15 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('company_id')->constrained();
-            $table->string('identifier', 64)->nullable();
-            $table->string('pin', 5)->nullable();
-            $table->string('test_set', 64)->nullable();
+            $table->string('identifier',64)->nullable();
+            $table->string('pin',5)->nullable();
+            $table->string('test_set',64)->nullable();
             $table->string('identifier_payroll',64)->nullable();
-            $table->string('pin_payroll', 5)->nullable();
-            $table->string('payroll_test_set', 64)->nullable();
+            $table->string('pin_payroll',5)->nullable();
+            $table->string('payroll_test_set',64)->nullable();
             $table->string('identifier_equidoc',64)->nullable();
-            $table->string('pin_equidoc', 5)->nullable();
-            $table->string('equidoc_test_set', 64)->nullable();
+            $table->string('pin_equidoc',5)->nullable();
+            $table->string('equidoc_test_set',64)->nullable();
 
             $table->timestamps();
         });

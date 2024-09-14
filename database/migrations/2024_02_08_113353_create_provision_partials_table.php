@@ -18,13 +18,13 @@ return new class extends Migration
             $table->date('start_period');//fecha inicio Periodo provision
             $table->date('end_period');//fecha fin Periodo provision
             $table->integer('vacation_days');//dias de vacaciones
-            $table->decimal('vacations', 20,3);//Vacaciones
+            $table->decimal('vacations',15,3);//Vacaciones
             $table->integer('bonus_days');//dias de prima
-            $table->decimal('bonus', 20,3);//Primas
+            $table->decimal('bonus',15,3);//Primas
             $table->integer('layoff_days');//dias de cesantias
-            $table->decimal('layoffs', 20,3);//Cesantias
-            $table->decimal('layoff_interest', 20,3);//Intereses de Cesantias
-            $table->decimal('vacation_adjustment', 20,3);//ajuste del valor de vacaciones
+            $table->decimal('layoffs',15,3);//Cesantias
+            $table->decimal('layoff_interest',15,3);//Intereses de Cesantias
+            $table->decimal('vacation_adjustment',15,3);//ajuste del valor de vacaciones
             $table->enum('status',['pendient', 'canceled', 'caused'])->default('pendient');
 
             $table->foreignId('provision_id')->constrained()->onUpdate('cascade');

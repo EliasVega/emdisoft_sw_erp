@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('subauxiliary_accounts', function (Blueprint $table) {
             $table->id();
 
-            $table->string('code', 10)->unique();
-            $table->string('name', 100);
-            $table->decimal('total_amount', 20,3);
+            $table->string('code',10)->unique();
+            $table->string('name',100);
+            $table->decimal('total_amount',15,3);
             $table->enum('status', ['active', 'inactive'])->default('inactive');
             $table->foreignId('auxiliary_account_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
 

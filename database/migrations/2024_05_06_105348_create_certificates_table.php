@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->foreignId('company_id')->constrained();
 
-            $table->string('file', 50)->nullable();
+            $table->string('file',50)->nullable();
             $table->string('password')->nullable();
             $table->date('expiration_date')->nullable();
 

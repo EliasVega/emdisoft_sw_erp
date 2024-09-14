@@ -17,8 +17,8 @@ return new class extends Migration
             $table->date('start_inability');//fecha inicio Incapacidad
             $table->date('end_inability');//fecha fin Incapacidad
             $table->integer('days_inability');//dias de incapacidad para este periodo
-            $table->decimal('value_day',20,3);//valor del dia segun la incapacidad
-            $table->decimal('total_inability',20,3);//valor total de la incapacidad
+            $table->decimal('value_day',15,3);//valor del dia segun la incapacidad
+            $table->decimal('total_inability',15,3);//valor total de la incapacidad
             $table->enum('origin', ['common', 'labor'])->default('common');//incapacidad de origen comun o laboral
 
             $table->foreignId('payroll_acrued_id')->constrained();

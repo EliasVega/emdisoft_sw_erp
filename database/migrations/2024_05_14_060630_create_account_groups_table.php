@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('account_groups', function (Blueprint $table) {
             $table->id();
 
-            $table->string('code', 2);
-            $table->string('name', 100);
-            $table->decimal('total_amount', 20,3);
+            $table->string('code',2);
+            $table->string('name',100);
+            $table->decimal('total_amount',15,3);
             $table->foreignId('account_class_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
         });
     }

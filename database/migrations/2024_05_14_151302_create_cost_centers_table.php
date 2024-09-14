@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('cost_centers', function (Blueprint $table) {
             $table->id();
 
-            $table->string('code', 4);
-            $table->string('name', 50);
+            $table->string('code',4);
+            $table->string('name',50);
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->foreignId('branch_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
 

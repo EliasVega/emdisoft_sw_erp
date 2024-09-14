@@ -16,9 +16,9 @@ return new class extends Migration
 
             $table->date('start_commission');//fecha inicio periodo comisiones
             $table->date('end_commission');//fecha fin periodo comisiones
-            $table->string('type_commission', 12);//tipo de novedad salarial no salarial
-            $table->decimal('value_commission',20,3);//valor de la novedad
-            $table->string('note', 100)->nullable();//observacion de la novedad
+            $table->string('type_commission',12);//tipo de novedad salarial no salarial
+            $table->decimal('value_commission',15,3);//valor de la novedad
+            $table->string('note',100)->nullable();//observacion de la novedad
 
             $table->foreignId('payroll_acrued_id')->constrained();
             $table->foreignId('payroll_partial_acrued_id')->nullable()->constrained();

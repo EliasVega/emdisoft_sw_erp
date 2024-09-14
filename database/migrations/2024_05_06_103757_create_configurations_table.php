@@ -17,9 +17,9 @@ return new class extends Migration
             $table->foreignId('company_id')->constrained();
 
             $table->string('ip', 20);
-            $table->string('creator_name', 100);
-            $table->string('company_name', 100);
-            $table->string('software_name', 50);
+            $table->string('creator_name',100);
+            $table->string('company_name',100);
+            $table->string('software_name',50);
 
             $table->timestamps();
         });

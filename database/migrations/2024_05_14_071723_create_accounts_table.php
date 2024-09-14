@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
 
-            $table->string('code', 4);
-            $table->string('name', 100);
-            $table->decimal('total_amount', 20,3);
+            $table->string('code',4);
+            $table->string('name',100);
+            $table->decimal('total_amount',15,3);
             $table->foreignId('account_group_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
 
             $table->timestamps();

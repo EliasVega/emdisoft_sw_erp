@@ -16,8 +16,8 @@ return new class extends Migration
             //description    ---- usa, aplica
 
             $table->morphs('accountable');//referencia al PUC la cuanta a la que pertenece
-            $table->string('description', 100)->nullable();
-            $table->string('implication', 30)->nullable();//ej: numero cuenta del banco
+            $table->string('description',100)->nullable();
+            $table->string('implication',30)->nullable();//ej: numero cuenta del banco
             $table->foreignId('bank_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');//referencia al banco
             //motivo por el cual se activa el movimiento del puc
             $table->foreignId('trigger_method_id')->constrained()->onUpdate('cascade')->onDelete('cascade');

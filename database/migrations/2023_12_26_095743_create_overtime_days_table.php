@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('year_month',10);//año y mes de liquidacion
             $table->dateTime('start_time');//hora de inicio de labor
             $table->dateTime('end_time');//hora teminacion de labor
-            $table->decimal('quantity',20,3);//cantidad laborada
-            $table->decimal('value_hour',20,3);//valor de hora segun el tipo
-            $table->decimal('subtotal',20,3);//cantidad por precio
+            $table->decimal('quantity',15,3);//cantidad laborada
+            $table->decimal('value_hour',15,3);//valor de hora segun el tipo
+            $table->decimal('subtotal',15,3);//cantidad por precio
             $table->enum('status',['pendient', 'canceled'])->default('pendient');//esado de pendiente o cancelada
 
             $table->foreignId('overtime_type_id')->constrained()->onUpdate('cascade');
