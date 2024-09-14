@@ -335,12 +335,11 @@ class InvoiceController extends Controller
                 $documentType = 104;
             }
         }
-        //dd($voucherType);
-        $voucherTypes = VoucherType::findOrFail(24);
+        $voucherTypes = VoucherType::findOrFail($voucherType);
         //Variables del request
 
         $product_id = $request->product_id;
-        $quantity = $request->quantity;
+        $quantities = $request->quantity;
         $price = $request->price;
         $tax_rate = $request->tax_rate;
         $branch = current_user()->branch_id;
@@ -392,7 +391,6 @@ class InvoiceController extends Controller
             }
             //dd($data);
             $requestResponse = sendDocuments($url, $data);
-            //dd($requestResponse);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
             $errorMessages = $requestResponse['errorMessages'];
@@ -445,8 +443,6 @@ class InvoiceController extends Controller
             $invoice->grand_total = $total_pay - $retention;
             $invoice->save();
 
-
-
             $voucherTypes->consecutive += 1;
             $voucherTypes->update();
 
@@ -463,11 +459,11 @@ class InvoiceController extends Controller
                 $invoiceProduct = new InvoiceProduct();
                 $invoiceProduct->invoice_id = $invoice->id;
                 $invoiceProduct->product_id = $id;
-                $invoiceProduct->quantity = $quantity[$i];
+                $invoiceProduct->quantity = $quantities[$i];
                 $invoiceProduct->price = $price[$i];
                 $invoiceProduct->tax_rate = $tax_rate[$i];
-                $invoiceProduct->subtotal = $quantity[$i] * $price[$i];
-                $invoiceProduct->tax_subtotal =($quantity[$i] * $price[$i] * $tax_rate[$i])/100;
+                $invoiceProduct->subtotal = $quantities[$i] * $price[$i];
+                $invoiceProduct->tax_subtotal =($quantities[$i] * $price[$i] * $tax_rate[$i])/100;
                 $invoiceProduct->save();
 
                 //selecciona el producto que viene del array
@@ -482,9 +478,9 @@ class InvoiceController extends Controller
                 ->where('branch_id', '=', $branch)
                 ->first();
 
-                $quantityLocal = $quantity[$i];
-                $this->inventoryInvoices($product, $branchProducts, $quantityLocal, $branch);//trait para actualizar inventario
-                $this->kardexCreate($product, $branch, $voucherType, $document, $quantityLocal, $typeDocument);//trait crear Kardex
+                $quantity = $quantities[$i];
+                $this->inventoryInvoices($product, $branchProducts, $quantity, $branch);//trait para actualizar inventario
+                $this->kardexCreate($product, $branch, $voucherType, $document, $quantity, $typeDocument);//trait crear Kardex
 
                 if (indicator()->work_labor == 'on') {
                     //metodo para comisiones de empleados
@@ -519,65 +515,65 @@ class InvoiceController extends Controller
             retentions($request, $document, $typeDocument);
 
 
-                if ($typeDocument == 'pos') {
-                    $return = 0;
-                    if ($totalpay > 0) {
-                        $return = $payment[0] - $totalpay;
-                        /*
-                        $paymentMethod = $request->payment_method_id;
-                        $bank = 1;
-                        $card = 1;
-                        $advance_id = null;
-                        $payment = $request->pay;
-                        $transaction = 00;
-                        $payAdvance = 0;
-                        $return = $payment[0] - $totalpay;
-                            //Metodo para crear un nuevo pago y su realcion polimorfica dependiendo del tipo de documento
-                        $pay = new Pay();
-                        $pay->user_id = current_user()->id;
-                        $pay->branch_id = current_user()->branch_id;
-                        $pay->pay = $totalpay;
-                        $pay->balance = $document->balance;
-                        $pay->type = 'invoice';
+            if ($typeDocument == 'pos') {
+                $return = 0;
+                if ($totalpay > 0) {
+                    $return = $payment[0] - $totalpay;
+                    /*
+                    $paymentMethod = $request->payment_method_id;
+                    $bank = 1;
+                    $card = 1;
+                    $advance_id = null;
+                    $payment = $request->pay;
+                    $transaction = 00;
+                    $payAdvance = 0;
+                    $return = $payment[0] - $totalpay;
+                        //Metodo para crear un nuevo pago y su realcion polimorfica dependiendo del tipo de documento
+                    $pay = new Pay();
+                    $pay->user_id = current_user()->id;
+                    $pay->branch_id = current_user()->branch_id;
+                    $pay->pay = $totalpay;
+                    $pay->balance = $document->balance;
+                    $pay->type = 'invoice';
 
-                        $invoice = $document;
-                        $invoice->pays()->save($pay);
+                    $invoice = $document;
+                    $invoice->pays()->save($pay);
 
-                        //Metodo para registrar la relacion entre pago y metodo de pago
-                        $pay_paymentMethod = new PayPaymentMethod();
-                        $pay_paymentMethod->pay_id = $pay->id;
-                        $pay_paymentMethod->payment_method_id = $paymentMethod;
-                        $pay_paymentMethod->bank_id = $bank;
-                        $pay_paymentMethod->card_id = $card;
-                        $pay_paymentMethod->pay = $payment[0];
-                        $pay_paymentMethod->transaction = $transaction;
-                        $pay_paymentMethod->save();
-                        */
-                        pays($request, $document, $typeDocument);
-                        if (indicator()->pos == 'on') {
-                            //metodo para actualizar la caja
-                            $cashRegister->in_invoice_cash += $totalpay;
-                            $cashRegister->cash_in_total += $totalpay;
+                    //Metodo para registrar la relacion entre pago y metodo de pago
+                    $pay_paymentMethod = new PayPaymentMethod();
+                    $pay_paymentMethod->pay_id = $pay->id;
+                    $pay_paymentMethod->payment_method_id = $paymentMethod;
+                    $pay_paymentMethod->bank_id = $bank;
+                    $pay_paymentMethod->card_id = $card;
+                    $pay_paymentMethod->pay = $payment[0];
+                    $pay_paymentMethod->transaction = $transaction;
+                    $pay_paymentMethod->save();
+                    */
+                    pays($request, $document, $typeDocument);
+                    if (indicator()->pos == 'on') {
+                        //metodo para actualizar la caja
+                        $cashRegister->in_invoice_cash += $totalpay;
+                        $cashRegister->cash_in_total += $totalpay;
 
-                            $cashRegister->in_invoice += $totalpay;
-                            $cashRegister->in_total += $totalpay;
-                            $cashRegister->update();
-                        }
-                    }
-
-                    $paymentReturn = new PaymentReturn();
-                    $paymentReturn->payment = $request->pay[0];
-                    $paymentReturn->return = $return;
-                    $paymentReturn->invoice_id = $invoice->id;
-                    $paymentReturn->save();
-                } else {
-                    if ($totalpay > 0) {
-                        pays($request, $document, $typeDocument);
+                        $cashRegister->in_invoice += $totalpay;
+                        $cashRegister->in_total += $totalpay;
+                        $cashRegister->update();
                     }
                 }
 
+                $paymentReturn = new PaymentReturn();
+                $paymentReturn->payment = $request->pay[0];
+                $paymentReturn->return = $return;
+                $paymentReturn->invoice_id = $invoice->id;
+                $paymentReturn->save();
+            } else {
+                if ($totalpay > 0) {
+                    pays($request, $document, $typeDocument);
+                }
+            }
+
             $resolutions->consecutive += 1;
-                $resolutions->update();
+            $resolutions->update();
 
             if (indicator()->dian == 'on') {
                 $valid = $service['ResponseDian']['Envelope']['Body']['SendBillSyncResponse']
