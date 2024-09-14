@@ -890,6 +890,11 @@ class InvoiceController extends Controller
         ->select('ip.id', 'pro.id as idP', 'pro.name', 'pro.stock', 'ip.quantity', 'ip.price', 'ip.tax_rate', 'ip.subtotal', 'tt.id as idtt', 'tt.name as namett')
         ->where('invoice_id', $id)
         ->get();
+        $companyTaxes = CompanyTax::from('company_taxes', 'ct')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
+        ->where('tt.type_tax', 'retention')->get();
         if ($invoice->status == 'complete' || $invoice->status == 'adjustment_note') {
             return redirect("invoice")->with('warning', 'Esta Compra ya no se puede hacer notas');
         }
@@ -899,6 +904,7 @@ class InvoiceController extends Controller
             'invoiceProducts',
             'discrepancies',
             'resolutions',
+            'companyTaxes',
             'taxes'
         ));
     }
@@ -939,6 +945,11 @@ class InvoiceController extends Controller
          ->select('ip.id', 'pro.id as idP', 'pro.name', 'pro.stock', 'ip.quantity', 'ip.price', 'ip.tax_rate', 'ip.subtotal', 'tt.id as idtt', 'tt.name as namett')
          ->where('invoice_id', $id)
          ->get();
+         $companyTaxes = CompanyTax::from('company_taxes', 'ct')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->select('ct.id', 'ct.name', 'tt.id as ttId', 'tt.type_tax', 'per.percentage', 'per.base')
+        ->where('tt.type_tax', 'retention')->get();
          if ($invoice->status == 'complete' || $invoice->status == 'adjustment_note') {
             return redirect("invoice")->with('warning', 'Esta Compra ya no se puede hacer notas');
         }
@@ -948,6 +959,7 @@ class InvoiceController extends Controller
             'invoiceProducts',
             'discrepancies',
             'resolutions',
+            'companyTaxes',
             'taxes'
         ));
     }

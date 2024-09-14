@@ -28,11 +28,8 @@
             {!!Form::open(array('url'=>'ndinvoice', 'method'=>'POST', 'autocomplete'=>'off', 'id' => 'registerForm'))!!}
             {!!Form::token()!!}
             <div class="row m-1">
-                <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     @include('admin/ndinvoice.form_ndinvoice')
-                </div>
-                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                    @include('admin/ndinvoice.form_retention')
                 </div>
             </div>
             {!!Form::close()!!}
@@ -45,6 +42,6 @@
 @endsection
 @section('scripts')
     @include('admin/ndinvoice.script')
-    @include('admin/ndinvoice.script_retention')
+    @include('admin/generalview.script_retention')
 @endsection
 

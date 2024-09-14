@@ -41,6 +41,6 @@
 @endsection
 @section('scripts')
     @include('admin/ncpurchase.script')
-    @include('admin/ncpurchase.script_retention')
+    @include('admin/generalview.script_retention')
 @endsection
 

@@ -1,7 +1,7 @@
 <div class="box-body row">
     <div class="col-md-4" id="formRetentions">
         <div class="card card-primary card-outline">
-            @include('admin/ndpurchase.form_retention')
+            @include('admin/generalview.form_retention')
         </div>
     </div>
     <div class="col-md-4" id="formCard">

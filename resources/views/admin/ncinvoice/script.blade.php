@@ -11,6 +11,22 @@
             });
         });
     });
+    jQuery(document).ready(function($){
+        $(document).ready(function() {
+            $('#resolution_id').select2({
+                theme: "classic",
+                width: "100%",
+            });
+        });
+    });
+    jQuery(document).ready(function($){
+        $(document).ready(function() {
+            $('#product_id').select2({
+                theme: "classic",
+                width: "100%",
+            });
+        });
+    });
 
     let cont=0;
     let total=0;
@@ -18,20 +34,29 @@
     let total_tax = 0;
     let tax_iva = 0;
     //let tax_ivaedit = 0;
-    $("#save").hide();
-    $("#idCustomer").hide();
 
+    $("#formRetentions").hide();
+    $("#doNotLook").hide();
+    $("#addResolution").hide();
+    $("#addReverse").hide();
+    $("#save").hide();
     $("#addproduct").hide();
     $("#addquantity").hide();
     $("#addprice").hide();
     $("#added").hide();
+
+    /*
+    
+    $("#idCustomer").hide();
+
+    
     $("#addtax_rate").hide();
     $("#addstock").hide();
     $("#invoice").hide();
-    $("#addReverse").hide();
+    
     $("#documentType").hide();
-    $("#addResolution").hide();
-    $("#addTypeProduct").hide();
+    
+    $("#addTypeProduct").hide();*/
 
 
     $(document).ready(function(){
@@ -44,34 +69,19 @@
                 total=0;
                 subtotal=[];
                 total_tax = 0;
-                /*
-                $("#addproduct").hide();
-                $("#addquantity").hide();
-                $("#addprice").hide();
-                $("#addtax_rate").hide();
-                $("#addstock").hide();
-                $("#added").hide();*/
-                //$("#addResolution").show();
                 $("#addReverse").show();
 
                 editing();
-                retentionLoad();
+                //retentionLoad();
             } else if (discrepancy == 2) {
                 $("#discrepancy").hide();
                 cont = 0;
                 total = 0;
                 subtotal = [];
                 total_tax = 0;
-                /*
-                $("#addproduct").hide();
-                $("#addquantity").hide();
-                $("#addprice").hide();
-                $("#added").hide();
-                $("#cancelled").hide();*/
-                //$("#addResolution").show();
                 $("#addReverse").show();
                 editing();
-                retentionLoad();
+                //retentionLoad();
             } else if (discrepancy == 3) {
                 $("#discrepancy").hide();
                 $('#quantityModal').prop("readonly", true);
@@ -80,17 +90,9 @@
                 total=0;
                 subtotal=[];
                 total_tax = 0;
-                /*
-                $("#addproduct").hide();
-                $("#addquantity").hide();
-                $("#addprice").hide();
-                $("#addtax_rate").hide();
-                $("#addstock").hide();
-                $("#added").hide();*/
-                //$("#addResolution").show();
                 $("#addReverse").show();
                 editing();
-                retentionLoad();
+                //retentionLoad();
             } else if (discrepancy == 4) {
                 $("#discrepancy").hide();
                 $('#quantityModal').prop("readonly", true);
@@ -99,17 +101,9 @@
                 total=0;
                 subtotal=[];
                 total_tax = 0;
-                /*
-                $("#addproduct").hide();
-                $("#addquantity").hide();
-                $("#addprice").hide();
-                $("#addtax_rate").hide();
-                $("#addstock").hide();
-                $("#added").hide();*/
-                //$("#addResolution").show();
                 $("#addReverse").show();
                 editing();
-                retentionLoad();
+                //retentionLoad();
             }
         });
     });
@@ -144,7 +138,8 @@
                         tax_iva += ivita;
                     }
 
-                    var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="ttid[]"  value="'+taxType+'">'+taxType+'</td><td><input type="hidden" name="id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product_id[]" value="'+product_id+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td>'+subtotal[cont]+' </td></tr>';
+                    subcont = subtotal[cont] + parseFloat(ivita);
+                    rowsList(cont, taxType, product_id, product, quantity, price, ivita, tax_rate, subcont);
                     cont++;
 
                     totals();
@@ -191,10 +186,12 @@
         $("#subtotalMod").hide();
         $("#idMod").hide();
         $("#taxTypeModal").hide();
+        $("#ivaMod").hide();
+        $("#productIdModal").hide();
         // Obtener la fila
         var row = $("#row" + index);
         // Solo si la fila existe
-        if(row) {
+        if (row) {
 
             // Buscar datos en la fila y asignar a campos del formulario:
             // Primera columna (0) tiene ID, segunda (1) tiene nombre, tercera (2) capacidad
@@ -205,12 +202,14 @@
             $("#quantityModal").val(row.find("td:eq(5)").text());
             $("#priceModal").val(row.find("td:eq(6)").text());
             $("#ivaModal").val(row.find("td:eq(7)").text());
-            $("#subtotalModal").val(row.find("td:eq(8)").text());
+            $("#tax_rateModal").val(row.find("td:eq(8)").text());
+            $("#subtotalModal").val(row.find("td:eq(9)").text());
 
             // Mostrar modal
             $('#editModal').modal('show');
         }
     }
+
     function updaterow() {
 
         // Buscar datos en la fila y asignar a campos del formulario:
@@ -221,46 +220,47 @@
         product = $("#productModal").val();
         quantity = $("#quantityModal").val();
         price = $("#priceModal").val();
-        tax_rate = $("#ivaModal").val();
+        tax_rate = $("#tax_rateModal").val();
         stold = $("#subtotalModal").val();
         $('#priceModal').prop("readonly", false)
 
-        if(product_id !="" && quantity!="" && quantity>0 && price!="" && price>0){
-            subtotal[cont]= parseFloat(quantity) * parseFloat(price);
-            total = total+subtotal[cont];
+        if (product_id != "" && quantity != "" && quantity > 0 && price != "" && price > 0) {
+            subtotal[cont] = parseFloat(quantity) * parseFloat(price);
+            total = total + subtotal[cont];
             tr = parseFloat(tax_rate);
             if (tr > 0) {
-                ivita = subtotal[cont]*tax_rate/100;
+                ivita = subtotal[cont] * tax_rate / 100;
             } else {
                 ivita = 0;
             }
-            total_tax=total_tax+ivita;
-            if(taxType == 1){
+            total_tax = total_tax + ivita;
+            if (taxType == 1) {
                 tax_iva += ivita;
             }
             if (stold > subtotal[cont]) {
-                var row= '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="ttid[]"  value="'+taxType+'">'+taxType+'</td><td><input type="hidden" name="id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product_id[]" value="'+product_id+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+price+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td>'+subtotal[cont]+' </td></tr>';
+                subcont = subtotal[cont] + parseFloat(ivita);
+                rowsList(cont, taxType, product_id, product, quantity, price, ivita, tax_rate, subcont);
                 cont++;
 
                 totals();
                 assess();
                 $('#details').append(row);
                 deleterow(contedit);
-                clearRetention();
-                retentionUpdate();
+                //clearRetention();
+                //retentionUpdate();
                 $('#editModal').modal('hide');
                 //$('#product_id option:selected').remove();
             } else {
-                    // alert("Rellene todos los campos del detalle de la venta, revise los datos del producto");
-                    location.reload();
-                    Swal.fire({
+                // alert("Rellene todos los campos del detalle de la compra, revise los datos del producto");
+                location.reload();
+                Swal.fire({
                     type: 'error',
                     //title: 'Oops...',
                     text: 'la nueva cantidad no puede ser Mayor',
                 })
             }
-        }else{
-            // alert("Rellene todos los campos del detalle de la venta, revise los datos del producto");
+        } else {
+            // alert("Rellene todos los campos del detalle de la compra, revise los datos del producto");
             Swal.fire({
                 type: 'error',
                 //title: 'Oops...',
@@ -424,10 +424,26 @@
 
         $("#row" + index).remove();
         assess();
-        clearRetention();
-        retentionUpdate();
+        //clearRetention();
+        //retentionUpdate();
     }
-
+    $(document).ready(function(){
+        $("#addRetentions").click(function(){
+            $("#formCard").hide();
+            $("#formRetentions").show();
+            $("#addProductId").hide();
+            $("#qadd").hide();
+            $("#padd").hide();
+            $("#btnadd").hide();
+        });
+    });
+    $(document).ready(function(){
+        $("#goBack2").click(function(){
+            $("#formCard").show();
+            $("#formRetentions").hide();
+            $("#addRetentions").hide();
+        });
+    });
 
 
     function detailclear(){
@@ -443,5 +459,9 @@
         document.getElementById('registerForm').addEventListener('submit', function() {
             document.getElementById('register').setAttribute('disabled', 'true');
         });
+    }
+
+    function rowsList(cont, taxType, product_id, product, quantity, price, ivita, tax_rate, subcont) {
+        row = '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete"onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btnbtn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="ttid[]"  value="'+taxType+'">'+taxType+'</td><td><input type="hidden" name="product_id[]" value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td><td><input type="hidden" name="quantity[]" value="'+quantity+'">'+parseFloat(quantity).toFixed(2)+'</td><td><input type="hidden" name="price[]" value="'+price+'">'+parseFloat(price).toFixed(2)+'</td><td><input type="hidden" name="ivaline[]" value="'+ivita+'">'+parseFloat(ivita).toFixed(2)+'</td><td><input type="hidden" name="tax_rate[]" value="'+tax_rate+'">'+parseFloat(tax_rate).toFixed(2)+'</td><td>'+parseFloat(subcont).toFixed(2)+'</td></tr>';
     }
 </script>

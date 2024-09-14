@@ -34,5 +34,5 @@
 @section('scripts')
     @include('admin/invoiceOrderProduct.script')
     @include('admin/generalview.script_pay')
-    @include('admin/invoiceOrderProduct.script_retention')
+    @include('admin/generalview.script_retention')
 @endsection

@@ -151,7 +151,7 @@ class NcinvoiceController extends Controller
         $quantity = $request->quantity;
         $price = $request->price;
         $total_pay = $request->total_pay;
-        $product_id = $request->id;
+        $product_id = $request->product_id;
         $discrepancy = $request->discrepancy_id;
         $retention = 0;
         //variables del request
