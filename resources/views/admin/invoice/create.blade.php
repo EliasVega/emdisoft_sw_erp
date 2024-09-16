@@ -56,6 +56,7 @@
 <!--Inicio del modal cliente-->
 @include('admin/invoice.editmodal')
 @include('admin/invoice.modal_pay_pos')
+@include('admin/invoice.customer_modal')
 <!--Fin del modal-->
 @endsection
 @section('scripts')
@@ -68,4 +69,5 @@
         @include('admin/invoice.script_retention')
         @include('admin/invoice.script')
     @endif
+    @include('admin/invoice.script_customer')
 @endsection

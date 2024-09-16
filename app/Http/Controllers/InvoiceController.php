@@ -16,19 +16,25 @@ use App\Models\Card;
 use App\Models\CompanyTax;
 use App\Models\Configuration;
 use App\Models\Customer;
+use App\Models\Department;
 use App\Models\Discrepancy;
 use App\Models\Employee;
 use App\Models\EmployeeInvoiceProduct;
 use App\Models\Environment;
 use App\Models\HomeOrder;
+use App\Models\IdentificationType;
 use App\Models\InvoiceProduct;
 use App\Models\InvoiceResponse;
+use App\Models\Liability;
+use App\Models\Municipality;
 use App\Models\Ncinvoice;
 use App\Models\Ndinvoice;
+use App\Models\Organization;
 use App\Models\PaymentForm;
 use App\Models\PaymentMethod;
 use App\Models\PaymentReturn;
 use App\Models\Product;
+use App\Models\Regime;
 use App\Models\Resolution;
 use App\Models\RestaurantOrder;
 use App\Models\Tax;
@@ -149,6 +155,13 @@ class InvoiceController extends Controller
      */
     public function create()
     {
+        $departments = Department::get();
+        $municipalities = Municipality::get();
+        $identificationTypes = IdentificationType::get();
+        $liabilities = Liability::get();
+        $organizations = Organization::get();
+        $regimes = Regime::get();
+
         $pos = indicator()->pos;
         $cashRegister = cashRegisterComprobation();
         if ($cashRegister == null) {
@@ -201,6 +214,13 @@ class InvoiceController extends Controller
         $type = 'invoice';
         return view('admin.invoice.create',
         compact(
+            'departments', 
+            'municipalities', 
+            'identificationTypes', 
+            'liabilities',
+            'organizations', 
+            'regimes',
+
             'customers',
             'employees',
             'resolutions',
@@ -220,6 +240,12 @@ class InvoiceController extends Controller
 
     public function createPos()
     {
+        $departments = Department::get();
+        $municipalities = Municipality::get();
+        $identificationTypes = IdentificationType::get();
+        $liabilities = Liability::get();
+        $organizations = Organization::get();
+        $regimes = Regime::get();
         //$pos = indicator()->pos;
         $cashRegister = cashRegisterComprobation();
         if ($cashRegister == null) {
@@ -273,6 +299,13 @@ class InvoiceController extends Controller
         $type = 'pos';
         return view('admin.invoice.create',
         compact(
+            'departments', 
+            'municipalities', 
+            'identificationTypes', 
+            'liabilities',
+            'organizations', 
+            'regimes',
+
             'customers',
             'employees',
             'resolutions',
@@ -1486,14 +1519,5 @@ class InvoiceController extends Controller
     public function sendEmailInvoice(Request $request, Invoice $invoice)
     {
         return redirect('invoice');
-    }
-
-    public function getProviders(Request $request)
-    {
-        if($request)
-        {
-            $providers = Customer::get();
-            return response()->json($providers);
-        }
     }
 }

@@ -135,6 +135,7 @@ class CustomerController extends Controller
         $department = $request->department_id;
         $municipality = $request->municipality_id;
         $creditLimit = $request->credit_limit;
+        $type = $request->type;
         if ($liability == null) {
             $liability = 117;
         }
@@ -173,8 +174,50 @@ class CustomerController extends Controller
         $customer->available = $request->credit_limit;
         $customer->save();
 
-        Alert::success('Cliente','Creado Satisfactoriamente.');
-        return redirect("customer");
+        if ($type == 'form') {
+            Alert::success('Cliente','Creado Satisfactoriamente.');
+            return redirect("customer");
+        } else {
+            return response()->json([
+                'success' => true,
+                'message' => 'Cliente creado exitosamente.',
+                'customer' => $customer
+            ]);
+        }
+        
+
+        
+
+        //echo "<script languaje='javascript' type='text/javascript'>window.close();</script>";
+    }
+
+    public function storeCustomer(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:100',
+            'identification' => 'required|string|unique:customers|max:12',
+            'dv' => 'nullable|string|max:1',
+            'address' => 'nullable|string|max:100',
+            'phone' => 'nullable|string|max:12',
+            'email' => 'required|email|max:100',
+            'merchant_registration' => 'string|max:12',
+            'credit_limit' => 'nullable|numeric',
+            'used' => 'nullable|numeric',
+            'available' => 'nullable|numeric',
+            'department_id' => 'nullable|integer',
+            'municipality_id' => 'nullable|integer',
+            'identification_type_id' => 'integer',
+            'liability_id' => 'nullable|integer',
+            'organization_id' => 'nullable|integer',
+            'regime_id' => 'nullable|integer'
+        ]);
+
+        $customer = Customer::create($validatedData);
+        return response()->json([
+            'success' => true,
+            'message' => 'Artículo creado exitosamente.',
+            'customer' => $customer
+        ]);
     }
 
     /**
@@ -284,7 +327,6 @@ class CustomerController extends Controller
 
     public function customerPay($id)
     {
-
         $third = Customer::findOrFail($id);
         $banks = Bank::get();
         $paymentMethods = PaymentMethod::get();
@@ -311,5 +353,14 @@ class CustomerController extends Controller
             'documents',
             'typeDocument'
         ));
+    }
+
+    public function refreshCustomers(Request $request)
+    {
+        if($request)
+        {
+            $customers = Customer::get();
+            return response()->json($customers);
+        }
     }
 }

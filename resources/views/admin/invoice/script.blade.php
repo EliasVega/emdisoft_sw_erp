@@ -502,23 +502,6 @@
             $("#addRetentions").hide();
         });
     });
-    $(document).ready(function(){
-        $("#addRefresh").click(function(){
-            $.ajax({
-                url: "{{ route('getCustomers') }}",
-                method: 'GET',
-                success: function(data) {
-                    $('#customer_id').empty();
-                    $.each(data, function(index, option) {
-                        $('#customer_id').append(new Option(option.identification + ' - ' + option.name, option.id));
-                    });
-                    // Refrescar si utilizas un plugin
-                    //$('#customer_id').selectpicker('refresh');
-                }
-            });
-
-        });
-    });
     $("#customer_id").change(function(event){
         $.get("advance/" + event.target.value + "", function(response){
             $("#advance_id").empty();

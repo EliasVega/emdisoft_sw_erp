@@ -485,9 +485,10 @@ class NcinvoiceController extends Controller
                 $environmentPdf = Environment::findOrFail(10);
                 $urlpdf = $environmentPdf->protocol . $configuration->ip . $environmentPdf->url;
 
+                /*
                 $pdf = file_get_contents($urlpdf . company()->nit ."/NCS-" . $ncinvoice->document .".pdf");
                 Storage::disk('public')->put('files/graphical_representations/ncinvoices/' .
-                $ncinvoice->document . '.pdf', $pdf);
+                $ncinvoice->document . '.pdf', $pdf);*/
             }
 
             $resolution->consecutive += 1;
