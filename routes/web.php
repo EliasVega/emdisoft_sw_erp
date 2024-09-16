@@ -249,8 +249,8 @@ Route::get('company/editLogo/{id}', [CompanyController::class, 'editLogo'])->nam
 
 Route::get('customer/status/{id}', [CustomerController::class, 'status'])->name('customerStatus');
 Route::get('customer/create/{id}', [CustomerController::class, 'getMunicipalities']);
-Route::get('cuatomer/customerPay/{id}', [CustomerController::class, 'customerPay'])->name('customerPay');
-Route::post('storeCustomer', [CustomerController::class, 'storeCustomer'])->name('storeCustomer');
+Route::get('customer/customerPay/{id}', [CustomerController::class, 'customerPay'])->name('customerPay');
+Route::post('customer/storeCustomer', [CustomerController::class, 'storeCustomer'])->name('storeCustomer');
 Route::get('refreshCustomers', [CustomerController::class, 'refreshCustomers'])->name('refreshCustomers');
 
 Route::get('indexpay', [DashboardController::class, 'indexpay'])->name('indexpay');

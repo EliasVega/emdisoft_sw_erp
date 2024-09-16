@@ -34,6 +34,7 @@ class UpdateCustomerRequest extends FormRequest
             'credit_limit' => 'numeric',
             'used' => 'numeric',
             'available' => 'numeric',
+            'status' => 'required|in:active,inactive',
             'department_id' => 'nullable|integer',
             'municipality_id' => 'nullable|integer',
             'identification_type_id' => 'integer',

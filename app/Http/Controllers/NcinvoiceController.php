@@ -125,25 +125,30 @@ class NcinvoiceController extends Controller
         $voucherTypes = '';
         $resolution = '';
         $documentType = '';
+        $td = '';
         if (indicator()->dian == 'on') {
             if ($invoice->document_type_id == 1) {
                 $resolution = Resolution::findOrFail(8);//NC factura de venta
                 $voucherTypes = VoucherType::findOrFail(5);//voucher type FV
                 $documentType = DocumentType::findOrFail(4);
+                $td = 'ncinvoice';
             } else if ($invoice->document_type_id == 15) {
                 $resolution = Resolution::findOrFail(11);//NC factura de venta pos
                 $voucherTypes = VoucherType::findOrFail(21); //voucher type pos
                 $documentType = DocumentType::findOrFail(26);
+                $td = 'pos';
             }
         } else {
             if ($invoice->document_type_id == 1) {
                 $resolution = Resolution::findOrFail(8);//NC factura de venta
                 $voucherTypes = VoucherType::findOrFail(5);//voucher type FV
                 $documentType = DocumentType::findOrFail(4);
+                $td = 'ncinvoice';
             } else if ($invoice->document_type_id == 104) {
                 $resolution = Resolution::findOrFail(5);//NC factura de venta pos
                 $voucherTypes = VoucherType::findOrFail(21); //voucher type pos
                 $documentType = DocumentType::findOrFail(104);
+                $td = 'pos';
             }
         }
 
@@ -493,6 +498,8 @@ class NcinvoiceController extends Controller
 
             $resolution->consecutive += 1;
             $resolution->update();
+
+            $typeDocument = $td;
 
             session()->forget('ncinvoice');
             session()->forget('typeDocument');

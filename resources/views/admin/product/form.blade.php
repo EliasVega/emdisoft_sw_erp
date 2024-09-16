@@ -75,16 +75,15 @@
                     </div>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <label for="type_product">Tipo Producto</label>
+                    <label for="type_product">Tipo de producto</label>
                     <div class="select">
                         <select id="type_product" name="type_product" class="form-control selectpicker" data-live-search="true" required>
-
-                            <option value="product">PRODUCTO</option>
-                            <option value="service">SERVICIO</option>
-                            @if ($indicator->raw_material == 'on')
-                                <option value="consumer">CONSUMO /elaborados local</option>
-                            @endif
-
+                            <option {{ ($product->type_product ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Tipo</option>
+                                <option value="product">PRODUCTO</option>
+                                <option value="service">SERVICIO</option>
+                                @if ($indicator->raw_material == 'on')
+                                    <option value="consumer">CONSUMO /elaborados local</option>
+                                @endif
                         </select>
                     </div>
                 </div>

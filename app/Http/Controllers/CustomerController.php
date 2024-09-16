@@ -204,6 +204,7 @@ class CustomerController extends Controller
             'credit_limit' => 'nullable|numeric',
             'used' => 'nullable|numeric',
             'available' => 'nullable|numeric',
+            'status' => 'required|in:active,inactive',
             'department_id' => 'nullable|integer',
             'municipality_id' => 'nullable|integer',
             'identification_type_id' => 'integer',
@@ -213,6 +214,7 @@ class CustomerController extends Controller
         ]);
 
         $customer = Customer::create($validatedData);
+        
         return response()->json([
             'success' => true,
             'message' => 'Artículo creado exitosamente.',

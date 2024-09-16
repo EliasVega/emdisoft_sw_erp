@@ -34,6 +34,7 @@ class StoreCustomerRequest extends FormRequest
             'credit_limit' => 'nullable|numeric',
             'used' => 'nullable|numeric',
             'available' => 'nullable|numeric',
+            'status' => 'required|in:active,inactive',
             'department_id' => 'nullable|integer',
             'municipality_id' => 'nullable|integer',
             'identification_type_id' => 'integer',

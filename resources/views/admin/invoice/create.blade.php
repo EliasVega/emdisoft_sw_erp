@@ -69,5 +69,4 @@
         @include('admin/invoice.script_retention')
         @include('admin/invoice.script')
     @endif
-    @include('admin/invoice.script_customer')
 @endsection

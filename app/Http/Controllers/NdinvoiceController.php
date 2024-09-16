@@ -53,6 +53,7 @@ class NdinvoiceController extends Controller
     public function index(Request $request)
     {
         $ndinvoice = session('ndinvoice');
+        $typeDocument = session('typeDocument');
         if ($request->ajax()) {
             $users = current_user();
             $user = $users->Roles[0]->name;
@@ -86,7 +87,7 @@ class NdinvoiceController extends Controller
             ->rawColumns(['btn'])
             ->make(true);
         }
-        return view('admin.ndinvoice.index', compact('ndinvoice'));
+        return view('admin.ndinvoice.index', compact('ndinvoice', 'typeDocument'));
     }
 
     /**
@@ -112,25 +113,30 @@ class NdinvoiceController extends Controller
         $voucherTypes = '';
         $resolution = '';
         $documentType = '';
+        $td = '';
         if (indicator()->dian == 'on') {
             if ($invoice->document_type_id == 1) {
                 $resolution = Resolution::findOrFail(9);//NC factura de venta
                 $voucherTypes = VoucherType::findOrFail(6);//voucher type FV
                 $documentType = DocumentType::findOrFail(5);
+                $td = 'ndinvoice';
             } else if ($invoice->document_type_id == 15) {
                 $resolution = Resolution::findOrFail(11);//NC factura de venta pos
                 $voucherTypes = VoucherType::findOrFail(22); //voucher type pos
                 $documentType = DocumentType::findOrFail(25);
+                $td = 'pos';
             }
         } else {
             if ($invoice->document_type_id == 1) {
                 $resolution = Resolution::findOrFail(9);//NC factura de venta
                 $voucherTypes = VoucherType::findOrFail(6);//voucher type FV
                 $documentType = DocumentType::findOrFail(5);
+                $td = 'ndinvoice';
             } else if ($invoice->document_type_id == 104) {
                 $resolution = Resolution::findOrFail(6);//NC factura de venta pos
                 $voucherTypes = VoucherType::findOrFail(22); //voucher type pos
                 $documentType = DocumentType::findOrFail(105);
+                $td = 'pos';
             }
         }
 
@@ -326,8 +332,12 @@ class NdinvoiceController extends Controller
             $resolution->consecutive += 1;
             $resolution->update();
 
+            $typeDocument = $td;
+
             session()->forget('ndinvoice');
+            session()->forget('typeDocument');
             session(['ndinvoice' => $ndinvoice->id]);
+            session(['typeDocument' => $typeDocument]);
 
             toast('Nota Debito Registrada satisfactoriamente.','success');
             return redirect('ndinvoice');

@@ -1488,6 +1488,17 @@ class InvoiceController extends Controller
         }
     }
 
+    //Metodo para obtener el municipio de acuerdo al departamento
+   public function getMunicipalities(Request $request, $id)
+   {
+       if($request)
+       {
+           $municipalities = Municipality::where('department_id', '=', $id)->get();
+
+           return response()->json($municipalities);
+       }
+   }
+
     public function downloadPdfXmlInvoice(Request $request, Invoice $invoice)
     {
         //http://144.126.135.31:81/api/ubl2.1/download/89008003/Attachment-SETP990000399.xml/BASE64

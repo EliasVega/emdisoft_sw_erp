@@ -26,6 +26,7 @@ class Customer extends Model
         'credit_limit',
         'used',
         'available',
+        'status',
         'department_id',
         'municipality_id',
         'identification_type_id',

@@ -17,8 +17,7 @@
      {{--  <link rel="stylesheet" href="{{ asset('vendor/bootstrap-datepicker/css/bootstrap-datepicker.standalone.css') }}">--}}
     <link rel="stylesheet" href="{{ asset('vendor/bootstrap-fileinput/css/fileinput.min.css') }}">
 
-    <!-- Select2  -->
-    <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
+    
 
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -55,6 +54,9 @@
     <link rel="stylesheet" href="{{ asset('vendor/summernote/summernote-bs4.css') }}" />
 
     <link rel="stylesheet" href="{{ asset('vendor/bootstrap-treeview.min.css_1.2.0/cdnjs/bootstrap-treeview.min.css') }}" />
+
+    <!-- Select2  -->
+    <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
 
     @livewireStyles
   </head>

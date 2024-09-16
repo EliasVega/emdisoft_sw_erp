@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Department;
 use App\Http\Requests\StoreDepartmentRequest;
 use App\Http\Requests\UpdateDepartmentRequest;
+use App\Models\Municipality;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -115,5 +116,16 @@ class DepartmentController extends Controller
         $department->delete();
         toast('Departamento eliminado con éxito.','success');
         return redirect('department');
+    }
+
+    //Metodo para obtener el codigo postal dependeiento del municipio
+    public function getMunicipalities(Request $request, $id)
+    {
+        if($request)
+        {
+            $municipalities = Municipality::where('department_id', '=', $id)->get();
+
+            return response()->json($municipalities);
+        }
     }
 }
