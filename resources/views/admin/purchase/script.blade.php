@@ -513,11 +513,11 @@
             $("#formCard").show();
             $("#formPayCard").hide();
             $("#formRetentions").hide();
-            $("#addProductId").hide();
+            //$("#addProductId").hide();
             $("#codeBarcode").hide();
             $("#addPay").hide();
-            $("#qadd").hide();
-            $("#padd").hide();
+            //$("#qadd").hide();
+            //$("#padd").hide();
             $("#buttonAdd").hide();
             $("#spadd").hide();
             $("#save").show();

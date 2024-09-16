@@ -144,14 +144,14 @@
                     <div class="form-group">
                         <label class="form-control-label" for="quantityadd">Cantidad</label>
                         <input type="number" id="quantityadd" name="quantityadd" value="1" class="form-control"
-                            placeholder="Cant." pattern="[0-9]{0,15}">
+                            placeholder="Cant." pattern="[0-9]{0,15}" step="any">
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" id="padd">
                     <div class="form-group">
                         <label class="form-control-label" for="price">Precio</label>
                         <input type="number" id="price" name="price" class="form-control"
-                            placeholder="Precio">
+                            placeholder="Precio" step="any">
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-2 col-sm-4 col-xs-12" id="spadd">
