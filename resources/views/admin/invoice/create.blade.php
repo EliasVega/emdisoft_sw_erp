@@ -22,6 +22,8 @@
                         target="_blank" data-toggle="tooltip" data-placement="top">
                         <i class="fa fa-plus"> Agregar Cliente</i>
                     </a>
+                    <label for="customer_id">Cliente mod  <button class="btn btn-celeste btn-sm mb-2" type="button"
+                        data-toggle="modal" data-target="#customerModal"><i class="fa fa-plus mr-md-2"></i>Agregar</button></label>
                 </h5>
             </div>
             @if (count($errors)>0)
