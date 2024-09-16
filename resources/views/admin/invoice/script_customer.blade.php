@@ -132,27 +132,12 @@
 
     document.getElementById('customerForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        /*
-        $.ajax({
-            url: "{{ route('getCommissions') }}",
-            type: 'GET',
-            dataType: 'json',
-            data: {
-                : empId,
-            }
-        }).done(function(data){ // imprimimos la respuesta
-            $("#valueCommission").val(data);
-        }).fail(function() {
-            //alert("algo fallo")
-        }).always(function() {
-            //alert("Siempre se ejecuta")
-        });*/
 
         let form = e.target;
         alert(form);
         let formData = new FormData(form);
 
-        fetch("{{ route('storeCustomer') }}", {
+        fetch("{{ route('customer.store') }}", {
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',

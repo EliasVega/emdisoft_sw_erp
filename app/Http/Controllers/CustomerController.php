@@ -154,7 +154,7 @@ class CustomerController extends Controller
         if ($creditLimit == null) {
             $creditLimit = 0;
         }
-
+        
         $customer = new Customer();
         $customer->department_id = $department;
         $customer->municipality_id = $municipality;
@@ -173,7 +173,7 @@ class CustomerController extends Controller
         $customer->used = 0;
         $customer->available = $request->credit_limit;
         $customer->save();
-
+        dd($customer);
         if ($type == 'form') {
             Alert::success('Cliente','Creado Satisfactoriamente.');
             return redirect("customer");

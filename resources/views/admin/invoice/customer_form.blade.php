@@ -149,7 +149,7 @@
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
         <div class="form-group">
             <label for="type">Tipo cliente</label>
-            <input type="text" name="type" value="form" class="form-control" placeholder="Tipo cliente" required>
+            <input type="text" name="type" value="modal" class="form-control" placeholder="Tipo cliente" required>
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
