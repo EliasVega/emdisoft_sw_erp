@@ -18,10 +18,7 @@
                         target="_blank" data-toggle="tooltip" data-placement="top">
                         <i class="fa fa-plus"> Agregar Producto</i>
                     </a>
-                    <a href="{{ route('customer.create') }}" class="btn btn-lightBlueGrad btn-sm"
-                        target="_blank" data-toggle="tooltip" data-placement="top">
-                        <i class="fa fa-plus"> Agregar Cliente</i>
-                    </a>
+                    @include('admin/creationModals.button_modal_customer')
                 </h5>
             </div>
             @if (count($errors)>0)
@@ -56,7 +53,7 @@
 <!--Inicio del modal cliente-->
 @include('admin/invoice.editmodal')
 @include('admin/invoice.modal_pay_pos')
-@include('admin/invoice.customer_modal')
+@include('admin/creationModals.modal_customer')
 <!--Fin del modal-->
 @endsection
 @section('scripts')
@@ -69,4 +66,5 @@
         @include('admin/invoice.script_retention')
         @include('admin/invoice.script')
     @endif
+    @include('admin/creationModals.script_create_customer')
 @endsection

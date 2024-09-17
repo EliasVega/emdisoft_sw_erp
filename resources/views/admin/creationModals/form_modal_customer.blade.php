@@ -146,16 +146,16 @@
             <a href="{{url('customer')}}" class="btn btn-blueGrad mt-2"><i class="fa fa-window-close"></i> Cancelar</a>
         </div>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="addType">
         <div class="form-group">
             <label for="type">Tipo cliente</label>
-            <input type="text" name="type" id="type" value="modal" class="form-control" placeholder="Tipo cliente" required>
+            <input type="text" name="type" id="type" value="modal" class="form-control" placeholder="Tipo cliente">
         </div>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="addStatus">
         <div class="form-group">
             <label for="status">Estado</label>
-            <input type="text" name="status" id="status" value="active" class="form-control" placeholder="Estado" required>
+            <input type="text" name="status" id="status" value="active" class="form-control" placeholder="Estado">
         </div>
     </div>
 </div>

@@ -60,12 +60,15 @@
         });
     });
 
+    $("#addType").hide();
+    $("#addStatus").hide();
+
     $("#identification_type_id").change(handleIdentificationTypeChange);
 
     function handleIdentificationTypeChange() {
         let identificationTypeId = $("#identification_type_id").val();
         if (identificationTypeId === '3' || identificationTypeId === '6') {
-            $("#dv").prop('readonly', true);
+            $("#dv").prop('readonly', false);
             handleIdentificationChange();
         } else {
             $("#dv").prop('readonly', false);

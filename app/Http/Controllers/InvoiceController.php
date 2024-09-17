@@ -422,7 +422,7 @@ class InvoiceController extends Controller
                 $environment = Environment::where('id', 21)->first();
                 $url = $environment->protocol . $configuration->ip . $environment->url;
             }
-            //dd($data);
+            dd($data);
             $requestResponse = sendDocuments($url, $data);
             $store = $requestResponse['store'];
             $service = $requestResponse['response'];
@@ -1498,6 +1498,15 @@ class InvoiceController extends Controller
            return response()->json($municipalities);
        }
    }
+
+   public function refreshCustomers(Request $request)
+    {
+        if($request)
+        {
+            $customers = Customer::get();
+            return response()->json($customers);
+        }
+    }
 
     public function downloadPdfXmlInvoice(Request $request, Invoice $invoice)
     {

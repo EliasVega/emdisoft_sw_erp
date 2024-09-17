@@ -2,7 +2,7 @@
     /*$(document).ready(function(){
             alert('estoy funcionando correctamanete empresa');
         });*/
-    jQuery(document).ready(function($){
+    jQuery(document).ready(function($) {
         $(document).ready(function() {
             $('#resolution_id').select2({
                 theme: "classic",
@@ -10,7 +10,7 @@
             });
         });
     });
-    jQuery(document).ready(function($){
+    jQuery(document).ready(function($) {
         $(document).ready(function() {
             $('#customer_id').select2({
                 theme: "classic",
@@ -19,7 +19,7 @@
             //$('#customer_id').trigger('change');
         });
     });
-    jQuery(document).ready(function($){
+    jQuery(document).ready(function($) {
         $(document).ready(function() {
             $('#product_id').select2({
                 theme: "classic",
@@ -27,7 +27,7 @@
             });
         });
     });
-    jQuery(document).ready(function($){
+    jQuery(document).ready(function($) {
         $(document).ready(function() {
             $('#employee_id').select2({
                 theme: "classic",
@@ -69,7 +69,7 @@
     $("#addRetentions").hide();
     $("#addPriceWithTax").hide();
 
-    $(document).ready(function(){
+    $(document).ready(function() {
         typeInvoice = $("#pos_active").val();
         if (typeInvoice == 'on') {
             $("#resolution").show();
@@ -79,12 +79,12 @@
             $('#generation_date').prop("readonly", false);
         }
 
-        let barcodestart = $(("#switch_barcode")).prop("checked");// == true ? 1 : 0;
+        let barcodestart = $(("#switch_barcode")).prop("checked"); // == true ? 1 : 0;
         if (barcodestart == true) {
             $("#addProductId").hide();
             $("#codeBarcode").show();
             $("#productBarcode").show();
-        } else if(barcodestart == false){
+        } else if (barcodestart == false) {
             $("#codeBarcode").hide();
             $("#productBarcode").hide();
             $("#addProductId").show();
@@ -92,15 +92,15 @@
         }
     });
 
-    $("#switch_barcode").change(function(){
+    $("#switch_barcode").change(function() {
 
-        let barcode = $(this).prop("checked");// == true ? 1 : 0;
+        let barcode = $(this).prop("checked"); // == true ? 1 : 0;
         if (barcode == true) {
             $("#codeBarcode").show();
             $("#addProductId").hide();
             $("#productBarcode").show();
             $("#addcvp").hide();
-        } else{
+        } else {
             $("#codeBarcode").hide();
             $("#productBarcode").hide();
             $("#addProductId").show();
@@ -108,7 +108,7 @@
         }
     })
 
-    $(document).on('keyup', '#code', function(){
+    $(document).on('keyup', '#code', function() {
         var codes = $(this).val();
         if (codes != "") {
             if (codes != coderepit) {
@@ -122,7 +122,7 @@
     })
 
     //$(obtener_registro());
-    function obtener_registro(code){
+    function obtener_registro(code) {
         $.ajax({
             url: "{{ route('getProductInvoice') }}",
             type: 'GET',
@@ -130,7 +130,7 @@
             data: {
                 code: code,
             }
-        }).done(function(data){ // imprimimos la respuesta
+        }).done(function(data) { // imprimimos la respuesta
             $("#barcode_product_id").val(data.id);
             $("#product_barcode").val(data.name);
             $("#price").val(data.sale_price);
@@ -150,13 +150,13 @@
     }
 
     //adicionar productos a la compra
-    function addBarcode(){
-        product_id= $("#barcode_product_id").val();
-        product= $("#product_barcode").val();
-        quantity= $("#quantityadd").val();
-        stock= $("#stock").val();
-        tax_rate= $("#tax_rate").val();
-        price= $("#price").val();
+    function addBarcode() {
+        product_id = $("#barcode_product_id").val();
+        product = $("#product_barcode").val();
+        quantity = $("#quantityadd").val();
+        stock = $("#stock").val();
+        tax_rate = $("#tax_rate").val();
+        price = $("#price").val();
         pwx = $("#pwx").val();
         if (pwx == 'on') {
             taxRate = parseFloat(tax_rate) + 100;
@@ -165,18 +165,18 @@
         tax_type = $("#tax_type").val();
         employee_id = $("#employee_id").val();
         cv = 2;
-        if(product_id !="" && quantity!="" && quantity>0  && price!=""){
+        if (product_id != "" && quantity != "" && quantity > 0 && price != "") {
             subtotal[cont] = parseFloat(quantity) * parseFloat(price);
-            total = total+subtotal[cont];
+            total = total + subtotal[cont];
             tr = parseFloat(tax_rate);
             if (tr > 0) {
-                ivita = subtotal[cont]*tax_rate/100;
+                ivita = subtotal[cont] * tax_rate / 100;
             } else {
                 ivita = 0;
             }
             tax_cont[cont] = ivita;
-            total_tax = total_tax+ivita;
-            if(tax_type == 1){
+            total_tax = total_tax + ivita;
+            if (tax_type == 1) {
                 tax_iva += ivita;
             }
             subcont = subtotal[cont] + parseFloat(ivita);
@@ -195,12 +195,12 @@
                 timer: 1000 // es ms (mili-segundos)
             });
 
-        }else{
+        } else {
             //alert("Rellene todos los campos del detalle para esta compra");
             Swal.fire({
-            type: 'error',
-            //title: 'Oops...',
-            text: 'Rellene todos los campos del detalle para esta compra',
+                type: 'error',
+                //title: 'Oops...',
+                text: 'Rellene todos los campos del detalle para esta compra',
             })
         }
     }
@@ -208,7 +208,7 @@
     //seleccionar de acuerdo al producto
     $("#product_id").change(productValue);
 
-    function productValue(){
+    function productValue() {
         dataProduct = document.getElementById('product_id').value.split('_');
         $("#stock").val(dataProduct[1]);
         $("#vprice").val(dataProduct[2]);
@@ -219,21 +219,21 @@
         $("#employee_id").val(0);
     }
 
-    $(document).ready(function(){
-        $("#add").click(function(){
+    $(document).ready(function() {
+        $("#add").click(function() {
             add();
         });
     });
 
     //adicionar productos a la compra
-    function add(){
+    function add() {
         dataProduct = document.getElementById('product_id').value.split('_');
-        product_id= dataProduct[0];
-        product= $("#product_id option:selected").text();
-        quantity= $("#quantityadd").val();
-        stock= $("#stock").val();
-        tax_rate= $("#tax_rate").val();
-        price= $("#price").val();
+        product_id = dataProduct[0];
+        product = $("#product_id option:selected").text();
+        quantity = $("#quantityadd").val();
+        stock = $("#stock").val();
+        tax_rate = $("#tax_rate").val();
+        price = $("#price").val();
         pwx = $("#pwx").val();
         if (pwx == 'on') {
             taxRate = parseFloat(tax_rate) + 100;
@@ -242,18 +242,18 @@
         tax_type = $("#tax_type").val();
         employee_id = $("#employee_id").val();
         cv = $(".cvp").val();
-        if(product_id !="" && quantity!="" && quantity>0  && price!=""){
+        if (product_id != "" && quantity != "" && quantity > 0 && price != "") {
             subtotal[cont] = parseFloat(quantity) * parseFloat(price);
-            total = total+subtotal[cont];
+            total = total + subtotal[cont];
             tr = parseFloat(tax_rate);
             if (tr > 0) {
-                ivita = subtotal[cont]*tax_rate/100;
+                ivita = subtotal[cont] * tax_rate / 100;
             } else {
                 ivita = 0;
             }
             tax_cont[cont] = ivita;
-            total_tax = total_tax+ivita;
-            if(tax_type == 1){
+            total_tax = total_tax + ivita;
+            if (tax_type == 1) {
                 tax_iva += ivita;
             }
             subcont = subtotal[cont] + parseFloat(ivita);
@@ -268,17 +268,17 @@
             clean();
 
 
-        }else{
+        } else {
             //alert("Rellene todos los campos del detalle para esta compra");
             Swal.fire({
-            type: 'error',
-            //title: 'Oops...',
-            text: 'Rellene todos los campos del detalle para esta compra',
+                type: 'error',
+                //title: 'Oops...',
+                text: 'Rellene todos los campos del detalle para esta compra',
             })
         }
     }
 
-    function clean(){
+    function clean() {
         $('#product_id').val(null).trigger('change');
         $('#employee_id').val(null).trigger('change');
         $("#barcode_product_id").val("");
@@ -287,7 +287,8 @@
         $("#quantityadd").val(1);
         $("#price").val("");
     }
-    function totals(){
+
+    function totals() {
         var total_pay = total + total_tax;
 
         $("#total_html").html("$ " + total.toFixed(2));
@@ -302,16 +303,18 @@
         $("#balance").val(total_pay.toFixed(2));
         $("#pendient").val(total_pay.toFixed(2));
     }
-    function assess(){
-        if(total >= 0){
+
+    function assess() {
+        if (total >= 0) {
             $("#addPay").show();
             $("#addRetentions").show();
-        } else{
+        } else {
             $("#addPay").hide();
             $("#addRetentions").hide();
         }
     }
-    function deleterow(index){
+
+    function deleterow(index) {
         total = total - subtotal[index];
         total_tax = total_tax - tax_cont[index];
         total_pay = total + total_tax;
@@ -344,7 +347,7 @@
         // Obtener la row
         var row = $("#row" + index);
         // Solo si la row existe
-        if(row) {
+        if (row) {
             if (indicv == 'off' && indiwl == 'off') {
                 $("#contModal").val(index);
                 $('#cvpinvoice1').prop("checked", false);
@@ -369,7 +372,7 @@
                 $("#ivitaModal").val(row.find("td:eq(7)").text());
                 $("#taxModal").val(row.find("td:eq(8)").text());
                 $("#subtotalModal").val(row.find("td:eq(9)").text());
-            }  else {
+            } else {
                 $("#contModal").val(index);
                 $('#cvpinvoice1').prop("checked", false);
                 $('#cvpinvoice2').prop("checked", true);
@@ -390,7 +393,7 @@
         }
     }
 
-    jQuery(document).on("click", "#updateInvoice", function () {
+    jQuery(document).on("click", "#updateInvoice", function() {
         updaterow();
     });
 
@@ -405,7 +408,7 @@
         quantity = $("#quantityModal").val();
         price = $("#priceModal").val();
         tax_rate = $("#taxModal").val();
-        let cvpinv = $(("#cvpinvoice1")).prop("checked");// == true ? 1 : 0;
+        let cvpinv = $(("#cvpinvoice1")).prop("checked"); // == true ? 1 : 0;
         if (cvpinv == true) {
             cv = 1;
         } else {
@@ -413,17 +416,17 @@
         }
         //$('#priceModal').prop("readonly", true);
 
-        if(product_id !="" && quantity!="" && quantity>0 && price!="" && price>0){
-            subtotal[cont]= parseFloat(quantity) * parseFloat(price);
-            total = total+subtotal[cont];
+        if (product_id != "" && quantity != "" && quantity > 0 && price != "" && price > 0) {
+            subtotal[cont] = parseFloat(quantity) * parseFloat(price);
+            total = total + subtotal[cont];
             tr = parseFloat(tax_rate);
             if (tr > 0) {
-                ivita = subtotal[cont]*tax_rate/100;
+                ivita = subtotal[cont] * tax_rate / 100;
             } else {
                 ivita = 0;
             }
             tax_cont[cont] = ivita;
-            total_tax = total_tax+ivita;
+            total_tax = total_tax + ivita;
             subcont = subtotal[cont] + parseFloat(ivita);
             rowsList(cont, cv, employee_id, product_id, product, quantity, price, ivita, tax_rate, subcont);
             cont++;
@@ -435,7 +438,7 @@
             $('#editModal').modal('hide');
             $("#totalPartial").val(total);
             //$('#product_id option:selected').remove();
-        }else{
+        } else {
             // alert("Rellene todos los campos del detalle de la compra, revise los datos del producto");
             Swal.fire({
                 type: 'error',
@@ -444,22 +447,65 @@
             })
         }
     }
+
     function rowsList(cont, cv, employee_id, product_id, product, quantity, price, ivita, tax_rate, subcont) {
         indicv = $("#indicatorcv").val();
         indiwl = $("#indicatorwl").val();
         if (indicv == 'off' && indiwl == 'off') {
-            row = '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+parseFloat(price).toFixed(2)+'</td><td><input type="hidden" name="ivaline[]"  value="'+ivita+'">'+ivita.toFixed(2)+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subcont).toFixed(2)+'</td></tr>';
+            row = '<tr class="selected" id="row' + cont +
+                '"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow(' + cont +
+                ');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow(' +
+                cont +
+                ');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="product_id[]"  value="' +
+                product_id + '">' + product_id + '</td><td><input type="hidden" name="product[]" value="' + product +
+                '">' + product + '</td>   <td><input type="hidden" name="quantity[]" value="' + quantity + '">' +
+                quantity + '</td> <td><input type="hidden" name="price[]"  value="' + price + '">' + parseFloat(price)
+                .toFixed(2) + '</td><td><input type="hidden" name="ivaline[]"  value="' + ivita + '">' + ivita.toFixed(
+                    2) + '</td> <td><input type="hidden" name="tax_rate[]"  value="' + tax_rate + '">' + tax_rate +
+                '</td><td> $' + parseFloat(subcont).toFixed(2) + '</td></tr>';
         } else if (indicv == 'off') {
-            row = '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+parseFloat(price).toFixed(2)+'</td><td><input type="hidden" name="ivaline[]"  value="'+ivita+'">'+parseFloat(ivita).toFixed(2)+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subcont).toFixed(2)+'</td></tr>';
-        } else if (indiwl == 'on'){
-            row = '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="cv[]"  value="'+cv+'">'+cv+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+parseFloat(price).toFixed(2)+'</td><td><input type="hidden" name="ivaline[]"  value="'+ivita+'">'+parseFloat(ivita).toFixed(2)+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subcont).toFixed(2)+'</td></tr>';
+            row = '<tr class="selected" id="row' + cont +
+                '"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow(' + cont +
+                ');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow(' +
+                cont +
+                ');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="employee_id[]"  value="' +
+                employee_id + '">' + employee_id + '</td><td><input type="hidden" name="product_id[]"  value="' +
+                product_id + '">' + product_id + '</td><td><input type="hidden" name="product[]" value="' + product +
+                '">' + product + '</td>   <td><input type="hidden" name="quantity[]" value="' + quantity + '">' +
+                quantity + '</td> <td><input type="hidden" name="price[]"  value="' + price + '">' + parseFloat(price)
+                .toFixed(2) + '</td><td><input type="hidden" name="ivaline[]"  value="' + ivita + '">' + parseFloat(
+                    ivita).toFixed(2) + '</td> <td><input type="hidden" name="tax_rate[]"  value="' + tax_rate + '">' +
+                tax_rate + '</td><td> $' + parseFloat(subcont).toFixed(2) + '</td></tr>';
+        } else if (indiwl == 'on') {
+            row = '<tr class="selected" id="row' + cont +
+                '"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow(' + cont +
+                ');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow(' +
+                cont + ');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="cv[]"  value="' +
+                cv + '">' + cv + '</td><td><input type="hidden" name="product_id[]"  value="' + product_id + '">' +
+                product_id + '</td><td><input type="hidden" name="product[]" value="' + product + '">' + product +
+                '</td>   <td><input type="hidden" name="quantity[]" value="' + quantity + '">' + quantity +
+                '</td> <td><input type="hidden" name="price[]"  value="' + price + '">' + parseFloat(price).toFixed(2) +
+                '</td><td><input type="hidden" name="ivaline[]"  value="' + ivita + '">' + parseFloat(ivita).toFixed(
+                2) + '</td> <td><input type="hidden" name="tax_rate[]"  value="' + tax_rate + '">' + tax_rate +
+                '</td><td> $' + parseFloat(subcont).toFixed(2) + '</td></tr>';
         } else {
-            row = '<tr class="selected" id="row'+cont+'"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow('+cont+');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow('+cont+');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="cv[]"  value="'+cv+'">'+cv+'</td><td><input type="hidden" name="employee_id[]"  value="'+employee_id+'">'+employee_id+'</td><td><input type="hidden" name="product_id[]"  value="'+product_id+'">'+product_id+'</td><td><input type="hidden" name="product[]" value="'+product+'">'+product+'</td>   <td><input type="hidden" name="quantity[]" value="'+quantity+'">'+quantity+'</td> <td><input type="hidden" name="price[]"  value="'+price+'">'+parseFloat(price).toFixed(2)+'</td><td><input type="hidden" name="ivaline[]"  value="'+ivita+'">'+parseFloat(ivita).toFixed(2)+'</td> <td><input type="hidden" name="tax_rate[]"  value="'+tax_rate+'">'+tax_rate+'</td><td> $'+parseFloat(subcont).toFixed(2)+'</td></tr>';
+            row = '<tr class="selected" id="row' + cont +
+                '"><td><button type="button" class="btn btn-danger btn-xs btndelete" onclick="deleterow(' + cont +
+                ');"><i class="fas fa-trash"></i></button></td><td><button type="button" class="btn btn-warning btn-xs btnedit" onclick="editrow(' +
+                cont + ');"><i class="far fa-edit"></i></button></td><td><input type="hidden" name="cv[]"  value="' +
+                cv + '">' + cv + '</td><td><input type="hidden" name="employee_id[]"  value="' + employee_id + '">' +
+                employee_id + '</td><td><input type="hidden" name="product_id[]"  value="' + product_id + '">' +
+                product_id + '</td><td><input type="hidden" name="product[]" value="' + product + '">' + product +
+                '</td>   <td><input type="hidden" name="quantity[]" value="' + quantity + '">' + quantity +
+                '</td> <td><input type="hidden" name="price[]"  value="' + price + '">' + parseFloat(price).toFixed(2) +
+                '</td><td><input type="hidden" name="ivaline[]"  value="' + ivita + '">' + parseFloat(ivita).toFixed(
+                2) + '</td> <td><input type="hidden" name="tax_rate[]"  value="' + tax_rate + '">' + tax_rate +
+                '</td><td> $' + parseFloat(subcont).toFixed(2) + '</td></tr>';
         }
     }
 
-    $(document).ready(function(){
-        $("#addPay").click(function(){
+    $(document).ready(function() {
+        $("#addPay").click(function() {
             $("#formCard").hide();
             $("#formRetentions").hide();
             $("#formPayCard").show();
@@ -471,8 +517,8 @@
             $("#btnadd").hide();
         });
     });
-    $(document).ready(function(){
-        $("#addRetentions").click(function(){
+    $(document).ready(function() {
+        $("#addRetentions").click(function() {
             $("#formCard").hide();
             $("#formPayCard").hide();
             $("#formRetentions").show();
@@ -484,8 +530,8 @@
             $("#btnadd").hide();
         });
     });
-    $(document).ready(function(){
-        $("#goBack").click(function(){
+    $(document).ready(function() {
+        $("#goBack").click(function() {
             $("#formCard").show();
             $("#formPayCard").hide();
             $("#formRetentions").hide();
@@ -493,8 +539,8 @@
             $("#addPay").hide();
         });
     });
-    $(document).ready(function(){
-        $("#goBack2").click(function(){
+    $(document).ready(function() {
+        $("#goBack2").click(function() {
             $("#formCard").show();
             $("#formPayCard").hide();
             $("#formRetentions").hide();
@@ -502,20 +548,31 @@
             $("#addRetentions").hide();
         });
     });
-    $("#customer_id").change(function(event){
-        $.get("advance/" + event.target.value + "", function(response){
+    $("#customer_id").change(function(event) {
+        $.get("advance/" + event.target.value + "", function(response) {
             $("#advance_id").empty();
             $("#advance_id").append("<option value = '#' disabled selected>Seleccionar ...</option>");
-            for(i = 0; i < response.length; i++){
-                $("#advance_id").append("<option value = '" + response[i].id + "'>" + response[i].origin + response[i].balance + "</option>");
+            for (i = 0; i < response.length; i++) {
+                $("#advance_id").append("<option value = '" + response[i].id + "'>" + response[i]
+                    .origin + response[i].balance + "</option>");
                 advanceBalance = response[i].balance;
             }
-            $("#advance_id").selectpicker('refresh');
+            //$("#advance_id").selectpicker('refresh');
         });
     });
+
     function disabledButton() {
         document.getElementById('registerForm').addEventListener('submit', function() {
             document.getElementById('register').setAttribute('disabled', 'true');
         });
     }
+
+    const selectElement = document.querySelector('select');
+
+    // Escucha el evento `wheel` para evitar el comportamiento de scroll en el select
+    selectElement.addEventListener('wheel', function(event) {
+        event.preventDefault(); // Previene el comportamiento predeterminado
+    }, {
+        passive: false
+    });
 </script>

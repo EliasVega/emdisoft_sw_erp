@@ -136,7 +136,7 @@
 
     <div class="col-lg-2 col-md-3 col-sm-2 col-xs-12" id="payingButton">
         <div class="form-group">
-            <label class="form-control-label">Pagar</label><br>
+            <span><strong>Pagar</strong></span><br>
             <button class="btn btn-lightBlueGrad" type="button" id="paying" data-toggle="tooltip"
                 data-placement="top" title="Abono"><i class="fas fa-check"></i> </button>
         </div>

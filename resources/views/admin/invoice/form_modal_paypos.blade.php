@@ -1,9 +1,7 @@
 <div class="box-body row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="box-danger">
-            <label class="form-control-label">
-                <strong>Agregar Pago</strong>
-            </label>
+            <span><strong>agregar pago</strong></span><br>
         </div>
     </div>
     <div class="col-lg-12 col-md-4 col-sm-4 col-xs-12" id="fpayModal">

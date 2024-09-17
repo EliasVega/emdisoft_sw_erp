@@ -106,7 +106,7 @@
                 @endif
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="btnadd">
                     <div class="form-group">
-                        <label class="form-control-label">Add</label><br>
+                        <span><strong>add</strong></span><br>
                         <button class="btn btn-lightBlueGrad" type="button" id="add" data-toggle="tooltip"
                             data-placement="top" title="Add"><i class="fas fa-check"></i></button>
                     </div>

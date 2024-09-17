@@ -77,8 +77,8 @@ if (! function_exists('EquiDocPosTestSetData')) {
 
         //$taxAmount = ($quantity * $price * $taxRate)/100;
         $amount = $quantity * $price;
-        $taxAmount =number_format(round($taxAmount), 2, '.', '');
-        $amount = number_format(round($amount), 2, '.', '');
+        $taxAmount =number_format($taxAmount, 2, '.', '');
+        $amount = number_format($amount, 2, '.', '');
 
         $productLine = [
             "unit_measure_id" => $measure_unit_id,

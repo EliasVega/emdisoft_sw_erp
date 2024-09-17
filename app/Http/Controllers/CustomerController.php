@@ -173,16 +173,12 @@ class CustomerController extends Controller
         $customer->used = 0;
         $customer->available = $request->credit_limit;
         $customer->save();
-        dd($customer);
+        
         if ($type == 'form') {
             Alert::success('Cliente','Creado Satisfactoriamente.');
             return redirect("customer");
         } else {
-            return response()->json([
-                'success' => true,
-                'message' => 'Cliente creado exitosamente.',
-                'customer' => $customer
-            ]);
+            return response()->json($customer);
         }
         
 
@@ -213,13 +209,10 @@ class CustomerController extends Controller
             'regime_id' => 'nullable|integer'
         ]);
 
-        $customer = Customer::create($validatedData);
+        $custom = Customer::create($validatedData);
+        $customer = Customer::findOrFail($custom->id);
         
-        return response()->json([
-            'success' => true,
-            'message' => 'Artículo creado exitosamente.',
-            'customer' => $customer
-        ]);
+        return response()->json($customer);
     }
 
     /**

@@ -251,7 +251,7 @@ Route::get('customer/status/{id}', [CustomerController::class, 'status'])->name(
 Route::get('customer/create/{id}', [CustomerController::class, 'getMunicipalities']);
 Route::get('customer/customerPay/{id}', [CustomerController::class, 'customerPay'])->name('customerPay');
 Route::post('customer/storeCustomer', [CustomerController::class, 'storeCustomer'])->name('storeCustomer');
-Route::get('refreshCustomers', [CustomerController::class, 'refreshCustomers'])->name('refreshCustomers');
+
 
 Route::get('indexpay', [DashboardController::class, 'indexpay'])->name('indexpay');
 
@@ -307,6 +307,7 @@ Route::get('invoice/posPdf/{invoice}', [InvoiceController::class, 'posPdf'])->na
 Route::get('invoice/pdfInvoice/{invoice}', [InvoiceController::class, 'pdfInvoice'])->name('pdfInvoice');
 Route::get('invoice/downloadPdfXmlInvoice/{invoice}', [InvoiceController::class, 'downloadPdfXmlInvoice'])->name('downloadPdfXmlInvoice');
 Route::get('indexInvoice', [InvoiceController::class, 'indexInvoice'])->name('indexInvoice');
+Route::get('refreshCustomers', [InvoiceController::class, 'refreshCustomers'])->name('refreshCustomers');
 
 Route::get('invoiceOrder/invoice/{id}', [InvoiceOrderController::class, 'invoice'])->name('invoiceOrderInvoice');
 //Route::get('invoiceOrder/pdf/{id}', [InvoiceOrderController::class, 'invoiceOrderPdf'])->name('invoiceOrderPdf');

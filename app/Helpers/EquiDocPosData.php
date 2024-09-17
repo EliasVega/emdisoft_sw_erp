@@ -25,7 +25,6 @@ if (! function_exists('EquiDocPosData')) {
         $dueDate = $request->due_date;//feecha de vencimiento del documento
         $date = Carbon::now();
         $expirationTime = Carbon::parse($generationDate)->diffInDays(Carbon::parse($dueDate));
-        //$expirationTime = number_format(round($expirationTime), 2, '.', '');
 
         //Variables request
         $product_id = $request->product_id;//Array de productos
