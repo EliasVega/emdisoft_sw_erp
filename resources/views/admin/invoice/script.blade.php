@@ -117,7 +117,7 @@
             }
             //obtener_registro(codes);
         } else {
-            console.log('no hay codigo');
+            //console.log('no hay codigo');
         }
     })
 

@@ -62,6 +62,18 @@
 
     $("#addType").hide();
     $("#addStatus").hide();
+    $("#formOptional").hide();
+
+    $(document).ready(function() {
+        $("#addOptions").click(function() {
+            addOptions();
+            $("#buttonAddOptions").hide();
+        });
+    });
+
+    function addOptions() {
+        $("#formOptional").show();
+    }
 
     $("#identification_type_id").change(handleIdentificationTypeChange);
 
@@ -82,10 +94,10 @@
         let identificationTypeId = $("#identification_type_id").val();
         let verificationDigit = $("#dv");
 
-        let isIdentificationValid = identification >>> 0 === parseFloat(identification) ? true : false;
+        //let isIdentificationValid = identification >>> 0 === parseFloat(identification) ? true : false;
 
         // Si es un número se calcula el Dígito de Verificación
-        if (isIdentificationValid && (identificationTypeId == '3' || identificationTypeId == '6')) {
+        if (identificationTypeId == '3' || identificationTypeId == '6') {
             verificationDigit.val(calculateVerficationDigit(identification));
         } else {
             verificationDigit.val("0");
@@ -103,7 +115,7 @@
         // Procedimiento
         vpri = new Array(16);
         z = identification.length;
-        
+
         vpri[1] = 3;
         vpri[2] = 7;
         vpri[3] = 13;

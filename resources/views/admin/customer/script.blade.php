@@ -47,6 +47,22 @@
             });
         });
     });
+
+    $("#addType").hide();
+    $("#addStatus").hide();
+    $("#formOptional").hide();
+
+    $(document).ready(function() {
+        $("#addOptions").click(function() {
+            addOptions();
+            $("#buttonAddOptions").hide();
+        });
+    });
+
+    function addOptions() {
+        $("#formOptional").show();
+    }
+
     $("#department_id").change(function(event){
         $.get("create/" + event.target.value + "", function(response){
             $("#municipality_id").empty();
@@ -76,11 +92,11 @@
         let identification = $("#identification").val();
         let identificationTypeId = $("#identification_type_id").val();
         let verificationDigit = $("#dv");
-
-        let isIdentificationValid = identification >>> 0 === parseFloat(identification) ? true : false;
+        cont = identification.toString().length;
+        //let isIdentificationValid = identification >>> 0 === parseFloat(identification) ? true : false;
 
         // Si es un número se calcula el Dígito de Verificación
-        if (isIdentificationValid && (identificationTypeId == '3' || identificationTypeId == '6')) {
+        if (identificationTypeId == '3' || identificationTypeId == '6') {
             verificationDigit.val(calculateVerficationDigit(identification));
         } else {
             verificationDigit.val("0");
@@ -89,7 +105,7 @@
 
     function calculateVerficationDigit(identification) {
         var vpri, x, y, z;
-
+        
         identification = identification.replace(/\s/g, ""); // Espacios
         identification = identification.replace(/,/g, ""); // Comas
         identification = identification.replace(/\./g, ""); // Puntos
@@ -98,7 +114,7 @@
         // Procedimiento
         vpri = new Array(16);
         z = identification.length;
-    
+        
         vpri[1] =  3;
         vpri[2] =  7;
         vpri[3] = 13;
@@ -114,7 +130,7 @@
         vpri[13] = 59;
         vpri[14] = 67;
         vpri[15] = 71;
-
+        
         x = 0;
         y = 0;
         for (var i = 0; i < z; i++) {
