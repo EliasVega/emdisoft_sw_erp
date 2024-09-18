@@ -98,7 +98,7 @@
         // Procedimiento
         vpri = new Array(16);
         z = identification.length;
-
+    
         vpri[1] =  3;
         vpri[2] =  7;
         vpri[3] = 13;
