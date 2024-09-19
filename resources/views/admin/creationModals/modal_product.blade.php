@@ -8,7 +8,23 @@
         <div class="modal-body">
           <form method="POST" id="productForm">
             @csrf                
-            @include('admin/creationModals.form_modal_product')  
+              
+            @if (indicator()->raw_material == 'off')
+              <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    @include('admin/creationModals.form_modal_product')
+                    @include('admin/generalview.form_register')
+                  </div>
+              </div>
+            @else
+              <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    @include('admin/creationModals.form_modal_product')
+                    @include('admin/creationModals.form_modal_material')
+                    @include('admin/generalview.form_register')
+                  </div>
+              </div>
+            @endif
         </form> 
         </div>
       </div>

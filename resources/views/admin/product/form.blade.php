@@ -123,6 +123,7 @@
                         <input type="text" name="type" id="type" value="form" class="form-control" placeholder="Tipo Form">
                     </div>
                 </div>
+                @include('admin/generalview.form_register')
             </div>
         </div>
     </div>

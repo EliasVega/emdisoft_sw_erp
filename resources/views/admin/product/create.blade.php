@@ -31,7 +31,7 @@
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             @include('admin/product.form')
-                            @include('admin/product.register')
+                            @include('admin/generalview.form_register')
                         </div>
                     </div>
                 @else
@@ -42,7 +42,7 @@
                             @if ($indicator->imgp == 'on')
                                 @include('admin/product.form_image')
                             @endif
-                            @include('admin/product.register')
+                            @include('admin/generalview.form_register')
                         </div>
                     </div>
                 @endif

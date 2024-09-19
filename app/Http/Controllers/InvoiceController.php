@@ -169,6 +169,7 @@ class InvoiceController extends Controller
         $categories = Category::get();
         $measureUnits = MeasureUnit::where('status', 'active')->get();
         $operation = 'create';
+        $colrms = 5;
 
         $pos = indicator()->pos;
         $cashRegister = cashRegisterComprobation();
@@ -232,6 +233,7 @@ class InvoiceController extends Controller
             'rawMaterials',
             'categories',
             'measureUnits',
+            'colrms',
 
             'customers',
             'employees',
@@ -258,6 +260,13 @@ class InvoiceController extends Controller
         $liabilities = Liability::get();
         $organizations = Organization::get();
         $regimes = Regime::get();
+
+        $rawMaterials = RawMaterial::get();
+        $categories = Category::get();
+        $measureUnits = MeasureUnit::where('status', 'active')->get();
+        $operation = 'create';
+        $colrms = 5;
+
         //$pos = indicator()->pos;
         $cashRegister = cashRegisterComprobation();
         if ($cashRegister == null) {
@@ -317,6 +326,11 @@ class InvoiceController extends Controller
             'liabilities',
             'organizations', 
             'regimes',
+
+            'rawMaterials',
+            'categories',
+            'measureUnits',
+            'colrms',
 
             'customers',
             'employees',
