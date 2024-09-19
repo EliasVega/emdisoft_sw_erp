@@ -27,6 +27,7 @@
         });
     });
     $("#addRmaterial").hide();
+    $("#addType").hide();
 
     $("#type_product").change(rmshow);
 

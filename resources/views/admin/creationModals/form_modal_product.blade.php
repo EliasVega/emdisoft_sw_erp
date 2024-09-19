@@ -14,7 +14,7 @@
                         <input type="text" name="code" id="code" value="{{ old('code', $product->code ?? '') }}" class="form-control" placeholder="Codigo" aria-describedby="helpId" required>
                     </div>
                 </div>
-                @if ($indicator->barcode == 'on')
+                @if (indicator()->barcode == 'on')
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-4 switchBarcode">
                         <div class="form-group">
                             <div class="custom-control custom-switch">
@@ -81,18 +81,9 @@
                             <option {{ ($product->type_product ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Tipo</option>
                                 <option value="product">PRODUCTO</option>
                                 <option value="service">SERVICIO</option>
-                                @if ($indicator->raw_material == 'on')
+                                @if (indicator()->raw_material == 'on')
                                     <option value="consumer">CONSUMO /elaborados local</option>
                                 @endif
-                        </select>
-                    </div>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <label for="status">estado</label>
-                    <div class="select">
-                        <select id="status" name="status" class="form-control selectpicker" data-live-search="true" required>
-                                <option value="active">ACTIVO</option>
-                                <option value="inactive">INACTIVO</option>
                         </select>
                     </div>
                 </div>
@@ -109,7 +100,7 @@
                     </div>
                 </div>
 
-                @if ($indicator->work_labor == 'on' && $indicator->cmep == 'product')
+                @if (indicator()->work_labor == 'on' && $indicator->cmep == 'product')
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="form-group">
                             <label for="commission">Comision</label>
@@ -119,7 +110,7 @@
                 @endif
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="addType">
                     <div class="form-group">
-                        <label for="type">Tipo cliente</label>
+                        <label for="type">Tipo Formulario</label>
                         <input type="text" name="type" id="type" value="modal" class="form-control" placeholder="Tipo cliente">
                     </div>
                 </div>

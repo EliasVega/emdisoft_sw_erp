@@ -163,7 +163,7 @@
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="addType">
                     <div class="form-group">
-                        <label for="type">Typo envio</label>
+                        <label for="type">Typo Formulario</label>
                         <input type="text" name="type" value="modal" id="type" class="form-control" placeholder="Registro Mercantil" autocomplete="off">
                     </div>
                 </div>

@@ -99,13 +99,13 @@
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="stock">Stock</label>
-                        <input type="number" name="stock" id="stock" value="{{ old('stock', $product->stock ?? '0.00') }}" class="form-control" placeholder="Stock">
+                        <input type="number" name="stock" id="stock" value="{{ old('stock', $product->stock ?? '0') }}" class="form-control" placeholder="Stock">
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="stock_min">Stock/min</label>
-                        <input type="number" name="stock_min" id="stock_min" value="{{ old('stock_min', $product->stock_min ?? '0.00') }}" class="form-control" placeholder="Stock minimo">
+                        <input type="number" name="stock_min" id="stock_min" value="{{ old('stock_min', $product->stock_min ?? '0') }}" class="form-control" placeholder="Stock minimo">
                     </div>
                 </div>
 
@@ -117,6 +117,12 @@
                         </div>
                     </div>
                 @endif
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="addType">
+                    <div class="form-group">
+                        <label for="type">Tipo Formulario</label>
+                        <input type="text" name="type" id="type" value="form" class="form-control" placeholder="Tipo Form">
+                    </div>
+                </div>
             </div>
         </div>
     </div>

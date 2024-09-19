@@ -144,6 +144,7 @@ class ProductController extends Controller
         $product->stock = $request->stock;
         $product->stock_min = $request->stock_min;
         $product->status = $request->status;
+        $type = $request->type;
         //$product->stock = 0;
         //Handle File Upload
         if($request->hasFile('image')){
@@ -194,8 +195,14 @@ class ProductController extends Controller
                 }
             }
         }
-        Alert::success('Producto','Creado con éxito.');
+        
+
+        if ($type == 'form') {
+            Alert::success('Producto','Creado con éxito.');
         return redirect('product');
+        } else {
+            return response()->json($product);
+        }
     }
 
     /**

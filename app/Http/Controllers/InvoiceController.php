@@ -13,6 +13,7 @@ use App\Models\Bank;
 use App\Models\Branch;
 use App\Models\BranchProduct;
 use App\Models\Card;
+use App\Models\Category;
 use App\Models\CompanyTax;
 use App\Models\Configuration;
 use App\Models\Customer;
@@ -26,6 +27,7 @@ use App\Models\IdentificationType;
 use App\Models\InvoiceProduct;
 use App\Models\InvoiceResponse;
 use App\Models\Liability;
+use App\Models\MeasureUnit;
 use App\Models\Municipality;
 use App\Models\Ncinvoice;
 use App\Models\Ndinvoice;
@@ -34,6 +36,7 @@ use App\Models\PaymentForm;
 use App\Models\PaymentMethod;
 use App\Models\PaymentReturn;
 use App\Models\Product;
+use App\Models\RawMaterial;
 use App\Models\Regime;
 use App\Models\Resolution;
 use App\Models\RestaurantOrder;
@@ -162,6 +165,11 @@ class InvoiceController extends Controller
         $organizations = Organization::get();
         $regimes = Regime::get();
 
+        $rawMaterials = RawMaterial::get();
+        $categories = Category::get();
+        $measureUnits = MeasureUnit::where('status', 'active')->get();
+        $operation = 'create';
+
         $pos = indicator()->pos;
         $cashRegister = cashRegisterComprobation();
         if ($cashRegister == null) {
@@ -220,6 +228,10 @@ class InvoiceController extends Controller
             'liabilities',
             'organizations', 
             'regimes',
+
+            'rawMaterials',
+            'categories',
+            'measureUnits',
 
             'customers',
             'employees',
@@ -1505,6 +1517,15 @@ class InvoiceController extends Controller
         {
             $customers = Customer::get();
             return response()->json($customers);
+        }
+    }
+
+    public function refreshProducts(Request $request)
+    {
+        if($request)
+        {
+            $products = Product::get();
+            return response()->json($products);
         }
     }
 

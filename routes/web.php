@@ -301,19 +301,14 @@ Route::get('invoice/invoicePos/{id}', [InvoiceController::class, 'invoicePos'])-
 Route::get('invoice/creditNoteInvoice/{id}', [InvoiceController::class, 'creditNote'])->name('creditNoteInvoice');
 Route::get('invoice/debitNoteInvoice/{id}', [InvoiceController::class, 'debitNote'])->name('debitNoteInvoice');
 Route::get('invoice/advance/{id}', [InvoiceController::class, 'getAdvance']);
-//Route::get('pdfInvoice', [InvoiceController::class, 'pdfInvoice'])->name('pdfInvoice');
-//Route::get('posInvoice', [InvoiceController::class, 'posInvoice'])->name('posInvoice');
 Route::get('invoice/posPdf/{invoice}', [InvoiceController::class, 'posPdf'])->name('posPdf');
 Route::get('invoice/pdfInvoice/{invoice}', [InvoiceController::class, 'pdfInvoice'])->name('pdfInvoice');
 Route::get('invoice/downloadPdfXmlInvoice/{invoice}', [InvoiceController::class, 'downloadPdfXmlInvoice'])->name('downloadPdfXmlInvoice');
 Route::get('indexInvoice', [InvoiceController::class, 'indexInvoice'])->name('indexInvoice');
 Route::get('refreshCustomers', [InvoiceController::class, 'refreshCustomers'])->name('refreshCustomers');
+Route::get('refreshProducts', [InvoiceController::class, 'refreshProducts'])->name('refreshProducts');
 
 Route::get('invoiceOrder/invoice/{id}', [InvoiceOrderController::class, 'invoice'])->name('invoiceOrderInvoice');
-//Route::get('invoiceOrder/pdf/{id}', [InvoiceOrderController::class, 'invoiceOrderPdf'])->name('invoiceOrderPdf');
-//Route::get('invoiceOrder/pos/{id}', [InvoiceOrderController::class, 'invoiceOrderPos'])->name('invoiceOrderPos');
-//Route::get('pdfInvoiceOrder', [InvoiceOrderController::class, 'pdfInvoiceOrder'])->name('pdfInvoiceOrder');
-//Route::get('posInvoiceOrder', [InvoiceOrderController::class, 'posInvoiceOrder'])->name('posInvoiceOrder');
 Route::get('invoiceOrder/invoiceOrderDelete/{id}', [InvoiceOrderController::class, 'invoiceOrderDelete'])->name('invoiceOrderDelete');
 Route::get('createPosOrder', [InvoiceOrderController::class, 'createPosOrder'])->name('createPosOrder');
 Route::get('invoiceOrder/posPdfInvoiceOrder/{invoiceOrder}', [InvoiceOrderController::class, 'posPdfInvoiceOrder'])->name('posPdfInvoiceOrder');

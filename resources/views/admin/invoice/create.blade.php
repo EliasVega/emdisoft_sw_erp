@@ -14,11 +14,8 @@
                     @can('branch.index')
                         <a href="{{ route('branch.index') }}" class="btn btn-blueGrad btn-sm ml-3"><i class="fas fa-undo-alt mr-2"></i>Inicio</a>
                     @endcan
-                    <a href="{{ route('product.create') }}" class="btn btn-lightBlueGrad btn-sm"
-                        target="_blank" data-toggle="tooltip" data-placement="top">
-                        <i class="fa fa-plus"> Agregar Producto</i>
-                    </a>
                     @include('admin/creationModals.button_modal_customer')
+                    @include('admin/creationModals.button_modal_product')
                 </h5>
             </div>
             @if (count($errors)>0)
@@ -54,6 +51,7 @@
 @include('admin/invoice.editmodal')
 @include('admin/invoice.modal_pay_pos')
 @include('admin/creationModals.modal_customer')
+@include('admin/creationModals.modal_product')
 <!--Fin del modal-->
 @endsection
 @section('scripts')
@@ -67,4 +65,5 @@
         @include('admin/invoice.script')
     @endif
     @include('admin/creationModals.script_create_customer')
+    @include('admin/creationModals.script_create_product')
 @endsection
