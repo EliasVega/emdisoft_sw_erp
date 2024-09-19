@@ -51,7 +51,6 @@
 @include('admin/invoice.editmodal')
 @include('admin/invoice.modal_pay_pos')
 @include('admin/creationModals.modal_customer')
-@include('admin/creationModals.modal_product')
 <!--Fin del modal-->
 @endsection
 @section('scripts')
@@ -65,5 +64,4 @@
         @include('admin/invoice.script')
     @endif
     @include('admin/creationModals.script_create_customer')
-    @include('admin/creationModals.script_create_product')
 @endsection
