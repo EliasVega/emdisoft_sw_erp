@@ -106,7 +106,7 @@ class ProductController extends Controller
     {
         return view('admin.product.products_import');
     }
-
+    /*
     public function productStore(Request $request)
     {
         Excel::import(new ProductsImport, request()->file('products'));
@@ -116,6 +116,44 @@ class ProductController extends Controller
         toast($message,'success');
         //Alert::success('Categoria','Creada Satisfactoriamente.');
         return redirect('product');
+    }*/
+
+    public function productStore(Request $request)
+    {
+        $validatedData = $request->validate([
+
+            'code' => 'required|string|max:20',
+            'name' => 'required|string|max:200',
+            'price' => 'required|numeric',
+            'sale_price' => '',
+            'stock' => '',
+            'stock_min' => 'nullable',
+            'commission' => '',
+            'status' => 'required|in:active,inactive',
+            'type_product' => 'required|in:product,service,consumer',
+            'imageName' => '',
+            'name' => '',
+            'category_id' => '',
+            'measure_unit_id' => ''
+        ]);
+
+        $product = Product::create($validatedData);
+
+        $branchProduct = new BranchProduct();
+        $branchProduct->branch_id = current_user()->branch_id;
+        $branchProduct->product_id = $product->id;
+        $branchProduct->stock = $request->stock;
+        $branchProduct->save();
+        $data = Product::from('products as pro')
+        ->join('categories as cat', 'pro.category_id', 'cat.id')
+        ->join('company_taxes as ct', 'cat.company_tax_id', 'ct.id')
+        ->join('percentages as per', 'ct.percentage_id', 'per.id')
+        ->join('tax_types as tt', 'ct.tax_type_id', 'tt.id')
+        ->select('pro.id', 'pro.code', 'pro.stock', 'pro.sale_price', 'pro.name', 'cat.utility_rate', 'per.percentage', 'tt.id as tt')
+        ->where('pro.status', '=', 'active')
+        ->where('pro.id', '=', $product->id)
+        ->first();
+        return response()->json($data);
     }
 
     /**
@@ -131,7 +169,7 @@ class ProductController extends Controller
         if ($commission == null) {
             $commission = '0.00';
         }
-        $indicator = Indicator::findOrFail(1);
+
         $product = new Product();
         $product->category_id = $request->category_id;
         $product->measure_unit_id = $request->measure_unit_id;
@@ -179,7 +217,7 @@ class ProductController extends Controller
 
         $branchProduct->save();
 
-        if ($indicator->raw_material == 'on') {
+        if (indicator()->raw_material == 'on') {
             $quantity = $request->quantity;
             $consumer = $request->consumer_price;
             $rawMaterial = $request->raw_material_id;
@@ -199,7 +237,7 @@ class ProductController extends Controller
 
         if ($type == 'form') {
             Alert::success('Producto','Creado con éxito.');
-        return redirect('product');
+            return redirect('product');
         } else {
             return response()->json($product);
         }

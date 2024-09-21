@@ -119,7 +119,7 @@
         }).done(function(data){ // imprimimos la respuesta
             $("#barcode_product_id").val(data.id);
             $("#product_barcode").val(data.name);
-            $("#price").val(data.sale_price);
+            $("#priceadd").val(data.sale_price);
             $("#stock").val(data.stock);
             $("#quantityadd").val();
             $("#utility").val(data.utility_rate);
@@ -156,7 +156,7 @@
         quantity= $("#quantityadd").val();
         stock= $("#stock").val();
         tax_rate= $("#tax_rate").val();
-        price= $("#price").val();
+        price= $("#priceadd").val();
         pwx = $("#pwx").val();
         if (pwx == 'on') {
             taxRate = parseFloat(tax_rate) + 100;
@@ -205,7 +205,7 @@
         $("#tax_rate").val(dataProduct[3]);
         $("#tax_type").val(dataProduct[4]);
         $("#utility").val(dataProduct[5]);
-        $("#price").val(dataProduct[2]);
+        $("#priceadd").val(dataProduct[2]);
         $("#employee_id").val(0);
     }
 
@@ -221,7 +221,7 @@
         product_id= dataProduct[0];
         product= $("#product_id option:selected").text();
         quantity= $("#quantityadd").val();
-        price= $("#price").val();
+        price= $("#priceadd").val();
         stock= $("#stock").val();
         tax_rate= $("#tax_rate").val();
         pwx = $("#pwx").val();
@@ -269,7 +269,7 @@
         $("#product_barcode").val("");
         $("#code").val("");
         $("#quantityadd").val(1);
-        $("#price").val("");
+        $("#priceadd").val("");
     }
     function totals(){
         var total_pay = total + total_tax;

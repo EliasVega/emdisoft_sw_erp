@@ -1,5 +1,5 @@
-<div class="box-body row">
-    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+<div class="box-body row" id="addRmaterial">
+    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12" id="rmform">
         <div class="card card-primary card-outline">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -15,32 +15,32 @@
                 </div>
                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group">
-                        <label for="quantity">Cantidad</label>
-                        <input type="text" name="quantity" value="0" id="quantity" class="form-control" placeholder="Cantidad segun Medida">
+                        <label for="quantitypm">Cantidad</label>
+                        <input type="text" name="quantitypm" value="0" id="quantitypm" class="form-control" placeholder="Cantidad segun Medida">
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group">
-                        <label for="consumer_price">Precio</label>
-                        <input type="text" name="consumer_price" value="0" id="consumer_price" class="form-control" placeholder="Precio por unidad">
+                        <label for="consumer_pricepm">Precio</label>
+                        <input type="text" name="consumer_pricepm" value="0" id="consumer_pricepm" class="form-control" placeholder="Precio por unidad">
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
-                        <label class="form-control-label">Adicionar</label><br>
+                        <span><strong>add</strong></span><br>
                         <button class="btn btn-lightBlueGrad" type="button" id="add" data-toggle="tooltip" data-placement="top" title="Adicionar"><i class="fas fa-check"></i> </button>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
-                        <label class="form-control-label" >Canc</label><br>
+                        <span><strong>can</strong></span><br>
                         <a href="{{url('product')}}" class="btn btn-blueGrad" data-toggle="tooltip" data-placement="top" title="Cancelar"><i class="fa fa-window-close"></i>&nbsp; </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12" id="rmtable">
         <div class="card card-primary card-outline">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -61,7 +61,7 @@
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th colspan="{{ $cols }}">
+                                    <th colspan="{{ $colrms }}">
                                         <p align="right">TOTAL:</p>
                                     </th>
                                     <th>

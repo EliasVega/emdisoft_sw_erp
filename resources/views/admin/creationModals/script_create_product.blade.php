@@ -20,18 +20,21 @@
     });
     jQuery(document).ready(function($) {
         $(document).ready(function() {
-            $('#type_product').select2({
+            $('#type_productpm').select2({
                 theme: "classic",
                 width: "100%",
             });
         });
     });
     $("#addRmaterial").hide();
+    $("#addTypePro").hide();
+    $("#addStatusPro").hide();
+    $("#commpm").hide();
 
-    $("#type_product").change(rmshow);
+    $("#type_productpm").change(rmshow);
 
     function rmshow() {
-        typeProduct = $("#type_product").val();
+        typeProduct = $("#type_productpm").val();
         if (typeProduct == 'consumer') {
             $("#addRmaterial").show();
         } else {
@@ -49,22 +52,22 @@
                 code: code,
             }
         }).done(function(data) { // imprimimos la respuesta
-            $("#name").val(data.name);
-            $("#price").val(data.price);
-            $("#sale_price").val(data.sale_price);
-            $("#stock").val(data.stock);
-            $("#stock_min").val(data.stock_min);
+            $("#name_product").val(data.name);
+            $("#pricepm").val(data.price);
+            $("#sale_pricepm").val(data.sale_price);
+            $("#stockpm").val(data.stock);
+            $("#stock_minpm").val(data.stock_min);
         }).fail(function() {
-            clean();
+            cleanprod();
         }).always(function() {
             //alert("Siempre se ejecuta")
         });
 
     }
-    $(document).on('keyup', '#code', function() {
-        let barcodepurchase = $(("#switch_barcode")).prop("checked");
+    $(document).on('keyup', '#codepm', function() {
+        let barcodepurchase = $(("#switch_barcodepm")).prop("checked");
         if (barcodepurchase == true) {
-            clean();
+            cleanprod();
             var codes = $(this).val();
             if (codes != "") {
                 obtener_registro(codes);
@@ -73,20 +76,12 @@
             }
         }
     })
-
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('input[type=text]').forEach( node => node.addEventListener('keypress', e => {
-        if(e.keyCode == 13) {
-          e.preventDefault();
-        }
-      }))
-    });
-    function clean(){
-        $("#name").val('');
-        $("#price").val('0.00');
-        $("#sale_price").val('0.00');
-        $("#stock").val('0.00');
-        $("#stock_min").val('0.00');
+    function cleanprod(){
+        $("#name_product").val('');
+        $("#pricepm").val('0.00');
+        $("#sale_pricepm").val('0.00');
+        $("#stockpm").val('0.00');
+        $("#stock_minpm").val('0.00');
     }
     $(document).ready(function () {
         $('#image').fileinput({
@@ -105,29 +100,31 @@
         });
     });
 
-    document.getElementById('customerForm').addEventListener('submit', function(e) {
+    document.getElementById('productForm').addEventListener('submit', function(e) {
         e.preventDefault();
-
-        let type = $("#type").val();
-        let code = $("#code").val();
+        
+        let type = $("#typepm").val();
+        let code = $("#codepm").val();
         let name = $("#name_product").val();
-        let price = $("#price").val();
-        let sale_price = $("#sale_price").val();
-        let commission = $("#commission").val();
-        let stock = $("#stock").val();
-        let stock_min = $("#stock_min").val();
-        let type_product = $("#type_product").val();
-        let status = $("#status").val();
-        let imageName = $("#imageName").val();
-        let image = $("#image").val();
+        let price = $("#pricepm").val();
+        let sale_price = $("#sale_pricepm").val();
+        let commission = 0;
+        let stock = $("#stockpm").val();
+        let stock_min = $("#stock_minpm").val();
+        let type_product = $("#type_productpm").val();
+        let status = $("#statuspm").val();
+        let imageName = null;
+        let image = null;
         let category_id = $("#category_id").val();
         let measure_unit_id = $("#measure_unit_id").val();
         let _token = $("input[name=_token]").val();
-
+        
         $.ajax({
-            url: "{{route('product.store')}}",
+            url: "{{route('productStore')}}",
             type: "POST",
+            accept: "application/json",
             data:{
+                type:type,
                 code:code,
                 name:name,
                 price:price,
@@ -146,14 +143,14 @@
             success:function(response)
             {
                 if(response){
-                    $('#productModal').modal('hide');
+                    $('#prodModal').modal('hide');
                     $.ajax({
                         url: "{{ route('refreshProducts') }}",
                         method: 'GET',
                         success: function(data) {
                             $('#product_id').empty();
                             $.each(data, function(index, option) {
-                                $('#product_id').append(new Option(option.identification + ' - ' + option.name, option.id));
+                                $('#product_id').append(new Option(option.code + ' - ' + option.name, option.id + '_' + option.stock + '_' + option.sale_price + '_' + option.percentage + '_' + option.tt + '_' + option.utility_rate));
                             });
                             // Refrescar si utilizas un plugin
                             //$('#customer_id').selectpicker('refresh');

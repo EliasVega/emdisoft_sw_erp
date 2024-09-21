@@ -71,8 +71,8 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="padd">
                     <div class="form-group">
-                        <label class="form-control-label" for="price">Precio</label>
-                        <input type="number" id="price" name="price" class="form-control" placeholder="Precio">
+                        <label class="form-control-label" for="priceadd">Precio</label>
+                        <input type="number" id="priceadd" name="priceadd" class="form-control" placeholder="Precio">
                     </div>
                 </div>
                 @if (indicator()->work_labor == 'on')

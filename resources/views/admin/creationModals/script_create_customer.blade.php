@@ -171,6 +171,10 @@
         $.ajax({
             url: "{{route('customer.store')}}",
             type: "POST",
+            headers : {
+                "content-type": "application/json",
+                "accept": "application/json",
+            },
             data:{
                 type:type,
                 name:name,

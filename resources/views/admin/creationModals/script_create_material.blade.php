@@ -29,7 +29,7 @@
     function add(){
         raw_material_id = dataMaterial[0];
         material = $("#raw_material_id option:selected").text();
-        quantity = $("#quantity").val();
+        quantity = $("#quantitypm").val();
         consumer_price = $("#consumer_price").val();
 
         if(raw_material_id !="" && material!="" && quantity!="" && quantity>0 && consumer_price!="" && consumer_price>0){
@@ -56,11 +56,11 @@
         $("#total_html").html("$ " + total.toFixed(2));
         $("#total").val(total.toFixed(2));
 
-        $("#price").val(total.toFixed(2));
+        $("#pricepm").val(total.toFixed(2));
     }
     function clear(){
         $("#raw_material_id").val("");
-        $("#quantity").val("");
+        $("#quantitypm").val("");
         $("#consumer_price").val("");
     }
 </script>
