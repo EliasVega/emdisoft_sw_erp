@@ -6,13 +6,9 @@
                     <label for="identification_type_id" class="required">Tipo Identificacion</label>
                     <div class="select">
                         <select id="identification_type_id" name="identification_type_id" class="form-control selectpicker" data-live-search="true" required>
-                            <option {{ ($customer->identification_type_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Tipo Identificacion</option>
+                            <option value="3" selected>Seleccionar Tipo Identificacion</option>
                             @foreach($identificationTypes as $identificationType)
-                                @if($identificationType->id == ($customer->identification_type_id ?? ''))
-                                    <option value="{{ $identificationType->id }}" selected>{{ $identificationType->name }}</option>
-                                @else
-                                    <option value="{{ $identificationType->id }}">{{ $identificationType->name }}</option>
-                                @endif
+                                <option value="{{ $identificationType->id }}">{{ $identificationType->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -31,8 +27,8 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="form-group">
-                        <label for="name" class="required">Nombre</label>
-                        <input type="text" name="name" id="name" value="{{ old('name', $customer->name ?? '') }}" class="form-control" autocomplete="on" placeholder="Ingrese el nombre del Cliente" required>
+                        <label for="name_customer" class="required">Nombre</label>
+                        <input type="text" name="name_customer" id="name_customer" class="form-control" autocomplete="on" placeholder="Ingrese el nombre del Cliente" required>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -57,13 +53,9 @@
                     <label for="liability_id">Responsabilidad fiscal</label>
                     <div class="select">
                         <select id="liability_id" name="liability_id" class="form-control selectpicker" data-live-search="true">
-                            <option {{ ($customer->liability_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Responsabilidad</option>
+                            <option value="117" selected>Seleccionar Responsabilidad</option>
                             @foreach($liabilities as $liability)
-                                @if($liability->id == ($customer->liability_id ?? ''))
-                                    <option value="{{ $liability->id }}" selected>{{ $liability->name }}</option>
-                                @else
-                                    <option value="{{ $liability->id }}">{{ $liability->name }}</option>
-                                @endif
+                                <option value="{{ $liability->id }}">{{ $liability->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -72,13 +64,9 @@
                     <label for="organization_id">Tipo Organizacion</label>
                     <div class="select">
                         <select id="organization_id" name="organization_id" class="form-control selectpicker" data-live-search="true">
-                            <option {{ ($customer->organization_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Tipo Organizacion</option>
+                            <option value="2" selected>Seleccionar Tipo Persona</option>
                             @foreach($organizations as $organization)
-                                @if($organization->id == ($customer->organization_id ?? ''))
-                                    <option value="{{ $organization->id }}" selected>{{ $organization->name }}</option>
-                                @else
-                                    <option value="{{ $organization->id }}">{{ $organization->name }}</option>
-                                @endif
+                                <option value="{{ $organization->id }}">{{ $organization->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -87,13 +75,9 @@
                     <label for="regime_id">Regimen</label>
                     <div class="select">
                         <select id="regime_id" name="regime_id" class="form-control selectpicker" data-live-search="true">
-                            <option {{ ($customer->regime_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Tipo Identificacion</option>
+                            <option value="2" selected>Seleccionar Tipo Identificacion</option>
                             @foreach($regimes as $regime)
-                                @if($regime->id == ($customer->regime_id ?? ''))
-                                    <option value="{{ $regime->id }}" selected>{{ $regime->name }}</option>
-                                @else
-                                    <option value="{{ $regime->id }}">{{ $regime->name }}</option>
-                                @endif
+                                <option value="{{ $regime->id }}">{{ $regime->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -102,13 +86,9 @@
                     <label for="department_id">Departamento</label>
                     <div class="select">
                         <select id="department_id" name="department_id" class="form-control selectpicker" data-live-search="true">
-                            <option {{ ($customer->department_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar departamento</option>
+                            <option value="21" selected>Seleccionar departamento</option>
                             @foreach($departments as $department)
-                                @if($department->id == ($customer->municipality->department_id ?? ''))
-                                    <option value="{{ $department->id }}" selected>{{ $department->name }}</option>
-                                @else
-                                    <option value="{{ $department->id }}">{{ $department->name }}</option>
-                                @endif
+                                <option value="{{ $department->id }}">{{ $department->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -117,14 +97,10 @@
                     <label for="municipality_id">Municipio</label>
                     <div class="select">
                         <select id="municipality_id" name="municipality_id" class="form-control selectpicker" data-live-search="true">
-                            <option {{ ($customer->municipality_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar municipio</option>
+                            <option value="846" selected>Seleccionar municipio</option>
                             @if(($municipalities ?? '') != null)
                                 @foreach($municipalities as $municipality)
-                                    @if($municipality->id == ($customer->municipality_id ?? ''))
-                                        <option value="{{ $municipality->id }}" selected>{{ $municipality->name }}</option>
-                                    @else
-                                        <option value="{{ $municipality->id }}">{{ $municipality->name }}</option>
-                                    @endif
+                                    <option value="{{ $municipality->id }}">{{ $municipality->name }}</option>
                                 @endforeach
                             @endif
                         </select>
@@ -153,24 +129,6 @@
                     <div class="form-group">
                         <label for="credit_limit">Cupo Asignado</label>
                         <input type="number" name="credit_limit" id="credit_limit" value="{{ old('credit_limit', $customer->credit_limit ?? '0') }}" class="form-control" autocomplete="off" placeholder="Cupo asignado">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-12" id="formNolook">
-        <div class="card card-primary card-outline">
-            <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="addType">
-                    <div class="form-group">
-                        <label for="type">Typo Formulario</label>
-                        <input type="text" name="type" value="modal" id="type" class="form-control" placeholder="Registro Mercantil" autocomplete="off">
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="addStatus">
-                    <div class="form-group">
-                        <label for="status">Estado</label>
-                        <input type="text" name="status" id="status" value="active" class="form-control" placeholder="Estado">
                     </div>
                 </div>
             </div>

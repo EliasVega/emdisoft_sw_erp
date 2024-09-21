@@ -106,18 +106,6 @@
                         </div>
                     </div>
                 @endif
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="addTypePro">
-                    <div class="form-group">
-                        <label for="typepm">Tipo Formulario</label>
-                        <input type="text" name="typepm" id="typepm" value="modal" class="form-control" placeholder="Tipo envio">
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="addStatusPro">
-                    <div class="form-group">
-                        <label for="statuspm">Estado</label>
-                        <input type="text" name="statuspm" id="statuspm" value="active" class="form-control" placeholder="Estado">
-                    </div>
-                </div>
             </div>
         </div>
     </div>

@@ -251,6 +251,7 @@ Route::get('customer/status/{id}', [CustomerController::class, 'status'])->name(
 Route::get('customer/create/{id}', [CustomerController::class, 'getMunicipalities']);
 Route::get('customer/customerPay/{id}', [CustomerController::class, 'customerPay'])->name('customerPay');
 Route::post('customer/storeCustomer', [CustomerController::class, 'storeCustomer'])->name('storeCustomer');
+Route::post('customerStore', [CustomerController::class, 'customerStore'])->name('customerStore');
 
 
 Route::get('indexpay', [DashboardController::class, 'indexpay'])->name('indexpay');

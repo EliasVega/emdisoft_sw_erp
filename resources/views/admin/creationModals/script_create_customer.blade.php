@@ -60,8 +60,6 @@
         });
     });
 
-    $("#addType").hide();
-    $("#addStatus").hide();
     $("#formOptional").hide();
 
     $(document).ready(function() {
@@ -148,8 +146,7 @@
     document.getElementById('customerForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
-        let type = $("#type").val();
-        let name = $("#name").val();
+        let name = $("#name_customer").val();
         let identification = $("#identification").val();
         let dv = $("#dv").val();
         let address = $("#address").val();
@@ -167,16 +164,11 @@
         let organization_id = $("#organization_id").val();
         let regime_id = $("#regime_id").val();
         let _token = $("input[name=_token]").val();
-
         $.ajax({
-            url: "{{route('customer.store')}}",
+            url: "{{route('customerStore')}}",
             type: "POST",
-            headers : {
-                "content-type": "application/json",
-                "accept": "application/json",
-            },
+            accept: "application/json",
             data:{
-                type:type,
                 name:name,
                 identification:identification,
                 dv:dv,

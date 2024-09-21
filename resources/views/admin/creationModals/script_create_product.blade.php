@@ -27,8 +27,6 @@
         });
     });
     $("#addRmaterial").hide();
-    $("#addTypePro").hide();
-    $("#addStatusPro").hide();
     $("#commpm").hide();
 
     $("#type_productpm").change(rmshow);
@@ -103,7 +101,6 @@
     document.getElementById('productForm').addEventListener('submit', function(e) {
         e.preventDefault();
         
-        let type = $("#typepm").val();
         let code = $("#codepm").val();
         let name = $("#name_product").val();
         let price = $("#pricepm").val();
@@ -112,7 +109,7 @@
         let stock = $("#stockpm").val();
         let stock_min = $("#stock_minpm").val();
         let type_product = $("#type_productpm").val();
-        let status = $("#statuspm").val();
+        let status = 'active';
         let imageName = null;
         let image = null;
         let category_id = $("#category_id").val();
@@ -124,7 +121,6 @@
             type: "POST",
             accept: "application/json",
             data:{
-                type:type,
                 code:code,
                 name:name,
                 price:price,
