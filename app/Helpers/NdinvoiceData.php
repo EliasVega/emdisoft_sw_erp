@@ -19,7 +19,7 @@ if (!function_exists('ndinvoiceData')) {
         $date = Carbon::now();//fecha de hoy
         $customer = Customer::findOrFail($request->customer_id);//cliente de la factura y nota credito
 
-        $product_id = $request->id; //Array de request id de productos
+        $product_id = $request->product_id; //Array de request id de productos
         $quantity = $request->quantity;//array de request de cantidades
         $price = $request->price;// array de request de precios
         $taxRate = $request->tax_rate;// array de taxas de impuesto

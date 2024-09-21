@@ -23,7 +23,7 @@ if (!function_exists('ncinvoiceData')) {
         } else if ($invoice->document_type_id == 15) {
             $resolution = Resolution::findOrFail(11);//NC factura de venta pos
         }
-        $product_id = $request->id; //Array de request id de productos
+        $product_id = $request->product_id; //Array de request id de productos
         $quantity = $request->quantity;//array de request de cantidades
         $price = $request->price;// array de request de precios
         $taxRate = $request->tax_rate;// array de taxas de impuesto
