@@ -115,7 +115,6 @@
         let category_id = $("#category_id").val();
         let measure_unit_id = $("#measure_unit_id").val();
         let _token = $("input[name=_token]").val();
-        
         $.ajax({
             url: "{{route('productStore')}}",
             type: "POST",

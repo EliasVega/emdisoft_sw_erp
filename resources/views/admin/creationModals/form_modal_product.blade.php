@@ -48,7 +48,7 @@
                     <label for="category_id">Categorias</label>
                     <div class="select">
                         <select id="category_id" name="category_id" class="form-control selectpicker" data-live-search="true" required>
-                            <option {{ ($product->category_id ?? '') == '' ? "selected" : "" }} disabled>Categorias</option>
+                            <option  selected>Categorias</option>
                             @foreach($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
@@ -59,7 +59,7 @@
                     <label for="measure_unit_id">Unidad de Medida</label>
                     <div class="select">
                         <select id="measure_unit_id" name="measure_unit_id" class="form-control selectpicker" data-live-search="true" required>
-                            <option {{ ($product->measure_unit_id ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Medida</option>
+                            <option  selected>Seleccionar Medida</option>
                             @foreach($measureUnits as $measureUnit)
                                 <option value="{{ $measureUnit->id }}">{{ $measureUnit->name }}</option>
                             @endforeach
@@ -70,7 +70,7 @@
                     <label for="type_productpm">Tipo de producto</label>
                     <div class="select">
                         <select id="type_productpm" name="type_productpm" class="form-control selectpicker" data-live-search="true" required>
-                            <option {{ ($product->type_product ?? '') == '' ? "selected" : "" }} disabled>Seleccionar Tipo</option>
+                            <option disabled>Seleccionar Tipo</option>
                                 <option value="product">PRODUCTO</option>
                                 <option value="service">SERVICIO</option>
                                 @if (indicator()->raw_material == 'on')
@@ -95,7 +95,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="form-group">
                             <label for="commission">Comision</label>
-                            <input type="number" name="commission" id="commission" value="{{ old('commission', $product->commission ?? '') }}" class="form-control" placeholder="comision" step="any">
+                            <input type="number" name="commission" id="commission" value="0" class="form-control" placeholder="comision" step="any">
                         </div>
                     </div>
                 @else
