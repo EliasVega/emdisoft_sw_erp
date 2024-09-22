@@ -91,7 +91,7 @@
                         <input type="number" name="stock_minpm" id="stock_minpm" value="0" class="form-control" placeholder="Stock minimo">
                     </div>
                 </div>
-                @if (indicator()->work_labor == 'on' && $indicator->cmep == 'product')
+                @if (indicator()->work_labor == 'on' && indicator()->cmep == 'product')
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="form-group">
                             <label for="commission">Comision</label>
